@@ -110,7 +110,7 @@ static long add_lo(dbCommon* praw)
 
     } catch(std::exception& e) {
         recGblRecordError(S_db_noMemory, (void*)prec, e.what());
-        recGblSetSevr(praw, WRITE_ALARM, INVALID_ALARM);
+        (void)recGblSetSevr(praw, WRITE_ALARM, INVALID_ALARM);
         return S_db_noMemory;
     }
 }
@@ -128,7 +128,7 @@ long del_lo(dbCommon* praw)
     } catch(std::exception& e) {
         recGblRecordError(S_db_noMemory, (void*)praw, e.what());
     }
-    recGblSetSevr(praw, WRITE_ALARM, INVALID_ALARM);
+    (void)recGblSetSevr(praw, WRITE_ALARM, INVALID_ALARM);
     return S_db_noMemory;
 }
 
@@ -145,7 +145,7 @@ static long write_lo(longoutRecord* prec)
         epicsUInt32 code=prec->val;
 
         if(code<0 && code>255) {
-            recGblSetSevr((dbCommon *)prec, WRITE_ALARM, INVALID_ALARM);
+            (void)recGblSetSevr((dbCommon *)prec, WRITE_ALARM, INVALID_ALARM);
             return 0;
         }
 
@@ -165,7 +165,7 @@ static long write_lo(longoutRecord* prec)
     } catch(std::exception& e) {
         prec->val=0;
         recGblRecordError(S_db_noMemory, (void*)prec, e.what());
-        recGblSetSevr((dbCommon *)prec, WRITE_ALARM, INVALID_ALARM);
+        (void)recGblSetSevr((dbCommon *)prec, WRITE_ALARM, INVALID_ALARM);
         return S_db_noMemory;
     }
 }
