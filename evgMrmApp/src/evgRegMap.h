@@ -165,6 +165,9 @@
 #define  U8_SeqRamEvent_base    0x8007  // Sequence Ram Event Code Array Base Offset
 #define  U8_SeqRamEvent(n,m)    (U8_SeqRamEvent_base + (0x4000*(n)) + (8*(m)))
 
+#define  U8_SeqRamMask_base    0x8006  // Sequence Ram Event Code Array Base Offset
+#define  U8_SeqRamMask(n,m)    (U8_SeqRamMask_base + (0x4000*(n)) + (8*(m)))
+
 //=====================
 // Size of Event Generator Register Space
 //
