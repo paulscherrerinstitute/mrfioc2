@@ -127,6 +127,7 @@ OBJECT_BEGIN(EVR) {
     OBJECT_PROP2("External Inhibit", &EVR::extInhib, &EVR::setExtInhib);
 
     OBJECT_PROP1("PLL Lock Status", &EVR::pllLocked);
+    OBJECT_PROP2("PLL Bandwidth", &EVR::pllBandwidthRaw, &EVR::setPllBandwidthRaw);
 
     OBJECT_PROP1("Interrupt Count", &EVR::irqCount);
 

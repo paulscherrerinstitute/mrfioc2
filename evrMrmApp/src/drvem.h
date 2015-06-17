@@ -149,6 +149,8 @@ public:
     virtual void clockSet(double);
 
     virtual bool pllLocked() const;
+    virtual void setPllBandwidth(PLLBandwidth pllBandwidth);
+    virtual PLLBandwidth pllBandwidth() const;
 
     virtual epicsUInt32 irqCount() const{return count_hardware_irq;}
 
@@ -210,6 +212,7 @@ public:
     mrmDataBufTx buftx;
     mrmBufRx bufrx;
     std::auto_ptr<SFP> sfp;
+
 private:
 
     // Set by ISR

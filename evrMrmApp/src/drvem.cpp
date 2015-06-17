@@ -712,6 +712,36 @@ EVRMRM::pllLocked() const
     return (READ32(base, ClkCtrl) & ClkCtrl_cglock) != 0;
 }
 
+void
+EVRMRM::setPllBandwidth(PLLBandwidth pllBandwidth)
+{
+    epicsUInt32 clkCtrl;
+    epicsUInt32 bw;
+
+    if(pllBandwidth > PLLBandwidth_MM){
+        throw std::out_of_range("PLL bandwith selection not available.");
+    }
+
+    bw = (epicsUInt32)pllBandwidth;
+    bw = bw << ClkCtrl_bwsel_shift;
+
+    clkCtrl = READ32(base, ClkCtrl);
+    clkCtrl = clkCtrl & ~ClkCtrl_bwsel;
+    clkCtrl = clkCtrl | bw;
+    WRITE32(base, ClkCtrl, clkCtrl);
+}
+
+PLLBandwidth
+EVRMRM::pllBandwidth() const
+{
+    epicsUInt32 bw;
+
+    bw = (READ32(base, ClkCtrl) & ClkCtrl_bwsel);
+    bw = bw >> ClkCtrl_bwsel_shift;
+
+    return (PLLBandwidth)bw;
+}
+
 bool
 EVRMRM::linkStatus() const
 {

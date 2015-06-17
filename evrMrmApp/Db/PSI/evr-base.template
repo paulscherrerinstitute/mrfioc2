@@ -168,6 +168,52 @@ record(bi, "$(SYS)-$(EVR):Pll-Sts") {
   field(ZSV , "MAJOR")
 }
 
+record(mbbo, "$(SYS)-$(EVR):Pll-Bandwidth-Sel") {
+  field( DTYP, "Obj Prop uint8")
+  field( OUT , "@OBJ=$(EVR), PROP=PLL Bandwidth")
+  field( PINI, "YES")
+  field( VAL,  "Bandwidth-Sel\=0)")
+  field( ZRST, "HM")
+  field( ONST, "HL")
+  field( TWST, "MH")
+  field( THST, "MM")
+  field( FRST, "ML")
+  field( ZRVL, "0")
+  field( ONVL, "1")
+  field( TWVL, "2")
+  field( THVL, "3")
+  field( FRVL, "4")
+  field( FVSV, "INVALID")
+  field( SXSV, "INVALID")
+  field( SVSV, "INVALID")
+  field( EISV, "INVALID")
+  field( NISV, "INVALID")
+  field( TESV, "INVALID")
+  field( ELSV, "INVALID")
+  field( TVSV, "INVALID")
+  field( TTSV, "INVALID")
+  field( FTSV, "INVALID")
+  field( FFSV, "INVALID")
+  field( UNSV, "INVALID")
+  info(autosaveFields_pass0, "VAL")
+}
+
+record(mbbi, "$(SYS)-$(EVR):Pll-Bandwidth-RB") {
+  field( DTYP, "Obj Prop uint8")
+  field( INP , "@OBJ=$(EVR), PROP=PLL Bandwidth")
+  field( ZRST, "HM")
+  field( ONST, "HL")
+  field( TWST, "MH")
+  field( THST, "MM")
+  field( FRST, "ML")
+  field( ZRVL, "0")
+  field( ONVL, "1")
+  field( TWVL, "2")
+  field( THVL, "3")
+  field( FRVL, "4")
+}
+
+
 record(longin, "$(SYS)-$(EVR):HwType-I") {
   field(DTYP, "Obj Prop uint32")
   field(INP , "@OBJ=$(EVR), PROP=Model")
@@ -305,4 +351,3 @@ record(bo, "$(SYS)-$(EVR):Link-RxMode-Sel") {
   field(ONAM, "DBus+Buffer")
   info(autosaveFields_pass0, "VAL")
 }
-

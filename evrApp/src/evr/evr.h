@@ -34,6 +34,21 @@ enum TSSource {
   TSSourceDBus4=2
 };
 
+/* PLL Bandwidth Select (see Silicon Labs Si5317 datasheet)
+ *  000 – Si5317, BW setting HM (lowest loop bandwidth)
+ *  001 – Si5317, BW setting HL
+ *  010 – Si5317, BW setting MH
+ *  011 – Si5317, BW setting MM
+ *  100 – Si5317, BW setting ML (highest loop bandwidth)
+ */
+enum PLLBandwidth {
+    PLLBandwidth_HM=0,
+    PLLBandwidth_HL=1,
+    PLLBandwidth_MH=2,
+    PLLBandwidth_MM=3,
+    PLLBandwidth_ML=4
+};
+
 /**@brief Base interface for EVRs.
  *
  * This is the interface which the generic EVR device support
@@ -114,8 +129,10 @@ public:
    */
   virtual void clockSet(double clk)=0;
 
-  //! Internal PLL Status
+  //! Internal PLL Status and bandwidth
   virtual bool pllLocked() const=0;
+  virtual void setPllBandwidth(PLLBandwidth pllBandwidth) = 0;
+  virtual PLLBandwidth pllBandwidth() const = 0;
 
   //! Approximate divider from event clock period to 1us
   virtual epicsUInt32 uSecDiv() const=0;
@@ -203,8 +220,11 @@ public:
    * These functions exists to make life easier for device support
    */
   /*@{*/
-  void setSourceTSraw(epicsUInt32 r){setSourceTS((TSSource)r);};
-  epicsUInt32 SourceTSraw() const{return (TSSource)SourceTS();};
+  void setSourceTSraw(epicsUInt32 r){setSourceTS((TSSource)r);}
+  epicsUInt32 SourceTSraw() const{return (epicsUInt32)SourceTS();}
+
+  void setPllBandwidthRaw(epicsUInt8 r){setPllBandwidth((PLLBandwidth)r);}
+  epicsUInt8 pllBandwidthRaw() const{return (epicsUInt8)pllBandwidth();}
   /*@}*/
 
 private:
