@@ -37,6 +37,23 @@ evgSeqRam::getEventCode() {
     return eventCode;
 }
 
+void evgSeqRam::setEventMask(const std::vector<epicsUInt8> & eventMask)
+{
+    for(unsigned int i = 0; i < eventMask.size(); i++)
+        WRITE8(m_pReg, SeqRamMask(m_id,i), eventMask[i]);
+
+}
+
+std::vector<epicsUInt8> evgSeqRam::getEventMask()
+{
+    std::vector<epicsUInt8> eventMask(2048,0);
+
+    for(unsigned int i =0; i < eventMask.size();i++)
+        eventMask[i] = READ8(m_pReg, SeqRamMask(m_id,i));
+
+    return eventMask;
+}
+
 void
 evgSeqRam::setTimestamp(const std::vector<epicsUInt64>& timestamp){
     for(unsigned int i = 0; i < timestamp.size(); i++)

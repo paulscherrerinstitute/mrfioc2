@@ -119,6 +119,9 @@ public:
     void setEventCode(epicsUInt8*, epicsUInt32);
     const std::vector<epicsUInt8>& getEventCodeCt();
 
+    void setEventMask(epicsUInt8*, epicsUInt32);
+    const std::vector<epicsUInt8>& getEventMaskCt();
+
     void setTrigSrc(SeqTrigSrc);
     SeqTrigSrc getTrigSrcCt();
 
@@ -171,12 +174,15 @@ private:
     // scratch copy
     std::vector<epicsUInt64>   m_timestamp; //In Event Clock Ticks
     std::vector<epicsUInt8>    m_eventCode;
+    std::vector<epicsUInt8>    m_eventMask;
     SeqTrigSrc                 m_trigSrc;
     SeqRunMode                 m_runMode;   
 
     // commited copy
     std::vector<epicsUInt64>   m_timestampCt;
     std::vector<epicsUInt8>    m_eventCodeCt;
+    std::vector<epicsUInt8>    m_eventMaskCt;
+
     SeqTrigSrc                 m_trigSrcCt;
     SeqRunMode                 m_runModeCt;
 

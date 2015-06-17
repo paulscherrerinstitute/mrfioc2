@@ -72,7 +72,7 @@ void evgInput::setSeqMask(epicsUInt8 mask)
     nat_iowrite32(m_pInReg,temp);
 }
 
-epicsUInt8 evgInput::getSeqMask()
+epicsUInt8 evgInput::getSeqMask() const
 {
     return (epicsUInt8)(nat_ioread32(m_pInReg) >> 25);
 }
