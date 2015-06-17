@@ -51,6 +51,12 @@ public:
     virtual MapType::type mappedSource(epicsUInt32 src) const;
     virtual void sourceSetMap(epicsUInt32 src,MapType::type action);
 
+    virtual epicsUInt8 gateMask() const;
+    virtual void setGateMask(epicsUInt8 mask);
+
+    virtual epicsUInt8 gateEnable() const;
+    virtual void setGateEnable(epicsUInt8 mask);
+
 private:
     // bit map of which event #'s are mapped
     // used as a safty check to avoid overloaded mappings

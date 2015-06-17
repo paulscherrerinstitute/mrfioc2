@@ -187,6 +187,9 @@ OBJECT_BEGIN(Pulser) {
 
     OBJECT_PROP2("Prescaler", &Pulser::prescaler, &Pulser::setPrescaler);
 
+    OBJECT_PROP2("Gate mask", &Pulser::gateMask, &Pulser::setGateMask);
+    OBJECT_PROP2("Gate enable", &Pulser::gateEnable, &Pulser::setGateEnable);
+
 } OBJECT_END(Pulser)
 
 
