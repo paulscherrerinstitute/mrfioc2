@@ -113,6 +113,15 @@ public:
   virtual bool specialMapped(epicsUInt32 code, epicsUInt32 func) const=0;
   virtual void specialSetMap(epicsUInt32 code, epicsUInt32 func,bool set)=0;
 
+  /**\defgroup dc Delay compensation.
+    */
+   /*@{*/
+   virtual epicsUInt32 delayCompensationTarget() const = 0;
+   virtual epicsUInt32 delayCompensationRxValue() const = 0;
+   virtual epicsUInt32 delayCompensationIntValue() const = 0;
+   virtual epicsUInt32 delayCompensationStatus() const = 0;
+   /*@}*/
+
   /**\defgroup pll Module reference clock
    *
    *  Controls the local oscillator for the event

@@ -577,6 +577,26 @@ EVRMRM::gpio(){
     return &gpio_;
 }
 
+epicsUInt32
+EVRMRM::delayCompensationTarget() const{
+    return READ32(base, DCTarget);
+}
+
+epicsUInt32
+EVRMRM::delayCompensationRxValue() const{
+    return READ32(base, DCRxValue);
+}
+
+epicsUInt32
+EVRMRM::delayCompensationIntValue() const{
+    return READ32(base, DCIntValue);
+}
+
+epicsUInt32
+EVRMRM::delayCompensationStatus() const{
+    return READ32(base, DCStatus);
+}
+
 bool
 EVRMRM::specialMapped(epicsUInt32 code, epicsUInt32 func) const
 {

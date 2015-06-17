@@ -141,6 +141,11 @@ public:
 
     MRMGpio* gpio();
 
+    virtual epicsUInt32 delayCompensationTarget() const;
+    virtual epicsUInt32 delayCompensationRxValue() const;
+    virtual epicsUInt32 delayCompensationIntValue() const;
+    virtual epicsUInt32 delayCompensationStatus() const;
+
     virtual bool specialMapped(epicsUInt32 code, epicsUInt32 func) const;
     virtual void specialSetMap(epicsUInt32 code, epicsUInt32 func,bool);
 

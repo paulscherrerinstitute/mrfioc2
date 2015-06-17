@@ -351,3 +351,32 @@ record(bo, "$(SYS)-$(EVR):Link-RxMode-Sel") {
   field(ONAM, "DBus+Buffer")
   info(autosaveFields_pass0, "VAL")
 }
+
+## Delay compensation records
+record(ai, "$(SYS)-$(EVR):DlyCompensation-Target-I") {
+  field(DTYP, "Obj Prop uint32")
+  field(INP , "@OBJ=$(EVR), PROP=Delay compensation target value")
+  field(SCAN, "1 second")
+  field(DESC, "Delay compensation target value")
+}
+
+record(ai, "$(SYS)-$(EVR):DlyCompensation-Target-I") {
+  field(DTYP, "Obj Prop uint32")
+  field(INP , "@OBJ=$(EVR), PROP=Delay compensation transmission path delay")
+  field(SCAN, "1 second")
+  field(DESC, "Delay compensation transmission path delay")
+}
+
+record(ai, "$(SYS)-$(EVR):DlyCompensation-Target-I") {
+  field(DTYP, "Obj Prop uint32")
+  field(INP , "@OBJ=$(EVR), PROP=Delay compensation internal delay")
+  field(SCAN, "1 second")
+  field(DESC, "Delay compensation internal delay")
+}
+
+record(ai, "$(SYS)-$(EVR):DlyCompensation-Target-I") {
+  field(DTYP, "Obj Prop uint32")
+  field(INP , "@OBJ=$(EVR), PROP=Delay compensation status")
+  field(SCAN, "1 second")
+  field(DESC, "Delay compensation status")
+}
