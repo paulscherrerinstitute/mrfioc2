@@ -70,12 +70,10 @@ void evgInput::setSeqMask(epicsUInt8 mask)
     epicsUInt32 temp = nat_ioread32(m_pInReg);
     temp = (temp & (0xff<<25)) | (mask << 25);
     nat_iowrite32(m_pInReg,temp);
-    //FIXME: check for correctenss of bit operations
 }
 
-epicsUInt8 evgInput::getSeqMaks()
+epicsUInt8 evgInput::getSeqMask()
 {
-//    return  (nat_ioread32(m_pInReg) & (epicsUInt32)EVG_EXT_INP_IRQ_ENA) != 0;
     return (epicsUInt8)(nat_ioread32(m_pInReg) >> 25);
 }
 
