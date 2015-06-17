@@ -123,7 +123,9 @@
 #define U32_USecDiv     0x04C
 
 #define U32_ClkCtrl     0x050
-#  define ClkCtrl_cglock 0x00000200
+#  define ClkCtrl_cglock        0x00000200  /* Micrel SY87739L locked (read-only) */
+#  define ClkCtrl_bwsel         0x70000000  /* PLL Bandwidth Select (see Silicon Labs Si5317 datasheet) */
+#  define ClkCtrl_bwsel_shift   28
 
 #define U32_SRSec       0x05C
 
@@ -149,10 +151,25 @@
 #define U32_SPIDData    0x0A0
 #define U32_SPIDCtrl    0x0A4
 
+#define U32_DCTarget    0x0B0   /* Delay Compensation Target Value */
+#define U32_DCRxValue   0x0B4   /* Delay Compensation Transmission Path Delay Value */
+#define U32_DCIntValue  0x0B8   /* Delay Compensation Internal Delay Value */
+#define U32_DCStatus    0x0BC   /* Delay Compensation Status Register */
+
 #define U32_ScalerN     0x100
-#  define ScalerMax 3
-/* 0 <= N <= 2 */
+#  define ScalerMax 8
+/* 0 <= N <= 7 */
 #define U32_Scaler(N)   (U32_ScalerN + (4*(N)))
+
+/* Prescaler Pulse Generator Triggers */
+#define U32_PrescalerTriggerN   0x140
+#define PrescalerTriggerMax     8   /* 0 <= N <= 7 */
+#define U32_PrescalerTrigger(N) (U32_PrescalerTriggerN + (4*(N)))
+
+/* DBus Pulse Generator Triggers */
+#define U32_DBusTriggerN   0x180
+#define DBusTriggerMax     8   /* 0 <= N <= 7 */
+#define U32_DBusTrigger(N) (U32_DBusTriggerN + (4*(N)))
 
 #define U32_PulserNCtrl 0x200
 #define U32_PulserNScal 0x204
@@ -170,10 +187,15 @@
 #  define PulserCtrl_srst 0x20
 #  define PulserCtrl_sset 0x40
 #  define PulserCtrl_rbv  0x80
+#  define PulserCtrl_gateMask           0x00FF0000
+#  define PulserCtrl_gateMask_shift     16
+#  define PulserCtrl_gateEnable         0xFF000000
+#  define PulserCtrl_gateEnable_shift   24
 
 #define U32_PulserScal(N) (U32_PulserNScal + (16*(N)))
 #define U32_PulserDely(N) (U32_PulserNDely + (16*(N)))
 #define U32_PulserWdth(N) (U32_PulserNWdth + (16*(N)))
+
 
 /* 2x 16-bit registers are treated as one to take advantage
  * of VME/PCI invariance.  Unfortunatly this only works for
