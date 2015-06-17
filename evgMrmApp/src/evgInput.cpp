@@ -65,14 +65,14 @@ evgInput::getExtIrq() const {
     return  (nat_ioread32(m_pInReg) & (epicsUInt32)EVG_EXT_INP_IRQ_ENA) != 0;
 }
 
-void evgInput::setSeqMask(epicsUInt8 mask)
+void evgInput::setSeqMask(epicsUInt16 mask)
 {
     epicsUInt32 temp = nat_ioread32(m_pInReg);
     temp = (temp & (0xff<<25)) | (mask << 25);
     nat_iowrite32(m_pInReg,temp);
 }
 
-epicsUInt8 evgInput::getSeqMask() const
+epicsUInt16 evgInput::getSeqMask() const
 {
     return (epicsUInt8)(nat_ioread32(m_pInReg) >> 25);
 }

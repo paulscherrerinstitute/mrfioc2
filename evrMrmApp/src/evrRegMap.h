@@ -114,9 +114,9 @@
 #  define FWVersion_type_shift 28
 #  define FWVersion_form_mask 0x0f000000
 #  define FWVersion_form_shift 24
-#  define FWVersion_ver_mask  0x000000ff
+#  define FWVersion_ver_mask  0x00000fff
 #  define FWVersion_ver_shift  0
-#  define FWVersion_zero_mask 0x00ffff00
+#  define FWVersion_zero_mask 0x00fff000
 
 #define U32_CounterPS   0x040 /* Timestamp event counter prescaler */
 

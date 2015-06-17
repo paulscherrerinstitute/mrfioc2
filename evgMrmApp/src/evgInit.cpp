@@ -42,9 +42,8 @@ static epicsUInt8 vme_level_mask = 0;
 
 static const
 struct VMECSRID vmeEvgIDs[] = {
-    {MRF_VME_IEEE_OUI,
-     MRF_VME_EVG_BID|MRF_SERIES_230,
-     VMECSRANY},
+    {MRF_VME_IEEE_OUI,MRF_VME_EVG_BID|MRF_SERIES_230, VMECSRANY},
+    {MRF_VME_IEEE_OUI, MRF_VME_EVM_300, VMECSRANY},
     VMECSR_END
 };
 
@@ -159,7 +158,7 @@ void checkVersion(volatile epicsUInt8 *base, unsigned int required,
     ver = v & FPGAVersion_VER_MASK;
 
     if(ver < required) {
-        printf("Firmware version >= %u is required\n", required);
+        printf("Firmware version >= %u is required got %u\n", required,ver);
         throw std::runtime_error("Firmware version not supported");
 
     } else if(ver < recommended) {
@@ -195,8 +194,9 @@ mrmEvgSetupVME (
         }
 
         /*csrCpuAddr is VME-CSR space CPU address for the board*/
-        volatile unsigned char* csrCpuAddr =                
+        volatile unsigned char* csrCpuAddr = //devCSRProbeSlot(slot);
                                     devCSRTestSlot(vmeEvgIDs,slot,&info); //FIXME: add support for EVM id
+
 
         if(!csrCpuAddr) {
             errlogPrintf("No EVG in slot %d\n",slot);
