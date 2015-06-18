@@ -1188,7 +1188,8 @@ EVRMRM::isr(void *arg)
         // Silence interrupt
         BITSET(NAT,32,evr->base, DataBufCtrl, DataBufCtrl_stop);
 
-        callbackRequest(&evr->data_rx_cb);
+        //FIXME: Support 300 series EVR (ask Jukka for reg map update)
+//        callbackRequest(&evr->data_rx_cb);
     }
     if(active&IRQ_HWMapped){
         evr->shadowIRQEna &= ~IRQ_HWMapped;
@@ -1271,6 +1272,7 @@ EVRMRM::drain_fifo()
 
         epicsUInt32 status;
 
+        printf("Draining FIFO!\n");
         // Bound the number of events taken from the FIFO
         // at one time.
         for(i=0; i<512; i++) {
@@ -1284,6 +1286,9 @@ EVRMRM::drain_fifo()
             epicsUInt32 evt=READ32(base, EvtFIFOCode);
             if (!evt)
                 break;
+
+            printf("EVR received: %d\n",evt);
+
 
             if (evt>NELEMENTS(events)) {
                 // BUG: we get occasional corrupt VME reads of this register
@@ -1301,6 +1306,7 @@ EVRMRM::drain_fifo()
 
             events[evt].last_sec=READ32(base, EvtFIFOSec);
             events[evt].last_evt=READ32(base, EvtFIFOEvt);
+
 
             if (events[evt].again) {
                 // ignore extra events in buffer.

@@ -1,11 +1,9 @@
 
 ##EVG Base
-file "evg-vme.template"
+file "db/evg-vme.template"
 {
     {
-         SYS=CSL-SKUBE-TST,
-         EVG=EVG0,
-         
+        
          AcTrig-Phase-SP=0.0,   #0-25.5 : EVG AC Phase Shifter
          AcTrig-Divider-SP=0,   #0-255 : EVG AC Divider
          AcTrig-Bypass-Sel=1,   #0 = Off, 1 = On : Bypass AC divider and Phase shifter
@@ -572,10 +570,11 @@ file "evg-vme.template"
 }
 
 ##EVG soft sequences (we need 2 for ping-pong loader)
-file "evgSoftSeq.template"
+file "db/evgSoftSeq.template"
 {
-    { SYS     = CSL-SKUBE-TST
-          EVG     = EVG0,
+    {
+          SYS=MTEST-VME-CSL2,
+          EVG=EVG0,
           SEQNUM  = 1,
           NELM    = 2047,
           TSIMODE = 0,         ## 0 = EGU, 1 = Ticks
@@ -584,8 +583,9 @@ file "evgSoftSeq.template"
           RUNMODE = 2          ## 0 = Normal, 1 = Automatic, 2 = Single
         }
 
-        { SYS     = CSL-IFC1,
-          EVG     = EVG0,
+        {
+          SYS=MTEST-VME-CSL2,
+          EVG=EVG0,
           SEQNUM  = 2,
           NELM    = 2047,
           TSIMODE = 0,         ## 0 = EGU, 1 = Ticks
