@@ -234,8 +234,8 @@ public:
   void setSourceTSraw(epicsUInt32 r){setSourceTS((TSSource)r);}
   epicsUInt32 SourceTSraw() const{return (epicsUInt32)SourceTS();}
 
-  void setPllBandwidthRaw(epicsUInt8 r){setPllBandwidth((PLLBandwidth)r);}
-  epicsUInt8 pllBandwidthRaw() const{return (epicsUInt8)pllBandwidth();}
+  void setPllBandwidthRaw(epicsUInt16 r){setPllBandwidth((PLLBandwidth)r);}
+  epicsUInt16 pllBandwidthRaw() const{return (epicsUInt16)pllBandwidth();}
 
   void setDbusToPulserMapping0(epicsUInt32 pulsers){setDbusToPulserMapping(0, pulsers);}
   epicsUInt32 dbusToPulserMapping0() const{return dbusToPulserMapping(0);}

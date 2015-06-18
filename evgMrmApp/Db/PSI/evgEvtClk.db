@@ -108,7 +108,7 @@ record(ai, "$(SYS)-$(EVG):$(OBJ)-FracSynFreq-RB") {
     field( DTYP, "Obj Prop double")
     field( INP,  "@OBJ=$(EVG):$(OBJ), PROP=FracSynFreq")
     field( EGU,  "MHz")
-    field( HIHI, "125.5")
+    field( HIHI, "150.5")
     field( LOLO, "49.5")
     field( HHSV, "MAJOR")
     field( LLSV, "MAJOR")

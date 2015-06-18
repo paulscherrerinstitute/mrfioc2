@@ -5,7 +5,7 @@ record(mbboDirect, "$(SYS)-$(EVR):PulserMap-Dbus$(ID)-SP") {
   field(OUT , "@OBJ=$(EVR), PROP=DBus Pulser Map $(ID)")
   field(PINI, "YES")
   field(DESC, "Pulser mapping")
-  field(VAL , "PulserMap-Dbus$(ID)-SP\=0)")
+  field(VAL , "$(PulserMap-Dbus$(ID)-SP\=0)")
   field(NOBT, "16")
   field(MASK, "0xFFFFFFFF")
   field(FLNK, "$(SYS)-$(EVR):PulserMap-Dbus$(ID)-RB")

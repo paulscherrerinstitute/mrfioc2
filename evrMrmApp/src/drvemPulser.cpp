@@ -232,7 +232,7 @@ MRMPulser::sourceSetMap(epicsUInt32 evt,MapType::type action)
         BITCLR(NAT,32, owner.base, MappingRam(0,evt,Reset), pmask);
 }
 
-epicsUInt8
+epicsUInt16
 MRMPulser::gateMask() const{
     epicsUInt32 mask;
     mask = READ32(owner.base, PulserCtrl(id)) & PulserCtrl_gateMask;
@@ -241,7 +241,7 @@ MRMPulser::gateMask() const{
 }
 
 void
-MRMPulser::setGateMask(epicsUInt8 mask){
+MRMPulser::setGateMask(epicsUInt16 mask){
     epicsUInt32 pulserCtrl;
 
     // TODO check if out of range
@@ -252,7 +252,7 @@ MRMPulser::setGateMask(epicsUInt8 mask){
     WRITE32(owner.base, PulserCtrl(id), pulserCtrl);
 }
 
-epicsUInt8
+epicsUInt16
 MRMPulser::gateEnable() const{
     epicsUInt32 gate;
     gate = READ32(owner.base, PulserCtrl(id)) & PulserCtrl_gateEnable;
@@ -261,7 +261,7 @@ MRMPulser::gateEnable() const{
 }
 
 void
-MRMPulser::setGateEnable(epicsUInt8 gate){
+MRMPulser::setGateEnable(epicsUInt16 gate){
     epicsUInt32 pulserCtrl;
 
     // TODO check if out of range

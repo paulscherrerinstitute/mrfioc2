@@ -386,13 +386,13 @@ record(ao, "$(SYS,recursive)-$(EVG,recursive):EvtClk-FracSynFreq-SP") {
     field( PINI, "YES")
     field( VAL,  "$(EvtClk-FracSynFreq-SP=124.920,undefined)")
     field( UDF,  "0")
-    field( HIHI, "125.5")
+    field( HIHI, "150.5")
     field( LOLO, "49.5")
     field( HHSV, "MAJOR")
     field( LLSV, "MAJOR")
-    field( HOPR, "125")
+    field( HOPR, "150")
     field( LOPR, "50")
-    field( DRVH, "125")
+    field( DRVH, "150")
     field( DRVL, "50")
     field( PREC, "3")
     field( FLNK, "$(SYS,recursive)-$(EVG,recursive):EvtClk-FracSynFreq-RB")
@@ -404,7 +404,7 @@ record(ai, "$(SYS,recursive)-$(EVG,recursive):EvtClk-FracSynFreq-RB") {
     field( DTYP, "Obj Prop double")
     field( INP,  "@OBJ=$(EVG,recursive):EvtClk, PROP=FracSynFreq")
     field( EGU,  "MHz")
-    field( HIHI, "125.5")
+    field( HIHI, "150.5")
     field( LOLO, "49.5")
     field( HHSV, "MAJOR")
     field( LLSV, "MAJOR")
@@ -689,6 +689,23 @@ record(bi, "$(SYS,recursive)-$(EVG,recursive):FrontInp0-EnaIrq-RB") {
 }
 
 
+## Sequence mask input config
+record(longout, "$(SYS,recursive)-$(EVG,recursive):FrontInp0-SeqMask-SP") {
+    field( DESC, "Set input sequence mask")
+    field( DTYP, "Obj Prop uint16")
+    field( OUT , "@OBJ=$(EVG,recursive):FrontInp0, PROP=SQMK")
+    field( VAL, "$(FrontInp0-SeqMask-SP=0,undefined)")
+    field( FLNK, "$(SYS,recursive)-$(EVG,recursive):FrontInp0-SeqMask-RB")
+}
+
+record(longin, "$(SYS,recursive)-$(EVG,recursive):FrontInp0-SeqMask-RB") {
+    field( DESC, "input sequence mask")
+    field( INP , "@OBJ=$(EVG,recursive):FrontInp0, PROP=SQMK")
+    field( DTYP, "Obj Prop uint16")
+    field( VAL, "$(FrontInp0-EnaIrq-Sel=0,undefined)")
+}
+
+
 ## Event trigger select
 record(bo, "$(SYS,recursive)-$(EVG,recursive):FrontInp0-TrigSrc0-SP") {
     field( DESC, "Event trigger 0")
@@ -865,7 +882,8 @@ record(bo, "$(SYS,recursive)-$(EVG,recursive):FrontInp0-DbusSrc7-SP") {
     field( ONAM, "Set")
     field( VAL, "$(FrontInp0-DbusSrc7-SP=0,undefined)")
     info( autosaveFields_pass0, "VAL")
-}record(bo, "$(SYS,recursive)-$(EVG,recursive):FrontInp1-EnaIrq-Sel") {
+}
+record(bo, "$(SYS,recursive)-$(EVG,recursive):FrontInp1-EnaIrq-Sel") {
     field( DESC, "Enable 1 Pulse Per Second Input")
     field( DTYP, "Obj Prop bool")
     field( OUT , "@OBJ=$(EVG,recursive):FrontInp1, PROP=IRQ")
@@ -882,6 +900,23 @@ record(bi, "$(SYS,recursive)-$(EVG,recursive):FrontInp1-EnaIrq-RB") {
     field( INP , "@OBJ=$(EVG,recursive):FrontInp1, PROP=IRQ")
     field( ZNAM, "Disabled")
     field( ONAM, "Enabled")
+}
+
+
+## Sequence mask input config
+record(longout, "$(SYS,recursive)-$(EVG,recursive):FrontInp1-SeqMask-SP") {
+    field( DESC, "Set input sequence mask")
+    field( DTYP, "Obj Prop uint16")
+    field( OUT , "@OBJ=$(EVG,recursive):FrontInp1, PROP=SQMK")
+    field( VAL, "$(FrontInp1-SeqMask-SP=0,undefined)")
+    field( FLNK, "$(SYS,recursive)-$(EVG,recursive):FrontInp1-SeqMask-RB")
+}
+
+record(longin, "$(SYS,recursive)-$(EVG,recursive):FrontInp1-SeqMask-RB") {
+    field( DESC, "input sequence mask")
+    field( INP , "@OBJ=$(EVG,recursive):FrontInp1, PROP=SQMK")
+    field( DTYP, "Obj Prop uint16")
+    field( VAL, "$(FrontInp1-EnaIrq-Sel=0,undefined)")
 }
 
 
@@ -1061,7 +1096,8 @@ record(bo, "$(SYS,recursive)-$(EVG,recursive):FrontInp1-DbusSrc7-SP") {
     field( ONAM, "Set")
     field( VAL, "$(FrontInp1-DbusSrc7-SP=0,undefined)")
     info( autosaveFields_pass0, "VAL")
-}record(bo, "$(SYS,recursive)-$(EVG,recursive):UnivInp0-EnaIrq-Sel") {
+}
+record(bo, "$(SYS,recursive)-$(EVG,recursive):UnivInp0-EnaIrq-Sel") {
     field( DESC, "Enable 1 Pulse Per Second Input")
     field( DTYP, "Obj Prop bool")
     field( OUT , "@OBJ=$(EVG,recursive):UnivInp0, PROP=IRQ")
@@ -1078,6 +1114,23 @@ record(bi, "$(SYS,recursive)-$(EVG,recursive):UnivInp0-EnaIrq-RB") {
     field( INP , "@OBJ=$(EVG,recursive):UnivInp0, PROP=IRQ")
     field( ZNAM, "Disabled")
     field( ONAM, "Enabled")
+}
+
+
+## Sequence mask input config
+record(longout, "$(SYS,recursive)-$(EVG,recursive):UnivInp0-SeqMask-SP") {
+    field( DESC, "Set input sequence mask")
+    field( DTYP, "Obj Prop uint16")
+    field( OUT , "@OBJ=$(EVG,recursive):UnivInp0, PROP=SQMK")
+    field( VAL, "$(UnivInp0-SeqMask-SP=0,undefined)")
+    field( FLNK, "$(SYS,recursive)-$(EVG,recursive):UnivInp0-SeqMask-RB")
+}
+
+record(longin, "$(SYS,recursive)-$(EVG,recursive):UnivInp0-SeqMask-RB") {
+    field( DESC, "input sequence mask")
+    field( INP , "@OBJ=$(EVG,recursive):UnivInp0, PROP=SQMK")
+    field( DTYP, "Obj Prop uint16")
+    field( VAL, "$(UnivInp0-EnaIrq-Sel=0,undefined)")
 }
 
 
@@ -1257,7 +1310,8 @@ record(bo, "$(SYS,recursive)-$(EVG,recursive):UnivInp0-DbusSrc7-SP") {
     field( ONAM, "Set")
     field( VAL, "$(UnivInp0-DbusSrc7-SP=0,undefined)")
     info( autosaveFields_pass0, "VAL")
-}record(bo, "$(SYS,recursive)-$(EVG,recursive):UnivInp1-EnaIrq-Sel") {
+}
+record(bo, "$(SYS,recursive)-$(EVG,recursive):UnivInp1-EnaIrq-Sel") {
     field( DESC, "Enable 1 Pulse Per Second Input")
     field( DTYP, "Obj Prop bool")
     field( OUT , "@OBJ=$(EVG,recursive):UnivInp1, PROP=IRQ")
@@ -1274,6 +1328,23 @@ record(bi, "$(SYS,recursive)-$(EVG,recursive):UnivInp1-EnaIrq-RB") {
     field( INP , "@OBJ=$(EVG,recursive):UnivInp1, PROP=IRQ")
     field( ZNAM, "Disabled")
     field( ONAM, "Enabled")
+}
+
+
+## Sequence mask input config
+record(longout, "$(SYS,recursive)-$(EVG,recursive):UnivInp1-SeqMask-SP") {
+    field( DESC, "Set input sequence mask")
+    field( DTYP, "Obj Prop uint16")
+    field( OUT , "@OBJ=$(EVG,recursive):UnivInp1, PROP=SQMK")
+    field( VAL, "$(UnivInp1-SeqMask-SP=0,undefined)")
+    field( FLNK, "$(SYS,recursive)-$(EVG,recursive):UnivInp1-SeqMask-RB")
+}
+
+record(longin, "$(SYS,recursive)-$(EVG,recursive):UnivInp1-SeqMask-RB") {
+    field( DESC, "input sequence mask")
+    field( INP , "@OBJ=$(EVG,recursive):UnivInp1, PROP=SQMK")
+    field( DTYP, "Obj Prop uint16")
+    field( VAL, "$(UnivInp1-EnaIrq-Sel=0,undefined)")
 }
 
 
@@ -1453,7 +1524,8 @@ record(bo, "$(SYS,recursive)-$(EVG,recursive):UnivInp1-DbusSrc7-SP") {
     field( ONAM, "Set")
     field( VAL, "$(UnivInp1-DbusSrc7-SP=0,undefined)")
     info( autosaveFields_pass0, "VAL")
-}record(bo, "$(SYS,recursive)-$(EVG,recursive):UnivInp2-EnaIrq-Sel") {
+}
+record(bo, "$(SYS,recursive)-$(EVG,recursive):UnivInp2-EnaIrq-Sel") {
     field( DESC, "Enable 1 Pulse Per Second Input")
     field( DTYP, "Obj Prop bool")
     field( OUT , "@OBJ=$(EVG,recursive):UnivInp2, PROP=IRQ")
@@ -1470,6 +1542,23 @@ record(bi, "$(SYS,recursive)-$(EVG,recursive):UnivInp2-EnaIrq-RB") {
     field( INP , "@OBJ=$(EVG,recursive):UnivInp2, PROP=IRQ")
     field( ZNAM, "Disabled")
     field( ONAM, "Enabled")
+}
+
+
+## Sequence mask input config
+record(longout, "$(SYS,recursive)-$(EVG,recursive):UnivInp2-SeqMask-SP") {
+    field( DESC, "Set input sequence mask")
+    field( DTYP, "Obj Prop uint16")
+    field( OUT , "@OBJ=$(EVG,recursive):UnivInp2, PROP=SQMK")
+    field( VAL, "$(UnivInp2-SeqMask-SP=0,undefined)")
+    field( FLNK, "$(SYS,recursive)-$(EVG,recursive):UnivInp2-SeqMask-RB")
+}
+
+record(longin, "$(SYS,recursive)-$(EVG,recursive):UnivInp2-SeqMask-RB") {
+    field( DESC, "input sequence mask")
+    field( INP , "@OBJ=$(EVG,recursive):UnivInp2, PROP=SQMK")
+    field( DTYP, "Obj Prop uint16")
+    field( VAL, "$(UnivInp2-EnaIrq-Sel=0,undefined)")
 }
 
 
@@ -1649,7 +1738,8 @@ record(bo, "$(SYS,recursive)-$(EVG,recursive):UnivInp2-DbusSrc7-SP") {
     field( ONAM, "Set")
     field( VAL, "$(UnivInp2-DbusSrc7-SP=0,undefined)")
     info( autosaveFields_pass0, "VAL")
-}record(bo, "$(SYS,recursive)-$(EVG,recursive):UnivInp3-EnaIrq-Sel") {
+}
+record(bo, "$(SYS,recursive)-$(EVG,recursive):UnivInp3-EnaIrq-Sel") {
     field( DESC, "Enable 1 Pulse Per Second Input")
     field( DTYP, "Obj Prop bool")
     field( OUT , "@OBJ=$(EVG,recursive):UnivInp3, PROP=IRQ")
@@ -1666,6 +1756,23 @@ record(bi, "$(SYS,recursive)-$(EVG,recursive):UnivInp3-EnaIrq-RB") {
     field( INP , "@OBJ=$(EVG,recursive):UnivInp3, PROP=IRQ")
     field( ZNAM, "Disabled")
     field( ONAM, "Enabled")
+}
+
+
+## Sequence mask input config
+record(longout, "$(SYS,recursive)-$(EVG,recursive):UnivInp3-SeqMask-SP") {
+    field( DESC, "Set input sequence mask")
+    field( DTYP, "Obj Prop uint16")
+    field( OUT , "@OBJ=$(EVG,recursive):UnivInp3, PROP=SQMK")
+    field( VAL, "$(UnivInp3-SeqMask-SP=0,undefined)")
+    field( FLNK, "$(SYS,recursive)-$(EVG,recursive):UnivInp3-SeqMask-RB")
+}
+
+record(longin, "$(SYS,recursive)-$(EVG,recursive):UnivInp3-SeqMask-RB") {
+    field( DESC, "input sequence mask")
+    field( INP , "@OBJ=$(EVG,recursive):UnivInp3, PROP=SQMK")
+    field( DTYP, "Obj Prop uint16")
+    field( VAL, "$(UnivInp3-EnaIrq-Sel=0,undefined)")
 }
 
 
@@ -1845,7 +1952,8 @@ record(bo, "$(SYS,recursive)-$(EVG,recursive):UnivInp3-DbusSrc7-SP") {
     field( ONAM, "Set")
     field( VAL, "$(UnivInp3-DbusSrc7-SP=0,undefined)")
     info( autosaveFields_pass0, "VAL")
-}record(bo, "$(SYS,recursive)-$(EVG,recursive):RearInp1-EnaIrq-Sel") {
+}
+record(bo, "$(SYS,recursive)-$(EVG,recursive):RearInp1-EnaIrq-Sel") {
     field( DESC, "Enable 1 Pulse Per Second Input")
     field( DTYP, "Obj Prop bool")
     field( OUT , "@OBJ=$(EVG,recursive):RearInp1, PROP=IRQ")
@@ -1862,6 +1970,23 @@ record(bi, "$(SYS,recursive)-$(EVG,recursive):RearInp1-EnaIrq-RB") {
     field( INP , "@OBJ=$(EVG,recursive):RearInp1, PROP=IRQ")
     field( ZNAM, "Disabled")
     field( ONAM, "Enabled")
+}
+
+
+## Sequence mask input config
+record(longout, "$(SYS,recursive)-$(EVG,recursive):RearInp1-SeqMask-SP") {
+    field( DESC, "Set input sequence mask")
+    field( DTYP, "Obj Prop uint16")
+    field( OUT , "@OBJ=$(EVG,recursive):RearInp1, PROP=SQMK")
+    field( VAL, "$(RearInp1-SeqMask-SP=0,undefined)")
+    field( FLNK, "$(SYS,recursive)-$(EVG,recursive):RearInp1-SeqMask-RB")
+}
+
+record(longin, "$(SYS,recursive)-$(EVG,recursive):RearInp1-SeqMask-RB") {
+    field( DESC, "input sequence mask")
+    field( INP , "@OBJ=$(EVG,recursive):RearInp1, PROP=SQMK")
+    field( DTYP, "Obj Prop uint16")
+    field( VAL, "$(RearInp1-EnaIrq-Sel=0,undefined)")
 }
 
 
@@ -2041,7 +2166,8 @@ record(bo, "$(SYS,recursive)-$(EVG,recursive):RearInp1-DbusSrc7-SP") {
     field( ONAM, "Set")
     field( VAL, "$(RearInp1-DbusSrc7-SP=0,undefined)")
     info( autosaveFields_pass0, "VAL")
-}record(bo, "$(SYS,recursive)-$(EVG,recursive):RearInp2-EnaIrq-Sel") {
+}
+record(bo, "$(SYS,recursive)-$(EVG,recursive):RearInp2-EnaIrq-Sel") {
     field( DESC, "Enable 1 Pulse Per Second Input")
     field( DTYP, "Obj Prop bool")
     field( OUT , "@OBJ=$(EVG,recursive):RearInp2, PROP=IRQ")
@@ -2058,6 +2184,23 @@ record(bi, "$(SYS,recursive)-$(EVG,recursive):RearInp2-EnaIrq-RB") {
     field( INP , "@OBJ=$(EVG,recursive):RearInp2, PROP=IRQ")
     field( ZNAM, "Disabled")
     field( ONAM, "Enabled")
+}
+
+
+## Sequence mask input config
+record(longout, "$(SYS,recursive)-$(EVG,recursive):RearInp2-SeqMask-SP") {
+    field( DESC, "Set input sequence mask")
+    field( DTYP, "Obj Prop uint16")
+    field( OUT , "@OBJ=$(EVG,recursive):RearInp2, PROP=SQMK")
+    field( VAL, "$(RearInp2-SeqMask-SP=0,undefined)")
+    field( FLNK, "$(SYS,recursive)-$(EVG,recursive):RearInp2-SeqMask-RB")
+}
+
+record(longin, "$(SYS,recursive)-$(EVG,recursive):RearInp2-SeqMask-RB") {
+    field( DESC, "input sequence mask")
+    field( INP , "@OBJ=$(EVG,recursive):RearInp2, PROP=SQMK")
+    field( DTYP, "Obj Prop uint16")
+    field( VAL, "$(RearInp2-EnaIrq-Sel=0,undefined)")
 }
 
 
@@ -2237,7 +2380,8 @@ record(bo, "$(SYS,recursive)-$(EVG,recursive):RearInp2-DbusSrc7-SP") {
     field( ONAM, "Set")
     field( VAL, "$(RearInp2-DbusSrc7-SP=0,undefined)")
     info( autosaveFields_pass0, "VAL")
-}record(bo, "$(SYS,recursive)-$(EVG,recursive):RearInp3-EnaIrq-Sel") {
+}
+record(bo, "$(SYS,recursive)-$(EVG,recursive):RearInp3-EnaIrq-Sel") {
     field( DESC, "Enable 1 Pulse Per Second Input")
     field( DTYP, "Obj Prop bool")
     field( OUT , "@OBJ=$(EVG,recursive):RearInp3, PROP=IRQ")
@@ -2254,6 +2398,23 @@ record(bi, "$(SYS,recursive)-$(EVG,recursive):RearInp3-EnaIrq-RB") {
     field( INP , "@OBJ=$(EVG,recursive):RearInp3, PROP=IRQ")
     field( ZNAM, "Disabled")
     field( ONAM, "Enabled")
+}
+
+
+## Sequence mask input config
+record(longout, "$(SYS,recursive)-$(EVG,recursive):RearInp3-SeqMask-SP") {
+    field( DESC, "Set input sequence mask")
+    field( DTYP, "Obj Prop uint16")
+    field( OUT , "@OBJ=$(EVG,recursive):RearInp3, PROP=SQMK")
+    field( VAL, "$(RearInp3-SeqMask-SP=0,undefined)")
+    field( FLNK, "$(SYS,recursive)-$(EVG,recursive):RearInp3-SeqMask-RB")
+}
+
+record(longin, "$(SYS,recursive)-$(EVG,recursive):RearInp3-SeqMask-RB") {
+    field( DESC, "input sequence mask")
+    field( INP , "@OBJ=$(EVG,recursive):RearInp3, PROP=SQMK")
+    field( DTYP, "Obj Prop uint16")
+    field( VAL, "$(RearInp3-EnaIrq-Sel=0,undefined)")
 }
 
 
@@ -2433,7 +2594,8 @@ record(bo, "$(SYS,recursive)-$(EVG,recursive):RearInp3-DbusSrc7-SP") {
     field( ONAM, "Set")
     field( VAL, "$(RearInp3-DbusSrc7-SP=0,undefined)")
     info( autosaveFields_pass0, "VAL")
-}record(bo, "$(SYS,recursive)-$(EVG,recursive):RearInp4-EnaIrq-Sel") {
+}
+record(bo, "$(SYS,recursive)-$(EVG,recursive):RearInp4-EnaIrq-Sel") {
     field( DESC, "Enable 1 Pulse Per Second Input")
     field( DTYP, "Obj Prop bool")
     field( OUT , "@OBJ=$(EVG,recursive):RearInp4, PROP=IRQ")
@@ -2450,6 +2612,23 @@ record(bi, "$(SYS,recursive)-$(EVG,recursive):RearInp4-EnaIrq-RB") {
     field( INP , "@OBJ=$(EVG,recursive):RearInp4, PROP=IRQ")
     field( ZNAM, "Disabled")
     field( ONAM, "Enabled")
+}
+
+
+## Sequence mask input config
+record(longout, "$(SYS,recursive)-$(EVG,recursive):RearInp4-SeqMask-SP") {
+    field( DESC, "Set input sequence mask")
+    field( DTYP, "Obj Prop uint16")
+    field( OUT , "@OBJ=$(EVG,recursive):RearInp4, PROP=SQMK")
+    field( VAL, "$(RearInp4-SeqMask-SP=0,undefined)")
+    field( FLNK, "$(SYS,recursive)-$(EVG,recursive):RearInp4-SeqMask-RB")
+}
+
+record(longin, "$(SYS,recursive)-$(EVG,recursive):RearInp4-SeqMask-RB") {
+    field( DESC, "input sequence mask")
+    field( INP , "@OBJ=$(EVG,recursive):RearInp4, PROP=SQMK")
+    field( DTYP, "Obj Prop uint16")
+    field( VAL, "$(RearInp4-EnaIrq-Sel=0,undefined)")
 }
 
 
@@ -2629,7 +2808,8 @@ record(bo, "$(SYS,recursive)-$(EVG,recursive):RearInp4-DbusSrc7-SP") {
     field( ONAM, "Set")
     field( VAL, "$(RearInp4-DbusSrc7-SP=0,undefined)")
     info( autosaveFields_pass0, "VAL")
-}record(bo, "$(SYS,recursive)-$(EVG,recursive):RearInp5-EnaIrq-Sel") {
+}
+record(bo, "$(SYS,recursive)-$(EVG,recursive):RearInp5-EnaIrq-Sel") {
     field( DESC, "Enable 1 Pulse Per Second Input")
     field( DTYP, "Obj Prop bool")
     field( OUT , "@OBJ=$(EVG,recursive):RearInp5, PROP=IRQ")
@@ -2646,6 +2826,23 @@ record(bi, "$(SYS,recursive)-$(EVG,recursive):RearInp5-EnaIrq-RB") {
     field( INP , "@OBJ=$(EVG,recursive):RearInp5, PROP=IRQ")
     field( ZNAM, "Disabled")
     field( ONAM, "Enabled")
+}
+
+
+## Sequence mask input config
+record(longout, "$(SYS,recursive)-$(EVG,recursive):RearInp5-SeqMask-SP") {
+    field( DESC, "Set input sequence mask")
+    field( DTYP, "Obj Prop uint16")
+    field( OUT , "@OBJ=$(EVG,recursive):RearInp5, PROP=SQMK")
+    field( VAL, "$(RearInp5-SeqMask-SP=0,undefined)")
+    field( FLNK, "$(SYS,recursive)-$(EVG,recursive):RearInp5-SeqMask-RB")
+}
+
+record(longin, "$(SYS,recursive)-$(EVG,recursive):RearInp5-SeqMask-RB") {
+    field( DESC, "input sequence mask")
+    field( INP , "@OBJ=$(EVG,recursive):RearInp5, PROP=SQMK")
+    field( DTYP, "Obj Prop uint16")
+    field( VAL, "$(RearInp5-EnaIrq-Sel=0,undefined)")
 }
 
 
@@ -2825,7 +3022,8 @@ record(bo, "$(SYS,recursive)-$(EVG,recursive):RearInp5-DbusSrc7-SP") {
     field( ONAM, "Set")
     field( VAL, "$(RearInp5-DbusSrc7-SP=0,undefined)")
     info( autosaveFields_pass0, "VAL")
-}record(bo, "$(SYS,recursive)-$(EVG,recursive):RearInp6-EnaIrq-Sel") {
+}
+record(bo, "$(SYS,recursive)-$(EVG,recursive):RearInp6-EnaIrq-Sel") {
     field( DESC, "Enable 1 Pulse Per Second Input")
     field( DTYP, "Obj Prop bool")
     field( OUT , "@OBJ=$(EVG,recursive):RearInp6, PROP=IRQ")
@@ -2842,6 +3040,23 @@ record(bi, "$(SYS,recursive)-$(EVG,recursive):RearInp6-EnaIrq-RB") {
     field( INP , "@OBJ=$(EVG,recursive):RearInp6, PROP=IRQ")
     field( ZNAM, "Disabled")
     field( ONAM, "Enabled")
+}
+
+
+## Sequence mask input config
+record(longout, "$(SYS,recursive)-$(EVG,recursive):RearInp6-SeqMask-SP") {
+    field( DESC, "Set input sequence mask")
+    field( DTYP, "Obj Prop uint16")
+    field( OUT , "@OBJ=$(EVG,recursive):RearInp6, PROP=SQMK")
+    field( VAL, "$(RearInp6-SeqMask-SP=0,undefined)")
+    field( FLNK, "$(SYS,recursive)-$(EVG,recursive):RearInp6-SeqMask-RB")
+}
+
+record(longin, "$(SYS,recursive)-$(EVG,recursive):RearInp6-SeqMask-RB") {
+    field( DESC, "input sequence mask")
+    field( INP , "@OBJ=$(EVG,recursive):RearInp6, PROP=SQMK")
+    field( DTYP, "Obj Prop uint16")
+    field( VAL, "$(RearInp6-EnaIrq-Sel=0,undefined)")
 }
 
 
@@ -3021,7 +3236,8 @@ record(bo, "$(SYS,recursive)-$(EVG,recursive):RearInp6-DbusSrc7-SP") {
     field( ONAM, "Set")
     field( VAL, "$(RearInp6-DbusSrc7-SP=0,undefined)")
     info( autosaveFields_pass0, "VAL")
-}record(bo, "$(SYS,recursive)-$(EVG,recursive):RearInp7-EnaIrq-Sel") {
+}
+record(bo, "$(SYS,recursive)-$(EVG,recursive):RearInp7-EnaIrq-Sel") {
     field( DESC, "Enable 1 Pulse Per Second Input")
     field( DTYP, "Obj Prop bool")
     field( OUT , "@OBJ=$(EVG,recursive):RearInp7, PROP=IRQ")
@@ -3038,6 +3254,23 @@ record(bi, "$(SYS,recursive)-$(EVG,recursive):RearInp7-EnaIrq-RB") {
     field( INP , "@OBJ=$(EVG,recursive):RearInp7, PROP=IRQ")
     field( ZNAM, "Disabled")
     field( ONAM, "Enabled")
+}
+
+
+## Sequence mask input config
+record(longout, "$(SYS,recursive)-$(EVG,recursive):RearInp7-SeqMask-SP") {
+    field( DESC, "Set input sequence mask")
+    field( DTYP, "Obj Prop uint16")
+    field( OUT , "@OBJ=$(EVG,recursive):RearInp7, PROP=SQMK")
+    field( VAL, "$(RearInp7-SeqMask-SP=0,undefined)")
+    field( FLNK, "$(SYS,recursive)-$(EVG,recursive):RearInp7-SeqMask-RB")
+}
+
+record(longin, "$(SYS,recursive)-$(EVG,recursive):RearInp7-SeqMask-RB") {
+    field( DESC, "input sequence mask")
+    field( INP , "@OBJ=$(EVG,recursive):RearInp7, PROP=SQMK")
+    field( DTYP, "Obj Prop uint16")
+    field( VAL, "$(RearInp7-EnaIrq-Sel=0,undefined)")
 }
 
 
@@ -3217,7 +3450,8 @@ record(bo, "$(SYS,recursive)-$(EVG,recursive):RearInp7-DbusSrc7-SP") {
     field( ONAM, "Set")
     field( VAL, "$(RearInp7-DbusSrc7-SP=0,undefined)")
     info( autosaveFields_pass0, "VAL")
-}record(bo, "$(SYS,recursive)-$(EVG,recursive):RearInp8-EnaIrq-Sel") {
+}
+record(bo, "$(SYS,recursive)-$(EVG,recursive):RearInp8-EnaIrq-Sel") {
     field( DESC, "Enable 1 Pulse Per Second Input")
     field( DTYP, "Obj Prop bool")
     field( OUT , "@OBJ=$(EVG,recursive):RearInp8, PROP=IRQ")
@@ -3234,6 +3468,23 @@ record(bi, "$(SYS,recursive)-$(EVG,recursive):RearInp8-EnaIrq-RB") {
     field( INP , "@OBJ=$(EVG,recursive):RearInp8, PROP=IRQ")
     field( ZNAM, "Disabled")
     field( ONAM, "Enabled")
+}
+
+
+## Sequence mask input config
+record(longout, "$(SYS,recursive)-$(EVG,recursive):RearInp8-SeqMask-SP") {
+    field( DESC, "Set input sequence mask")
+    field( DTYP, "Obj Prop uint16")
+    field( OUT , "@OBJ=$(EVG,recursive):RearInp8, PROP=SQMK")
+    field( VAL, "$(RearInp8-SeqMask-SP=0,undefined)")
+    field( FLNK, "$(SYS,recursive)-$(EVG,recursive):RearInp8-SeqMask-RB")
+}
+
+record(longin, "$(SYS,recursive)-$(EVG,recursive):RearInp8-SeqMask-RB") {
+    field( DESC, "input sequence mask")
+    field( INP , "@OBJ=$(EVG,recursive):RearInp8, PROP=SQMK")
+    field( DTYP, "Obj Prop uint16")
+    field( VAL, "$(RearInp8-EnaIrq-Sel=0,undefined)")
 }
 
 
@@ -3413,7 +3664,8 @@ record(bo, "$(SYS,recursive)-$(EVG,recursive):RearInp8-DbusSrc7-SP") {
     field( ONAM, "Set")
     field( VAL, "$(RearInp8-DbusSrc7-SP=0,undefined)")
     info( autosaveFields_pass0, "VAL")
-}record(bo, "$(SYS,recursive)-$(EVG,recursive):RearInp9-EnaIrq-Sel") {
+}
+record(bo, "$(SYS,recursive)-$(EVG,recursive):RearInp9-EnaIrq-Sel") {
     field( DESC, "Enable 1 Pulse Per Second Input")
     field( DTYP, "Obj Prop bool")
     field( OUT , "@OBJ=$(EVG,recursive):RearInp9, PROP=IRQ")
@@ -3430,6 +3682,23 @@ record(bi, "$(SYS,recursive)-$(EVG,recursive):RearInp9-EnaIrq-RB") {
     field( INP , "@OBJ=$(EVG,recursive):RearInp9, PROP=IRQ")
     field( ZNAM, "Disabled")
     field( ONAM, "Enabled")
+}
+
+
+## Sequence mask input config
+record(longout, "$(SYS,recursive)-$(EVG,recursive):RearInp9-SeqMask-SP") {
+    field( DESC, "Set input sequence mask")
+    field( DTYP, "Obj Prop uint16")
+    field( OUT , "@OBJ=$(EVG,recursive):RearInp9, PROP=SQMK")
+    field( VAL, "$(RearInp9-SeqMask-SP=0,undefined)")
+    field( FLNK, "$(SYS,recursive)-$(EVG,recursive):RearInp9-SeqMask-RB")
+}
+
+record(longin, "$(SYS,recursive)-$(EVG,recursive):RearInp9-SeqMask-RB") {
+    field( DESC, "input sequence mask")
+    field( INP , "@OBJ=$(EVG,recursive):RearInp9, PROP=SQMK")
+    field( DTYP, "Obj Prop uint16")
+    field( VAL, "$(RearInp9-EnaIrq-Sel=0,undefined)")
 }
 
 
@@ -3609,7 +3878,8 @@ record(bo, "$(SYS,recursive)-$(EVG,recursive):RearInp9-DbusSrc7-SP") {
     field( ONAM, "Set")
     field( VAL, "$(RearInp9-DbusSrc7-SP=0,undefined)")
     info( autosaveFields_pass0, "VAL")
-}record(bo, "$(SYS,recursive)-$(EVG,recursive):RearInp10-EnaIrq-Sel") {
+}
+record(bo, "$(SYS,recursive)-$(EVG,recursive):RearInp10-EnaIrq-Sel") {
     field( DESC, "Enable 1 Pulse Per Second Input")
     field( DTYP, "Obj Prop bool")
     field( OUT , "@OBJ=$(EVG,recursive):RearInp10, PROP=IRQ")
@@ -3626,6 +3896,23 @@ record(bi, "$(SYS,recursive)-$(EVG,recursive):RearInp10-EnaIrq-RB") {
     field( INP , "@OBJ=$(EVG,recursive):RearInp10, PROP=IRQ")
     field( ZNAM, "Disabled")
     field( ONAM, "Enabled")
+}
+
+
+## Sequence mask input config
+record(longout, "$(SYS,recursive)-$(EVG,recursive):RearInp10-SeqMask-SP") {
+    field( DESC, "Set input sequence mask")
+    field( DTYP, "Obj Prop uint16")
+    field( OUT , "@OBJ=$(EVG,recursive):RearInp10, PROP=SQMK")
+    field( VAL, "$(RearInp10-SeqMask-SP=0,undefined)")
+    field( FLNK, "$(SYS,recursive)-$(EVG,recursive):RearInp10-SeqMask-RB")
+}
+
+record(longin, "$(SYS,recursive)-$(EVG,recursive):RearInp10-SeqMask-RB") {
+    field( DESC, "input sequence mask")
+    field( INP , "@OBJ=$(EVG,recursive):RearInp10, PROP=SQMK")
+    field( DTYP, "Obj Prop uint16")
+    field( VAL, "$(RearInp10-EnaIrq-Sel=0,undefined)")
 }
 
 
@@ -3805,7 +4092,8 @@ record(bo, "$(SYS,recursive)-$(EVG,recursive):RearInp10-DbusSrc7-SP") {
     field( ONAM, "Set")
     field( VAL, "$(RearInp10-DbusSrc7-SP=0,undefined)")
     info( autosaveFields_pass0, "VAL")
-}record(bo, "$(SYS,recursive)-$(EVG,recursive):RearInp11-EnaIrq-Sel") {
+}
+record(bo, "$(SYS,recursive)-$(EVG,recursive):RearInp11-EnaIrq-Sel") {
     field( DESC, "Enable 1 Pulse Per Second Input")
     field( DTYP, "Obj Prop bool")
     field( OUT , "@OBJ=$(EVG,recursive):RearInp11, PROP=IRQ")
@@ -3822,6 +4110,23 @@ record(bi, "$(SYS,recursive)-$(EVG,recursive):RearInp11-EnaIrq-RB") {
     field( INP , "@OBJ=$(EVG,recursive):RearInp11, PROP=IRQ")
     field( ZNAM, "Disabled")
     field( ONAM, "Enabled")
+}
+
+
+## Sequence mask input config
+record(longout, "$(SYS,recursive)-$(EVG,recursive):RearInp11-SeqMask-SP") {
+    field( DESC, "Set input sequence mask")
+    field( DTYP, "Obj Prop uint16")
+    field( OUT , "@OBJ=$(EVG,recursive):RearInp11, PROP=SQMK")
+    field( VAL, "$(RearInp11-SeqMask-SP=0,undefined)")
+    field( FLNK, "$(SYS,recursive)-$(EVG,recursive):RearInp11-SeqMask-RB")
+}
+
+record(longin, "$(SYS,recursive)-$(EVG,recursive):RearInp11-SeqMask-RB") {
+    field( DESC, "input sequence mask")
+    field( INP , "@OBJ=$(EVG,recursive):RearInp11, PROP=SQMK")
+    field( DTYP, "Obj Prop uint16")
+    field( VAL, "$(RearInp11-EnaIrq-Sel=0,undefined)")
 }
 
 
@@ -4001,7 +4306,8 @@ record(bo, "$(SYS,recursive)-$(EVG,recursive):RearInp11-DbusSrc7-SP") {
     field( ONAM, "Set")
     field( VAL, "$(RearInp11-DbusSrc7-SP=0,undefined)")
     info( autosaveFields_pass0, "VAL")
-}record(bo, "$(SYS,recursive)-$(EVG,recursive):RearInp12-EnaIrq-Sel") {
+}
+record(bo, "$(SYS,recursive)-$(EVG,recursive):RearInp12-EnaIrq-Sel") {
     field( DESC, "Enable 1 Pulse Per Second Input")
     field( DTYP, "Obj Prop bool")
     field( OUT , "@OBJ=$(EVG,recursive):RearInp12, PROP=IRQ")
@@ -4018,6 +4324,23 @@ record(bi, "$(SYS,recursive)-$(EVG,recursive):RearInp12-EnaIrq-RB") {
     field( INP , "@OBJ=$(EVG,recursive):RearInp12, PROP=IRQ")
     field( ZNAM, "Disabled")
     field( ONAM, "Enabled")
+}
+
+
+## Sequence mask input config
+record(longout, "$(SYS,recursive)-$(EVG,recursive):RearInp12-SeqMask-SP") {
+    field( DESC, "Set input sequence mask")
+    field( DTYP, "Obj Prop uint16")
+    field( OUT , "@OBJ=$(EVG,recursive):RearInp12, PROP=SQMK")
+    field( VAL, "$(RearInp12-SeqMask-SP=0,undefined)")
+    field( FLNK, "$(SYS,recursive)-$(EVG,recursive):RearInp12-SeqMask-RB")
+}
+
+record(longin, "$(SYS,recursive)-$(EVG,recursive):RearInp12-SeqMask-RB") {
+    field( DESC, "input sequence mask")
+    field( INP , "@OBJ=$(EVG,recursive):RearInp12, PROP=SQMK")
+    field( DTYP, "Obj Prop uint16")
+    field( VAL, "$(RearInp12-EnaIrq-Sel=0,undefined)")
 }
 
 
@@ -4197,7 +4520,8 @@ record(bo, "$(SYS,recursive)-$(EVG,recursive):RearInp12-DbusSrc7-SP") {
     field( ONAM, "Set")
     field( VAL, "$(RearInp12-DbusSrc7-SP=0,undefined)")
     info( autosaveFields_pass0, "VAL")
-}record(bo, "$(SYS,recursive)-$(EVG,recursive):RearInp13-EnaIrq-Sel") {
+}
+record(bo, "$(SYS,recursive)-$(EVG,recursive):RearInp13-EnaIrq-Sel") {
     field( DESC, "Enable 1 Pulse Per Second Input")
     field( DTYP, "Obj Prop bool")
     field( OUT , "@OBJ=$(EVG,recursive):RearInp13, PROP=IRQ")
@@ -4214,6 +4538,23 @@ record(bi, "$(SYS,recursive)-$(EVG,recursive):RearInp13-EnaIrq-RB") {
     field( INP , "@OBJ=$(EVG,recursive):RearInp13, PROP=IRQ")
     field( ZNAM, "Disabled")
     field( ONAM, "Enabled")
+}
+
+
+## Sequence mask input config
+record(longout, "$(SYS,recursive)-$(EVG,recursive):RearInp13-SeqMask-SP") {
+    field( DESC, "Set input sequence mask")
+    field( DTYP, "Obj Prop uint16")
+    field( OUT , "@OBJ=$(EVG,recursive):RearInp13, PROP=SQMK")
+    field( VAL, "$(RearInp13-SeqMask-SP=0,undefined)")
+    field( FLNK, "$(SYS,recursive)-$(EVG,recursive):RearInp13-SeqMask-RB")
+}
+
+record(longin, "$(SYS,recursive)-$(EVG,recursive):RearInp13-SeqMask-RB") {
+    field( DESC, "input sequence mask")
+    field( INP , "@OBJ=$(EVG,recursive):RearInp13, PROP=SQMK")
+    field( DTYP, "Obj Prop uint16")
+    field( VAL, "$(RearInp13-EnaIrq-Sel=0,undefined)")
 }
 
 
@@ -4393,7 +4734,8 @@ record(bo, "$(SYS,recursive)-$(EVG,recursive):RearInp13-DbusSrc7-SP") {
     field( ONAM, "Set")
     field( VAL, "$(RearInp13-DbusSrc7-SP=0,undefined)")
     info( autosaveFields_pass0, "VAL")
-}record(bo, "$(SYS,recursive)-$(EVG,recursive):RearInp14-EnaIrq-Sel") {
+}
+record(bo, "$(SYS,recursive)-$(EVG,recursive):RearInp14-EnaIrq-Sel") {
     field( DESC, "Enable 1 Pulse Per Second Input")
     field( DTYP, "Obj Prop bool")
     field( OUT , "@OBJ=$(EVG,recursive):RearInp14, PROP=IRQ")
@@ -4410,6 +4752,23 @@ record(bi, "$(SYS,recursive)-$(EVG,recursive):RearInp14-EnaIrq-RB") {
     field( INP , "@OBJ=$(EVG,recursive):RearInp14, PROP=IRQ")
     field( ZNAM, "Disabled")
     field( ONAM, "Enabled")
+}
+
+
+## Sequence mask input config
+record(longout, "$(SYS,recursive)-$(EVG,recursive):RearInp14-SeqMask-SP") {
+    field( DESC, "Set input sequence mask")
+    field( DTYP, "Obj Prop uint16")
+    field( OUT , "@OBJ=$(EVG,recursive):RearInp14, PROP=SQMK")
+    field( VAL, "$(RearInp14-SeqMask-SP=0,undefined)")
+    field( FLNK, "$(SYS,recursive)-$(EVG,recursive):RearInp14-SeqMask-RB")
+}
+
+record(longin, "$(SYS,recursive)-$(EVG,recursive):RearInp14-SeqMask-RB") {
+    field( DESC, "input sequence mask")
+    field( INP , "@OBJ=$(EVG,recursive):RearInp14, PROP=SQMK")
+    field( DTYP, "Obj Prop uint16")
+    field( VAL, "$(RearInp14-EnaIrq-Sel=0,undefined)")
 }
 
 
@@ -4589,7 +4948,8 @@ record(bo, "$(SYS,recursive)-$(EVG,recursive):RearInp14-DbusSrc7-SP") {
     field( ONAM, "Set")
     field( VAL, "$(RearInp14-DbusSrc7-SP=0,undefined)")
     info( autosaveFields_pass0, "VAL")
-}record(bo, "$(SYS,recursive)-$(EVG,recursive):RearInp15-EnaIrq-Sel") {
+}
+record(bo, "$(SYS,recursive)-$(EVG,recursive):RearInp15-EnaIrq-Sel") {
     field( DESC, "Enable 1 Pulse Per Second Input")
     field( DTYP, "Obj Prop bool")
     field( OUT , "@OBJ=$(EVG,recursive):RearInp15, PROP=IRQ")
@@ -4606,6 +4966,23 @@ record(bi, "$(SYS,recursive)-$(EVG,recursive):RearInp15-EnaIrq-RB") {
     field( INP , "@OBJ=$(EVG,recursive):RearInp15, PROP=IRQ")
     field( ZNAM, "Disabled")
     field( ONAM, "Enabled")
+}
+
+
+## Sequence mask input config
+record(longout, "$(SYS,recursive)-$(EVG,recursive):RearInp15-SeqMask-SP") {
+    field( DESC, "Set input sequence mask")
+    field( DTYP, "Obj Prop uint16")
+    field( OUT , "@OBJ=$(EVG,recursive):RearInp15, PROP=SQMK")
+    field( VAL, "$(RearInp15-SeqMask-SP=0,undefined)")
+    field( FLNK, "$(SYS,recursive)-$(EVG,recursive):RearInp15-SeqMask-RB")
+}
+
+record(longin, "$(SYS,recursive)-$(EVG,recursive):RearInp15-SeqMask-RB") {
+    field( DESC, "input sequence mask")
+    field( INP , "@OBJ=$(EVG,recursive):RearInp15, PROP=SQMK")
+    field( DTYP, "Obj Prop uint16")
+    field( VAL, "$(RearInp15-EnaIrq-Sel=0,undefined)")
 }
 
 
@@ -4785,7 +5162,8 @@ record(bo, "$(SYS,recursive)-$(EVG,recursive):RearInp15-DbusSrc7-SP") {
     field( ONAM, "Set")
     field( VAL, "$(RearInp15-DbusSrc7-SP=0,undefined)")
     info( autosaveFields_pass0, "VAL")
-}record(mbbo, "$(SYS,recursive)-$(EVG,recursive):FrontOut0-Source-Sel") {
+}
+record(mbbo, "$(SYS,recursive)-$(EVG,recursive):FrontOut0-Source-Sel") {
     field(DTYP, "Obj Prop uint16")
     field( OUT , "@OBJ=$(EVG,recursive):FrontOut0, PROP=Source")
     field( ZRST, "Off")
