@@ -71,7 +71,8 @@ static const epicsPCIID mrmevrs[] = {
 
 static const struct VMECSRID vmeevrs[] = {
     // VME EVR RF 230
-    {MRF_VME_IEEE_OUI, MRF_VME_EVR_RF_BID|MRF_SERIES_230, VMECSRANY}
+    {MRF_VME_IEEE_OUI, MRF_VME_EVR_RF_BID|MRF_SERIES_230, VMECSRANY},
+    {MRF_VME_IEEE_OUI, MRF_VME_EVR_300, VMECSRANY}
     ,VMECSR_END
 };
 

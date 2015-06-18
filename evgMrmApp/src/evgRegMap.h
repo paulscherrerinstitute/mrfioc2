@@ -165,6 +165,9 @@
 #define  U8_SeqRamEvent_base    0x8007  // Sequence Ram Event Code Array Base Offset
 #define  U8_SeqRamEvent(n,m)    (U8_SeqRamEvent_base + (0x4000*(n)) + (8*(m)))
 
+#define  U8_SeqRamMask_base    0x8006  // Sequence Ram Event Code Array Base Offset
+#define  U8_SeqRamMask(n,m)    (U8_SeqRamMask_base + (0x4000*(n)) + (8*(m)))
+
 //=====================
 // Size of Event Generator Register Space
 //
@@ -175,12 +178,12 @@
 /*    Status Register (0x0000) Bit Assignments                                                    */
 /**************************************************************************************************/
 
-#define FPGAVersion_ZERO_MASK   0x00FFFF00
+#define FPGAVersion_ZERO_MASK   0x00FFF000
 #define FPGAVersion_TYPE_MASK   0xF0000000
 #define FPGAVersion_FORM_MASK   0x0f000000
 #define FPGAVersion_FORM_SHIFT  24
 #define FPGAVersion_TYPE_SHIFT  28
-#define FPGAVersion_VER_MASK    0x000000FF
+#define FPGAVersion_VER_MASK    0x00000FFF
 
 
 

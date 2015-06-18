@@ -42,9 +42,8 @@ static epicsUInt8 vme_level_mask = 0;
 
 static const
 struct VMECSRID vmeEvgIDs[] = {
-    {MRF_VME_IEEE_OUI,
-     MRF_VME_EVG_BID|MRF_SERIES_230,
-     VMECSRANY},
+    {MRF_VME_IEEE_OUI,MRF_VME_EVG_BID|MRF_SERIES_230, VMECSRANY},
+    {MRF_VME_IEEE_OUI, MRF_VME_EVM_300, VMECSRANY},
     VMECSR_END
 };
 
@@ -159,7 +158,7 @@ void checkVersion(volatile epicsUInt8 *base, unsigned int required,
     ver = v & FPGAVersion_VER_MASK;
 
     if(ver < required) {
-        printf("Firmware version >= %u is required\n", required);
+        printf("Firmware version >= %u is required got %u\n", required,ver);
         throw std::runtime_error("Firmware version not supported");
 
     } else if(ver < recommended) {
@@ -195,8 +194,9 @@ mrmEvgSetupVME (
         }
 
         /*csrCpuAddr is VME-CSR space CPU address for the board*/
-        volatile unsigned char* csrCpuAddr =                
-                                    devCSRTestSlot(vmeEvgIDs,slot,&info);
+        volatile unsigned char* csrCpuAddr = //devCSRProbeSlot(slot);
+                                    devCSRTestSlot(vmeEvgIDs,slot,&info); //FIXME: add support for EVM id
+
 
         if(!csrCpuAddr) {
             errlogPrintf("No EVG in slot %d\n",slot);
@@ -221,7 +221,9 @@ mrmEvgSetupVME (
                 printf("Failed to set CSR Base address in ADER1.  Check VME bus and card firmware version.\n");
                 return -1;
             }
-        }
+        } //FIXME: duplicate and add support for VME function 2, map it on the end of function 1?
+
+
 
         /* Create a static string for the card description (needed by vxWorks) */
         char *Description = allocSNPrintf(40, "EVG-%d '%s' slot %d",
@@ -235,7 +237,8 @@ mrmEvgSetupVME (
             vmeAddress,                            // Physical address of register space
             EVG_REGMAP_SIZE,                       // Size of card's register space
             (volatile void **)(void *)&regCpuAddr  // Local address of card's register map
-        );    
+        );  //FIXME: duplicate and add support for VME function 2, map it on the end of function 1?
+
 
         if(status) {
             errlogPrintf("Failed to map VME address %08x\n", vmeAddress);

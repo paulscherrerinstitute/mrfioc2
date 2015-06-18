@@ -18,3 +18,7 @@ rtf
 *.creator.user
 *.files
 *.includes
+*.configure
+*.autosave
+
+configure/
