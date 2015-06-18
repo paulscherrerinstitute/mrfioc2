@@ -126,10 +126,10 @@ OBJECT_BEGIN(EVR) {
 
     OBJECT_PROP2("External Inhibit", &EVR::extInhib, &EVR::setExtInhib);
 
-    OBJECT_PROP1("dc tv", &EVR::delayCompensationTarget);
-    OBJECT_PROP1("dc tpd", &EVR::delayCompensationRxValue);
-    OBJECT_PROP1("dc id", &EVR::delayCompensationIntValue);
-    OBJECT_PROP1("dc s", &EVR::delayCompensationStatus);
+    OBJECT_PROP2("dc tv", &EVR::delayCompensationTarget, &EVR::setDelayCompensationTarget);
+    OBJECT_PROP2("dc tpd", &EVR::delayCompensationRxValue, &EVR::setDelayCompensationRxValue);
+    OBJECT_PROP2("dc id", &EVR::delayCompensationIntValue, &EVR::setDelayCompensationIntValue);
+    OBJECT_PROP2("dc s", &EVR::delayCompensationStatus, &EVR::setDelayCompensationStatus);
 
     OBJECT_PROP1("PLL Lock Status", &EVR::pllLocked);
     OBJECT_PROP2("PLL Bandwidth", &EVR::pllBandwidthRaw, &EVR::setPllBandwidthRaw);

@@ -641,9 +641,19 @@ EVRMRM::delayCompensationTarget() const{
     return READ32(base, DCTarget);
 }
 
+void
+EVRMRM::setDelayCompensationTarget(epicsUInt32 target){
+    WRITE32(base, DCTarget, target);
+}
+
 epicsUInt32
 EVRMRM::delayCompensationRxValue() const{
     return READ32(base, DCRxValue);
+}
+
+void
+EVRMRM::setDelayCompensationRxValue(epicsUInt32 rx){
+    WRITE32(base, DCRxValue, rx);
 }
 
 epicsUInt32
@@ -651,9 +661,19 @@ EVRMRM::delayCompensationIntValue() const{
     return READ32(base, DCIntValue);
 }
 
+void
+EVRMRM::setDelayCompensationIntValue(epicsUInt32 internal){
+    WRITE32(base, DCIntValue, internal);
+}
+
 epicsUInt32
 EVRMRM::delayCompensationStatus() const{
     return READ32(base, DCStatus);
+}
+
+void
+EVRMRM::setDelayCompensationStatus(epicsUInt32 status){
+    WRITE32(base, DCStatus, status);
 }
 
 bool

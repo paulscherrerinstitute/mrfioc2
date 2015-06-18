@@ -353,28 +353,56 @@ record(bo, "$(SYS)-$(EVR):Link-RxMode-Sel") {
 }
 
 ## Delay compensation records
-record(ai, "$(SYS)-$(EVR):DlyCompensation-Target-I") {
+record(ao, "$(SYS)-$(EVR):DlyCompensation-Target-SP") {
+  field(DTYP, "Obj Prop uint32")
+  field(INP , "@OBJ=$(EVR), PROP=dc tv")
+  field(VAL, "$(DlyCompensation-Target-SP\=0)")
+  field(DESC, "Delay compensation target value")
+}
+
+record(ai, "$(SYS)-$(EVR):DlyCompensation-Target-RB") {
   field(DTYP, "Obj Prop uint32")
   field(INP , "@OBJ=$(EVR), PROP=dc tv")
   field(SCAN, "1 second")
   field(DESC, "Delay compensation target value")
 }
 
-record(ai, "$(SYS)-$(EVR):DlyCompensation-Path-I") {
+record(ao, "$(SYS)-$(EVR):DlyCompensation-Path-SP") {
+  field(DTYP, "Obj Prop uint32")
+  field(INP , "@OBJ=$(EVR), PROP=dc tpd")
+  field(VAL, "$(DlyCompensation-Path-SP\=0)")
+  field(DESC, "Delay compens trans path dly")
+}
+
+record(ai, "$(SYS)-$(EVR):DlyCompensation-Path-RB") {
   field(DTYP, "Obj Prop uint32")
   field(INP , "@OBJ=$(EVR), PROP=dc tpd")
   field(SCAN, "1 second")
   field(DESC, "Delay compens trans path dly")
 }
 
-record(ai, "$(SYS)-$(EVR):DlyCompensation-Internal-I") {
+record(ao, "$(SYS)-$(EVR):DlyCompensation-Internal-SP") {
+  field(DTYP, "Obj Prop uint32")
+  field(INP , "@OBJ=$(EVR), PROP=dc id")
+  field(VAL, "$(DlyCompensation-Internal-SP\=0)")
+  field(DESC, "Delay compensation internal delay")
+}
+
+record(ai, "$(SYS)-$(EVR):DlyCompensation-Internal-RB") {
   field(DTYP, "Obj Prop uint32")
   field(INP , "@OBJ=$(EVR), PROP=dc id")
   field(SCAN, "1 second")
   field(DESC, "Delay compensation internal delay")
 }
 
-record(ai, "$(SYS)-$(EVR):DlyCompensation-Status-I") {
+record(ao, "$(SYS)-$(EVR):DlyCompensation-Status-SP") {
+  field(DTYP, "Obj Prop uint32")
+  field(INP , "@OBJ=$(EVR), PROP=dc s")
+  field(VAL, "$(DlyCompensation-Status-SP\=0)")
+  field(DESC, "Delay compensation status")
+}
+
+record(ai, "$(SYS)-$(EVR):DlyCompensation-Status-RB") {
   field(DTYP, "Obj Prop uint32")
   field(INP , "@OBJ=$(EVR), PROP=dc s")
   field(SCAN, "1 second")

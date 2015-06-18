@@ -117,9 +117,13 @@ public:
     */
    /*@{*/
    virtual epicsUInt32 delayCompensationTarget() const = 0;
+   virtual void setDelayCompensationTarget(epicsUInt32 target) = 0;
    virtual epicsUInt32 delayCompensationRxValue() const = 0;
+   virtual void setDelayCompensationRxValue(epicsUInt32 rx) = 0;
    virtual epicsUInt32 delayCompensationIntValue() const = 0;
+   virtual void setDelayCompensationIntValue(epicsUInt32 internal) = 0;
    virtual epicsUInt32 delayCompensationStatus() const = 0;
+   virtual void setDelayCompensationStatus(epicsUInt32 status) = 0;
    /*@}*/
 
   /**\defgroup pll Module reference clock
