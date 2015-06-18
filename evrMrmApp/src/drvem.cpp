@@ -1096,6 +1096,32 @@ EVRMRM::dbus() const
     return (READ32(base, Status) & Status_dbus_mask) >> Status_dbus_shift;
 }
 
+epicsUInt32
+EVRMRM::dbusToPulserMapping(epicsUInt8 dbus) const{
+    if(dbus > 7){
+        throw std::out_of_range("Invalid DBus bit selected. Max: 7");
+    }
+
+    return READ32(base, DBusTrigger(dbus));
+}
+
+void
+EVRMRM::setDbusToPulserMapping(epicsUInt8 dbus, epicsUInt32 pulsers){
+    epicsUInt32 check;
+
+    check = 1 << PulserMax;
+    if(pulsers >= check){
+        throw std::out_of_range("Invalid pulsers selected.");
+    }
+
+    if(dbus > 7){
+        throw std::out_of_range("Invalid DBus bit selected. Max: 7");
+    }
+
+
+    return WRITE32(base, DBusTrigger(dbus), pulsers);
+}
+
 void
 EVRMRM::enableIRQ(void)
 {

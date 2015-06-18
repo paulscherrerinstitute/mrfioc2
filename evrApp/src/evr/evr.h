@@ -214,6 +214,8 @@ public:
   /*@}*/
 
   virtual epicsUInt16 dbus() const=0;
+  virtual epicsUInt32 dbusToPulserMapping(epicsUInt8 dbus) const = 0;
+  virtual void setDbusToPulserMapping(epicsUInt8 dbus, epicsUInt32 pulsers) = 0;
 
   virtual epicsUInt32 heartbeatTIMOCount() const=0;
   virtual IOSCANPVT heartbeatTIMOOccured() const=0;
@@ -234,6 +236,24 @@ public:
 
   void setPllBandwidthRaw(epicsUInt8 r){setPllBandwidth((PLLBandwidth)r);}
   epicsUInt8 pllBandwidthRaw() const{return (epicsUInt8)pllBandwidth();}
+
+  void setDbusToPulserMapping0(epicsUInt32 pulsers){setDbusToPulserMapping(0, pulsers);}
+  epicsUInt32 dbusToPulserMapping0() const{return dbusToPulserMapping(0);}
+  void setDbusToPulserMapping1(epicsUInt32 pulsers){setDbusToPulserMapping(1, pulsers);}
+  epicsUInt32 dbusToPulserMapping1() const{return dbusToPulserMapping(1);}
+  void setDbusToPulserMapping2(epicsUInt32 pulsers){setDbusToPulserMapping(2, pulsers);}
+  epicsUInt32 dbusToPulserMapping2() const{return dbusToPulserMapping(2);}
+  void setDbusToPulserMapping3(epicsUInt32 pulsers){setDbusToPulserMapping(3, pulsers);}
+  epicsUInt32 dbusToPulserMapping3() const{return dbusToPulserMapping(3);}
+  void setDbusToPulserMapping4(epicsUInt32 pulsers){setDbusToPulserMapping(4, pulsers);}
+  epicsUInt32 dbusToPulserMapping4() const{return dbusToPulserMapping(4);}
+  void setDbusToPulserMapping5(epicsUInt32 pulsers){setDbusToPulserMapping(5, pulsers);}
+  epicsUInt32 dbusToPulserMapping5() const{return dbusToPulserMapping(5);}
+  void setDbusToPulserMapping6(epicsUInt32 pulsers){setDbusToPulserMapping(6, pulsers);}
+  epicsUInt32 dbusToPulserMapping6() const{return dbusToPulserMapping(6);}
+  void setDbusToPulserMapping7(epicsUInt32 pulsers){setDbusToPulserMapping(7, pulsers);}
+  epicsUInt32 dbusToPulserMapping7() const{return dbusToPulserMapping(7);}
+
   /*@}*/
 
 private:

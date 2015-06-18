@@ -183,7 +183,7 @@
 #define U32_PulserNScal 0x204
 #define U32_PulserNDely 0x208
 #define U32_PulserNWdth 0x20c
-#  define PulserMax 10
+#  define PulserMax 24
 
 /* 0 <= N <= 9 */
 #define U32_PulserCtrl(N) (U32_PulserNCtrl + (16*(N)))
