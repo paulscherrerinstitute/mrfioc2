@@ -468,9 +468,9 @@ evgSoftSeq::commitSoftSeq() {
             timestamp.push_back(0xffffffff);
             eventCode.push_back(0);
             eventMasks.push_back(0);
+
         }
         preTs = curTs;
-
         timestamp.push_back(tsUInt64);
         eventCode.push_back(ecUInt8);
         eventMasks.push_back(mskUInt8);
@@ -511,6 +511,7 @@ evgSoftSeq::commitSoftSeq() {
     m_timestampCt = timestamp;
     m_eventCodeCt = eventCode;
     m_eventMaskCt = eventMasks;
+
     m_trigSrcCt = m_trigSrc;
     m_runModeCt = m_runMode;
 

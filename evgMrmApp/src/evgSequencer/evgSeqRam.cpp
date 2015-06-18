@@ -48,8 +48,12 @@ std::vector<epicsUInt8> evgSeqRam::getEventMask()
 {
     std::vector<epicsUInt8> eventMask(2048,0);
 
-    for(unsigned int i =0; i < eventMask.size();i++)
+    for(unsigned int i =0; i < eventMask.size();i++){
         eventMask[i] = READ8(m_pReg, SeqRamMask(m_id,i));
+        printf("%d ",eventMask[i]);
+    }
+    printf("\n");
+
 
     return eventMask;
 }

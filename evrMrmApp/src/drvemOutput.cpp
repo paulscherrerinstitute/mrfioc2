@@ -28,6 +28,7 @@ MRMOutput::MRMOutput(const std::string& n, EVRMRM* o, OutputType t, unsigned int
     ,isEnabled(true)
 {
     shadowSource = sourceInternal();
+    shadowSource2 = 63; //disable
 }
 
 MRMOutput::~MRMOutput()
@@ -55,7 +56,26 @@ MRMOutput::setSource(epicsUInt32 v)
     shadowSource = v;
 
     if(isEnabled)
-        setSourceInternal(v);
+        setSourceInternal(shadowSource,shadowSource2);
+}
+
+epicsUInt32 MRMOutput::source2() const
+{
+    return shadowSource2;
+}
+
+void MRMOutput::setSource2(epicsUInt32 v)
+{
+    if( ! ( (v<=63 && v>=62) ||
+            (v<=42 && v>=32) ||
+            (v<=15) )
+    )
+        throw std::out_of_range("Mapping code is out of range");
+
+    shadowSource2 = v;
+
+    if(isEnabled)
+        setSourceInternal(shadowSource,shadowSource2);
 }
 
 bool
@@ -73,9 +93,9 @@ MRMOutput::enable(bool e)
     isEnabled = e;
 
     if(isEnabled)
-        setSourceInternal(shadowSource);
+        setSourceInternal(shadowSource,shadowSource2);
     else
-        setSourceInternal(63); // Force Off
+        setSourceInternal(63,63); // Force Off
 }
 
 epicsUInt32
@@ -94,13 +114,33 @@ MRMOutput::sourceInternal() const
     }
     val &= Output_mask(N);
     val >>= Output_shift(N);
-    return val;
+    return val & 0xff;
+}
+
+epicsUInt32
+MRMOutput::sourceInternal2() const
+{
+    epicsUInt32 val=64; // an invalid value
+    switch(type) {
+    case OutputInt:
+        return  READ32(owner->base, IRQPulseMap) & 0xffff;
+    case OutputFP:
+        val = READ32(owner->base, OutputMapFP(N)); break;
+    case OutputFPUniv:
+        val = READ32(owner->base, OutputMapFPUniv(N)); break;
+    case OutputRB:
+        val = READ32(owner->base, OutputMapRB(N)); break;
+    }
+    val &= Output_mask(N);
+    val >>= Output_shift(N);
+    return val>>8;
 }
 
 void
-MRMOutput::setSourceInternal(epicsUInt32 v)
+MRMOutput::setSourceInternal(epicsUInt32 v, epicsUInt32 v1)
 {
 
+    v= (v1<<8) | v;
     epicsUInt32 val=63;
     switch(type) {
     case OutputInt:
