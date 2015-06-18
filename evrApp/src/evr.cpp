@@ -196,6 +196,7 @@ OBJECT_BEGIN(Pulser) {
 OBJECT_BEGIN(PreScaler) {
 
     OBJECT_PROP2("Divide", &PreScaler::prescaler, &PreScaler::setPrescaler);
+    OBJECT_PROP2("Pulser mapping", &PreScaler::pulserMapping, &PreScaler::setPulserMapping);
 
 } OBJECT_END(PreScaler)
 

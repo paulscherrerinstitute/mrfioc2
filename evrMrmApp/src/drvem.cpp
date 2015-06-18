@@ -258,7 +258,7 @@ try{
     for(size_t i=0; i<nPS; i++){
         std::ostringstream name;
         name<<id<<":PS"<<i;
-        prescalers[i]=new MRMPreScaler(name.str(), *this,base+U32_Scaler(i));
+        prescalers[i]=new MRMPreScaler(name.str(), *this, base, i);
     }
 
     pulsers.resize(nPul);

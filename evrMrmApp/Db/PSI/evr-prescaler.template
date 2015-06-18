@@ -29,3 +29,21 @@ record(calc, "$(SYS)-$(EVR):$(OBJ)$(ID)-Rate-I") {
   field(EGU, "MHz")
   field(PREC, "2")
 }
+
+
+record(mbboDirect, "$(SYS)-$(EVR):$(OBJ)$(ID)-PulserMap-SP") {
+  field(DTYP, "Obj Prop uint32")
+  field(OUT , "@OBJ=$(EVR):$(OBJ)$(ID), PROP=Pulser mapping")
+  field(PINI, "YES")
+  field(DESC, "Pulser mapping")
+  field(VAL , "$($(OBJ)$(ID)-PulserMap-SP\=0)")
+  field(NOBT, "16")
+  field(MASK, "0xFFFFFFFF")
+  field(FLNK, "$(SYS)-$(EVR):$(OBJ)$(ID)-PulserMap-RB")
+}
+
+
+record(ai, "$(SYS)-$(EVR):$(OBJ)$(ID)-PulserMap-RB") {
+  field(DTYP, "Obj Prop uint32")
+  field(INP , "@OBJ=$(EVR):$(OBJ)$(ID), PROP=Pulser mapping")
+}
