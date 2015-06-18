@@ -195,6 +195,7 @@ record(mbbo, "$(SYS)-$(EVR):Pll-Bandwidth-Sel") {
   field( FTSV, "INVALID")
   field( FFSV, "INVALID")
   field( UNSV, "INVALID")
+  field( FLNK, "$(SYS)-$(EVR):Pll-Bandwidth-RB")
   info(autosaveFields_pass0, "VAL")
 }
 
