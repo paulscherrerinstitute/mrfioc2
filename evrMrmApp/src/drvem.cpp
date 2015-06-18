@@ -1126,12 +1126,15 @@ EVRMRM::dbusToPulserMapping(epicsUInt8 dbus) const{
 }
 
 void
-EVRMRM::setDbusToPulserMapping(epicsUInt8 dbus, epicsUInt32 pulsers){
-    epicsUInt32 check;
+EVRMRM::setDbusToPulserMapping(epicsUInt8 dbus, epicsUInt32 pul){
+    epicsUInt32 check, noOfPulsers;
 
-    check = 1 << PulserMax;
-    if(pulsers >= check){
-        throw std::out_of_range("Invalid pulsers selected.");
+    noOfPulsers = pulsers.size();
+    if(noOfPulsers < 32){
+        check = 1 << noOfPulsers;
+        if(pul >= check){
+            throw std::out_of_range("Invalid pulsers selected.");
+        }
     }
 
     if(dbus > 7){
@@ -1139,7 +1142,7 @@ EVRMRM::setDbusToPulserMapping(epicsUInt8 dbus, epicsUInt32 pulsers){
     }
 
 
-    return WRITE32(base, DBusTrigger(dbus), pulsers);
+    return WRITE32(base, DBusTrigger(dbus), pul);
 }
 
 void
