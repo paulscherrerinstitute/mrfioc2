@@ -209,7 +209,7 @@ public:
 
     virtual epicsUInt16 dbus() const;
     virtual epicsUInt32 dbusToPulserMapping(epicsUInt8 dbus) const;
-    virtual void setDbusToPulserMapping(epicsUInt8 dbus, epicsUInt32 pul);
+    virtual void setDbusToPulserMapping(epicsUInt8 dbus, epicsUInt32 pulsers);
 
     virtual epicsUInt32 heartbeatTIMOCount() const{return count_heartbeat;}
     virtual IOSCANPVT heartbeatTIMOOccured() const{return IRQheartbeat;}
