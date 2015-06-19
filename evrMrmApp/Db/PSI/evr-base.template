@@ -356,7 +356,7 @@ record(bo, "$(SYS)-$(EVR):Link-RxMode-Sel") {
 ## Delay compensation records
 record(longout, "$(SYS)-$(EVR):DlyCompensation-Target-SP") {
   field(DTYP, "Obj Prop uint32")
-  field(INP , "@OBJ=$(EVR), PROP=dc tv")
+  field(OUT , "@OBJ=$(EVR), PROP=dc tv")
   field(VAL, "$(DlyCompensation-Target-SP\=0)")
   field(DESC, "Delay compensation target value")
 }
@@ -370,7 +370,7 @@ record(longin, "$(SYS)-$(EVR):DlyCompensation-Target-RB") {
 
 record(longout, "$(SYS)-$(EVR):DlyCompensation-Path-SP") {
   field(DTYP, "Obj Prop uint32")
-  field(INP , "@OBJ=$(EVR), PROP=dc tpd")
+  field(OUT , "@OBJ=$(EVR), PROP=dc tpd")
   field(VAL, "$(DlyCompensation-Path-SP\=0)")
   field(DESC, "Delay compens trans path dly")
 }
@@ -384,7 +384,7 @@ record(longin, "$(SYS)-$(EVR):DlyCompensation-Path-RB") {
 
 record(longout, "$(SYS)-$(EVR):DlyCompensation-Internal-SP") {
   field(DTYP, "Obj Prop uint32")
-  field(INP , "@OBJ=$(EVR), PROP=dc id")
+  field(OUT , "@OBJ=$(EVR), PROP=dc id")
   field(VAL, "$(DlyCompensation-Internal-SP\=0)")
   field(DESC, "Delay compensation internal delay")
 }
@@ -398,7 +398,7 @@ record(longin, "$(SYS)-$(EVR):DlyCompensation-Internal-RB") {
 
 record(longout, "$(SYS)-$(EVR):DlyCompensation-Status-SP") {
   field(DTYP, "Obj Prop uint32")
-  field(INP , "@OBJ=$(EVR), PROP=dc s")
+  field(OUT , "@OBJ=$(EVR), PROP=dc s")
   field(VAL, "$(DlyCompensation-Status-SP\=0)")
   field(DESC, "Delay compensation status")
 }

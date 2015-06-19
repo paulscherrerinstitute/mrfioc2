@@ -28,7 +28,7 @@ MRMOutput::MRMOutput(const std::string& n, EVRMRM* o, OutputType t, unsigned int
     ,isEnabled(true)
 {
     shadowSource = sourceInternal();
-    shadowSource2 = 63; //disable
+    shadowSource2 = 63; //force low, for backwards compatiblity
 }
 
 MRMOutput::~MRMOutput()
@@ -140,7 +140,7 @@ void
 MRMOutput::setSourceInternal(epicsUInt32 v, epicsUInt32 v1)
 {
 
-    v= (v1<<8) | v;
+    v |= (v1<<8);
     epicsUInt32 val=63;
     switch(type) {
     case OutputInt:

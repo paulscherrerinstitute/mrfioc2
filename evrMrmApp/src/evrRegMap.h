@@ -195,10 +195,10 @@
 #  define PulserCtrl_srst 0x20
 #  define PulserCtrl_sset 0x40
 #  define PulserCtrl_rbv  0x80
-#  define PulserCtrl_gateMask           0x00FF0000
-#  define PulserCtrl_gateMask_shift     16
-#  define PulserCtrl_gateEnable         0xFF000000
-#  define PulserCtrl_gateEnable_shift   24
+#  define PulserCtrl_gateMask           0xFF000000
+#  define PulserCtrl_gateMask_shift     24
+#  define PulserCtrl_gateEnable         0x00FF0000
+#  define PulserCtrl_gateEnable_shift   16
 
 #define U32_PulserScal(N) (U32_PulserNScal + (16*(N)))
 #define U32_PulserDely(N) (U32_PulserNDely + (16*(N)))

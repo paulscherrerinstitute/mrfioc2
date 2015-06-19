@@ -1,4 +1,4 @@
-file "db/evr-vmerf230.template"
+file "db/evr-vme-300.template"
 {
     {
     
@@ -406,6 +406,10 @@ pattern {PID   F,      EVT, ID}
         {13,   Trig,   0,   0 }
         {14,   Trig,   0,   0 }
         {15,   Trig,   0,   0 }
+        {28,   Trig,   0,   0 }
+        {29,   Trig,   0,   0 }
+        {30,   Trig,   0,   0 }
+        {31,   Trig,   0,   0 }
 
 
         {0,    Set,   0,   0 }
@@ -424,6 +428,10 @@ pattern {PID   F,      EVT, ID}
         {13,   Set,   0,   0 }
         {14,   Set,   0,   0 }
         {15,   Set,   0,   0 }
+        {28,   Set,   0,   0 }
+        {29,   Set,   0,   0 }
+        {30,   Set,   0,   0 }
+        {31,   Set,   0,   0 }
 
 
         {0,    Reset,   0,   0 }
@@ -442,6 +450,10 @@ pattern {PID   F,      EVT, ID}
         {13,   Reset,   0,   0 }
         {14,   Reset,   0,   0 }
         {15,   Reset,   0,   0 }
+        {28,   Reset,   0,   0 }
+        {29,   Reset,   0,   0 }
+        {30,   Reset,   0,   0 }
+        {31,   Reset,   0,   0 }
 }
 
 ## UNIV-LVPECL-DLY Delay module

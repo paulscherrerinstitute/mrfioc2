@@ -173,8 +173,8 @@ try{
 
     formFactor form = getFormFactor();
 
-    size_t nPul=16; // number of pulsers
-    size_t nPS=3;   // number of prescalers
+    size_t nPul=32; // number of pulsers
+    size_t nPS=8;   // number of prescalers
     // # of outputs (Front panel, FP Universal, Rear transition module)
     size_t nOFP=0, nOFPUV=0, nORB=0;
     size_t nOFPDly=0;  // # of slots== # of delay modules. Some of the FP Universals have GPIOs. Each FPUV==2 GPIO pins, 2 FPUVs in one slot = 4 GPIO pins. One dly module uses 4 GPIO pins.
@@ -197,13 +197,23 @@ try{
         nIFP=1;
         break;
     case formFactor_VME64:
-        nOFP=7;
-        nCML=3; // OFP 4-6 are CML
-        nOFPDly=2;
-        nOFPUV=4;
+        //This is for vme300
+        //FIXME: add form factor for 300 series?
+        nOFP=4;
+        nCML=4; // OFP 4-6 are CML
+        nOFPDly=4;
+        nOFPUV=8;
         nORB=16;
         nIFP=2;
         break;
+//    case formFactor_VME64:
+//        nOFP=7;
+//        nCML=3; // OFP 4-6 are CML
+//        nOFPDly=2;
+//        nOFPUV=4;
+//        nORB=16;
+//        nIFP=2;
+//        break;
     case formFactor_CPCIFULL:
         nOFPUV=4;
         kind=MRMCML::typeTG300;

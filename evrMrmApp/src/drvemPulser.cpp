@@ -245,10 +245,9 @@ MRMPulser::setGateMask(epicsUInt32 mask){
     epicsUInt32 pulserCtrl;
 
     // TODO check if out of range
-    mask = mask << PulserCtrl_gateMask_shift;
     pulserCtrl = READ32(owner.base, PulserCtrl(id));
     pulserCtrl = pulserCtrl & ~PulserCtrl_gateMask;
-    pulserCtrl = pulserCtrl | mask;
+    pulserCtrl |= (mask << PulserCtrl_gateMask_shift);
     WRITE32(owner.base, PulserCtrl(id), pulserCtrl);
 }
 
@@ -265,9 +264,8 @@ MRMPulser::setGateEnable(epicsUInt32 gate){
     epicsUInt32 pulserCtrl;
 
     // TODO check if out of range
-    gate = gate << PulserCtrl_gateEnable_shift;
     pulserCtrl = READ32(owner.base, PulserCtrl(id));
     pulserCtrl = pulserCtrl & ~PulserCtrl_gateEnable;
-    pulserCtrl = pulserCtrl | gate;
+    pulserCtrl |= (gate << PulserCtrl_gateEnable_shift);
     WRITE32(owner.base, PulserCtrl(id), pulserCtrl);
 }
