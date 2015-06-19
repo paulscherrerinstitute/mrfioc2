@@ -177,6 +177,7 @@ OBJECT_BEGIN(Input) {
 OBJECT_BEGIN(Output) {
 
     OBJECT_PROP2("Map", &Output::source, &Output::setSource);
+    OBJECT_PROP2("MapAlt", &Output::source2, &Output::setSource2);
 
     OBJECT_PROP2("Enable", &Output::enabled, &Output::enable);
 

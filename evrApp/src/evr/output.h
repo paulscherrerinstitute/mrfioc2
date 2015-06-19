@@ -43,6 +43,9 @@ public:
   virtual epicsUInt32 source() const=0;
   virtual void setSource(epicsUInt32)=0;
 
+  virtual epicsUInt32 source2() const=0;
+  virtual void setSource2(epicsUInt32)=0;
+
   virtual bool enabled() const=0;
   virtual void enable(bool)=0;
   /*@}*/
