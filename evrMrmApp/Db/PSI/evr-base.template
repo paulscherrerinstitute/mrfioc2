@@ -359,6 +359,7 @@ record(longout, "$(SYS)-$(EVR):DlyCompensation-Target-SP") {
   field(OUT , "@OBJ=$(EVR), PROP=dc tv")
   field(VAL, "$(DlyCompensation-Target-SP\=0)")
   field(DESC, "Delay compensation target value")
+  field(FLNK, "$(SYS)-$(EVR):DlyCompensation-Target-RB")
 }
 
 record(longin, "$(SYS)-$(EVR):DlyCompensation-Target-RB") {
@@ -372,6 +373,7 @@ record(longout, "$(SYS)-$(EVR):DlyCompensation-Path-SP") {
   field(OUT , "@OBJ=$(EVR), PROP=dc tpd")
   field(VAL, "$(DlyCompensation-Path-SP\=0)")
   field(DESC, "Delay compens trans path dly")
+  field(FLNK, "$(SYS)-$(EVR):DlyCompensation-Path-RB")
 }
 
 record(longin, "$(SYS)-$(EVR):DlyCompensation-Path-RB") {
@@ -385,6 +387,7 @@ record(longout, "$(SYS)-$(EVR):DlyCompensation-Internal-SP") {
   field(OUT , "@OBJ=$(EVR), PROP=dc id")
   field(VAL, "$(DlyCompensation-Internal-SP\=0)")
   field(DESC, "Delay compensation internal delay")
+  field(FLNK, "$(SYS)-$(EVR):DlyCompensation-Internal-RB")
 }
 
 record(longin, "$(SYS)-$(EVR):DlyCompensation-Internal-RB") {
@@ -398,6 +401,7 @@ record(longout, "$(SYS)-$(EVR):DlyCompensation-Status-SP") {
   field(OUT , "@OBJ=$(EVR), PROP=dc s")
   field(VAL, "$(DlyCompensation-Status-SP\=0)")
   field(DESC, "Delay compensation status")
+  field(FLNK, "$(SYS)-$(EVR):DlyCompensation-Status-RB")
 }
 
 record(longin, "$(SYS)-$(EVR):DlyCompensation-Status-RB") {
