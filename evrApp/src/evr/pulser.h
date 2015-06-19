@@ -105,11 +105,11 @@ public:
    * Settings for mask and enable gates
    */
   /*@{*/
-  virtual epicsUInt16 gateMask() const = 0;
-  virtual void setGateMask(epicsUInt16 mask) = 0;
+  virtual epicsUInt32 gateMask() const = 0;
+  virtual void setGateMask(epicsUInt32 mask) = 0;
 
-  virtual epicsUInt16 gateEnable() const = 0;
-  virtual void setGateEnable(epicsUInt16 mask) = 0;
+  virtual epicsUInt32 gateEnable() const = 0;
+  virtual void setGateEnable(epicsUInt32 mask) = 0;
   /*@}*/
 };
 

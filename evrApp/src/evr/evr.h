@@ -117,9 +117,13 @@ public:
     */
    /*@{*/
    virtual epicsUInt32 delayCompensationTarget() const = 0;
+   virtual void setDelayCompensationTarget(epicsUInt32 target) = 0;
    virtual epicsUInt32 delayCompensationRxValue() const = 0;
+   virtual void setDelayCompensationRxValue(epicsUInt32 rx) = 0;
    virtual epicsUInt32 delayCompensationIntValue() const = 0;
+   virtual void setDelayCompensationIntValue(epicsUInt32 internal) = 0;
    virtual epicsUInt32 delayCompensationStatus() const = 0;
+   virtual void setDelayCompensationStatus(epicsUInt32 status) = 0;
    /*@}*/
 
   /**\defgroup pll Module reference clock
@@ -215,7 +219,7 @@ public:
 
   virtual epicsUInt16 dbus() const=0;
   virtual epicsUInt32 dbusToPulserMapping(epicsUInt8 dbus) const = 0;
-  virtual void setDbusToPulserMapping(epicsUInt8 dbus, epicsUInt32 pulsers) = 0;
+  virtual void setDbusToPulserMapping(epicsUInt8 dbus, epicsUInt32 pul) = 0;
 
   virtual epicsUInt32 heartbeatTIMOCount() const=0;
   virtual IOSCANPVT heartbeatTIMOOccured() const=0;

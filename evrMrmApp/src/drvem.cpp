@@ -641,9 +641,19 @@ EVRMRM::delayCompensationTarget() const{
     return READ32(base, DCTarget);
 }
 
+void
+EVRMRM::setDelayCompensationTarget(epicsUInt32 target){
+    WRITE32(base, DCTarget, target);
+}
+
 epicsUInt32
 EVRMRM::delayCompensationRxValue() const{
     return READ32(base, DCRxValue);
+}
+
+void
+EVRMRM::setDelayCompensationRxValue(epicsUInt32 rx){
+    WRITE32(base, DCRxValue, rx);
 }
 
 epicsUInt32
@@ -651,9 +661,19 @@ EVRMRM::delayCompensationIntValue() const{
     return READ32(base, DCIntValue);
 }
 
+void
+EVRMRM::setDelayCompensationIntValue(epicsUInt32 internal){
+    WRITE32(base, DCIntValue, internal);
+}
+
 epicsUInt32
 EVRMRM::delayCompensationStatus() const{
     return READ32(base, DCStatus);
+}
+
+void
+EVRMRM::setDelayCompensationStatus(epicsUInt32 status){
+    WRITE32(base, DCStatus, status);
 }
 
 bool
@@ -1106,12 +1126,15 @@ EVRMRM::dbusToPulserMapping(epicsUInt8 dbus) const{
 }
 
 void
-EVRMRM::setDbusToPulserMapping(epicsUInt8 dbus, epicsUInt32 pulsers){
-    epicsUInt32 check;
+EVRMRM::setDbusToPulserMapping(epicsUInt8 dbus, epicsUInt32 pul){
+    epicsUInt32 check, noOfPulsers;
 
-    check = 1 << PulserMax;
-    if(pulsers >= check){
-        throw std::out_of_range("Invalid pulsers selected.");
+    noOfPulsers = pulsers.size();
+    if(noOfPulsers < 32){
+        check = 1 << noOfPulsers;
+        if(pul >= check){
+            throw std::out_of_range("Invalid pulsers selected.");
+        }
     }
 
     if(dbus > 7){
@@ -1119,7 +1142,7 @@ EVRMRM::setDbusToPulserMapping(epicsUInt8 dbus, epicsUInt32 pulsers){
     }
 
 
-    return WRITE32(base, DBusTrigger(dbus), pulsers);
+    return WRITE32(base, DBusTrigger(dbus), pul);
 }
 
 void
