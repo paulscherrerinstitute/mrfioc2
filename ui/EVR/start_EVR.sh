@@ -12,7 +12,7 @@ usage()
     echo "    -s <system name>     The system/project name"
     echo "    -r <EVR name>        Event Receiver name (default: $EVR)"
     echo "    -f <form factor>     EVR form factor (default: $FF)"
-    echo "                         Choices: VME, PCIe"
+    echo "                         Choices: VME, PCIe, VME-300"
     echo "    -h                   This help"
 }
 
@@ -48,7 +48,7 @@ if [ -z $SYS ]; then
     exit 1
 fi
 
-if [ $FF != "VME" ] && [ $FF != "PCIe" ]; then
+if [ $FF != "VME" ] && [ $FF != "PCIe" ] && [ $FF != "VME-300" ]; then
     echo "Invalid form factor selected: $FF"
     echo "        Available choices: VME, PCIe"
     exit 1
