@@ -84,6 +84,9 @@
 #define  U32_SeqControl_base    0x0070  // Sequencer Control Register Array Base
 #define  U32_SeqControl(n)      (U32_SeqControl_base + (4*n))
 
+#define  U8_SeqSWMask_base      0x0072  // Sequence RAM SW mask register. TODO currently implemented in main EVG class. Maybe this is not the right place...
+#define  U8_SeqSWMask(n)        (U8_SeqSWMask_base + (4*n))
+
 #define  U8_SeqTrigSrc_base     0x0073
 #define  U8_SeqTrigSrc(n)       (U8_SeqTrigSrc_base + (4*n))
 

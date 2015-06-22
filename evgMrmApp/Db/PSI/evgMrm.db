@@ -62,3 +62,27 @@ record(longin, "$(SYS)-$(EVG):DbusStatus-RB" ) {
     field( INP , "@OBJ=$(EVG), PROP=DbusStatus")
 }
 
+# Sequence SW mask from sequence ram
+record(longin, "$(SYS)-$(EVG):SoftSeq-0-SwMask-RB" ) {
+    field( DESC, "Seq. RAM SW mask")
+    field( DTYP, "Obj Prop uint16")
+    field( INP , "@OBJ=$(EVG), PROP=Seq 0 mask")
+}
+
+record(longin, "$(SYS)-$(EVG):SoftSeq-1-SwMask-RB" ) {
+    field( DESC, "Seq. RAM SW mask")
+    field( DTYP, "Obj Prop uint16")
+    field( INP , "@OBJ=$(EVG), PROP=Seq 1 mask")
+}
+
+record(longout, "$(SYS)-$(EVG):SoftSeq-0-SwMask-SP" ) {
+    field( DESC, "Seq. RAM SW mask")
+    field( DTYP, "Obj Prop uint16")
+    field( OUT , "@OBJ=$(EVG), PROP=Seq 0 mask")
+}
+
+record(longout, "$(SYS)-$(EVG):SoftSeq-1-SwMask-SP" ) {
+    field( DESC, "Seq. RAM SW mask")
+    field( DTYP, "Obj Prop uint16")
+    field( OUT , "@OBJ=$(EVG), PROP=Seq 1 mask")
+}

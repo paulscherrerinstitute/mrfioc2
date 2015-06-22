@@ -64,7 +64,9 @@ OBJECT_BEGIN(evgTrigEvt) {
 OBJECT_BEGIN(evgMrm) {
     OBJECT_PROP2("Enable",     &evgMrm::enabled,      &evgMrm::enable);
     OBJECT_PROP1("DbusStatus", &evgMrm::getDbusStatus);
-    OBJECT_PROP1("Version", &evgMrm::getFwVersion);
+    OBJECT_PROP2("Seq 0 mask", &evgMrm::getSWMask0,   &evgMrm::setSWMask0);
+    OBJECT_PROP2("Seq 1 mask", &evgMrm::getSWMask1,   &evgMrm::setSWMask1);
+    OBJECT_PROP1("Version",    &evgMrm::getFwVersion);
     OBJECT_PROP1("Sw Version", &evgMrm::getSwVersion);
 } OBJECT_END(evgMrm)
 

@@ -262,6 +262,31 @@ evgMrm::getDbusStatus() const {
     return READ32(m_pReg, Status);
 }
 
+/* From sequence ram control register */
+void
+evgMrm::setSWMask0(epicsUInt16 mask){
+    WRITE8(m_pReg, SeqSWMask(0), (epicsUInt8)mask);
+}
+
+/* From sequence ram control register */
+epicsUInt16
+evgMrm::getSWMask0() const{
+    return (epicsUInt16)READ8(m_pReg, SeqSWMask(0));
+}
+
+/* From sequence ram control register */
+void
+evgMrm::setSWMask1(epicsUInt16 mask){
+
+    WRITE8(m_pReg, SeqSWMask(1), (epicsUInt8)mask);
+}
+
+/* From sequence ram control register */
+epicsUInt16
+evgMrm::getSWMask1() const{
+    return (epicsUInt16)READ8(m_pReg, SeqSWMask(1));
+}
+
 void
 evgMrm::enable(bool ena) {
     if(ena)

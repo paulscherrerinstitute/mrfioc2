@@ -68,6 +68,14 @@ public:
     void resetMxc(bool reset);
     epicsUInt32 getDbusStatus() const;
 
+    /* From sequence ram control register */
+    void setSWMask0(epicsUInt16 mask);
+    epicsUInt16 getSWMask0() const;
+
+    void setSWMask1(epicsUInt16 mask);
+    epicsUInt16 getSWMask1() const;
+    /*************************************/
+
     /**    Interrupt and Callback    **/
     static void isr(void*);
     static void isr_pci(void*);
