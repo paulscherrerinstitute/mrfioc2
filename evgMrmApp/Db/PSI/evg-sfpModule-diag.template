@@ -1,0 +1,316 @@
+# Diagnostics
+record(longout, "$(SYS)-$(EVG):FCT-SFP$(ID)-tempHAlarm-SP") {
+	field( DESC, "2s complement in 1/256 increments")
+	field( DTYP, "regDev")
+	field( OUT,  "@$(DEVICE):$(BASE)00 T=uint16")
+}
+
+record(longin, "$(SYS)-$(EVG):FCT-SFP$(ID)-tempHAlarm-RB") {
+	field( DESC, "2s complement in 1/256 increments")
+	field( DTYP, "regDev")
+	field( INP,  "@$(DEVICE):$(BASE)00 T=uint16")
+	field( SCAN, "1 second")
+}
+
+record(longout, "$(SYS)-$(EVG):FCT-SFP$(ID)-tempLAlarm-SP") {
+	field( DESC, "2s complement in 1/256 increments")
+	field( DTYP, "regDev")
+	field( OUT,  "@$(DEVICE):$(BASE)02 T=uint16")
+}
+
+record(longin, "$(SYS)-$(EVG):FCT-SFP$(ID)-tempLAlarm-RB") {
+	field( DESC, "2s complement in 1/256 increments")
+	field( DTYP, "regDev")
+	field( INP,  "@$(DEVICE):$(BASE)02 T=uint16")
+	field( SCAN, "1 second")
+}
+
+record(longout, "$(SYS)-$(EVG):FCT-SFP$(ID)-tempHWarning-SP") {
+	field( DESC, "2s complement in 1/256 increments")
+	field( DTYP, "regDev")
+	field( OUT,  "@$(DEVICE):$(BASE)04 T=uint16")
+}
+
+record(longin, "$(SYS)-$(EVG):FCT-SFP$(ID)-tempHWarning-RB") {
+	field( DESC, "2s complement in 1/256 increments")
+	field( DTYP, "regDev")
+	field( INP,  "@$(DEVICE):$(BASE)04 T=uint16")
+	field( SCAN, "1 second")
+}
+
+record(longout, "$(SYS)-$(EVG):FCT-SFP$(ID)-tempLWarning-SP") {
+	field( DESC, "2s complement in 1/256 increments")
+	field( DTYP, "regDev")
+	field( OUT,  "@$(DEVICE):$(BASE)06 T=uint16")
+}
+
+record(longin, "$(SYS)-$(EVG):FCT-SFP$(ID)-tempLWarning-RB") {
+	field( DESC, "2s complement in 1/256 increments")
+	field( DTYP, "regDev")
+	field( INP,  "@$(DEVICE):$(BASE)06 T=uint16")
+	field( SCAN, "1 second")
+}
+
+record(longout, "$(SYS)-$(EVG):FCT-SFP$(ID)-vccHAlarm-SP") {
+	field( DESC, "Supply voltage [100 uV]")
+	field( DTYP, "regDev")
+	field( OUT,  "@$(DEVICE):$(BASE)08 T=uint16")
+}
+
+record(longin, "$(SYS)-$(EVG):FCT-SFP$(ID)-vccHAlarm-RB") {
+	field( DESC, "Supply voltage [100 uV]")
+	field( DTYP, "regDev")
+	field( INP,  "@$(DEVICE):$(BASE)08 T=uint16")
+	field( SCAN, "1 second")
+}
+
+record(longout, "$(SYS)-$(EVG):FCT-SFP$(ID)-vccLAlarm-SP") {
+	field( DESC, "Supply voltage [100 uV]")
+	field( DTYP, "regDev")
+	field( OUT,  "@$(DEVICE):$(BASE)0A T=uint16")
+}
+
+record(longin, "$(SYS)-$(EVG):FCT-SFP$(ID)-vccLAlarm-RB") {
+	field( DESC, "Supply voltage [100 uV]")
+	field( DTYP, "regDev")
+	field( INP,  "@$(DEVICE):$(BASE)0A T=uint16")
+	field( SCAN, "1 second")
+}
+
+record(longout, "$(SYS)-$(EVG):FCT-SFP$(ID)-vccHWarning-SP") {
+	field( DESC, "Supply voltage [100 uV]")
+	field( DTYP, "regDev")
+	field( OUT,  "@$(DEVICE):$(BASE)0C T=uint16")
+}
+
+record(longin, "$(SYS)-$(EVG):FCT-SFP$(ID)-vccHWarning-RB") {
+	field( DESC, "Supply voltage [100 uV]")
+	field( DTYP, "regDev")
+	field( INP,  "@$(DEVICE):$(BASE)0C T=uint16")
+	field( SCAN, "1 second")
+}
+
+record(longout, "$(SYS)-$(EVG):FCT-SFP$(ID)-vccLWarning-SP") {
+	field( DESC, "Supply voltage [100 uV]")
+	field( DTYP, "regDev")
+	field( OUT,  "@$(DEVICE):$(BASE)0E T=uint16")
+}
+
+record(longin, "$(SYS)-$(EVG):FCT-SFP$(ID)-vccLWarning-RB") {
+	field( DESC, "Supply voltage [100 uV]")
+	field( DTYP, "regDev")
+	field( INP,  "@$(DEVICE):$(BASE)0E T=uint16")
+	field( SCAN, "1 second")
+}
+
+record(longout, "$(SYS)-$(EVG):FCT-SFP$(ID)-txBiasHAlarm-SP") {
+	field( DESC, "Laser bias current [2 uA]")
+	field( DTYP, "regDev")
+	field( OUT,  "@$(DEVICE):$(BASE)10 T=uint16")
+}
+
+record(longin, "$(SYS)-$(EVG):FCT-SFP$(ID)-txBiasHAlarm-RB") {
+	field( DESC, "Laser bias current [2 uA]")
+	field( DTYP, "regDev")
+	field( INP,  "@$(DEVICE):$(BASE)10 T=uint16")
+	field( SCAN, "1 second")
+}
+
+record(longout, "$(SYS)-$(EVG):FCT-SFP$(ID)-txBiasLAlarm-SP") {
+	field( DESC, "Laser bias current [2 uA]")
+	field( DTYP, "regDev")
+	field( OUT,  "@$(DEVICE):$(BASE)12 T=uint16")
+}
+
+record(longin, "$(SYS)-$(EVG):FCT-SFP$(ID)-txBiasLAlarm-RB") {
+	field( DESC, "Laser bias current [2 uA]")
+	field( DTYP, "regDev")
+	field( INP,  "@$(DEVICE):$(BASE)12 T=uint16")
+	field( SCAN, "1 second")
+}
+
+record(longout, "$(SYS)-$(EVG):FCT-SFP$(ID)-txBiasHWarning-SP") {
+	field( DESC, "Laser bias current [2 uA]")
+	field( DTYP, "regDev")
+	field( OUT,  "@$(DEVICE):$(BASE)14 T=uint16")
+}
+
+record(longin, "$(SYS)-$(EVG):FCT-SFP$(ID)-txBiasHWarning-RB") {
+	field( DESC, "Laser bias current [2 uA]")
+	field( DTYP, "regDev")
+	field( INP,  "@$(DEVICE):$(BASE)14 T=uint16")
+	field( SCAN, "1 second")
+}
+
+record(longout, "$(SYS)-$(EVG):FCT-SFP$(ID)-txBiasLWarning-SP") {
+	field( DESC, "Laser bias current [2 uA]")
+	field( DTYP, "regDev")
+	field( OUT,  "@$(DEVICE):$(BASE)16 T=uint16")
+}
+
+record(longin, "$(SYS)-$(EVG):FCT-SFP$(ID)-txBiasLWarning-RB") {
+	field( DESC, "Laser bias current [2 uA]")
+	field( DTYP, "regDev")
+	field( INP,  "@$(DEVICE):$(BASE)16 T=uint16")
+	field( SCAN, "1 second")
+}
+
+record(longout, "$(SYS)-$(EVG):FCT-SFP$(ID)-txPowerHAlarm-SP") {
+	field( DESC, "TX average optical power [uW]")
+	field( DTYP, "regDev")
+	field( OUT,  "@$(DEVICE):$(BASE)18 T=uint16")
+}
+
+record(longin, "$(SYS)-$(EVG):FCT-SFP$(ID)-txPowerHAlarm-RB") {
+	field( DESC, "TX average optical power [uW]")
+	field( DTYP, "regDev")
+	field( INP,  "@$(DEVICE):$(BASE)18 T=uint16")
+	field( SCAN, "1 second")
+}
+
+record(longout, "$(SYS)-$(EVG):FCT-SFP$(ID)-txPowerLAlarm-SP") {
+	field( DESC, "TX average optical power [uW]")
+	field( DTYP, "regDev")
+	field( OUT,  "@$(DEVICE):$(BASE)1A T=uint16")
+}
+
+record(longin, "$(SYS)-$(EVG):FCT-SFP$(ID)-txPowerLAlarm-RB") {
+	field( DESC, "TX average optical power [uW]")
+	field( DTYP, "regDev")
+	field( INP,  "@$(DEVICE):$(BASE)1A T=uint16")
+	field( SCAN, "1 second")
+}
+
+record(longout, "$(SYS)-$(EVG):FCT-SFP$(ID)-txPowerHWarning-SP") {
+	field( DESC, "TX average optical power [uW]")
+	field( DTYP, "regDev")
+	field( OUT,  "@$(DEVICE):$(BASE)1C T=uint16")
+}
+
+record(longin, "$(SYS)-$(EVG):FCT-SFP$(ID)-txPowerHWarning-RB") {
+	field( DESC, "TX average optical power [uW]")
+	field( DTYP, "regDev")
+	field( INP,  "@$(DEVICE):$(BASE)1C T=uint16")
+	field( SCAN, "1 second")
+}
+
+record(longout, "$(SYS)-$(EVG):FCT-SFP$(ID)-txPowerLWarning-SP") {
+	field( DESC, "TX average optical power [uW]")
+	field( DTYP, "regDev")
+	field( OUT,  "@$(DEVICE):$(BASE)1E T=uint16")
+}
+
+record(longin, "$(SYS)-$(EVG):FCT-SFP$(ID)-txPowerLWarning-RB") {
+	field( DESC, "TX average optical power [uW]")
+	field( DTYP, "regDev")
+	field( INP,  "@$(DEVICE):$(BASE)1E T=uint16")
+	field( SCAN, "1 second")
+}
+
+record(longout, "$(SYS)-$(EVG):FCT-SFP$(ID)-rxPowerHAlarm-SP") {
+	field( DESC, "Receiver average optical power [uW]")
+	field( DTYP, "regDev")
+	field( OUT,  "@$(DEVICE):$(BASE)20 T=uint16")
+}
+
+record(longin, "$(SYS)-$(EVG):FCT-SFP$(ID)-rxPowerHAlarm-RB") {
+	field( DESC, "Receiver average optical power [uW]")
+	field( DTYP, "regDev")
+	field( INP,  "@$(DEVICE):$(BASE)20 T=uint16")
+	field( SCAN, "1 second")
+}
+
+record(longout, "$(SYS)-$(EVG):FCT-SFP$(ID)-rxPowerLAlarm-SP") {
+	field( DESC, "Receiver average optical power [uW]")
+	field( DTYP, "regDev")
+	field( OUT,  "@$(DEVICE):$(BASE)22 T=uint16")
+}
+
+record(longin, "$(SYS)-$(EVG):FCT-SFP$(ID)-rxPowerLAlarm-RB") {
+	field( DESC, "Receiver average optical power [uW]")
+	field( DTYP, "regDev")
+	field( INP,  "@$(DEVICE):$(BASE)22 T=uint16")
+	field( SCAN, "1 second")
+}
+
+record(longout, "$(SYS)-$(EVG):FCT-SFP$(ID)-rxPowerHWarning-SP") {
+	field( DESC, "Receiver average optical power [uW]")
+	field( DTYP, "regDev")
+	field( OUT,  "@$(DEVICE):$(BASE)24 T=uint16")
+}
+
+record(longin, "$(SYS)-$(EVG):FCT-SFP$(ID)-rxPowerHWarning-RB") {
+	field( DESC, "Receiver average optical power [uW]")
+	field( DTYP, "regDev")
+	field( INP,  "@$(DEVICE):$(BASE)24 T=uint16")
+	field( SCAN, "1 second")
+}
+
+record(longout, "$(SYS)-$(EVG):FCT-SFP$(ID)-rxPowerLWarning-SP") {
+	field( DESC, "Receiver average optical power [uW]")
+	field( DTYP, "regDev")
+	field( OUT,  "@$(DEVICE):$(BASE)26 T=uint16")
+}
+
+record(longin, "$(SYS)-$(EVG):FCT-SFP$(ID)-rxPowerLWarning-RB") {
+	field( DESC, "Receiver average optical power [uW]")
+	field( DTYP, "regDev")
+	field( INP,  "@$(DEVICE):$(BASE)26 T=uint16")
+	field( SCAN, "1 second")
+}
+
+record(longin, "$(SYS)-$(EVG):FCT-SFP$(ID)-temperature-I") {
+	field( DESC, "Temperature [1/256 C]")
+	field( DTYP, "regDev")
+	field( INP,  "@$(DEVICE):$(BASE)60 T=uint16")
+	field( SCAN, "1 second")
+}
+
+record(longin, "$(SYS)-$(EVG):FCT-SFP$(ID)-vccPower-I") {
+	field( DESC, "VCC power supply voltage")
+	field( DTYP, "regDev")
+	field( INP,  "@$(DEVICE):$(BASE)62 T=uint16")
+	field( SCAN, "1 second")
+}
+
+record(longin, "$(SYS)-$(EVG):FCT-SFP$(ID)-txBiasCurrent-I") {
+	field( DESC, "Laser bias current [2 uA]")
+	field( DTYP, "regDev")
+	field( INP,  "@$(DEVICE):$(BASE)64 T=uint16")
+	field( SCAN, "1 second")
+}
+
+record(longin, "$(SYS)-$(EVG):FCT-SFP$(ID)-txPower-I") {
+	field( DESC, "Average optical TX power [uW]")
+	field( DTYP, "regDev")
+	field( INP,  "@$(DEVICE):$(BASE)66 T=uint16")
+	field( SCAN, "1 second")
+}
+
+record(longin, "$(SYS)-$(EVG):FCT-SFP$(ID)-rxPower-I") {
+	field( DESC, "Average optical RX power [uW]")
+	field( DTYP, "regDev")
+	field( INP,  "@$(DEVICE):$(BASE)68 T=uint16")
+	field( SCAN, "1 second")
+}
+
+record(longin, "$(SYS)-$(EVG):FCT-SFP$(ID)-status-I") {
+	field( DESC, "Status")
+	field( DTYP, "regDev")
+	field( INP,  "@$(DEVICE):$(BASE)6E T=uint8")
+	field( SCAN, "1 second")
+}
+
+record(longin, "$(SYS)-$(EVG):FCT-SFP$(ID)-flags-I") {
+	field( DESC, "Alarm flags")
+	field( DTYP, "regDev")
+	field( INP,  "@$(DEVICE):$(BASE)70 T=uint16")
+	field( SCAN, "1 second")
+}
+
+record(longin, "$(SYS)-$(EVG):FCT-SFP$(ID)-warning-I") {
+	field( DESC, "Warning flags")
+	field( DTYP, "regDev")
+	field( INP,  "@$(DEVICE):$(BASE)74 T=uint16")
+	field( SCAN, "1 second")
+}
