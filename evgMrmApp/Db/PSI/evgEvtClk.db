@@ -1,23 +1,49 @@
-record(bo, "$(SYS)-$(EVG):$(OBJ)-Source-Sel") {
+record(mbbo, "$(SYS)-$(EVG):$(OBJ)-Source-Sel") {
     field( DESC, "EVG Evt Clk Source")
-    field( DTYP, "Obj Prop bool")
+    field( DTYP, "Obj Prop uint16")
     field( OUT,  "@OBJ=$(EVG):$(OBJ), PROP=Source")
     field( PINI, "YES")
     field( VAL,  "$($(OBJ)-Source-Sel\=0)")
-    field( UDF,  "0")
-    field( ZNAM, "FracSyn")
-    field( ONAM, "RF")
+    field( ZRST, "Fractional Synthesizer")
+    field( ONST, "External")
+    field( TWST, "PXIe 100 MHz")
+    field( THST, "Recovered RX clock")
+    field( FRST, "PXIe 10MHz")
+    field( ZRVL, "0")
+    field( ONVL, "1")
+    field( TWVL, "2")
+    field( THVL, "3")
+    field( FRVL, "4")
+    field( FVSV, "INVALID")
+    field( SXSV, "INVALID")
+    field( SVSV, "INVALID")
+    field( EISV, "INVALID")
+    field( NISV, "INVALID")
+    field( TESV, "INVALID")
+    field( ELSV, "INVALID")
+    field( TVSV, "INVALID")
+    field( TTSV, "INVALID")
+    field( FTSV, "INVALID")
+    field( FFSV, "INVALID")
+    field( UNSV, "INVALID")
     field( FLNK, "$(SYS)-$(EVG):$(OBJ)-Source-RB")
     info( autosaveFields_pass0, "VAL")
 }
 
-record(bi, "$(SYS)-$(EVG):$(OBJ)-Source-RB") {
+record(mbbi, "$(SYS)-$(EVG):$(OBJ)-Source-RB") {
     field( DESC, "EVG Evt Clk Source")
-    field( DTYP, "Obj Prop bool")
-    field( INP , "@OBJ=$(EVG):$(OBJ), PROP=Source")
-    field( ZNAM, "FracSyn")
-    field( ONAM, "RF")
-    field( FLNK, "$(SYS)-$(EVG):$(OBJ)-Frequency-RB")
+    field( DTYP, "Obj Prop uint16")
+    field( OUT,  "@OBJ=$(EVG):$(OBJ), PROP=Source")
+    field( ZRST, "Fractional Synthesizer")
+    field( ONST, "External")
+    field( TWST, "PXIe 100 MHz")
+    field( THST, "Recovered RX clock")
+    field( FRST, "PXIe 10MHz")
+    field( ZRVL, "0")
+    field( ONVL, "1")
+    field( TWVL, "2")
+    field( THVL, "3")
+    field( FRVL, "4")
 }
 
 record(ao, "$(SYS)-$(EVG):$(OBJ)-RFFreq-SP") {
@@ -123,5 +149,3 @@ record(ai, "$(SYS)-$(EVG):$(OBJ)-Frequency-RB") {
     field( EGU,  "MHz")
     field( PREC, "3")
 }
-
-

@@ -216,7 +216,12 @@
 /*    Outgoing Event Link Clock Source Register (0x0050) Bit Assignments                          */
 /**************************************************************************************************/
 
-#define  EVG_CLK_SRC_EXTRF      0x01  // External/Internal reference clock select
+#define  EVG_CLK_SRC_SEL      0x07  // External/Internal reference clock select
+#define  EVG_CLK_SRC_INTERNAL  0
+#define  EVG_CLK_SRC_EXTERNAL  1
+#define  EVG_CLK_SRC_PXIE100   2
+#define  EVG_CLK_SRC_RECOVERED 4
+#define  EVG_CLK_SRC_PXIE10    6
 
 /**************************************************************************************************/
 /*    Sequence RAM Control Register (0x0070, 0x0074) Bit Assignments                              */

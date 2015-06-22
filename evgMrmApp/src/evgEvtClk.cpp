@@ -94,16 +94,39 @@ evgEvtClk::getFracSynFreq() const {
 }
 
 void
-evgEvtClk::setSource (bool clkSrc) {
-    if(clkSrc)
-        BITSET8 (m_pReg, ClockSource, EVG_CLK_SRC_EXTRF);
-    else 
-        BITCLR8 (m_pReg, ClockSource, EVG_CLK_SRC_EXTRF);
+evgEvtClk::setSource (epicsUInt16 source) {
+    epicsUInt8 clkReg, regMap = 0;
+
+    switch ((RFClockReference) source) {
+    case RFClockReference_Internal:
+        regMap = EVG_CLK_SRC_INTERNAL;
+        break;
+    case RFClockReference_External:
+        regMap = EVG_CLK_SRC_EXTERNAL;
+        break;
+    case RFClockReference_PXIe100:
+        regMap = EVG_CLK_SRC_PXIE100;
+        break;
+    case RFClockReference_PXIe10:
+        regMap = EVG_CLK_SRC_PXIE10;
+        break;
+    case RFClockReference_Recovered:
+        regMap = EVG_CLK_SRC_RECOVERED;
+        break;
+    default:
+        throw std::out_of_range("RF clock source you selected does not exist.");
+        break;
+    }
+
+    clkReg = READ8(m_pReg, ClockSource);    // read register content
+    clkReg &= ~EVG_CLK_SRC_SEL; // clear old clock source
+    clkReg |= regMap;  // set new clock source
+    WRITE8(m_pReg, ClockSource, clkReg);    // write the new value to the register
 }
 
-bool
+epicsUInt16
 evgEvtClk::getSource() const {
     epicsUInt8 clkReg = READ8(m_pReg, ClockSource);
-    return clkReg & EVG_CLK_SRC_EXTRF;
+    return clkReg & EVG_CLK_SRC_SEL;
 }
 

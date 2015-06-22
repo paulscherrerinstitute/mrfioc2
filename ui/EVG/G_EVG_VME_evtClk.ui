@@ -176,52 +176,6 @@
      <enum>caLineEdit::Alarm_Default</enum>
     </property>
    </widget>
-   <widget class="caChoice" name="cachoice">
-    <property name="geometry">
-     <rect>
-      <x>140</x>
-      <y>90</y>
-      <width>121</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="toolTip">
-     <string>Reverses the output polarity. When set, changes the output from normally low to normally high.</string>
-    </property>
-    <property name="channel" stdset="0">
-     <string notr="true">$(EVG):EvtClk-Source-Sel</string>
-    </property>
-    <property name="foreground">
-     <color>
-      <red>0</red>
-      <green>0</green>
-      <blue>0</blue>
-     </color>
-    </property>
-    <property name="background">
-     <color>
-      <red>212</red>
-      <green>219</green>
-      <blue>157</blue>
-     </color>
-    </property>
-    <property name="bordercolor">
-     <color>
-      <red>0</red>
-      <green>0</green>
-      <blue>0</blue>
-     </color>
-    </property>
-    <property name="colorMode">
-     <enum>caChoice::Static</enum>
-    </property>
-    <property name="stackingMode" stdset="0">
-     <enum>caChoice::Column</enum>
-    </property>
-    <property name="endBit">
-     <number>1</number>
-    </property>
-   </widget>
    <widget class="QLabel" name="label_3">
     <property name="geometry">
      <rect>
@@ -407,13 +361,29 @@
      <bool>false</bool>
     </property>
    </widget>
+   <widget class="caMenu" name="camenu_2">
+    <property name="geometry">
+     <rect>
+      <x>140</x>
+      <y>90</y>
+      <width>121</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(212, 219, 157);</string>
+    </property>
+    <property name="channel" stdset="0">
+     <string notr="true">$(EVG):EvtClk-Source-Sel</string>
+    </property>
+   </widget>
   </widget>
  </widget>
  <customwidgets>
   <customwidget>
-   <class>caChoice</class>
-   <extends>QWidget</extends>
-   <header>caChoice</header>
+   <class>caMenu</class>
+   <extends>QComboBox</extends>
+   <header>caMenu</header>
   </customwidget>
   <customwidget>
    <class>caTextEntry</class>
