@@ -176,6 +176,7 @@ mrmEvgSetupVME (
     epicsInt32  irqVector)  // Desired interrupt vector number
 {
     volatile epicsUInt8* regCpuAddr = 0;
+    volatile epicsUInt8* regCpuAddr2 = 0; //function 2 of regmap (fanout/concnectrator specifics)
     struct VMECSRID info;
     bus_configuration bus;
 
@@ -221,17 +222,49 @@ mrmEvgSetupVME (
                 printf("Failed to set CSR Base address in ADER1.  Check VME bus and card firmware version.\n");
                 return -1;
             }
-        } //FIXME: duplicate and add support for VME function 2, map it on the end of function 1?
+        }
+
+        /* Set the base address of Register Map for function 2,  */
+        CSRSetBase(csrCpuAddr, 2, vmeAddress+EVG_REGMAP_SIZE, VME_AM_STD_SUP_DATA);
+        {
+            epicsUInt32 temp=CSRRead32((csrCpuAddr) + CSR_FN_ADER(2));
+
+            if(temp != CSRADER((epicsUInt32)vmeAddress+EVG_REGMAP_SIZE,VME_AM_STD_SUP_DATA)) {
+                printf("Failed to set CSR Base address in ADER2.  Check VME bus and card firmware version.\n");
+                return -1;
+            }
+        }
+
+        /* Create a static string for the card description (needed by vxWorks) */
+        char *Description = allocSNPrintf(40, "EVG-%d FOUT'%s' slot %d",
+                                          info.board & MRF_BID_SERIES_MASK,
+                                          id, slot);
+
+         int status = devRegisterAddress (
+            Description,                           // Event Generator card description
+            atVMEA24,                              // A24 Address space
+            vmeAddress+EVG_REGMAP_SIZE,            // Physical address of register space
+            EVG_REGMAP_SIZE*2,                       // Size of card's register space
+            (volatile void **)(void *)&regCpuAddr2 // Local address of card's register map
+        );
+
+         //FIXME: duplicate and add support for VME function 2, map it on the end of function 1?
+         if(status) {
+             errlogPrintf("Failed to map VME address %08x\n", vmeAddress);
+             return -1;
+         }
+
+        //FIXME: duplicate and add support for VME function 2, map it on the end of function 1?
 
 
 
         /* Create a static string for the card description (needed by vxWorks) */
-        char *Description = allocSNPrintf(40, "EVG-%d '%s' slot %d",
+        Description = allocSNPrintf(40, "EVG-%d '%s' slot %d",
                                           info.board & MRF_BID_SERIES_MASK,
                                           id, slot);
 
         /*Register VME address and get corresponding CPU address */
-        int status = devRegisterAddress (
+        status = devRegisterAddress (
             Description,                           // Event Generator card description
             atVMEA24,                              // A24 Address space
             vmeAddress,                            // Physical address of register space
@@ -261,7 +294,7 @@ mrmEvgSetupVME (
             );
 
 
-            printf("csrCpuAddr : %p\nregCpuAddr : %p\n",csrCpuAddr, regCpuAddr);
+            printf("csrCpuAddr : %p\nregCpuAddr : %p\nreCpuAddr2 : %p\n",csrCpuAddr, regCpuAddr, regCpuAddr2);
 
             /*Disable the interrupts and enable them at the end of iocInit via initHooks*/
             WRITE32(regCpuAddr, IrqFlag, READ32(regCpuAddr, IrqFlag));
