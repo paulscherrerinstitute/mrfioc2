@@ -1,0 +1,6 @@
+file "evg-fct.template"
+{
+  {
+    DEVICE = "fctMap"
+  }
+}
