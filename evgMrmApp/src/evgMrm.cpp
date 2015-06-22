@@ -288,6 +288,34 @@ evgMrm::getSWMask1() const{
 }
 
 void
+evgMrm::dlyCompBeaconEnable(bool ena){
+    if(ena){
+        BITSET32(m_pReg, Control, EVG_BCGEN);
+    }else{
+        BITCLR32(m_pReg, Control, EVG_BCGEN);
+    }
+}
+
+bool
+evgMrm::dlyCompBeaconEnabled() const {
+    return (READ32(m_pReg, Control) & EVG_BCGEN) != 0;
+}
+
+void
+evgMrm::dlyCompMasterEnable(bool ena){
+    if(ena){
+        BITSET32(m_pReg, Control, EVG_DCMST);
+    }else{
+        BITCLR32(m_pReg, Control, EVG_DCMST);
+    }
+}
+
+bool
+evgMrm::dlyCompMasterEnabled() const {
+    return (READ32(m_pReg, Control) & EVG_DCMST) != 0;
+}
+
+void
 evgMrm::enable(bool ena) {
     if(ena)
         BITSET32(m_pReg, Control, EVG_MASTER_ENA);

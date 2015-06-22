@@ -66,6 +66,8 @@ OBJECT_BEGIN(evgMrm) {
     OBJECT_PROP1("DbusStatus", &evgMrm::getDbusStatus);
     OBJECT_PROP2("Seq 0 mask", &evgMrm::getSWMask0,   &evgMrm::setSWMask0);
     OBJECT_PROP2("Seq 1 mask", &evgMrm::getSWMask1,   &evgMrm::setSWMask1);
+    OBJECT_PROP2("DlyCompens beacon", &evgMrm::dlyCompBeaconEnabled,   &evgMrm::dlyCompBeaconEnable);
+    OBJECT_PROP2("DlyCompens master", &evgMrm::dlyCompMasterEnabled,   &evgMrm::dlyCompMasterEnable);
     OBJECT_PROP1("Version",    &evgMrm::getFwVersion);
     OBJECT_PROP1("Sw Version", &evgMrm::getSwVersion);
 } OBJECT_END(evgMrm)

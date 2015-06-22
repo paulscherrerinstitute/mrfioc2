@@ -76,6 +76,12 @@ public:
     epicsUInt16 getSWMask1() const;
     /*************************************/
 
+    void dlyCompBeaconEnable(bool ena);
+    bool dlyCompBeaconEnabled() const;
+
+    void dlyCompMasterEnable(bool ena);
+    bool dlyCompMasterEnabled() const;
+
     /**    Interrupt and Callback    **/
     static void isr(void*);
     static void isr_pci(void*);

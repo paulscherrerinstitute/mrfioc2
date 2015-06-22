@@ -86,3 +86,40 @@ record(longout, "$(SYS)-$(EVG):SoftSeq-1-SwMask-SP" ) {
     field( DTYP, "Obj Prop uint16")
     field( OUT , "@OBJ=$(EVG), PROP=Seq 1 mask")
 }
+
+# Delay compensation
+record(bo, "$(SYS)-$(EVG):DlyCompensation-Beacon-Sel") {
+    field( DESC, "Dly compens. beacon enable")
+    field( DTYP, "Obj Prop bool")
+    field( OUT , "@OBJ=$(EVG), PROP=DlyCompens beacon")
+    field( UDF,  "0")
+    #VAL, pini
+    field( ZNAM, "Disabled")
+    field( ONAM, "Enabled")
+}
+
+record(bi, "$(SYS)-$(EVG):DlyCompensation-Beacon-RB") {
+    field( DESC, "Dly compens. beacon enable")
+    field( DTYP, "Obj Prop bool")
+    field( INP , "@OBJ=$(EVG), PROP=DlyCompens beacon")
+    field( ZNAM, "Disabled")
+    field( ONAM, "Enabled")
+}
+
+record(bo, "$(SYS)-$(EVG):DlyCompensation-Master-Sel") {
+    field( DESC, "Dly compens. beacon enable")
+    field( DTYP, "Obj Prop bool")
+    field( OUT , "@OBJ=$(EVG), PROP=DlyCompens master")
+    field( UDF,  "0")
+    #VAL, pini
+    field( ZNAM, "Disabled")
+    field( ONAM, "Enabled")
+}
+
+record(bi, "$(SYS)-$(EVG):DlyCompensation-Master-RB") {
+    field( DESC, "Dly compens. beacon enable")
+    field( DTYP, "Obj Prop bool")
+    field( INP , "@OBJ=$(EVG), PROP=DlyCompens master")
+    field( ZNAM, "Disabled")
+    field( ONAM, "Enabled")
+}
