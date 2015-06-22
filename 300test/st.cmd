@@ -36,6 +36,6 @@ dbLoadTemplate("evg.subs","SYS=MTEST-VME-CSL2,EVG=EVG0")
 ##  - IRQ level
 ##  - IRQ vector
 
-mrmEvrSetupVME(EVR0,4,0x3000000,4,0x28);
-dbLoadTemplate("evr.subs","SYS=MTEST-VME-CSL2,EVR=EVR0")
+# mrmEvrSetupVME(EVR0,4,0x3000000,4,0x28);
+# dbLoadTemplate("evr.subs","SYS=MTEST-VME-CSL2,EVR=EVR0")
 
