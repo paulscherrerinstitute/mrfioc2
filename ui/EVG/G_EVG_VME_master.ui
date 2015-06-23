@@ -79,7 +79,7 @@
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
-      <x>10</x>
+      <x>5</x>
       <y>70</y>
       <width>121</width>
       <height>20</height>
@@ -95,7 +95,7 @@
    <widget class="caLineEdit" name="calineedit">
     <property name="geometry">
      <rect>
-      <x>140</x>
+      <x>135</x>
       <y>70</y>
       <width>71</width>
       <height>20</height>
@@ -108,7 +108,7 @@
    <widget class="caLineEdit" name="calineedit_3">
     <property name="geometry">
      <rect>
-      <x>140</x>
+      <x>135</x>
       <y>90</y>
       <width>71</width>
       <height>20</height>
@@ -121,7 +121,7 @@
    <widget class="QLabel" name="label_5">
     <property name="geometry">
      <rect>
-      <x>10</x>
+      <x>5</x>
       <y>90</y>
       <width>121</width>
       <height>20</height>
@@ -137,7 +137,7 @@
    <widget class="caLineEdit" name="calineedit_4">
     <property name="geometry">
      <rect>
-      <x>140</x>
+      <x>135</x>
       <y>110</y>
       <width>71</width>
       <height>20</height>
@@ -150,7 +150,7 @@
    <widget class="QLabel" name="label_7">
     <property name="geometry">
      <rect>
-      <x>10</x>
+      <x>5</x>
       <y>110</y>
       <width>121</width>
       <height>20</height>
@@ -189,7 +189,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>7</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="tab">
      <attribute name="title">
@@ -1343,8 +1343,8 @@
    <widget class="QLabel" name="label_8">
     <property name="geometry">
      <rect>
-      <x>240</x>
-      <y>70</y>
+      <x>5</x>
+      <y>140</y>
       <width>121</width>
       <height>20</height>
      </rect>
@@ -1353,14 +1353,14 @@
      <string>Event clock </string>
     </property>
     <property name="alignment">
-     <set>Qt::AlignCenter</set>
+     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
     </property>
    </widget>
    <widget class="caLineEdit" name="calineedit_12">
     <property name="geometry">
      <rect>
-      <x>240</x>
-      <y>100</y>
+      <x>135</x>
+      <y>140</y>
       <width>131</width>
       <height>20</height>
      </rect>
@@ -1391,9 +1391,231 @@
      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
     </property>
    </widget>
+   <widget class="QGroupBox" name="groupBox">
+    <property name="geometry">
+     <rect>
+      <x>220</x>
+      <y>39</y>
+      <width>231</width>
+      <height>91</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>Delay compensation</string>
+    </property>
+    <widget class="caChoice" name="cachoice">
+     <property name="geometry">
+      <rect>
+       <x>68</x>
+       <y>30</y>
+       <width>131</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="toolTip">
+      <string>Reverses the output polarity. When set, changes the output from normally low to normally high.</string>
+     </property>
+     <property name="channel" stdset="0">
+      <string notr="true">$(EVG):DlyCompensation-Master-Sel</string>
+     </property>
+     <property name="foreground">
+      <color>
+       <red>0</red>
+       <green>0</green>
+       <blue>0</blue>
+      </color>
+     </property>
+     <property name="background">
+      <color>
+       <red>212</red>
+       <green>219</green>
+       <blue>157</blue>
+      </color>
+     </property>
+     <property name="bordercolor">
+      <color>
+       <red>0</red>
+       <green>0</green>
+       <blue>0</blue>
+      </color>
+     </property>
+     <property name="colorMode">
+      <enum>caChoice::Static</enum>
+     </property>
+     <property name="stackingMode" stdset="0">
+      <enum>caChoice::Column</enum>
+     </property>
+     <property name="endBit">
+      <number>1</number>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_3">
+     <property name="geometry">
+      <rect>
+       <x>2</x>
+       <y>30</y>
+       <width>61</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Enable</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_4">
+     <property name="geometry">
+      <rect>
+       <x>2</x>
+       <y>60</y>
+       <width>61</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Beacon</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="caLed" name="caled_2">
+     <property name="geometry">
+      <rect>
+       <x>205</x>
+       <y>30</y>
+       <width>20</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="toolTip">
+      <string>Master enable for the EVR. If not set then very little will happen.</string>
+     </property>
+     <property name="rectangular">
+      <bool>false</bool>
+     </property>
+     <property name="channel" stdset="0">
+      <string notr="true">$(EVG):DlyCompensation-Master-RB</string>
+     </property>
+     <property name="falseColor">
+      <color>
+       <red>218</red>
+       <green>218</green>
+       <blue>218</blue>
+      </color>
+     </property>
+     <property name="trueColor">
+      <color>
+       <red>0</red>
+       <green>205</green>
+       <blue>0</blue>
+      </color>
+     </property>
+     <property name="undefinedColor">
+      <color>
+       <red>255</red>
+       <green>255</green>
+       <blue>255</blue>
+      </color>
+     </property>
+    </widget>
+    <widget class="caChoice" name="cachoice_2">
+     <property name="geometry">
+      <rect>
+       <x>68</x>
+       <y>60</y>
+       <width>131</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="toolTip">
+      <string>Reverses the output polarity. When set, changes the output from normally low to normally high.</string>
+     </property>
+     <property name="channel" stdset="0">
+      <string notr="true">$(EVG):DlyCompensation-Beacon-Sel</string>
+     </property>
+     <property name="foreground">
+      <color>
+       <red>0</red>
+       <green>0</green>
+       <blue>0</blue>
+      </color>
+     </property>
+     <property name="background">
+      <color>
+       <red>212</red>
+       <green>219</green>
+       <blue>157</blue>
+      </color>
+     </property>
+     <property name="bordercolor">
+      <color>
+       <red>0</red>
+       <green>0</green>
+       <blue>0</blue>
+      </color>
+     </property>
+     <property name="colorMode">
+      <enum>caChoice::Static</enum>
+     </property>
+     <property name="stackingMode" stdset="0">
+      <enum>caChoice::Column</enum>
+     </property>
+     <property name="endBit">
+      <number>1</number>
+     </property>
+    </widget>
+    <widget class="caLed" name="caled_3">
+     <property name="geometry">
+      <rect>
+       <x>205</x>
+       <y>60</y>
+       <width>20</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="toolTip">
+      <string>Master enable for the EVR. If not set then very little will happen.</string>
+     </property>
+     <property name="rectangular">
+      <bool>false</bool>
+     </property>
+     <property name="channel" stdset="0">
+      <string notr="true">$(EVG):DlyCompensation-Beacon-RB</string>
+     </property>
+     <property name="falseColor">
+      <color>
+       <red>218</red>
+       <green>218</green>
+       <blue>218</blue>
+      </color>
+     </property>
+     <property name="trueColor">
+      <color>
+       <red>0</red>
+       <green>205</green>
+       <blue>0</blue>
+      </color>
+     </property>
+     <property name="undefinedColor">
+      <color>
+       <red>255</red>
+       <green>255</green>
+       <blue>255</blue>
+      </color>
+     </property>
+    </widget>
+   </widget>
   </widget>
  </widget>
  <customwidgets>
+  <customwidget>
+   <class>caChoice</class>
+   <extends>QWidget</extends>
+   <header>caChoice</header>
+  </customwidget>
   <customwidget>
    <class>caLabel</class>
    <extends>QLabel</extends>
