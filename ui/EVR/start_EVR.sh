@@ -55,5 +55,5 @@ if [ $FF != "VME" ] && [ $FF != "PCIe" ] && [ $FF != "VME-300" ]; then
 fi
 
 macro="EVR=$SYS-$EVR,FF=$FF"
-caqtdm -macro "$macro" G_EVR_master.ui &
+caqtdm -attach -macro "$macro" G_EVR_master.ui &
 #echo caqtdm -macro "$macro" G_EVR_master.ui &

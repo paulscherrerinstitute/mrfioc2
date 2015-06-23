@@ -41,5 +41,5 @@ if [ $s_flag -eq 0 ]; then
 fi
 
 macro="EVG=$SYS-$EVG"
-caqtdm -macro "$macro" G_EVG_VME_master.ui &
+caqtdm -attach -macro "$macro" G_EVG_VME_master.ui &
 #echo caqtdm -macro "$macro" G_EVG_VME_master.ui &
