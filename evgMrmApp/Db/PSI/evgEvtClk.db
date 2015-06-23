@@ -33,7 +33,7 @@ record(mbbo, "$(SYS)-$(EVG):$(OBJ)-Source-Sel") {
 record(mbbi, "$(SYS)-$(EVG):$(OBJ)-Source-RB") {
     field( DESC, "EVG Evt Clk Source")
     field( DTYP, "Obj Prop uint16")
-    field( OUT,  "@OBJ=$(EVG):$(OBJ), PROP=Source")
+    field( INP,  "@OBJ=$(EVG):$(OBJ), PROP=Source")
     field( ZRST, "Fractional Synthesizer")
     field( ONST, "External")
     field( TWST, "PXIe 100 MHz")

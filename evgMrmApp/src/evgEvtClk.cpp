@@ -126,7 +126,32 @@ evgEvtClk::setSource (epicsUInt16 source) {
 
 epicsUInt16
 evgEvtClk::getSource() const {
-    epicsUInt8 clkReg = READ8(m_pReg, ClockSource);
-    return clkReg & EVG_CLK_SRC_SEL;
+    epicsUInt8 clkReg, source;
+
+    clkReg = READ8(m_pReg, ClockSource);
+    clkReg &= EVG_CLK_SRC_SEL;
+
+    switch (clkReg) {
+    case EVG_CLK_SRC_INTERNAL:
+       source = (epicsUInt8)RFClockReference_Internal;
+        break;
+    case EVG_CLK_SRC_EXTERNAL:
+       source = (epicsUInt8)RFClockReference_External;
+        break;
+    case EVG_CLK_SRC_PXIE100:
+       source = (epicsUInt8)RFClockReference_PXIe100;
+        break;
+    case EVG_CLK_SRC_PXIE10:
+       source = (epicsUInt8)RFClockReference_PXIe10;
+        break;
+    case EVG_CLK_SRC_RECOVERED:
+       source = (epicsUInt8)RFClockReference_Recovered;
+        break;
+    default:
+        throw std::out_of_range("Selected RF clock source does not exist.");
+        break;
+    }
+
+    return source;
 }
 
