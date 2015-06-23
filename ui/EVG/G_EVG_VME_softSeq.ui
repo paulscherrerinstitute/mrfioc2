@@ -642,7 +642,7 @@
      </rect>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVG):SoftSeq-$(SEQNUM)-SwMask-SP</string>
+     <string notr="true">$(EVG):SoftSeqMask-$(SEQNUM)-SP</string>
     </property>
     <property name="background">
      <color>
@@ -668,7 +668,7 @@
      <set>Qt::AlignCenter</set>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVG):SoftSeq-$(SEQNUM)-SwMask-RB</string>
+     <string notr="true">$(EVG):$(EVG):SoftSeqMask-$(SEQNUM)-RB</string>
     </property>
     <property name="colorMode">
      <enum>caLineEdit::Alarm_Default</enum>
