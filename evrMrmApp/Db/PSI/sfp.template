@@ -110,4 +110,70 @@ record(stringin, "$(SYS)-$(EVR):$(OBJ)-Date-Manu-I") {
   field(DTYP, "Obj Prop string")
   field(DESC, "Manufactored date")
   field(INP , "@OBJ=$(EVR):$(OBJ), PROP=Date")
+  field(FLNK, "$(SYS)-$(EVR):$(OBJ)-Status-I")
+}
+
+record(longin, "$(SYS)-$(EVR):$(OBJ)-Status-I") {
+  field(DTYP, "Obj Prop uint16")
+  field(DESC, "Status/control register")
+  field(INP , "@OBJ=$(EVR):$(OBJ), PROP=Status")
+  field(FLNK, "$(SYS)-$(EVR):$(OBJ)-PowerVCC-I")
+}
+
+record(ai, "$(SYS)-$(EVR):$(OBJ)-PowerVCC-I") {
+  field(DTYP, "Obj Prop double")
+  field(DESC, "Supply VCC Power")
+  field(EGU , "uV")
+  field(LINR, "LINEAR")
+  field(ESLO, "1e6")
+  field(PREC, "1")
+  field(INP , "@OBJ=$(EVR):$(OBJ), PROP=Power VCC")
+  field(FLNK, "$(SYS)-$(EVR):$(OBJ)-BitRate-upper-I")
+}
+
+record(longin, "$(SYS)-$(EVR):$(OBJ)-BitRate-upper-I") {
+  field(DTYP, "Obj Prop uint16")
+  field(DESC, "Upper bit rate margin")
+  field(EGU , "%")
+  field(INP , "@OBJ=$(EVR):$(OBJ), PROP=BitRate Upper")
+  field(FLNK, "$(SYS)-$(EVR):$(OBJ)-BitRate-lower-I")
+}
+
+record(longin, "$(SYS)-$(EVR):$(OBJ)-BitRate-lower-I") {
+  field(DTYP, "Obj Prop uint16")
+  field(DESC, "Lower bit rate margin")
+  field(EGU , "%")
+  field(INP , "@OBJ=$(EVR):$(OBJ), PROP=BitRate Lower")
+  field(FLNK, "$(SYS)-$(EVR):$(OBJ)-LinkLength-9fiber-I")
+}
+
+record(longin, "$(SYS)-$(EVR):$(OBJ)-LinkLength-9fiber-I") {
+  field(DTYP, "Obj Prop uint32")
+  field(DESC, "Link length: 9/125 um fiber")
+  field(EGU , "m")
+  field(INP , "@OBJ=$(EVR):$(OBJ), PROP=LinkLength 9um")
+  field(FLNK, "$(SYS)-$(EVR):$(OBJ)-LinkLength-50fiber-I")
+}
+
+record(longin, "$(SYS)-$(EVR):$(OBJ)-LinkLength-50fiber-I") {
+  field(DTYP, "Obj Prop uint16")
+  field(DESC, "Link length: 50/125 um fiber")
+  field(EGU , "m")
+  field(INP , "@OBJ=$(EVR):$(OBJ), PROP=LinkLength 50um")
+  field(FLNK, "$(SYS)-$(EVR):$(OBJ)-LinkLength-62fiber-I")
+}
+
+record(longin, "$(SYS)-$(EVR):$(OBJ)-LinkLength-62fiber-I") {
+  field(DTYP, "Obj Prop uint16")
+  field(DESC, "Link length: 62.5/125 um fiber")
+  field(EGU , "m")
+  field(INP , "@OBJ=$(EVR):$(OBJ), PROP=LinkLength 62um")
+  field(FLNK, "$(SYS)-$(EVR):$(OBJ)-LinkLength-copper-I")
+}
+
+record(longin, "$(SYS)-$(EVR):$(OBJ)-LinkLength-copper-I") {
+  field(DTYP, "Obj Prop uint16")
+  field(DESC, "Link length: copper")
+  field(EGU , "m")
+  field(INP , "@OBJ=$(EVR):$(OBJ), PROP=LinkLength copper")
 }
