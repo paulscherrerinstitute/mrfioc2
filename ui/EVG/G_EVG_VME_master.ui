@@ -189,7 +189,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>4</number>
     </property>
     <widget class="QWidget" name="tab">
      <attribute name="title">
@@ -1337,6 +1337,27 @@
         </property>
        </widget>
       </widget>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="tab_9">
+     <attribute name="title">
+      <string>Misc</string>
+     </attribute>
+     <widget class="caInclude" name="cainclude_61">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>661</width>
+        <height>471</height>
+       </rect>
+      </property>
+      <property name="macro">
+       <string notr="true">EVG=$(EVG)</string>
+      </property>
+      <property name="filename" stdset="0">
+       <string notr="true">G_EVG_VME_misc.ui</string>
+      </property>
      </widget>
     </widget>
    </widget>
