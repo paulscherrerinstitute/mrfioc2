@@ -160,6 +160,12 @@
 #define  U8_DataBuffer(n)       (U8_DataBuffer_base + n)
 
 //=====================
+// SFP Transceiver EEPROM and diagnostics
+//
+#define  U32_SFP_base   0x1000
+#define  U32_SFP(n)     (U32_SFP_base + (512*n))
+
+//=====================
 // Sequence RAMs
 //
 #define  U32_SeqRamTS_base      0x8000  // Sequence Ram Timestamp Array Base Offset
@@ -279,6 +285,7 @@ const epicsUInt16 evgNumRearInp = 16;
 const epicsUInt16 evgNumSeqRam = 2;
 const epicsFloat32 evgAllowedTsGitter = 0.5f;
 const epicsUInt16 evgEndOfSeqBuf = 5;
+const epicsUInt16 evgNumSFPModules = 8;
 
 #endif
 

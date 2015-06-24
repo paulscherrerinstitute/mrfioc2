@@ -101,6 +101,15 @@ evgMrm::evgMrm(const std::string& id, bus_configuration& busConfig, volatile epi
             m_output[std::pair<epicsUInt32, evgOutputType>(i, UnivOut)] =
                 new evgOutput(name.str(), i, UnivOut, pReg + U16_UnivOutMap(i));
         }
+
+        if(getFwVersionID() >= 200){
+            for(int i = 0; i < evgNumSFPModules; i++) {
+                std::ostringstream name;
+                name<<id<<":SFP"<<i;
+                m_sfp.push_back(new SFP(name.str(), pReg + U32_SFP(i)));
+            }
+        }
+
     
         /*
          * Swtiched order of creation for m_timerEvent and m_wdTimer.
@@ -159,6 +168,9 @@ evgMrm::~evgMrm() {
 
     for(int i = 0; i < evgNumUnivOut; i++)
         delete m_output[std::pair<epicsUInt32, evgOutputType>(i, UnivOut)];
+
+    for(size_t i = 0; i < m_sfp.size(); i++)
+        delete m_sfp[i];
 }
 
 void 
@@ -760,6 +772,26 @@ evgMrm::getTimerEvent() {
 bus_configuration *evgMrm::getBusConfiguration()
 {
     return &busConfiguration;
+}
+
+SFP*
+evgMrm::getSFP(epicsUInt32 n){
+    SFP* sfp;
+
+    if(m_sfp.size() == 0){
+        throw std::out_of_range("No SFP modules initialized. Do your form factor and FPGA version support them?.");
+    }
+
+    if(n >= m_sfp.size()){
+        throw std::out_of_range("Not that many SFP modules present.");
+    }
+
+    sfp = m_sfp[n];
+    if(!sfp){
+        throw std::runtime_error("SFP module not initialized");
+    }
+
+    return sfp;
 }
 
 namespace {

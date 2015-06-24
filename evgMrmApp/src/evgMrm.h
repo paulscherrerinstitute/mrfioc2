@@ -32,6 +32,7 @@
 #include "mrmDataBufTx.h"
 #include "evgRegMap.h"
 #include "configurationInfo.h"
+#include "sfp.h"
 
 /*********
  * Each EVG will be represented by the instance of class 'evgMrm'. Each evg 
@@ -113,6 +114,7 @@ public:
     evgSoftSeqMgr* getSoftSeqMgr();
     epicsEvent* getTimerEvent();
     bus_configuration* getBusConfiguration();
+    SFP* getSFP(epicsUInt32);
 
     CALLBACK                      irqStop0_cb;
     CALLBACK                      irqStop1_cb;
@@ -171,6 +173,8 @@ private:
 
     wdTimer*                      m_wdTimer;
     epicsEvent*                   m_timerEvent;
+
+    std::vector<SFP*>             m_sfp;
 };
 
 /*Creating a timer thread bcz epicsTimer uses epicsGeneralTime and when
