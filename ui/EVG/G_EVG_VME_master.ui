@@ -1360,6 +1360,139 @@
       </property>
      </widget>
     </widget>
+    <widget class="QWidget" name="tab_10">
+     <attribute name="title">
+      <string>SFP</string>
+     </attribute>
+     <widget class="caInclude" name="cainclude_62">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>20</y>
+        <width>661</width>
+        <height>25</height>
+       </rect>
+      </property>
+      <property name="macro">
+       <string notr="true">ID=0,EVG=$(EVG)</string>
+      </property>
+      <property name="filename" stdset="0">
+       <string notr="true">G_EVG_sfp-min.ui</string>
+      </property>
+     </widget>
+     <widget class="caInclude" name="cainclude_63">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>50</y>
+        <width>661</width>
+        <height>25</height>
+       </rect>
+      </property>
+      <property name="macro">
+       <string notr="true">ID=1,EVG=$(EVG)</string>
+      </property>
+      <property name="filename" stdset="0">
+       <string notr="true">G_EVG_sfp-min.ui</string>
+      </property>
+     </widget>
+     <widget class="caInclude" name="cainclude_64">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>80</y>
+        <width>661</width>
+        <height>25</height>
+       </rect>
+      </property>
+      <property name="macro">
+       <string notr="true">ID=2,EVG=$(EVG)</string>
+      </property>
+      <property name="filename" stdset="0">
+       <string notr="true">G_EVG_sfp-min.ui</string>
+      </property>
+     </widget>
+     <widget class="caInclude" name="cainclude_65">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>110</y>
+        <width>661</width>
+        <height>25</height>
+       </rect>
+      </property>
+      <property name="macro">
+       <string notr="true">ID=3,EVG=$(EVG)</string>
+      </property>
+      <property name="filename" stdset="0">
+       <string notr="true">G_EVG_sfp-min.ui</string>
+      </property>
+     </widget>
+     <widget class="caInclude" name="cainclude_66">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>140</y>
+        <width>661</width>
+        <height>25</height>
+       </rect>
+      </property>
+      <property name="macro">
+       <string notr="true">ID=4,EVG=$(EVG)</string>
+      </property>
+      <property name="filename" stdset="0">
+       <string notr="true">G_EVG_sfp-min.ui</string>
+      </property>
+     </widget>
+     <widget class="caInclude" name="cainclude_67">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>170</y>
+        <width>661</width>
+        <height>25</height>
+       </rect>
+      </property>
+      <property name="macro">
+       <string notr="true">ID=5,EVG=$(EVG)</string>
+      </property>
+      <property name="filename" stdset="0">
+       <string notr="true">G_EVG_sfp-min.ui</string>
+      </property>
+     </widget>
+     <widget class="caInclude" name="cainclude_68">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>200</y>
+        <width>661</width>
+        <height>25</height>
+       </rect>
+      </property>
+      <property name="macro">
+       <string notr="true">ID=6,EVG=$(EVG)</string>
+      </property>
+      <property name="filename" stdset="0">
+       <string notr="true">G_EVG_sfp-min.ui</string>
+      </property>
+     </widget>
+     <widget class="caInclude" name="cainclude_69">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>230</y>
+        <width>661</width>
+        <height>25</height>
+       </rect>
+      </property>
+      <property name="macro">
+       <string notr="true">ID=7,EVG=$(EVG)</string>
+      </property>
+      <property name="filename" stdset="0">
+       <string notr="true">G_EVG_sfp-min.ui</string>
+      </property>
+     </widget>
+    </widget>
    </widget>
    <widget class="QLabel" name="label_8">
     <property name="geometry">
