@@ -103,3 +103,15 @@ pattern { SYS,      EVG,      OBJ,   ID }
         {"$(SYS)", "$(EVG)", "Mxc",  6  }
         {"$(SYS)", "$(EVG)", "Mxc",  7  }
 }
+
+file "sfp.template"{
+pattern { SYS,      EVG,      OBJ,   ID }
+        {"$(SYS)", "$(EVG)", "SFP",  0  }
+        {"$(SYS)", "$(EVG)", "SFP",  1  }
+        {"$(SYS)", "$(EVG)", "SFP",  2  }
+        {"$(SYS)", "$(EVG)", "SFP",  3  }
+        {"$(SYS)", "$(EVG)", "SFP",  4  }
+        {"$(SYS)", "$(EVG)", "SFP",  5  }
+        {"$(SYS)", "$(EVG)", "SFP",  6  }
+        {"$(SYS)", "$(EVG)", "SFP",  7  }
+}
