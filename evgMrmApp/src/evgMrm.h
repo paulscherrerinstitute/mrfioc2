@@ -47,7 +47,7 @@ enum ALARM_TS {TS_ALARM_NONE, TS_ALARM_MINOR, TS_ALARM_MAJOR};
 
 class evgMrm : public mrf::ObjectInst<evgMrm> {
 public:
-    evgMrm(const std::string& id, bus_configuration& busConfig, volatile epicsUInt8* const, const epicsPCIDevice* pciDevice);
+    evgMrm(const std::string& id, bus_configuration& busConfig, volatile epicsUInt8* const, volatile epicsUInt8* const, const epicsPCIDevice* pciDevice);
     ~evgMrm();
 
     /* locking done internally */
@@ -144,7 +144,8 @@ public:
 
 private:
     const std::string             m_id;
-    volatile epicsUInt8* const    m_pReg;
+    volatile epicsUInt8* const    m_pReg;   // EVR function register map
+    volatile epicsUInt8* const    m_fctReg; // FCT function register map
     bus_configuration             busConfiguration;
 
     evgAcTrig                     m_acTrig;
@@ -174,7 +175,7 @@ private:
     wdTimer*                      m_wdTimer;
     epicsEvent*                   m_timerEvent;
 
-    std::vector<SFP*>             m_sfp;
+    std::vector<SFP*>             m_sfp;    // main + fanout transceivers. Transceiver indexed 0 is main transceiver.
 };
 
 /*Creating a timer thread bcz epicsTimer uses epicsGeneralTime and when

@@ -29,7 +29,7 @@
 
 #include <epicsExport.h>
 
-evgMrm::evgMrm(const std::string& id, bus_configuration& busConfig, volatile epicsUInt8* const pReg, const epicsPCIDevice *pciDevice):
+evgMrm::evgMrm(const std::string& id, bus_configuration& busConfig, volatile epicsUInt8* const pReg, volatile epicsUInt8* const fctReg, const epicsPCIDevice *pciDevice):
     mrf::ObjectInst<evgMrm>(id),
     irqStop0_queued(0),
     irqStop1_queued(0),
@@ -41,6 +41,7 @@ evgMrm::evgMrm(const std::string& id, bus_configuration& busConfig, volatile epi
     m_pciDevice(pciDevice),
     m_id(id),
     m_pReg(pReg),
+    m_fctReg(fctReg),
     busConfiguration(busConfig),
     m_acTrig(id+":AcTrig", pReg),
     m_evtClk(id+":EvtClk", pReg),
@@ -102,11 +103,17 @@ evgMrm::evgMrm(const std::string& id, bus_configuration& busConfig, volatile epi
                 new evgOutput(name.str(), i, UnivOut, pReg + U16_UnivOutMap(i));
         }
 
-        if(getFwVersionID() >= 200){
-            for(int i = 0; i < evgNumSFPModules; i++) {
+        std::ostringstream sfpName;
+        sfpName<<id<<":SFP0";
+        m_sfp.push_back(new SFP(sfpName.str(), pReg + U32_SFP_transceiver));    // there is always a main transceiver module present
+
+        // TODO fctReg might be null since pci FCT map is not implemented yet
+        // TODO is version check OK here?
+        if(getFwVersionID() >= 200 && !fctReg){
+            for(int i = 1; i <= evgNumSFPModules; i++) {
                 std::ostringstream name;
                 name<<id<<":SFP"<<i;
-                m_sfp.push_back(new SFP(name.str(), pReg + U32_SFP(i)));
+                m_sfp.push_back(new SFP(name.str(), fctReg + U32_SFP(i)));      // theese are available in EVM (EVG + fanout)
             }
         }
 
@@ -778,12 +785,8 @@ SFP*
 evgMrm::getSFP(epicsUInt32 n){
     SFP* sfp;
 
-    if(m_sfp.size() == 0){
-        throw std::out_of_range("No SFP modules initialized. Do your form factor and FPGA version support them?.");
-    }
-
     if(n >= m_sfp.size()){
-        throw std::out_of_range("Not that many SFP modules present.");
+        throw std::out_of_range("Not that many SFP modules present. Does your form factor support that many?");
     }
 
     sfp = m_sfp[n];

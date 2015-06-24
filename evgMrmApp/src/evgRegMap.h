@@ -162,8 +162,10 @@
 //=====================
 // SFP Transceiver EEPROM and diagnostics
 //
-#define  U32_SFP_base   0x1000
-#define  U32_SFP(n)     (U32_SFP_base + (512*n))
+#define  U32_SFP_base           0x1000
+#define  U32_SFP_transceiver    (U32_SFP_base + 0x200)      // in EVG function register map
+#define  U32_SFP(n)             (U32_SFP_base + (512*n))    // in FCT function register map
+
 
 //=====================
 // Sequence RAMs
