@@ -107,14 +107,12 @@ evgMrm::evgMrm(const std::string& id, bus_configuration& busConfig, volatile epi
         sfpName<<id<<":SFP0";
         m_sfp.push_back(new SFP(sfpName.str(), pReg + U32_SFP_transceiver));    // there is always a main transceiver module present
 
-        // TODO fctReg might be null since pci FCT map is not implemented yet
+        // TODO fctReg might be null since pci FCT map (in evgInit) is not implemented yet
         // TODO is version check OK here?
         if(getFwVersionID() >= 200 && !fctReg){
-            for(int i = 1; i <= evgNumSFPModules; i++) {
-                std::ostringstream name;
-                name<<id<<":SFP"<<i;
-                m_sfp.push_back(new SFP(name.str(), fctReg + U32_SFP(i)));      // theese are available in EVM (EVG + fanout)
-            }
+            m_fct = new evgFct(id, m_fctReg, m_sfp); // fanout SFP modules are initialized here
+        } else{
+            m_fct = 0;
         }
 
     

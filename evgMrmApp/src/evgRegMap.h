@@ -273,6 +273,36 @@
 
 #define  EVG_EXT_INP_IRQ_ENA    0x01000000
 
+
+/**************************************************************************************************/
+/* FCT Function Register map                                                                                          */
+/**************************************************************************************************/
+// note, that fanout SFPs are defined in the SFP section
+
+#define U32_fct_status_base     0x000   // status register
+#define U32_fct_control_base    0x004   // control register
+#define U32_fct_upstreamDC      0x010   // upstream data compensation delay value
+#define U32_fct_receiveDC       0x014   // receive FIFO data compensation delay value
+#define U32_fct_internalDC      0x018   // FCT internal datapath data compensation delay value
+#define U32_fct_portDC_base     0x040   // downstream link port loop delay value
+#define U32_fct_portDC(n)       (U32_fct_portDC_base + (4*n))
+
+#define EVG_FCT_maxPorts 8  // ports 1 - 8
+
+/*
+ * Status register flags
+ */
+#define EVG_FCT_STATUS_VIOLATION_mask   0x000000FF
+#define EVG_FCT_STATUS_VIOLATION_shift  0
+#define EVG_FCT_STATUS_STATUS_mask      0x00FF0000
+#define EVG_FCT_STATUS_STATUS_shift     16
+
+/*
+ * Control register flags
+ */
+#define EVG_FCT_CONTROL_VIOLATION_start 0x00000001  // clear violation on port X
+
+
 #ifndef  EVG_CONSTANTS
 #define  EVG_CONSTANTS
 

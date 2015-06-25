@@ -17,6 +17,7 @@ INC += evgMxc.h
 INC += evgDbus.h
 INC += evgInput.h
 INC += evgOutput.h
+INC += evgFct.h
 
 INC += evgSequencer/evgSoftSeqManager.h
 INC += evgSequencer/evgSoftSeq.h
@@ -50,6 +51,8 @@ evgmrm_SRCS += devEvgDbus.cpp
 evgmrm_SRCS += evgInput.cpp
 
 evgmrm_SRCS += evgOutput.cpp
+
+evgmrm_SRCS += evgFct.cpp
 
 evgmrm_SRCS += evgSoftSeq.cpp
 evgmrm_SRCS += evgSoftSeqManager.cpp

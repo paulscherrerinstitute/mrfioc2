@@ -33,6 +33,7 @@
 #include "evgRegMap.h"
 #include "configurationInfo.h"
 #include "sfp.h"
+#include "evgFct.h"
 
 /*********
  * Each EVG will be represented by the instance of class 'evgMrm'. Each evg 
@@ -166,6 +167,8 @@ private:
 
     typedef std::map< std::pair<epicsUInt32, evgOutputType>, evgOutput*> Output_t;
     Output_t                      m_output;
+
+    evgFct*                       m_fct;
 
     evgSeqRamMgr                  m_seqRamMgr;
     evgSoftSeqMgr                 m_softSeqMgr;

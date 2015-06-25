@@ -69,6 +69,7 @@ SOURCES+=../evgMrmApp/src/evgInput.cpp
 SOURCES+=../evgMrmApp/src/evgMrm.cpp
 SOURCES+=../evgMrmApp/src/evg.cpp
 SOURCES+=../evgMrmApp/src/evgInit.cpp
+SOURCES+=../evgMrmApp/src/evgFct.cpp
 SOURCES+=../mrfCommon/src/mrfCommon.cpp
 SOURCES+=../mrfCommon/src/devObjMBBDirect.cpp
 SOURCES+=../mrfCommon/src/devObjWf.cpp

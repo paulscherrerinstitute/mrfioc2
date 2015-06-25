@@ -15,6 +15,7 @@
 #include "evgMxc.h"
 #include "evgEvtClk.h"
 #include "evgMrm.h"
+#include "evgFct.h"
 
 OBJECT_BEGIN(evgAcTrig) {
     OBJECT_PROP2("Divider", &evgAcTrig::getDivider, &evgAcTrig::setDivider);
@@ -72,4 +73,18 @@ OBJECT_BEGIN(evgMrm) {
     OBJECT_PROP1("Sw Version", &evgMrm::getSwVersion);
 } OBJECT_END(evgMrm)
 
-
+OBJECT_BEGIN(evgFct) {
+    OBJECT_PROP1("DlyCompens upstream", &evgFct::getUpstreamDC);
+    OBJECT_PROP1("DlyCompens receive", &evgFct::getReceiveDC);
+    OBJECT_PROP1("DlyCompens internal", &evgFct::getInternalDC);
+    OBJECT_PROP1("Status", &evgFct::getPortStatus);
+    OBJECT_PROP2("Violation", &evgFct::getPortViolation, &evgFct::clearPortViolation);
+    OBJECT_PROP1("LoopDelay port1", &evgFct::getPort1DelayValue);
+    OBJECT_PROP1("LoopDelay port2", &evgFct::getPort2DelayValue);
+    OBJECT_PROP1("LoopDelay port3", &evgFct::getPort3DelayValue);
+    OBJECT_PROP1("LoopDelay port4", &evgFct::getPort4DelayValue);
+    OBJECT_PROP1("LoopDelay port5", &evgFct::getPort5DelayValue);
+    OBJECT_PROP1("LoopDelay port6", &evgFct::getPort6DelayValue);
+    OBJECT_PROP1("LoopDelay port7", &evgFct::getPort7DelayValue);
+    OBJECT_PROP1("LoopDelay port8", &evgFct::getPort8DelayValue);
+} OBJECT_END(evgFct)

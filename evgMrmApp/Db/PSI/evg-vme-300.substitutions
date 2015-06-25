@@ -105,6 +105,11 @@ pattern { SYS,      EVG,      OBJ,   ID }
         {"$(SYS)", "$(EVG)", "Mxc",  7  }
 }
 
+file evg-fct.db {
+pattern { SYS,      EVG,      OBJ }
+        {"$(SYS)", "$(EVG)", "FCT" }
+}
+
 file "sfp.template"{
 pattern { SYS,      EVG,      OBJ,   ID }
         {"$(SYS)", "$(EVG)", "SFP",  0  } # Main transciever
