@@ -278,7 +278,7 @@
       </rect>
      </property>
      <property name="macro">
-      <string notr="true">EVR=$(EVR)</string>
+      <string notr="true">ID=0,EVR=$(EVR)</string>
      </property>
      <property name="filename" stdset="0">
       <string notr="true">G_EVR_sfp-min.ui</string>

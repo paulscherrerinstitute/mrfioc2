@@ -48,7 +48,7 @@
     <item row="0" column="0">
      <widget class="QLabel" name="label_16">
       <property name="text">
-       <string>SFP Temperature</string>
+       <string>Temperature</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -61,7 +61,7 @@
        <string>Transceiver temperature in Celsius</string>
       </property>
       <property name="channel" stdset="0">
-       <string notr="true">$(EVR):SFP-T-I</string>
+       <string notr="true">$(EVR):SFP$(ID)-T-I</string>
       </property>
       <property name="unitsEnabled">
        <bool>true</bool>
@@ -71,7 +71,7 @@
     <item row="1" column="0">
      <widget class="QLabel" name="label_17">
       <property name="text">
-       <string>SFP Output Power</string>
+       <string>Output Power</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -84,7 +84,7 @@
        <string>Transceiver optical output power</string>
       </property>
       <property name="channel" stdset="0">
-       <string notr="true">$(EVR):SFP-Pwr-TX-I</string>
+       <string notr="true">$(EVR):SFP$(ID)-Pwr-TX-I</string>
       </property>
       <property name="unitsEnabled">
        <bool>true</bool>
@@ -94,7 +94,7 @@
     <item row="2" column="0">
      <widget class="QLabel" name="label_18">
       <property name="text">
-       <string>SFP Input Power</string>
+       <string>Input Power</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -107,7 +107,7 @@
        <string>Transceiver optical input power</string>
       </property>
       <property name="channel" stdset="0">
-       <string notr="true">$(EVR):SFP-Pwr-RX-I</string>
+       <string notr="true">$(EVR):SFP$(ID)$(ID)-Pwr-RX-I</string>
       </property>
       <property name="unitsEnabled">
        <bool>true</bool>
@@ -142,7 +142,7 @@
     <string notr="true">G_EVR_sfp.ui</string>
    </property>
    <property name="args">
-    <string notr="true">EVR=$(EVR)</string>
+    <string notr="true">ID=$(ID),EVR=$(EVR)</string>
    </property>
   </widget>
  </widget>

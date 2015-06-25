@@ -163,7 +163,7 @@ try{
 
     if(ver>=5) {
         std::ostringstream name;
-        name<<id<<":SFP";
+        name<<id<<":SFP0";
         sfp.reset(new SFP(name.str(), base + U32_SFPEEPROM_base));
     }
 

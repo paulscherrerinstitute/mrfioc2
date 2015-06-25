@@ -189,7 +189,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>4</number>
+     <number>9</number>
     </property>
     <widget class="QWidget" name="tab">
      <attribute name="title">
@@ -1487,6 +1487,22 @@
       </property>
       <property name="macro">
        <string notr="true">ID=7,EVG=$(EVG)</string>
+      </property>
+      <property name="filename" stdset="0">
+       <string notr="true">G_EVG_sfp-min.ui</string>
+      </property>
+     </widget>
+     <widget class="caInclude" name="cainclude_70">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>260</y>
+        <width>661</width>
+        <height>25</height>
+       </rect>
+      </property>
+      <property name="macro">
+       <string notr="true">ID=8,EVG=$(EVG)</string>
       </property>
       <property name="filename" stdset="0">
        <string notr="true">G_EVG_sfp-min.ui</string>
