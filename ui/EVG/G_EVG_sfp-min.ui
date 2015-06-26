@@ -18,7 +18,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>652</width>
+     <width>631</width>
      <height>23</height>
     </rect>
    </property>
@@ -31,7 +31,7 @@
    <widget class="caLineEdit" name="calineedit_7">
     <property name="geometry">
      <rect>
-      <x>350</x>
+      <x>340</x>
       <y>1</y>
       <width>71</width>
       <height>20</height>
@@ -50,7 +50,7 @@
    <widget class="caRelatedDisplay" name="carelateddisplay_3">
     <property name="geometry">
      <rect>
-      <x>603</x>
+      <x>580</x>
       <y>1</y>
       <width>51</width>
       <height>20</height>
@@ -81,7 +81,7 @@
      <rect>
       <x>3</x>
       <y>1</y>
-      <width>91</width>
+      <width>81</width>
       <height>20</height>
      </rect>
     </property>
@@ -98,7 +98,7 @@
    <widget class="caLineEdit" name="calineedit_8">
     <property name="geometry">
      <rect>
-      <x>514</x>
+      <x>500</x>
       <y>1</y>
       <width>71</width>
       <height>20</height>
@@ -117,9 +117,9 @@
    <widget class="QLabel" name="label_16">
     <property name="geometry">
      <rect>
-      <x>93</x>
+      <x>90</x>
       <y>1</y>
-      <width>91</width>
+      <width>81</width>
       <height>20</height>
      </rect>
     </property>
@@ -133,7 +133,7 @@
    <widget class="QLabel" name="label_18">
     <property name="geometry">
      <rect>
-      <x>437</x>
+      <x>420</x>
       <y>1</y>
       <width>71</width>
       <height>20</height>
@@ -149,7 +149,7 @@
    <widget class="QLabel" name="label_17">
     <property name="geometry">
      <rect>
-      <x>273</x>
+      <x>260</x>
       <y>1</y>
       <width>71</width>
       <height>20</height>
@@ -165,7 +165,7 @@
    <widget class="caLineEdit" name="calineedit_6">
     <property name="geometry">
      <rect>
-      <x>190</x>
+      <x>180</x>
       <y>1</y>
       <width>71</width>
       <height>20</height>

@@ -189,7 +189,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>9</number>
+     <number>4</number>
     </property>
     <widget class="QWidget" name="tab">
      <attribute name="title">
@@ -1341,9 +1341,9 @@
     </widget>
     <widget class="QWidget" name="tab_9">
      <attribute name="title">
-      <string>Misc</string>
+      <string>FCT</string>
      </attribute>
-     <widget class="caInclude" name="cainclude_61">
+     <widget class="QScrollArea" name="scrollArea_7">
       <property name="geometry">
        <rect>
         <x>0</x>
@@ -1352,161 +1352,287 @@
         <height>471</height>
        </rect>
       </property>
-      <property name="macro">
-       <string notr="true">EVG=$(EVG)</string>
+      <property name="widgetResizable">
+       <bool>true</bool>
       </property>
-      <property name="filename" stdset="0">
-       <string notr="true">G_EVG_VME_misc.ui</string>
-      </property>
-     </widget>
-    </widget>
-    <widget class="QWidget" name="tab_10">
-     <attribute name="title">
-      <string>SFP</string>
-     </attribute>
-     <widget class="caInclude" name="cainclude_62">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>20</y>
-        <width>661</width>
-        <height>25</height>
-       </rect>
-      </property>
-      <property name="macro">
-       <string notr="true">ID=0,EVG=$(EVG)</string>
-      </property>
-      <property name="filename" stdset="0">
-       <string notr="true">G_EVG_sfp-min.ui</string>
-      </property>
-     </widget>
-     <widget class="caInclude" name="cainclude_63">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>50</y>
-        <width>661</width>
-        <height>25</height>
-       </rect>
-      </property>
-      <property name="macro">
-       <string notr="true">ID=1,EVG=$(EVG)</string>
-      </property>
-      <property name="filename" stdset="0">
-       <string notr="true">G_EVG_sfp-min.ui</string>
-      </property>
-     </widget>
-     <widget class="caInclude" name="cainclude_64">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>80</y>
-        <width>661</width>
-        <height>25</height>
-       </rect>
-      </property>
-      <property name="macro">
-       <string notr="true">ID=2,EVG=$(EVG)</string>
-      </property>
-      <property name="filename" stdset="0">
-       <string notr="true">G_EVG_sfp-min.ui</string>
-      </property>
-     </widget>
-     <widget class="caInclude" name="cainclude_65">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>110</y>
-        <width>661</width>
-        <height>25</height>
-       </rect>
-      </property>
-      <property name="macro">
-       <string notr="true">ID=3,EVG=$(EVG)</string>
-      </property>
-      <property name="filename" stdset="0">
-       <string notr="true">G_EVG_sfp-min.ui</string>
-      </property>
-     </widget>
-     <widget class="caInclude" name="cainclude_66">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>140</y>
-        <width>661</width>
-        <height>25</height>
-       </rect>
-      </property>
-      <property name="macro">
-       <string notr="true">ID=4,EVG=$(EVG)</string>
-      </property>
-      <property name="filename" stdset="0">
-       <string notr="true">G_EVG_sfp-min.ui</string>
-      </property>
-     </widget>
-     <widget class="caInclude" name="cainclude_67">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>170</y>
-        <width>661</width>
-        <height>25</height>
-       </rect>
-      </property>
-      <property name="macro">
-       <string notr="true">ID=5,EVG=$(EVG)</string>
-      </property>
-      <property name="filename" stdset="0">
-       <string notr="true">G_EVG_sfp-min.ui</string>
-      </property>
-     </widget>
-     <widget class="caInclude" name="cainclude_68">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>200</y>
-        <width>661</width>
-        <height>25</height>
-       </rect>
-      </property>
-      <property name="macro">
-       <string notr="true">ID=6,EVG=$(EVG)</string>
-      </property>
-      <property name="filename" stdset="0">
-       <string notr="true">G_EVG_sfp-min.ui</string>
-      </property>
-     </widget>
-     <widget class="caInclude" name="cainclude_69">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>230</y>
-        <width>661</width>
-        <height>25</height>
-       </rect>
-      </property>
-      <property name="macro">
-       <string notr="true">ID=7,EVG=$(EVG)</string>
-      </property>
-      <property name="filename" stdset="0">
-       <string notr="true">G_EVG_sfp-min.ui</string>
-      </property>
-     </widget>
-     <widget class="caInclude" name="cainclude_70">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>260</y>
-        <width>661</width>
-        <height>25</height>
-       </rect>
-      </property>
-      <property name="macro">
-       <string notr="true">ID=8,EVG=$(EVG)</string>
-      </property>
-      <property name="filename" stdset="0">
-       <string notr="true">G_EVG_sfp-min.ui</string>
-      </property>
+      <widget class="QWidget" name="scrollAreaWidgetContents_7">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>641</width>
+         <height>800</height>
+        </rect>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>800</height>
+        </size>
+       </property>
+       <widget class="caInclude" name="cainclude_75">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>400</y>
+          <width>661</width>
+          <height>50</height>
+         </rect>
+        </property>
+        <property name="macro">
+         <string notr="true">ID=6,STATUS_ID=5,EVG=$(EVG)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVG_VME_fct.ui</string>
+        </property>
+       </widget>
+       <widget class="caInclude" name="cainclude_61">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>100</y>
+          <width>661</width>
+          <height>50</height>
+         </rect>
+        </property>
+        <property name="macro">
+         <string notr="true">ID=1,STATUS_ID=0,EVG=$(EVG)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVG_VME_fct.ui</string>
+        </property>
+       </widget>
+       <widget class="caInclude" name="cainclude_72">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>220</y>
+          <width>661</width>
+          <height>50</height>
+         </rect>
+        </property>
+        <property name="macro">
+         <string notr="true">ID=3,STATUS_ID=2,EVG=$(EVG)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVG_VME_fct.ui</string>
+        </property>
+       </widget>
+       <widget class="caInclude" name="cainclude_73">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>280</y>
+          <width>661</width>
+          <height>50</height>
+         </rect>
+        </property>
+        <property name="macro">
+         <string notr="true">ID=4,STATUS_ID=3,EVG=$(EVG)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVG_VME_fct.ui</string>
+        </property>
+       </widget>
+       <widget class="caInclude" name="cainclude_74">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>340</y>
+          <width>661</width>
+          <height>50</height>
+         </rect>
+        </property>
+        <property name="macro">
+         <string notr="true">ID=5,STATUS_ID=4,EVG=$(EVG)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVG_VME_fct.ui</string>
+        </property>
+       </widget>
+       <widget class="caInclude" name="cainclude_71">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>160</y>
+          <width>661</width>
+          <height>50</height>
+         </rect>
+        </property>
+        <property name="macro">
+         <string notr="true">ID=2,STATUS_ID=1,EVG=$(EVG)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVG_VME_fct.ui</string>
+        </property>
+       </widget>
+       <widget class="QGroupBox" name="groupBox_2">
+        <property name="geometry">
+         <rect>
+          <x>5</x>
+          <y>5</y>
+          <width>631</width>
+          <height>51</height>
+         </rect>
+        </property>
+        <property name="title">
+         <string>Data compensation delay</string>
+        </property>
+        <widget class="QLabel" name="label_19">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>20</y>
+           <width>71</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Upstream</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_20">
+         <property name="geometry">
+          <rect>
+           <x>202</x>
+           <y>20</y>
+           <width>91</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Receive FIFO</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_21">
+         <property name="geometry">
+          <rect>
+           <x>410</x>
+           <y>20</y>
+           <width>141</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>FCT internal datapath</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+        <widget class="caLineEdit" name="calineedit_11">
+         <property name="geometry">
+          <rect>
+           <x>88</x>
+           <y>20</y>
+           <width>71</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+         <property name="channel" stdset="0">
+          <string notr="true">$(EVG):FCT-upDCValue-RB</string>
+         </property>
+         <property name="colorMode">
+          <enum>caLineEdit::Alarm_Default</enum>
+         </property>
+        </widget>
+        <widget class="caLineEdit" name="calineedit_13">
+         <property name="geometry">
+          <rect>
+           <x>300</x>
+           <y>20</y>
+           <width>71</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+         <property name="channel" stdset="0">
+          <string notr="true">$(EVG):FCT-FIFODCValue-RB</string>
+         </property>
+         <property name="colorMode">
+          <enum>caLineEdit::Alarm_Default</enum>
+         </property>
+        </widget>
+        <widget class="caLineEdit" name="calineedit_14">
+         <property name="geometry">
+          <rect>
+           <x>558</x>
+           <y>20</y>
+           <width>71</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+         <property name="channel" stdset="0">
+          <string notr="true">$(EVG):FCT-INTDCValue-RB</string>
+         </property>
+         <property name="colorMode">
+          <enum>caLineEdit::Alarm_Default</enum>
+         </property>
+        </widget>
+       </widget>
+       <widget class="caInclude" name="cainclude_77">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>460</y>
+          <width>661</width>
+          <height>50</height>
+         </rect>
+        </property>
+        <property name="macro">
+         <string notr="true">ID=7,STATUS_ID=6,EVG=$(EVG)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVG_VME_fct.ui</string>
+        </property>
+       </widget>
+       <widget class="caInclude" name="cainclude_78">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>520</y>
+          <width>661</width>
+          <height>50</height>
+         </rect>
+        </property>
+        <property name="macro">
+         <string notr="true">ID=8,STATUS_ID=7,EVG=$(EVG)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVG_VME_fct.ui</string>
+        </property>
+       </widget>
+       <widget class="caInclude" name="cainclude_76">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>70</y>
+          <width>661</width>
+          <height>25</height>
+         </rect>
+        </property>
+        <property name="macro">
+         <string notr="true">ID=0,EVG=$(EVG)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVG_sfp-min.ui</string>
+        </property>
+       </widget>
+      </widget>
      </widget>
     </widget>
    </widget>
