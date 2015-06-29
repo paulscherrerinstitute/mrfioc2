@@ -279,6 +279,8 @@
 /**************************************************************************************************/
 // note, that fanout SFPs are defined in the SFP section
 
+#define EVG_FCT_MIN_FIRMWARE    200
+
 #define U32_fct_status_base     0x000   // status register
 #define U32_fct_control_base    0x004   // control register
 #define U32_fct_upstreamDC      0x010   // upstream data compensation delay value

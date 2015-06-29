@@ -96,6 +96,10 @@ evgEvtClk::getFracSynFreq() const {
 void
 evgEvtClk::setSource (epicsUInt16 source) {
     epicsUInt8 clkReg, regMap = 0;
+    epicsUInt32 version;
+
+    version = READ32(m_pReg, FPGAVersion);
+    version &= FPGAVersion_VER_MASK;
 
     switch ((RFClockReference) source) {
     case RFClockReference_Internal:
@@ -118,6 +122,11 @@ evgEvtClk::setSource (epicsUInt16 source) {
         break;
     }
 
+    if((RFClockReference) source > RFClockReference_External && version < EVG_FCT_MIN_FIRMWARE ){
+        throw std::out_of_range("RF clock source you selected does not exist in this firmware version.");
+    }
+
+
     clkReg = READ8(m_pReg, ClockSource);    // read register content
     clkReg &= ~EVG_CLK_SRC_SEL; // clear old clock source
     clkReg |= regMap;  // set new clock source
@@ -127,6 +136,10 @@ evgEvtClk::setSource (epicsUInt16 source) {
 epicsUInt16
 evgEvtClk::getSource() const {
     epicsUInt8 clkReg, source;
+    epicsBoolean fct = false;
+
+    version = READ32(m_pReg, FPGAVersion);
+    version &= FPGAVersion_VER_MASK;
 
     clkReg = READ8(m_pReg, ClockSource);
     clkReg &= EVG_CLK_SRC_SEL;
@@ -140,16 +153,23 @@ evgEvtClk::getSource() const {
         break;
     case EVG_CLK_SRC_PXIE100:
        source = (epicsUInt8)RFClockReference_PXIe100;
+       fct = true;
         break;
     case EVG_CLK_SRC_PXIE10:
        source = (epicsUInt8)RFClockReference_PXIe10;
+       fct = true;
         break;
     case EVG_CLK_SRC_RECOVERED:
        source = (epicsUInt8)RFClockReference_Recovered;
+       fct = true;
         break;
     default:
-        throw std::out_of_range("Selected RF clock source does not exist.");
+        throw std::out_of_range("Cannot read valid RF clock source.");
         break;
+    }
+
+    if(fct && version < EVG_FCT_MIN_FIRMWARE ){
+        throw std::out_of_range("Read an RF clock source which does not exist in this firmware version.");
     }
 
     return source;
