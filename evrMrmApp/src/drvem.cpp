@@ -827,8 +827,8 @@ EVRMRM::setPllBandwidth(PLLBandwidth pllBandwidth)
     epicsUInt32 clkCtrl;
     epicsUInt32 bw;
 
-    if(pllBandwidth > PLLBandwidth_MM){
-        throw std::out_of_range("PLL bandwith selection not available.");
+    if(pllBandwidth > PLLBandwidth_MAX){
+        throw std::out_of_range("PLL bandwith you selected is not available.");
     }
 
     bw = (epicsUInt32)pllBandwidth;

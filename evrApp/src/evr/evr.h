@@ -46,7 +46,8 @@ enum PLLBandwidth {
     PLLBandwidth_HL=1,
     PLLBandwidth_MH=2,
     PLLBandwidth_MM=3,
-    PLLBandwidth_ML=4
+    PLLBandwidth_ML=4,
+    PLLBandwidth_MAX=PLLBandwidth_ML
 };
 
 /**@brief Base interface for EVRs.
