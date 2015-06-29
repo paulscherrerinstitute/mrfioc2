@@ -654,6 +654,9 @@
     <property name="colorMode">
      <enum>caLineEdit::Alarm_Default</enum>
     </property>
+    <property name="formatType">
+     <enum>caLineEdit::hexadecimal</enum>
+    </property>
    </widget>
    <widget class="caLineEdit" name="calineedit_9">
     <property name="geometry">
@@ -672,6 +675,9 @@
     </property>
     <property name="colorMode">
      <enum>caLineEdit::Alarm_Default</enum>
+    </property>
+    <property name="formatType">
+     <enum>caLineEdit::hexadecimal</enum>
     </property>
    </widget>
    <widget class="QLabel" name="label_2">

@@ -136,7 +136,8 @@ evgEvtClk::setSource (epicsUInt16 source) {
 epicsUInt16
 evgEvtClk::getSource() const {
     epicsUInt8 clkReg, source;
-    epicsBoolean fct = false;
+    bool fct = false;
+    epicsUInt32 version;
 
     version = READ32(m_pReg, FPGAVersion);
     version &= FPGAVersion_VER_MASK;

@@ -225,12 +225,12 @@ mrmEvgSetupVME (
         }
 
         /* Create a static string for the card description (needed by vxWorks) */
-        Description = allocSNPrintf(40, "EVG-%d '%s' slot %d",
+        char *Description = allocSNPrintf(40, "EVG-%d '%s' slot %d",
                                           info.board & MRF_BID_SERIES_MASK,
                                           id, slot);
 
         /*Register VME address and get corresponding CPU address */
-        status = devRegisterAddress (
+        int status = devRegisterAddress (
             Description,                           // Event Generator card description
             atVMEA24,                              // A24 Address space
             vmeAddress,                            // Physical address of register space
@@ -261,11 +261,11 @@ mrmEvgSetupVME (
             }
 
             /* Create a static string for the card description (needed by vxWorks) */
-            char *Description = allocSNPrintf(40, "EVG-%d FOUT'%s' slot %d",
+            Description = allocSNPrintf(40, "EVG-%d FOUT'%s' slot %d",
                                               info.board & MRF_BID_SERIES_MASK,
                                               id, slot);
 
-             int status = devRegisterAddress (
+             status = devRegisterAddress (
                 Description,                           // Event Generator card description
                 atVMEA24,                              // A24 Address space
                 vmeAddress+EVG_REGMAP_SIZE,            // Physical address of register space

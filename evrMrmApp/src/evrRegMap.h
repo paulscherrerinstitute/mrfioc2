@@ -28,6 +28,11 @@
  * Jukka Pietarinen
  * 07 Apr 2011
  *
+ * Added support for firmware version 200
+ * as documented in EVR-MRM-0200.pdf
+ * Jukka Pietarinen
+ * 15 June 2015
+ *
  * Important note about data width
  *
  * All registers can be accessed with 8, 16, or 32 width
