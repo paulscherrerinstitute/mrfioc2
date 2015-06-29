@@ -145,7 +145,7 @@ public:
 
 private:
     const std::string             m_id;
-    volatile epicsUInt8* const    m_pReg;   // EVR function register map
+    volatile epicsUInt8* const    m_pReg;   // EVG function register map
     volatile epicsUInt8* const    m_fctReg; // FCT function register map
     bus_configuration             busConfiguration;
 
@@ -178,7 +178,7 @@ private:
     wdTimer*                      m_wdTimer;
     epicsEvent*                   m_timerEvent;
 
-    std::vector<SFP*>             m_sfp;    // main + fanout transceivers. Transceiver indexed 0 is main transceiver.
+    std::vector<SFP*>             m_sfp;    // upstream + fanout transceivers. Transceiver indexed 0 is upstream transceiver.
 };
 
 /*Creating a timer thread bcz epicsTimer uses epicsGeneralTime and when

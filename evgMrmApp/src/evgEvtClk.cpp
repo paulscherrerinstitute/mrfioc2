@@ -136,7 +136,7 @@ evgEvtClk::setSource (epicsUInt16 source) {
 epicsUInt16
 evgEvtClk::getSource() const {
     epicsUInt8 clkReg, source;
-    bool fct = false;
+    bool fct = true;
     epicsUInt32 version;
 
     version = READ32(m_pReg, FPGAVersion);
@@ -148,21 +148,20 @@ evgEvtClk::getSource() const {
     switch (clkReg) {
     case EVG_CLK_SRC_INTERNAL:
        source = (epicsUInt8)RFClockReference_Internal;
+       fct = false;
         break;
     case EVG_CLK_SRC_EXTERNAL:
        source = (epicsUInt8)RFClockReference_External;
+       fct = false;
         break;
     case EVG_CLK_SRC_PXIE100:
        source = (epicsUInt8)RFClockReference_PXIe100;
-       fct = true;
         break;
     case EVG_CLK_SRC_PXIE10:
        source = (epicsUInt8)RFClockReference_PXIe10;
-       fct = true;
         break;
     case EVG_CLK_SRC_RECOVERED:
        source = (epicsUInt8)RFClockReference_Recovered;
-       fct = true;
         break;
     default:
         throw std::out_of_range("Cannot read valid RF clock source.");
