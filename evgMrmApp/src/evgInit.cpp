@@ -176,7 +176,7 @@ mrmEvgSetupVME (
     epicsInt32  irqVector)  // Desired interrupt vector number
 {
     volatile epicsUInt8* regCpuAddr = 0;
-    volatile epicsUInt8* regCpuAddr2 = 0; //function 2 of regmap (fanout/concnectrator specifics)
+    volatile epicsUInt8* regCpuAddr2 = 0; //function 2 of regmap (fanout/concentrator specifics)
     struct VMECSRID info;
     bus_configuration bus;
 
@@ -224,40 +224,6 @@ mrmEvgSetupVME (
             }
         }
 
-        /* Set the base address of Register Map for function 2,  */
-        CSRSetBase(csrCpuAddr, 2, vmeAddress+EVG_REGMAP_SIZE, VME_AM_STD_SUP_DATA);
-        {
-            epicsUInt32 temp=CSRRead32((csrCpuAddr) + CSR_FN_ADER(2));
-
-            if(temp != CSRADER((epicsUInt32)vmeAddress+EVG_REGMAP_SIZE,VME_AM_STD_SUP_DATA)) {
-                printf("Failed to set CSR Base address in ADER2.  Check VME bus and card firmware version.\n");
-                return -1;
-            }
-        }
-
-        /* Create a static string for the card description (needed by vxWorks) */
-        char *Description = allocSNPrintf(40, "EVG-%d FOUT'%s' slot %d",
-                                          info.board & MRF_BID_SERIES_MASK,
-                                          id, slot);
-
-         int status = devRegisterAddress (
-            Description,                           // Event Generator card description
-            atVMEA24,                              // A24 Address space
-            vmeAddress+EVG_REGMAP_SIZE,            // Physical address of register space
-            EVG_REGMAP_SIZE*2,                       // Size of card's register space
-            (volatile void **)(void *)&regCpuAddr2 // Local address of card's register map
-        );
-
-         //FIXME: duplicate and add support for VME function 2, map it on the end of function 1?
-         if(status) {
-             errlogPrintf("Failed to map VME address %08x\n", vmeAddress);
-             return -1;
-         }
-
-        //FIXME: duplicate and add support for VME function 2, map it on the end of function 1?
-
-
-
         /* Create a static string for the card description (needed by vxWorks) */
         Description = allocSNPrintf(40, "EVG-%d '%s' slot %d",
                                           info.board & MRF_BID_SERIES_MASK,
@@ -270,7 +236,7 @@ mrmEvgSetupVME (
             vmeAddress,                            // Physical address of register space
             EVG_REGMAP_SIZE,                       // Size of card's register space
             (volatile void **)(void *)&regCpuAddr  // Local address of card's register map
-        );  //FIXME: duplicate and add support for VME function 2, map it on the end of function 1?
+        );
 
 
         if(status) {
@@ -278,8 +244,40 @@ mrmEvgSetupVME (
             return -1;
         }
 
-        printf("FPGA version: %08x\n", READ32(regCpuAddr, FPGAVersion));
+        epicsUInt32 version = READ32(regCpuAddr, FPGAVersion);
+        printf("FPGA version: %08x\n", version);
         checkVersion(regCpuAddr, 3, 3);
+
+        /* Set the base address of Register Map for function 2, if we have the right firmware version  */
+        if((version & FPGAVersion_VER_MASK) >= EVG_FCT_MIN_FIRMWARE){
+            CSRSetBase(csrCpuAddr, 2, vmeAddress+EVG_REGMAP_SIZE, VME_AM_STD_SUP_DATA);
+            {
+                epicsUInt32 temp=CSRRead32((csrCpuAddr) + CSR_FN_ADER(2));
+
+                if(temp != CSRADER((epicsUInt32)vmeAddress+EVG_REGMAP_SIZE,VME_AM_STD_SUP_DATA)) {
+                    printf("Failed to set CSR Base address in ADER2 for FCT register mapping.  Check VME bus and card firmware version.\n");
+                    return -1;
+                }
+            }
+
+            /* Create a static string for the card description (needed by vxWorks) */
+            char *Description = allocSNPrintf(40, "EVG-%d FOUT'%s' slot %d",
+                                              info.board & MRF_BID_SERIES_MASK,
+                                              id, slot);
+
+             int status = devRegisterAddress (
+                Description,                           // Event Generator card description
+                atVMEA24,                              // A24 Address space
+                vmeAddress+EVG_REGMAP_SIZE,            // Physical address of register space
+                EVG_REGMAP_SIZE*2,                     // Size of card's register space
+                (volatile void **)(void *)&regCpuAddr2 // Local address of card's register map
+            );
+
+            if(status) {
+                errlogPrintf("Failed to map VME address %08x for FCT mapping\n", vmeAddress);
+                return -1;
+            }
+        }
 
         evgMrm* evg = new evgMrm(id, bus, regCpuAddr, regCpuAddr2, NULL);
 
@@ -431,8 +429,7 @@ mrmEvgSetupPCI (
         printf("FPGA version: %08x\n", version);
 		checkVersion(BAR_evg, 3, 3);
 
-        // TODO version checking??
-        if((version & FPGAVersion_VER_MASK) >= 200){
+        if((version & FPGAVersion_VER_MASK) >= EVG_FCT_MIN_FIRMWARE){   // map FCT space if firmware supports it
             if (devPCIToLocalAddr(cur, 1, (volatile void**) (void *) &BAR_fct, 0)){
                 errlogPrintf("Failed to map BAR 1\n");
                 return -1;
