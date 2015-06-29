@@ -404,16 +404,17 @@ mrmEvgSetupPCI (
 		printf("Using IRQ %u\n", cur->irq);
 
 		/* MMap BAR0(plx) and BAR2(EVG)*/
-		volatile epicsUInt8 *BAR_plx, *BAR_evg;
+        volatile epicsUInt8 *BAR_plx, *BAR_evg, *BAR_fct = 0;
 
 		if (devPCIToLocalAddr(cur, 0, (volatile void**) (void *) &BAR_plx, 0)
 				|| devPCIToLocalAddr(cur, 2, (volatile void**) (void *) &BAR_evg, 0)) {
 			errlogPrintf("Failed to map BARs 0 and 2\n");
 			return -1;
 		}
-		if (!BAR_plx || !BAR_evg) {
+
+        if (!BAR_plx || !BAR_evg) {
 			errlogPrintf("BARs mapped to zero? (%08lx,%08lx)\n",
-					(unsigned long) BAR_plx, (unsigned long) BAR_evg);
+                    (unsigned long) BAR_plx, (unsigned long) BAR_evg);
 			return -1;
 		}
 
@@ -426,11 +427,24 @@ mrmEvgSetupPCI (
 		plxCtrl = plxCtrl & ~LAS0BRD_ENDIAN;
 		LE_WRITE32(BAR_plx,LAS0BRD,plxCtrl);
 
-		printf("FPGA version: %08x\n", READ32(BAR_evg, FPGAVersion));
+        epicsUInt32 version = READ32(BAR_evg, FPGAVersion);
+        printf("FPGA version: %08x\n", version);
 		checkVersion(BAR_evg, 3, 3);
 
-        // TODO map FCT register map!
-        evgMrm* evg = new evgMrm(id, bus, BAR_evg, 0, cur);
+        // TODO version checking??
+        if((version & FPGAVersion_VER_MASK) >= 200){
+            if (devPCIToLocalAddr(cur, 1, (volatile void**) (void *) &BAR_fct, 0)){
+                errlogPrintf("Failed to map BAR 1\n");
+                return -1;
+            }
+            if (!BAR_fct) {
+                errlogPrintf("BAR 1 mapped to zero? (%08lx)\n",
+                        (unsigned long) BAR_fct);
+                return -1;
+            }
+        }
+
+        evgMrm* evg = new evgMrm(id, bus, BAR_evg, BAR_fct, cur);
 
 		evg->getSeqRamMgr()->getSeqRam(0)->disable();
 		evg->getSeqRamMgr()->getSeqRam(1)->disable();
