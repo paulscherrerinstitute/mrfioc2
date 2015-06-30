@@ -32,6 +32,7 @@ OBJECT_BEGIN(evgEvtClk) {
     OBJECT_PROP2("Source",      &evgEvtClk::getSource, &evgEvtClk::setSource);
     OBJECT_PROP2("RFFreq",      &evgEvtClk::getRFFreq, &evgEvtClk::setRFFreq);
     OBJECT_PROP2("RFDiv",       &evgEvtClk::getRFDiv,  &evgEvtClk::setRFDiv);
+    OBJECT_PROP2("PLL",         &evgEvtClk::getPLLBandWidth,  &evgEvtClk::setPLLBandWidth);
     OBJECT_PROP2("FracSynFreq", &evgEvtClk::getFracSynFreq, &evgEvtClk::setFracSynFreq);
     OBJECT_PROP1("Frequency",   &evgEvtClk::getFrequency);
 } OBJECT_END(evgEvtClk)
