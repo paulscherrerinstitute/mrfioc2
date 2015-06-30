@@ -200,9 +200,9 @@ try{
         //This is for vme300
         //FIXME: add form factor for 300 series?
         nOFP=4;
-        nCML=4; // OFP 4-6 are CML
+        nCML=4; // FP univ out 6-9 are CML
         nOFPDly=4;
-        nOFPUV=8;
+        nOFPUV=10;
         nORB=16;
         nIFP=2;
         break;

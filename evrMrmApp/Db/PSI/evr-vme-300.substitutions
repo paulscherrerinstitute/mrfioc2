@@ -85,18 +85,16 @@ file "evr-in.template"
 file "evr-out.template"
 {pattern
 { SYS,      EVR,      OBJ,    		 	ID,   DESC}
-{"$(SYS)", "$(EVR)", "FrontOut", 		0,   "OUT0 (CML)"}
-{"$(SYS)", "$(EVR)", "FrontOut", 		1,   "OUT1 (CML)"}
-{"$(SYS)", "$(EVR)", "FrontOut", 		2,   "OUT2 (CML)"}
-{"$(SYS)", "$(EVR)", "FrontOut", 		3,   "OUT3 (CML)"}
 {"$(SYS)", "$(EVR)", "FrontUnivOut", 	0,   "UNIV0"}
 {"$(SYS)", "$(EVR)", "FrontUnivOut", 	1,   "UNIV1"}
 {"$(SYS)", "$(EVR)", "FrontUnivOut", 	2,   "UNIV2"}
 {"$(SYS)", "$(EVR)", "FrontUnivOut", 	3,   "UNIV3"}
 {"$(SYS)", "$(EVR)", "FrontUnivOut", 	4,   "UNIV4"}
 {"$(SYS)", "$(EVR)", "FrontUnivOut", 	5,   "UNIV5"}
-{"$(SYS)", "$(EVR)", "FrontUnivOut", 	6,   "UNIV6"}
-{"$(SYS)", "$(EVR)", "FrontUnivOut", 	7,   "UNIV7"}
+{"$(SYS)", "$(EVR)", "FrontUnivOut", 	6,   "UNIV6 (CML)"}
+{"$(SYS)", "$(EVR)", "FrontUnivOut", 	7,   "UNIV7 (CML)"}
+{"$(SYS)", "$(EVR)", "FrontUnivOut", 	8,   "UNIV8 (CML)"}
+{"$(SYS)", "$(EVR)", "FrontUnivOut", 	9,   "UNIV9 (CML)"}
 {"$(SYS)", "$(EVR)", "RearUniv", 		0,   "TRANSITION 0"}
 {"$(SYS)", "$(EVR)", "RearUniv", 		1,   "TRANSITION 1"}
 {"$(SYS)", "$(EVR)", "RearUniv", 		2,   "TRANSITION 2"}
