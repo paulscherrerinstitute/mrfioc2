@@ -94,6 +94,23 @@ evgEvtClk::getFracSynFreq() const {
 }
 
 void
+evgEvtClk::setPLLBandWidth(epicsUInt16 val) {
+    epicsUInt8 clkReg;
+    clkReg = READ8(m_pReg, ClockSource);    // read register content
+    clkReg &= ~(0x70); //clear bw_sel
+    clkReg |= (val << 4); //OR bw sel value
+    WRITE8(m_pReg, ClockSource, clkReg);    // write the new value to the register
+}
+
+epicsUInt16
+evgEvtClk::getPLLBandWidth() const {
+    epicsUInt8 clkReg;
+    clkReg = READ8(m_pReg, ClockSource);    // read register content
+    clkReg &= 0x70;
+    return (clkReg >> 4);
+}
+
+void
 evgEvtClk::setSource (epicsUInt16 source) {
     epicsUInt8 clkReg, regMap = 0;
     epicsUInt32 version;

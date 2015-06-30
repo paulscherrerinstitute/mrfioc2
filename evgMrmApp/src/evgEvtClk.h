@@ -35,6 +35,9 @@ public:
     void setFracSynFreq(epicsFloat64);
     epicsFloat64 getFracSynFreq() const;
 
+    void setPLLBandWidth(epicsUInt16);
+    epicsUInt16 getPLLBandWidth() const;
+
     void setSource(epicsUInt16 source);
     epicsUInt16 getSource() const;
 
