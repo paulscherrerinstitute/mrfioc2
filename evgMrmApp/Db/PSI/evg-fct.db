@@ -1,6 +1,6 @@
 record(longin, "$(SYS)-$(EVG):$(OBJ)-upstreamDC-I") {
   field(DTYP, "Obj Prop uint32")
-  field(INP , "@OBJ=$(EVG):$(OBJ), PROP=DylCompens upstream")
+  field(INP , "@OBJ=$(EVG):$(OBJ), PROP=DlyCompens upstream")
   field(PINI, "YES")
   field(DESC, "Upstream dly. compens.")
   field(SCAN, "1 second")
@@ -8,7 +8,7 @@ record(longin, "$(SYS)-$(EVG):$(OBJ)-upstreamDC-I") {
 
 record(longin, "$(SYS)-$(EVG):$(OBJ)-receiveDC-I") {
   field(DTYP, "Obj Prop uint32")
-  field(INP , "@OBJ=$(EVG):$(OBJ), PROP=DylCompens receive")
+  field(INP , "@OBJ=$(EVG):$(OBJ), PROP=DlyCompens receive")
   field(PINI, "YES")
   field(DESC, "Receive FIFO dly. compens.")
   field(SCAN, "1 second")
@@ -16,7 +16,7 @@ record(longin, "$(SYS)-$(EVG):$(OBJ)-receiveDC-I") {
 
 record(longin, "$(SYS)-$(EVG):$(OBJ)-internalDC-I") {
   field(DTYP, "Obj Prop uint32")
-  field(INP , "@OBJ=$(EVG):$(OBJ), PROP=DylCompens internal")
+  field(INP , "@OBJ=$(EVG):$(OBJ), PROP=DlyCompens internal")
   field(PINI, "YES")
   field(DESC, "Internal datapath dly. compens.")
   field(SCAN, "1 second")

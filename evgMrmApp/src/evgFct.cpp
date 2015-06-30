@@ -1,7 +1,6 @@
 #include "evgFct.h"
 
 #include <mrfCommonIO.h>
-//#include <errlog.h>
 #include <mrfCommon.h>
 
 #include "evgRegMap.h"
@@ -14,7 +13,7 @@ m_sfp(sfp)
     for(int i = 1; i <= evgNumSFPModules; i++) {
         std::ostringstream name;
         name<<evgName<<":SFP"<<i;
-        m_sfp.push_back(new SFP(name.str(), fctReg + U32_SFP(i)));
+        m_sfp.push_back(new SFP(name.str(), fctReg + U32_SFP(i-1)));
     }
 }
 

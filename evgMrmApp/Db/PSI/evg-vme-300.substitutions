@@ -110,10 +110,12 @@ pattern { SYS,      EVG,      OBJ }
         {"$(SYS)", "$(EVG)", "FCT" }
 }
 
+# ID = 0 --> Main transciever (upstream)
+# ID = 1+ --> Fanouts
 file "sfp.template"{
 pattern { SYS,      EVG,      OBJ,   ID }
-        {"$(SYS)", "$(EVG)", "SFP",  0  } # Main transciever (upstream)
-        {"$(SYS)", "$(EVG)", "SFP",  1  } # Fanouts follow...
+        {"$(SYS)", "$(EVG)", "SFP",  0  }
+        {"$(SYS)", "$(EVG)", "SFP",  1  }
         {"$(SYS)", "$(EVG)", "SFP",  2  }
         {"$(SYS)", "$(EVG)", "SFP",  3  }
         {"$(SYS)", "$(EVG)", "SFP",  4  }

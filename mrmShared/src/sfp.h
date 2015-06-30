@@ -41,8 +41,8 @@ public:
 
     epicsUInt16 getStatus() const;
     double getVCCPower() const;
-    epicsInt16 getBitRateUpper() const;
-    epicsInt16 getBitRateLower() const;
+    epicsUInt16 getBitRateUpper() const;
+    epicsUInt16 getBitRateLower() const;
     epicsUInt32 getLinkLength_9um() const;
     epicsUInt16 getLinkLength_50um() const;
     epicsUInt16 getLinkLength_62um() const;
