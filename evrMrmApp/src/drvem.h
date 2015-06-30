@@ -154,6 +154,8 @@ public:
     virtual void setSPISlaveSelect(bool oe);
     virtual bool SPISlaveSelect() const;
 
+    virtual void setDelayCompensationEnabled(bool enabled);
+    virtual bool isDelayCompensationEnabled() const;
     virtual epicsUInt32 delayCompensationTarget() const;
     virtual void setDelayCompensationTarget(epicsUInt32 target);
     virtual epicsUInt32 delayCompensationRxValue() const;

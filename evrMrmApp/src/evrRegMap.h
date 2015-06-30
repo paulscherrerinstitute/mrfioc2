@@ -50,9 +50,9 @@
 #  define Status_fifostop   0x00000020
 
 #define U32_Control     0x004
-#  define Control_enable  0x80000000
-
-#  define Control_evtfwd  0x40000000
+#  define Control_enable            0x80000000
+#  define Control_dlyComp_disable   0x00100000
+#  define Control_evtfwd            0x40000000
 
 /* Loopback 0 - normal, 1 - connects local tx to local rx */
 #  define Control_txloop  0x20000000

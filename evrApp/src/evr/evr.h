@@ -117,6 +117,8 @@ public:
   /**\defgroup dc Delay compensation.
     */
    /*@{*/
+   virtual void setDelayCompensationEnabled(bool enabled) = 0;
+   virtual bool isDelayCompensationEnabled() const = 0;
    virtual epicsUInt32 delayCompensationTarget() const = 0;
    virtual void setDelayCompensationTarget(epicsUInt32 target) = 0;
    virtual epicsUInt32 delayCompensationRxValue() const = 0;

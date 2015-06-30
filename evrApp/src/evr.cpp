@@ -126,6 +126,7 @@ OBJECT_BEGIN(EVR) {
 
     OBJECT_PROP2("External Inhibit", &EVR::extInhib, &EVR::setExtInhib);
 
+    OBJECT_PROP2("dc enabled", &EVR::isDelayCompensationEnabled, &EVR::setDelayCompensationEnabled);
     OBJECT_PROP2("dc tv", &EVR::delayCompensationTarget, &EVR::setDelayCompensationTarget);
     OBJECT_PROP1("dc tpd", &EVR::delayCompensationRxValue);
     OBJECT_PROP1("dc id", &EVR::delayCompensationIntValue);

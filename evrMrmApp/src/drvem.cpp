@@ -646,6 +646,20 @@ EVRMRM::SPISlaveSelect() const{
     return (READ32(base, SPIDCtrl) & SPIDCtrl_SSO_mask) != 0;
 }
 
+void
+EVRMRM::setDelayCompensationEnabled(bool enabled){
+    if(enabled){
+        BITCLR(NAT,32, base, Control, Control_dlyComp_disable);
+    }else{
+        BITSET(NAT, 32, base, Control, Control_dlyComp_disable);
+    }
+}
+
+bool
+EVRMRM::isDelayCompensationEnabled() const{
+    return (READ32(base, Control) & Control_dlyComp_disable) == 0;
+}
+
 epicsUInt32
 EVRMRM::delayCompensationTarget() const{
     return READ32(base, DCTarget);
