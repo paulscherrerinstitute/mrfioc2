@@ -272,6 +272,8 @@
 /**************************************************************************************************/
 
 #define  EVG_EXT_INP_IRQ_ENA    0x01000000
+#define  EVG_INP_SEQ_MASK       0x01FFFFFF
+#define  EVG_INP_SEQ_MASK_shift 25
 
 
 /**************************************************************************************************/
@@ -312,9 +314,11 @@ const epicsUInt16 evgNumMxc = 8;
 const epicsUInt16 evgNumEvtTrig = 8;
 const epicsUInt16 evgNumDbusBit = 8;
 const epicsUInt16 evgNumFrontOut = 6;
-const epicsUInt16 evgNumUnivOut = 4;
+const epicsUInt16 evgNumUnivOut = 10;   // TODO settle for all form factors / FW versions
+//const epicsUInt16 evgNumUnivOut = 4;
 const epicsUInt16 evgNumFrontInp = 2;
-const epicsUInt16 evgNumUnivInp = 4;
+const epicsUInt16 evgNumUnivInp = 10;    // TODO settle for all form factors / FW versions
+//const epicsUInt16 evgNumUnivInp = 4;
 const epicsUInt16 evgNumRearInp = 16;
 const epicsUInt16 evgNumSeqRam = 2;
 const epicsFloat32 evgAllowedTsGitter = 0.5f;
