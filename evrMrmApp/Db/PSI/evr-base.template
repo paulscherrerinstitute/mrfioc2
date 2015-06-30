@@ -172,7 +172,7 @@ record(mbbo, "$(SYS)-$(EVR):Pll-Bandwidth-Sel") {
   field( DTYP, "Obj Prop uint16")
   field( OUT , "@OBJ=$(EVR), PROP=PLL Bandwidth")
   field( PINI, "YES")
-  field( VAL,  "$(Bandwidth-Sel\=0)")
+  field( VAL,  "$(Pll-Bandwidth-Sel\=4)")
   field( ZRST, "HM")
   field( ONST, "HL")
   field( TWST, "MH")
@@ -374,30 +374,43 @@ record(bi, "$(SYS)-$(EVR):DlyCompensation-Enabled-RB") {
   field(ONAM, "Enabled")
 }
 
-record(longout, "$(SYS)-$(EVR):DlyCompensation-Target-SP") {
+record(ao, "$(SYS)-$(EVR):DlyCompensation-Target-SP") {
   field(DTYP, "Obj Prop uint32")
   field(OUT , "@OBJ=$(EVR), PROP=dc tv")
   field(VAL, "$(DlyCompensation-Target-SP\=0)")
+  field(PINI, "YES")
+  field(EGU, "ps")
+  field(LINR, "LINEAR")
+  field(ESLO, "0.000106812")
   field(DESC, "Delay compensation target value")
   field(FLNK, "$(SYS)-$(EVR):DlyCompensation-Target-RB")
   info(autosaveFields_pass0, "VAL")
 }
 
-record(longin, "$(SYS)-$(EVR):DlyCompensation-Target-RB") {
+record(ai, "$(SYS)-$(EVR):DlyCompensation-Target-RB") {
   field(DTYP, "Obj Prop uint32")
+  field(EGU, "ps")
+  field(LINR, "LINEAR")
+  field(ESLO, "0.000106812")
   field(INP , "@OBJ=$(EVR), PROP=dc tv")
   field(DESC, "Delay compensation target value")
 }
 
-record(longin, "$(SYS)-$(EVR):DlyCompensation-Path-RB") {
+record(ai, "$(SYS)-$(EVR):DlyCompensation-Path-RB") {
   field(DTYP, "Obj Prop uint32")
+  field(EGU, "ps")
+  field(LINR, "LINEAR")
+  field(ESLO, "0.000106812")
   field(INP , "@OBJ=$(EVR), PROP=dc tpd")
   field(DESC, "Delay compens trans path dly")
   field(SCAN, "1 second")
 }
 
-record(longin, "$(SYS)-$(EVR):DlyCompensation-Internal-RB") {
+record(ai, "$(SYS)-$(EVR):DlyCompensation-Internal-RB") {
   field(DTYP, "Obj Prop uint32")
+  field(EGU, "ps")
+  field(LINR, "LINEAR")
+  field(ESLO, "0.000106812")
   field(INP , "@OBJ=$(EVR), PROP=dc id")
   field(DESC, "Delay compensation internal delay")
   field(SCAN, "1 second")

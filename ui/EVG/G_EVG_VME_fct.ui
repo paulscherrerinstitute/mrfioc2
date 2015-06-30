@@ -129,6 +129,9 @@
     <property name="colorMode">
      <enum>caLineEdit::Alarm_Default</enum>
     </property>
+    <property name="unitsEnabled">
+     <bool>true</bool>
+    </property>
    </widget>
    <widget class="caLed" name="caled_2">
     <property name="geometry">
@@ -227,7 +230,7 @@
      </color>
     </property>
     <property name="releaseMessage">
-     <string notr="true">$(ID)</string>
+     <string notr="true">$(STATUS_ID)</string>
     </property>
    </widget>
   </widget>

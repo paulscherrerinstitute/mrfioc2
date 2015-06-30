@@ -107,7 +107,7 @@
        <string>Transceiver optical input power</string>
       </property>
       <property name="channel" stdset="0">
-       <string notr="true">$(EVR):SFP$(ID)$(ID)-Pwr-RX-I</string>
+       <string notr="true">$(EVR):SFP$(ID)-Pwr-RX-I</string>
       </property>
       <property name="unitsEnabled">
        <bool>true</bool>

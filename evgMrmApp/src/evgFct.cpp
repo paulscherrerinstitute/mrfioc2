@@ -5,6 +5,7 @@
 
 #include "evgRegMap.h"
 
+
 evgFct::evgFct(const std::string& evgName, volatile epicsUInt8* const fctReg, std::vector<SFP *> &sfp):
 mrf::ObjectInst<evgFct>(evgName+":FCT"),
 m_fctReg(fctReg),
@@ -63,19 +64,18 @@ evgFct::clearPortViolation(epicsUInt16 port){
     epicsUInt32 ctrlReg;
 
     if(port > EVG_FCT_maxPorts || port < 1){    // port 0 == upstream. Fanouts are ports 1+
-        std::out_of_range("Selected fanout port does not exist.");
+        throw std::out_of_range("Selected fanout port does not exist.");
     }
 
     ctrlReg = READ32(m_fctReg, fct_control_base);
     ctrlReg |= EVG_FCT_CONTROL_VIOLATION_start << (port-1);  // clear violation by writing '1' to the clear violation port register
-
     WRITE32(m_fctReg, fct_control_base, ctrlReg);
 }
 
 epicsUInt32
 evgFct::getPortDelayValue(epicsUInt16 port)  const{
     if(port > EVG_FCT_maxPorts || port < 1){    // port 0 == upstream. Fanouts are ports 1+
-        std::out_of_range("Selected fanout port does not exist.");
+        throw std::out_of_range("Selected fanout port does not exist.");
     }
 
     return READ32(m_fctReg, fct_portDC(port-1));

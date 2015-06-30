@@ -82,13 +82,13 @@
 #define  U32_Seq1Control        0x0070  // Sequencer 1 Control Register
 #define  U32_Seq2Control        0x0074  // Sequencer 2 Control Register
 #define  U32_SeqControl_base    0x0070  // Sequencer Control Register Array Base
-#define  U32_SeqControl(n)      (U32_SeqControl_base + (4*n))
+#define  U32_SeqControl(n)      (U32_SeqControl_base + (4*(n)))
 
 #define  U8_SeqSWMask_base      0x0072  // Sequence RAM SW mask register. TODO currently implemented in main EVG class. Maybe this is not the right place...
-#define  U8_SeqSWMask(n)        (U8_SeqSWMask_base + (4*n))
+#define  U8_SeqSWMask(n)        (U8_SeqSWMask_base + (4*(n)))
 
 #define  U8_SeqTrigSrc_base     0x0073
-#define  U8_SeqTrigSrc(n)       (U8_SeqTrigSrc_base + (4*n))
+#define  U8_SeqTrigSrc(n)       (U8_SeqTrigSrc_base + (4*(n)))
 
 
 //=====================
@@ -289,7 +289,7 @@
 #define U32_fct_receiveDC       0x014   // receive FIFO data compensation delay value
 #define U32_fct_internalDC      0x018   // FCT internal datapath data compensation delay value
 #define U32_fct_portDC_base     0x040   // downstream link port loop delay value
-#define U32_fct_portDC(n)       (U32_fct_portDC_base + (4*n))
+#define U32_fct_portDC(n)       (U32_fct_portDC_base + (4*(n)))
 
 #define EVG_FCT_maxPorts 8  // ports 1 - 8
 

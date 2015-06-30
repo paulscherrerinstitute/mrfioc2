@@ -38,7 +38,7 @@
      </rect>
     </property>
     <property name="macro">
-     <string notr="true">ID=FrontInp0, EVG=$(EVG)</string>
+     <string notr="true">ID=$(ID), EVG=$(EVG)</string>
     </property>
     <property name="filename" stdset="0">
      <string notr="true">G_EVG_VME_input.ui</string>
@@ -54,7 +54,7 @@
      </rect>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVG):SoftSeqMask-$(SEQNUM)-SP</string>
+     <string notr="true">$(EVG):$(ID)-SeqMask-SP</string>
     </property>
     <property name="background">
      <color>
@@ -83,7 +83,7 @@
      <set>Qt::AlignCenter</set>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVG):$(EVG):SoftSeqMask-$(SEQNUM)-RB</string>
+     <string notr="true">$(EVG):$(ID)-SeqMask-RB</string>
     </property>
     <property name="colorMode">
      <enum>caLineEdit::Alarm_Default</enum>

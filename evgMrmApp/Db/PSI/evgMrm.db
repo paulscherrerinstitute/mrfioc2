@@ -63,10 +63,25 @@ record(longin, "$(SYS)-$(EVG):DbusStatus-RB" ) {
 }
 
 # Sequence SW mask from sequence ram
+record(longout, "$(SYS)-$(EVG):SoftSeqMask-1-SP" ) {
+    field( DESC, "Seq. RAM SW mask")
+    field( DTYP, "Obj Prop uint16")
+    field( OUT , "@OBJ=$(EVG), PROP=Seq 0 mask")
+    field( FLNK, "$(SYS)-$(EVG):SoftSeqMask-1-RB")
+}
+
 record(longin, "$(SYS)-$(EVG):SoftSeqMask-1-RB" ) {
     field( DESC, "Seq. RAM SW mask")
     field( DTYP, "Obj Prop uint16")
     field( INP , "@OBJ=$(EVG), PROP=Seq 0 mask")
+    field( PINI, "YES")
+}
+
+record(longout, "$(SYS)-$(EVG):SoftSeqMask-2-SP" ) {
+    field( DESC, "Seq. RAM SW mask")
+    field( DTYP, "Obj Prop uint16")
+    field( OUT , "@OBJ=$(EVG), PROP=Seq 1 mask")
+    field( FLNK, "$(SYS)-$(EVG):SoftSeqMask-2-RB")
 }
 
 record(longin, "$(SYS)-$(EVG):SoftSeqMask-2-RB" ) {
@@ -75,27 +90,18 @@ record(longin, "$(SYS)-$(EVG):SoftSeqMask-2-RB" ) {
     field( INP , "@OBJ=$(EVG), PROP=Seq 1 mask")
 }
 
-record(longout, "$(SYS)-$(EVG):SoftSeqMask-1-SP" ) {
-    field( DESC, "Seq. RAM SW mask")
-    field( DTYP, "Obj Prop uint16")
-    field( OUT , "@OBJ=$(EVG), PROP=Seq 0 mask")
-}
-
-record(longout, "$(SYS)-$(EVG):SoftSeqMask-2-SP" ) {
-    field( DESC, "Seq. RAM SW mask")
-    field( DTYP, "Obj Prop uint16")
-    field( OUT , "@OBJ=$(EVG), PROP=Seq 1 mask")
-}
-
 # Delay compensation
 record(bo, "$(SYS)-$(EVG):DlyCompensation-Beacon-Sel") {
     field( DESC, "Dly compens. beacon enable")
     field( DTYP, "Obj Prop bool")
     field( OUT , "@OBJ=$(EVG), PROP=DlyCompens beacon")
-    field( UDF,  "0")
-    #VAL, pini
+    field( UDF , "0")
+    field( VAL , "$(DlyCompensation-Beacon-Sel\=1)")
+    field( PINI, "YES")
     field( ZNAM, "Disabled")
     field( ONAM, "Enabled")
+    field( FLNK, "$(SYS)-$(EVG):DlyCompensation-Beacon-RB")
+    info( autosaveFields_pass0, "VAL")
 }
 
 record(bi, "$(SYS)-$(EVG):DlyCompensation-Beacon-RB") {
@@ -110,10 +116,13 @@ record(bo, "$(SYS)-$(EVG):DlyCompensation-Master-Sel") {
     field( DESC, "Dly compens. beacon enable")
     field( DTYP, "Obj Prop bool")
     field( OUT , "@OBJ=$(EVG), PROP=DlyCompens master")
-    field( UDF,  "0")
-    #VAL, pini
+    field( UDF , "0")
+    field( VAL , "$(DlyCompensation-Master-Sel\=1)")
+    field( PINI, "YES")
     field( ZNAM, "Disabled")
     field( ONAM, "Enabled")
+    field( FLNK, "$(SYS)-$(EVG):DlyCompensation-Master-RB")
+    info( autosaveFields_pass0, "VAL")
 }
 
 record(bi, "$(SYS)-$(EVG):DlyCompensation-Master-RB") {

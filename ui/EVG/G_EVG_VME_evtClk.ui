@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>347</width>
-    <height>278</height>
+    <width>524</width>
+    <height>348</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,8 +18,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>351</width>
-     <height>201</height>
+     <width>441</width>
+     <height>241</height>
     </rect>
    </property>
    <property name="title">
@@ -67,7 +67,7 @@
    <widget class="QLabel" name="label_29">
     <property name="geometry">
      <rect>
-      <x>270</x>
+      <x>330</x>
       <y>10</y>
       <width>71</width>
       <height>20</height>
@@ -83,9 +83,9 @@
    <widget class="caLineEdit" name="calineedit_8">
     <property name="geometry">
      <rect>
-      <x>270</x>
+      <x>319</x>
       <y>30</y>
-      <width>70</width>
+      <width>111</width>
       <height>20</height>
      </rect>
     </property>
@@ -139,7 +139,7 @@
      <rect>
       <x>140</x>
       <y>60</y>
-      <width>121</width>
+      <width>161</width>
       <height>20</height>
      </rect>
     </property>
@@ -160,9 +160,9 @@
    <widget class="caLineEdit" name="calineedit_9">
     <property name="geometry">
      <rect>
-      <x>270</x>
+      <x>319</x>
       <y>60</y>
-      <width>70</width>
+      <width>111</width>
       <height>20</height>
      </rect>
     </property>
@@ -195,9 +195,9 @@
    <widget class="caLineEdit" name="calineedit_11">
     <property name="geometry">
      <rect>
-      <x>270</x>
+      <x>319</x>
       <y>90</y>
-      <width>70</width>
+      <width>111</width>
       <height>20</height>
      </rect>
     </property>
@@ -212,7 +212,7 @@
     <property name="geometry">
      <rect>
       <x>1</x>
-      <y>115</y>
+      <y>145</y>
       <width>121</width>
       <height>31</height>
      </rect>
@@ -230,9 +230,9 @@
    <widget class="caLineEdit" name="calineedit_10">
     <property name="geometry">
      <rect>
-      <x>270</x>
-      <y>120</y>
-      <width>70</width>
+      <x>319</x>
+      <y>150</y>
+      <width>111</width>
       <height>20</height>
      </rect>
     </property>
@@ -253,7 +253,7 @@
     <property name="geometry">
      <rect>
       <x>140</x>
-      <y>120</y>
+      <y>150</y>
       <width>91</width>
       <height>20</height>
      </rect>
@@ -276,7 +276,7 @@
     <property name="geometry">
      <rect>
       <x>1</x>
-      <y>170</y>
+      <y>200</y>
       <width>201</width>
       <height>20</height>
      </rect>
@@ -292,7 +292,7 @@
     <property name="geometry">
      <rect>
       <x>214</x>
-      <y>170</y>
+      <y>200</y>
       <width>121</width>
       <height>20</height>
      </rect>
@@ -330,7 +330,7 @@
     <property name="geometry">
      <rect>
       <x>229</x>
-      <y>120</y>
+      <y>150</y>
       <width>31</width>
       <height>20</height>
      </rect>
@@ -350,7 +350,7 @@
      <rect>
       <x>140</x>
       <y>90</y>
-      <width>121</width>
+      <width>161</width>
       <height>25</height>
      </rect>
     </property>
@@ -359,6 +359,54 @@
     </property>
     <property name="channel" stdset="0">
      <string notr="true">$(EVG):EvtClk-Source-Sel</string>
+    </property>
+   </widget>
+   <widget class="caLineEdit" name="calineedit_13">
+    <property name="geometry">
+     <rect>
+      <x>318</x>
+      <y>120</y>
+      <width>111</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+    <property name="channel" stdset="0">
+     <string notr="true">$(EVG):EvtClk-PLL-RB</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_6">
+    <property name="geometry">
+     <rect>
+      <x>2</x>
+      <y>120</y>
+      <width>121</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>PLL Bandwidth</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+    </property>
+   </widget>
+   <widget class="caMenu" name="camenu_3">
+    <property name="geometry">
+     <rect>
+      <x>139</x>
+      <y>120</y>
+      <width>161</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(212, 219, 157);</string>
+    </property>
+    <property name="channel" stdset="0">
+     <string notr="true">$(EVG):EvtClk-PLL-Sel</string>
     </property>
    </widget>
   </widget>

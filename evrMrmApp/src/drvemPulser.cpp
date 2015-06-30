@@ -238,7 +238,6 @@ MRMPulser::gateMask() const{
 
     mask = READ32(owner.base, PulserCtrl(id)) & PulserCtrl_gateMask;
     mask = mask >> PulserCtrl_gateMask_shift;
-
     mask = mask >> 4;   // pulser gate 0 is mapped to the forth bit, gate1 -> bit 5, ....
 
     return (epicsUInt16)mask;
@@ -249,7 +248,6 @@ MRMPulser::setGateMask(epicsUInt16 mask){
     epicsUInt32 pulserCtrl;
 
     // TODO check if out of range
-
     mask = mask << 4;   // pulser gate 0 is mapped to the forth bit, gate1 -> bit 5, ....
 
     pulserCtrl = READ32(owner.base, PulserCtrl(id));
@@ -264,7 +262,6 @@ MRMPulser::gateEnable() const{
 
     gate = READ32(owner.base, PulserCtrl(id)) & PulserCtrl_gateEnable;
     gate = gate >> PulserCtrl_gateEnable_shift;
-
     gate = gate >> 4;   // pulser gate 0 is mapped to the forth bit, gate1 -> bit 5, ....
 
     return (epicsUInt16)gate;
@@ -276,7 +273,7 @@ MRMPulser::setGateEnable(epicsUInt16 gate){
 
     // TODO check if out of range
 
-    gate = gate >> 4;   // pulser gate 0 is mapped to the forth bit, gate1 -> bit 5, ....
+    gate = gate << 4;   // pulser gate 0 is mapped to the forth bit, gate1 -> bit 5, ....
 
     pulserCtrl = READ32(owner.base, PulserCtrl(id));
     pulserCtrl = pulserCtrl & ~PulserCtrl_gateEnable;

@@ -69,6 +69,8 @@ void
 evgInput::setSeqMask(epicsUInt16 mask) {
     epicsUInt32 temp = nat_ioread32(m_pInReg);
 
+    mask = mask >> 1;   // last bit should be ignored
+
     temp = temp & EVG_INP_SEQ_MASK;
     temp = temp | ((epicsUInt32)mask << EVG_INP_SEQ_MASK_shift);
 
@@ -77,7 +79,12 @@ evgInput::setSeqMask(epicsUInt16 mask) {
 
 epicsUInt16
 evgInput::getSeqMask() const {
-    return (epicsUInt8)(nat_ioread32(m_pInReg) >> EVG_INP_SEQ_MASK_shift);
+    epicsUInt32 mask;
+
+    mask = (nat_ioread32(m_pInReg) >> EVG_INP_SEQ_MASK_shift);
+    mask = mask << 1;  // shift since we ignored LSB bit when setting the value
+
+    return (epicsUInt8)mask;
 }
 
 void

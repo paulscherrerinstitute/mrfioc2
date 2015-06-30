@@ -39,12 +39,6 @@ pattern { SYS,      EVG,      OBJ,       ID,  PPS,  DBUSOBJ}
         {"$(SYS)", "$(EVG)", "UnivInp",  1,   4,    "Dbus"}
         {"$(SYS)", "$(EVG)", "UnivInp",  2,   5,    "Dbus"}
         {"$(SYS)", "$(EVG)", "UnivInp",  3,   6,    "Dbus"}
-        {"$(SYS)", "$(EVG)", "UnivInp",  4,   7,    "Dbus"}
-        {"$(SYS)", "$(EVG)", "UnivInp",  5,   8,    "Dbus"}
-        {"$(SYS)", "$(EVG)", "UnivInp",  6,   9,    "Dbus"}
-        {"$(SYS)", "$(EVG)", "UnivInp",  7,   10,   "Dbus"}
-        {"$(SYS)", "$(EVG)", "UnivInp",  8,   11,   "Dbus"}
-        {"$(SYS)", "$(EVG)", "UnivInp",  9,   12,   "Dbus"}
         {"$(SYS)", "$(EVG)", "RearInp",  0,   0,    "Dbus"}
         {"$(SYS)", "$(EVG)", "RearInp",  1,   0,    "Dbus"}
         {"$(SYS)", "$(EVG)", "RearInp",  2,   0,    "Dbus"}

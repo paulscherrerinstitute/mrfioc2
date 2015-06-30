@@ -73,7 +73,7 @@
      <string notr="true">G_EVG_sfp.ui</string>
     </property>
     <property name="args">
-     <string notr="true">ID=$(ID),EVR=$(EVR)</string>
+     <string notr="true">ID=$(ID),EVG=$(EVG)</string>
     </property>
    </widget>
    <widget class="caLabel" name="calabel">

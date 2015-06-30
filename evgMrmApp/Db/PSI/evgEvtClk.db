@@ -51,7 +51,7 @@ record(mbbo, "$(SYS)-$(EVG):$(OBJ)-PLL-Sel") {
     field( DTYP, "Obj Prop uint16")
     field( OUT,  "@OBJ=$(EVG):$(OBJ), PROP=PLL")
     field( PINI, "YES")
-    field( VAL,  "$($(OBJ)-PLL-Sel\=0)")
+    field( VAL,  "$($(OBJ)-PLL-Sel\=4)")
     field( ZRST, "HM")
     field( ONST, "HL")
     field( TWST, "MH")

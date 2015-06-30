@@ -189,7 +189,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>4</number>
+     <number>8</number>
     </property>
     <widget class="QWidget" name="tab">
      <attribute name="title">
@@ -726,14 +726,14 @@
           <x>10</x>
           <y>1815</y>
           <width>565</width>
-          <height>85</height>
+          <height>181</height>
          </rect>
         </property>
         <property name="macro">
          <string notr="true">ID=RearInp15, EVG=$(EVG)</string>
         </property>
         <property name="filename" stdset="0">
-         <string notr="true">G_EVG_VME_input.ui</string>
+         <string notr="true">G_EVG_VME_input_sequenceMask.ui</string>
         </property>
        </widget>
       </widget>
@@ -1253,10 +1253,10 @@
      <widget class="caInclude" name="cainclude_3">
       <property name="geometry">
        <rect>
-        <x>140</x>
+        <x>100</x>
         <y>20</y>
-        <width>360</width>
-        <height>211</height>
+        <width>461</width>
+        <height>351</height>
        </rect>
       </property>
       <property name="macro">
@@ -1539,10 +1539,13 @@
           <set>Qt::AlignCenter</set>
          </property>
          <property name="channel" stdset="0">
-          <string notr="true">$(EVG):FCT-upDCValue-RB</string>
+          <string notr="true">$(EVG):FCT-upstreamDC-I</string>
          </property>
          <property name="colorMode">
           <enum>caLineEdit::Alarm_Default</enum>
+         </property>
+         <property name="unitsEnabled">
+          <bool>true</bool>
          </property>
         </widget>
         <widget class="caLineEdit" name="calineedit_13">
@@ -1558,10 +1561,13 @@
           <set>Qt::AlignCenter</set>
          </property>
          <property name="channel" stdset="0">
-          <string notr="true">$(EVG):FCT-FIFODCValue-RB</string>
+          <string notr="true">$(EVG):FCT-receiveDC-I</string>
          </property>
          <property name="colorMode">
           <enum>caLineEdit::Alarm_Default</enum>
+         </property>
+         <property name="unitsEnabled">
+          <bool>true</bool>
          </property>
         </widget>
         <widget class="caLineEdit" name="calineedit_14">
@@ -1577,10 +1583,13 @@
           <set>Qt::AlignCenter</set>
          </property>
          <property name="channel" stdset="0">
-          <string notr="true">$(EVG):FCT-INTDCValue-RB</string>
+          <string notr="true">$(EVG):FCT-internalDC-I</string>
          </property>
          <property name="colorMode">
           <enum>caLineEdit::Alarm_Default</enum>
+         </property>
+         <property name="unitsEnabled">
+          <bool>true</bool>
          </property>
         </widget>
        </widget>
@@ -1693,7 +1702,7 @@
       <x>220</x>
       <y>39</y>
       <width>231</width>
-      <height>91</height>
+      <height>101</height>
      </rect>
     </property>
     <property name="title">

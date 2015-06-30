@@ -1,23 +1,29 @@
-record(longin, "$(SYS)-$(EVG):$(OBJ)-upstreamDC-I") {
+record(ai, "$(SYS)-$(EVG):$(OBJ)-upstreamDC-I") {
   field(DTYP, "Obj Prop uint32")
   field(INP , "@OBJ=$(EVG):$(OBJ), PROP=DlyCompens upstream")
-  field(PINI, "YES")
+  field(EGU, "ps")
+  field(LINR, "LINEAR")
+  field(ESLO, "0.000106812")
   field(DESC, "Upstream dly. compens.")
   field(SCAN, "1 second")
 }
 
-record(longin, "$(SYS)-$(EVG):$(OBJ)-receiveDC-I") {
+record(ai, "$(SYS)-$(EVG):$(OBJ)-receiveDC-I") {
   field(DTYP, "Obj Prop uint32")
   field(INP , "@OBJ=$(EVG):$(OBJ), PROP=DlyCompens receive")
-  field(PINI, "YES")
+  field(EGU, "ps")
+  field(LINR, "LINEAR")
+  field(ESLO, "0.000106812")
   field(DESC, "Receive FIFO dly. compens.")
   field(SCAN, "1 second")
 }
 
-record(longin, "$(SYS)-$(EVG):$(OBJ)-internalDC-I") {
+record(ai, "$(SYS)-$(EVG):$(OBJ)-internalDC-I") {
   field(DTYP, "Obj Prop uint32")
   field(INP , "@OBJ=$(EVG):$(OBJ), PROP=DlyCompens internal")
-  field(PINI, "YES")
+  field(EGU, "ps")
+  field(LINR, "LINEAR")
+  field(ESLO, "0.000106812")
   field(DESC, "Internal datapath dly. compens.")
   field(SCAN, "1 second")
 }
@@ -45,58 +51,82 @@ record(mbbiDirect, "$(SYS)-$(EVG):$(OBJ)-Violation-I") {
   field(SCAN, "1 second")
 }
 
-record(longin, "$(SYS)-$(EVG):$(OBJ)-Port1DC-I") {
+record(ai, "$(SYS)-$(EVG):$(OBJ)-Port1DC-I") {
   field(DESC, "Downstream link port 1 loop dly val")
   field(DTYP, "Obj Prop uint32")
   field(INP , "@OBJ=$(EVG):$(OBJ), PROP=LoopDelay port1")
+  field(EGU, "ps")
+  field(LINR, "LINEAR")
+  field(ESLO, "0.000106812")
   field(SCAN, "1 second")
 }
 
-record(longin, "$(SYS)-$(EVG):$(OBJ)-Port2DC-I") {
+record(ai, "$(SYS)-$(EVG):$(OBJ)-Port2DC-I") {
   field(DESC, "Downstream link port 2 loop dly val")
   field(DTYP, "Obj Prop uint32")
   field(INP , "@OBJ=$(EVG):$(OBJ), PROP=LoopDelay port2")
+  field(EGU, "ps")
+  field(LINR, "LINEAR")
+  field(ESLO, "0.000106812")
   field(SCAN, "1 second")
 }
 
-record(longin, "$(SYS)-$(EVG):$(OBJ)-Port3DC-I") {
+record(ai, "$(SYS)-$(EVG):$(OBJ)-Port3DC-I") {
   field(DESC, "Downstream link port 3 loop dly val")
   field(DTYP, "Obj Prop uint32")
   field(INP , "@OBJ=$(EVG):$(OBJ), PROP=LoopDelay port3")
+  field(EGU, "ps")
+  field(LINR, "LINEAR")
+  field(ESLO, "0.000106812")
   field(SCAN, "1 second")
 }
 
-record(longin, "$(SYS)-$(EVG):$(OBJ)-Port4DC-I") {
+record(ai, "$(SYS)-$(EVG):$(OBJ)-Port4DC-I") {
   field(DESC, "Downstream link port 4 loop dly val")
   field(DTYP, "Obj Prop uint32")
   field(INP , "@OBJ=$(EVG):$(OBJ), PROP=LoopDelay port4")
+  field(EGU, "ps")
+  field(LINR, "LINEAR")
+  field(ESLO, "0.000106812")
   field(SCAN, "1 second")
 }
 
-record(longin, "$(SYS)-$(EVG):$(OBJ)-Port5DC-I") {
+record(ai, "$(SYS)-$(EVG):$(OBJ)-Port5DC-I") {
   field(DESC, "Downstream link port 5 loop dly val")
   field(DTYP, "Obj Prop uint32")
   field(INP , "@OBJ=$(EVG):$(OBJ), PROP=LoopDelay port5")
+  field(EGU, "ps")
+  field(LINR, "LINEAR")
+  field(ESLO, "0.000106812")
   field(SCAN, "1 second")
 }
 
-record(longin, "$(SYS)-$(EVG):$(OBJ)-Port6DC-I") {
+record(ai, "$(SYS)-$(EVG):$(OBJ)-Port6DC-I") {
   field(DESC, "Downstream link port 6 loop dly val")
   field(DTYP, "Obj Prop uint32")
   field(INP , "@OBJ=$(EVG):$(OBJ), PROP=LoopDelay port6")
+  field(EGU, "ps")
+  field(LINR, "LINEAR")
+  field(ESLO, "0.000106812")
   field(SCAN, "1 second")
 }
 
-record(longin, "$(SYS)-$(EVG):$(OBJ)-Port7DC-I") {
+record(ai, "$(SYS)-$(EVG):$(OBJ)-Port7DC-I") {
   field(DESC, "Downstream link port 7 loop dly val")
   field(DTYP, "Obj Prop uint32")
   field(INP , "@OBJ=$(EVG):$(OBJ), PROP=LoopDelay port7")
+  field(EGU, "ps")
+  field(LINR, "LINEAR")
+  field(ESLO, "0.000106812")
   field(SCAN, "1 second")
 }
 
-record(longin, "$(SYS)-$(EVG):$(OBJ)-Port8DC-I") {
+record(ai, "$(SYS)-$(EVG):$(OBJ)-Port8DC-I") {
   field(DESC, "Downstream link port 8 loop dly val")
   field(DTYP, "Obj Prop uint32")
   field(INP , "@OBJ=$(EVG):$(OBJ), PROP=LoopDelay port8")
+  field(EGU, "ps")
+  field(LINR, "LINEAR")
+  field(ESLO, "0.000106812")
   field(SCAN, "1 second")
 }
