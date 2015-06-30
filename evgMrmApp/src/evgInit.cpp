@@ -146,9 +146,6 @@ void checkVersion(volatile epicsUInt8 *base, unsigned int required,
 	epicsUInt32 type, ver;
     epicsUInt32 v = READ32(base, FPGAVersion);
 
-    if(v & FPGAVersion_ZERO_MASK)
-        throw std::runtime_error("Invalid firmware version (HW or bus error)");
-
     type = v & FPGAVersion_TYPE_MASK;
     type = v >> FPGAVersion_TYPE_SHIFT;
 
@@ -246,7 +243,7 @@ mrmEvgSetupVME (
 
         epicsUInt32 version = READ32(regCpuAddr, FPGAVersion);
         printf("FPGA version: %08x\n", version);
-        checkVersion(regCpuAddr, 3, 3);
+        checkVersion(regCpuAddr, 3, 200);
 
         /* Set the base address of Register Map for function 2, if we have the right firmware version  */
         if((version & FPGAVersion_VER_MASK) >= EVG_FCT_MIN_FIRMWARE){
@@ -427,7 +424,7 @@ mrmEvgSetupPCI (
 
         epicsUInt32 version = READ32(BAR_evg, FPGAVersion);
         printf("FPGA version: %08x\n", version);
-		checkVersion(BAR_evg, 3, 3);
+        checkVersion(BAR_evg, 3, 200);
 
         if((version & FPGAVersion_VER_MASK) >= EVG_FCT_MIN_FIRMWARE){   // map FCT space if firmware supports it
             if (devPCIToLocalAddr(cur, 1, (volatile void**) (void *) &BAR_fct, 0)){

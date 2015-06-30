@@ -238,8 +238,6 @@ void checkVersion(volatile epicsUInt8 *base, unsigned int required, unsigned int
     epicsUInt32 v = READ32(base, FWVersion),evr,ver;
 
     errlogPrintf("FWVersion 0x%08x\n", v);
-    if(v&FWVersion_zero_mask)
-        throw std::runtime_error("Invalid firmware version (HW or bus error)");
 
     evr=v&FWVersion_type_mask;
     evr>>=FWVersion_type_shift;
@@ -444,7 +442,7 @@ try {
         return;
     }
 
-    checkVersion(evr, 3, 6);
+    checkVersion(evr, 3, 200);
 
     // Acknowledge missed interrupts
     //TODO: This avoids a spurious FIFO Full
@@ -637,7 +635,7 @@ try {
         return;
     }
 
-    checkVersion(evr, 4, 5);
+    checkVersion(evr, 4, 200);
 
     // Read offset from start of CSR to start of user (card specific) CSR.
     size_t user_offset=CSRRead24(csr+CR_BEG_UCSR);
