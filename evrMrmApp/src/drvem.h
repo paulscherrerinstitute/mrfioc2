@@ -157,11 +157,8 @@ public:
     virtual epicsUInt32 delayCompensationTarget() const;
     virtual void setDelayCompensationTarget(epicsUInt32 target);
     virtual epicsUInt32 delayCompensationRxValue() const;
-    virtual void setDelayCompensationRxValue(epicsUInt32 rx);
     virtual epicsUInt32 delayCompensationIntValue() const;
-    virtual void setDelayCompensationIntValue(epicsUInt32 internal);
     virtual epicsUInt32 delayCompensationStatus() const;
-    virtual void setDelayCompensationStatus(epicsUInt32 status);
 
     virtual bool specialMapped(epicsUInt32 code, epicsUInt32 func) const;
     virtual void specialSetMap(epicsUInt32 code, epicsUInt32 func,bool);
