@@ -26,6 +26,7 @@ SOURCES+=../mrfCommon/src/mrfFracSynth.c
 SOURCES+=../mrmShared/src/sfp.cpp
 SOURCES+=../mrmShared/src/mrmDataBufTx.cpp
 SOURCES+=../mrmShared/src/devMrfBufTx.cpp
+SOURCES+=../mrmShared/src/spi_flash.c
 SOURCES+=../evrApp/src/devEvrStringIO.cpp
 SOURCES+=../evrApp/src/devEvrPulserMapping.cpp
 SOURCES+=../evrApp/src/ntpShm.cpp

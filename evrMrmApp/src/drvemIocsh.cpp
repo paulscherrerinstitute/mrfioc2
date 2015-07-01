@@ -996,6 +996,36 @@ static void mrmEvrDelaySetCallFunc(const iocshArgBuf *args)
     mrmEvrDelaySet(args[0].sval, args[1].ival, args[2].ival, args[3].ival, args[4].ival,  args[5].ival);
 }*/
 
+/******  SPI  ********/
+static const iocshArg mrmEVRFlashArg0 = { "Card ID", iocshArgString };
+static const iocshArg mrmEVRFlashArg1 = { "bitFile", iocshArgString };
+
+static const iocshArg * const mrmEVRFlashArgs[2] = { &mrmEVRFlashArg0, &mrmEVRFlashArg1};
+static const iocshFuncDef mrmEVRFlashDef = { "mrmEVRFlash", 2, mrmEVRFlashArgs };
+
+extern "C"{
+    extern int spi_program_flash(void* preg, char *bitfile);
+}
+
+static void mrmEVRFlashFunc(const iocshArgBuf *args) {
+   char* cardID = args[0].sval;
+   char* bitfile = args[1].sval;
+
+   printf("Starting SPI flash procedure for %s [%s]\n", cardID, bitfile);
+
+   EVRMRM* evr = dynamic_cast<EVRMRM*>(mrf::Object::getObject(cardID));
+   if(!evr){
+       errlogPrintf("EVR <%s> does not exist!\n", cardID);
+       return;
+   }
+
+   void* preg = (void*)evr->base;
+
+   spi_program_flash(preg, bitfile);
+}
+
+/****************/
+
 static
 void mrmsetupreg()
 {
@@ -1004,6 +1034,7 @@ void mrmsetupreg()
     iocshRegister(&mrmEvrSetupVMEFuncDef,mrmEvrSetupVMECallFunc);
     iocshRegister(&mrmEvrDumpMapFuncDef,mrmEvrDumpMapCallFunc);
     iocshRegister(&mrmEvrForwardFuncDef,mrmEvrForwardCallFunc);
+    iocshRegister(&mrmEVRFlashDef,mrmEVRFlashFunc);
     /*iocshRegister(&mrmEvrGpioDirectionFuncDef,mrmEvrGpioDirectionCallFunc);
      *
     iocshRegister(&mrmEvrDelaySetFuncDef,mrmEvrDelaySetCallFunc);
