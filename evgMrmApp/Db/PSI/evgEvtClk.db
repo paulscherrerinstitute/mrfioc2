@@ -46,12 +46,12 @@ record(mbbi, "$(SYS)-$(EVG):$(OBJ)-Source-RB") {
     field( FRVL, "4")
 }
 
-record(mbbo, "$(SYS)-$(EVG):$(OBJ)-PLL-Sel") {
+record(mbbo, "$(SYS)-$(EVG):$(OBJ)-PLL-Bandwidth-Sel") {
     field( DESC, "EVG Evt Clk Source")
     field( DTYP, "Obj Prop uint16")
-    field( OUT,  "@OBJ=$(EVG):$(OBJ), PROP=PLL")
+    field( OUT,  "@OBJ=$(EVG):$(OBJ), PROP=PLL Bandwidth")
     field( PINI, "YES")
-    field( VAL,  "$($(OBJ)-PLL-Sel\=4)")
+    field( VAL,  "$($(OBJ)-PLL-Bandwidth-Sel\=4)")
     field( ZRST, "HM")
     field( ONST, "HL")
     field( TWST, "MH")
@@ -74,14 +74,14 @@ record(mbbo, "$(SYS)-$(EVG):$(OBJ)-PLL-Sel") {
     field( FTSV, "INVALID")
     field( FFSV, "INVALID")
     field( UNSV, "INVALID")
-    field( FLNK, "$(SYS)-$(EVG):$(OBJ)-PLL-RB")
+    field( FLNK, "$(SYS)-$(EVG):$(OBJ)-PLL-Bandwidth-RB")
     info( autosaveFields_pass0, "VAL")
 }
 
-record(mbbi, "$(SYS)-$(EVG):$(OBJ)-PLL-RB") {
+record(mbbi, "$(SYS)-$(EVG):$(OBJ)-PLL-Bandwidth-RB") {
     field( DESC, "EVG Evt Clk Source")
     field( DTYP, "Obj Prop uint16")
-    field( INP,  "@OBJ=$(EVG):$(OBJ), PROP=PLL")
+    field( INP,  "@OBJ=$(EVG):$(OBJ), PROP=PLL Bandwidth")
     field( ZRST, "HM")
     field( ONST, "HL")
     field( TWST, "MH")

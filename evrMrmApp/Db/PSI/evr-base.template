@@ -168,11 +168,11 @@ record(bi, "$(SYS)-$(EVR):Pll-Sts") {
   field(ZSV , "MAJOR")
 }
 
-record(mbbo, "$(SYS)-$(EVR):Pll-Bandwidth-Sel") {
+record(mbbo, "$(SYS)-$(EVR):PLL-Bandwidth-Sel") {
   field( DTYP, "Obj Prop uint16")
   field( OUT , "@OBJ=$(EVR), PROP=PLL Bandwidth")
   field( PINI, "YES")
-  field( VAL,  "$(Pll-Bandwidth-Sel\=4)")
+  field( VAL,  "$(PLL-Bandwidth-Sel\=4)")
   field( ZRST, "HM")
   field( ONST, "HL")
   field( TWST, "MH")
@@ -195,11 +195,11 @@ record(mbbo, "$(SYS)-$(EVR):Pll-Bandwidth-Sel") {
   field( FTSV, "INVALID")
   field( FFSV, "INVALID")
   field( UNSV, "INVALID")
-  field( FLNK, "$(SYS)-$(EVR):Pll-Bandwidth-RB")
+  field( FLNK, "$(SYS)-$(EVR):PLL-Bandwidth-RB")
   info(autosaveFields_pass0, "VAL")
 }
 
-record(mbbi, "$(SYS)-$(EVR):Pll-Bandwidth-RB") {
+record(mbbi, "$(SYS)-$(EVR):PLL-Bandwidth-RB") {
   field( DTYP, "Obj Prop uint16")
   field( INP , "@OBJ=$(EVR), PROP=PLL Bandwidth")
   field( ZRST, "HM")

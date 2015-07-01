@@ -266,6 +266,8 @@
 #define  EVG_MXC_RESET          0x01000000
 #define  EVG_BCGEN              0x00800000  // Delay compensation beacon generator enable
 #define  EVG_DCMST              0x00400000  // Delay compensation master enable
+#define  EVG_CLK_BW             0x70        /* PLL Bandwidth Select (see Silicon Labs Si5317 datasheet) */
+#define  EVG_CLK_BW_shift       4
 
 /**************************************************************************************************/
 /* Input                                                                                          */

@@ -15,6 +15,22 @@ enum RFClockReference {
     RFClockReference_PXIe10 = 4      // PXIe 10 MHz clock through clock multiplier
 };
 
+/* PLL Bandwidth Select (see Silicon Labs Si5317 datasheet)
+ *  000 – Si5317, BW setting HM (lowest loop bandwidth)
+ *  001 – Si5317, BW setting HL
+ *  010 – Si5317, BW setting MH
+ *  011 – Si5317, BW setting MM
+ *  100 – Si5317, BW setting ML (highest loop bandwidth)
+ */
+enum PLLBandwidth {
+    PLLBandwidth_HM=0,
+    PLLBandwidth_HL=1,
+    PLLBandwidth_MH=2,
+    PLLBandwidth_MM=3,
+    PLLBandwidth_ML=4,
+    PLLBandwidth_MAX=PLLBandwidth_ML
+};
+
 class evgEvtClk : public mrf::ObjectInst<evgEvtClk> {
 public:
     evgEvtClk(const std::string&, volatile epicsUInt8* const);
@@ -35,11 +51,15 @@ public:
     void setFracSynFreq(epicsFloat64);
     epicsFloat64 getFracSynFreq() const;
 
-    void setPLLBandWidth(epicsUInt16);
-    epicsUInt16 getPLLBandWidth() const;
+    void setPLLBandwidth(PLLBandwidth pllBandwidth);
+    PLLBandwidth getPLLBandwidth() const;
 
     void setSource(epicsUInt16 source);
     epicsUInt16 getSource() const;
+
+    /** helper for object access **/
+    void setPLLBandwidthRaw(epicsUInt16 r){setPLLBandwidth((PLLBandwidth)r);}
+    epicsUInt16 getPLLBandwidthRaw() const{return (epicsUInt16)getPLLBandwidth();}
 
 private:
     volatile epicsUInt8* const m_pReg;
