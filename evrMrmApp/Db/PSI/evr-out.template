@@ -264,7 +264,7 @@ record(longout, "$(SYS)-$(EVR):$(OBJ)$(ID)-Src2-SP") {
   field( OUT , "@OBJ=$(EVR):$(OBJ)$(ID), PROP=MapAlt")
   field( FLNK, "$(SYS)-$(EVR):$(OBJ)$(ID)-Src2-RB")
   field( PINI, "YES")
-  field( VAL , "$($(OBJ)$(ID)-Src-SP\=63)")  # Defaults to Force low (if enabled -> Ena-SP)
+  field( VAL , "$($(OBJ)$(ID)-Src2-SP\=63)")  # Defaults to Force low (if enabled -> Ena-SP)
   info(autosaveFields_pass0, "VAL HOPR LOPR DRVH DRVL")
 }
 

@@ -35,10 +35,7 @@ file evgInput.db {
 pattern { SYS,      EVG,      OBJ,       ID,  PPS,  DBUSOBJ}
         {"$(SYS)", "$(EVG)", "FrontInp", 0,   1,    "Dbus"}
         {"$(SYS)", "$(EVG)", "FrontInp", 1,   2,    "Dbus"}
-        {"$(SYS)", "$(EVG)", "UnivInp",  0,   3,    "Dbus"}
-        {"$(SYS)", "$(EVG)", "UnivInp",  1,   4,    "Dbus"}
-        {"$(SYS)", "$(EVG)", "UnivInp",  2,   5,    "Dbus"}
-        {"$(SYS)", "$(EVG)", "UnivInp",  3,   6,    "Dbus"}
+        {"$(SYS)", "$(EVG)", "FrontInp", 2,   3,    "Dbus"}
         {"$(SYS)", "$(EVG)", "RearInp",  0,   0,    "Dbus"}
         {"$(SYS)", "$(EVG)", "RearInp",  1,   0,    "Dbus"}
         {"$(SYS)", "$(EVG)", "RearInp",  2,   0,    "Dbus"}
@@ -55,24 +52,6 @@ pattern { SYS,      EVG,      OBJ,       ID,  PPS,  DBUSOBJ}
         {"$(SYS)", "$(EVG)", "RearInp",  13,  0,    "Dbus"}
         {"$(SYS)", "$(EVG)", "RearInp",  14,  0,    "Dbus"}
         {"$(SYS)", "$(EVG)", "RearInp",  15,  0,    "Dbus"}
-}
-
-file evgOutput.db {
-pattern { SYS,      EVG,      OBJ,        ID }
-        {"$(SYS)", "$(EVG)", "FrontOut",  0  }
-        {"$(SYS)", "$(EVG)", "FrontOut",  1  }
-        {"$(SYS)", "$(EVG)", "FrontOut",  2  }
-        {"$(SYS)", "$(EVG)", "FrontOut",  3  }
-        {"$(SYS)", "$(EVG)", "UnivOut",   0  }
-        {"$(SYS)", "$(EVG)", "UnivOut",   1  }
-        {"$(SYS)", "$(EVG)", "UnivOut",   2  }
-        {"$(SYS)", "$(EVG)", "UnivOut",   3  }
-        {"$(SYS)", "$(EVG)", "UnivOut",   4  }
-        {"$(SYS)", "$(EVG)", "UnivOut",   5  }
-        {"$(SYS)", "$(EVG)", "UnivOut",   6  }
-        {"$(SYS)", "$(EVG)", "UnivOut",   7  }
-        {"$(SYS)", "$(EVG)", "UnivOut",   8  }
-        {"$(SYS)", "$(EVG)", "UnivOut",   9  }
 }
 
 file evgTrigEvt.db {
