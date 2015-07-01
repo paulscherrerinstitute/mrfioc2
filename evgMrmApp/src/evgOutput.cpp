@@ -17,13 +17,13 @@ m_type(type),
 m_pOutReg(pOutReg) {
     switch(m_type) {        
         case(FrontOut):
-            if(m_num >= evgNumFrontOut)
-                throw std::runtime_error("EVG Front panel output ID out of range");
+            /*if(m_num >= evgNumFrontOut)
+                throw std::runtime_error("EVG Front panel output ID out of range");*/
             break;
 
         case(UnivOut):
-            if(m_num >= evgNumUnivOut)
-                throw std::runtime_error("EVG Universal output ID out of range");
+            /*if(m_num >= evgNumUnivOut)
+                throw std::runtime_error("EVG Universal output ID out of range");*/
             break;
 
         default:

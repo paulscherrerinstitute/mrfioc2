@@ -50,53 +50,75 @@ evgMrm::evgMrm(const std::string& id, bus_configuration& busConfig, volatile epi
     m_softSeqMgr(this)
 {
     try{
-        for(int i = 0; i < evgNumEvtTrig; i++) {
+
+        epicsUInt16 numMxc = 8;
+        epicsUInt16 numEvtTrig = 8;
+        epicsUInt16 numDbusBit = 8;
+        epicsUInt16 numFrontOut = 6;
+        epicsUInt16 numUnivOut = 4;
+        epicsUInt16 numFrontInp = 2;
+        epicsUInt16 numUnivInp = 4;
+        epicsUInt16 numRearInp = 16;
+        epicsUInt32 version;
+
+        version = getFwVersionID();
+        if(version >= 200){
+            numFrontOut = 0;
+            numUnivOut = 0;
+            numFrontInp = 3;
+            numUnivInp = 0;
+        }
+
+        printf("Sub-units:\n FrontInp: %d, FrontOut: %d\n UnivInp: %d, UnivOut: %d\n", numFrontInp, numFrontOut, numUnivInp, numUnivOut);
+
+
+        for(int i = 0; i < numEvtTrig; i++) {
             std::ostringstream name;
             name<<id<<":TrigEvt"<<i;
             m_trigEvt.push_back(new evgTrigEvt(name.str(), i, pReg));
         }
 
-        for(int i = 0; i < evgNumMxc; i++) {
+        for(int i = 0; i < numMxc; i++) {
             std::ostringstream name;
             name<<id<<":Mxc"<<i;
             m_muxCounter.push_back(new evgMxc(name.str(), i, this));
         }
 
-        for(int i = 0; i < evgNumDbusBit; i++) {
+        for(int i = 0; i < numDbusBit; i++) {
             std::ostringstream name;
             name<<id<<":Dbus"<<i;
             m_dbus.push_back(new evgDbus(name.str(), i, pReg));
         }
 
-        for(int i = 0; i < evgNumFrontInp; i++) {
+        for(int i = 0; i < numFrontInp; i++) {
             std::ostringstream name;
             name<<id<<":FrontInp"<<i;
             m_input[ std::pair<epicsUInt32, InputType>(i, FrontInp) ] =
                 new evgInput(name.str(), i, FrontInp, pReg + U32_FrontInMap(i));
         }
 
-        for(int i = 0; i < evgNumUnivInp; i++) {
+        for(int i = 0; i < numUnivInp; i++) {
             std::ostringstream name;
             name<<id<<":UnivInp"<<i;
             m_input[ std::pair<epicsUInt32, InputType>(i, UnivInp) ] =
                 new evgInput(name.str(), i, UnivInp, pReg + U32_UnivInMap(i));
         }
 
-        for(int i = 0; i < evgNumRearInp; i++) {
+        for(int i = 0; i < numRearInp; i++) {
             std::ostringstream name;
             name<<id<<":RearInp"<<i;
             m_input[ std::pair<epicsUInt32, InputType>(i, RearInp) ] =
                 new evgInput(name.str(), i, RearInp, pReg + U32_RearInMap(i));
         }
 
-        for(int i = 0; i < evgNumFrontOut; i++) {
+        for(int i = 0; i < numFrontOut; i++) {
             std::ostringstream name;
             name<<id<<":FrontOut"<<i;
             m_output[std::pair<epicsUInt32, evgOutputType>(i, FrontOut)] =
                 new evgOutput(name.str(), i, FrontOut, pReg + U16_FrontOutMap(i));
         }
 
-        for(int i = 0; i < evgNumUnivOut; i++) {
+        for(int i = 0; i < numUnivOut; i++) {
             std::ostringstream name;
             name<<id<<":UnivOut"<<i;
             m_output[std::pair<epicsUInt32, evgOutputType>(i, UnivOut)] =
@@ -107,7 +129,7 @@ evgMrm::evgMrm(const std::string& id, bus_configuration& busConfig, volatile epi
         sfpName<<id<<":SFP0";
         m_sfp.push_back(new SFP(sfpName.str(), pReg + U32_SFP_transceiver));    // there is always a main transceiver module present (upstream)
 
-        if(getFwVersionID() >= EVG_FCT_MIN_FIRMWARE){
+        if(version >= EVG_FCT_MIN_FIRMWARE){
             m_fct = new evgFct(id, m_fctReg, m_sfp); // fanout SFP modules are initialized here
         } else{
             m_fct = 0;
@@ -148,29 +170,22 @@ evgMrm::evgMrm(const std::string& id, bus_configuration& busConfig, volatile epi
 }
 
 evgMrm::~evgMrm() {
-    for(int i = 0; i < evgNumEvtTrig; i++)
+    for(size_t i = 0; i < m_trigEvt.size(); i++)
         delete m_trigEvt[i];
 
-    for(int i = 0; i < evgNumMxc; i++)
+    for(size_t i = 0; i < m_muxCounter.size(); i++)
         delete m_muxCounter[i];
 
-    for(int i = 0; i < evgNumDbusBit; i++)
+    for(size_t i = 0; i < m_dbus.size(); i++)
         delete m_dbus[i];
 
-    for(int i = 0; i < evgNumFrontInp; i++)
-        delete m_input[std::pair<epicsUInt32, InputType>(i, FrontInp)];
+    for(Input_t::iterator it = m_input.begin(); it != m_input.end(); ++it){
+        delete it->second;
+    }
 
-    for(int i = 0; i < evgNumUnivInp; i++)
-        delete m_input[std::pair<epicsUInt32, InputType>(i, UnivInp)];
-
-    for(int i = 0; i < evgNumRearInp; i++)
-        delete m_input[std::pair<epicsUInt32, InputType>(i, RearInp)];
-
-    for(int i = 0; i < evgNumFrontOut; i++)
-        delete m_output[std::pair<epicsUInt32, evgOutputType>(i, FrontOut)];
-
-    for(int i = 0; i < evgNumUnivOut; i++)
-        delete m_output[std::pair<epicsUInt32, evgOutputType>(i, UnivOut)];
+    for(Output_t::iterator it = m_output.begin(); it != m_output.end(); ++it){
+        delete it->second;
+    }
 
     for(size_t i = 0; i < m_sfp.size(); i++)
         delete m_sfp[i];

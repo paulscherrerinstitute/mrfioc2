@@ -312,16 +312,14 @@
 #ifndef  EVG_CONSTANTS
 #define  EVG_CONSTANTS
 
-const epicsUInt16 evgNumMxc = 8;
+/*const epicsUInt16 evgNumMxc = 8;
 const epicsUInt16 evgNumEvtTrig = 8;
 const epicsUInt16 evgNumDbusBit = 8;
 const epicsUInt16 evgNumFrontOut = 6;
-const epicsUInt16 evgNumUnivOut = 10;   // TODO settle for all form factors / FW versions
-//const epicsUInt16 evgNumUnivOut = 4;
+const epicsUInt16 evgNumUnivOut = 4;
 const epicsUInt16 evgNumFrontInp = 2;
-const epicsUInt16 evgNumUnivInp = 10;    // TODO settle for all form factors / FW versions
-//const epicsUInt16 evgNumUnivInp = 4;
-const epicsUInt16 evgNumRearInp = 16;
+const epicsUInt16 evgNumUnivInp = 4;
+const epicsUInt16 evgNumRearInp = 16;*/
 const epicsUInt16 evgNumSeqRam = 2;
 const epicsFloat32 evgAllowedTsGitter = 0.5f;
 const epicsUInt16 evgEndOfSeqBuf = 5;

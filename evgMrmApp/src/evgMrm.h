@@ -110,12 +110,16 @@ public:
     evgMxc* getMuxCounter(epicsUInt32);
     evgDbus* getDbus(epicsUInt32);
     evgInput* getInput(epicsUInt32, InputType);
+
     evgOutput* getOutput(epicsUInt32, evgOutputType);
     evgSeqRamMgr* getSeqRamMgr();
     evgSoftSeqMgr* getSoftSeqMgr();
     epicsEvent* getTimerEvent();
     bus_configuration* getBusConfiguration();
     SFP* getSFP(epicsUInt32);
+
+    typedef std::map< std::pair<epicsUInt32, InputType>, evgInput*> Input_t;
+    Input_t                       m_input;  // TODO the rest of the sub-units are private...(evgSeqRam needs this)
 
     CALLBACK                      irqStop0_cb;
     CALLBACK                      irqStop1_cb;
@@ -161,9 +165,6 @@ private:
 
     typedef std::vector<evgDbus*> Dbus_t;
     Dbus_t                        m_dbus;
-
-    typedef std::map< std::pair<epicsUInt32, InputType>, evgInput*> Input_t;
-    Input_t                       m_input;
 
     typedef std::map< std::pair<epicsUInt32, evgOutputType>, evgOutput*> Output_t;
     Output_t                      m_output;

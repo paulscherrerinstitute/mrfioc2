@@ -106,14 +106,19 @@ evgSeqRam::setTrigSrc(SeqTrigSrc trigSrc) {
         *previous trigger source we disable the trigger from all the
         *external inputs.
         */
-        for(int i = 0; i < evgNumFrontInp; i++)
+        /*for(int i = 0; i < evgNumFrontInp; i++)
             disableSeqExtTrig(m_owner->getInput(i, FrontInp));
 
         for(int i = 0; i < evgNumUnivInp; i++)
             disableSeqExtTrig(m_owner->getInput(i, UnivInp));
 
         for(int i = 0; i < evgNumRearInp; i++)
-            disableSeqExtTrig(m_owner->getInput(i, RearInp));
+            disableSeqExtTrig(m_owner->getInput(i, RearInp));*/
+
+        for(std::map< std::pair<epicsUInt32, InputType>, evgInput*>::iterator it = m_owner->m_input.begin(); it != m_owner->m_input.end(); ++it){
+            disableSeqExtTrig(it->second);
+        }
+
        /*
         *Now enable the triggering only on the appropraite external input of EVG.
         *Each external input is identified by its number and its type. The
@@ -158,14 +163,18 @@ evgSeqRam::getTrigSrc() const {
     if(trigSrc == ExtRam0 || trigSrc == ExtRam1) {
         evgInput* inp = 0;
 
-        for(int i = 0; i < evgNumFrontInp && inp == 0; i++)
+        /*for(int i = 0; i < evgNumFrontInp && inp == 0; i++)
             inp = findSeqExtTrig(m_owner->getInput(i, FrontInp));
 
         for(int i = 0; i < evgNumUnivInp && inp == 0; i++)
             inp = findSeqExtTrig(m_owner->getInput(i, UnivInp));
 
         for(int i = 0; i < evgNumRearInp && inp == 0; i++)
-            inp = findSeqExtTrig(m_owner->getInput(i, RearInp));
+            inp = findSeqExtTrig(m_owner->getInput(i, RearInp));*/
+
+        for(std::map< std::pair<epicsUInt32, InputType>, evgInput*>::iterator it = m_owner->m_input.begin(); it != m_owner->m_input.end(); ++it){
+            inp = findSeqExtTrig(it->second);
+        }
 
         if(inp != 0)
             trigSrc = (SeqTrigSrc)
