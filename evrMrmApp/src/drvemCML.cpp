@@ -23,8 +23,8 @@
 
 MRMCML::MRMCML(const std::string& n, unsigned char i,EVRMRM& o, outkind k, formFactor f)
   :CML(n)
-  ,mult(f==formFactor_CPCIFULL ? 40 : 20) // CML word length
-  ,wordlen(f==formFactor_CPCIFULL ? 2 : 1)// # of 32-bit dwords used to store 1 CML word
+  //,mult(f==formFactor_CPCIFULL ? 40 : 20) // CML word length
+  //,wordlen(f==formFactor_CPCIFULL ? 2 : 1)// # of 32-bit dwords used to store 1 CML word
                                       // 40 bits fit in 2 dwords, 20 bits fit in 1
   ,base(o.base)
   ,N(i)
@@ -33,6 +33,15 @@ MRMCML::MRMCML(const std::string& n, unsigned char i,EVRMRM& o, outkind k, formF
   ,shadowWaveformlength(0)
   ,kind(k)
 {
+    epicsUInt32 version = o.version();
+    if(f==formFactor_CPCIFULL || version > 200){
+        mult = 40;
+        wordlen = 2;
+    }else{
+        mult = 20;
+        wordlen = 1;
+    }
+
     epicsUInt32 val=READ32(base, OutputCMLEna(N));
 
     val&=~OutputCMLEna_type_mask;
