@@ -29,24 +29,24 @@
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>-791</y>
+      <y>-1291</y>
       <width>651</width>
-      <height>1200</height>
+      <height>1700</height>
      </rect>
     </property>
     <property name="minimumSize">
      <size>
       <width>0</width>
-      <height>1200</height>
+      <height>1700</height>
      </size>
     </property>
     <widget class="caInclude" name="cainclude_10">
      <property name="geometry">
       <rect>
-       <x>70</x>
+       <x>10</x>
        <y>10</y>
-       <width>511</width>
-       <height>132</height>
+       <width>631</width>
+       <height>191</height>
       </rect>
      </property>
      <property name="macro">
@@ -65,10 +65,10 @@
     <widget class="caInclude" name="cainclude_11">
      <property name="geometry">
       <rect>
-       <x>70</x>
-       <y>150</y>
-       <width>511</width>
-       <height>132</height>
+       <x>10</x>
+       <y>210</y>
+       <width>631</width>
+       <height>191</height>
       </rect>
      </property>
      <property name="macro">
@@ -87,14 +87,14 @@
     <widget class="caInclude" name="cainclude_12">
      <property name="geometry">
       <rect>
-       <x>70</x>
-       <y>290</y>
-       <width>511</width>
-       <height>132</height>
+       <x>10</x>
+       <y>410</y>
+       <width>631</width>
+       <height>191</height>
       </rect>
      </property>
      <property name="macro">
-      <string notr="true">ID=2, EVR=$(EVR)</string>
+      <string notr="true">ID=0, EVR=$(EVR)</string>
      </property>
      <property name="filename" stdset="0">
       <string notr="true">G_EVR_prescaler-withPulserTrigger.ui</string>
@@ -109,10 +109,10 @@
     <widget class="caInclude" name="cainclude_13">
      <property name="geometry">
       <rect>
-       <x>70</x>
-       <y>430</y>
-       <width>511</width>
-       <height>132</height>
+       <x>10</x>
+       <y>610</y>
+       <width>631</width>
+       <height>191</height>
       </rect>
      </property>
      <property name="macro">
@@ -131,10 +131,10 @@
     <widget class="caInclude" name="cainclude_14">
      <property name="geometry">
       <rect>
-       <x>70</x>
-       <y>570</y>
-       <width>511</width>
-       <height>132</height>
+       <x>10</x>
+       <y>810</y>
+       <width>631</width>
+       <height>191</height>
       </rect>
      </property>
      <property name="macro">
@@ -153,10 +153,10 @@
     <widget class="caInclude" name="cainclude_15">
      <property name="geometry">
       <rect>
-       <x>70</x>
-       <y>710</y>
-       <width>511</width>
-       <height>132</height>
+       <x>10</x>
+       <y>1010</y>
+       <width>631</width>
+       <height>191</height>
       </rect>
      </property>
      <property name="macro">
@@ -175,10 +175,10 @@
     <widget class="caInclude" name="cainclude_16">
      <property name="geometry">
       <rect>
-       <x>70</x>
-       <y>850</y>
-       <width>511</width>
-       <height>132</height>
+       <x>10</x>
+       <y>1210</y>
+       <width>631</width>
+       <height>191</height>
       </rect>
      </property>
      <property name="macro">
@@ -197,10 +197,10 @@
     <widget class="caInclude" name="cainclude_17">
      <property name="geometry">
       <rect>
-       <x>70</x>
-       <y>990</y>
-       <width>511</width>
-       <height>132</height>
+       <x>10</x>
+       <y>1410</y>
+       <width>631</width>
+       <height>191</height>
       </rect>
      </property>
      <property name="macro">
