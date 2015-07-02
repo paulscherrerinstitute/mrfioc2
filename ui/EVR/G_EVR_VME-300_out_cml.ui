@@ -29,7 +29,7 @@
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>0</y>
+      <y>-141</y>
       <width>651</width>
       <height>1000</height>
      </rect>
@@ -46,21 +46,21 @@
        <x>0</x>
        <y>0</y>
        <width>662</width>
-       <height>242</height>
+       <height>521</height>
       </rect>
      </property>
      <property name="macro">
       <string notr="true">ID=0, P=CML, EVR=$(EVR)</string>
      </property>
      <property name="filename" stdset="0">
-      <string notr="true">G_EVR_out_cml.ui</string>
+      <string notr="true">G_EVR_out_cml_40.ui</string>
      </property>
     </widget>
     <widget class="caInclude" name="cainclude_12">
      <property name="geometry">
       <rect>
        <x>0</x>
-       <y>250</y>
+       <y>530</y>
        <width>662</width>
        <height>242</height>
       </rect>
@@ -76,7 +76,7 @@
      <property name="geometry">
       <rect>
        <x>0</x>
-       <y>500</y>
+       <y>780</y>
        <width>662</width>
        <height>242</height>
       </rect>
@@ -92,8 +92,8 @@
      <property name="geometry">
       <rect>
        <x>0</x>
-       <y>750</y>
-       <width>662</width>
+       <y>1030</y>
+       <width>661</width>
        <height>242</height>
       </rect>
      </property>

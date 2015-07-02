@@ -115,11 +115,11 @@ file "evr-out.template"
 
 file "evr-cml.template"
 {pattern
-{ SYS,      EVR,      OBJ   ID}
-{"$(SYS)", "$(EVR)", "CML", 0 }
-{"$(SYS)", "$(EVR)", "CML", 1 }
-{"$(SYS)", "$(EVR)", "CML", 2 }
-{"$(SYS)", "$(EVR)", "CML", 3 }
+{ SYS,      EVR,      OBJ   ID, NBIT, MAX   }
+{"$(SYS)", "$(EVR)", "CML", 0,  40,   81880 }
+{"$(SYS)", "$(EVR)", "CML", 1,  40,   81880 }
+{"$(SYS)", "$(EVR)", "CML", 2,  40,   81880 }
+{"$(SYS)", "$(EVR)", "CML", 3,  40,   81880 }
 }
 
 file "evr-pulserMap-dbus.template"
