@@ -50,9 +50,10 @@
 
 #include "drvem.h"
 
-int evrDebug;
+int evrDebug, evrEventDebug=0;
 extern "C" {
  epicsExportAddress(int, evrDebug);
+ epicsExportAddress(int, evrEventDebug);
 }
 
 using namespace std;
@@ -1305,7 +1306,7 @@ EVRMRM::drain_fifo()
 
         epicsUInt32 status;
 
-        printf("Draining FIFO!\n");
+        if(evrEventDebug > 0) printf("Draining FIFO!\n");
         // Bound the number of events taken from the FIFO
         // at one time.
         for(i=0; i<512; i++) {
@@ -1320,7 +1321,7 @@ EVRMRM::drain_fifo()
             if (!evt)
                 break;
 
-            //printf("EVR received: %d\n",evt);
+            if(evrEventDebug > 0) printf("EVR received: %d\n",evt);
 
 
             if (evt>NELEMENTS(events)) {
