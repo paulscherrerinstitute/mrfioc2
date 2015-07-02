@@ -1,6 +1,6 @@
 
 ##EVG Base
-file "db/evg-vme.template"
+file "db/evg-vme-300.template"
 {
     {
          DlyCompensation-Beacon-Sel=1, # 0 = Disable, 1 = Enable : Delay compensation beacon generator

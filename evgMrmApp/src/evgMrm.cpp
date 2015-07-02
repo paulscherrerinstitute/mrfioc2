@@ -69,7 +69,15 @@ evgMrm::evgMrm(const std::string& id, bus_configuration& busConfig, volatile epi
             numUnivInp = 0;
         }
 
-        printf("Sub-units:\n FrontInp: %d, FrontOut: %d\n UnivInp: %d, UnivOut: %d\n", numFrontInp, numFrontOut, numUnivInp, numUnivOut);
+        printf("Sub-units:\n"
+               " FrontInp: %d, FrontOut: %d\n"
+               " UnivInp: %d, UnivOut: %d\n"
+               " RearInp: %d\n"
+               " Mxc: %d, Event triggers: %d, DBus bits: %d\n",
+               numFrontInp, numFrontOut,
+               numUnivInp, numUnivOut,
+               numRearInp,
+               numMxc, numEvtTrig, numDbusBit);
 
 
         for(int i = 0; i < numEvtTrig; i++) {

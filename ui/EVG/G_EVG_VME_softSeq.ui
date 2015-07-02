@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>311</width>
+    <width>352</width>
     <height>726</height>
    </rect>
   </property>
@@ -18,7 +18,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>300</width>
+     <width>301</width>
      <height>361</height>
     </rect>
    </property>
@@ -31,7 +31,7 @@
    <widget class="QLabel" name="label_8">
     <property name="geometry">
      <rect>
-      <x>1</x>
+      <x>4</x>
       <y>210</y>
       <width>101</width>
       <height>20</height>
@@ -47,7 +47,7 @@
    <widget class="caMessageButton" name="camessagebutton_4">
     <property name="geometry">
      <rect>
-      <x>125</x>
+      <x>128</x>
       <y>330</y>
       <width>101</width>
       <height>20</height>
@@ -66,7 +66,7 @@
    <widget class="caMessageButton" name="camessagebutton">
     <property name="geometry">
      <rect>
-      <x>125</x>
+      <x>128</x>
       <y>240</y>
       <width>101</width>
       <height>20</height>
@@ -85,7 +85,7 @@
    <widget class="caLed" name="caled_5">
     <property name="geometry">
      <rect>
-      <x>235</x>
+      <x>238</x>
       <y>330</y>
       <width>20</width>
       <height>20</height>
@@ -125,7 +125,7 @@
    <widget class="caLed" name="caled_2">
     <property name="geometry">
      <rect>
-      <x>235</x>
+      <x>238</x>
       <y>240</y>
       <width>20</width>
       <height>20</height>
@@ -165,7 +165,7 @@
    <widget class="caLineEdit" name="calineedit_14">
     <property name="geometry">
      <rect>
-      <x>219</x>
+      <x>222</x>
       <y>150</y>
       <width>70</width>
       <height>20</height>
@@ -181,7 +181,7 @@
    <widget class="caLed" name="caled_3">
     <property name="geometry">
      <rect>
-      <x>235</x>
+      <x>238</x>
       <y>270</y>
       <width>20</width>
       <height>20</height>
@@ -221,7 +221,7 @@
    <widget class="caMessageButton" name="camessagebutton_2">
     <property name="geometry">
      <rect>
-      <x>125</x>
+      <x>128</x>
       <y>270</y>
       <width>101</width>
       <height>20</height>
@@ -240,7 +240,7 @@
    <widget class="caMessageButton" name="camessagebutton_6">
     <property name="geometry">
      <rect>
-      <x>20</x>
+      <x>23</x>
       <y>300</y>
       <width>101</width>
       <height>20</height>
@@ -259,7 +259,7 @@
    <widget class="caLineEdit" name="calineedit_12">
     <property name="geometry">
      <rect>
-      <x>219</x>
+      <x>222</x>
       <y>60</y>
       <width>70</width>
       <height>20</height>
@@ -275,7 +275,7 @@
    <widget class="caMenu" name="camenu_3">
     <property name="geometry">
      <rect>
-      <x>109</x>
+      <x>112</x>
       <y>145</y>
       <width>101</width>
       <height>25</height>
@@ -291,7 +291,7 @@
    <widget class="QLabel" name="label_4">
     <property name="geometry">
      <rect>
-      <x>1</x>
+      <x>4</x>
       <y>60</y>
       <width>101</width>
       <height>20</height>
@@ -307,7 +307,7 @@
    <widget class="caMenu" name="camenu_2">
     <property name="geometry">
      <rect>
-      <x>109</x>
+      <x>112</x>
       <y>85</y>
       <width>101</width>
       <height>25</height>
@@ -323,7 +323,7 @@
    <widget class="caMenu" name="camenu">
     <property name="geometry">
      <rect>
-      <x>109</x>
+      <x>112</x>
       <y>55</y>
       <width>101</width>
       <height>25</height>
@@ -339,7 +339,7 @@
    <widget class="caMessageButton" name="camessagebutton_5">
     <property name="geometry">
      <rect>
-      <x>20</x>
+      <x>23</x>
       <y>330</y>
       <width>101</width>
       <height>20</height>
@@ -358,7 +358,7 @@
    <widget class="caLineEdit" name="calineedit_13">
     <property name="geometry">
      <rect>
-      <x>219</x>
+      <x>222</x>
       <y>90</y>
       <width>70</width>
       <height>20</height>
@@ -374,7 +374,7 @@
    <widget class="caMessageButton" name="camessagebutton_3">
     <property name="geometry">
      <rect>
-      <x>20</x>
+      <x>23</x>
       <y>270</y>
       <width>101</width>
       <height>20</height>
@@ -393,7 +393,7 @@
    <widget class="QLabel" name="label_5">
     <property name="geometry">
      <rect>
-      <x>1</x>
+      <x>4</x>
       <y>90</y>
       <width>101</width>
       <height>20</height>
@@ -409,7 +409,7 @@
    <widget class="QLabel" name="label_7">
     <property name="geometry">
      <rect>
-      <x>1</x>
+      <x>4</x>
       <y>180</y>
       <width>101</width>
       <height>20</height>
@@ -425,7 +425,7 @@
    <widget class="QLabel" name="label_6">
     <property name="geometry">
      <rect>
-      <x>1</x>
+      <x>4</x>
       <y>150</y>
       <width>101</width>
       <height>20</height>
@@ -441,7 +441,7 @@
    <widget class="caChoice" name="cachoice">
     <property name="geometry">
      <rect>
-      <x>109</x>
+      <x>112</x>
       <y>30</y>
       <width>101</width>
       <height>20</height>
@@ -487,7 +487,7 @@
    <widget class="caLineEdit" name="calineedit_15">
     <property name="geometry">
      <rect>
-      <x>109</x>
+      <x>112</x>
       <y>180</y>
       <width>181</width>
       <height>20</height>
@@ -506,7 +506,7 @@
    <widget class="caLineEdit" name="calineedit_11">
     <property name="geometry">
      <rect>
-      <x>220</x>
+      <x>223</x>
       <y>30</y>
       <width>70</width>
       <height>20</height>
@@ -522,7 +522,7 @@
    <widget class="caLineEdit" name="calineedit_16">
     <property name="geometry">
      <rect>
-      <x>109</x>
+      <x>112</x>
       <y>210</y>
       <width>181</width>
       <height>20</height>
@@ -541,7 +541,7 @@
    <widget class="QLabel" name="label_3">
     <property name="geometry">
      <rect>
-      <x>1</x>
+      <x>4</x>
       <y>30</y>
       <width>101</width>
       <height>20</height>
@@ -576,7 +576,7 @@
    <widget class="caTextEntry" name="catextentry_2">
     <property name="geometry">
      <rect>
-      <x>109</x>
+      <x>112</x>
       <y>120</y>
       <width>101</width>
       <height>20</height>
@@ -602,7 +602,7 @@
    <widget class="caLineEdit" name="calineedit_9">
     <property name="geometry">
      <rect>
-      <x>220</x>
+      <x>223</x>
       <y>120</y>
       <width>70</width>
       <height>20</height>
@@ -624,14 +624,14 @@
    <widget class="QLabel" name="label_2">
     <property name="geometry">
      <rect>
-      <x>10</x>
+      <x>3</x>
       <y>120</y>
-      <width>91</width>
+      <width>101</width>
       <height>20</height>
      </rect>
     </property>
     <property name="text">
-     <string>SW mask</string>
+     <string>SW mask state</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>

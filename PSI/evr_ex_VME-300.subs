@@ -1,4 +1,4 @@
-file "db/evr-vmerf230.template"
+file "$(TEMPLATE_DIR)/evr-vme-300.template"
 {
     {
     

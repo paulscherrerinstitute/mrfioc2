@@ -675,7 +675,7 @@
        <string notr="true">EVR=$(EVR)</string>
       </property>
       <property name="filename" stdset="0">
-       <string notr="true">G_EVR_misc.ui</string>
+       <string notr="true">G_EVR_$(FF)_misc.ui</string>
       </property>
      </widget>
     </widget>
