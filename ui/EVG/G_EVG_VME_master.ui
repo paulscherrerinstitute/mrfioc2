@@ -2036,7 +2036,7 @@
          <number>0</number>
         </property>
         <property name="endBit">
-         <number>8</number>
+         <number>7</number>
         </property>
         <property name="foreground" stdset="0">
          <color>
@@ -2065,7 +2065,7 @@
          <number>0</number>
         </property>
         <property name="endBit">
-         <number>8</number>
+         <number>7</number>
         </property>
         <property name="foreground" stdset="0">
          <color>
