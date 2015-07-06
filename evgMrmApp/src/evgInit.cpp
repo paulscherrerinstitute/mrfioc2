@@ -134,8 +134,7 @@ inithooks(initHookState state) {
 	}
 }
 
-void checkVersion(volatile epicsUInt8 *base, unsigned int required,
-		unsigned int recommended) {
+void checkVersion(volatile epicsUInt8 *base, unsigned int required) {
 #ifndef __linux__
     epicsUInt32 junk;
     if(devReadProbe(sizeof(junk), (volatile void*)(base+U32_FPGAVersion), (void*)&junk)) {
@@ -158,8 +157,6 @@ void checkVersion(volatile epicsUInt8 *base, unsigned int required,
         printf("Firmware version >= %u is required got %u\n", required,ver);
         throw std::runtime_error("Firmware version not supported");
 
-    } else if(ver < recommended) {
-        printf("Firmware version >= %u is recommended, please consider upgrading\n", required);
     }
 }
 
@@ -243,7 +240,7 @@ mrmEvgSetupVME (
 
         epicsUInt32 version = READ32(regCpuAddr, FPGAVersion);
         printf("FPGA version: %08x\n", version);
-        checkVersion(regCpuAddr, 3, 200);
+        checkVersion(regCpuAddr, 3);
 
         /* Set the base address of Register Map for function 2, if we have the right firmware version  */
         if((version & FPGAVersion_VER_MASK) >= EVG_FCT_MIN_FIRMWARE){
@@ -424,7 +421,7 @@ mrmEvgSetupPCI (
 
         epicsUInt32 version = READ32(BAR_evg, FPGAVersion);
         printf("FPGA version: %08x\n", version);
-        checkVersion(BAR_evg, 3, 200);
+        checkVersion(BAR_evg, 3);
 
         if((version & FPGAVersion_VER_MASK) >= EVG_FCT_MIN_FIRMWARE){   // map FCT space if firmware supports it
             if (devPCIToLocalAddr(cur, 1, (volatile void**) (void *) &BAR_fct, 0)){

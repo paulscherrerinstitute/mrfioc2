@@ -233,7 +233,7 @@ long report(int level)
 }
 
 static
-void checkVersion(volatile epicsUInt8 *base, unsigned int required, unsigned int recommended)
+void checkVersion(volatile epicsUInt8 *base, unsigned int required)
 {
     epicsUInt32 v = READ32(base, FWVersion),evr,ver;
 
@@ -254,8 +254,6 @@ void checkVersion(volatile epicsUInt8 *base, unsigned int required, unsigned int
         errlogPrintf("Firmware version >=%u is required\n", required);
         throw std::runtime_error("Firmware version not supported");
 
-    } else if(ver<recommended) {
-        errlogPrintf("Firmware version >=%u is recommended, please consider upgrading\n", recommended);
     }
 }
 
@@ -442,7 +440,7 @@ try {
         return;
     }
 
-    checkVersion(evr, 3, 200);
+    checkVersion(evr, 3);
 
     // Acknowledge missed interrupts
     //TODO: This avoids a spurious FIFO Full
@@ -635,7 +633,7 @@ try {
         return;
     }
 
-    checkVersion(evr, 4, 200);
+    checkVersion(evr, 4);
 
     // Read offset from start of CSR to start of user (card specific) CSR.
     size_t user_offset=CSRRead24(csr+CR_BEG_UCSR);
