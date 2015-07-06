@@ -291,37 +291,40 @@
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="caInclude" name="cainclude">
+  <widget class="QGroupBox" name="groupBox_2">
    <property name="geometry">
     <rect>
-     <x>1</x>
-     <y>210</y>
-     <width>422</width>
-     <height>110</height>
+     <x>10</x>
+     <y>220</y>
+     <width>391</width>
+     <height>91</height>
     </rect>
    </property>
-   <property name="macro">
-    <string notr="true">EVR=$(EVR),ID=0</string>
+   <property name="title">
+    <string>Distributed bus bits status</string>
    </property>
-   <property name="filename" stdset="0">
-    <string notr="true">G_EVR_dbus.ui</string>
-   </property>
-  </widget>
-  <widget class="caInclude" name="cainclude_2">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>320</y>
-     <width>422</width>
-     <height>110</height>
-    </rect>
-   </property>
-   <property name="macro">
-    <string notr="true">EVR=$(EVR),ID=1</string>
-   </property>
-   <property name="filename" stdset="0">
-    <string notr="true">G_EVR_dbus.ui</string>
-   </property>
+   <widget class="caByte" name="cabyte_2">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>30</y>
+      <width>291</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="channel" stdset="0">
+     <string notr="true">$(EVR):DBus-Status-I</string>
+    </property>
+    <property name="direction">
+     <enum>caByte::Left</enum>
+    </property>
+    <property name="startBit">
+     <number>0</number>
+    </property>
+    <property name="endBit">
+     <number>7</number>
+    </property>
+   </widget>
   </widget>
  </widget>
  <customwidgets>
@@ -336,14 +339,14 @@
    <header>caTextEntry</header>
   </customwidget>
   <customwidget>
-   <class>caInclude</class>
-   <extends>QWidget</extends>
-   <header>caInclude</header>
-  </customwidget>
-  <customwidget>
    <class>caLineEdit</class>
    <extends>QLineEdit</extends>
    <header>caLineEdit</header>
+  </customwidget>
+  <customwidget>
+   <class>caByte</class>
+   <extends>QWidget</extends>
+   <header>caByte</header>
   </customwidget>
  </customwidgets>
  <resources/>

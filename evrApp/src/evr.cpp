@@ -143,7 +143,7 @@ OBJECT_BEGIN(EVR) {
     OBJECT_PROP1("Timestamp Valid", &EVR::TimeStampValid);
     OBJECT_PROP1("Timestamp Valid", &EVR::TimeStampValidEvent);
 
-
+    OBJECT_PROP1("DBus status", &EVR::dbus);
     OBJECT_PROP2("DBus Pulser Map 0", &EVR::dbusToPulserMapping0, &EVR::setDbusToPulserMapping0);
     OBJECT_PROP2("DBus Pulser Map 1", &EVR::dbusToPulserMapping1, &EVR::setDbusToPulserMapping1);
     OBJECT_PROP2("DBus Pulser Map 2", &EVR::dbusToPulserMapping2, &EVR::setDbusToPulserMapping2);

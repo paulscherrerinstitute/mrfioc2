@@ -422,3 +422,12 @@ record(longin, "$(SYS)-$(EVR):DlyCompensation-Status-RB") {
   field(DESC, "Delay compensation status")
   field(SCAN, "1 second")
 }
+
+# DBus status
+record(mbbiDirect, "$(SYS)-$(EVR):DBus-Status-I") {
+  field(DTYP, "Obj Prop uint16")
+  field(INP , "@OBJ=$(EVR), PROP=DBus status")
+  field(PINI, "YES")
+  field(DESC, "DBus bits value")
+  field(SCAN, ".1 second")
+}
