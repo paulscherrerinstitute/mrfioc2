@@ -123,10 +123,8 @@ record(longin, "$(SYS)-$(EVG):$(OBJ)$(ID)-Status-I") {
 record(ai, "$(SYS)-$(EVG):$(OBJ)$(ID)-PowerVCC-I") {
   field(DTYP, "Obj Prop double")
   field(DESC, "Supply VCC Power")
-  field(EGU , "uV")
-  field(LINR, "LINEAR")
-  field(ESLO, "1e6")
-  field(PREC, "1")
+  field(EGU , "V")
+  field(PREC, "4")
   field(INP , "@OBJ=$(EVG):$(OBJ)$(ID), PROP=Power VCC")
   field(FLNK, "$(SYS)-$(EVG):$(OBJ)$(ID)-BitRate-upper-I")
 }

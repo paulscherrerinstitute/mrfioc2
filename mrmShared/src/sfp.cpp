@@ -50,7 +50,7 @@ void SFP::updateNow(bool)
     for(unsigned int i=0; i<SFPMEM_SIZE/4; i++)
         p32[i] = be_ioread32(base+ i*4);
 
-    valid = buffer[0]==3 && buffer[2]==7;
+    valid = buffer[0]==3; //&& buffer[2]==7;
 }
 
 double SFP::linkSpeed() const
@@ -148,7 +148,7 @@ double SFP::getVCCPower() const{
         fprintf(stderr, "SFP readout not valid in getVCCPower()\n");
         return -1e-6;
     }
-    return read16(SFP_vccPower) * 100e-6; // Gives Volts
+    return (epicsUInt16)read16(SFP_vccPower) * 100e-6; // Gives Volts
 }
 
 epicsUInt16 SFP::getBitRateUpper() const{
