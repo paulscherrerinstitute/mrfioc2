@@ -8,9 +8,9 @@ record(ai, "$(SYS)-$(EVG):$(OBJ)-upstreamDC-I") {
   field(SCAN, "1 second")
 }
 
-record(ai, "$(SYS)-$(EVG):$(OBJ)-receiveDC-I") {
+record(ai, "$(SYS)-$(EVG):$(OBJ)-fifoDC-I") {
   field(DTYP, "Obj Prop uint32")
-  field(INP , "@OBJ=$(EVG):$(OBJ), PROP=DlyCompens receive")
+  field(INP , "@OBJ=$(EVG):$(OBJ), PROP=DlyCompens fifo")
   field(EGU, "ps")
   field(LINR, "LINEAR")
   field(ESLO, "0.000106812")

@@ -28,8 +28,8 @@ evgFct::getUpstreamDC() const{
 }
 
 epicsUInt32
-evgFct::getReceiveDC() const{
-    return READ32(m_fctReg, fct_receiveDC);
+evgFct::getFIFODC() const{
+    return READ32(m_fctReg, fct_fifoDC);
 }
 
 epicsUInt32

@@ -288,7 +288,7 @@
 #define U32_fct_status_base     0x000   // status register
 #define U32_fct_control_base    0x004   // control register
 #define U32_fct_upstreamDC      0x010   // upstream data compensation delay value
-#define U32_fct_receiveDC       0x014   // receive FIFO data compensation delay value
+#define U32_fct_fifoDC          0x014   // receive FIFO data compensation delay value
 #define U32_fct_internalDC      0x018   // FCT internal datapath data compensation delay value
 #define U32_fct_portDC_base     0x040   // downstream link port loop delay value
 #define U32_fct_portDC(n)       (U32_fct_portDC_base + (4*(n)))

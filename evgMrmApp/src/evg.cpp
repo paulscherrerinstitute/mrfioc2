@@ -76,7 +76,7 @@ OBJECT_BEGIN(evgMrm) {
 
 OBJECT_BEGIN(evgFct) {
     OBJECT_PROP1("DlyCompens upstream", &evgFct::getUpstreamDC);
-    OBJECT_PROP1("DlyCompens receive", &evgFct::getReceiveDC);
+    OBJECT_PROP1("DlyCompens fifo", &evgFct::getFIFODC);
     OBJECT_PROP1("DlyCompens internal", &evgFct::getInternalDC);
     OBJECT_PROP1("Status", &evgFct::getPortStatus);
     OBJECT_PROP2("Violation", &evgFct::getPortViolation, &evgFct::clearPortViolation);

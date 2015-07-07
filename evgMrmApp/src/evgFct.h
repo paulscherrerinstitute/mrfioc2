@@ -16,7 +16,7 @@ public:
 
 
     epicsUInt32 getUpstreamDC() const;
-    epicsUInt32 getReceiveDC() const;
+    epicsUInt32 getFIFODC() const;
     epicsUInt32 getInternalDC() const;
 
     epicsUInt16 getPortStatus() const;

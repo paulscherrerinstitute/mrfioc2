@@ -1465,7 +1465,7 @@
           <set>Qt::AlignCenter</set>
          </property>
          <property name="channel" stdset="0">
-          <string notr="true">$(EVG):FCT-receiveDC-I</string>
+          <string notr="true">$(EVG):FCT-fifoDC-I</string>
          </property>
          <property name="colorMode">
           <enum>caLineEdit::Alarm_Default</enum>
