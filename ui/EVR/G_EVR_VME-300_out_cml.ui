@@ -29,15 +29,15 @@
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>-141</y>
+      <y>-1291</y>
       <width>651</width>
-      <height>1000</height>
+      <height>1700</height>
      </rect>
     </property>
     <property name="minimumSize">
      <size>
       <width>0</width>
-      <height>1000</height>
+      <height>1700</height>
      </size>
     </property>
     <widget class="caInclude" name="cainclude_11">
@@ -46,7 +46,7 @@
        <x>0</x>
        <y>0</y>
        <width>662</width>
-       <height>521</height>
+       <height>351</height>
       </rect>
      </property>
      <property name="macro">
@@ -54,38 +54,6 @@
      </property>
      <property name="filename" stdset="0">
       <string notr="true">G_EVR_out_cml_40.ui</string>
-     </property>
-    </widget>
-    <widget class="caInclude" name="cainclude_12">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>530</y>
-       <width>662</width>
-       <height>242</height>
-      </rect>
-     </property>
-     <property name="macro">
-      <string notr="true">ID=1, P=CML, EVR=$(EVR)</string>
-     </property>
-     <property name="filename" stdset="0">
-      <string notr="true">G_EVR_out_cml.ui</string>
-     </property>
-    </widget>
-    <widget class="caInclude" name="cainclude_13">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>780</y>
-       <width>662</width>
-       <height>242</height>
-      </rect>
-     </property>
-     <property name="macro">
-      <string notr="true">ID=2, P=CML, EVR=$(EVR)</string>
-     </property>
-     <property name="filename" stdset="0">
-      <string notr="true">G_EVR_out_cml.ui</string>
      </property>
     </widget>
     <widget class="caInclude" name="cainclude_14">
@@ -102,6 +70,54 @@
      </property>
      <property name="filename" stdset="0">
       <string notr="true">G_EVR_out_cml.ui</string>
+     </property>
+    </widget>
+    <widget class="caInclude" name="cainclude_12">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>360</y>
+       <width>662</width>
+       <height>351</height>
+      </rect>
+     </property>
+     <property name="macro">
+      <string notr="true">ID=1, P=CML, EVR=$(EVR)</string>
+     </property>
+     <property name="filename" stdset="0">
+      <string notr="true">G_EVR_out_cml_40.ui</string>
+     </property>
+    </widget>
+    <widget class="caInclude" name="cainclude_13">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>720</y>
+       <width>662</width>
+       <height>351</height>
+      </rect>
+     </property>
+     <property name="macro">
+      <string notr="true">ID=2, P=CML, EVR=$(EVR)</string>
+     </property>
+     <property name="filename" stdset="0">
+      <string notr="true">G_EVR_out_cml_40.ui</string>
+     </property>
+    </widget>
+    <widget class="caInclude" name="cainclude_15">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>1280</y>
+       <width>662</width>
+       <height>351</height>
+      </rect>
+     </property>
+     <property name="macro">
+      <string notr="true">ID=3, P=CML, EVR=$(EVR)</string>
+     </property>
+     <property name="filename" stdset="0">
+      <string notr="true">G_EVR_out_cml_40.ui</string>
      </property>
     </widget>
    </widget>
