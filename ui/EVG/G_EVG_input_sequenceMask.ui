@@ -41,7 +41,7 @@
      <string notr="true">ID=$(ID), EVG=$(EVG)</string>
     </property>
     <property name="filename" stdset="0">
-     <string notr="true">G_EVG_VME_input.ui</string>
+     <string notr="true">G_EVG_input.ui</string>
     </property>
    </widget>
    <widget class="caTextEntry" name="catextentry_2">

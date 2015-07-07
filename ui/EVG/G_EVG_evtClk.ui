@@ -18,8 +18,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>441</width>
-     <height>241</height>
+     <width>451</width>
+     <height>261</height>
     </rect>
    </property>
    <property name="title">
@@ -212,7 +212,7 @@
     <property name="geometry">
      <rect>
       <x>1</x>
-      <y>145</y>
+      <y>120</y>
       <width>121</width>
       <height>31</height>
      </rect>
@@ -231,7 +231,7 @@
     <property name="geometry">
      <rect>
       <x>319</x>
-      <y>150</y>
+      <y>125</y>
       <width>111</width>
       <height>20</height>
      </rect>
@@ -253,7 +253,7 @@
     <property name="geometry">
      <rect>
       <x>140</x>
-      <y>150</y>
+      <y>125</y>
       <width>91</width>
       <height>20</height>
      </rect>
@@ -276,7 +276,7 @@
     <property name="geometry">
      <rect>
       <x>1</x>
-      <y>200</y>
+      <y>175</y>
       <width>201</width>
       <height>20</height>
      </rect>
@@ -292,7 +292,7 @@
     <property name="geometry">
      <rect>
       <x>214</x>
-      <y>200</y>
+      <y>175</y>
       <width>121</width>
       <height>20</height>
      </rect>
@@ -330,7 +330,7 @@
     <property name="geometry">
      <rect>
       <x>229</x>
-      <y>150</y>
+      <y>125</y>
       <width>31</width>
       <height>20</height>
      </rect>
@@ -361,52 +361,20 @@
      <string notr="true">$(EVG):EvtClk-Source-Sel</string>
     </property>
    </widget>
-   <widget class="caLineEdit" name="calineedit_13">
+   <widget class="caInclude" name="cainclude">
     <property name="geometry">
      <rect>
-      <x>318</x>
-      <y>120</y>
-      <width>111</width>
-      <height>20</height>
+      <x>1</x>
+      <y>210</y>
+      <width>441</width>
+      <height>31</height>
      </rect>
     </property>
-    <property name="alignment">
-     <set>Qt::AlignCenter</set>
+    <property name="macro">
+     <string notr="true">EVG=$(EVG)</string>
     </property>
-    <property name="channel" stdset="0">
-     <string notr="true">$(EVG):EvtClk-PLL-Bandwidth-RB</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_6">
-    <property name="geometry">
-     <rect>
-      <x>2</x>
-      <y>120</y>
-      <width>121</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>PLL Bandwidth</string>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-    </property>
-   </widget>
-   <widget class="caMenu" name="camenu_3">
-    <property name="geometry">
-     <rect>
-      <x>139</x>
-      <y>120</y>
-      <width>161</width>
-      <height>25</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: rgb(212, 219, 157);</string>
-    </property>
-    <property name="channel" stdset="0">
-     <string notr="true">$(EVG):EvtClk-PLL-Bandwidth-Sel</string>
+    <property name="filename" stdset="0">
+     <string notr="true">G_EVG_$(FF)_evtClk_pllBw.ui</string>
     </property>
    </widget>
   </widget>
@@ -421,6 +389,11 @@
    <class>caTextEntry</class>
    <extends>caLineEdit</extends>
    <header>caTextEntry</header>
+  </customwidget>
+  <customwidget>
+   <class>caInclude</class>
+   <extends>QWidget</extends>
+   <header>caInclude</header>
   </customwidget>
   <customwidget>
    <class>caLineEdit</class>

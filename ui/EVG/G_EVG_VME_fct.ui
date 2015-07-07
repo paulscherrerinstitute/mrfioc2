@@ -6,260 +6,54 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>650</width>
+    <width>664</width>
     <height>466</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="caInclude" name="cainclude_62">
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>70</y>
+     <width>261</width>
+     <height>91</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>This form factor / firmware does not support function map 2 registers</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+   <property name="wordWrap">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="caInclude" name="cainclude_76">
    <property name="geometry">
     <rect>
      <x>0</x>
-     <y>22</y>
+     <y>10</y>
      <width>661</width>
      <height>25</height>
     </rect>
    </property>
    <property name="macro">
-    <string notr="true">ID=$(ID),EVG=$(EVG)</string>
+    <string notr="true">ID=0,EVG=$(EVG)</string>
    </property>
    <property name="filename" stdset="0">
     <string notr="true">G_EVG_sfp-min.ui</string>
    </property>
   </widget>
-  <widget class="QFrame" name="frame">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>631</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="frameShape">
-    <enum>QFrame::StyledPanel</enum>
-   </property>
-   <property name="frameShadow">
-    <enum>QFrame::Raised</enum>
-   </property>
-   <widget class="caLabel" name="calabel_2">
-    <property name="geometry">
-     <rect>
-      <x>3</x>
-      <y>1</y>
-      <width>81</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: rgb(236, 236, 236, 255);</string>
-    </property>
-    <property name="text">
-     <string>Port $(ID)</string>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignCenter</set>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_22">
-    <property name="geometry">
-     <rect>
-      <x>90</x>
-      <y>1</y>
-      <width>81</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Loop delay</string>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_23">
-    <property name="geometry">
-     <rect>
-      <x>400</x>
-      <y>1</y>
-      <width>91</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Link violation</string>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_24">
-    <property name="geometry">
-     <rect>
-      <x>270</x>
-      <y>1</y>
-      <width>71</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Link status</string>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-    </property>
-   </widget>
-   <widget class="caLineEdit" name="calineedit_14">
-    <property name="geometry">
-     <rect>
-      <x>180</x>
-      <y>1</y>
-      <width>71</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignCenter</set>
-    </property>
-    <property name="channel" stdset="0">
-     <string notr="true">$(EVG):FCT-Port$(ID)DC-I</string>
-    </property>
-    <property name="colorMode">
-     <enum>caLineEdit::Alarm_Default</enum>
-    </property>
-    <property name="unitsEnabled">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="caLed" name="caled_2">
-    <property name="geometry">
-     <rect>
-      <x>350</x>
-      <y>1</y>
-      <width>20</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="rectangular">
-     <bool>false</bool>
-    </property>
-    <property name="channel" stdset="0">
-     <string notr="true">$(EVG):FCT-status-I.B$(STATUS_ID)</string>
-    </property>
-    <property name="falseColor">
-     <color>
-      <red>218</red>
-      <green>218</green>
-      <blue>218</blue>
-     </color>
-    </property>
-    <property name="trueColor">
-     <color>
-      <red>0</red>
-      <green>205</green>
-      <blue>0</blue>
-     </color>
-    </property>
-    <property name="undefinedColor">
-     <color>
-      <red>255</red>
-      <green>255</green>
-      <blue>255</blue>
-     </color>
-    </property>
-   </widget>
-   <widget class="caLed" name="caled_3">
-    <property name="geometry">
-     <rect>
-      <x>500</x>
-      <y>1</y>
-      <width>20</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="rectangular">
-     <bool>false</bool>
-    </property>
-    <property name="channel" stdset="0">
-     <string notr="true">$(EVG):FCT-Violation-I.B$(STATUS_ID)</string>
-    </property>
-    <property name="falseColor">
-     <color>
-      <red>218</red>
-      <green>218</green>
-      <blue>218</blue>
-     </color>
-    </property>
-    <property name="trueColor">
-     <color>
-      <red>0</red>
-      <green>205</green>
-      <blue>0</blue>
-     </color>
-    </property>
-    <property name="undefinedColor">
-     <color>
-      <red>255</red>
-      <green>255</green>
-      <blue>255</blue>
-     </color>
-    </property>
-   </widget>
-   <widget class="caMessageButton" name="camessagebutton">
-    <property name="geometry">
-     <rect>
-      <x>530</x>
-      <y>1</y>
-      <width>101</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="channel" stdset="0">
-     <string notr="true">$(EVG):FCT-ClearViolation-SP</string>
-    </property>
-    <property name="label">
-     <string notr="true">Clear violation</string>
-    </property>
-    <property name="background">
-     <color>
-      <red>183</red>
-      <green>157</green>
-      <blue>92</blue>
-     </color>
-    </property>
-    <property name="releaseMessage">
-     <string notr="true">$(STATUS_ID)</string>
-    </property>
-   </widget>
-  </widget>
  </widget>
  <customwidgets>
-  <customwidget>
-   <class>caMessageButton</class>
-   <extends>QPushButton</extends>
-   <header>caMessageButton</header>
-  </customwidget>
-  <customwidget>
-   <class>caLabel</class>
-   <extends>QLabel</extends>
-   <header>caLabel</header>
-  </customwidget>
   <customwidget>
    <class>caInclude</class>
    <extends>QWidget</extends>
    <header>caInclude</header>
-  </customwidget>
-  <customwidget>
-   <class>caLed</class>
-   <extends>QWidget</extends>
-   <header>caLed</header>
-  </customwidget>
-  <customwidget>
-   <class>caLineEdit</class>
-   <extends>QLineEdit</extends>
-   <header>caLineEdit</header>
   </customwidget>
  </customwidgets>
  <resources/>

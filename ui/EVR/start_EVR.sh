@@ -10,18 +10,18 @@ usage()
     echo "Usage: $0 [options]"
     echo "Options:"
     echo "    -s <system name>     The system/project name"
-    echo "    -r <EVR name>        Event Receiver name (default: $EVR)"
+    echo "    -e <EVR name>        Event Receiver name (default: $EVR)"
     echo "    -f <form factor>     EVR form factor (default: $FF)"
     echo "                         Choices: VME, PCIe, VME-300"
     echo "    -h                   This help"
 }
 
-while getopts ":s:r:f:h" o; do
+while getopts ":s:e:f:h" o; do
     case "${o}" in
         s)
             SYS=${OPTARG}
             ;;
-        r)
+        e)
             EVR=${OPTARG}
             ;;
         f)
@@ -50,10 +50,10 @@ fi
 
 if [ $FF != "VME" ] && [ $FF != "PCIe" ] && [ $FF != "VME-300" ]; then
     echo "Invalid form factor selected: $FF"
-    echo "        Available choices: VME, PCIe"
+    echo "        Available choices: VME, VME-300, PCIe"
     exit 1
 fi
 
 macro="EVR=$SYS-$EVR,FF=$FF"
-caqtdm -attach -macro "$macro" G_EVR_master.ui &
-#echo caqtdm -macro "$macro" G_EVR_master.ui &
+caqtdm -attach -macro "$macro" G_EVR_main.ui &
+#echo caqtdm -attach -macro "$macro" G_EVR_main.ui &
