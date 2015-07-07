@@ -92,7 +92,7 @@ public:
   virtual Output* output(OutputType otype,epicsUInt32 idx)=0;
   virtual const Output* output(OutputType,epicsUInt32) const=0;
 
-  //! Output id number is device specific
+  //! Input id number is device specific
   virtual Input* input(epicsUInt32 idx)=0;
   virtual const Input* input(epicsUInt32) const=0;
 

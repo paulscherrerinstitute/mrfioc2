@@ -163,15 +163,6 @@ evgSeqRam::getTrigSrc() const {
     if(trigSrc == ExtRam0 || trigSrc == ExtRam1) {
         evgInput* inp = 0;
 
-        /*for(int i = 0; i < evgNumFrontInp && inp == 0; i++)
-            inp = findSeqExtTrig(m_owner->getInput(i, FrontInp));
-
-        for(int i = 0; i < evgNumUnivInp && inp == 0; i++)
-            inp = findSeqExtTrig(m_owner->getInput(i, UnivInp));
-
-        for(int i = 0; i < evgNumRearInp && inp == 0; i++)
-            inp = findSeqExtTrig(m_owner->getInput(i, RearInp));*/
-
         for(std::map< std::pair<epicsUInt32, InputType>, evgInput*>::iterator it = m_owner->m_input.begin(); it != m_owner->m_input.end(); ++it){
             inp = findSeqExtTrig(it->second);
         }

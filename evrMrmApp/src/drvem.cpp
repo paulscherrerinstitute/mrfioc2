@@ -1321,9 +1321,6 @@ EVRMRM::drain_fifo()
             if (!evt)
                 break;
 
-            if(evrEventDebug > 0) printf("EVR received: %d\n",evt);
-
-
             if (evt>NELEMENTS(events)) {
                 // BUG: we get occasional corrupt VME reads of this register
                 // Fixed in firmware.  Feb 2011
@@ -1339,7 +1336,9 @@ EVRMRM::drain_fifo()
             count_fifo_events++;
 
             events[evt].last_sec=READ32(base, EvtFIFOSec);
-            events[evt].last_evt=READ32(base, EvtFIFOEvt);
+            events[evt].last_evt=READ32(base, EvtFIFOEvt); // timestamp register
+
+            if(evrEventDebug > 0) printf("%d.%d: %s received event: %d\n", events[evt].last_sec, events[evt].last_evt, id.c_str(), evt);
 
 
             if (events[evt].again) {
