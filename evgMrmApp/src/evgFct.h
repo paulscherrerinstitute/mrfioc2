@@ -26,14 +26,14 @@ public:
     epicsUInt32 getPortDelayValue(epicsUInt16 port) const;
 
     // helpers for creating objects (in evg.cpp) //
-    epicsUInt32 getPort1DelayValue() const{return getPortDelayValue(1);}
-    epicsUInt32 getPort2DelayValue() const{return getPortDelayValue(2);}
-    epicsUInt32 getPort3DelayValue() const{return getPortDelayValue(3);}
-    epicsUInt32 getPort4DelayValue() const{return getPortDelayValue(4);}
-    epicsUInt32 getPort5DelayValue() const{return getPortDelayValue(5);}
-    epicsUInt32 getPort6DelayValue() const{return getPortDelayValue(6);}
-    epicsUInt32 getPort7DelayValue() const{return getPortDelayValue(7);}
-    epicsUInt32 getPort8DelayValue() const{return getPortDelayValue(8);}
+    inline epicsUInt32 getPort1DelayValue() const{return getPortDelayValue(1);}
+    inline epicsUInt32 getPort2DelayValue() const{return getPortDelayValue(2);}
+    inline epicsUInt32 getPort3DelayValue() const{return getPortDelayValue(3);}
+    inline epicsUInt32 getPort4DelayValue() const{return getPortDelayValue(4);}
+    inline epicsUInt32 getPort5DelayValue() const{return getPortDelayValue(5);}
+    inline epicsUInt32 getPort6DelayValue() const{return getPortDelayValue(6);}
+    inline epicsUInt32 getPort7DelayValue() const{return getPortDelayValue(7);}
+    inline epicsUInt32 getPort8DelayValue() const{return getPortDelayValue(8);}
 
 private:
     volatile epicsUInt8* const m_fctReg;
