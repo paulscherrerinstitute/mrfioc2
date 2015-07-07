@@ -510,8 +510,6 @@ file "db/evg-vme-300.template"
 file "db/evgSoftSeq.template"
 {
     {
-          SYS=MTEST-VME-CSL2,
-          EVG=EVG0,
           SEQNUM  = 1,
           NELM    = 2047,
           TSIMODE = 0,         ## 0 = EGU, 1 = Ticks
@@ -521,8 +519,6 @@ file "db/evgSoftSeq.template"
         }
 
         {
-          SYS=MTEST-VME-CSL2,
-          EVG=EVG0,
           SEQNUM  = 2,
           NELM    = 2047,
           TSIMODE = 0,         ## 0 = EGU, 1 = Ticks
