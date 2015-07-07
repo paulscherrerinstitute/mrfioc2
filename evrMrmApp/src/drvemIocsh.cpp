@@ -233,7 +233,7 @@ long report(int level)
 }
 
 static
-void checkVersion(volatile epicsUInt8 *base, unsigned int required)
+int checkVersion(volatile epicsUInt8 *base, unsigned int required)
 {
     epicsUInt32 v = READ32(base, FWVersion),evr,ver;
 
@@ -255,6 +255,8 @@ void checkVersion(volatile epicsUInt8 *base, unsigned int required)
         throw std::runtime_error("Firmware version not supported");
 
     }
+
+    return ver;
 }
 
 #ifdef __linux__

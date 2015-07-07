@@ -134,7 +134,7 @@ inithooks(initHookState state) {
 	}
 }
 
-void checkVersion(volatile epicsUInt8 *base, unsigned int required) {
+int checkVersion(volatile epicsUInt8 *base, unsigned int required) {
 #ifndef __linux__
     epicsUInt32 junk;
     if(devReadProbe(sizeof(junk), (volatile void*)(base+U32_FPGAVersion), (void*)&junk)) {
@@ -144,6 +144,8 @@ void checkVersion(volatile epicsUInt8 *base, unsigned int required) {
 #endif
 	epicsUInt32 type, ver;
     epicsUInt32 v = READ32(base, FPGAVersion);
+
+    printf("FPGA version: %08x\n", v);
 
     type = v & FPGAVersion_TYPE_MASK;
     type = v >> FPGAVersion_TYPE_SHIFT;
@@ -158,6 +160,8 @@ void checkVersion(volatile epicsUInt8 *base, unsigned int required) {
         throw std::runtime_error("Firmware version not supported");
 
     }
+
+    return ver;
 }
 
 extern "C"
@@ -238,12 +242,11 @@ mrmEvgSetupVME (
             return -1;
         }
 
-        epicsUInt32 version = READ32(regCpuAddr, FPGAVersion);
-        printf("FPGA version: %08x\n", version);
-        checkVersion(regCpuAddr, 3);
+        epicsUInt32 version = checkVersion(regCpuAddr, 3);
+        printf("Firmware version: %08x\n", version);
 
         /* Set the base address of Register Map for function 2, if we have the right firmware version  */
-        if((version & FPGAVersion_VER_MASK) >= EVG_FCT_MIN_FIRMWARE){
+        if(version >= EVG_FCT_MIN_FIRMWARE){
             CSRSetBase(csrCpuAddr, 2, vmeAddress+EVG_REGMAP_SIZE, VME_AM_STD_SUP_DATA);
             {
                 epicsUInt32 temp=CSRRead32((csrCpuAddr) + CSR_FN_ADER(2));
@@ -396,7 +399,7 @@ mrmEvgSetupPCI (
 		printf("Using IRQ %u\n", cur->irq);
 
 		/* MMap BAR0(plx) and BAR2(EVG)*/
-        volatile epicsUInt8 *BAR_plx, *BAR_evg, *BAR_fct = 0;
+        volatile epicsUInt8 *BAR_plx, *BAR_evg;
 
 		if (devPCIToLocalAddr(cur, 0, (volatile void**) (void *) &BAR_plx, 0)
 				|| devPCIToLocalAddr(cur, 2, (volatile void**) (void *) &BAR_evg, 0)) {
@@ -419,23 +422,10 @@ mrmEvgSetupPCI (
 		plxCtrl = plxCtrl & ~LAS0BRD_ENDIAN;
 		LE_WRITE32(BAR_plx,LAS0BRD,plxCtrl);
 
-        epicsUInt32 version = READ32(BAR_evg, FPGAVersion);
-        printf("FPGA version: %08x\n", version);
-        checkVersion(BAR_evg, 3);
+        epicsUInt32 version = checkVersion(BAR_evg, 3);
+        printf("Firmware version: %08x\n", version);
 
-        if((version & FPGAVersion_VER_MASK) >= EVG_FCT_MIN_FIRMWARE){   // map FCT space if firmware supports it
-            if (devPCIToLocalAddr(cur, 1, (volatile void**) (void *) &BAR_fct, 0)){
-                errlogPrintf("Failed to map BAR 1\n");
-                return -1;
-            }
-            if (!BAR_fct) {
-                errlogPrintf("BAR 1 mapped to zero? (%08lx)\n",
-                        (unsigned long) BAR_fct);
-                return -1;
-            }
-        }
-
-        evgMrm* evg = new evgMrm(id, bus, BAR_evg, BAR_fct, cur);
+        evgMrm* evg = new evgMrm(id, bus, BAR_evg, 0, cur);
 
 		evg->getSeqRamMgr()->getSeqRam(0)->disable();
 		evg->getSeqRamMgr()->getSeqRam(1)->disable();

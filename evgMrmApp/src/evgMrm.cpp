@@ -137,7 +137,7 @@ evgMrm::evgMrm(const std::string& id, bus_configuration& busConfig, volatile epi
         sfpName<<id<<":SFP0";
         m_sfp.push_back(new SFP(sfpName.str(), pReg + U32_SFP_transceiver));    // there is always a main transceiver module present (upstream)
 
-        if(version >= EVG_FCT_MIN_FIRMWARE){
+        if(version >= EVG_FCT_MIN_FIRMWARE && m_fctReg > 0){
             m_fct = new evgFct(id, m_fctReg, m_sfp); // fanout SFP modules are initialized here
         } else{
             m_fct = 0;
