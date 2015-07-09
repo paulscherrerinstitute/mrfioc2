@@ -31,11 +31,12 @@ SFP::SFP(const std::string &n, volatile unsigned char *reg)
     updateNow();
 
     /* Check for SFP with LC connector */
-    if(valid)
+    if(valid){
         fprintf(stderr, "Found %s EEPROM\n", n.c_str());
-    else
-        fprintf(stderr, "Found %s Strangeness %02x %02x %02x %02x\n",
+    }else{
+        fprintf(stderr, "Could not read %s EEPROM. Read: %02x %02x %02x %02x\n",
                 n.c_str(), buffer[0],buffer[1],buffer[2],buffer[3]);
+    }
 }
 
 SFP::~SFP() {}
@@ -50,7 +51,7 @@ void SFP::updateNow(bool)
     for(unsigned int i=0; i<SFPMEM_SIZE/4; i++)
         p32[i] = be_ioread32(base+ i*4);
 
-    valid = buffer[0]==3; //&& buffer[2]==7;
+    valid = buffer[0]==3 && buffer[2]==7;
 }
 
 double SFP::linkSpeed() const
