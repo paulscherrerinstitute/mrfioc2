@@ -528,7 +528,7 @@ int flash_pageprogram(struct MrfErRegs *pEvr, char *data,
   return retval;
 }
 
-int spi_program_flash(void* preg, char *bitfile)
+int spi_program_flash(void* preg, const char *bitfile)
 {
   char *buf;
   FILE *fd;

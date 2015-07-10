@@ -41,6 +41,8 @@
 #include "sfp.h"
 #include "configurationInfo.h"
 
+#include "mrmremoteflash.h"
+
 //! @brief Helper to allow one class to have several runable methods
 template<class C,void (C::*Method)()>
 class epicsShareClass epicsThreadRunableMethod : public epicsThreadRunable
@@ -320,6 +322,9 @@ private:
     void _map(epicsUInt8 evt, epicsUInt8 func)   { _mapped[evt] |=    1<<(func);  }
     void _unmap(epicsUInt8 evt, epicsUInt8 func) { _mapped[evt] &= ~( 1<<(func) );}
     bool _ismap(epicsUInt8 evt, epicsUInt8 func) const { return (_mapped[evt] & 1<<(func)) != 0; }
+
+
+    mrmRemoteFlash m_remoteFlash;
 }; // class EVRMRM
 
 #endif // EVRMRML_H_INC

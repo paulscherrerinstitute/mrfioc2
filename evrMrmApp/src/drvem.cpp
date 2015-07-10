@@ -137,6 +137,8 @@ EVRMRM::EVRMRM(const std::string& n,
   ,timestampValid(0)
   ,lastInvalidTimestamp(0)
   ,lastValidTimestamp(0)
+  ,m_remoteFlash(n+":Flash",b)
+
 {
 try{
     epicsUInt32 v, evr,ver;

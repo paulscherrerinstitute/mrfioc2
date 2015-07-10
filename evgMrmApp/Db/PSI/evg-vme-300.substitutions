@@ -18,6 +18,11 @@ pattern { SYS,      EVG,      OBJ }
         {"$(SYS)", "$(EVG)", "EvtClk" }
 }
 
+file flash.template {
+pattern { SYS,      EVG}
+        {"$(SYS)", "$(EVG)"}
+}
+
 file evgDbus.db {
 pattern { SYS,      EVG,      OBJ,    ID }
         {"$(SYS)", "$(EVG)", "Dbus",  0  }

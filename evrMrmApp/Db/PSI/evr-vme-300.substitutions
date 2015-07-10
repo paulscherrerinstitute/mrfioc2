@@ -18,6 +18,12 @@ file "sfp.template"
 }
 
 
+file "flash.template"
+{
+{SYS="$(SYS)", EVG="$(EVR)"}
+}
+
+
 file "evr-prescaler.template"
 {pattern
 { SYS,      EVR,      OBJ, ID, MAX}

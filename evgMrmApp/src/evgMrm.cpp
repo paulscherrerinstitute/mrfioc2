@@ -46,6 +46,7 @@ evgMrm::evgMrm(const std::string& id, bus_configuration& busConfig, volatile epi
     m_acTrig(id+":AcTrig", pReg),
     m_evtClk(id+":EvtClk", pReg),
     m_softEvt(id+":SoftEvt", pReg),
+    m_remoteFlash(id+":Flash",pReg),
     m_seqRamMgr(this),
     m_softSeqMgr(this)
 {

@@ -34,6 +34,7 @@
 #include "configurationInfo.h"
 #include "sfp.h"
 #include "evgFct.h"
+#include "mrmremoteflash.h"
 
 /*********
  * Each EVG will be represented by the instance of class 'evgMrm'. Each evg 
@@ -156,6 +157,8 @@ private:
     evgAcTrig                     m_acTrig;
     evgEvtClk                     m_evtClk;
     evgSoftEvt                    m_softEvt;
+
+    mrmRemoteFlash                m_remoteFlash;
 
     typedef std::vector<evgTrigEvt*> TrigEvt_t;
     TrigEvt_t                     m_trigEvt;
