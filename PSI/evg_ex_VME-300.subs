@@ -3,8 +3,8 @@
 file "db/evg-vme-300.template"
 {
     {
-         DlyCompensation-Beacon-Sel=1, # 0 = Disable, 1 = Enable : Delay compensation beacon generator
-         DlyCompensation-Master-Sel=1, # 0 = Disable, 1 = Enable : Master enable for delay compensation
+         DlyCompensation-Beacon-Sel=0, # 0 = Disable, 1 = Enable : Delay compensation beacon generator
+         DlyCompensation-Master-Sel=0, # 0 = Disable, 1 = Enable : Master enable for delay compensation
 
          AcTrig-Phase-SP=0.0,   #0-25.5 : EVG AC Phase Shifter
          AcTrig-Divider-SP=0,   #0-255 : EVG AC Divider
