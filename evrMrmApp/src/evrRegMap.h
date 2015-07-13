@@ -155,14 +155,6 @@
 
 #define U32_SPIDData    0x0A0
 #define U32_SPIDCtrl    0x0A4
-#  define SPIDCtrl_E_mask       0x80
-#  define SPIDCtrl_RRDY_mask    0x40
-#  define SPIDCtrl_TRDY_mask    0x20
-#  define SPIDCtrl_TMT_mask     0x10
-#  define SPIDCtrl_TOE_mask     0x08
-#  define SPIDCtrl_ROE_mask     0x04
-#  define SPIDCtrl_OE_mask      0x02
-#  define SPIDCtrl_SSO_mask     0x01
 
 #define U32_DCTarget    0x0B0   /* Delay Compensation Target Value */
 #define U32_DCRxValue   0x0B4   /* Delay Compensation Transmission Path Delay Value */

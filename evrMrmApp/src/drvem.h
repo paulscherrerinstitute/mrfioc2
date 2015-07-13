@@ -143,21 +143,6 @@ public:
 
     MRMGpio* gpio();
 
-    virtual void setSPIData(epicsUInt8 data);
-    virtual epicsUInt8 SPIData() const;
-    virtual bool SPIOverrunError() const;
-    virtual bool SPIReceiverReady() const;
-    virtual bool SPITransmitterReady() const;
-    virtual bool SPITransmitterEmpty() const;
-    virtual bool SPITransmitterOverrun() const;
-    virtual bool SPIReceiverOverrun() const;
-    virtual void setSPIOutputEnable(bool oe);
-    virtual bool SPIOutputEnable() const;
-    virtual void setSPISlaveSelect(bool oe);
-    virtual bool SPISlaveSelect() const;
-
-    virtual void setDelayCompensationEnabled(bool enabled);
-    virtual bool isDelayCompensationEnabled() const;
     virtual epicsUInt32 delayCompensationTarget() const;
     virtual void setDelayCompensationTarget(epicsUInt32 target);
     virtual epicsUInt32 delayCompensationRxValue() const;
