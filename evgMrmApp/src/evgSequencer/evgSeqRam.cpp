@@ -37,6 +37,27 @@ evgSeqRam::getEventCode() {
     return eventCode;
 }
 
+void evgSeqRam::setEventMask(const std::vector<epicsUInt8> & eventMask)
+{
+    for(unsigned int i = 0; i < eventMask.size(); i++)
+        WRITE8(m_pReg, SeqRamMask(m_id,i), eventMask[i]);
+
+}
+
+std::vector<epicsUInt8> evgSeqRam::getEventMask()
+{
+    std::vector<epicsUInt8> eventMask(2048,0);
+
+    for(unsigned int i =0; i < eventMask.size();i++){
+        eventMask[i] = READ8(m_pReg, SeqRamMask(m_id,i));
+        printf("%d ",eventMask[i]);
+    }
+    printf("\n");
+
+
+    return eventMask;
+}
+
 void
 evgSeqRam::setTimestamp(const std::vector<epicsUInt64>& timestamp){
     for(unsigned int i = 0; i < timestamp.size(); i++)
@@ -85,14 +106,11 @@ evgSeqRam::setTrigSrc(SeqTrigSrc trigSrc) {
         *previous trigger source we disable the trigger from all the
         *external inputs.
         */
-        for(int i = 0; i < evgNumFrontInp; i++)
-            disableSeqExtTrig(m_owner->getInput(i, FrontInp));
 
-        for(int i = 0; i < evgNumUnivInp; i++)
-            disableSeqExtTrig(m_owner->getInput(i, UnivInp));
+        for(std::map< std::pair<epicsUInt32, InputType>, evgInput*>::iterator it = m_owner->m_input.begin(); it != m_owner->m_input.end(); ++it){
+            disableSeqExtTrig(it->second);
+        }
 
-        for(int i = 0; i < evgNumRearInp; i++)
-            disableSeqExtTrig(m_owner->getInput(i, RearInp));
        /*
         *Now enable the triggering only on the appropraite external input of EVG.
         *Each external input is identified by its number and its type. The
@@ -133,18 +151,12 @@ evgSeqRam::getTrigSrc() const {
         trigSrc = Software;
     }
 
-
     if(trigSrc == ExtRam0 || trigSrc == ExtRam1) {
         evgInput* inp = 0;
 
-        for(int i = 0; i < evgNumFrontInp && inp == 0; i++)
-            inp = findSeqExtTrig(m_owner->getInput(i, FrontInp));
-
-        for(int i = 0; i < evgNumUnivInp && inp == 0; i++)
-            inp = findSeqExtTrig(m_owner->getInput(i, UnivInp));
-
-        for(int i = 0; i < evgNumRearInp && inp == 0; i++)
-            inp = findSeqExtTrig(m_owner->getInput(i, RearInp));
+        for(std::map< std::pair<epicsUInt32, InputType>, evgInput*>::iterator it = m_owner->m_input.begin(); it != m_owner->m_input.end(); ++it){
+            inp = findSeqExtTrig(it->second);
+        }
 
         if(inp != 0)
             trigSrc = (SeqTrigSrc)

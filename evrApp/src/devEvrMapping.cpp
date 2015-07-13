@@ -147,7 +147,7 @@ static long write_lo(longoutRecord* prec)
 
         epicsUInt32 code=prec->val;
 
-        if(code<0 && code>255) {
+        if(code>255) {
             (void)recGblSetSevr((dbCommon *)prec, WRITE_ALARM, INVALID_ALARM);
             return 0;
         }

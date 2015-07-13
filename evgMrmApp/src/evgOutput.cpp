@@ -15,20 +15,7 @@ mrf::ObjectInst<evgOutput>(name),
 m_num(num),
 m_type(type),
 m_pOutReg(pOutReg) {
-    switch(m_type) {        
-        case(FrontOut):
-            if(m_num >= evgNumFrontOut)
-                throw std::runtime_error("EVG Front panel output ID out of range");
-            break;
 
-        case(UnivOut):
-            if(m_num >= evgNumUnivOut)
-                throw std::runtime_error("EVG Universal output ID out of range");
-            break;
-
-        default:
-            throw std::runtime_error("Wrong EVG Output type");
-    }
 }
 
 evgOutput::~evgOutput() {

@@ -42,9 +42,8 @@ static epicsUInt8 vme_level_mask = 0;
 
 static const
 struct VMECSRID vmeEvgIDs[] = {
-    {MRF_VME_IEEE_OUI,
-     MRF_VME_EVG_BID|MRF_SERIES_230,
-     VMECSRANY},
+    {MRF_VME_IEEE_OUI,MRF_VME_EVG_BID|MRF_SERIES_230, VMECSRANY},
+    {MRF_VME_IEEE_OUI, MRF_VME_EVM_300, VMECSRANY},
     VMECSR_END
 };
 
@@ -135,8 +134,7 @@ inithooks(initHookState state) {
 	}
 }
 
-void checkVersion(volatile epicsUInt8 *base, unsigned int required,
-		unsigned int recommended) {
+int checkVersion(volatile epicsUInt8 *base, unsigned int required) {
 #ifndef __linux__
     epicsUInt32 junk;
     if(devReadProbe(sizeof(junk), (volatile void*)(base+U32_FPGAVersion), (void*)&junk)) {
@@ -147,8 +145,7 @@ void checkVersion(volatile epicsUInt8 *base, unsigned int required,
 	epicsUInt32 type, ver;
     epicsUInt32 v = READ32(base, FPGAVersion);
 
-    if(v & FPGAVersion_ZERO_MASK)
-        throw std::runtime_error("Invalid firmware version (HW or bus error)");
+    printf("FPGA version: %08x\n", v);
 
     type = v & FPGAVersion_TYPE_MASK;
     type = v >> FPGAVersion_TYPE_SHIFT;
@@ -159,12 +156,12 @@ void checkVersion(volatile epicsUInt8 *base, unsigned int required,
     ver = v & FPGAVersion_VER_MASK;
 
     if(ver < required) {
-        printf("Firmware version >= %u is required\n", required);
+        printf("Firmware version >= %u is required got %u\n", required,ver);
         throw std::runtime_error("Firmware version not supported");
 
-    } else if(ver < recommended) {
-        printf("Firmware version >= %u is recommended, please consider upgrading\n", required);
     }
+
+    return ver;
 }
 
 extern "C"
@@ -177,6 +174,7 @@ mrmEvgSetupVME (
     epicsInt32  irqVector)  // Desired interrupt vector number
 {
     volatile epicsUInt8* regCpuAddr = 0;
+    volatile epicsUInt8* regCpuAddr2 = 0; //function 2 of regmap (fanout/concentrator specifics)
     struct VMECSRID info;
     bus_configuration bus;
 
@@ -195,8 +193,9 @@ mrmEvgSetupVME (
         }
 
         /*csrCpuAddr is VME-CSR space CPU address for the board*/
-        volatile unsigned char* csrCpuAddr =                
-                                    devCSRTestSlot(vmeEvgIDs,slot,&info);
+        volatile unsigned char* csrCpuAddr = //devCSRProbeSlot(slot);
+                                    devCSRTestSlot(vmeEvgIDs,slot,&info); //FIXME: add support for EVM id
+
 
         if(!csrCpuAddr) {
             errlogPrintf("No EVG in slot %d\n",slot);
@@ -235,17 +234,49 @@ mrmEvgSetupVME (
             vmeAddress,                            // Physical address of register space
             EVG_REGMAP_SIZE,                       // Size of card's register space
             (volatile void **)(void *)&regCpuAddr  // Local address of card's register map
-        );    
+        );
+
 
         if(status) {
             errlogPrintf("Failed to map VME address %08x\n", vmeAddress);
             return -1;
         }
 
-        printf("FPGA version: %08x\n", READ32(regCpuAddr, FPGAVersion));
-        checkVersion(regCpuAddr, 3, 3);
+        epicsUInt32 version = checkVersion(regCpuAddr, 3);
+        printf("Firmware version: %08x\n", version);
 
-        evgMrm* evg = new evgMrm(id, bus, regCpuAddr, NULL);
+        /* Set the base address of Register Map for function 2, if we have the right firmware version  */
+        if(version >= EVG_FCT_MIN_FIRMWARE){
+            CSRSetBase(csrCpuAddr, 2, vmeAddress+EVG_REGMAP_SIZE, VME_AM_STD_SUP_DATA);
+            {
+                epicsUInt32 temp=CSRRead32((csrCpuAddr) + CSR_FN_ADER(2));
+
+                if(temp != CSRADER((epicsUInt32)vmeAddress+EVG_REGMAP_SIZE,VME_AM_STD_SUP_DATA)) {
+                    printf("Failed to set CSR Base address in ADER2 for FCT register mapping.  Check VME bus and card firmware version.\n");
+                    return -1;
+                }
+            }
+
+            /* Create a static string for the card description (needed by vxWorks) */
+            Description = allocSNPrintf(40, "EVG-%d FOUT'%s' slot %d",
+                                              info.board & MRF_BID_SERIES_MASK,
+                                              id, slot);
+
+             status = devRegisterAddress (
+                Description,                           // Event Generator card description
+                atVMEA24,                              // A24 Address space
+                vmeAddress+EVG_REGMAP_SIZE,            // Physical address of register space
+                EVG_REGMAP_SIZE*2,                     // Size of card's register space
+                (volatile void **)(void *)&regCpuAddr2 // Local address of card's register map
+            );
+
+            if(status) {
+                errlogPrintf("Failed to map VME address %08x for FCT mapping\n", vmeAddress);
+                return -1;
+            }
+        }
+
+        evgMrm* evg = new evgMrm(id, bus, regCpuAddr, regCpuAddr2, NULL);
 
         if(irqLevel > 0 && irqVector >= 0) {
             /*Configure the Interrupt level and vector on the EVG board*/
@@ -258,7 +289,7 @@ mrmEvgSetupVME (
             );
 
 
-            printf("csrCpuAddr : %p\nregCpuAddr : %p\n",csrCpuAddr, regCpuAddr);
+            printf("csrCpuAddr : %p\nregCpuAddr : %p\nreCpuAddr2 : %p\n",csrCpuAddr, regCpuAddr, regCpuAddr2);
 
             /*Disable the interrupts and enable them at the end of iocInit via initHooks*/
             WRITE32(regCpuAddr, IrqFlag, READ32(regCpuAddr, IrqFlag));
@@ -368,16 +399,17 @@ mrmEvgSetupPCI (
 		printf("Using IRQ %u\n", cur->irq);
 
 		/* MMap BAR0(plx) and BAR2(EVG)*/
-		volatile epicsUInt8 *BAR_plx, *BAR_evg;
+        volatile epicsUInt8 *BAR_plx, *BAR_evg;
 
 		if (devPCIToLocalAddr(cur, 0, (volatile void**) (void *) &BAR_plx, 0)
 				|| devPCIToLocalAddr(cur, 2, (volatile void**) (void *) &BAR_evg, 0)) {
 			errlogPrintf("Failed to map BARs 0 and 2\n");
 			return -1;
 		}
-		if (!BAR_plx || !BAR_evg) {
+
+        if (!BAR_plx || !BAR_evg) {
 			errlogPrintf("BARs mapped to zero? (%08lx,%08lx)\n",
-					(unsigned long) BAR_plx, (unsigned long) BAR_evg);
+                    (unsigned long) BAR_plx, (unsigned long) BAR_evg);
 			return -1;
 		}
 
@@ -390,10 +422,10 @@ mrmEvgSetupPCI (
 		plxCtrl = plxCtrl & ~LAS0BRD_ENDIAN;
 		LE_WRITE32(BAR_plx,LAS0BRD,plxCtrl);
 
-		printf("FPGA version: %08x\n", READ32(BAR_evg, FPGAVersion));
-		checkVersion(BAR_evg, 3, 3);
+        epicsUInt32 version = checkVersion(BAR_evg, 3);
+        printf("Firmware version: %08x\n", version);
 
-        evgMrm* evg = new evgMrm(id, bus, BAR_evg, cur);
+        evgMrm* evg = new evgMrm(id, bus, BAR_evg, 0, cur);
 
 		evg->getSeqRamMgr()->getSeqRam(0)->disable();
 		evg->getSeqRamMgr()->getSeqRam(1)->disable();
@@ -542,8 +574,37 @@ static const iocshFuncDef mrmEvgSetupPCIFuncDef = { "mrmEvgSetupPCI", 4,
 
 static void mrmEvgSetupPCICallFunc(const iocshArgBuf *args) {
 	mrmEvgSetupPCI(args[0].sval, args[1].ival, args[2].ival, args[3].ival);
-
 }
+
+/********** Flash added  *******/
+static const iocshArg mrmEVMFlashArg0 = { "Card ID", iocshArgString };
+static const iocshArg mrmEVMFlashArg1 = { "bitFile", iocshArgString };
+
+static const iocshArg * const mrmEVMFlashArgs[2] = { &mrmEVMFlashArg0, &mrmEVMFlashArg1};
+static const iocshFuncDef mrmEVMFlashDef = { "mrmEVMFlash", 2, mrmEVMFlashArgs };
+
+extern "C"{
+    extern int spi_program_flash(void* preg, char *bitfile);
+}
+
+static void mrmEVMFlashFunc(const iocshArgBuf *args) {
+   char* cardID = args[0].sval;
+   char* bitfile = args[1].sval;
+
+   printf("Starting SPI flash procedure for %s [%s]\n",cardID,bitfile);
+
+   evgMrm* evg = dynamic_cast<evgMrm*>(mrf::Object::getObject(cardID));
+   if(!evg){
+       errlogPrintf("EVG <%s> does not exist!\n",cardID);
+       return;
+   }
+
+   void* preg = (void*)evg->getRegAddr();
+
+   spi_program_flash(preg, bitfile);
+}
+
+/******************/
 
 extern "C"{
 static void evgMrmRegistrar() {
@@ -551,7 +612,7 @@ static void evgMrmRegistrar() {
 	iocshRegister(&mrmEvgSetupVMEFuncDef, mrmEvgSetupVMECallFunc);
 	iocshRegister(&mrmEvgSetupPCIFuncDef, mrmEvgSetupPCICallFunc);
 	iocshRegister(&mrmEvgSoftTimeFuncDef, mrmEvgSoftTimeFunc);
-
+    iocshRegister(&mrmEVMFlashDef, mrmEVMFlashFunc);
 }
 
 epicsExportRegistrar(evgMrmRegistrar);

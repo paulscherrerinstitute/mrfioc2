@@ -24,14 +24,23 @@
 epicsUInt32
 MRMPreScaler::prescaler() const
 {
-    return nat_ioread32(base);
+    return READ32(base, Scaler(id));
 }
 
 void
 MRMPreScaler::setPrescaler(epicsUInt32 v)
 {
-    if(v>0xffff)
-        throw std::out_of_range("prescaler setting is out of range");
+    WRITE32(base, Scaler(id), v);
+}
 
-    nat_iowrite32(base, v);
+
+epicsUInt32
+MRMPreScaler::pulserMapping() const{
+    return READ32(base, PrescalerTrigger(id));
+}
+
+void
+MRMPreScaler::setPulserMapping(epicsUInt32 pulsers){
+    //TODO check out of range
+    return WRITE32(base, PrescalerTrigger(id), pulsers);
 }

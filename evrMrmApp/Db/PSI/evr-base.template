@@ -231,6 +231,53 @@ record(bi, "$(SYS)-$(EVR):Pll-Sts") {
   field(ZSV , "MAJOR")
 }
 
+record(mbbo, "$(SYS)-$(EVR):PLL-Bandwidth-Sel") {
+  field( DTYP, "Obj Prop uint16")
+  field( OUT , "@OBJ=$(EVR), PROP=PLL Bandwidth")
+  field( PINI, "YES")
+  field( VAL,  "$(PLL-Bandwidth-Sel\=4)")
+  field( ZRST, "HM")
+  field( ONST, "HL")
+  field( TWST, "MH")
+  field( THST, "MM")
+  field( FRST, "ML")
+  field( ZRVL, "0")
+  field( ONVL, "1")
+  field( TWVL, "2")
+  field( THVL, "3")
+  field( FRVL, "4")
+  field( FVSV, "INVALID")
+  field( SXSV, "INVALID")
+  field( SVSV, "INVALID")
+  field( EISV, "INVALID")
+  field( NISV, "INVALID")
+  field( TESV, "INVALID")
+  field( ELSV, "INVALID")
+  field( TVSV, "INVALID")
+  field( TTSV, "INVALID")
+  field( FTSV, "INVALID")
+  field( FFSV, "INVALID")
+  field( UNSV, "INVALID")
+  field( FLNK, "$(SYS)-$(EVR):PLL-Bandwidth-RB")
+  info(autosaveFields_pass0, "VAL")
+}
+
+record(mbbi, "$(SYS)-$(EVR):PLL-Bandwidth-RB") {
+  field( DTYP, "Obj Prop uint16")
+  field( INP , "@OBJ=$(EVR), PROP=PLL Bandwidth")
+  field( ZRST, "HM")
+  field( ONST, "HL")
+  field( TWST, "MH")
+  field( THST, "MM")
+  field( FRST, "ML")
+  field( ZRVL, "0")
+  field( ONVL, "1")
+  field( TWVL, "2")
+  field( THVL, "3")
+  field( FRVL, "4")
+}
+
+
 record(longin, "$(SYS)-$(EVR):HwType-I") {
   field(DTYP, "Obj Prop uint32")
   field(INP , "@OBJ=$(EVR), PROP=Model")
@@ -369,3 +416,81 @@ record(bo, "$(SYS)-$(EVR):Link-RxMode-Sel") {
   info(autosaveFields_pass0, "VAL")
 }
 
+## Delay compensation records
+record(bo, "$(SYS)-$(EVR):DlyCompensation-Enabled-Sel") {
+  field(DESC, "Enable/disable delay compensation")
+  field(DTYP, "Obj Prop bool")
+  field(OUT , "@OBJ=$(EVR), PROP=dc enabled")
+  field(PINI, "YES")
+  field(VAL , "$(DlyCompensation-Enabled-Sel\=1)")
+  field(ZNAM, "Disabled")
+  field(ONAM, "Enabled")
+  field(FLNK, "$(SYS)-$(EVR):DlyCompensation-Enabled-RB")
+  info(autosaveFields_pass0, "VAL")
+}
+
+record(bi, "$(SYS)-$(EVR):DlyCompensation-Enabled-RB") {
+  field(DESC, "Enable/disable delay compensation")
+  field(DTYP, "Obj Prop bool")
+  field(INP , "@OBJ=$(EVR), PROP=dc enabled")
+  field(ZNAM, "Disabled")
+  field(ONAM, "Enabled")
+}
+
+record(ao, "$(SYS)-$(EVR):DlyCompensation-Target-SP") {
+  field(DTYP, "Obj Prop uint32")
+  field(OUT , "@OBJ=$(EVR), PROP=dc tv")
+  field(VAL, "$(DlyCompensation-Target-SP\=0)")
+  field(PINI, "YES")
+  field(EGU, "ps")
+  field(LINR, "LINEAR")
+  field(ESLO, "0.000106812")
+  field(DESC, "Delay compensation target value")
+  field(FLNK, "$(SYS)-$(EVR):DlyCompensation-Target-RB")
+  info(autosaveFields_pass0, "VAL")
+}
+
+record(ai, "$(SYS)-$(EVR):DlyCompensation-Target-RB") {
+  field(DTYP, "Obj Prop uint32")
+  field(EGU, "ps")
+  field(LINR, "LINEAR")
+  field(ESLO, "0.000106812")
+  field(INP , "@OBJ=$(EVR), PROP=dc tv")
+  field(DESC, "Delay compensation target value")
+}
+
+record(ai, "$(SYS)-$(EVR):DlyCompensation-Path-RB") {
+  field(DTYP, "Obj Prop uint32")
+  field(EGU, "ps")
+  field(LINR, "LINEAR")
+  field(ESLO, "0.000106812")
+  field(INP , "@OBJ=$(EVR), PROP=dc tpd")
+  field(DESC, "Delay compens trans path dly")
+  field(SCAN, "1 second")
+}
+
+record(ai, "$(SYS)-$(EVR):DlyCompensation-Internal-RB") {
+  field(DTYP, "Obj Prop uint32")
+  field(EGU, "ps")
+  field(LINR, "LINEAR")
+  field(ESLO, "0.000106812")
+  field(INP , "@OBJ=$(EVR), PROP=dc id")
+  field(DESC, "Delay compensation internal delay")
+  field(SCAN, "1 second")
+}
+
+record(longin, "$(SYS)-$(EVR):DlyCompensation-Status-RB") {
+  field(DTYP, "Obj Prop uint32")
+  field(INP , "@OBJ=$(EVR), PROP=dc s")
+  field(DESC, "Delay compensation status")
+  field(SCAN, "1 second")
+}
+
+# DBus status
+record(mbbiDirect, "$(SYS)-$(EVR):DBus-Status-I") {
+  field(DTYP, "Obj Prop uint16")
+  field(INP , "@OBJ=$(EVR), PROP=DBus status")
+  field(PINI, "YES")
+  field(DESC, "DBus bits value")
+  field(SCAN, ".1 second")
+}

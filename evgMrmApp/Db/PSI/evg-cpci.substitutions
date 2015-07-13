@@ -70,3 +70,8 @@ pattern { SYS,      EVG,      OBJ,   ID }
         {"$(SYS)", "$(EVG)", "Mxc",  6  }
         {"$(SYS)", "$(EVG)", "Mxc",  7  }
 }
+
+file "sfp.template"{
+pattern { SYS,      EVG,      OBJ,   ID }
+        {"$(SYS)", "$(EVG)", "SFP",  0  }
+}

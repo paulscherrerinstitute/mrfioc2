@@ -42,7 +42,7 @@ m_numOfRuns(0) {
     scanIoInit(&iostartscan);
 }
 
-const epicsUInt32
+epicsUInt32
 evgSoftSeq::getId() const {
     return m_id;
 }
@@ -147,6 +147,25 @@ evgSoftSeq::setRunMode(SeqRunMode runMode) {
 const std::vector<epicsUInt8>&
 evgSoftSeq::getEventCodeCt() {
     return m_eventCodeCt;
+}
+
+void evgSoftSeq::setEventMask(epicsUInt8 * eventCode, epicsUInt32 size)
+{
+    if(size > 2047)
+        throw std::runtime_error("Too many Event Masks. Max: 2047");
+
+    m_eventMask.clear();
+    m_eventMask.assign(eventCode, eventCode + size);
+
+    m_isCommited = false;
+    if(mrmEVGSeqDebug>1)
+        fprintf(stderr, "SS%u: Update EvtMask\n",m_id);
+//    scanIoRequest(ioscanpvt);
+}
+
+const std::vector<epicsUInt8> &evgSoftSeq::getEventMaskCt()
+{
+    return m_eventMaskCt;
 }
 
 const std::vector<epicsUInt64>&
@@ -393,6 +412,7 @@ evgSoftSeq::finishSync()
                 (int)getTrigSrcCt(), (int)getRunModeCt());
     }
     m_seqRam->setEventCode(getEventCodeCt());
+    m_seqRam->setEventMask(getEventMaskCt());
     m_seqRam->setTimestamp(getTimestampCt());
     m_seqRam->setTrigSrc(getTrigSrcCt());
     m_seqRam->setRunMode(getRunModeCt());
@@ -410,14 +430,20 @@ evgSoftSeq::finishSync()
 
 void
 evgSoftSeq::commitSoftSeq() {
+    epicsInt64 tsUInt64;
+    epicsUInt8 ecUInt8;
+    epicsUInt8 mskUInt8;
     epicsUInt64 preTs = 0;
+    epicsUInt64 curTs = 0;
 
     std::vector<epicsUInt64> timestamp;
     std::vector<epicsUInt8> eventCode;
+    std::vector<epicsUInt8> eventMasks;
 
     // reserve (allocate) for worst case
     timestamp.reserve(2048);
     eventCode.reserve(2048);
+    eventMasks.reserve(2048);
 
     /*
      * Make EventCode and Timestamp vector of same size
@@ -425,24 +451,32 @@ evgSoftSeq::commitSoftSeq() {
      */
     std::vector<epicsUInt64>::iterator itTS = m_timestamp.begin();
     std::vector<epicsUInt8>::iterator itEC = m_eventCode.begin();
-    for(; itTS < m_timestamp.end() && itEC < m_eventCode.end(); itTS++, itEC++) {
-        const epicsUInt8 ecUInt8 = *itEC;
+    std::vector<epicsUInt8>::iterator itMSK = m_eventMask.begin();
 
-        const epicsUInt64 curTs = *itTS;
-        epicsInt64 tsUInt64 = curTs - preTs; /* relative ticks since last input event */
+    for(; itTS < m_timestamp.end() && itEC < m_eventCode.end() && itMSK < m_eventMask.end(); itTS++, itEC++, itMSK++) {
+        ecUInt8 = *itEC;
+        mskUInt8 = *itMSK;
+
+        //FIXME: Why is ts recalculated from previous value?
+        curTs = *itTS;
+        tsUInt64 = curTs - preTs;
         if(timestamp.size())
-            tsUInt64 += timestamp.back(); /* abs. output ticks wrt. start or last continuation */
+            tsUInt64 += timestamp.back();
 
          /* inject continuation event(s) when output time would overflow */
         for(;tsUInt64 > 0xffffffff; tsUInt64 -= 0xffffffff) {
             timestamp.push_back(0xffffffff);
             eventCode.push_back(0);
+            eventMasks.push_back(0);
+
         }
         preTs = curTs;
 
         timestamp.push_back(tsUInt64);
         eventCode.push_back(ecUInt8);
-        if(ecUInt8==0x7f)
+        eventMasks.push_back(mskUInt8);
+	
+	if(ecUInt8==0x7f)
             break; /* User provided end of sequence event */
     }
 
@@ -460,14 +494,15 @@ evgSoftSeq::commitSoftSeq() {
         }
     }
 
-    if(eventCode.size()==0 && timestamp.size()==0) {
+    if(eventCode.size()==0 && timestamp.size()==0 && eventMasks.size()==0) {
         /* empty sequence.  Not very useful, but not an error */
         eventCode.push_back(0x7f);
+        eventMasks.push_back(0x0);
         timestamp.push_back(evgEndOfSeqBuf);
     }
 
-    if(timestamp.size()!=eventCode.size()) {
-        throw std::logic_error("SoftSeq, length of timestamp and eventCode don't match");
+    if(timestamp.size()!=eventCode.size() || timestamp.size()!=eventMasks.size()) {
+        throw std::logic_error("SoftSeq, length of timestamp, eventCode and eventMask don't match");
 
     } else if(timestamp.size()>2047) {
         throw std::runtime_error("Sequence too long (>2047)");
@@ -477,20 +512,26 @@ evgSoftSeq::commitSoftSeq() {
          * If not already present append 'End of Sequence' event code(0x7f) and
          * timestamp.
          */
-        if(timestamp.back()+evgEndOfSeqBuf>=0xffffffff) {
+         if(timestamp.back()+evgEndOfSeqBuf>=0xffffffff) {
             eventCode.push_back(0);
             timestamp.push_back(0xffffffff);
+            eventMasks.push_back(0x0);
+
             eventCode.push_back(0x7f);
             timestamp.push_back(evgEndOfSeqBuf);
+            eventMasks.push_back(0x0);
         } else {
             eventCode.push_back(0x7f);
             timestamp.push_back(timestamp.back() + evgEndOfSeqBuf);
+            eventMasks.push_back(0x0);
         }
     }
 
 
     m_timestampCt = timestamp;
     m_eventCodeCt = eventCode;
+    m_eventMaskCt = eventMasks;
+
     m_trigSrcCt = m_trigSrc;
     m_runModeCt = m_runMode;
 

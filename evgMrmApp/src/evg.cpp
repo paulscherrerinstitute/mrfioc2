@@ -15,6 +15,7 @@
 #include "evgMxc.h"
 #include "evgEvtClk.h"
 #include "evgMrm.h"
+#include "evgFct.h"
 
 OBJECT_BEGIN(evgAcTrig) {
     OBJECT_PROP2("Divider", &evgAcTrig::getDivider, &evgAcTrig::setDivider);
@@ -28,15 +29,17 @@ OBJECT_BEGIN(evgDbus) {
 } OBJECT_END(evgDbus)
 
 OBJECT_BEGIN(evgEvtClk) {
-    OBJECT_PROP2("Source",      &evgEvtClk::getSource, &evgEvtClk::setSource);
-    OBJECT_PROP2("RFFreq",      &evgEvtClk::getRFFreq, &evgEvtClk::setRFFreq);
-    OBJECT_PROP2("RFDiv",       &evgEvtClk::getRFDiv,  &evgEvtClk::setRFDiv);
-    OBJECT_PROP2("FracSynFreq", &evgEvtClk::getFracSynFreq, &evgEvtClk::setFracSynFreq);
-    OBJECT_PROP1("Frequency",   &evgEvtClk::getFrequency);
+    OBJECT_PROP2("Source",        &evgEvtClk::getSource, &evgEvtClk::setSource);
+    OBJECT_PROP2("RFFreq",        &evgEvtClk::getRFFreq, &evgEvtClk::setRFFreq);
+    OBJECT_PROP2("RFDiv",         &evgEvtClk::getRFDiv,  &evgEvtClk::setRFDiv);
+    OBJECT_PROP2("PLL Bandwidth", &evgEvtClk::getPLLBandwidthRaw,  &evgEvtClk::setPLLBandwidthRaw);
+    OBJECT_PROP2("FracSynFreq",   &evgEvtClk::getFracSynFreq, &evgEvtClk::setFracSynFreq);
+    OBJECT_PROP1("Frequency",     &evgEvtClk::getFrequency);
 } OBJECT_END(evgEvtClk)
 
 OBJECT_BEGIN(evgInput) {
     OBJECT_PROP2("IRQ", &evgInput::getExtIrq, &evgInput::setExtIrq);
+    OBJECT_PROP2("SQMK", &evgInput::getSeqMask, &evgInput::setSeqMask);
 } OBJECT_END(evgInput)
 
 OBJECT_BEGIN(evgMxc) {
@@ -63,8 +66,26 @@ OBJECT_BEGIN(evgTrigEvt) {
 OBJECT_BEGIN(evgMrm) {
     OBJECT_PROP2("Enable",     &evgMrm::enabled,      &evgMrm::enable);
     OBJECT_PROP1("DbusStatus", &evgMrm::getDbusStatus);
-    OBJECT_PROP1("Version", &evgMrm::getFwVersion);
+    OBJECT_PROP2("Seq 0 mask", &evgMrm::getSWMask0,   &evgMrm::setSWMask0);
+    OBJECT_PROP2("Seq 1 mask", &evgMrm::getSWMask1,   &evgMrm::setSWMask1);
+    OBJECT_PROP2("DlyCompens beacon", &evgMrm::dlyCompBeaconEnabled,   &evgMrm::dlyCompBeaconEnable);
+    OBJECT_PROP2("DlyCompens master", &evgMrm::dlyCompMasterEnabled,   &evgMrm::dlyCompMasterEnable);
+    OBJECT_PROP1("Version",    &evgMrm::getFwVersion);
     OBJECT_PROP1("Sw Version", &evgMrm::getSwVersion);
 } OBJECT_END(evgMrm)
 
-
+OBJECT_BEGIN(evgFct) {
+    OBJECT_PROP1("DlyCompens upstream", &evgFct::getUpstreamDC);
+    OBJECT_PROP1("DlyCompens fifo", &evgFct::getFIFODC);
+    OBJECT_PROP1("DlyCompens internal", &evgFct::getInternalDC);
+    OBJECT_PROP1("Status", &evgFct::getPortStatus);
+    OBJECT_PROP2("Violation", &evgFct::getPortViolation, &evgFct::clearPortViolation);
+    OBJECT_PROP1("LoopDelay port1", &evgFct::getPort1DelayValue);
+    OBJECT_PROP1("LoopDelay port2", &evgFct::getPort2DelayValue);
+    OBJECT_PROP1("LoopDelay port3", &evgFct::getPort3DelayValue);
+    OBJECT_PROP1("LoopDelay port4", &evgFct::getPort4DelayValue);
+    OBJECT_PROP1("LoopDelay port5", &evgFct::getPort5DelayValue);
+    OBJECT_PROP1("LoopDelay port6", &evgFct::getPort6DelayValue);
+    OBJECT_PROP1("LoopDelay port7", &evgFct::getPort7DelayValue);
+    OBJECT_PROP1("LoopDelay port8", &evgFct::getPort8DelayValue);
+} OBJECT_END(evgFct)

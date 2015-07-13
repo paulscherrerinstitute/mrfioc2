@@ -98,6 +98,25 @@ record(waveform, "$(SYS)-$(EVG):SoftSeq-$(SEQNUM)-EvtCode-RB") {
     field( FTVL, "UCHAR")
 }
 
+record(waveform, "$(SYS)-$(EVG):SoftSeq-$(SEQNUM)-EvtMask-SP") {
+    field( DTYP, "EVG SEQ EVENT MASK")
+    field( DESC, "Sequence event mask array")
+    field( INP,  "#C S$(SEQNUM) @$(EVG)")
+    field( NELM, "$(NELM)")
+    field( FTVL, "UCHAR")
+    info( autosaveFields_pass1, "VAL")
+}
+
+record(waveform, "$(SYS)-$(EVG):SoftSeq-$(SEQNUM)-EvtMask-RB") {
+    field( DTYP, "EVG SEQ EVENT MASK RB")
+    field( DESC, "Sequence event mask readback")
+    field( INP,  "#C S$(SEQNUM) @$(EVG)")
+    field( SCAN, "I/O Intr")
+    field( NELM, "$(NELM)")
+    field( FTVL, "UCHAR")
+}
+
+
 record(waveform, "$(SYS)-$(EVG):SoftSeq-$(SEQNUM)-Timestamp-SP") {
     field( DTYP, "EVG SEQ TIMESTAMP")
     field( DESC, "Sequence timestamp array")

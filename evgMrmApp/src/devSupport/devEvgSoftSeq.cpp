@@ -157,6 +157,14 @@ init_li(longinRecord* pli) {
 /**        Read/Write Function        **/
 static long
 get_ioint_info_pvt(int cmd, dbCommon *pwf, IOSCANPVT *ppvt) {
+
+    /**
+     * Added cast to void for 'cmd' function parameter in order to
+     * remove the unused parameter warning.
+     *
+     * Change by: jkrasna
+     */
+    (void)cmd;
     Pvt* dpvt = (Pvt*)pwf->dpvt;
     if(!dpvt)
         return S_dev_noDevice;
@@ -173,6 +181,14 @@ get_ioint_info_pvt(int cmd, dbCommon *pwf, IOSCANPVT *ppvt) {
 
 static long 
 get_ioint_info(int cmd, dbCommon *pRec, IOSCANPVT *ppvt) {
+
+    /**
+     * Added cast to void for 'cmd' function parameter in order to
+     * remove the unused parameter warning.
+     *
+     * Change by: jkrasna
+     */
+    (void)cmd;
     evgSoftSeq* seq = (evgSoftSeq*)pRec->dpvt;
     if(!seq) {
         errlogPrintf("%s : Device pvt field not initialized\n", pRec->name);
@@ -185,6 +201,14 @@ get_ioint_info(int cmd, dbCommon *pRec, IOSCANPVT *ppvt) {
 
 static long 
 get_ioint_info_err(int cmd, dbCommon *pRec, IOSCANPVT *ppvt) {
+
+    /**
+     * Added cast to void for 'cmd' function parameter in order to
+     * remove the unused parameter warning.
+     *
+     * Change by: jkrasna
+     */
+    (void)cmd;
     evgSoftSeq* seq = (evgSoftSeq*)pRec->dpvt;
     if(!seq) {
         errlogPrintf("%s : Device pvt field not initialized\n", pRec->name);
@@ -197,6 +221,14 @@ get_ioint_info_err(int cmd, dbCommon *pRec, IOSCANPVT *ppvt) {
 
 static long
 get_ioint_info_run(int cmd, dbCommon *pRec, IOSCANPVT *ppvt) {
+
+    /**
+     * Added cast to void for 'cmd' function parameter in order to
+     * remove the unused parameter warning.
+     *
+     * Change by: jkrasna
+     */
+    (void)cmd;
     evgSoftSeq* seq = (evgSoftSeq*)pRec->dpvt;
     if(!seq) {
         errlogPrintf("%s : Device pvt field not initialized\n", pRec->name);
@@ -209,6 +241,14 @@ get_ioint_info_run(int cmd, dbCommon *pRec, IOSCANPVT *ppvt) {
 
 static long
 get_ioint_info_startSeq(int cmd, dbCommon *pRec, IOSCANPVT *ppvt) {
+
+    /**
+     * Added cast to void for 'cmd' function parameter in order to
+     * remove the unused parameter warning.
+     *
+     * Change by: jkrasna
+     */
+    (void)cmd;
     evgSoftSeq* seq = (evgSoftSeq*)pRec->dpvt;
     if(!seq) {
         errlogPrintf("%s : Device pvt field not initialized\n", pRec->name);
@@ -467,6 +507,59 @@ read_wf_eventCode(waveformRecord* pwf) {
         ret = S_db_noMemory;
     }
     
+    return ret;
+}
+
+
+/*returns: (-1,0)=>(failure,success)*/
+static long
+write_wf_eventMask(waveformRecord* pwf) {
+    long ret = 0;
+
+    try {
+        evgSoftSeq* seq = (evgSoftSeq*)pwf->dpvt;
+        if(!seq)
+            throw std::runtime_error("Device pvt field not initialized");
+
+        SCOPED_LOCK2(seq->m_lock, guard);
+        seq->setEventMask((epicsUInt8*)pwf->bptr, pwf->nord);
+    } catch(std::runtime_error& e) {
+        errlogPrintf("ERROR: %s : %s\n", e.what(), pwf->name);
+        ret = S_dev_noDevice;
+    } catch(std::exception& e) {
+        errlogPrintf("ERROR: %s : %s\n", e.what(), pwf->name);
+        ret = S_db_noMemory;
+    }
+
+    return ret;
+}
+
+/*returns: (-1,0)=>(failure,success)*/
+static long
+read_wf_eventMask(waveformRecord* pwf) {
+    long ret = 0;
+
+    try {
+        evgSoftSeq* seq = (evgSoftSeq*)pwf->dpvt;
+        if(!seq)
+            throw std::runtime_error("Device pvt field not initialized");
+
+        SCOPED_LOCK2(seq->m_lock, guard);
+        std::vector<epicsUInt8> eventMask = seq->getEventMaskCt();
+        epicsUInt8* bptr = (epicsUInt8*)pwf->bptr;
+        for(unsigned int i = 0; i < eventMask.size(); i++)
+            bptr[i] = eventMask[i];
+
+        pwf->nord = (epicsUInt32)eventMask.size();
+
+    } catch(std::runtime_error& e) {
+        errlogPrintf("ERROR: %s : %s\n", e.what(), pwf->name);
+        ret = S_dev_noDevice;
+    } catch(std::exception& e) {
+        errlogPrintf("ERROR: %s : %s\n", e.what(), pwf->name);
+        ret = S_db_noMemory;
+    }
+
     return ret;
 }
 
@@ -1070,6 +1163,28 @@ common_dset devWfEvgEventCodeRB = {
     (DEVSUPFUN)read_wf_eventCode,
 };
 epicsExportAddress(dset, devWfEvgEventCodeRB);
+
+
+common_dset devWfEvgEventMask = {
+    5,
+    NULL,
+    NULL,
+    (DEVSUPFUN)init_wf,
+    NULL,
+    (DEVSUPFUN)write_wf_eventMask,
+};
+epicsExportAddress(dset, devWfEvgEventMask);
+
+common_dset devWfEvgEventMaskRB = {
+    5,
+    NULL,
+    NULL,
+    (DEVSUPFUN)init_wf,
+    (DEVSUPFUN)get_ioint_info,
+    (DEVSUPFUN)read_wf_eventMask,
+};
+epicsExportAddress(dset, devWfEvgEventMaskRB);
+
 
 common_dset devMbboEvgRunMode = {
     5,

@@ -1,27 +1,31 @@
 #!/bin/bash
 set -o errexit
 
-SYS="CSL-IFC1"
+SYS=""
 EVG="EVG0"
-s_flag=0 # reset s_flag (-s is required)
+FF="VME"
 
 usage()
 {
     echo "Usage: $0 [options]"
     echo "Options:"
     echo "    -s <system name>     The system/project name"
-    echo "    -g <EVG name>        Event Generator name (default: $EVG)"
+    echo "    -e <EVG name>        Event Generator name (default: $EVG)"
+    echo "    -f <form factor>     EVR form factor (default: $FF)"
+    echo "                         Choices: VME, VME-300"
     echo "    -h                   This help"
 }
 
-while getopts ":s:g:h" o; do
+while getopts ":s:e:f:h" o; do
     case "${o}" in
         s)
             SYS=${OPTARG}
-            s_flag=1
             ;;
-        g)
+        e)
             EVG=${OPTARG}
+            ;;
+        f)
+            FF=${OPTARG}
             ;;
         h)
             usage
@@ -34,12 +38,22 @@ while getopts ":s:g:h" o; do
     esac
 done
 
-# -s is not present
-if [ $s_flag -eq 0 ]; then
+if [ $OPTIND -le 1 ]; then
     usage
     exit 1
 fi
 
-macro="EVG=$SYS-$EVG"
-caqtdm -macro "$macro" G_EVG_VME_master.ui &
-#echo caqtdm -macro "$macro" G_EVG_VME_master.ui &
+if [ -z $SYS ]; then
+    usage
+    exit 1
+fi
+
+if [ $FF != "VME" ] && [ $FF != "VME-300" ]; then
+    echo "Invalid form factor selected: $FF"
+    echo "        Available choices: VME, VME-300"
+    exit 1
+fi
+
+macro="EVG=$SYS-$EVG,FF=$FF"
+caqtdm -attach -macro "$macro" G_EVG_main.ui &
+#echo caqtdm -attach -macro "$macro" G_EVG_main.ui &

@@ -79,7 +79,7 @@
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
-      <x>10</x>
+      <x>5</x>
       <y>70</y>
       <width>121</width>
       <height>20</height>
@@ -95,7 +95,7 @@
    <widget class="caLineEdit" name="calineedit">
     <property name="geometry">
      <rect>
-      <x>140</x>
+      <x>135</x>
       <y>70</y>
       <width>71</width>
       <height>20</height>
@@ -108,7 +108,7 @@
    <widget class="caLineEdit" name="calineedit_3">
     <property name="geometry">
      <rect>
-      <x>140</x>
+      <x>135</x>
       <y>90</y>
       <width>71</width>
       <height>20</height>
@@ -121,7 +121,7 @@
    <widget class="QLabel" name="label_5">
     <property name="geometry">
      <rect>
-      <x>10</x>
+      <x>5</x>
       <y>90</y>
       <width>121</width>
       <height>20</height>
@@ -137,7 +137,7 @@
    <widget class="caLineEdit" name="calineedit_4">
     <property name="geometry">
      <rect>
-      <x>140</x>
+      <x>135</x>
       <y>110</y>
       <width>71</width>
       <height>20</height>
@@ -150,7 +150,7 @@
    <widget class="QLabel" name="label_7">
     <property name="geometry">
      <rect>
-      <x>10</x>
+      <x>5</x>
       <y>110</y>
       <width>121</width>
       <height>20</height>
@@ -176,7 +176,7 @@
      <string notr="true">EVG=$(EVG)</string>
     </property>
     <property name="filename" stdset="0">
-     <string notr="true">G_EVG_VME_softEvt.ui</string>
+     <string notr="true">G_EVG_softEvt.ui</string>
     </property>
    </widget>
    <widget class="QTabWidget" name="tabWidget">
@@ -189,7 +189,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>8</number>
     </property>
     <widget class="QWidget" name="tab">
      <attribute name="title">
@@ -235,7 +235,7 @@
          <string notr="true">ID=0, EVG=$(EVG)</string>
         </property>
         <property name="filename" stdset="0">
-         <string notr="true">G_EVG_VME_dbus.ui</string>
+         <string notr="true">G_EVG_dbus.ui</string>
         </property>
        </widget>
        <widget class="caInclude" name="cainclude_26">
@@ -251,7 +251,7 @@
          <string notr="true">ID=1, EVG=$(EVG)</string>
         </property>
         <property name="filename" stdset="0">
-         <string notr="true">G_EVG_VME_dbus.ui</string>
+         <string notr="true">G_EVG_dbus.ui</string>
         </property>
        </widget>
        <widget class="caInclude" name="cainclude_27">
@@ -267,7 +267,7 @@
          <string notr="true">ID=2, EVG=$(EVG)</string>
         </property>
         <property name="filename" stdset="0">
-         <string notr="true">G_EVG_VME_dbus.ui</string>
+         <string notr="true">G_EVG_dbus.ui</string>
         </property>
        </widget>
        <widget class="caInclude" name="cainclude_36">
@@ -283,7 +283,7 @@
          <string notr="true">ID=3, EVG=$(EVG)</string>
         </property>
         <property name="filename" stdset="0">
-         <string notr="true">G_EVG_VME_dbus.ui</string>
+         <string notr="true">G_EVG_dbus.ui</string>
         </property>
        </widget>
        <widget class="caInclude" name="cainclude_37">
@@ -299,7 +299,7 @@
          <string notr="true">ID=4, EVG=$(EVG)</string>
         </property>
         <property name="filename" stdset="0">
-         <string notr="true">G_EVG_VME_dbus.ui</string>
+         <string notr="true">G_EVG_dbus.ui</string>
         </property>
        </widget>
        <widget class="caInclude" name="cainclude_38">
@@ -315,7 +315,7 @@
          <string notr="true">ID=5, EVG=$(EVG)</string>
         </property>
         <property name="filename" stdset="0">
-         <string notr="true">G_EVG_VME_dbus.ui</string>
+         <string notr="true">G_EVG_dbus.ui</string>
         </property>
        </widget>
        <widget class="caInclude" name="cainclude_39">
@@ -331,7 +331,7 @@
          <string notr="true">ID=6, EVG=$(EVG)</string>
         </property>
         <property name="filename" stdset="0">
-         <string notr="true">G_EVG_VME_dbus.ui</string>
+         <string notr="true">G_EVG_dbus.ui</string>
         </property>
        </widget>
        <widget class="caInclude" name="cainclude_40">
@@ -347,7 +347,7 @@
          <string notr="true">ID=7, EVG=$(EVG)</string>
         </property>
         <property name="filename" stdset="0">
-         <string notr="true">G_EVG_VME_dbus.ui</string>
+         <string notr="true">G_EVG_dbus.ui</string>
         </property>
        </widget>
       </widget>
@@ -357,7 +357,7 @@
      <attribute name="title">
       <string>Input</string>
      </attribute>
-     <widget class="QScrollArea" name="scrollArea_2">
+     <widget class="caInclude" name="cainclude_7">
       <property name="geometry">
        <rect>
         <x>0</x>
@@ -366,384 +366,19 @@
         <height>471</height>
        </rect>
       </property>
-      <property name="widgetResizable">
-       <bool>true</bool>
+      <property name="macro">
+       <string notr="true">EVG=$(EVG)</string>
       </property>
-      <widget class="QWidget" name="scrollAreaWidgetContents_2">
-       <property name="geometry">
-        <rect>
-         <x>0</x>
-         <y>0</y>
-         <width>641</width>
-         <height>2000</height>
-        </rect>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>0</width>
-         <height>2000</height>
-        </size>
-       </property>
-       <widget class="caInclude" name="cainclude_4">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>10</y>
-          <width>565</width>
-          <height>85</height>
-         </rect>
-        </property>
-        <property name="macro">
-         <string notr="true">ID=FrontInp0, EVG=$(EVG)</string>
-        </property>
-        <property name="filename" stdset="0">
-         <string notr="true">G_EVG_VME_input.ui</string>
-        </property>
-       </widget>
-       <widget class="caInclude" name="cainclude_5">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>95</y>
-          <width>565</width>
-          <height>85</height>
-         </rect>
-        </property>
-        <property name="macro">
-         <string notr="true">ID=FrontInp1, EVG=$(EVG)</string>
-        </property>
-        <property name="filename" stdset="0">
-         <string notr="true">G_EVG_VME_input.ui</string>
-        </property>
-       </widget>
-       <widget class="caInclude" name="cainclude_7">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>190</y>
-          <width>565</width>
-          <height>85</height>
-         </rect>
-        </property>
-        <property name="macro">
-         <string notr="true">ID=UnivInp0, EVG=$(EVG)</string>
-        </property>
-        <property name="filename" stdset="0">
-         <string notr="true">G_EVG_VME_input.ui</string>
-        </property>
-       </widget>
-       <widget class="caInclude" name="cainclude_8">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>275</y>
-          <width>565</width>
-          <height>85</height>
-         </rect>
-        </property>
-        <property name="macro">
-         <string notr="true">ID=UnivInp1, EVG=$(EVG)</string>
-        </property>
-        <property name="filename" stdset="0">
-         <string notr="true">G_EVG_VME_input.ui</string>
-        </property>
-       </widget>
-       <widget class="caInclude" name="cainclude_9">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>360</y>
-          <width>565</width>
-          <height>85</height>
-         </rect>
-        </property>
-        <property name="macro">
-         <string notr="true">ID=UnivInp2, EVG=$(EVG)</string>
-        </property>
-        <property name="filename" stdset="0">
-         <string notr="true">G_EVG_VME_input.ui</string>
-        </property>
-       </widget>
-       <widget class="caInclude" name="cainclude_10">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>445</y>
-          <width>565</width>
-          <height>85</height>
-         </rect>
-        </property>
-        <property name="macro">
-         <string notr="true">ID=UnivInp3, EVG=$(EVG)</string>
-        </property>
-        <property name="filename" stdset="0">
-         <string notr="true">G_EVG_VME_input.ui</string>
-        </property>
-       </widget>
-       <widget class="caInclude" name="cainclude_41">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>540</y>
-          <width>565</width>
-          <height>85</height>
-         </rect>
-        </property>
-        <property name="macro">
-         <string notr="true">ID=RearInp0, EVG=$(EVG)</string>
-        </property>
-        <property name="filename" stdset="0">
-         <string notr="true">G_EVG_VME_input.ui</string>
-        </property>
-       </widget>
-       <widget class="caInclude" name="cainclude_42">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>625</y>
-          <width>565</width>
-          <height>85</height>
-         </rect>
-        </property>
-        <property name="macro">
-         <string notr="true">ID=RearInp1, EVG=$(EVG)</string>
-        </property>
-        <property name="filename" stdset="0">
-         <string notr="true">G_EVG_VME_input.ui</string>
-        </property>
-       </widget>
-       <widget class="caInclude" name="cainclude_43">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>710</y>
-          <width>565</width>
-          <height>85</height>
-         </rect>
-        </property>
-        <property name="macro">
-         <string notr="true">ID=RearInp2, EVG=$(EVG)</string>
-        </property>
-        <property name="filename" stdset="0">
-         <string notr="true">G_EVG_VME_input.ui</string>
-        </property>
-       </widget>
-       <widget class="caInclude" name="cainclude_44">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>795</y>
-          <width>565</width>
-          <height>85</height>
-         </rect>
-        </property>
-        <property name="macro">
-         <string notr="true">ID=RearInp3, EVG=$(EVG)</string>
-        </property>
-        <property name="filename" stdset="0">
-         <string notr="true">G_EVG_VME_input.ui</string>
-        </property>
-       </widget>
-       <widget class="caInclude" name="cainclude_45">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>880</y>
-          <width>565</width>
-          <height>85</height>
-         </rect>
-        </property>
-        <property name="macro">
-         <string notr="true">ID=RearInp4, EVG=$(EVG)</string>
-        </property>
-        <property name="filename" stdset="0">
-         <string notr="true">G_EVG_VME_input.ui</string>
-        </property>
-       </widget>
-       <widget class="caInclude" name="cainclude_46">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>965</y>
-          <width>565</width>
-          <height>85</height>
-         </rect>
-        </property>
-        <property name="macro">
-         <string notr="true">ID=RearInp5, EVG=$(EVG)</string>
-        </property>
-        <property name="filename" stdset="0">
-         <string notr="true">G_EVG_VME_input.ui</string>
-        </property>
-       </widget>
-       <widget class="caInclude" name="cainclude_47">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>1050</y>
-          <width>565</width>
-          <height>85</height>
-         </rect>
-        </property>
-        <property name="macro">
-         <string notr="true">ID=RearInp6, EVG=$(EVG)</string>
-        </property>
-        <property name="filename" stdset="0">
-         <string notr="true">G_EVG_VME_input.ui</string>
-        </property>
-       </widget>
-       <widget class="caInclude" name="cainclude_48">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>1135</y>
-          <width>565</width>
-          <height>85</height>
-         </rect>
-        </property>
-        <property name="macro">
-         <string notr="true">ID=RearInp7, EVG=$(EVG)</string>
-        </property>
-        <property name="filename" stdset="0">
-         <string notr="true">G_EVG_VME_input.ui</string>
-        </property>
-       </widget>
-       <widget class="caInclude" name="cainclude_49">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>1220</y>
-          <width>565</width>
-          <height>85</height>
-         </rect>
-        </property>
-        <property name="macro">
-         <string notr="true">ID=RearInp8, EVG=$(EVG)</string>
-        </property>
-        <property name="filename" stdset="0">
-         <string notr="true">G_EVG_VME_input.ui</string>
-        </property>
-       </widget>
-       <widget class="caInclude" name="cainclude_50">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>1305</y>
-          <width>565</width>
-          <height>85</height>
-         </rect>
-        </property>
-        <property name="macro">
-         <string notr="true">ID=RearInp9, EVG=$(EVG)</string>
-        </property>
-        <property name="filename" stdset="0">
-         <string notr="true">G_EVG_VME_input.ui</string>
-        </property>
-       </widget>
-       <widget class="caInclude" name="cainclude_51">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>1390</y>
-          <width>565</width>
-          <height>85</height>
-         </rect>
-        </property>
-        <property name="macro">
-         <string notr="true">ID=RearInp10, EVG=$(EVG)</string>
-        </property>
-        <property name="filename" stdset="0">
-         <string notr="true">G_EVG_VME_input.ui</string>
-        </property>
-       </widget>
-       <widget class="caInclude" name="cainclude_52">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>1475</y>
-          <width>565</width>
-          <height>85</height>
-         </rect>
-        </property>
-        <property name="macro">
-         <string notr="true">ID=RearInp11, EVG=$(EVG)</string>
-        </property>
-        <property name="filename" stdset="0">
-         <string notr="true">G_EVG_VME_input.ui</string>
-        </property>
-       </widget>
-       <widget class="caInclude" name="cainclude_53">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>1560</y>
-          <width>565</width>
-          <height>85</height>
-         </rect>
-        </property>
-        <property name="macro">
-         <string notr="true">ID=RearInp12, EVG=$(EVG)</string>
-        </property>
-        <property name="filename" stdset="0">
-         <string notr="true">G_EVG_VME_input.ui</string>
-        </property>
-       </widget>
-       <widget class="caInclude" name="cainclude_54">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>1645</y>
-          <width>565</width>
-          <height>85</height>
-         </rect>
-        </property>
-        <property name="macro">
-         <string notr="true">ID=RearInp13, EVG=$(EVG)</string>
-        </property>
-        <property name="filename" stdset="0">
-         <string notr="true">G_EVG_VME_input.ui</string>
-        </property>
-       </widget>
-       <widget class="caInclude" name="cainclude_55">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>1730</y>
-          <width>565</width>
-          <height>85</height>
-         </rect>
-        </property>
-        <property name="macro">
-         <string notr="true">ID=RearInp14, EVG=$(EVG)</string>
-        </property>
-        <property name="filename" stdset="0">
-         <string notr="true">G_EVG_VME_input.ui</string>
-        </property>
-       </widget>
-       <widget class="caInclude" name="cainclude_56">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>1815</y>
-          <width>565</width>
-          <height>85</height>
-         </rect>
-        </property>
-        <property name="macro">
-         <string notr="true">ID=RearInp15, EVG=$(EVG)</string>
-        </property>
-        <property name="filename" stdset="0">
-         <string notr="true">G_EVG_VME_input.ui</string>
-        </property>
-       </widget>
-      </widget>
+      <property name="filename" stdset="0">
+       <string notr="true">G_EVG_$(FF)_input.ui</string>
+      </property>
      </widget>
     </widget>
     <widget class="QWidget" name="tab_3">
      <attribute name="title">
       <string>Output</string>
      </attribute>
-     <widget class="QScrollArea" name="scrollArea_3">
+     <widget class="caInclude" name="cainclude_6">
       <property name="geometry">
        <rect>
         <x>0</x>
@@ -752,147 +387,12 @@
         <height>471</height>
        </rect>
       </property>
-      <property name="widgetResizable">
-       <bool>true</bool>
+      <property name="macro">
+       <string notr="true">EVG=$(EVG)</string>
       </property>
-      <widget class="QWidget" name="scrollAreaWidgetContents_3">
-       <property name="geometry">
-        <rect>
-         <x>0</x>
-         <y>0</y>
-         <width>659</width>
-         <height>469</height>
-        </rect>
-       </property>
-       <widget class="caInclude" name="cainclude_11">
-        <property name="geometry">
-         <rect>
-          <x>90</x>
-          <y>25</y>
-          <width>375</width>
-          <height>25</height>
-         </rect>
-        </property>
-        <property name="macro">
-         <string notr="true">ID=FrontOut0, EVG=$(EVG)</string>
-        </property>
-        <property name="filename" stdset="0">
-         <string notr="true">G_EVG_VME_output.ui</string>
-        </property>
-       </widget>
-       <widget class="caInclude" name="cainclude_12">
-        <property name="geometry">
-         <rect>
-          <x>90</x>
-          <y>50</y>
-          <width>375</width>
-          <height>25</height>
-         </rect>
-        </property>
-        <property name="macro">
-         <string notr="true">ID=FrontOut1, EVG=$(EVG)</string>
-        </property>
-        <property name="filename" stdset="0">
-         <string notr="true">G_EVG_VME_output.ui</string>
-        </property>
-       </widget>
-       <widget class="caInclude" name="cainclude_13">
-        <property name="geometry">
-         <rect>
-          <x>90</x>
-          <y>75</y>
-          <width>375</width>
-          <height>25</height>
-         </rect>
-        </property>
-        <property name="macro">
-         <string notr="true">ID=FrontOut2, EVG=$(EVG)</string>
-        </property>
-        <property name="filename" stdset="0">
-         <string notr="true">G_EVG_VME_output.ui</string>
-        </property>
-       </widget>
-       <widget class="caInclude" name="cainclude_14">
-        <property name="geometry">
-         <rect>
-          <x>90</x>
-          <y>100</y>
-          <width>375</width>
-          <height>25</height>
-         </rect>
-        </property>
-        <property name="macro">
-         <string notr="true">ID=FrontOut3, EVG=$(EVG)</string>
-        </property>
-        <property name="filename" stdset="0">
-         <string notr="true">G_EVG_VME_output.ui</string>
-        </property>
-       </widget>
-       <widget class="caInclude" name="cainclude_57">
-        <property name="geometry">
-         <rect>
-          <x>90</x>
-          <y>160</y>
-          <width>375</width>
-          <height>25</height>
-         </rect>
-        </property>
-        <property name="macro">
-         <string notr="true">ID=UnivOut0, EVG=$(EVG)</string>
-        </property>
-        <property name="filename" stdset="0">
-         <string notr="true">G_EVG_VME_output.ui</string>
-        </property>
-       </widget>
-       <widget class="caInclude" name="cainclude_58">
-        <property name="geometry">
-         <rect>
-          <x>90</x>
-          <y>185</y>
-          <width>375</width>
-          <height>25</height>
-         </rect>
-        </property>
-        <property name="macro">
-         <string notr="true">ID=UnivOut1, EVG=$(EVG)</string>
-        </property>
-        <property name="filename" stdset="0">
-         <string notr="true">G_EVG_VME_output.ui</string>
-        </property>
-       </widget>
-       <widget class="caInclude" name="cainclude_59">
-        <property name="geometry">
-         <rect>
-          <x>90</x>
-          <y>210</y>
-          <width>375</width>
-          <height>25</height>
-         </rect>
-        </property>
-        <property name="macro">
-         <string notr="true">ID=UnivOut2, EVG=$(EVG)</string>
-        </property>
-        <property name="filename" stdset="0">
-         <string notr="true">G_EVG_VME_output.ui</string>
-        </property>
-       </widget>
-       <widget class="caInclude" name="cainclude_60">
-        <property name="geometry">
-         <rect>
-          <x>90</x>
-          <y>235</y>
-          <width>375</width>
-          <height>25</height>
-         </rect>
-        </property>
-        <property name="macro">
-         <string notr="true">ID=UnivOut3, EVG=$(EVG)</string>
-        </property>
-        <property name="filename" stdset="0">
-         <string notr="true">G_EVG_VME_output.ui</string>
-        </property>
-       </widget>
-      </widget>
+      <property name="filename" stdset="0">
+       <string notr="true">G_EVG_$(FF)_output.ui</string>
+      </property>
      </widget>
     </widget>
     <widget class="QWidget" name="tab_4">
@@ -915,7 +415,7 @@
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>-519</y>
+         <y>0</y>
          <width>641</width>
          <height>1100</height>
         </rect>
@@ -939,7 +439,7 @@
          <string notr="true">TRIGEVTNUM=0, EVG=$(EVG)</string>
         </property>
         <property name="filename" stdset="0">
-         <string notr="true">G_EVG_VME_trigEvt.ui</string>
+         <string notr="true">G_EVG_trigEvt.ui</string>
         </property>
        </widget>
        <widget class="caInclude" name="cainclude_24">
@@ -955,7 +455,7 @@
          <string notr="true">TRIGEVTNUM=1, EVG=$(EVG)</string>
         </property>
         <property name="filename" stdset="0">
-         <string notr="true">G_EVG_VME_trigEvt.ui</string>
+         <string notr="true">G_EVG_trigEvt.ui</string>
         </property>
        </widget>
        <widget class="caInclude" name="cainclude_28">
@@ -971,7 +471,7 @@
          <string notr="true">TRIGEVTNUM=2, EVG=$(EVG)</string>
         </property>
         <property name="filename" stdset="0">
-         <string notr="true">G_EVG_VME_trigEvt.ui</string>
+         <string notr="true">G_EVG_trigEvt.ui</string>
         </property>
        </widget>
        <widget class="caInclude" name="cainclude_29">
@@ -987,7 +487,7 @@
          <string notr="true">TRIGEVTNUM=3, EVG=$(EVG)</string>
         </property>
         <property name="filename" stdset="0">
-         <string notr="true">G_EVG_VME_trigEvt.ui</string>
+         <string notr="true">G_EVG_trigEvt.ui</string>
         </property>
        </widget>
        <widget class="caInclude" name="cainclude_30">
@@ -1003,7 +503,7 @@
          <string notr="true">TRIGEVTNUM=4, EVG=$(EVG)</string>
         </property>
         <property name="filename" stdset="0">
-         <string notr="true">G_EVG_VME_trigEvt.ui</string>
+         <string notr="true">G_EVG_trigEvt.ui</string>
         </property>
        </widget>
        <widget class="caInclude" name="cainclude_31">
@@ -1019,7 +519,7 @@
          <string notr="true">TRIGEVTNUM=5, EVG=$(EVG)</string>
         </property>
         <property name="filename" stdset="0">
-         <string notr="true">G_EVG_VME_trigEvt.ui</string>
+         <string notr="true">G_EVG_trigEvt.ui</string>
         </property>
        </widget>
        <widget class="caInclude" name="cainclude_32">
@@ -1035,7 +535,7 @@
          <string notr="true">TRIGEVTNUM=6, EVG=$(EVG)</string>
         </property>
         <property name="filename" stdset="0">
-         <string notr="true">G_EVG_VME_trigEvt.ui</string>
+         <string notr="true">G_EVG_trigEvt.ui</string>
         </property>
        </widget>
        <widget class="caInclude" name="cainclude_33">
@@ -1051,7 +551,7 @@
          <string notr="true">TRIGEVTNUM=7, EVG=$(EVG)</string>
         </property>
         <property name="filename" stdset="0">
-         <string notr="true">G_EVG_VME_trigEvt.ui</string>
+         <string notr="true">G_EVG_trigEvt.ui</string>
         </property>
        </widget>
       </widget>
@@ -1083,7 +583,7 @@
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>-631</y>
+         <y>0</y>
          <width>641</width>
          <height>1100</height>
         </rect>
@@ -1107,7 +607,7 @@
          <string notr="true">ID=0, EVG=$(EVG)</string>
         </property>
         <property name="filename" stdset="0">
-         <string notr="true">G_EVG_VME_mxc-v2.ui</string>
+         <string notr="true">G_EVG_mxc-v2.ui</string>
         </property>
        </widget>
        <widget class="caInclude" name="cainclude_16">
@@ -1123,7 +623,7 @@
          <string notr="true">ID=1, EVG=$(EVG)</string>
         </property>
         <property name="filename" stdset="0">
-         <string notr="true">G_EVG_VME_mxc-v2.ui</string>
+         <string notr="true">G_EVG_mxc-v2.ui</string>
         </property>
        </widget>
        <widget class="caInclude" name="cainclude_17">
@@ -1139,7 +639,7 @@
          <string notr="true">ID=2, EVG=$(EVG)</string>
         </property>
         <property name="filename" stdset="0">
-         <string notr="true">G_EVG_VME_mxc-v2.ui</string>
+         <string notr="true">G_EVG_mxc-v2.ui</string>
         </property>
        </widget>
        <widget class="caInclude" name="cainclude_18">
@@ -1155,7 +655,7 @@
          <string notr="true">ID=3, EVG=$(EVG)</string>
         </property>
         <property name="filename" stdset="0">
-         <string notr="true">G_EVG_VME_mxc-v2.ui</string>
+         <string notr="true">G_EVG_mxc-v2.ui</string>
         </property>
        </widget>
        <widget class="caInclude" name="cainclude_19">
@@ -1171,7 +671,7 @@
          <string notr="true">ID=4, EVG=$(EVG)</string>
         </property>
         <property name="filename" stdset="0">
-         <string notr="true">G_EVG_VME_mxc-v2.ui</string>
+         <string notr="true">G_EVG_mxc-v2.ui</string>
         </property>
        </widget>
        <widget class="caInclude" name="cainclude_20">
@@ -1187,7 +687,7 @@
          <string notr="true">ID=5, EVG=$(EVG)</string>
         </property>
         <property name="filename" stdset="0">
-         <string notr="true">G_EVG_VME_mxc-v2.ui</string>
+         <string notr="true">G_EVG_mxc-v2.ui</string>
         </property>
        </widget>
        <widget class="caInclude" name="cainclude_21">
@@ -1203,7 +703,7 @@
          <string notr="true">ID=6, EVG=$(EVG)</string>
         </property>
         <property name="filename" stdset="0">
-         <string notr="true">G_EVG_VME_mxc-v2.ui</string>
+         <string notr="true">G_EVG_mxc-v2.ui</string>
         </property>
        </widget>
        <widget class="caInclude" name="cainclude_22">
@@ -1219,7 +719,7 @@
          <string notr="true">ID=7, EVG=$(EVG)</string>
         </property>
         <property name="filename" stdset="0">
-         <string notr="true">G_EVG_VME_mxc-v2.ui</string>
+         <string notr="true">G_EVG_mxc-v2.ui</string>
         </property>
        </widget>
       </widget>
@@ -1242,7 +742,7 @@
        <string notr="true">EVG=$(EVG)</string>
       </property>
       <property name="filename" stdset="0">
-       <string notr="true">G_EVG_VME_acTrig.ui</string>
+       <string notr="true">G_EVG_acTrig.ui</string>
       </property>
      </widget>
     </widget>
@@ -1253,17 +753,17 @@
      <widget class="caInclude" name="cainclude_3">
       <property name="geometry">
        <rect>
-        <x>140</x>
+        <x>100</x>
         <y>20</y>
-        <width>360</width>
-        <height>211</height>
+        <width>461</width>
+        <height>351</height>
        </rect>
       </property>
       <property name="macro">
-       <string notr="true">EVG=$(EVG)</string>
+       <string notr="true">EVG=$(EVG), FF=$(FF)</string>
       </property>
       <property name="filename" stdset="0">
-       <string notr="true">G_EVG_VME_evtClk.ui</string>
+       <string notr="true">G_EVG_evtClk.ui</string>
       </property>
      </widget>
     </widget>
@@ -1310,14 +810,14 @@
           <x>20</x>
           <y>20</y>
           <width>301</width>
-          <height>331</height>
+          <height>411</height>
          </rect>
         </property>
         <property name="macro">
-         <string notr="true">SEQNUM=1, EVG=$(EVG)</string>
+         <string notr="true">SEQNUM=1, EVG=$(EVG), FF=$(FF)</string>
         </property>
         <property name="filename" stdset="0">
-         <string notr="true">G_EVG_VME_softSeq.ui</string>
+         <string notr="true">G_EVG_softSeq.ui</string>
         </property>
        </widget>
        <widget class="caInclude" name="cainclude_35">
@@ -1326,25 +826,46 @@
           <x>330</x>
           <y>20</y>
           <width>301</width>
-          <height>331</height>
+          <height>411</height>
          </rect>
         </property>
         <property name="macro">
-         <string notr="true">SEQNUM=2, EVG=$(EVG)</string>
+         <string notr="true">SEQNUM=2, EVG=$(EVG), FF=$(FF)</string>
         </property>
         <property name="filename" stdset="0">
-         <string notr="true">G_EVG_VME_softSeq.ui</string>
+         <string notr="true">G_EVG_softSeq.ui</string>
         </property>
        </widget>
       </widget>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="tab_9">
+     <attribute name="title">
+      <string>FCT</string>
+     </attribute>
+     <widget class="caInclude" name="cainclude_8">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>661</width>
+        <height>471</height>
+       </rect>
+      </property>
+      <property name="macro">
+       <string notr="true">EVG=$(EVG)</string>
+      </property>
+      <property name="filename" stdset="0">
+       <string notr="true">G_EVG_$(FF)_fct.ui</string>
+      </property>
      </widget>
     </widget>
    </widget>
    <widget class="QLabel" name="label_8">
     <property name="geometry">
      <rect>
-      <x>240</x>
-      <y>70</y>
+      <x>5</x>
+      <y>140</y>
       <width>121</width>
       <height>20</height>
      </rect>
@@ -1353,14 +874,14 @@
      <string>Event clock </string>
     </property>
     <property name="alignment">
-     <set>Qt::AlignCenter</set>
+     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
     </property>
    </widget>
    <widget class="caLineEdit" name="calineedit_12">
     <property name="geometry">
      <rect>
-      <x>240</x>
-      <y>100</y>
+      <x>135</x>
+      <y>140</y>
       <width>131</width>
       <height>20</height>
      </rect>
@@ -1389,6 +910,19 @@
     </property>
     <property name="alignment">
      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+    </property>
+   </widget>
+   <widget class="caInclude" name="cainclude_4">
+    <property name="geometry">
+     <rect>
+      <x>220</x>
+      <y>40</y>
+      <width>231</width>
+      <height>100</height>
+     </rect>
+    </property>
+    <property name="filename" stdset="0">
+     <string notr="true">G_EVG_$(FF)_dlyCompensation.ui</string>
     </property>
    </widget>
   </widget>

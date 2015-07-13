@@ -576,9 +576,9 @@ record(longin, "$(SYS,recursive)-$(EVR,recursive):Pul0-Delay-Raw-RB") {
   field(DTYP, "Obj Prop uint32")
   field(INP , "@OBJ=$(EVR,recursive):Pul0, PROP=Delay")
   field(EGU , "cnts")
-  field(HOPR, "0xffffff")
+  field(HOPR, "0xffffffff")
   field(LOPR, "0")
-  field(HIGH, "0xffffff")
+  field(HIGH, "0xffffffff")
   field( HSV, "MAJOR")
 }
 
@@ -722,9 +722,9 @@ record(longin, "$(SYS,recursive)-$(EVR,recursive):Pul1-Delay-Raw-RB") {
   field(DTYP, "Obj Prop uint32")
   field(INP , "@OBJ=$(EVR,recursive):Pul1, PROP=Delay")
   field(EGU , "cnts")
-  field(HOPR, "0xffffff")
+  field(HOPR, "0xffffffff")
   field(LOPR, "0")
-  field(HIGH, "0xffffff")
+  field(HIGH, "0xffffffff")
   field( HSV, "MAJOR")
 }
 
@@ -868,9 +868,9 @@ record(longin, "$(SYS,recursive)-$(EVR,recursive):Pul2-Delay-Raw-RB") {
   field(DTYP, "Obj Prop uint32")
   field(INP , "@OBJ=$(EVR,recursive):Pul2, PROP=Delay")
   field(EGU , "cnts")
-  field(HOPR, "0xffffff")
+  field(HOPR, "0xffffffff")
   field(LOPR, "0")
-  field(HIGH, "0xffffff")
+  field(HIGH, "0xffffffff")
   field( HSV, "MAJOR")
 }
 
@@ -1014,9 +1014,9 @@ record(longin, "$(SYS,recursive)-$(EVR,recursive):Pul3-Delay-Raw-RB") {
   field(DTYP, "Obj Prop uint32")
   field(INP , "@OBJ=$(EVR,recursive):Pul3, PROP=Delay")
   field(EGU , "cnts")
-  field(HOPR, "0xffffff")
+  field(HOPR, "0xffffffff")
   field(LOPR, "0")
-  field(HIGH, "0xffffff")
+  field(HIGH, "0xffffffff")
   field( HSV, "MAJOR")
 }
 
@@ -1160,9 +1160,9 @@ record(longin, "$(SYS,recursive)-$(EVR,recursive):Pul4-Delay-Raw-RB") {
   field(DTYP, "Obj Prop uint32")
   field(INP , "@OBJ=$(EVR,recursive):Pul4, PROP=Delay")
   field(EGU , "cnts")
-  field(HOPR, "0xffffff")
+  field(HOPR, "0xffffffff")
   field(LOPR, "0")
-  field(HIGH, "0xffffff")
+  field(HIGH, "0xffffffff")
   field( HSV, "MAJOR")
 }
 
@@ -1306,9 +1306,9 @@ record(longin, "$(SYS,recursive)-$(EVR,recursive):Pul5-Delay-Raw-RB") {
   field(DTYP, "Obj Prop uint32")
   field(INP , "@OBJ=$(EVR,recursive):Pul5, PROP=Delay")
   field(EGU , "cnts")
-  field(HOPR, "0xffffff")
+  field(HOPR, "0xffffffff")
   field(LOPR, "0")
-  field(HIGH, "0xffffff")
+  field(HIGH, "0xffffffff")
   field( HSV, "MAJOR")
 }
 
@@ -1452,9 +1452,9 @@ record(longin, "$(SYS,recursive)-$(EVR,recursive):Pul6-Delay-Raw-RB") {
   field(DTYP, "Obj Prop uint32")
   field(INP , "@OBJ=$(EVR,recursive):Pul6, PROP=Delay")
   field(EGU , "cnts")
-  field(HOPR, "0xffffff")
+  field(HOPR, "0xffffffff")
   field(LOPR, "0")
-  field(HIGH, "0xffffff")
+  field(HIGH, "0xffffffff")
   field( HSV, "MAJOR")
 }
 
@@ -1598,9 +1598,9 @@ record(longin, "$(SYS,recursive)-$(EVR,recursive):Pul7-Delay-Raw-RB") {
   field(DTYP, "Obj Prop uint32")
   field(INP , "@OBJ=$(EVR,recursive):Pul7, PROP=Delay")
   field(EGU , "cnts")
-  field(HOPR, "0xffffff")
+  field(HOPR, "0xffffffff")
   field(LOPR, "0")
-  field(HIGH, "0xffffff")
+  field(HIGH, "0xffffffff")
   field( HSV, "MAJOR")
 }
 
@@ -1744,9 +1744,9 @@ record(longin, "$(SYS,recursive)-$(EVR,recursive):Pul8-Delay-Raw-RB") {
   field(DTYP, "Obj Prop uint32")
   field(INP , "@OBJ=$(EVR,recursive):Pul8, PROP=Delay")
   field(EGU , "cnts")
-  field(HOPR, "0xffffff")
+  field(HOPR, "0xffffffff")
   field(LOPR, "0")
-  field(HIGH, "0xffffff")
+  field(HIGH, "0xffffffff")
   field( HSV, "MAJOR")
 }
 
@@ -1890,9 +1890,9 @@ record(longin, "$(SYS,recursive)-$(EVR,recursive):Pul9-Delay-Raw-RB") {
   field(DTYP, "Obj Prop uint32")
   field(INP , "@OBJ=$(EVR,recursive):Pul9, PROP=Delay")
   field(EGU , "cnts")
-  field(HOPR, "0xffffff")
+  field(HOPR, "0xffffffff")
   field(LOPR, "0")
-  field(HIGH, "0xffffff")
+  field(HIGH, "0xffffffff")
   field( HSV, "MAJOR")
 }
 
@@ -2036,9 +2036,9 @@ record(longin, "$(SYS,recursive)-$(EVR,recursive):Pul10-Delay-Raw-RB") {
   field(DTYP, "Obj Prop uint32")
   field(INP , "@OBJ=$(EVR,recursive):Pul10, PROP=Delay")
   field(EGU , "cnts")
-  field(HOPR, "0xffffff")
+  field(HOPR, "0xffffffff")
   field(LOPR, "0")
-  field(HIGH, "0xffffff")
+  field(HIGH, "0xffffffff")
   field( HSV, "MAJOR")
 }
 
@@ -2182,9 +2182,9 @@ record(longin, "$(SYS,recursive)-$(EVR,recursive):Pul11-Delay-Raw-RB") {
   field(DTYP, "Obj Prop uint32")
   field(INP , "@OBJ=$(EVR,recursive):Pul11, PROP=Delay")
   field(EGU , "cnts")
-  field(HOPR, "0xffffff")
+  field(HOPR, "0xffffffff")
   field(LOPR, "0")
-  field(HIGH, "0xffffff")
+  field(HIGH, "0xffffffff")
   field( HSV, "MAJOR")
 }
 
@@ -2328,9 +2328,9 @@ record(longin, "$(SYS,recursive)-$(EVR,recursive):Pul12-Delay-Raw-RB") {
   field(DTYP, "Obj Prop uint32")
   field(INP , "@OBJ=$(EVR,recursive):Pul12, PROP=Delay")
   field(EGU , "cnts")
-  field(HOPR, "0xffffff")
+  field(HOPR, "0xffffffff")
   field(LOPR, "0")
-  field(HIGH, "0xffffff")
+  field(HIGH, "0xffffffff")
   field( HSV, "MAJOR")
 }
 
@@ -2474,9 +2474,9 @@ record(longin, "$(SYS,recursive)-$(EVR,recursive):Pul13-Delay-Raw-RB") {
   field(DTYP, "Obj Prop uint32")
   field(INP , "@OBJ=$(EVR,recursive):Pul13, PROP=Delay")
   field(EGU , "cnts")
-  field(HOPR, "0xffffff")
+  field(HOPR, "0xffffffff")
   field(LOPR, "0")
-  field(HIGH, "0xffffff")
+  field(HIGH, "0xffffffff")
   field( HSV, "MAJOR")
 }
 
@@ -2620,9 +2620,9 @@ record(longin, "$(SYS,recursive)-$(EVR,recursive):Pul14-Delay-Raw-RB") {
   field(DTYP, "Obj Prop uint32")
   field(INP , "@OBJ=$(EVR,recursive):Pul14, PROP=Delay")
   field(EGU , "cnts")
-  field(HOPR, "0xffffff")
+  field(HOPR, "0xffffffff")
   field(LOPR, "0")
-  field(HIGH, "0xffffff")
+  field(HIGH, "0xffffffff")
   field( HSV, "MAJOR")
 }
 
@@ -2766,9 +2766,9 @@ record(longin, "$(SYS,recursive)-$(EVR,recursive):Pul15-Delay-Raw-RB") {
   field(DTYP, "Obj Prop uint32")
   field(INP , "@OBJ=$(EVR,recursive):Pul15, PROP=Delay")
   field(EGU , "cnts")
-  field(HOPR, "0xffffff")
+  field(HOPR, "0xffffffff")
   field(LOPR, "0")
-  field(HIGH, "0xffffff")
+  field(HIGH, "0xffffffff")
   field( HSV, "MAJOR")
 }
 
@@ -10038,7 +10038,7 @@ record(mbbo, "$(SYS,recursive)-$(EVR,recursive):CML0-Mode-Sel") {
   field( DTYP, "Obj Prop uint16")
   field( OUT , "@OBJ=$(EVR,recursive):CML0, PROP=Mode")
   field( PINI, "YES")
-  field( VAL, "$($(EVR,recursive):CML0-Mode-Sel=0,undefined)")
+  field( VAL, "$(CML0-Mode-Sel=0,undefined)")
   field( ZRST, "4x Pattern")
   field( ONST, "Frequency")
   field( TWST, "Waveform")
@@ -10100,6 +10100,7 @@ record(mbboDirect, "$(SYS,recursive)-$(EVR,recursive):CML0-Pat:Rise00_15-SP") {
   field(NOBT, "16")
   field(OUT , "$(SYS,recursive)-$(EVR,recursive):CML0-Pat:Rise-ASub_.A PP")
   field(PINI, "YES")
+  field(VAL, "$(CML0-Pat:Rise00_15-SP=0,undefined)")
   info(autosaveFields_pass0, "VAL")
 }
 
@@ -10109,6 +10110,7 @@ record(mbboDirect, "$(SYS,recursive)-$(EVR,recursive):CML0-Pat:Rise16_31-SP") {
   field(NOBT, "16")
   field(OUT , "$(SYS,recursive)-$(EVR,recursive):CML0-Pat:Rise-ASub_.B PP")
   field(PINI, "YES")
+  field(VAL, "$(CML0-Pat:Rise16_31-SP=0,undefined)")
   info(autosaveFields_pass0, "VAL")
 }
 
@@ -10152,6 +10154,7 @@ record(mbboDirect, "$(SYS,recursive)-$(EVR,recursive):CML0-Pat:High00_15-SP") {
   field(NOBT, "16")
   field(OUT , "$(SYS,recursive)-$(EVR,recursive):CML0-Pat:High-ASub_.A PP")
   field(PINI, "YES")
+  field(VAL, "$(CML0-Pat:High00_15-SP=0,undefined)")
   info(autosaveFields_pass0, "VAL")
 }
 
@@ -10161,6 +10164,7 @@ record(mbboDirect, "$(SYS,recursive)-$(EVR,recursive):CML0-Pat:High16_31-SP") {
   field(NOBT, "16")
   field(OUT , "$(SYS,recursive)-$(EVR,recursive):CML0-Pat:High-ASub_.B PP")
   field(PINI, "YES")
+  field(VAL, "$(CML0-Pat:High16_31-SP=0,undefined)")
   info(autosaveFields_pass0, "VAL")
 }
 
@@ -10204,6 +10208,7 @@ record(mbboDirect, "$(SYS,recursive)-$(EVR,recursive):CML0-Pat:Fall00_15-SP") {
   field(NOBT, "16")
   field(OUT , "$(SYS,recursive)-$(EVR,recursive):CML0-Pat:Fall-ASub_.A PP")
   field(PINI, "YES")
+  field(VAL, "$(CML0-Pat:Fall00_15-SP=0,undefined)")
   info(autosaveFields_pass0, "VAL")
 }
 
@@ -10213,6 +10218,7 @@ record(mbboDirect, "$(SYS,recursive)-$(EVR,recursive):CML0-Pat:Fall16_31-SP") {
   field(NOBT, "16")
   field(OUT , "$(SYS,recursive)-$(EVR,recursive):CML0-Pat:Fall-ASub_.B PP")
   field(PINI, "YES")
+  field(VAL, "$(CML0-Pat:Fall16_31-SP=0,undefined)")
   info(autosaveFields_pass0, "VAL")
 }
 
@@ -10256,6 +10262,7 @@ record(mbboDirect, "$(SYS,recursive)-$(EVR,recursive):CML0-Pat:Low00_15-SP") {
   field(NOBT, "16")
   field(OUT , "$(SYS,recursive)-$(EVR,recursive):CML0-Pat:Low-ASub_.A PP")
   field(PINI, "YES")
+  field(VAL, "$(CML0-Pat:Low00_15-SP=0,undefined)")
   info(autosaveFields_pass0, "VAL")
 }
 
@@ -10265,6 +10272,7 @@ record(mbboDirect, "$(SYS,recursive)-$(EVR,recursive):CML0-Pat:Low16_31-SP") {
   field(NOBT, "16")
   field(OUT , "$(SYS,recursive)-$(EVR,recursive):CML0-Pat:Low-ASub_.B PP")
   field(PINI, "YES")
+  field(VAL, "$(CML0-Pat:Low16_31-SP=0,undefined)")
   info(autosaveFields_pass0, "VAL")
 }
 
@@ -10320,7 +10328,7 @@ record(ao, "$(SYS,recursive)-$(EVR,recursive):CML0-Freq:Init-SP") {
   field(OUT, "@OBJ=$(EVR,recursive):CML0, PROP=Counts Init")
   field(PINI, "YES")
   field(UDF , "0")
-  field(VAL , "$($(EVR,recursive):CML0-Freq:Init-SP=0,undefined)")
+  field(VAL , "$(CML0-Freq:Init-SP=0,undefined)")
   field(EGU , "ns")
   field(LINR, "LINEAR")
   field(ESLO, "1e9")
@@ -10345,7 +10353,7 @@ record(ao, "$(SYS,recursive)-$(EVR,recursive):CML0-Freq:High-SP") {
   field(OUT, "@OBJ=$(EVR,recursive):CML0, PROP=Counts High")
   field(PINI, "YES")
   field(UDF , "0")
-  field(VAL , "$($(EVR,recursive):CML0-Freq:High-SP=10,undefined)")
+  field(VAL , "$(CML0-Freq:High-SP=10,undefined)")
   field(EGU , "ns")
   field(LINR, "LINEAR")
   field(ESLO, "1e9")
@@ -10369,7 +10377,7 @@ record(ao, "$(SYS,recursive)-$(EVR,recursive):CML0-Freq:Low-SP") {
   field(OUT, "@OBJ=$(EVR,recursive):CML0, PROP=Counts Low")
   field(PINI, "YES")
   field(UDF , "0")
-  field(VAL , "$($(EVR,recursive):CML0-Freq:Low-SP=10,undefined)")
+  field(VAL , "$(CML0-Freq:Low-SP=10,undefined)")
   field(EGU , "ns")
   field(LINR, "LINEAR")
   field(ESLO, "1e9")
@@ -10466,7 +10474,7 @@ record(ao, "$(SYS,recursive)-$(EVR,recursive):CML0-WfCalc:Delay-SP") {
   field(OUT , "$(SYS,recursive)-$(EVR,recursive):CML0-WfCalc-ASub_.A PP")
   field(EGU , "ns")
   field(UDF , "0")
-  field(VAL , "$($(EVR,recursive):CML0-WfCalc:Delay-SP=16,undefined)")
+  field(VAL , "$(CML0-WfCalc:Delay-SP=16,undefined)")
   info(autosaveFields_pass0, "VAL EGU")
 }
 
@@ -10475,7 +10483,7 @@ record(ao, "$(SYS,recursive)-$(EVR,recursive):CML0-WfCalc:Width-SP") {
   field(OUT , "$(SYS,recursive)-$(EVR,recursive):CML0-WfCalc-ASub_.B PP")
   field(EGU , "ns")
   field(UDF , "0")
-  field(VAL , "$($(EVR,recursive):CML0-WfCalc:Width-SP=50,undefined)")
+  field(VAL , "$(CML0-WfCalc:Width-SP=50,undefined)")
   info(autosaveFields_pass0, "VAL EGU")
 }
 
@@ -10572,7 +10580,7 @@ record(mbbo, "$(SYS,recursive)-$(EVR,recursive):CML1-Mode-Sel") {
   field( DTYP, "Obj Prop uint16")
   field( OUT , "@OBJ=$(EVR,recursive):CML1, PROP=Mode")
   field( PINI, "YES")
-  field( VAL, "$($(EVR,recursive):CML1-Mode-Sel=0,undefined)")
+  field( VAL, "$(CML1-Mode-Sel=0,undefined)")
   field( ZRST, "4x Pattern")
   field( ONST, "Frequency")
   field( TWST, "Waveform")
@@ -10634,6 +10642,7 @@ record(mbboDirect, "$(SYS,recursive)-$(EVR,recursive):CML1-Pat:Rise00_15-SP") {
   field(NOBT, "16")
   field(OUT , "$(SYS,recursive)-$(EVR,recursive):CML1-Pat:Rise-ASub_.A PP")
   field(PINI, "YES")
+  field(VAL, "$(CML1-Pat:Rise00_15-SP=0,undefined)")
   info(autosaveFields_pass0, "VAL")
 }
 
@@ -10643,6 +10652,7 @@ record(mbboDirect, "$(SYS,recursive)-$(EVR,recursive):CML1-Pat:Rise16_31-SP") {
   field(NOBT, "16")
   field(OUT , "$(SYS,recursive)-$(EVR,recursive):CML1-Pat:Rise-ASub_.B PP")
   field(PINI, "YES")
+  field(VAL, "$(CML1-Pat:Rise16_31-SP=0,undefined)")
   info(autosaveFields_pass0, "VAL")
 }
 
@@ -10686,6 +10696,7 @@ record(mbboDirect, "$(SYS,recursive)-$(EVR,recursive):CML1-Pat:High00_15-SP") {
   field(NOBT, "16")
   field(OUT , "$(SYS,recursive)-$(EVR,recursive):CML1-Pat:High-ASub_.A PP")
   field(PINI, "YES")
+  field(VAL, "$(CML1-Pat:High00_15-SP=0,undefined)")
   info(autosaveFields_pass0, "VAL")
 }
 
@@ -10695,6 +10706,7 @@ record(mbboDirect, "$(SYS,recursive)-$(EVR,recursive):CML1-Pat:High16_31-SP") {
   field(NOBT, "16")
   field(OUT , "$(SYS,recursive)-$(EVR,recursive):CML1-Pat:High-ASub_.B PP")
   field(PINI, "YES")
+  field(VAL, "$(CML1-Pat:High16_31-SP=0,undefined)")
   info(autosaveFields_pass0, "VAL")
 }
 
@@ -10738,6 +10750,7 @@ record(mbboDirect, "$(SYS,recursive)-$(EVR,recursive):CML1-Pat:Fall00_15-SP") {
   field(NOBT, "16")
   field(OUT , "$(SYS,recursive)-$(EVR,recursive):CML1-Pat:Fall-ASub_.A PP")
   field(PINI, "YES")
+  field(VAL, "$(CML1-Pat:Fall00_15-SP=0,undefined)")
   info(autosaveFields_pass0, "VAL")
 }
 
@@ -10747,6 +10760,7 @@ record(mbboDirect, "$(SYS,recursive)-$(EVR,recursive):CML1-Pat:Fall16_31-SP") {
   field(NOBT, "16")
   field(OUT , "$(SYS,recursive)-$(EVR,recursive):CML1-Pat:Fall-ASub_.B PP")
   field(PINI, "YES")
+  field(VAL, "$(CML1-Pat:Fall16_31-SP=0,undefined)")
   info(autosaveFields_pass0, "VAL")
 }
 
@@ -10790,6 +10804,7 @@ record(mbboDirect, "$(SYS,recursive)-$(EVR,recursive):CML1-Pat:Low00_15-SP") {
   field(NOBT, "16")
   field(OUT , "$(SYS,recursive)-$(EVR,recursive):CML1-Pat:Low-ASub_.A PP")
   field(PINI, "YES")
+  field(VAL, "$(CML1-Pat:Low00_15-SP=0,undefined)")
   info(autosaveFields_pass0, "VAL")
 }
 
@@ -10799,6 +10814,7 @@ record(mbboDirect, "$(SYS,recursive)-$(EVR,recursive):CML1-Pat:Low16_31-SP") {
   field(NOBT, "16")
   field(OUT , "$(SYS,recursive)-$(EVR,recursive):CML1-Pat:Low-ASub_.B PP")
   field(PINI, "YES")
+  field(VAL, "$(CML1-Pat:Low16_31-SP=0,undefined)")
   info(autosaveFields_pass0, "VAL")
 }
 
@@ -10854,7 +10870,7 @@ record(ao, "$(SYS,recursive)-$(EVR,recursive):CML1-Freq:Init-SP") {
   field(OUT, "@OBJ=$(EVR,recursive):CML1, PROP=Counts Init")
   field(PINI, "YES")
   field(UDF , "0")
-  field(VAL , "$($(EVR,recursive):CML1-Freq:Init-SP=0,undefined)")
+  field(VAL , "$(CML1-Freq:Init-SP=0,undefined)")
   field(EGU , "ns")
   field(LINR, "LINEAR")
   field(ESLO, "1e9")
@@ -10879,7 +10895,7 @@ record(ao, "$(SYS,recursive)-$(EVR,recursive):CML1-Freq:High-SP") {
   field(OUT, "@OBJ=$(EVR,recursive):CML1, PROP=Counts High")
   field(PINI, "YES")
   field(UDF , "0")
-  field(VAL , "$($(EVR,recursive):CML1-Freq:High-SP=10,undefined)")
+  field(VAL , "$(CML1-Freq:High-SP=10,undefined)")
   field(EGU , "ns")
   field(LINR, "LINEAR")
   field(ESLO, "1e9")
@@ -10903,7 +10919,7 @@ record(ao, "$(SYS,recursive)-$(EVR,recursive):CML1-Freq:Low-SP") {
   field(OUT, "@OBJ=$(EVR,recursive):CML1, PROP=Counts Low")
   field(PINI, "YES")
   field(UDF , "0")
-  field(VAL , "$($(EVR,recursive):CML1-Freq:Low-SP=10,undefined)")
+  field(VAL , "$(CML1-Freq:Low-SP=10,undefined)")
   field(EGU , "ns")
   field(LINR, "LINEAR")
   field(ESLO, "1e9")
@@ -11000,7 +11016,7 @@ record(ao, "$(SYS,recursive)-$(EVR,recursive):CML1-WfCalc:Delay-SP") {
   field(OUT , "$(SYS,recursive)-$(EVR,recursive):CML1-WfCalc-ASub_.A PP")
   field(EGU , "ns")
   field(UDF , "0")
-  field(VAL , "$($(EVR,recursive):CML1-WfCalc:Delay-SP=16,undefined)")
+  field(VAL , "$(CML1-WfCalc:Delay-SP=16,undefined)")
   info(autosaveFields_pass0, "VAL EGU")
 }
 
@@ -11009,7 +11025,7 @@ record(ao, "$(SYS,recursive)-$(EVR,recursive):CML1-WfCalc:Width-SP") {
   field(OUT , "$(SYS,recursive)-$(EVR,recursive):CML1-WfCalc-ASub_.B PP")
   field(EGU , "ns")
   field(UDF , "0")
-  field(VAL , "$($(EVR,recursive):CML1-WfCalc:Width-SP=50,undefined)")
+  field(VAL , "$(CML1-WfCalc:Width-SP=50,undefined)")
   info(autosaveFields_pass0, "VAL EGU")
 }
 
@@ -11106,7 +11122,7 @@ record(mbbo, "$(SYS,recursive)-$(EVR,recursive):CML2-Mode-Sel") {
   field( DTYP, "Obj Prop uint16")
   field( OUT , "@OBJ=$(EVR,recursive):CML2, PROP=Mode")
   field( PINI, "YES")
-  field( VAL, "$($(EVR,recursive):CML2-Mode-Sel=0,undefined)")
+  field( VAL, "$(CML2-Mode-Sel=0,undefined)")
   field( ZRST, "4x Pattern")
   field( ONST, "Frequency")
   field( TWST, "Waveform")
@@ -11168,6 +11184,7 @@ record(mbboDirect, "$(SYS,recursive)-$(EVR,recursive):CML2-Pat:Rise00_15-SP") {
   field(NOBT, "16")
   field(OUT , "$(SYS,recursive)-$(EVR,recursive):CML2-Pat:Rise-ASub_.A PP")
   field(PINI, "YES")
+  field(VAL, "$(CML2-Pat:Rise00_15-SP=0,undefined)")
   info(autosaveFields_pass0, "VAL")
 }
 
@@ -11177,6 +11194,7 @@ record(mbboDirect, "$(SYS,recursive)-$(EVR,recursive):CML2-Pat:Rise16_31-SP") {
   field(NOBT, "16")
   field(OUT , "$(SYS,recursive)-$(EVR,recursive):CML2-Pat:Rise-ASub_.B PP")
   field(PINI, "YES")
+  field(VAL, "$(CML2-Pat:Rise16_31-SP=0,undefined)")
   info(autosaveFields_pass0, "VAL")
 }
 
@@ -11220,6 +11238,7 @@ record(mbboDirect, "$(SYS,recursive)-$(EVR,recursive):CML2-Pat:High00_15-SP") {
   field(NOBT, "16")
   field(OUT , "$(SYS,recursive)-$(EVR,recursive):CML2-Pat:High-ASub_.A PP")
   field(PINI, "YES")
+  field(VAL, "$(CML2-Pat:High00_15-SP=0,undefined)")
   info(autosaveFields_pass0, "VAL")
 }
 
@@ -11229,6 +11248,7 @@ record(mbboDirect, "$(SYS,recursive)-$(EVR,recursive):CML2-Pat:High16_31-SP") {
   field(NOBT, "16")
   field(OUT , "$(SYS,recursive)-$(EVR,recursive):CML2-Pat:High-ASub_.B PP")
   field(PINI, "YES")
+  field(VAL, "$(CML2-Pat:High16_31-SP=0,undefined)")
   info(autosaveFields_pass0, "VAL")
 }
 
@@ -11272,6 +11292,7 @@ record(mbboDirect, "$(SYS,recursive)-$(EVR,recursive):CML2-Pat:Fall00_15-SP") {
   field(NOBT, "16")
   field(OUT , "$(SYS,recursive)-$(EVR,recursive):CML2-Pat:Fall-ASub_.A PP")
   field(PINI, "YES")
+  field(VAL, "$(CML2-Pat:Fall00_15-SP=0,undefined)")
   info(autosaveFields_pass0, "VAL")
 }
 
@@ -11281,6 +11302,7 @@ record(mbboDirect, "$(SYS,recursive)-$(EVR,recursive):CML2-Pat:Fall16_31-SP") {
   field(NOBT, "16")
   field(OUT , "$(SYS,recursive)-$(EVR,recursive):CML2-Pat:Fall-ASub_.B PP")
   field(PINI, "YES")
+  field(VAL, "$(CML2-Pat:Fall16_31-SP=0,undefined)")
   info(autosaveFields_pass0, "VAL")
 }
 
@@ -11324,6 +11346,7 @@ record(mbboDirect, "$(SYS,recursive)-$(EVR,recursive):CML2-Pat:Low00_15-SP") {
   field(NOBT, "16")
   field(OUT , "$(SYS,recursive)-$(EVR,recursive):CML2-Pat:Low-ASub_.A PP")
   field(PINI, "YES")
+  field(VAL, "$(CML2-Pat:Low00_15-SP=0,undefined)")
   info(autosaveFields_pass0, "VAL")
 }
 
@@ -11333,6 +11356,7 @@ record(mbboDirect, "$(SYS,recursive)-$(EVR,recursive):CML2-Pat:Low16_31-SP") {
   field(NOBT, "16")
   field(OUT , "$(SYS,recursive)-$(EVR,recursive):CML2-Pat:Low-ASub_.B PP")
   field(PINI, "YES")
+  field(VAL, "$(CML2-Pat:Low16_31-SP=0,undefined)")
   info(autosaveFields_pass0, "VAL")
 }
 
@@ -11388,7 +11412,7 @@ record(ao, "$(SYS,recursive)-$(EVR,recursive):CML2-Freq:Init-SP") {
   field(OUT, "@OBJ=$(EVR,recursive):CML2, PROP=Counts Init")
   field(PINI, "YES")
   field(UDF , "0")
-  field(VAL , "$($(EVR,recursive):CML2-Freq:Init-SP=0,undefined)")
+  field(VAL , "$(CML2-Freq:Init-SP=0,undefined)")
   field(EGU , "ns")
   field(LINR, "LINEAR")
   field(ESLO, "1e9")
@@ -11413,7 +11437,7 @@ record(ao, "$(SYS,recursive)-$(EVR,recursive):CML2-Freq:High-SP") {
   field(OUT, "@OBJ=$(EVR,recursive):CML2, PROP=Counts High")
   field(PINI, "YES")
   field(UDF , "0")
-  field(VAL , "$($(EVR,recursive):CML2-Freq:High-SP=10,undefined)")
+  field(VAL , "$(CML2-Freq:High-SP=10,undefined)")
   field(EGU , "ns")
   field(LINR, "LINEAR")
   field(ESLO, "1e9")
@@ -11437,7 +11461,7 @@ record(ao, "$(SYS,recursive)-$(EVR,recursive):CML2-Freq:Low-SP") {
   field(OUT, "@OBJ=$(EVR,recursive):CML2, PROP=Counts Low")
   field(PINI, "YES")
   field(UDF , "0")
-  field(VAL , "$($(EVR,recursive):CML2-Freq:Low-SP=10,undefined)")
+  field(VAL , "$(CML2-Freq:Low-SP=10,undefined)")
   field(EGU , "ns")
   field(LINR, "LINEAR")
   field(ESLO, "1e9")
@@ -11534,7 +11558,7 @@ record(ao, "$(SYS,recursive)-$(EVR,recursive):CML2-WfCalc:Delay-SP") {
   field(OUT , "$(SYS,recursive)-$(EVR,recursive):CML2-WfCalc-ASub_.A PP")
   field(EGU , "ns")
   field(UDF , "0")
-  field(VAL , "$($(EVR,recursive):CML2-WfCalc:Delay-SP=16,undefined)")
+  field(VAL , "$(CML2-WfCalc:Delay-SP=16,undefined)")
   info(autosaveFields_pass0, "VAL EGU")
 }
 
@@ -11543,7 +11567,7 @@ record(ao, "$(SYS,recursive)-$(EVR,recursive):CML2-WfCalc:Width-SP") {
   field(OUT , "$(SYS,recursive)-$(EVR,recursive):CML2-WfCalc-ASub_.B PP")
   field(EGU , "ns")
   field(UDF , "0")
-  field(VAL , "$($(EVR,recursive):CML2-WfCalc:Width-SP=50,undefined)")
+  field(VAL , "$(CML2-WfCalc:Width-SP=50,undefined)")
   info(autosaveFields_pass0, "VAL EGU")
 }
 

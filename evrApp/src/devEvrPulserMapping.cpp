@@ -132,7 +132,7 @@ static long write_lo(longoutRecord* plo)
             return -2;
 
         epicsUInt32 code=plo->val;
-        if(code<0 || code>255) {
+        if(code>255) {
             (void)recGblSetSevr((dbCommon *)plo, WRITE_ALARM, INVALID_ALARM);
             return 0;
         }

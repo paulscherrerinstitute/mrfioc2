@@ -99,6 +99,18 @@ public:
   //! Set mapping of source 'src'.
   virtual void sourceSetMap(epicsUInt32 src,MapType::type action)=0;
   /*@}*/
+
+  /**\defgroup gate Pulse generator gates.
+   *
+   * Settings for mask and enable gates
+   */
+  /*@{*/
+  virtual epicsUInt16 gateMask() const = 0;
+  virtual void setGateMask(epicsUInt16 mask) = 0;
+
+  virtual epicsUInt16 gateEnable() const = 0;
+  virtual void setGateEnable(epicsUInt16 mask) = 0;
+  /*@}*/
 };
 
 #endif // PULSER_HPP_INC

@@ -7,6 +7,30 @@
 const epicsUInt16 ClkSrcInternal = 0; // Event clock is generated internally
 const epicsUInt16 ClkSrcRF = 1;  // Event clock is derived from the RF input
 
+enum RFClockReference {
+    RFClockReference_Internal = 0,   // Use internal reference (fractional synthesizer)
+    RFClockReference_External = 1,   // Use external RF reference (front panel input through divider)
+    RFClockReference_PXIe100 = 2,    // PXIe 100 MHz clock
+    RFClockReference_Recovered = 3,  // Use recovered RX clock, Fan-Out mode
+    RFClockReference_PXIe10 = 4      // PXIe 10 MHz clock through clock multiplier
+};
+
+/* PLL Bandwidth Select (see Silicon Labs Si5317 datasheet)
+ *  000 – Si5317, BW setting HM (lowest loop bandwidth)
+ *  001 – Si5317, BW setting HL
+ *  010 – Si5317, BW setting MH
+ *  011 – Si5317, BW setting MM
+ *  100 – Si5317, BW setting ML (highest loop bandwidth)
+ */
+enum PLLBandwidth {
+    PLLBandwidth_HM=0,
+    PLLBandwidth_HL=1,
+    PLLBandwidth_MH=2,
+    PLLBandwidth_MM=3,
+    PLLBandwidth_ML=4,
+    PLLBandwidth_MAX=PLLBandwidth_ML
+};
+
 class evgEvtClk : public mrf::ObjectInst<evgEvtClk> {
 public:
     evgEvtClk(const std::string&, volatile epicsUInt8* const);
@@ -27,8 +51,15 @@ public:
     void setFracSynFreq(epicsFloat64);
     epicsFloat64 getFracSynFreq() const;
 
-    void setSource(bool);
-    bool getSource() const;
+    void setPLLBandwidth(PLLBandwidth pllBandwidth);
+    PLLBandwidth getPLLBandwidth() const;
+
+    void setSource(epicsUInt16 source);
+    epicsUInt16 getSource() const;
+
+    /** helper for object access **/
+    void setPLLBandwidthRaw(epicsUInt16 r){setPLLBandwidth((PLLBandwidth)r);}
+    epicsUInt16 getPLLBandwidthRaw() const{return (epicsUInt16)getPLLBandwidth();}
 
 private:
     volatile epicsUInt8* const m_pReg;

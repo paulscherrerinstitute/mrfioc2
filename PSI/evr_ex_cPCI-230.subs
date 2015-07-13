@@ -258,7 +258,7 @@ pattern {PID   F,      EVT, ID}
 #  Delay0 = The delay (in ns) of the first output
 #  Delay1 = The delay (in ns) of the second output
 #
-#file "evr-delayModule.template"
+#file "$(TEMPLATE_DIR)/evr-delayModule.template"
 #{
 #    { SLOT    = 0,			# 0 = Slot 0, 1 = Slot 1
 #

@@ -17,10 +17,20 @@ public:
     evgSeqRam(const epicsUInt32, evgMrm* const);
     ~evgSeqRam();
 
-    const epicsUInt32 getId() const{return m_id;}
+    /**
+     * Removing first const modifier since the value is copied and
+     * modifiable in any case. The first const is superfluous in this
+     * case and also causes a warning.
+     *
+     * Change by: jkrasna
+     */
+    epicsUInt32 getId() const{return m_id;}
 
     void setEventCode(const std::vector<epicsUInt8>&);
     std::vector<epicsUInt8> getEventCode();
+
+    void setEventMask(const std::vector<epicsUInt8>&);
+    std::vector<epicsUInt8> getEventMask();
 
     void setTimestamp(const std::vector<epicsUInt64>&);
     std::vector<epicsUInt64> getTimestamp();

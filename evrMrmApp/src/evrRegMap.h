@@ -28,6 +28,11 @@
  * Jukka Pietarinen
  * 07 Apr 2011
  *
+ * Added support for firmware version 200
+ * as documented in EVR-MRM-0200.pdf
+ * Jukka Pietarinen
+ * 15 June 2015
+ *
  * Important note about data width
  *
  * All registers can be accessed with 8, 16, or 32 width
@@ -45,9 +50,9 @@
 #  define Status_fifostop   0x00000020
 
 #define U32_Control     0x004
-#  define Control_enable  0x80000000
-
-#  define Control_evtfwd  0x40000000
+#  define Control_enable            0x80000000
+#  define Control_dlyComp_disable   0x00100000
+#  define Control_evtfwd            0x40000000
 
 /* Loopback 0 - normal, 1 - connects local tx to local rx */
 #  define Control_txloop  0x20000000
@@ -114,16 +119,18 @@
 #  define FWVersion_type_shift 28
 #  define FWVersion_form_mask 0x0f000000
 #  define FWVersion_form_shift 24
-#  define FWVersion_ver_mask  0x000000ff
+#  define FWVersion_ver_mask  0x00000fff
 #  define FWVersion_ver_shift  0
-#  define FWVersion_zero_mask 0x00ffff00
+#  define FWVersion_zero_mask 0x00fff000
 
 #define U32_CounterPS   0x040 /* Timestamp event counter prescaler */
 
 #define U32_USecDiv     0x04C
 
 #define U32_ClkCtrl     0x050
-#  define ClkCtrl_cglock 0x00000200
+#  define ClkCtrl_cglock        0x00000200  /* Micrel SY87739L locked (read-only) */
+#  define ClkCtrl_bwsel         0x70000000  /* PLL Bandwidth Select (see Silicon Labs Si5317 datasheet) */
+#  define ClkCtrl_bwsel_shift   28
 
 #define U32_SRSec       0x05C
 
@@ -149,16 +156,31 @@
 #define U32_SPIDData    0x0A0
 #define U32_SPIDCtrl    0x0A4
 
+#define U32_DCTarget    0x0B0   /* Delay Compensation Target Value */
+#define U32_DCRxValue   0x0B4   /* Delay Compensation Transmission Path Delay Value */
+#define U32_DCIntValue  0x0B8   /* Delay Compensation Internal Delay Value */
+#define U32_DCStatus    0x0BC   /* Delay Compensation Status Register */
+
 #define U32_ScalerN     0x100
-#  define ScalerMax 3
-/* 0 <= N <= 2 */
+#  define ScalerMax 8
+/* 0 <= N <= 7 */
 #define U32_Scaler(N)   (U32_ScalerN + (4*(N)))
+
+/* Prescaler Pulse Generator Triggers */
+#define U32_PrescalerTriggerN   0x140
+#define PrescalerTriggerMax     8   /* 0 <= N <= 7 */
+#define U32_PrescalerTrigger(N) (U32_PrescalerTriggerN + (4*(N)))
+
+/* DBus Pulse Generator Triggers */
+#define U32_DBusTriggerN   0x180
+#define DBusTriggerMax     8   /* 0 <= N <= 7 */
+#define U32_DBusTrigger(N) (U32_DBusTriggerN + (4*(N)))
 
 #define U32_PulserNCtrl 0x200
 #define U32_PulserNScal 0x204
 #define U32_PulserNDely 0x208
 #define U32_PulserNWdth 0x20c
-#  define PulserMax 10
+#  define PulserMax 32
 
 /* 0 <= N <= 9 */
 #define U32_PulserCtrl(N) (U32_PulserNCtrl + (16*(N)))
@@ -170,10 +192,15 @@
 #  define PulserCtrl_srst 0x20
 #  define PulserCtrl_sset 0x40
 #  define PulserCtrl_rbv  0x80
+#  define PulserCtrl_gateMask           0xFF000000
+#  define PulserCtrl_gateMask_shift     24
+#  define PulserCtrl_gateEnable         0x00FF0000
+#  define PulserCtrl_gateEnable_shift   16
 
 #define U32_PulserScal(N) (U32_PulserNScal + (16*(N)))
 #define U32_PulserDely(N) (U32_PulserNDely + (16*(N)))
 #define U32_PulserWdth(N) (U32_PulserNWdth + (16*(N)))
+
 
 /* 2x 16-bit registers are treated as one to take advantage
  * of VME/PCI invariance.  Unfortunatly this only works for

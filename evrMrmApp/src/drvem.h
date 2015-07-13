@@ -41,6 +41,8 @@
 #include "sfp.h"
 #include "configurationInfo.h"
 
+#include "mrmremoteflash.h"
+
 //! @brief Helper to allow one class to have several runable methods
 template<class C,void (C::*Method)()>
 class epicsShareClass epicsThreadRunableMethod : public epicsThreadRunable
@@ -141,6 +143,14 @@ public:
 
     MRMGpio* gpio();
 
+    virtual void setDelayCompensationEnabled(bool enabled);
+    virtual bool isDelayCompensationEnabled() const;
+    virtual epicsUInt32 delayCompensationTarget() const;
+    virtual void setDelayCompensationTarget(epicsUInt32 target);
+    virtual epicsUInt32 delayCompensationRxValue() const;
+    virtual epicsUInt32 delayCompensationIntValue() const;
+    virtual epicsUInt32 delayCompensationStatus() const;
+
     virtual bool specialMapped(epicsUInt32 code, epicsUInt32 func) const;
     virtual void specialSetMap(epicsUInt32 code, epicsUInt32 func,bool);
 
@@ -149,6 +159,8 @@ public:
     virtual void clockSet(double);
 
     virtual bool pllLocked() const;
+    virtual void setPllBandwidth(PLLBandwidth pllBandwidth);
+    virtual PLLBandwidth pllBandwidth() const;
 
     virtual epicsUInt32 irqCount() const{return count_hardware_irq;}
 
@@ -184,6 +196,8 @@ public:
     bool convertTS(epicsTimeStamp* ts);
 
     virtual epicsUInt16 dbus() const;
+    virtual epicsUInt32 dbusToPulserMapping(epicsUInt8 dbus) const;
+    virtual void setDbusToPulserMapping(epicsUInt8 dbus, epicsUInt32 pulsers);
 
     virtual epicsUInt32 heartbeatTIMOCount() const{return count_heartbeat;}
     virtual IOSCANPVT heartbeatTIMOOccured() const{return IRQheartbeat;}
@@ -210,6 +224,7 @@ public:
     mrmDataBufTx buftx;
     mrmBufRx bufrx;
     std::auto_ptr<SFP> sfp;
+
 private:
 
     // Set by ISR
@@ -294,6 +309,9 @@ private:
     void _map(epicsUInt8 evt, epicsUInt8 func)   { _mapped[evt] |=    1<<(func);  }
     void _unmap(epicsUInt8 evt, epicsUInt8 func) { _mapped[evt] &= ~( 1<<(func) );}
     bool _ismap(epicsUInt8 evt, epicsUInt8 func) const { return (_mapped[evt] & 1<<(func)) != 0; }
+
+
+    mrmRemoteFlash m_remoteFlash;
 }; // class EVRMRM
 
 #endif // EVRMRML_H_INC

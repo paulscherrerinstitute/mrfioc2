@@ -16,10 +16,11 @@
 class epicsShareClass MRMPreScaler : public PreScaler
 {
     volatile unsigned char* base;
+    epicsUInt32 id;
 
 public:
-    MRMPreScaler(const std::string& n, EVR& o,volatile unsigned char* b):
-            PreScaler(n,o),base(b) {};
+    MRMPreScaler(const std::string& n, EVR& o,volatile unsigned char* b, epicsUInt32 i):
+            PreScaler(n,o),base(b), id(i) {};
     virtual ~MRMPreScaler(){};
 
     /* no locking needed */
@@ -28,6 +29,9 @@ public:
 
     virtual epicsUInt32 prescaler() const;
     virtual void setPrescaler(epicsUInt32);
+
+    virtual epicsUInt32 pulserMapping() const;
+    virtual void setPulserMapping(epicsUInt32 pulsers);
 };
 
 #endif // MRMEVRPRESCALER_H_INC

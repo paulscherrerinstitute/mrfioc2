@@ -82,10 +82,13 @@
 #define  U32_Seq1Control        0x0070  // Sequencer 1 Control Register
 #define  U32_Seq2Control        0x0074  // Sequencer 2 Control Register
 #define  U32_SeqControl_base    0x0070  // Sequencer Control Register Array Base
-#define  U32_SeqControl(n)      (U32_SeqControl_base + (4*n))
+#define  U32_SeqControl(n)      (U32_SeqControl_base + (4*(n)))
+
+#define  U8_SeqSWMask_base      0x0072  // Sequence RAM SW mask register. TODO currently implemented in main EVG class. Maybe this is not the right place...
+#define  U8_SeqSWMask(n)        (U8_SeqSWMask_base + (4*(n)))
 
 #define  U8_SeqTrigSrc_base     0x0073
-#define  U8_SeqTrigSrc(n)       (U8_SeqTrigSrc_base + (4*n))
+#define  U8_SeqTrigSrc(n)       (U8_SeqTrigSrc_base + (4*(n)))
 
 
 //=====================
@@ -157,6 +160,14 @@
 #define  U8_DataBuffer(n)       (U8_DataBuffer_base + n)
 
 //=====================
+// SFP Transceiver EEPROM and diagnostics
+//
+#define  U32_SFP_base           0x1000
+#define  U32_SFP_transceiver    (U32_SFP_base + 0x200)      // in EVG function register map
+#define  U32_SFP(n)             (U32_SFP_base + (512*(n)))    // in FCT function register map
+
+
+//=====================
 // Sequence RAMs
 //
 #define  U32_SeqRamTS_base      0x8000  // Sequence Ram Timestamp Array Base Offset
@@ -164,6 +175,9 @@
 
 #define  U8_SeqRamEvent_base    0x8007  // Sequence Ram Event Code Array Base Offset
 #define  U8_SeqRamEvent(n,m)    (U8_SeqRamEvent_base + (0x4000*(n)) + (8*(m)))
+
+#define  U8_SeqRamMask_base    0x8006  // Sequence Ram Event Code Array Base Offset
+#define  U8_SeqRamMask(n,m)    (U8_SeqRamMask_base + (0x4000*(n)) + (8*(m)))
 
 //=====================
 // Size of Event Generator Register Space
@@ -175,12 +189,12 @@
 /*    Status Register (0x0000) Bit Assignments                                                    */
 /**************************************************************************************************/
 
-#define FPGAVersion_ZERO_MASK   0x00FFFF00
+#define FPGAVersion_ZERO_MASK   0x00FFF000
 #define FPGAVersion_TYPE_MASK   0xF0000000
 #define FPGAVersion_FORM_MASK   0x0f000000
 #define FPGAVersion_FORM_SHIFT  24
 #define FPGAVersion_TYPE_SHIFT  28
-#define FPGAVersion_VER_MASK    0x000000FF
+#define FPGAVersion_VER_MASK    0x00000FFF
 
 
 
@@ -210,7 +224,12 @@
 /*    Outgoing Event Link Clock Source Register (0x0050) Bit Assignments                          */
 /**************************************************************************************************/
 
-#define  EVG_CLK_SRC_EXTRF      0x01  // External/Internal reference clock select
+#define  EVG_CLK_SRC_SEL      0x07  // External/Internal reference clock select
+#define  EVG_CLK_SRC_INTERNAL  0
+#define  EVG_CLK_SRC_EXTERNAL  1
+#define  EVG_CLK_SRC_PXIE100   2
+#define  EVG_CLK_SRC_RECOVERED 4
+#define  EVG_CLK_SRC_PXIE10    6
 
 /**************************************************************************************************/
 /*    Sequence RAM Control Register (0x0070, 0x0074) Bit Assignments                              */
@@ -245,27 +264,66 @@
 #define  EVG_DIS_EVT_REC        0x40000000
 #define  EVG_REV_PWD_DOWN       0x20000000
 #define  EVG_MXC_RESET          0x01000000
+#define  EVG_BCGEN              0x00800000  // Delay compensation beacon generator enable
+#define  EVG_DCMST              0x00400000  // Delay compensation master enable
+#define  EVG_CLK_BW             0x70        /* PLL Bandwidth Select (see Silicon Labs Si5317 datasheet) */
+#define  EVG_CLK_BW_shift       4
 
 /**************************************************************************************************/
 /* Input                                                                                          */
 /**************************************************************************************************/
 
 #define  EVG_EXT_INP_IRQ_ENA    0x01000000
+#define  EVG_INP_SEQ_MASK       0x01FFFFFF
+#define  EVG_INP_SEQ_MASK_shift 25
+
+
+/**************************************************************************************************/
+/* FCT Function Register map                                                                                          */
+/**************************************************************************************************/
+// note, that fanout SFPs are defined in the SFP section
+
+#define EVG_FCT_MIN_FIRMWARE    200
+
+#define U32_fct_status_base     0x000   // status register
+#define U32_fct_control_base    0x004   // control register
+#define U32_fct_upstreamDC      0x010   // upstream data compensation delay value
+#define U32_fct_fifoDC          0x014   // receive FIFO data compensation delay value
+#define U32_fct_internalDC      0x018   // FCT internal datapath data compensation delay value
+#define U32_fct_portDC_base     0x040   // downstream link port loop delay value
+#define U32_fct_portDC(n)       (U32_fct_portDC_base + (4*(n)))
+
+#define EVG_FCT_maxPorts 8  // ports 1 - 8
+
+/*
+ * Status register flags
+ */
+#define EVG_FCT_STATUS_VIOLATION_mask   0x000000FF
+#define EVG_FCT_STATUS_VIOLATION_shift  0
+#define EVG_FCT_STATUS_STATUS_mask      0x00FF0000
+#define EVG_FCT_STATUS_STATUS_shift     16
+
+/*
+ * Control register flags
+ */
+#define EVG_FCT_CONTROL_VIOLATION_start 0x00000001  // clear violation on port X
+
 
 #ifndef  EVG_CONSTANTS
 #define  EVG_CONSTANTS
 
-const epicsUInt16 evgNumMxc = 8;
+/*const epicsUInt16 evgNumMxc = 8;
 const epicsUInt16 evgNumEvtTrig = 8;
 const epicsUInt16 evgNumDbusBit = 8;
 const epicsUInt16 evgNumFrontOut = 6;
 const epicsUInt16 evgNumUnivOut = 4;
 const epicsUInt16 evgNumFrontInp = 2;
 const epicsUInt16 evgNumUnivInp = 4;
-const epicsUInt16 evgNumRearInp = 16;
+const epicsUInt16 evgNumRearInp = 16;*/
 const epicsUInt16 evgNumSeqRam = 2;
 const epicsFloat32 evgAllowedTsGitter = 0.5f;
 const epicsUInt16 evgEndOfSeqBuf = 5;
+const epicsUInt16 evgNumSFPModules = 8;
 
 #endif
 

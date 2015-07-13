@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>311</width>
-    <height>344</height>
+    <width>352</width>
+    <height>726</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,8 +18,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>300</width>
-     <height>330</height>
+     <width>301</width>
+     <height>361</height>
     </rect>
    </property>
    <property name="frameShape">
@@ -31,7 +31,7 @@
    <widget class="QLabel" name="label_8">
     <property name="geometry">
      <rect>
-      <x>1</x>
+      <x>4</x>
       <y>180</y>
       <width>101</width>
       <height>20</height>
@@ -47,8 +47,8 @@
    <widget class="caMessageButton" name="camessagebutton_4">
     <property name="geometry">
      <rect>
-      <x>125</x>
-      <y>300</y>
+      <x>128</x>
+      <y>330</y>
       <width>101</width>
       <height>20</height>
      </rect>
@@ -60,33 +60,14 @@
      <string notr="true">$(EVG):SoftSeq-$(SEQNUM)-Enable-Cmd</string>
     </property>
     <property name="releaseMessage">
-     <string notr="true">0</string>
-    </property>
-   </widget>
-   <widget class="caMessageButton" name="camessagebutton_7">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>260</y>
-      <width>101</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Soft trigger</string>
-    </property>
-    <property name="channel" stdset="0">
-     <string notr="true">$(EVG):SoftSeq-$(SEQNUM)-SoftTrig-Cmd</string>
-    </property>
-    <property name="releaseMessage">
      <string notr="true">1</string>
     </property>
    </widget>
    <widget class="caMessageButton" name="camessagebutton">
     <property name="geometry">
      <rect>
-      <x>125</x>
-      <y>210</y>
+      <x>128</x>
+      <y>240</y>
       <width>101</width>
       <height>20</height>
      </rect>
@@ -98,14 +79,14 @@
      <string notr="true">$(EVG):SoftSeq-$(SEQNUM)-Commit-Cmd</string>
     </property>
     <property name="releaseMessage">
-     <string notr="true">0</string>
+     <string notr="true">1</string>
     </property>
    </widget>
    <widget class="caLed" name="caled_5">
     <property name="geometry">
      <rect>
-      <x>235</x>
-      <y>300</y>
+      <x>238</x>
+      <y>330</y>
       <width>20</width>
       <height>20</height>
      </rect>
@@ -144,8 +125,8 @@
    <widget class="caLed" name="caled_2">
     <property name="geometry">
      <rect>
-      <x>235</x>
-      <y>210</y>
+      <x>238</x>
+      <y>240</y>
       <width>20</width>
       <height>20</height>
      </rect>
@@ -184,7 +165,7 @@
    <widget class="caLineEdit" name="calineedit_14">
     <property name="geometry">
      <rect>
-      <x>219</x>
+      <x>222</x>
       <y>120</y>
       <width>70</width>
       <height>20</height>
@@ -200,8 +181,8 @@
    <widget class="caLed" name="caled_3">
     <property name="geometry">
      <rect>
-      <x>235</x>
-      <y>240</y>
+      <x>238</x>
+      <y>270</y>
       <width>20</width>
       <height>20</height>
      </rect>
@@ -240,8 +221,8 @@
    <widget class="caMessageButton" name="camessagebutton_2">
     <property name="geometry">
      <rect>
-      <x>125</x>
-      <y>240</y>
+      <x>128</x>
+      <y>270</y>
       <width>101</width>
       <height>20</height>
      </rect>
@@ -253,14 +234,14 @@
      <string notr="true">$(EVG):SoftSeq-$(SEQNUM)-Load-Cmd</string>
     </property>
     <property name="releaseMessage">
-     <string notr="true">0</string>
+     <string notr="true">1</string>
     </property>
    </widget>
    <widget class="caMessageButton" name="camessagebutton_6">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>230</y>
+      <x>23</x>
+      <y>300</y>
       <width>101</width>
       <height>20</height>
      </rect>
@@ -278,7 +259,7 @@
    <widget class="caLineEdit" name="calineedit_12">
     <property name="geometry">
      <rect>
-      <x>219</x>
+      <x>222</x>
       <y>60</y>
       <width>70</width>
       <height>20</height>
@@ -294,7 +275,7 @@
    <widget class="caMenu" name="camenu_3">
     <property name="geometry">
      <rect>
-      <x>109</x>
+      <x>112</x>
       <y>115</y>
       <width>101</width>
       <height>25</height>
@@ -310,7 +291,7 @@
    <widget class="QLabel" name="label_4">
     <property name="geometry">
      <rect>
-      <x>1</x>
+      <x>4</x>
       <y>60</y>
       <width>101</width>
       <height>20</height>
@@ -323,50 +304,10 @@
      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
     </property>
    </widget>
-   <widget class="caLed" name="caled_4">
-    <property name="geometry">
-     <rect>
-      <x>235</x>
-      <y>270</y>
-      <width>20</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="toolTip">
-     <string>Master enable for the EVR. If not set then very little will happen.</string>
-    </property>
-    <property name="rectangular">
-     <bool>false</bool>
-    </property>
-    <property name="channel" stdset="0">
-     <string notr="true">$(EVG):AcTrig-Bypass-RB</string>
-    </property>
-    <property name="falseColor">
-     <color>
-      <red>218</red>
-      <green>218</green>
-      <blue>218</blue>
-     </color>
-    </property>
-    <property name="trueColor">
-     <color>
-      <red>0</red>
-      <green>205</green>
-      <blue>0</blue>
-     </color>
-    </property>
-    <property name="undefinedColor">
-     <color>
-      <red>255</red>
-      <green>255</green>
-      <blue>255</blue>
-     </color>
-    </property>
-   </widget>
    <widget class="caMenu" name="camenu_2">
     <property name="geometry">
      <rect>
-      <x>109</x>
+      <x>112</x>
       <y>85</y>
       <width>101</width>
       <height>25</height>
@@ -382,7 +323,7 @@
    <widget class="caMenu" name="camenu">
     <property name="geometry">
      <rect>
-      <x>109</x>
+      <x>112</x>
       <y>55</y>
       <width>101</width>
       <height>25</height>
@@ -398,8 +339,8 @@
    <widget class="caMessageButton" name="camessagebutton_5">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>300</y>
+      <x>23</x>
+      <y>330</y>
       <width>101</width>
       <height>20</height>
      </rect>
@@ -417,7 +358,7 @@
    <widget class="caLineEdit" name="calineedit_13">
     <property name="geometry">
      <rect>
-      <x>219</x>
+      <x>222</x>
       <y>90</y>
       <width>70</width>
       <height>20</height>
@@ -433,7 +374,7 @@
    <widget class="caMessageButton" name="camessagebutton_3">
     <property name="geometry">
      <rect>
-      <x>125</x>
+      <x>23</x>
       <y>270</y>
       <width>101</width>
       <height>20</height>
@@ -452,7 +393,7 @@
    <widget class="QLabel" name="label_5">
     <property name="geometry">
      <rect>
-      <x>1</x>
+      <x>4</x>
       <y>90</y>
       <width>101</width>
       <height>20</height>
@@ -468,7 +409,7 @@
    <widget class="QLabel" name="label_7">
     <property name="geometry">
      <rect>
-      <x>1</x>
+      <x>4</x>
       <y>150</y>
       <width>101</width>
       <height>20</height>
@@ -484,7 +425,7 @@
    <widget class="QLabel" name="label_6">
     <property name="geometry">
      <rect>
-      <x>1</x>
+      <x>4</x>
       <y>120</y>
       <width>101</width>
       <height>20</height>
@@ -500,7 +441,7 @@
    <widget class="caChoice" name="cachoice">
     <property name="geometry">
      <rect>
-      <x>109</x>
+      <x>112</x>
       <y>30</y>
       <width>101</width>
       <height>20</height>
@@ -546,7 +487,7 @@
    <widget class="caLineEdit" name="calineedit_15">
     <property name="geometry">
      <rect>
-      <x>109</x>
+      <x>112</x>
       <y>150</y>
       <width>181</width>
       <height>20</height>
@@ -565,7 +506,7 @@
    <widget class="caLineEdit" name="calineedit_11">
     <property name="geometry">
      <rect>
-      <x>220</x>
+      <x>223</x>
       <y>30</y>
       <width>70</width>
       <height>20</height>
@@ -581,7 +522,7 @@
    <widget class="caLineEdit" name="calineedit_16">
     <property name="geometry">
      <rect>
-      <x>109</x>
+      <x>112</x>
       <y>180</y>
       <width>181</width>
       <height>20</height>
@@ -600,7 +541,7 @@
    <widget class="QLabel" name="label_3">
     <property name="geometry">
      <rect>
-      <x>1</x>
+      <x>4</x>
       <y>30</y>
       <width>101</width>
       <height>20</height>
@@ -632,6 +573,105 @@
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
+   <widget class="caInclude" name="cainclude">
+    <property name="geometry">
+     <rect>
+      <x>1</x>
+      <y>210</y>
+      <width>295</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="macro">
+     <string notr="true">SEQNUM=$(SEQNUM), EVG=$(EVG)</string>
+    </property>
+    <property name="filename" stdset="0">
+     <string notr="true">G_EVG_$(FF)_softSeq_swMask.ui</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="caLineEdit" name="calineedit_10">
+   <property name="geometry">
+    <rect>
+     <x>220</x>
+     <y>700</y>
+     <width>70</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+   <property name="channel" stdset="0">
+    <string notr="true">$(EVG):SoftSeq-$(SEQNUM)-EvtMask-RB</string>
+   </property>
+   <property name="colorMode">
+    <enum>caLineEdit::Alarm_Default</enum>
+   </property>
+   <property name="formatType">
+    <enum>caLineEdit::hexadecimal</enum>
+   </property>
+  </widget>
+  <widget class="caTextEntry" name="catextentry_3">
+   <property name="geometry">
+    <rect>
+     <x>109</x>
+     <y>700</y>
+     <width>101</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="channel" stdset="0">
+    <string notr="true">$(EVG):SoftSeq-$(SEQNUM)-EvtMask-SP</string>
+   </property>
+   <property name="background">
+    <color>
+     <red>212</red>
+     <green>219</green>
+     <blue>157</blue>
+    </color>
+   </property>
+   <property name="colorMode">
+    <enum>caLineEdit::Static</enum>
+   </property>
+   <property name="formatType">
+    <enum>caLineEdit::hexadecimal</enum>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_9">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>700</y>
+     <width>91</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Event mask</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+   </property>
+  </widget>
+  <widget class="caMessageButton" name="camessagebutton_7">
+   <property name="geometry">
+    <rect>
+     <x>110</x>
+     <y>660</y>
+     <width>101</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Soft trigger</string>
+   </property>
+   <property name="channel" stdset="0">
+    <string notr="true">$(EVG):SoftSeq-$(SEQNUM)-SoftTrig-Cmd</string>
+   </property>
+   <property name="releaseMessage">
+    <string notr="true">1</string>
+   </property>
   </widget>
  </widget>
  <customwidgets>
@@ -646,6 +686,11 @@
    <header>caChoice</header>
   </customwidget>
   <customwidget>
+   <class>caTextEntry</class>
+   <extends>caLineEdit</extends>
+   <header>caTextEntry</header>
+  </customwidget>
+  <customwidget>
    <class>caMessageButton</class>
    <extends>QPushButton</extends>
    <header>caMessageButton</header>
@@ -654,6 +699,11 @@
    <class>caLabel</class>
    <extends>QLabel</extends>
    <header>caLabel</header>
+  </customwidget>
+  <customwidget>
+   <class>caInclude</class>
+   <extends>QWidget</extends>
+   <header>caInclude</header>
   </customwidget>
   <customwidget>
    <class>caLed</class>

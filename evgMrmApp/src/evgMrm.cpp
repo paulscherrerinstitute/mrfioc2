@@ -29,7 +29,7 @@
 
 #include <epicsExport.h>
 
-evgMrm::evgMrm(const std::string& id, bus_configuration& busConfig, volatile epicsUInt8* const pReg, const epicsPCIDevice *pciDevice):
+evgMrm::evgMrm(const std::string& id, bus_configuration& busConfig, volatile epicsUInt8* const pReg, volatile epicsUInt8* const fctReg, const epicsPCIDevice *pciDevice):
     mrf::ObjectInst<evgMrm>(id),
     irqStop0_queued(0),
     irqStop1_queued(0),
@@ -41,66 +41,109 @@ evgMrm::evgMrm(const std::string& id, bus_configuration& busConfig, volatile epi
     m_pciDevice(pciDevice),
     m_id(id),
     m_pReg(pReg),
+    m_fctReg(fctReg),
     busConfiguration(busConfig),
     m_acTrig(id+":AcTrig", pReg),
     m_evtClk(id+":EvtClk", pReg),
     m_softEvt(id+":SoftEvt", pReg),
+    m_remoteFlash(id+":Flash",pReg),
     m_seqRamMgr(this),
     m_softSeqMgr(this)
 {
     try{
-        for(int i = 0; i < evgNumEvtTrig; i++) {
+
+        epicsUInt16 numMxc = 8;
+        epicsUInt16 numEvtTrig = 8;
+        epicsUInt16 numDbusBit = 8;
+        epicsUInt16 numFrontOut = 6;
+        epicsUInt16 numUnivOut = 4;
+        epicsUInt16 numFrontInp = 2;
+        epicsUInt16 numUnivInp = 4;
+        epicsUInt16 numRearInp = 16;
+        epicsUInt32 version;
+
+        version = getFwVersionID();
+        if(version >= 200){
+            numFrontOut = 0;
+            numUnivOut = 0;
+            numFrontInp = 3;
+            numUnivInp = 0;
+        }
+
+        printf("Sub-units:\n"
+               " FrontInp: %d, FrontOut: %d\n"
+               " UnivInp: %d, UnivOut: %d\n"
+               " RearInp: %d\n"
+               " Mxc: %d, Event triggers: %d, DBus bits: %d\n",
+               numFrontInp, numFrontOut,
+               numUnivInp, numUnivOut,
+               numRearInp,
+               numMxc, numEvtTrig, numDbusBit);
+
+
+        for(int i = 0; i < numEvtTrig; i++) {
             std::ostringstream name;
             name<<id<<":TrigEvt"<<i;
             m_trigEvt.push_back(new evgTrigEvt(name.str(), i, pReg));
         }
 
-        for(int i = 0; i < evgNumMxc; i++) {
+        for(int i = 0; i < numMxc; i++) {
             std::ostringstream name;
             name<<id<<":Mxc"<<i;
             m_muxCounter.push_back(new evgMxc(name.str(), i, this));
         }
 
-        for(int i = 0; i < evgNumDbusBit; i++) {
+        for(int i = 0; i < numDbusBit; i++) {
             std::ostringstream name;
             name<<id<<":Dbus"<<i;
             m_dbus.push_back(new evgDbus(name.str(), i, pReg));
         }
 
-        for(int i = 0; i < evgNumFrontInp; i++) {
+        for(int i = 0; i < numFrontInp; i++) {
             std::ostringstream name;
             name<<id<<":FrontInp"<<i;
             m_input[ std::pair<epicsUInt32, InputType>(i, FrontInp) ] =
                 new evgInput(name.str(), i, FrontInp, pReg + U32_FrontInMap(i));
         }
 
-        for(int i = 0; i < evgNumUnivInp; i++) {
+        for(int i = 0; i < numUnivInp; i++) {
             std::ostringstream name;
             name<<id<<":UnivInp"<<i;
             m_input[ std::pair<epicsUInt32, InputType>(i, UnivInp) ] =
                 new evgInput(name.str(), i, UnivInp, pReg + U32_UnivInMap(i));
         }
 
-        for(int i = 0; i < evgNumRearInp; i++) {
+        for(int i = 0; i < numRearInp; i++) {
             std::ostringstream name;
             name<<id<<":RearInp"<<i;
             m_input[ std::pair<epicsUInt32, InputType>(i, RearInp) ] =
                 new evgInput(name.str(), i, RearInp, pReg + U32_RearInMap(i));
         }
 
-        for(int i = 0; i < evgNumFrontOut; i++) {
+        for(int i = 0; i < numFrontOut; i++) {
             std::ostringstream name;
             name<<id<<":FrontOut"<<i;
             m_output[std::pair<epicsUInt32, evgOutputType>(i, FrontOut)] =
                 new evgOutput(name.str(), i, FrontOut, pReg + U16_FrontOutMap(i));
         }
 
-        for(int i = 0; i < evgNumUnivOut; i++) {
+        for(int i = 0; i < numUnivOut; i++) {
             std::ostringstream name;
             name<<id<<":UnivOut"<<i;
             m_output[std::pair<epicsUInt32, evgOutputType>(i, UnivOut)] =
                 new evgOutput(name.str(), i, UnivOut, pReg + U16_UnivOutMap(i));
         }
+
+        std::ostringstream sfpName;
+        sfpName<<id<<":SFP0";
+        m_sfp.push_back(new SFP(sfpName.str(), pReg + U32_SFP_transceiver));    // there is always a main transceiver module present (upstream)
+
+        if(version >= EVG_FCT_MIN_FIRMWARE && m_fctReg > 0){
+            m_fct = new evgFct(id, m_fctReg, m_sfp); // fanout SFP modules are initialized here
+        } else{
+            m_fct = 0;
+        }
+
     
         /*
          * Swtiched order of creation for m_timerEvent and m_wdTimer.
@@ -136,29 +179,25 @@ evgMrm::evgMrm(const std::string& id, bus_configuration& busConfig, volatile epi
 }
 
 evgMrm::~evgMrm() {
-    for(int i = 0; i < evgNumEvtTrig; i++)
+    for(size_t i = 0; i < m_trigEvt.size(); i++)
         delete m_trigEvt[i];
 
-    for(int i = 0; i < evgNumMxc; i++)
+    for(size_t i = 0; i < m_muxCounter.size(); i++)
         delete m_muxCounter[i];
 
-    for(int i = 0; i < evgNumDbusBit; i++)
+    for(size_t i = 0; i < m_dbus.size(); i++)
         delete m_dbus[i];
 
-    for(int i = 0; i < evgNumFrontInp; i++)
-        delete m_input[std::pair<epicsUInt32, InputType>(i, FrontInp)];
+    for(Input_t::iterator it = m_input.begin(); it != m_input.end(); ++it){
+        delete it->second;
+    }
 
-    for(int i = 0; i < evgNumUnivInp; i++)
-        delete m_input[std::pair<epicsUInt32, InputType>(i, UnivInp)];
+    for(Output_t::iterator it = m_output.begin(); it != m_output.end(); ++it){
+        delete it->second;
+    }
 
-    for(int i = 0; i < evgNumRearInp; i++)
-        delete m_input[std::pair<epicsUInt32, InputType>(i, RearInp)];
-
-    for(int i = 0; i < evgNumFrontOut; i++)
-        delete m_output[std::pair<epicsUInt32, evgOutputType>(i, FrontOut)];
-
-    for(int i = 0; i < evgNumUnivOut; i++)
-        delete m_output[std::pair<epicsUInt32, evgOutputType>(i, UnivOut)];
+    for(size_t i = 0; i < m_sfp.size(); i++)
+        delete m_sfp[i];
 }
 
 void 
@@ -200,7 +239,15 @@ evgMrm::getFormFactor(){
     form &= FPGAVersion_FORM_MASK;
     form >>= FPGAVersion_FORM_SHIFT;
 
-    if(formFactor_CPCI <= form && form <= formFactor_PCIe) return (formFactor)form;
+    /**
+     * Removing 'formFactor_CPCI <= form' from the if condition since
+     * 'form' is unsigned and 'formFactor_CPCI' is 0. 'form' can never
+     * be less than 0 which makes this comparison always true and
+     * therefore superfluous.
+     *
+     * Changed by: jkrasna
+     */
+    if(form <= formFactor_PCIe) return (formFactor)form;
     else return formFactor_unknown;
 }
 
@@ -252,6 +299,59 @@ evgMrm::getSwVersion() const {
 epicsUInt32
 evgMrm::getDbusStatus() const {
     return READ32(m_pReg, Status);
+}
+
+/* From sequence ram control register */
+void
+evgMrm::setSWMask0(epicsUInt16 mask){
+    WRITE8(m_pReg, SeqSWMask(0), (epicsUInt8)mask);
+}
+
+/* From sequence ram control register */
+epicsUInt16
+evgMrm::getSWMask0() const{
+    return (epicsUInt16)READ8(m_pReg, SeqSWMask(0));
+}
+
+/* From sequence ram control register */
+void
+evgMrm::setSWMask1(epicsUInt16 mask){
+
+    WRITE8(m_pReg, SeqSWMask(1), (epicsUInt8)mask);
+}
+
+/* From sequence ram control register */
+epicsUInt16
+evgMrm::getSWMask1() const{
+    return (epicsUInt16)READ8(m_pReg, SeqSWMask(1));
+}
+
+void
+evgMrm::dlyCompBeaconEnable(bool ena){
+    if(ena){
+        BITSET32(m_pReg, Control, EVG_BCGEN);
+    }else{
+        BITCLR32(m_pReg, Control, EVG_BCGEN);
+    }
+}
+
+bool
+evgMrm::dlyCompBeaconEnabled() const {
+    return (READ32(m_pReg, Control) & EVG_BCGEN) != 0;
+}
+
+void
+evgMrm::dlyCompMasterEnable(bool ena){
+    if(ena){
+        BITSET32(m_pReg, Control, EVG_DCMST);
+    }else{
+        BITCLR32(m_pReg, Control, EVG_DCMST);
+    }
+}
+
+bool
+evgMrm::dlyCompMasterEnabled() const {
+    return (READ32(m_pReg, Control) & EVG_DCMST) != 0;
 }
 
 void
@@ -699,6 +799,22 @@ evgMrm::getTimerEvent() {
 bus_configuration *evgMrm::getBusConfiguration()
 {
     return &busConfiguration;
+}
+
+SFP*
+evgMrm::getSFP(epicsUInt32 n){
+    SFP* sfp;
+
+    if(n >= m_sfp.size()){
+        throw std::out_of_range("Not that many SFP modules present. Does your form factor support that many?");
+    }
+
+    sfp = m_sfp[n];
+    if(!sfp){
+        throw std::runtime_error("SFP module not initialized");
+    }
+
+    return sfp;
 }
 
 namespace {
