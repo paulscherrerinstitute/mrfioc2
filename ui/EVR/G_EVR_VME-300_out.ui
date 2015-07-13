@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Form</class>
+ <widget class="QWidget" name="Form">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>696</width>
+    <height>442</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="QScrollArea" name="scrollArea">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>671</width>
+     <height>411</height>
+    </rect>
+   </property>
+   <property name="widgetResizable">
+    <bool>true</bool>
+   </property>
+   <widget class="QWidget" name="scrollAreaWidgetContents">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>-958</y>
+      <width>651</width>
+      <height>2000</height>
+     </rect>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>0</width>
+      <height>2000</height>
+     </size>
+    </property>
+    <widget class="caInclude" name="cainclude_569">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>659</width>
+       <height>135</height>
+      </rect>
+     </property>
+     <property name="macro">
+      <string notr="true">ID=0, P=FrontUnivOut, EVR=$(EVR)</string>
+     </property>
+     <property name="filename" stdset="0">
+      <string notr="true">G_EVR_out-twoSources.ui</string>
+     </property>
+    </widget>
+    <widget class="caInclude" name="cainclude_570">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>140</y>
+       <width>659</width>
+       <height>135</height>
+      </rect>
+     </property>
+     <property name="macro">
+      <string notr="true">ID=1, P=FrontUnivOut, EVR=$(EVR)</string>
+     </property>
+     <property name="filename" stdset="0">
+      <string notr="true">G_EVR_out-twoSources.ui</string>
+     </property>
+    </widget>
+    <widget class="caInclude" name="cainclude_571">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>280</y>
+       <width>659</width>
+       <height>135</height>
+      </rect>
+     </property>
+     <property name="macro">
+      <string notr="true">ID=2, P=FrontUnivOut, EVR=$(EVR)</string>
+     </property>
+     <property name="filename" stdset="0">
+      <string notr="true">G_EVR_out-twoSources.ui</string>
+     </property>
+    </widget>
+    <widget class="caInclude" name="cainclude_572">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>420</y>
+       <width>659</width>
+       <height>135</height>
+      </rect>
+     </property>
+     <property name="macro">
+      <string notr="true">ID=3, P=FrontUnivOut, EVR=$(EVR)</string>
+     </property>
+     <property name="filename" stdset="0">
+      <string notr="true">G_EVR_out-twoSources.ui</string>
+     </property>
+    </widget>
+    <widget class="caInclude" name="cainclude_573">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>560</y>
+       <width>659</width>
+       <height>135</height>
+      </rect>
+     </property>
+     <property name="macro">
+      <string notr="true">ID=4, P=FrontUnivOut, EVR=$(EVR)</string>
+     </property>
+     <property name="filename" stdset="0">
+      <string notr="true">G_EVR_out-twoSources.ui</string>
+     </property>
+    </widget>
+    <widget class="caInclude" name="cainclude_574">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>700</y>
+       <width>659</width>
+       <height>135</height>
+      </rect>
+     </property>
+     <property name="macro">
+      <string notr="true">ID=5, P=FrontUnivOut, EVR=$(EVR)</string>
+     </property>
+     <property name="filename" stdset="0">
+      <string notr="true">G_EVR_out-twoSources.ui</string>
+     </property>
+    </widget>
+    <widget class="caInclude" name="cainclude_575">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>840</y>
+       <width>659</width>
+       <height>135</height>
+      </rect>
+     </property>
+     <property name="macro">
+      <string notr="true">ID=6, P=FrontUnivOut, EVR=$(EVR)</string>
+     </property>
+     <property name="filename" stdset="0">
+      <string notr="true">G_EVR_out-twoSources.ui</string>
+     </property>
+    </widget>
+    <widget class="caInclude" name="cainclude_576">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>980</y>
+       <width>659</width>
+       <height>135</height>
+      </rect>
+     </property>
+     <property name="macro">
+      <string notr="true">ID=7, P=FrontUnivOut, EVR=$(EVR)</string>
+     </property>
+     <property name="filename" stdset="0">
+      <string notr="true">G_EVR_out-twoSources.ui</string>
+     </property>
+    </widget>
+    <widget class="caInclude" name="cainclude_577">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>1120</y>
+       <width>659</width>
+       <height>135</height>
+      </rect>
+     </property>
+     <property name="macro">
+      <string notr="true">ID=8, P=FrontUnivOut, EVR=$(EVR)</string>
+     </property>
+     <property name="filename" stdset="0">
+      <string notr="true">G_EVR_out-twoSources.ui</string>
+     </property>
+    </widget>
+    <widget class="caInclude" name="cainclude_578">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>1260</y>
+       <width>659</width>
+       <height>135</height>
+      </rect>
+     </property>
+     <property name="macro">
+      <string notr="true">ID=9, P=FrontUnivOut, EVR=$(EVR)</string>
+     </property>
+     <property name="filename" stdset="0">
+      <string notr="true">G_EVR_out-twoSources.ui</string>
+     </property>
+    </widget>
+   </widget>
+  </widget>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>caInclude</class>
+   <extends>QWidget</extends>
+   <header>caInclude</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

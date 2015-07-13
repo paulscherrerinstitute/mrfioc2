@@ -29,6 +29,9 @@ public:
     void setEventCode(const std::vector<epicsUInt8>&);
     std::vector<epicsUInt8> getEventCode();
 
+    void setEventMask(const std::vector<epicsUInt8>&);
+    std::vector<epicsUInt8> getEventMask();
+
     void setTimestamp(const std::vector<epicsUInt64>&);
     std::vector<epicsUInt64> getTimestamp();
 

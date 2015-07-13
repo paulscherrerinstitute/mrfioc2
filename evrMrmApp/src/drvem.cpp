@@ -50,9 +50,10 @@
 
 #include "drvem.h"
 
-int evrDebug;
+int evrDebug, evrEventDebug=0;
 extern "C" {
  epicsExportAddress(int, evrDebug);
+ epicsExportAddress(int, evrEventDebug);
 }
 
 using namespace std;
@@ -136,6 +137,8 @@ EVRMRM::EVRMRM(const std::string& n,
   ,timestampValid(0)
   ,lastInvalidTimestamp(0)
   ,lastValidTimestamp(0)
+  ,m_remoteFlash(n+":Flash",b)
+
 {
 try{
     epicsUInt32 v, evr,ver;
@@ -163,7 +166,7 @@ try{
 
     if(ver>=5) {
         std::ostringstream name;
-        name<<id<<":SFP";
+        name<<id<<":SFP0";
         sfp.reset(new SFP(name.str(), base + U32_SFPEEPROM_base));
     }
 
@@ -197,12 +200,23 @@ try{
         nIFP=1;
         break;
     case formFactor_VME64:
-        nOFP=7;
-        nCML=3; // OFP 4-6 are CML
-        nOFPDly=2;
-        nOFPUV=4;
-        nORB=16;
-        nIFP=2;
+        if(ver >= 200){  //This is for vme300
+            nOFP=0;
+            nCML=4; // FP univ out 6-9 are CML
+            nOFPDly=4;
+            nOFPUV=10;
+            nORB=16;
+            nIFP=2;
+            nPul = 32;
+            nPS = 8;
+        }else{
+            nOFP=7;
+            nCML=3; // OFP 4-6 are CML
+            nOFPDly=2;
+            nOFPUV=4;
+            nORB=16;
+            nIFP=2;
+        }
         break;
     case formFactor_CPCIFULL:
         nOFPUV=4;
@@ -258,7 +272,7 @@ try{
     for(size_t i=0; i<nPS; i++){
         std::ostringstream name;
         name<<id<<":PS"<<i;
-        prescalers[i]=new MRMPreScaler(name.str(), *this,base+U32_Scaler(i));
+        prescalers[i]=new MRMPreScaler(name.str(), *this, base, i);
     }
 
     pulsers.resize(nPul);
@@ -577,6 +591,45 @@ EVRMRM::gpio(){
     return &gpio_;
 }
 
+void
+EVRMRM::setDelayCompensationEnabled(bool enabled){
+    if(enabled){
+        BITCLR(NAT,32, base, Control, Control_dlyComp_disable);
+    }else{
+        BITSET(NAT, 32, base, Control, Control_dlyComp_disable);
+    }
+}
+
+bool
+EVRMRM::isDelayCompensationEnabled() const{
+    return (READ32(base, Control) & Control_dlyComp_disable) == 0;
+}
+
+epicsUInt32
+EVRMRM::delayCompensationTarget() const{
+    return READ32(base, DCTarget);
+}
+
+void
+EVRMRM::setDelayCompensationTarget(epicsUInt32 target){
+    WRITE32(base, DCTarget, target);
+}
+
+epicsUInt32
+EVRMRM::delayCompensationRxValue() const{
+    return READ32(base, DCRxValue);
+}
+
+epicsUInt32
+EVRMRM::delayCompensationIntValue() const{
+    return READ32(base, DCIntValue);
+}
+
+epicsUInt32
+EVRMRM::delayCompensationStatus() const{
+    return READ32(base, DCStatus);
+}
+
 bool
 EVRMRM::specialMapped(epicsUInt32 code, epicsUInt32 func) const
 {
@@ -710,6 +763,36 @@ bool
 EVRMRM::pllLocked() const
 {
     return (READ32(base, ClkCtrl) & ClkCtrl_cglock) != 0;
+}
+
+void
+EVRMRM::setPllBandwidth(PLLBandwidth pllBandwidth)
+{
+    epicsUInt32 clkCtrl;
+    epicsUInt32 bw;
+
+    if(pllBandwidth > PLLBandwidth_MAX){
+        throw std::out_of_range("PLL bandwith you selected is not available.");
+    }
+
+    bw = (epicsUInt32)pllBandwidth;
+    bw = bw << ClkCtrl_bwsel_shift;
+
+    clkCtrl = READ32(base, ClkCtrl);
+    clkCtrl = clkCtrl & ~ClkCtrl_bwsel;
+    clkCtrl = clkCtrl | bw;
+    WRITE32(base, ClkCtrl, clkCtrl);
+}
+
+PLLBandwidth
+EVRMRM::pllBandwidth() const
+{
+    epicsUInt32 bw;
+
+    bw = (READ32(base, ClkCtrl) & ClkCtrl_bwsel);
+    bw = bw >> ClkCtrl_bwsel_shift;
+
+    return (PLLBandwidth)bw;
 }
 
 bool
@@ -987,6 +1070,35 @@ EVRMRM::dbus() const
     return (READ32(base, Status) & Status_dbus_mask) >> Status_dbus_shift;
 }
 
+epicsUInt32
+EVRMRM::dbusToPulserMapping(epicsUInt8 dbus) const{
+    if(dbus > 7){
+        throw std::out_of_range("Invalid DBus bit selected. Max: 7");
+    }
+
+    return READ32(base, DBusTrigger(dbus));
+}
+
+void
+EVRMRM::setDbusToPulserMapping(epicsUInt8 dbus, epicsUInt32 pulsers){
+    epicsUInt32 check, noOfPulsers;
+
+    noOfPulsers = this->pulsers.size();
+    if(noOfPulsers < 32){
+        check = 1 << noOfPulsers;
+        if(pulsers >= check){
+            throw std::out_of_range("Invalid pulsers selected.");
+        }
+    }
+
+    if(dbus > 7){
+        throw std::out_of_range("Invalid DBus bit selected. Max: 7");
+    }
+
+
+    return WRITE32(base, DBusTrigger(dbus), pulsers);
+}
+
 void
 EVRMRM::enableIRQ(void)
 {
@@ -1053,7 +1165,8 @@ EVRMRM::isr(void *arg)
         // Silence interrupt
         BITSET(NAT,32,evr->base, DataBufCtrl, DataBufCtrl_stop);
 
-        callbackRequest(&evr->data_rx_cb);
+        //FIXME: Support 300 series EVR (ask Jukka for reg map update)
+//        callbackRequest(&evr->data_rx_cb);
     }
     if(active&IRQ_HWMapped){
         evr->shadowIRQEna &= ~IRQ_HWMapped;
@@ -1136,6 +1249,7 @@ EVRMRM::drain_fifo()
 
         epicsUInt32 status;
 
+        if(evrEventDebug > 0) printf("Draining FIFO!\n");
         // Bound the number of events taken from the FIFO
         // at one time.
         for(i=0; i<512; i++) {
@@ -1165,7 +1279,10 @@ EVRMRM::drain_fifo()
             count_fifo_events++;
 
             events[evt].last_sec=READ32(base, EvtFIFOSec);
-            events[evt].last_evt=READ32(base, EvtFIFOEvt);
+            events[evt].last_evt=READ32(base, EvtFIFOEvt); // timestamp register
+
+            if(evrEventDebug > 0) printf("%d.%d: %s received event: %d\n", events[evt].last_sec, events[evt].last_evt, id.c_str(), evt);
+
 
             if (events[evt].again) {
                 // ignore extra events in buffer.

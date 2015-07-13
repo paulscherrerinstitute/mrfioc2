@@ -35,6 +35,10 @@ public:
   virtual epicsUInt32 source() const;
   virtual void setSource(epicsUInt32);
 
+  virtual epicsUInt32 source2() const;
+  virtual void setSource2(epicsUInt32);
+
+
   virtual bool enabled() const;
   virtual void enable(bool);
 
@@ -46,9 +50,11 @@ private:
   const unsigned int N;
   bool isEnabled;
   epicsUInt32 shadowSource;
+  epicsUInt32 shadowSource2;
 
   virtual epicsUInt32 sourceInternal() const;
-  virtual void setSourceInternal(epicsUInt32);
+  virtual epicsUInt32 sourceInternal2() const;
+  virtual void setSourceInternal(epicsUInt32, epicsUInt32 v1);
 };
 
 

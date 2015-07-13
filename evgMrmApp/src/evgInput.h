@@ -31,6 +31,9 @@ public:
     void setExtIrq(bool);
     bool getExtIrq() const;
 
+    void setSeqMask(epicsUInt16 mask);
+    epicsUInt16 getSeqMask() const;
+
     void setDbusMap(epicsUInt16, bool);
     bool getDbusMap(epicsUInt16) const;
 

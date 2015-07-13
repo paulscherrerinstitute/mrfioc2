@@ -27,6 +27,9 @@ public:
   virtual epicsUInt32 prescaler() const=0;
   virtual void setPrescaler(epicsUInt32)=0;
 
+  virtual epicsUInt32 pulserMapping() const = 0;
+  virtual void setPulserMapping(epicsUInt32 pulsers) = 0;
+
   EVR& owner;
 };
 

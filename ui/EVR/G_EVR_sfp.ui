@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>320</width>
-    <height>230</height>
+    <height>416</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -29,7 +29,7 @@
     <string notr="true">background-color: rgb(236, 236, 236, 255);</string>
    </property>
    <property name="text">
-    <string>SFP</string>
+    <string>SFP </string>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
@@ -41,10 +41,13 @@
      <x>0</x>
      <y>20</y>
      <width>321</width>
-     <height>211</height>
+     <height>391</height>
     </rect>
    </property>
    <layout class="QFormLayout" name="formLayout">
+    <property name="fieldGrowthPolicy">
+     <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+    </property>
     <item row="0" column="0">
      <widget class="QLabel" name="label_16">
       <property name="text">
@@ -52,6 +55,16 @@
       </property>
       <property name="alignment">
        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1">
+     <widget class="caLineEdit" name="calineedit_6">
+      <property name="channel" stdset="0">
+       <string notr="true">$(EVR):SFP$(ID)-T-I</string>
+      </property>
+      <property name="unitsEnabled">
+       <bool>true</bool>
       </property>
      </widget>
     </item>
@@ -65,6 +78,16 @@
       </property>
      </widget>
     </item>
+    <item row="1" column="1">
+     <widget class="caLineEdit" name="calineedit_7">
+      <property name="channel" stdset="0">
+       <string notr="true">$(EVR):SFP$(ID)-Pwr-TX-I</string>
+      </property>
+      <property name="unitsEnabled">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
     <item row="2" column="0">
      <widget class="QLabel" name="label_18">
       <property name="text">
@@ -72,6 +95,16 @@
       </property>
       <property name="alignment">
        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="1">
+     <widget class="caLineEdit" name="calineedit_8">
+      <property name="channel" stdset="0">
+       <string notr="true">$(EVR):SFP$(ID)-Pwr-RX-I</string>
+      </property>
+      <property name="unitsEnabled">
+       <bool>true</bool>
       </property>
      </widget>
     </item>
@@ -85,6 +118,13 @@
       </property>
      </widget>
     </item>
+    <item row="3" column="1">
+     <widget class="caLineEdit" name="calineedit_9">
+      <property name="channel" stdset="0">
+       <string notr="true">$(EVR):SFP$(ID)-Speed-Link-I</string>
+      </property>
+     </widget>
+    </item>
     <item row="4" column="0">
      <widget class="QLabel" name="label_20">
       <property name="text">
@@ -92,6 +132,16 @@
       </property>
       <property name="alignment">
        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="1">
+     <widget class="caLineEdit" name="calineedit_10">
+      <property name="channel" stdset="0">
+       <string notr="true">$(EVR):SFP$(ID)-Vendor-I</string>
+      </property>
+      <property name="formatType">
+       <enum>caLineEdit::string</enum>
       </property>
      </widget>
     </item>
@@ -105,6 +155,16 @@
       </property>
      </widget>
     </item>
+    <item row="5" column="1">
+     <widget class="caLineEdit" name="calineedit_11">
+      <property name="channel" stdset="0">
+       <string notr="true">$(EVR):SFP$(ID)-Part-I</string>
+      </property>
+      <property name="formatType">
+       <enum>caLineEdit::string</enum>
+      </property>
+     </widget>
+    </item>
     <item row="6" column="0">
      <widget class="QLabel" name="label_22">
       <property name="text">
@@ -112,6 +172,16 @@
       </property>
       <property name="alignment">
        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item row="6" column="1">
+     <widget class="caLineEdit" name="calineedit_12">
+      <property name="channel" stdset="0">
+       <string notr="true">$(EVR):SFP$(ID)-Rev-I</string>
+      </property>
+      <property name="formatType">
+       <enum>caLineEdit::string</enum>
       </property>
      </widget>
     </item>
@@ -125,6 +195,16 @@
       </property>
      </widget>
     </item>
+    <item row="7" column="1">
+     <widget class="caLineEdit" name="calineedit_13">
+      <property name="channel" stdset="0">
+       <string notr="true">$(EVR):SFP$(ID)-Serial-I</string>
+      </property>
+      <property name="formatType">
+       <enum>caLineEdit::string</enum>
+      </property>
+     </widget>
+    </item>
     <item row="8" column="0">
      <widget class="QLabel" name="label_25">
       <property name="text">
@@ -135,90 +215,173 @@
       </property>
      </widget>
     </item>
-    <item row="0" column="1">
-     <widget class="caLineEdit" name="calineedit_6">
-      <property name="channel" stdset="0">
-       <string notr="true">$(EVR):SFP-T-I</string>
-      </property>
-      <property name="unitsEnabled">
-       <bool>true</bool>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="1">
-     <widget class="caLineEdit" name="calineedit_7">
-      <property name="channel" stdset="0">
-       <string notr="true">$(EVR):SFP-Pwr-TX-I</string>
-      </property>
-      <property name="unitsEnabled">
-       <bool>true</bool>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="1">
-     <widget class="caLineEdit" name="calineedit_8">
-      <property name="channel" stdset="0">
-       <string notr="true">$(EVR):SFP-Pwr-RX-I</string>
-      </property>
-      <property name="unitsEnabled">
-       <bool>true</bool>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="1">
-     <widget class="caLineEdit" name="calineedit_9">
-      <property name="channel" stdset="0">
-       <string notr="true">$(EVR):SFP-Speed-Link-I</string>
-      </property>
-     </widget>
-    </item>
-    <item row="4" column="1">
-     <widget class="caLineEdit" name="calineedit_10">
-      <property name="channel" stdset="0">
-       <string notr="true">$(EVR):SFP-Vendor-I</string>
-      </property>
-      <property name="formatType">
-       <enum>caLineEdit::string</enum>
-      </property>
-     </widget>
-    </item>
-    <item row="5" column="1">
-     <widget class="caLineEdit" name="calineedit_11">
-      <property name="channel" stdset="0">
-       <string notr="true">$(EVR):SFP-Part-I</string>
-      </property>
-      <property name="formatType">
-       <enum>caLineEdit::string</enum>
-      </property>
-     </widget>
-    </item>
-    <item row="6" column="1">
-     <widget class="caLineEdit" name="calineedit_12">
-      <property name="channel" stdset="0">
-       <string notr="true">$(EVR):SFP-Rev-I</string>
-      </property>
-      <property name="formatType">
-       <enum>caLineEdit::string</enum>
-      </property>
-     </widget>
-    </item>
-    <item row="7" column="1">
-     <widget class="caLineEdit" name="calineedit_13">
-      <property name="channel" stdset="0">
-       <string notr="true">$(EVR):SFP-Serial-I</string>
-      </property>
-      <property name="formatType">
-       <enum>caLineEdit::string</enum>
-      </property>
-     </widget>
-    </item>
     <item row="8" column="1">
      <widget class="caLineEdit" name="calineedit_14">
       <property name="channel" stdset="0">
-       <string notr="true">$(EVR):SFP-Date-Manu-I</string>
+       <string notr="true">$(EVR):SFP$(ID)-Date-Manu-I</string>
       </property>
       <property name="formatType">
        <enum>caLineEdit::string</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="9" column="0">
+     <widget class="QLabel" name="label_26">
+      <property name="text">
+       <string>Status</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item row="9" column="1">
+     <widget class="caLineEdit" name="calineedit_15">
+      <property name="channel" stdset="0">
+       <string notr="true">$(EVR):SFP$(ID)-Status-I</string>
+      </property>
+      <property name="formatType">
+       <enum>caLineEdit::hexadecimal</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="10" column="0">
+     <widget class="QLabel" name="label_28">
+      <property name="text">
+       <string>Supply VCC Power</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item row="11" column="0">
+     <widget class="QLabel" name="label_29">
+      <property name="text">
+       <string>Upper bit rate margin</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item row="12" column="0">
+     <widget class="QLabel" name="label_30">
+      <property name="text">
+       <string>Lower bit rate margin</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item row="13" column="0">
+     <widget class="QLabel" name="label_31">
+      <property name="text">
+       <string>Link length: 9/125 um fiber</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item row="14" column="0">
+     <widget class="QLabel" name="label_32">
+      <property name="text">
+       <string>Link length: 50/125 um fiber</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item row="15" column="0">
+     <widget class="QLabel" name="label_33">
+      <property name="text">
+       <string>Link length: 62/125 um fiber</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item row="16" column="0">
+     <widget class="QLabel" name="label_34">
+      <property name="text">
+       <string>Link length: copper</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+      </property>
+     </widget>
+    </item>
+    <item row="10" column="1">
+     <widget class="caLineEdit" name="calineedit_17">
+      <property name="channel" stdset="0">
+       <string notr="true">$(EVR):SFP$(ID)-PowerVCC-I</string>
+      </property>
+      <property name="unitsEnabled">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="11" column="1">
+     <widget class="caLineEdit" name="calineedit_18">
+      <property name="channel" stdset="0">
+       <string notr="true">$(EVR):SFP$(ID)-BitRate-upper-I</string>
+      </property>
+      <property name="unitsEnabled">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="12" column="1">
+     <widget class="caLineEdit" name="calineedit_19">
+      <property name="channel" stdset="0">
+       <string notr="true">$(EVR):SFP$(ID)-BitRate-lower-I</string>
+      </property>
+      <property name="unitsEnabled">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="13" column="1">
+     <widget class="caLineEdit" name="calineedit_16">
+      <property name="channel" stdset="0">
+       <string notr="true">$(EVR):SFP$(ID)-LinkLength-9fiber-I</string>
+      </property>
+      <property name="unitsEnabled">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="14" column="1">
+     <widget class="caLineEdit" name="calineedit_20">
+      <property name="channel" stdset="0">
+       <string notr="true">$(EVR):SFP$(ID)-LinkLength-50fiber-I</string>
+      </property>
+      <property name="unitsEnabled">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="15" column="1">
+     <widget class="caLineEdit" name="calineedit_21">
+      <property name="channel" stdset="0">
+       <string notr="true">$(EVR):SFP$(ID)-LinkLength-62fiber-I</string>
+      </property>
+      <property name="unitsEnabled">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="16" column="1">
+     <widget class="caLineEdit" name="calineedit_22">
+      <property name="channel" stdset="0">
+       <string notr="true">$(EVR):SFP$(ID)-LinkLength-copper-I</string>
+      </property>
+      <property name="unitsEnabled">
+       <bool>true</bool>
       </property>
      </widget>
     </item>

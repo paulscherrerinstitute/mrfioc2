@@ -126,7 +126,14 @@ OBJECT_BEGIN(EVR) {
 
     OBJECT_PROP2("External Inhibit", &EVR::extInhib, &EVR::setExtInhib);
 
+    OBJECT_PROP2("dc enabled", &EVR::isDelayCompensationEnabled, &EVR::setDelayCompensationEnabled);
+    OBJECT_PROP2("dc tv", &EVR::delayCompensationTarget, &EVR::setDelayCompensationTarget);
+    OBJECT_PROP1("dc tpd", &EVR::delayCompensationRxValue);
+    OBJECT_PROP1("dc id", &EVR::delayCompensationIntValue);
+    OBJECT_PROP1("dc s", &EVR::delayCompensationStatus);
+
     OBJECT_PROP1("PLL Lock Status", &EVR::pllLocked);
+    OBJECT_PROP2("PLL Bandwidth", &EVR::pllBandwidthRaw, &EVR::setPllBandwidthRaw);
 
     OBJECT_PROP1("Interrupt Count", &EVR::irqCount);
 
@@ -135,6 +142,16 @@ OBJECT_BEGIN(EVR) {
 
     OBJECT_PROP1("Timestamp Valid", &EVR::TimeStampValid);
     OBJECT_PROP1("Timestamp Valid", &EVR::TimeStampValidEvent);
+
+    OBJECT_PROP1("DBus status", &EVR::dbus);
+    OBJECT_PROP2("DBus Pulser Map 0", &EVR::dbusToPulserMapping0, &EVR::setDbusToPulserMapping0);
+    OBJECT_PROP2("DBus Pulser Map 1", &EVR::dbusToPulserMapping1, &EVR::setDbusToPulserMapping1);
+    OBJECT_PROP2("DBus Pulser Map 2", &EVR::dbusToPulserMapping2, &EVR::setDbusToPulserMapping2);
+    OBJECT_PROP2("DBus Pulser Map 3", &EVR::dbusToPulserMapping3, &EVR::setDbusToPulserMapping3);
+    OBJECT_PROP2("DBus Pulser Map 4", &EVR::dbusToPulserMapping4, &EVR::setDbusToPulserMapping4);
+    OBJECT_PROP2("DBus Pulser Map 5", &EVR::dbusToPulserMapping5, &EVR::setDbusToPulserMapping5);
+    OBJECT_PROP2("DBus Pulser Map 6", &EVR::dbusToPulserMapping6, &EVR::setDbusToPulserMapping6);
+    OBJECT_PROP2("DBus Pulser Map 7", &EVR::dbusToPulserMapping7, &EVR::setDbusToPulserMapping7);
 
 } OBJECT_END(EVR)
 
@@ -161,6 +178,7 @@ OBJECT_BEGIN(Input) {
 OBJECT_BEGIN(Output) {
 
     OBJECT_PROP2("Map", &Output::source, &Output::setSource);
+    OBJECT_PROP2("MapAlt", &Output::source2, &Output::setSource2);
 
     OBJECT_PROP2("Enable", &Output::enabled, &Output::enable);
 
@@ -181,12 +199,16 @@ OBJECT_BEGIN(Pulser) {
 
     OBJECT_PROP2("Prescaler", &Pulser::prescaler, &Pulser::setPrescaler);
 
+    OBJECT_PROP2("Gate mask", &Pulser::gateMask, &Pulser::setGateMask);
+    OBJECT_PROP2("Gate enable", &Pulser::gateEnable, &Pulser::setGateEnable);
+
 } OBJECT_END(Pulser)
 
 
 OBJECT_BEGIN(PreScaler) {
 
     OBJECT_PROP2("Divide", &PreScaler::prescaler, &PreScaler::setPrescaler);
+    OBJECT_PROP2("Pulser mapping", &PreScaler::pulserMapping, &PreScaler::setPulserMapping);
 
 } OBJECT_END(PreScaler)
 

@@ -16,25 +16,7 @@ mrf::ObjectInst<evgInput>(name),
 m_num(num),
 m_type(type),
 m_pInReg(pInReg) {
-    switch(type) {
-        case(FrontInp):
-            if(num >= evgNumFrontInp)
-                throw std::runtime_error("Front Panel Input num out of range");
-            break;
 
-        case(UnivInp):
-            if(num >= evgNumUnivInp)
-                throw std::runtime_error("EVG Front Univ Input num out of range");
-            break;
-
-        case(RearInp):
-            if(num >= evgNumRearInp)
-                throw std::runtime_error("EVG Rear Univ Input num out of range");
-            break;
-
-        default:
-             throw std::runtime_error("Wrong EVG Input type");
-    }
 }
 
 evgInput::~evgInput() {
@@ -63,6 +45,28 @@ evgInput::setExtIrq(bool ena) {
 bool
 evgInput::getExtIrq() const {
     return  (nat_ioread32(m_pInReg) & (epicsUInt32)EVG_EXT_INP_IRQ_ENA) != 0;
+}
+
+void
+evgInput::setSeqMask(epicsUInt16 mask) {
+    epicsUInt32 temp = nat_ioread32(m_pInReg);
+
+    mask = mask >> 1;   // last bit should be ignored
+
+    temp = temp & EVG_INP_SEQ_MASK;
+    temp = temp | ((epicsUInt32)mask << EVG_INP_SEQ_MASK_shift);
+
+    nat_iowrite32(m_pInReg,temp);
+}
+
+epicsUInt16
+evgInput::getSeqMask() const {
+    epicsUInt32 mask;
+
+    mask = (nat_ioread32(m_pInReg) >> EVG_INP_SEQ_MASK_shift);
+    mask = mask << 1;  // shift since we ignored LSB bit when setting the value
+
+    return (epicsUInt8)mask;
 }
 
 void

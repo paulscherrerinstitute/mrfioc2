@@ -6,405 +6,400 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>609</width>
-    <height>97</height>
+    <width>678</width>
+    <height>466</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QFrame" name="frame">
+  <widget class="QScrollArea" name="scrollArea_2">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>561</width>
-     <height>81</height>
+     <width>661</width>
+     <height>471</height>
     </rect>
    </property>
-   <property name="frameShape">
-    <enum>QFrame::StyledPanel</enum>
+   <property name="widgetResizable">
+    <bool>true</bool>
    </property>
-   <property name="frameShadow">
-    <enum>QFrame::Raised</enum>
-   </property>
-   <widget class="caToggleButton" name="catogglebutton_17">
+   <widget class="QWidget" name="scrollAreaWidgetContents_2">
     <property name="geometry">
      <rect>
-      <x>510</x>
-      <y>55</y>
-      <width>41</width>
-      <height>20</height>
+      <x>0</x>
+      <y>-1531</y>
+      <width>641</width>
+      <height>2000</height>
      </rect>
     </property>
-    <property name="text">
-     <string>7</string>
-    </property>
-    <property name="channel" stdset="0">
-     <string notr="true">$(EVG):$(ID)-DbusSrc7-SP</string>
-    </property>
-   </widget>
-   <widget class="caToggleButton" name="catogglebutton_9">
-    <property name="geometry">
-     <rect>
-      <x>460</x>
-      <y>30</y>
-      <width>41</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>6</string>
-    </property>
-    <property name="channel" stdset="0">
-     <string notr="true">$(EVG):$(ID)-TrigSrc6-SP</string>
-    </property>
-   </widget>
-   <widget class="caToggleButton" name="catogglebutton_16">
-    <property name="geometry">
-     <rect>
-      <x>460</x>
-      <y>55</y>
-      <width>41</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>6</string>
-    </property>
-    <property name="channel" stdset="0">
-     <string notr="true">$(EVG):$(ID)-DbusSrc6-SP</string>
-    </property>
-   </widget>
-   <widget class="caLabel" name="calabel">
-    <property name="geometry">
-     <rect>
-      <x>1</x>
-      <y>1</y>
-      <width>121</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: rgb(236, 236, 236, 255);</string>
-    </property>
-    <property name="text">
-     <string>$(ID)</string>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignCenter</set>
-    </property>
-   </widget>
-   <widget class="caToggleButton" name="catogglebutton_8">
-    <property name="geometry">
-     <rect>
-      <x>410</x>
-      <y>30</y>
-      <width>41</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>5</string>
-    </property>
-    <property name="channel" stdset="0">
-     <string notr="true">$(EVG):$(ID)-TrigSrc5-SP</string>
-    </property>
-   </widget>
-   <widget class="caToggleButton" name="catogglebutton_4">
-    <property name="geometry">
-     <rect>
-      <x>210</x>
-      <y>30</y>
-      <width>41</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>1</string>
-    </property>
-    <property name="channel" stdset="0">
-     <string notr="true">$(EVG):$(ID)-TrigSrc1-SP</string>
-    </property>
-   </widget>
-   <widget class="caToggleButton" name="catogglebutton_5">
-    <property name="geometry">
-     <rect>
-      <x>260</x>
-      <y>30</y>
-      <width>41</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>2</string>
-    </property>
-    <property name="channel" stdset="0">
-     <string notr="true">$(EVG):$(ID)-TrigSrc2-SP</string>
-    </property>
-   </widget>
-   <widget class="caToggleButton" name="catogglebutton_6">
-    <property name="geometry">
-     <rect>
-      <x>310</x>
-      <y>30</y>
-      <width>41</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>3</string>
-    </property>
-    <property name="channel" stdset="0">
-     <string notr="true">$(EVG):$(ID)-TrigSrc3-SP</string>
-    </property>
-   </widget>
-   <widget class="caToggleButton" name="catogglebutton_12">
-    <property name="geometry">
-     <rect>
-      <x>260</x>
-      <y>55</y>
-      <width>41</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>2</string>
-    </property>
-    <property name="channel" stdset="0">
-     <string notr="true">$(EVG):$(ID)-DbusSrc2-SP</string>
-    </property>
-   </widget>
-   <widget class="caToggleButton" name="catogglebutton_3">
-    <property name="geometry">
-     <rect>
-      <x>160</x>
-      <y>55</y>
-      <width>41</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>0</string>
-    </property>
-    <property name="channel" stdset="0">
-     <string notr="true">$(EVG):$(ID)-DbusSrc0-SP</string>
-    </property>
-   </widget>
-   <widget class="caToggleButton" name="catogglebutton_14">
-    <property name="geometry">
-     <rect>
-      <x>360</x>
-      <y>55</y>
-      <width>41</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>4</string>
-    </property>
-    <property name="channel" stdset="0">
-     <string notr="true">$(EVG):$(ID)-DbusSrc4-SP</string>
-    </property>
-   </widget>
-   <widget class="caToggleButton" name="catogglebutton_2">
-    <property name="geometry">
-     <rect>
-      <x>160</x>
-      <y>30</y>
-      <width>41</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>0</string>
-    </property>
-    <property name="channel" stdset="0">
-     <string notr="true">$(EVG):$(ID)-TrigSrc0-SP</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_6">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>55</y>
-      <width>141</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Map to DBus bit</string>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-    </property>
-   </widget>
-   <widget class="caToggleButton" name="catogglebutton_15">
-    <property name="geometry">
-     <rect>
-      <x>410</x>
-      <y>55</y>
-      <width>41</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>5</string>
-    </property>
-    <property name="channel" stdset="0">
-     <string notr="true">$(EVG):$(ID)-DbusSrc5-SP</string>
-    </property>
-   </widget>
-   <widget class="caLed" name="caled">
-    <property name="geometry">
-     <rect>
-      <x>149</x>
-      <y>6</y>
-      <width>10</width>
-      <height>10</height>
-     </rect>
-    </property>
-    <property name="rectangular">
-     <bool>false</bool>
-    </property>
-    <property name="channel" stdset="0">
-     <string notr="true">$(EVG):$(ID)-EnaIrq-RB</string>
-    </property>
-    <property name="falseColor">
-     <color>
-      <red>200</red>
-      <green>200</green>
-      <blue>200</blue>
-     </color>
-    </property>
-    <property name="trueColor">
-     <color>
-      <red>0</red>
-      <green>205</green>
-      <blue>0</blue>
-     </color>
-    </property>
-    <property name="undefinedColor">
-     <color>
-      <red>255</red>
-      <green>255</green>
-      <blue>255</blue>
-     </color>
-    </property>
-   </widget>
-   <widget class="caToggleButton" name="catogglebutton">
-    <property name="geometry">
-     <rect>
-      <x>160</x>
-      <y>1</y>
-      <width>231</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Enable 1 Pulse Per Second Input</string>
-    </property>
-    <property name="channel" stdset="0">
-     <string notr="true">$(EVG):$(ID)-EnaIrq-Sel</string>
-    </property>
-   </widget>
-   <widget class="caToggleButton" name="catogglebutton_13">
-    <property name="geometry">
-     <rect>
-      <x>310</x>
-      <y>55</y>
-      <width>41</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>3</string>
-    </property>
-    <property name="channel" stdset="0">
-     <string notr="true">$(EVG):$(ID)-DbusSrc3-SP</string>
-    </property>
-   </widget>
-   <widget class="caToggleButton" name="catogglebutton_10">
-    <property name="geometry">
-     <rect>
-      <x>510</x>
-      <y>30</y>
-      <width>41</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>7</string>
-    </property>
-    <property name="channel" stdset="0">
-     <string notr="true">$(EVG):$(ID)-TrigSrc7-SP</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_5">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>30</y>
-      <width>141</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Map to event trigger</string>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-    </property>
-   </widget>
-   <widget class="caToggleButton" name="catogglebutton_11">
-    <property name="geometry">
-     <rect>
-      <x>210</x>
-      <y>55</y>
-      <width>41</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>1</string>
-    </property>
-    <property name="channel" stdset="0">
-     <string notr="true">$(EVG):$(ID)-DbusSrc1-SP</string>
-    </property>
-   </widget>
-   <widget class="caToggleButton" name="catogglebutton_7">
-    <property name="geometry">
-     <rect>
-      <x>360</x>
-      <y>30</y>
-      <width>41</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>4</string>
-    </property>
-    <property name="channel" stdset="0">
-     <string notr="true">$(EVG):$(ID)-TrigSrc4-SP</string>
-    </property>
+    <property name="minimumSize">
+     <size>
+      <width>0</width>
+      <height>2000</height>
+     </size>
+    </property>
+    <widget class="caInclude" name="cainclude_4">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>565</width>
+       <height>81</height>
+      </rect>
+     </property>
+     <property name="macro">
+      <string notr="true">ID=FrontInp0, EVG=$(EVG)</string>
+     </property>
+     <property name="filename" stdset="0">
+      <string notr="true">G_EVG_input.ui</string>
+     </property>
+    </widget>
+    <widget class="caInclude" name="cainclude_5">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>90</y>
+       <width>565</width>
+       <height>85</height>
+      </rect>
+     </property>
+     <property name="macro">
+      <string notr="true">ID=FrontInp1, EVG=$(EVG)</string>
+     </property>
+     <property name="filename" stdset="0">
+      <string notr="true">G_EVG_input.ui</string>
+     </property>
+    </widget>
+    <widget class="caInclude" name="cainclude_7">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>180</y>
+       <width>565</width>
+       <height>85</height>
+      </rect>
+     </property>
+     <property name="macro">
+      <string notr="true">ID=UnivInp0, EVG=$(EVG)</string>
+     </property>
+     <property name="filename" stdset="0">
+      <string notr="true">G_EVG_input.ui</string>
+     </property>
+    </widget>
+    <widget class="caInclude" name="cainclude_8">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>264</y>
+       <width>565</width>
+       <height>85</height>
+      </rect>
+     </property>
+     <property name="macro">
+      <string notr="true">ID=UnivInp1, EVG=$(EVG)</string>
+     </property>
+     <property name="filename" stdset="0">
+      <string notr="true">G_EVG_input.ui</string>
+     </property>
+    </widget>
+    <widget class="caInclude" name="cainclude_9">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>348</y>
+       <width>565</width>
+       <height>85</height>
+      </rect>
+     </property>
+     <property name="macro">
+      <string notr="true">ID=UnivInp2, EVG=$(EVG)</string>
+     </property>
+     <property name="filename" stdset="0">
+      <string notr="true">G_EVG_input.ui</string>
+     </property>
+    </widget>
+    <widget class="caInclude" name="cainclude_10">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>432</y>
+       <width>565</width>
+       <height>85</height>
+      </rect>
+     </property>
+     <property name="macro">
+      <string notr="true">ID=UnivInp3, EVG=$(EVG)</string>
+     </property>
+     <property name="filename" stdset="0">
+      <string notr="true">G_EVG_input.ui</string>
+     </property>
+    </widget>
+    <widget class="caInclude" name="cainclude_41">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>522</y>
+       <width>565</width>
+       <height>85</height>
+      </rect>
+     </property>
+     <property name="macro">
+      <string notr="true">ID=RearInp0, EVG=$(EVG)</string>
+     </property>
+     <property name="filename" stdset="0">
+      <string notr="true">G_EVG_input.ui</string>
+     </property>
+    </widget>
+    <widget class="caInclude" name="cainclude_42">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>606</y>
+       <width>565</width>
+       <height>85</height>
+      </rect>
+     </property>
+     <property name="macro">
+      <string notr="true">ID=RearInp1, EVG=$(EVG)</string>
+     </property>
+     <property name="filename" stdset="0">
+      <string notr="true">G_EVG_input.ui</string>
+     </property>
+    </widget>
+    <widget class="caInclude" name="cainclude_43">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>690</y>
+       <width>565</width>
+       <height>85</height>
+      </rect>
+     </property>
+     <property name="macro">
+      <string notr="true">ID=RearInp2, EVG=$(EVG)</string>
+     </property>
+     <property name="filename" stdset="0">
+      <string notr="true">G_EVG_input.ui</string>
+     </property>
+    </widget>
+    <widget class="caInclude" name="cainclude_44">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>774</y>
+       <width>565</width>
+       <height>85</height>
+      </rect>
+     </property>
+     <property name="macro">
+      <string notr="true">ID=RearInp3, EVG=$(EVG)</string>
+     </property>
+     <property name="filename" stdset="0">
+      <string notr="true">G_EVG_input.ui</string>
+     </property>
+    </widget>
+    <widget class="caInclude" name="cainclude_45">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>858</y>
+       <width>565</width>
+       <height>85</height>
+      </rect>
+     </property>
+     <property name="macro">
+      <string notr="true">ID=RearInp4, EVG=$(EVG)</string>
+     </property>
+     <property name="filename" stdset="0">
+      <string notr="true">G_EVG_input.ui</string>
+     </property>
+    </widget>
+    <widget class="caInclude" name="cainclude_46">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>942</y>
+       <width>565</width>
+       <height>85</height>
+      </rect>
+     </property>
+     <property name="macro">
+      <string notr="true">ID=RearInp5, EVG=$(EVG)</string>
+     </property>
+     <property name="filename" stdset="0">
+      <string notr="true">G_EVG_input.ui</string>
+     </property>
+    </widget>
+    <widget class="caInclude" name="cainclude_47">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>1026</y>
+       <width>565</width>
+       <height>85</height>
+      </rect>
+     </property>
+     <property name="macro">
+      <string notr="true">ID=RearInp6, EVG=$(EVG)</string>
+     </property>
+     <property name="filename" stdset="0">
+      <string notr="true">G_EVG_input.ui</string>
+     </property>
+    </widget>
+    <widget class="caInclude" name="cainclude_48">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>1111</y>
+       <width>565</width>
+       <height>85</height>
+      </rect>
+     </property>
+     <property name="macro">
+      <string notr="true">ID=RearInp7, EVG=$(EVG)</string>
+     </property>
+     <property name="filename" stdset="0">
+      <string notr="true">G_EVG_input.ui</string>
+     </property>
+    </widget>
+    <widget class="caInclude" name="cainclude_49">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>1196</y>
+       <width>565</width>
+       <height>85</height>
+      </rect>
+     </property>
+     <property name="macro">
+      <string notr="true">ID=RearInp8, EVG=$(EVG)</string>
+     </property>
+     <property name="filename" stdset="0">
+      <string notr="true">G_EVG_input.ui</string>
+     </property>
+    </widget>
+    <widget class="caInclude" name="cainclude_50">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>1281</y>
+       <width>565</width>
+       <height>85</height>
+      </rect>
+     </property>
+     <property name="macro">
+      <string notr="true">ID=RearInp9, EVG=$(EVG)</string>
+     </property>
+     <property name="filename" stdset="0">
+      <string notr="true">G_EVG_input.ui</string>
+     </property>
+    </widget>
+    <widget class="caInclude" name="cainclude_51">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>1365</y>
+       <width>565</width>
+       <height>85</height>
+      </rect>
+     </property>
+     <property name="macro">
+      <string notr="true">ID=RearInp10, EVG=$(EVG)</string>
+     </property>
+     <property name="filename" stdset="0">
+      <string notr="true">G_EVG_input.ui</string>
+     </property>
+    </widget>
+    <widget class="caInclude" name="cainclude_52">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>1450</y>
+       <width>565</width>
+       <height>85</height>
+      </rect>
+     </property>
+     <property name="macro">
+      <string notr="true">ID=RearInp11, EVG=$(EVG)</string>
+     </property>
+     <property name="filename" stdset="0">
+      <string notr="true">G_EVG_input.ui</string>
+     </property>
+    </widget>
+    <widget class="caInclude" name="cainclude_53">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>1535</y>
+       <width>565</width>
+       <height>85</height>
+      </rect>
+     </property>
+     <property name="macro">
+      <string notr="true">ID=RearInp12, EVG=$(EVG)</string>
+     </property>
+     <property name="filename" stdset="0">
+      <string notr="true">G_EVG_input.ui</string>
+     </property>
+    </widget>
+    <widget class="caInclude" name="cainclude_54">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>1620</y>
+       <width>565</width>
+       <height>85</height>
+      </rect>
+     </property>
+     <property name="macro">
+      <string notr="true">ID=RearInp13, EVG=$(EVG)</string>
+     </property>
+     <property name="filename" stdset="0">
+      <string notr="true">G_EVG_input.ui</string>
+     </property>
+    </widget>
+    <widget class="caInclude" name="cainclude_55">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>1705</y>
+       <width>565</width>
+       <height>85</height>
+      </rect>
+     </property>
+     <property name="macro">
+      <string notr="true">ID=RearInp14, EVG=$(EVG)</string>
+     </property>
+     <property name="filename" stdset="0">
+      <string notr="true">G_EVG_input.ui</string>
+     </property>
+    </widget>
+    <widget class="caInclude" name="cainclude_56">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>1790</y>
+       <width>565</width>
+       <height>91</height>
+      </rect>
+     </property>
+     <property name="macro">
+      <string notr="true">ID=RearInp15, EVG=$(EVG)</string>
+     </property>
+     <property name="filename" stdset="0">
+      <string notr="true">G_EVG_input.ui</string>
+     </property>
+    </widget>
    </widget>
   </widget>
  </widget>
  <customwidgets>
   <customwidget>
-   <class>caToggleButton</class>
-   <extends>QCheckBox</extends>
-   <header>caToggleButton</header>
-  </customwidget>
-  <customwidget>
-   <class>caLabel</class>
-   <extends>QLabel</extends>
-   <header>caLabel</header>
-  </customwidget>
-  <customwidget>
-   <class>caLed</class>
+   <class>caInclude</class>
    <extends>QWidget</extends>
-   <header>caLed</header>
+   <header>caInclude</header>
   </customwidget>
  </customwidgets>
  <resources/>

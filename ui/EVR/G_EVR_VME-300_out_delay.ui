@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Form</class>
+ <widget class="QWidget" name="Form">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>655</width>
+    <height>341</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="caInclude" name="cainclude_33">
+   <property name="geometry">
+    <rect>
+     <x>90</x>
+     <y>20</y>
+     <width>511</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="macro">
+    <string notr="true">ID=0, EVR=$(EVR)</string>
+   </property>
+   <property name="filename" stdset="0">
+    <string notr="true">G_EVR_out_delay.ui</string>
+   </property>
+  </widget>
+  <widget class="caInclude" name="cainclude_34">
+   <property name="geometry">
+    <rect>
+     <x>90</x>
+     <y>90</y>
+     <width>511</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="macro">
+    <string notr="true">ID=1, EVR=$(EVR)</string>
+   </property>
+   <property name="filename" stdset="0">
+    <string notr="true">G_EVR_out_delay.ui</string>
+   </property>
+  </widget>
+  <widget class="caInclude" name="cainclude_35">
+   <property name="geometry">
+    <rect>
+     <x>90</x>
+     <y>160</y>
+     <width>511</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="macro">
+    <string notr="true">ID=2, EVR=$(EVR)</string>
+   </property>
+   <property name="filename" stdset="0">
+    <string notr="true">G_EVR_out_delay.ui</string>
+   </property>
+  </widget>
+  <widget class="caInclude" name="cainclude_36">
+   <property name="geometry">
+    <rect>
+     <x>90</x>
+     <y>230</y>
+     <width>511</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="macro">
+    <string notr="true">ID=3, EVR=$(EVR)</string>
+   </property>
+   <property name="filename" stdset="0">
+    <string notr="true">G_EVR_out_delay.ui</string>
+   </property>
+  </widget>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>caInclude</class>
+   <extends>QWidget</extends>
+   <header>caInclude</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

@@ -32,6 +32,9 @@
 #include "mrmDataBufTx.h"
 #include "evgRegMap.h"
 #include "configurationInfo.h"
+#include "sfp.h"
+#include "evgFct.h"
+#include "mrmremoteflash.h"
 
 /*********
  * Each EVG will be represented by the instance of class 'evgMrm'. Each evg 
@@ -46,7 +49,7 @@ enum ALARM_TS {TS_ALARM_NONE, TS_ALARM_MINOR, TS_ALARM_MAJOR};
 
 class evgMrm : public mrf::ObjectInst<evgMrm> {
 public:
-    evgMrm(const std::string& id, bus_configuration& busConfig, volatile epicsUInt8* const, const epicsPCIDevice* pciDevice);
+    evgMrm(const std::string& id, bus_configuration& busConfig, volatile epicsUInt8* const, volatile epicsUInt8* const, const epicsPCIDevice* pciDevice);
     ~evgMrm();
 
     /* locking done internally */
@@ -67,6 +70,20 @@ public:
 
     void resetMxc(bool reset);
     epicsUInt32 getDbusStatus() const;
+
+    /* From sequence ram control register */
+    void setSWMask0(epicsUInt16 mask);
+    epicsUInt16 getSWMask0() const;
+
+    void setSWMask1(epicsUInt16 mask);
+    epicsUInt16 getSWMask1() const;
+    /*************************************/
+
+    void dlyCompBeaconEnable(bool ena);
+    bool dlyCompBeaconEnabled() const;
+
+    void dlyCompMasterEnable(bool ena);
+    bool dlyCompMasterEnabled() const;
 
     /**    Interrupt and Callback    **/
     static void isr(void*);
@@ -94,11 +111,16 @@ public:
     evgMxc* getMuxCounter(epicsUInt32);
     evgDbus* getDbus(epicsUInt32);
     evgInput* getInput(epicsUInt32, InputType);
+
     evgOutput* getOutput(epicsUInt32, evgOutputType);
     evgSeqRamMgr* getSeqRamMgr();
     evgSoftSeqMgr* getSoftSeqMgr();
     epicsEvent* getTimerEvent();
     bus_configuration* getBusConfiguration();
+    SFP* getSFP(epicsUInt32);
+
+    typedef std::map< std::pair<epicsUInt32, InputType>, evgInput*> Input_t;
+    Input_t                       m_input;  // TODO the rest of the sub-units are private...(evgSeqRam needs this)
 
     CALLBACK                      irqStop0_cb;
     CALLBACK                      irqStop1_cb;
@@ -128,12 +150,15 @@ public:
 
 private:
     const std::string             m_id;
-    volatile epicsUInt8* const    m_pReg;
+    volatile epicsUInt8* const    m_pReg;   // EVG function register map
+    volatile epicsUInt8* const    m_fctReg; // FCT function register map
     bus_configuration             busConfiguration;
 
     evgAcTrig                     m_acTrig;
     evgEvtClk                     m_evtClk;
     evgSoftEvt                    m_softEvt;
+
+    mrmRemoteFlash                m_remoteFlash;
 
     typedef std::vector<evgTrigEvt*> TrigEvt_t;
     TrigEvt_t                     m_trigEvt;
@@ -144,11 +169,10 @@ private:
     typedef std::vector<evgDbus*> Dbus_t;
     Dbus_t                        m_dbus;
 
-    typedef std::map< std::pair<epicsUInt32, InputType>, evgInput*> Input_t;
-    Input_t                       m_input;
-
     typedef std::map< std::pair<epicsUInt32, evgOutputType>, evgOutput*> Output_t;
     Output_t                      m_output;
+
+    evgFct*                       m_fct;
 
     evgSeqRamMgr                  m_seqRamMgr;
     evgSoftSeqMgr                 m_softSeqMgr;
@@ -157,6 +181,8 @@ private:
 
     wdTimer*                      m_wdTimer;
     epicsEvent*                   m_timerEvent;
+
+    std::vector<SFP*>             m_sfp;    // upstream + fanout transceivers. Transceiver indexed 0 is upstream transceiver.
 };
 
 /*Creating a timer thread bcz epicsTimer uses epicsGeneralTime and when

@@ -14,7 +14,7 @@ file "evr-base.template"
 
 file "sfp.template"
 {
-{SYS="$(SYS)", EVR="$(EVR)", OBJ="SFP"}
+{SYS="$(SYS)", EVR="$(EVR)", OBJ="SFP", ID="0"}
 }
 
 
@@ -95,4 +95,17 @@ file "evr-cml.template"
 {"$(SYS)", "$(EVR)", "CML", 0 }
 {"$(SYS)", "$(EVR)", "CML", 1 }
 {"$(SYS)", "$(EVR)", "CML", 2 }
+}
+
+file "evr-pulserMap-dbus.template"
+{pattern
+{ SYS,      EVR,     ID}
+{"$(SYS)", "$(EVR)", 0}
+{"$(SYS)", "$(EVR)", 1}
+{"$(SYS)", "$(EVR)", 2}
+{"$(SYS)", "$(EVR)", 3}
+{"$(SYS)", "$(EVR)", 4}
+{"$(SYS)", "$(EVR)", 5}
+{"$(SYS)", "$(EVR)", 6}
+{"$(SYS)", "$(EVR)", 7}
 }

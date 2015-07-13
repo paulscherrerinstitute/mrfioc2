@@ -34,6 +34,22 @@ enum TSSource {
   TSSourceDBus4=2
 };
 
+/* PLL Bandwidth Select (see Silicon Labs Si5317 datasheet)
+ *  000 – Si5317, BW setting HM (lowest loop bandwidth)
+ *  001 – Si5317, BW setting HL
+ *  010 – Si5317, BW setting MH
+ *  011 – Si5317, BW setting MM
+ *  100 – Si5317, BW setting ML (highest loop bandwidth)
+ */
+enum PLLBandwidth {
+    PLLBandwidth_HM=0,
+    PLLBandwidth_HL=1,
+    PLLBandwidth_MH=2,
+    PLLBandwidth_MM=3,
+    PLLBandwidth_ML=4,
+    PLLBandwidth_MAX=PLLBandwidth_ML
+};
+
 /**@brief Base interface for EVRs.
  *
  * This is the interface which the generic EVR device support
@@ -76,7 +92,7 @@ public:
   virtual Output* output(OutputType otype,epicsUInt32 idx)=0;
   virtual const Output* output(OutputType,epicsUInt32) const=0;
 
-  //! Output id number is device specific
+  //! Input id number is device specific
   virtual Input* input(epicsUInt32 idx)=0;
   virtual const Input* input(epicsUInt32) const=0;
 
@@ -98,6 +114,18 @@ public:
   virtual bool specialMapped(epicsUInt32 code, epicsUInt32 func) const=0;
   virtual void specialSetMap(epicsUInt32 code, epicsUInt32 func,bool set)=0;
 
+  /**\defgroup dc Delay compensation.
+    */
+   /*@{*/
+   virtual void setDelayCompensationEnabled(bool enabled) = 0;
+   virtual bool isDelayCompensationEnabled() const = 0;
+   virtual epicsUInt32 delayCompensationTarget() const = 0;
+   virtual void setDelayCompensationTarget(epicsUInt32 target) = 0;
+   virtual epicsUInt32 delayCompensationRxValue() const = 0;
+   virtual epicsUInt32 delayCompensationIntValue() const = 0;
+   virtual epicsUInt32 delayCompensationStatus() const = 0;
+   /*@}*/
+
   /**\defgroup pll Module reference clock
    *
    *  Controls the local oscillator for the event
@@ -114,8 +142,10 @@ public:
    */
   virtual void clockSet(double clk)=0;
 
-  //! Internal PLL Status
+  //! Internal PLL Status and bandwidth
   virtual bool pllLocked() const=0;
+  virtual void setPllBandwidth(PLLBandwidth pllBandwidth) = 0;
+  virtual PLLBandwidth pllBandwidth() const = 0;
 
   //! Approximate divider from event clock period to 1us
   virtual epicsUInt32 uSecDiv() const=0;
@@ -188,6 +218,8 @@ public:
   /*@}*/
 
   virtual epicsUInt16 dbus() const=0;
+  virtual epicsUInt32 dbusToPulserMapping(epicsUInt8 dbus) const = 0;
+  virtual void setDbusToPulserMapping(epicsUInt8 dbus, epicsUInt32 pulsers) = 0;
 
   virtual epicsUInt32 heartbeatTIMOCount() const=0;
   virtual IOSCANPVT heartbeatTIMOOccured() const=0;
@@ -203,8 +235,29 @@ public:
    * These functions exists to make life easier for device support
    */
   /*@{*/
-  void setSourceTSraw(epicsUInt32 r){setSourceTS((TSSource)r);};
-  epicsUInt32 SourceTSraw() const{return (TSSource)SourceTS();};
+  void setSourceTSraw(epicsUInt32 r){setSourceTS((TSSource)r);}
+  epicsUInt32 SourceTSraw() const{return (epicsUInt32)SourceTS();}
+
+  void setPllBandwidthRaw(epicsUInt16 r){setPllBandwidth((PLLBandwidth)r);}
+  epicsUInt16 pllBandwidthRaw() const{return (epicsUInt16)pllBandwidth();}
+
+  void setDbusToPulserMapping0(epicsUInt32 pulsers){setDbusToPulserMapping(0, pulsers);}
+  epicsUInt32 dbusToPulserMapping0() const{return dbusToPulserMapping(0);}
+  void setDbusToPulserMapping1(epicsUInt32 pulsers){setDbusToPulserMapping(1, pulsers);}
+  epicsUInt32 dbusToPulserMapping1() const{return dbusToPulserMapping(1);}
+  void setDbusToPulserMapping2(epicsUInt32 pulsers){setDbusToPulserMapping(2, pulsers);}
+  epicsUInt32 dbusToPulserMapping2() const{return dbusToPulserMapping(2);}
+  void setDbusToPulserMapping3(epicsUInt32 pulsers){setDbusToPulserMapping(3, pulsers);}
+  epicsUInt32 dbusToPulserMapping3() const{return dbusToPulserMapping(3);}
+  void setDbusToPulserMapping4(epicsUInt32 pulsers){setDbusToPulserMapping(4, pulsers);}
+  epicsUInt32 dbusToPulserMapping4() const{return dbusToPulserMapping(4);}
+  void setDbusToPulserMapping5(epicsUInt32 pulsers){setDbusToPulserMapping(5, pulsers);}
+  epicsUInt32 dbusToPulserMapping5() const{return dbusToPulserMapping(5);}
+  void setDbusToPulserMapping6(epicsUInt32 pulsers){setDbusToPulserMapping(6, pulsers);}
+  epicsUInt32 dbusToPulserMapping6() const{return dbusToPulserMapping(6);}
+  void setDbusToPulserMapping7(epicsUInt32 pulsers){setDbusToPulserMapping(7, pulsers);}
+  epicsUInt32 dbusToPulserMapping7() const{return dbusToPulserMapping(7);}
+
   /*@}*/
 
 private:

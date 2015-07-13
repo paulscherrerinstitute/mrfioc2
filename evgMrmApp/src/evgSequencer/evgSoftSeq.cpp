@@ -149,6 +149,25 @@ evgSoftSeq::getEventCodeCt() {
     return m_eventCodeCt;
 }
 
+void evgSoftSeq::setEventMask(epicsUInt8 * eventCode, epicsUInt32 size)
+{
+    if(size > 2047)
+        throw std::runtime_error("Too many Event Masks. Max: 2047");
+
+    m_eventMask.clear();
+    m_eventMask.assign(eventCode, eventCode + size);
+
+    m_isCommited = false;
+    if(mrmEVGSeqDebug>1)
+        fprintf(stderr, "SS%u: Update EvtMask\n",m_id);
+//    scanIoRequest(ioscanpvt);
+}
+
+const std::vector<epicsUInt8> &evgSoftSeq::getEventMaskCt()
+{
+    return m_eventMaskCt;
+}
+
 const std::vector<epicsUInt64>&
 evgSoftSeq::getTimestampCt() {
     return m_timestampCt;
@@ -393,6 +412,7 @@ evgSoftSeq::finishSync()
                 (int)getTrigSrcCt(), (int)getRunModeCt());
     }
     m_seqRam->setEventCode(getEventCodeCt());
+    m_seqRam->setEventMask(getEventMaskCt());
     m_seqRam->setTimestamp(getTimestampCt());
     m_seqRam->setTrigSrc(getTrigSrcCt());
     m_seqRam->setRunMode(getRunModeCt());
@@ -412,15 +432,18 @@ void
 evgSoftSeq::commitSoftSeq() {
     epicsInt64 tsUInt64;
     epicsUInt8 ecUInt8;
+    epicsUInt8 mskUInt8;
     epicsUInt64 preTs = 0;
     epicsUInt64 curTs = 0;
 
     std::vector<epicsUInt64> timestamp;
     std::vector<epicsUInt8> eventCode;
+    std::vector<epicsUInt8> eventMasks;
 
     // reserve (allocate) for worst case
     timestamp.reserve(2048);
     eventCode.reserve(2048);
+    eventMasks.reserve(2048);
 
     /*
      * Make EventCode and Timestamp vector of same size
@@ -428,22 +451,29 @@ evgSoftSeq::commitSoftSeq() {
      */
     std::vector<epicsUInt64>::iterator itTS = m_timestamp.begin();
     std::vector<epicsUInt8>::iterator itEC = m_eventCode.begin();
-    for(; itTS < m_timestamp.end() && itEC < m_eventCode.end(); itTS++, itEC++) {
-        ecUInt8 = *itEC;
+    std::vector<epicsUInt8>::iterator itMSK = m_eventMask.begin();
 
+    for(; itTS < m_timestamp.end() && itEC < m_eventCode.end() && itMSK < m_eventMask.end(); itTS++, itEC++, itMSK++) {
+        ecUInt8 = *itEC;
+        mskUInt8 = *itMSK;
+
+        //FIXME: Why is ts recalculated from previous value?
         curTs = *itTS;
         tsUInt64 = curTs - preTs;
         if(timestamp.size())
             tsUInt64 += timestamp.back();
 
+        //FIXME: No idea what is this supposed to do?
         for(;tsUInt64 > 0xffffffff; tsUInt64 -= 0xffffffff) {
             timestamp.push_back(0xffffffff);
             eventCode.push_back(0);
+            eventMasks.push_back(0);
+
         }
         preTs = curTs;
-
         timestamp.push_back(tsUInt64);
         eventCode.push_back(ecUInt8);
+        eventMasks.push_back(mskUInt8);
     }
 
     /*
@@ -466,19 +496,22 @@ evgSoftSeq::commitSoftSeq() {
      */
     if(eventCode[eventCode.size()-1] != 0x7f) {
         eventCode.push_back(0x7f);
+        eventMasks.push_back(0); //FIXME: Check if default maskt should be 0 or 0xff?
         if(timestamp.size() == 0)
             timestamp.push_back(evgEndOfSeqBuf);
         else
             timestamp.push_back(timestamp[timestamp.size()-1] + evgEndOfSeqBuf);
     }
 
-    if(timestamp.size()!=eventCode.size())
-        throw std::logic_error("SoftSeq, length of timestamp and eventCode doesn't match");
+    if( (timestamp.size()!=eventCode.size()) || (timestamp.size()!=eventMasks.size()))
+        throw std::logic_error("SoftSeq, length of timestamp, eventCode and eventMask doesn't match");
     else if(timestamp.size()>2047)
         throw std::runtime_error("Sequence too long. Max: 2047");
 
     m_timestampCt = timestamp;
     m_eventCodeCt = eventCode;
+    m_eventMaskCt = eventMasks;
+
     m_trigSrcCt = m_trigSrc;
     m_runModeCt = m_runMode;
 

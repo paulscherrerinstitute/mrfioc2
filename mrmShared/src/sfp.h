@@ -5,6 +5,7 @@
 #include <vector>
 
 #include <epicsMutex.h>
+#include <epicsTypes.h>
 
 class epicsShareClass SFP : public mrf::ObjectInst<SFP> {
     volatile unsigned char* base;
@@ -36,7 +37,16 @@ public:
     std::string manuDate() const;
 
     void report() const;
+    void reportMore() const;
 
+    epicsUInt16 getStatus() const;
+    double getVCCPower() const;
+    epicsUInt16 getBitRateUpper() const;
+    epicsUInt16 getBitRateLower() const;
+    epicsUInt32 getLinkLength_9um() const;
+    epicsUInt16 getLinkLength_50um() const;
+    epicsUInt16 getLinkLength_62um() const;
+    epicsUInt16 getLinkLength_copper() const;
 };
 
 #endif // SFP_H

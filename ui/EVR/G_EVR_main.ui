@@ -278,7 +278,7 @@
       </rect>
      </property>
      <property name="macro">
-      <string notr="true">EVR=$(EVR)</string>
+      <string notr="true">ID=0,EVR=$(EVR)</string>
      </property>
      <property name="filename" stdset="0">
       <string notr="true">G_EVR_sfp-min.ui</string>
@@ -655,6 +655,48 @@
       </property>
       <property name="filename" stdset="0">
        <string notr="true">G_EVR_$(FF)_out_cml.ui</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="tab_9">
+     <attribute name="title">
+      <string>Misc</string>
+     </attribute>
+     <widget class="caInclude" name="cainclude_8">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>671</width>
+        <height>411</height>
+       </rect>
+      </property>
+      <property name="macro">
+       <string notr="true">EVR=$(EVR)</string>
+      </property>
+      <property name="filename" stdset="0">
+       <string notr="true">G_EVR_$(FF)_misc.ui</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="tab_10">
+     <attribute name="title">
+      <string>DBus</string>
+     </attribute>
+     <widget class="caInclude" name="cainclude_9">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>671</width>
+        <height>411</height>
+       </rect>
+      </property>
+      <property name="macro">
+       <string notr="true">EVR=$(EVR)</string>
+      </property>
+      <property name="filename" stdset="0">
+       <string notr="true">G_EVR_$(FF)_dbus.ui</string>
       </property>
      </widget>
     </widget>

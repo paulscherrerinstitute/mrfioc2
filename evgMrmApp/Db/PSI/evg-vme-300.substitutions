@@ -1,0 +1,104 @@
+file evgMrm.db {
+pattern { SYS,      EVG}
+        {"$(SYS)", "$(EVG)"}
+}
+
+file evgSoftEvt.db {
+pattern { SYS,      EVG,      OBJ }
+        {"$(SYS)", "$(EVG)", "SoftEvt" }
+}
+
+file evgAcTrig.db {
+pattern { SYS,      EVG,      OBJ }
+        {"$(SYS)", "$(EVG)", "AcTrig" }
+}
+
+file evgEvtClk.db {
+pattern { SYS,      EVG,      OBJ }
+        {"$(SYS)", "$(EVG)", "EvtClk" }
+}
+
+file flash.template {
+pattern { SYS,      EVG}
+        {"$(SYS)", "$(EVG)"}
+}
+
+file evgDbus.db {
+pattern { SYS,      EVG,      OBJ,    ID }
+        {"$(SYS)", "$(EVG)", "Dbus",  0  }
+        {"$(SYS)", "$(EVG)", "Dbus",  1  }
+        {"$(SYS)", "$(EVG)", "Dbus",  2  }
+        {"$(SYS)", "$(EVG)", "Dbus",  3  }
+        {"$(SYS)", "$(EVG)", "Dbus",  4  }
+        {"$(SYS)", "$(EVG)", "Dbus",  5  }
+        {"$(SYS)", "$(EVG)", "Dbus",  6  }
+        {"$(SYS)", "$(EVG)", "Dbus",  7  }
+
+}
+
+file evgInput.db {
+pattern { SYS,      EVG,      OBJ,       ID,  PPS,  DBUSOBJ}
+        {"$(SYS)", "$(EVG)", "FrontInp", 0,   1,    "Dbus"}
+        {"$(SYS)", "$(EVG)", "FrontInp", 1,   2,    "Dbus"}
+        {"$(SYS)", "$(EVG)", "FrontInp", 2,   3,    "Dbus"}
+        {"$(SYS)", "$(EVG)", "RearInp",  0,   0,    "Dbus"}
+        {"$(SYS)", "$(EVG)", "RearInp",  1,   0,    "Dbus"}
+        {"$(SYS)", "$(EVG)", "RearInp",  2,   0,    "Dbus"}
+        {"$(SYS)", "$(EVG)", "RearInp",  3,   0,    "Dbus"}
+        {"$(SYS)", "$(EVG)", "RearInp",  4,   0,    "Dbus"}
+        {"$(SYS)", "$(EVG)", "RearInp",  5,   0,    "Dbus"}
+        {"$(SYS)", "$(EVG)", "RearInp",  6,   0,    "Dbus"}
+        {"$(SYS)", "$(EVG)", "RearInp",  7,   0,    "Dbus"}
+        {"$(SYS)", "$(EVG)", "RearInp",  8,   0,    "Dbus"}
+        {"$(SYS)", "$(EVG)", "RearInp",  9,   0,    "Dbus"}
+        {"$(SYS)", "$(EVG)", "RearInp",  10,  0,    "Dbus"}
+        {"$(SYS)", "$(EVG)", "RearInp",  11,  0,    "Dbus"}
+        {"$(SYS)", "$(EVG)", "RearInp",  12,  0,    "Dbus"}
+        {"$(SYS)", "$(EVG)", "RearInp",  13,  0,    "Dbus"}
+        {"$(SYS)", "$(EVG)", "RearInp",  14,  0,    "Dbus"}
+        {"$(SYS)", "$(EVG)", "RearInp",  15,  0,    "Dbus"}
+}
+
+file evgTrigEvt.db {
+pattern { SYS,      EVG,      OBJ,       ID }
+        {"$(SYS)", "$(EVG)", "TrigEvt",  0  }
+        {"$(SYS)", "$(EVG)", "TrigEvt",  1  }
+        {"$(SYS)", "$(EVG)", "TrigEvt",  2  }
+        {"$(SYS)", "$(EVG)", "TrigEvt",  3  }
+        {"$(SYS)", "$(EVG)", "TrigEvt",  4  }
+        {"$(SYS)", "$(EVG)", "TrigEvt",  5  }
+        {"$(SYS)", "$(EVG)", "TrigEvt",  6  }
+        {"$(SYS)", "$(EVG)", "TrigEvt",  7  }
+}
+
+file evgMxc.db {
+pattern { SYS,      EVG,      OBJ,   ID }
+        {"$(SYS)", "$(EVG)", "Mxc",  0  }
+        {"$(SYS)", "$(EVG)", "Mxc",  1  }
+        {"$(SYS)", "$(EVG)", "Mxc",  2  }
+        {"$(SYS)", "$(EVG)", "Mxc",  3  }
+        {"$(SYS)", "$(EVG)", "Mxc",  4  }
+        {"$(SYS)", "$(EVG)", "Mxc",  5  }
+        {"$(SYS)", "$(EVG)", "Mxc",  6  }
+        {"$(SYS)", "$(EVG)", "Mxc",  7  }
+}
+
+file evg-fct.db {
+pattern { SYS,      EVG,      OBJ }
+        {"$(SYS)", "$(EVG)", "FCT" }
+}
+
+# ID = 0 --> Main transciever (upstream)
+# ID = 1+ --> Fanouts
+file "sfp.template"{
+pattern { SYS,      EVG,      OBJ,   ID }
+        {"$(SYS)", "$(EVG)", "SFP",  0  }
+        {"$(SYS)", "$(EVG)", "SFP",  1  }
+        {"$(SYS)", "$(EVG)", "SFP",  2  }
+        {"$(SYS)", "$(EVG)", "SFP",  3  }
+        {"$(SYS)", "$(EVG)", "SFP",  4  }
+        {"$(SYS)", "$(EVG)", "SFP",  5  }
+        {"$(SYS)", "$(EVG)", "SFP",  6  }
+        {"$(SYS)", "$(EVG)", "SFP",  7  }
+        {"$(SYS)", "$(EVG)", "SFP",  8  }
+}

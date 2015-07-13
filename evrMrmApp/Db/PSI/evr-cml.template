@@ -126,6 +126,7 @@ record(mbboDirect, "$(SYS)-$(EVR):$(OBJ)$(ID)-Pat:Rise32_39-SP") {
   field(SHFT, "8")
   field(OUT , "$(SYS)-$(EVR):$(OBJ)$(ID)-Pat:Rise-ASub_.C PP")
   field(PINI, "YES")
+  field(VAL, "$($(OBJ)$(ID)-Pat:Rise32_39-SP\=0)")
   info(autosaveFields_pass0, "VAL")
 }
 
@@ -180,6 +181,7 @@ record(mbboDirect, "$(SYS)-$(EVR):$(OBJ)$(ID)-Pat:High32_39-SP") {
   field(SHFT, "8")
   field(OUT , "$(SYS)-$(EVR):$(OBJ)$(ID)-Pat:High-ASub_.C PP")
   field(PINI, "YES")
+  field(VAL, "$($(OBJ)$(ID)-Pat:High32_39-SP\=0)")
   info(autosaveFields_pass0, "VAL")
 }
 
@@ -234,6 +236,7 @@ record(mbboDirect, "$(SYS)-$(EVR):$(OBJ)$(ID)-Pat:Fall32_39-SP") {
   field(SHFT, "8")
   field(OUT , "$(SYS)-$(EVR):$(OBJ)$(ID)-Pat:Fall-ASub_.C PP")
   field(PINI, "YES")
+  field(VAL, "$($(OBJ)$(ID)-Pat:Fall32_39-SP\=0)")
   info(autosaveFields_pass0, "VAL")
 }
 
@@ -288,6 +291,7 @@ record(mbboDirect, "$(SYS)-$(EVR):$(OBJ)$(ID)-Pat:Low32_39-SP") {
   field(SHFT, "8")
   field(OUT , "$(SYS)-$(EVR):$(OBJ)$(ID)-Pat:Low-ASub_.C PP")
   field(PINI, "YES")
+  field(VAL, "$($(OBJ)$(ID)-Pat:Low32_39-SP\=0)")
   info(autosaveFields_pass0, "VAL")
 }
 
@@ -347,7 +351,7 @@ record(longin, "$(SYS)-$(EVR):$(OBJ)$(ID)-Freq:Init-RB") {
   field(DESC, "Initial counter val.")
   field(INP, "@OBJ=$(EVR):$(OBJ)$(ID), PROP=Counts Init")
   field(HIGH, "65535")
-  field(LOW, "20")
+  field(LOW, "$(NBIT=20)")
   field(HSV, "INVALID")
   field(LSV, "INVALID")
 }
@@ -371,7 +375,7 @@ record(longin, "$(SYS)-$(EVR):$(OBJ)$(ID)-Freq:High-RB") {
   field(DTYP, "Obj Prop uint32")
   field(INP, "@OBJ=$(EVR):$(OBJ)$(ID), PROP=Counts High")
   field(HIGH, "65535")
-  field(LOW, "20")
+  field(LOW, "$(NBIT=20)")
   field(HSV, "INVALID")
   field(LSV, "INVALID")
 }
@@ -395,7 +399,7 @@ record(longin, "$(SYS)-$(EVR):$(OBJ)$(ID)-Freq:Low-RB") {
   field(DTYP, "Obj Prop uint32")
   field(INP, "@OBJ=$(EVR):$(OBJ)$(ID), PROP=Counts Low")
   field(HIGH, "65535")
-  field(LOW, "20")
+  field(LOW, "$(NBIT=20)")
   field(HSV, "INVALID")
   field(LSV, "INVALID")
 }
@@ -422,7 +426,7 @@ record(waveform, "$(SYS)-$(EVR):$(OBJ)$(ID)-Pat:Wf-SP") {
   field(INP, "@OBJ=$(EVR):$(OBJ)$(ID), PROP=Waveform")
   field(PINI, "YES")
   field(FTVL, "UCHAR")
-  field(NELM, "$(MAX=40940)") # 20*2047
+  field(NELM, "$(MAX=40940)") # 20*2047 or 40*2047
   field(HOPR, "1")
   field(LOPR, "0")
   field(FLNK, "$(SYS)-$(EVR):$(OBJ)$(ID)-Pat:Wf-RB")
@@ -435,7 +439,7 @@ record(waveform, "$(SYS)-$(EVR):$(OBJ)$(ID)-Pat:Wf-RB") {
   field(PINI, "YES")
   field(INP, "@OBJ=$(EVR):$(OBJ)$(ID), PROP=Waveform")
   field(FTVL, "UCHAR")
-  field(NELM, "$(MAX=40940)") # 20*2047
+  field(NELM, "$(MAX=40940)") # 20*2047 or 40*2047
   field(HOPR, "1")
   field(LOPR, "0")
   field(FLNK, "$(SYS)-$(EVR):$(OBJ)$(ID)-Pat:WfX-ASub_")
@@ -452,7 +456,7 @@ record(aSub, "$(SYS)-$(EVR):$(OBJ)$(ID)-Pat:WfX-ASub_") {
   field( FTC, "LONG")
   field(OUTA, "$(SYS)-$(EVR):$(OBJ)$(ID)-Pat:WfX-I PP")
   field(FTVA, "DOUBLE")
-  field(NOVA, "$(MAX=40940)") # 20*2047
+  field(NOVA, "$(MAX=40940)") # 20*2047 or 40*2047
   field(TSEL, "$(SYS)-$(EVR):$(OBJ)$(ID)-Pat:Wf-RB.TIME")
 }
 
@@ -505,7 +509,7 @@ record(aSub, "$(SYS)-$(EVR):$(OBJ)$(ID)-WfCalc-ASub_") {
   field( FTD, "LONG")
   field(OUTA, "$(SYS)-$(EVR):$(OBJ)$(ID)-Pat:Wf-SP PP")
   field(FTVA, "UCHAR")
-  field(NOVA, "$(MAX=40940)") # 20*2047
+  field(NOVA, "$(MAX=40940)") # 20*2047 or 40*2047
 }
 
 # CML waveform for Gun (Bunches Per Train)
@@ -538,5 +542,5 @@ record(aSub, "$(SYS)-$(EVR):$(OBJ)$(ID)-BunchTrain:ASub_") {
   field( FTA, "ULONG")
   field(OUTA, "$(SYS)-$(EVR):$(OBJ)$(ID)-Pat:Wf-SP PP")
   field(FTVA, "UCHAR")
-  field(NOVA, "$(MAX=40940)") # 20*2047
+  field(NOVA, "$(MAX=40940)") # 20*2047 or 40*2047
 }

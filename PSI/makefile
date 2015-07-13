@@ -6,6 +6,7 @@ BUILDCLASSES=Linux
 EXCLUDE_VERSIONS=3.13 3.14.8
 # build for IFC, PPMAC, PC
 ARCH_FILTER=eldk52-e500v2 eldk42-ppc4xxFP SL%
+#ARCH_FILTER=eldk52-e500v2
 
 
 SOURCES+=../evrApp/src/asub.c
@@ -25,6 +26,11 @@ SOURCES+=../mrfCommon/src/mrfFracSynth.c
 SOURCES+=../mrmShared/src/sfp.cpp
 SOURCES+=../mrmShared/src/mrmDataBufTx.cpp
 SOURCES+=../mrmShared/src/devMrfBufTx.cpp
+SOURCES+=../mrmShared/src/spi_flash.c
+SOURCES+=../mrmShared/src/mrmremoteflash.cpp
+
+
+
 SOURCES+=../evrApp/src/devEvrStringIO.cpp
 SOURCES+=../evrApp/src/devEvrPulserMapping.cpp
 SOURCES+=../evrApp/src/ntpShm.cpp
@@ -68,6 +74,7 @@ SOURCES+=../evgMrmApp/src/evgInput.cpp
 SOURCES+=../evgMrmApp/src/evgMrm.cpp
 SOURCES+=../evgMrmApp/src/evg.cpp
 SOURCES+=../evgMrmApp/src/evgInit.cpp
+SOURCES+=../evgMrmApp/src/evgFct.cpp
 SOURCES+=../mrfCommon/src/mrfCommon.cpp
 SOURCES+=../mrfCommon/src/devObjMBBDirect.cpp
 SOURCES+=../mrfCommon/src/devObjWf.cpp

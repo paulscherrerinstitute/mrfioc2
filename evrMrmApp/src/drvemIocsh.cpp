@@ -71,7 +71,8 @@ static const epicsPCIID mrmevrs[] = {
 
 static const struct VMECSRID vmeevrs[] = {
     // VME EVR RF 230
-    {MRF_VME_IEEE_OUI, MRF_VME_EVR_RF_BID|MRF_SERIES_230, VMECSRANY}
+    {MRF_VME_IEEE_OUI, MRF_VME_EVR_RF_BID|MRF_SERIES_230, VMECSRANY},
+    {MRF_VME_IEEE_OUI, MRF_VME_EVR_300, VMECSRANY}
     ,VMECSR_END
 };
 
@@ -232,13 +233,11 @@ long report(int level)
 }
 
 static
-void checkVersion(volatile epicsUInt8 *base, unsigned int required, unsigned int recommended)
+int checkVersion(volatile epicsUInt8 *base, unsigned int required)
 {
     epicsUInt32 v = READ32(base, FWVersion),evr,ver;
 
     errlogPrintf("FWVersion 0x%08x\n", v);
-    if(v&FWVersion_zero_mask)
-        throw std::runtime_error("Invalid firmware version (HW or bus error)");
 
     evr=v&FWVersion_type_mask;
     evr>>=FWVersion_type_shift;
@@ -255,9 +254,9 @@ void checkVersion(volatile epicsUInt8 *base, unsigned int required, unsigned int
         errlogPrintf("Firmware version >=%u is required\n", required);
         throw std::runtime_error("Firmware version not supported");
 
-    } else if(ver<recommended) {
-        errlogPrintf("Firmware version >=%u is recommended, please consider upgrading\n", recommended);
     }
+
+    return ver;
 }
 
 #ifdef __linux__
@@ -443,7 +442,7 @@ try {
         return;
     }
 
-    checkVersion(evr, 3, 6);
+    checkVersion(evr, 3);
 
     // Acknowledge missed interrupts
     //TODO: This avoids a spurious FIFO Full
@@ -636,7 +635,7 @@ try {
         return;
     }
 
-    checkVersion(evr, 4, 5);
+    checkVersion(evr, 4);
 
     // Read offset from start of CSR to start of user (card specific) CSR.
     size_t user_offset=CSRRead24(csr+CR_BEG_UCSR);
@@ -1034,6 +1033,36 @@ static void mrmEvrDelaySetCallFunc(const iocshArgBuf *args)
     mrmEvrDelaySet(args[0].sval, args[1].ival, args[2].ival, args[3].ival, args[4].ival,  args[5].ival);
 }*/
 
+/******  SPI  ********/
+static const iocshArg mrmEVRFlashArg0 = { "Card ID", iocshArgString };
+static const iocshArg mrmEVRFlashArg1 = { "bitFile", iocshArgString };
+
+static const iocshArg * const mrmEVRFlashArgs[2] = { &mrmEVRFlashArg0, &mrmEVRFlashArg1};
+static const iocshFuncDef mrmEVRFlashDef = { "mrmEVRFlash", 2, mrmEVRFlashArgs };
+
+extern "C"{
+    extern int spi_program_flash(void* preg, char *bitfile);
+}
+
+static void mrmEVRFlashFunc(const iocshArgBuf *args) {
+   char* cardID = args[0].sval;
+   char* bitfile = args[1].sval;
+
+   printf("Starting SPI flash procedure for %s [%s]\n", cardID, bitfile);
+
+   EVRMRM* evr = dynamic_cast<EVRMRM*>(mrf::Object::getObject(cardID));
+   if(!evr){
+       errlogPrintf("EVR <%s> does not exist!\n", cardID);
+       return;
+   }
+
+   void* preg = (void*)evr->base;
+
+   spi_program_flash(preg, bitfile);
+}
+
+/****************/
+
 static
 void mrmsetupreg()
 {
@@ -1043,6 +1072,7 @@ void mrmsetupreg()
     iocshRegister(&mrmEvrDumpMapFuncDef,mrmEvrDumpMapCallFunc);
     iocshRegister(&mrmEvrForwardFuncDef,mrmEvrForwardCallFunc);
     iocshRegister(&mrmEvrLoopbackFuncDef,mrmEvrLoopbackCallFunc);
+    iocshRegister(&mrmEVRFlashDef,mrmEVRFlashFunc);
     /*iocshRegister(&mrmEvrGpioDirectionFuncDef,mrmEvrGpioDirectionCallFunc);
      *
     iocshRegister(&mrmEvrDelaySetFuncDef,mrmEvrDelaySetCallFunc);
