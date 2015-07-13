@@ -1281,7 +1281,7 @@ EVRMRM::drain_fifo()
             events[evt].last_sec=READ32(base, EvtFIFOSec);
             events[evt].last_evt=READ32(base, EvtFIFOEvt); // timestamp register
 
-            if(evrEventDebug > 0) printf("%d.%d: %s received event: %d\n", events[evt].last_sec, events[evt].last_evt, id.c_str(), evt);
+            if(evrEventDebug > 0) printf("%u.%u: %s received event: %d\n", events[evt].last_sec, events[evt].last_evt, id.c_str(), evt);
 
 
             if (events[evt].again) {
