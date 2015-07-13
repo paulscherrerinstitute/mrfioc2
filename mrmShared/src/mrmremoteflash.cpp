@@ -23,7 +23,8 @@ void flash_thread(void* args){
 mrmRemoteFlash::mrmRemoteFlash(const std::string &name, volatile epicsUInt8 *pReg):
     mrf::ObjectInst<mrmRemoteFlash>(name),
     m_pReg(pReg),
-    m_file_valid(false)
+    m_file_valid(false),
+    m_flash_in_progress(false)
 {
 
 }
