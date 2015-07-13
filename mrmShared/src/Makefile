@@ -5,6 +5,7 @@ include $(TOP)/configure/CONFIG
 INC += mrmDataBufTx.h
 INC += sfp.h
 INC += configurationInfo.h
+INC += mrmremoteflash.h
 
 DBD += mrmShared.dbd
 
