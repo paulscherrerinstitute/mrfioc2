@@ -1,6 +1,8 @@
-#include "mrmremoteflash.h"
 #include <stdio.h>
 #include <string>
+
+#include <epicsExport.h>
+#include "mrmremoteflash.h"
 
 extern "C" {
     #include "spi_flash.h"
@@ -121,7 +123,8 @@ bool mrmRemoteFlash::flashSuccess() const
     return false;
 }
 
-
+#undef epicsExportSharedSymbols
+#include "shareLib.h"
 OBJECT_BEGIN(mrmRemoteFlash) {
 
     OBJECT_PROP1("InProgress",&mrmRemoteFlash::flashInProgress);

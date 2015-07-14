@@ -13,6 +13,8 @@
 #include "pci_mrfev.h"
 #include "epicsTypes.h"
 
+#include <epicsExport.h>
+
 #define KERN_INFO "spi_flash: "
 #define printk printf
 
@@ -76,7 +78,7 @@ void spi_slave_select(struct MrfErRegs *pEvr, int select)
       if ((stat & (EV_SPI_CONTROL_OE | EV_SPI_CONTROL_SELECT)) !=
 	  0)
 	printk(KERN_INFO "spi_slave select %02x\n", stat);
-    } 
+    }
 }
 
 int spi_wait_trdy(struct MrfErRegs *pEvr)
@@ -107,9 +109,9 @@ int spi_write(struct MrfErRegs *pEvr, int data)
 
   if (spi_wait_trdy(pEvr))
     return -1;
-  
+
   *spi_data = be32_to_cpu(data);
-  
+
   return (data & 0x00ff);
 }
 
@@ -216,7 +218,7 @@ int flash_read_status(struct MrfErRegs *pEvr)
   if (retval < 0)
     goto flash_read_status_end;
   retval = spi_read(pEvr);
-  
+
  flash_read_status_end:
   spi_slave_select(pEvr, 0);
   return retval;
@@ -311,7 +313,7 @@ int flash_bulkerase(struct MrfErRegs *pEvr)
   for (i = 0; i < SPI_BE_COUNT; i++)
     {
       /* Bulk erasing takes a lot of time so we call schedule() to not
-	 block the system for too long 
+	 block the system for too long
 	 schedule(); */
       if ((i % 100000) == 0)
 	printk(KERN_INFO "flash_bulkerase %d\n", i);
@@ -368,18 +370,18 @@ int flash_primaryerase(struct MrfErRegs *pEvr)
       retval = spi_write(pEvr, M25P_RDID);
       if (retval < 0)
 	goto flash_primary_erase_end;
-      
+
 #if 0
       printk(KERN_INFO "flash_primary erase 2\n");
 #endif
-      
+
       /* Write enable */
       spi_slave_select(pEvr, 1);
       retval = spi_write(pEvr, M25P_WREN);
       if (retval < 0)
 	goto flash_primary_erase_end;
       spi_slave_select(pEvr, 0);
-      
+
 #if 0
       printk(KERN_INFO "flash_primary erase 3\n");
 #endif
@@ -457,7 +459,7 @@ int flash_pageprogram(struct MrfErRegs *pEvr, char *data,
 		      int addr, int size)
 {
   int i, retval;
-  
+
   /* Check that page size and address valid */
   if (size != FLASH_DATA_ALLOC_SIZE)
     return -1;
@@ -467,7 +469,7 @@ int flash_pageprogram(struct MrfErRegs *pEvr, char *data,
 #if 0
   printk(KERN_INFO "flash_pp address %06x, size %d\n", addr, size);
 #endif
-  
+
   /* Dummy write with SS not active */
   spi_slave_select(pEvr, 0);
   retval = spi_write(pEvr, M25P_RDID);
@@ -496,7 +498,7 @@ int flash_pageprogram(struct MrfErRegs *pEvr, char *data,
   retval = spi_write(pEvr, addr & 0x00ff);
   if (retval < 0)
     goto flash_pageprogram_end;
-  
+
   for (i = 0; i < FLASH_DATA_ALLOC_SIZE; i++)
     {
       retval = spi_write(pEvr, data[i]);
@@ -528,6 +530,7 @@ int flash_pageprogram(struct MrfErRegs *pEvr, char *data,
   return retval;
 }
 
+epicsShareFunc
 int spi_program_flash(void* preg, const char *bitfile)
 {
   char *buf;

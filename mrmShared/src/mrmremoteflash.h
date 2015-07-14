@@ -7,8 +7,7 @@
 #include "mrf/object.h"
 
 
-
-class mrmRemoteFlash : public mrf::ObjectInst<mrmRemoteFlash>
+class epicsShareClass mrmRemoteFlash : public mrf::ObjectInst<mrmRemoteFlash>
 {
 public:
     mrmRemoteFlash(const std::string& name, volatile epicsUInt8* pReg);
