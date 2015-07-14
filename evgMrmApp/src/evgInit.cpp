@@ -55,9 +55,9 @@ enableIRQ(mrf::Object* obj, void*) {
 
 	/**
 	 * Enable PCIe interrputs (1<<30)
-	 * 
+	 *
 	 * Change by: tslejko
-	 * Reason: Support for cPCI EVG 
+	 * Reason: Support for cPCI EVG
 	 */
 	WRITE32(evg->getRegAddr(), IrqEnable,
              EVG_IRQ_PCIIE          | //PCIe interrupt enable,
@@ -77,7 +77,7 @@ enableIRQ(mrf::Object* obj, void*) {
 //         EVG_IRQ_EXT_INP       |
 //         EVG_IRQ_DBUFF         |
 //         EVG_IRQ_FIFO          |
-//         EVG_IRQ_RXVIO             
+//         EVG_IRQ_RXVIO
 //    );
 
     return true;
@@ -100,7 +100,7 @@ evgShutdown(void*)
     mrf::Object::visitObjects(&disableIRQ,0);
 }
 
-static void 
+static void
 inithooks(initHookState state) {
     epicsUInt8 lvl;
     switch(state) {
@@ -119,8 +119,8 @@ inithooks(initHookState state) {
 		break;
 
 	/*
-	 * Enable interrupts after IOC has been started (this is need for cPCI version) 
-	 * 
+	 * Enable interrupts after IOC has been started (this is need for cPCI version)
+	 *
 	 * Change by: tslejko
 	 * Reason: cPCI EVG support
 	 */
@@ -139,7 +139,7 @@ int checkVersion(volatile epicsUInt8 *base, unsigned int required) {
     epicsUInt32 junk;
     if(devReadProbe(sizeof(junk), (volatile void*)(base+U32_FPGAVersion), (void*)&junk)) {
         printf("Failed to read from MRM registers (but could read CSR registers)\n");
-        return;
+        return -1;
     }
 #endif
 	epicsUInt32 type, ver;
@@ -205,7 +205,7 @@ mrmEvgSetupVME (
         printf("##### Setting up MRF EVG in VME Slot %d #####\n",slot);
         printf("Found Vendor: %08x\nBoard: %08x\nRevision: %08x\n",
                 info.vendor, info.board, info.revision);
-        
+
         epicsUInt32 xxx = CSRRead32(csrCpuAddr + CSR_FN_ADER(1));
         if(xxx)
             errlogPrintf("Warning: EVG not in power on state! (%08x)\n", xxx);
@@ -297,14 +297,14 @@ mrmEvgSetupVME (
 
             // VME IRQ level will be enabled later during iocInit()
             vme_level_mask |= 1 << ((irqLevel&0x7)-1);
-    
+
             /*Connect Interrupt handler to vector*/
             if(devConnectInterruptVME(irqVector & 0xff, &evgMrm::isr_vme, evg)){
                 errlogPrintf("ERROR:Failed to connect VME IRQ vector %d\n"
                                                          ,irqVector&0xff);
                 delete evg;
                 return -1;
-            }    
+            }
         }
 
         errlogFlush();
@@ -350,10 +350,10 @@ static int checkUIOVersion(int expect) {return 0;}
 #endif
 
 /**
- * This function and definitions add support for cPCI EVG. 
- * Function works similiar to that of EVR device support and reilies on devLib2 
- * + mrf_uio kernel module to map EVG address space. 
- * 
+ * This function and definitions add support for cPCI EVG.
+ * Function works similiar to that of EVR device support and reilies on devLib2
+ * + mrf_uio kernel module to map EVG address space.
+ *
  * Change by: tslejko
  * Reason: cPCI EVG support
  */
@@ -469,9 +469,9 @@ mrmEvgSetupPCI (
 /*
  * This function spawns additional thread that emulate PPS input. Function is used for
  * testing of timestamping functionality... DO NOT USE IN PRODUCTION!!!!!
- * 
+ *
  * Change by: tslejko
- * Reason: testing utilities 
+ * Reason: testing utilities
  */
 void mrmEvgSoftTime(void* pvt) {
 	evgMrm* evg = static_cast<evgMrm*>(pvt);
@@ -552,7 +552,7 @@ static const iocshArg * const mrmEvgSetupVMEArgs[5] = { &mrmEvgSetupVMEArg0,
 static const iocshFuncDef mrmEvgSetupVMEFuncDef = { "mrmEvgSetupVME", 5,
 		mrmEvgSetupVMEArgs };
 
-static void 
+static void
 mrmEvgSetupVMECallFunc(const iocshArgBuf *args) {
     mrmEvgSetupVME(args[0].sval,
                    args[1].ival,
@@ -780,15 +780,15 @@ reportCard(mrf::Object* obj, void* arg) {
     }
 
     evg->show(*level);
-    
+
     if(*level >= 2)
         printregisters(evg->getRegAddr());
-        
+
     printf("\n");
     return true;
 }
 
-static long 
+static long
 report(int level) {
     printf("===  Begin MRF EVG support   ===\n");
     mrf::Object::visitObjects(&reportCard, (void*)&level);
