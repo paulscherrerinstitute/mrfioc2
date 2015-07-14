@@ -48,10 +48,14 @@ if [ ! -d "$MRFIOC2_DIR/evrMrmApp" ]; then
     exit 1
 fi
 
+type msi >/dev/null 2>&1 || { echo >&2 "I require MSI tool but it's not installed.  Aborting."; exit 1; }
+
 exec 3>&1 4>&2
 if [ $VO -eq 0 ]; then
     exec &>/dev/null
 fi
+
+
 
 mkdir -p $OUTPUT_DIR
 for db in ${DB_LIST[@]}; do
