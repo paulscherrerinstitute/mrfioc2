@@ -1,6 +1,8 @@
-#include "mrmremoteflash.h"
 #include <stdio.h>
 #include <string>
+
+#include <epicsExport.h>
+#include "mrmremoteflash.h"
 
 extern "C" {
     #include "spi_flash.h"
@@ -10,7 +12,7 @@ void flash_thread(void* args){
 
     mrmRemoteFlash* parent = static_cast<mrmRemoteFlash*>(args);
 
-    printf("\nMRF FLASH: Starting flash of: %s to card on offset 0x%x\n",parent->getFlashFilename().c_str(),parent->m_pReg);
+    printf("\nMRF FLASH: Starting flash of: %s to card on offset %p\n",parent->getFlashFilename().c_str(),parent->m_pReg);
 
 //    sleep(10);
     spi_program_flash((void*)parent->m_pReg,parent->getFlashFilename().c_str());
@@ -22,9 +24,9 @@ void flash_thread(void* args){
 
 mrmRemoteFlash::mrmRemoteFlash(const std::string &name, volatile epicsUInt8 *pReg):
     mrf::ObjectInst<mrmRemoteFlash>(name),
+    m_flash_in_progress(false),
     m_pReg(pReg),
-    m_file_valid(false),
-    m_flash_in_progress(false)
+    m_file_valid(false)
 {
 
 }
@@ -74,7 +76,7 @@ void mrmRemoteFlash::setFlashFilenameWF(const char *wf, epicsUInt32 l)
 
 epicsUInt32 mrmRemoteFlash::getFlashFilenameWF(char *wf, epicsUInt32 l) const
 {
-    return m_filename.copy(wf,l);
+    return (epicsUInt32)m_filename.copy(wf,l);
 }
 
 /**

@@ -22,8 +22,14 @@
 #include <dbScan.h>
 #include <epicsInterrupt.h>
 
+/*
+ * Windows
+ * Theese have to be included before epicsExport, thus they are declared in cpp and h file.
+ * epicsExport flips the flag from library importing to exporting. Remote flash, sfp, ... have to be imported from dll here
+ */
 #include "mrmDataBufTx.h"
 #include "sfp.h"
+#include "mrmremoteflash.h"
 
 #include "evrRegMap.h"
 

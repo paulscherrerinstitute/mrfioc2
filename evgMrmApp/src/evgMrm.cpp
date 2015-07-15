@@ -25,9 +25,6 @@
 #include <rtems/bspIo.h>
 #endif //__rtems__
 
-#include "evgRegMap.h"
-
-#include <epicsExport.h>
 
 evgMrm::evgMrm(const std::string& id, bus_configuration& busConfig, volatile epicsUInt8* const pReg, volatile epicsUInt8* const fctReg, const epicsPCIDevice *pciDevice):
     mrf::ObjectInst<evgMrm>(id),

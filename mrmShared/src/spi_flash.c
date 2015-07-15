@@ -13,6 +13,8 @@
 #include "pci_mrfev.h"
 #include "epicsTypes.h"
 
+#include <epicsExport.h>
+
 #define KERN_INFO "spi_flash: "
 #define printk printf
 
@@ -528,6 +530,7 @@ int flash_pageprogram(struct MrfErRegs *pEvr, char *data,
   return retval;
 }
 
+epicsShareFunc
 int spi_program_flash(void* preg, const char *bitfile)
 {
   char *buf;
