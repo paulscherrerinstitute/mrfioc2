@@ -123,8 +123,7 @@ bool mrmRemoteFlash::flashSuccess() const
     return false;
 }
 
-#undef epicsExportSharedSymbols
-#include "shareLib.h"
+
 OBJECT_BEGIN(mrmRemoteFlash) {
 
     OBJECT_PROP1("InProgress",&mrmRemoteFlash::flashInProgress);

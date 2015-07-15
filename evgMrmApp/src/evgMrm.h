@@ -1,6 +1,13 @@
 #ifndef EVG_MRM_H
 #define EVG_MRM_H
 
+/*
+ * Windows
+ * Theese flip the flags for importing from dll, rather then exporting
+ */
+#define MRMREMOTEFLASH_H_LEVEL2
+#define SFP_H_LEVEL2
+
 #include <vector>
 #include <map>
 #include <string>
