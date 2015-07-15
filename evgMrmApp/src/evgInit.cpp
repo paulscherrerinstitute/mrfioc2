@@ -138,8 +138,7 @@ int checkVersion(volatile epicsUInt8 *base, unsigned int required) {
 #ifndef __linux__
     epicsUInt32 junk;
     if(devReadProbe(sizeof(junk), (volatile void*)(base+U32_FPGAVersion), (void*)&junk)) {
-        printf("Failed to read from MRM registers (but could read CSR registers)\n");
-        return -1;
+        throw std::runtime_error("Failed to read from MRM registers (but could read CSR registers)\n");
     }
 #endif
 	epicsUInt32 type, ver;
