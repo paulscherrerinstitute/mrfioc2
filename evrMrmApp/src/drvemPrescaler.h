@@ -16,7 +16,7 @@
 
 #include "support/util.h"
 
-class epicsShareClass MRMPreScaler : public mrf::ObjectInst<MRMPreScaler>, public IOStatus
+class MRMPreScaler : public mrf::ObjectInst<MRMPreScaler>, public IOStatus
 {
 public:
     MRMPreScaler(const std::string& n, volatile epicsUInt8 * b, size_t i);
