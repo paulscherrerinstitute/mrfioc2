@@ -23,8 +23,9 @@
 #include <stringinRecord.h>
 
 #include "devObj.h"
-#include "evr/evr.h"
 #include "linkoptions.h"
+
+#include "drvem.h"
 
 #include <stdexcept>
 #include <string>
@@ -46,7 +47,7 @@
 /***************** Mapping record ******************/
 
 struct map_priv {
-    EVR* card;
+    EVRMRM* card;
     epicsUInt32 last_code;
     char obj[30];
     int func;
@@ -95,7 +96,7 @@ static long add_lo(dbCommon* praw)
             errlogPrintf("%s: failed to find object '%s'\n", praw->name, priv->obj);
             return S_db_errArg;
         }
-        priv->card=dynamic_cast<EVR*>(O);
+        priv->card=dynamic_cast<EVRMRM*>(O);
         if(!priv->card) {
             errlogPrintf("%s: object '%s' is not an EVR\n", praw->name, priv->obj);
             return S_db_errArg;

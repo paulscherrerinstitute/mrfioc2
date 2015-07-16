@@ -22,7 +22,7 @@
 #include <eventRecord.h>
 
 #include "devObj.h"
-#include "evr/evr.h"
+#include "drvem.h"
 
 #include "linkoptions.h"
 
@@ -32,7 +32,7 @@
 /***************** Event *****************/
 
 struct priv {
-    EVR* evr;
+    EVRMRM* evr;
     char obj[30];
     int event;
 };
@@ -64,7 +64,7 @@ try {
         errlogPrintf("%s: failed to find object '%s'\n", prec->name, p->obj);
         return S_db_errArg;
     }
-    p->evr=dynamic_cast<EVR*>(O);
+    p->evr=dynamic_cast<EVRMRM*>(O);
     if(!p->evr)
         throw std::runtime_error("Failed to lookup device");
 

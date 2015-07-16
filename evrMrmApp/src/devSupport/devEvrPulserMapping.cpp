@@ -23,7 +23,7 @@
 #include <stringinRecord.h>
 
 #include "devObj.h"
-#include "evr/pulser.h"
+#include "drvemPulser.h"
 #include "linkoptions.h"
 
 #include <stdexcept>
@@ -44,7 +44,7 @@
 
 struct map_priv {
     char obj[30];
-    Pulser* pulser;
+    MRMPulser* pulser;
     epicsUInt32 last_code;
     MapType::type func;
 };
@@ -83,7 +83,7 @@ try {
         errlogPrintf("%s: failed to find object '%s'\n", praw->name, priv->obj);
         return S_db_errArg;
     }
-    priv->pulser=dynamic_cast<Pulser*>(O);
+    priv->pulser=dynamic_cast<MRMPulser*>(O);
     if(!priv->pulser)
         throw std::runtime_error("Failed to lookup device");
 
