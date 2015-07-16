@@ -41,12 +41,8 @@
 
 #include "drvemIocsh.h"
 
-#include <evr/evr.h>
-#include <evr/pulser.h>
-#include <evr/cml.h>
-#include <evr/prescaler.h>
-#include <evr/input.h>
-#include <evr/delay.h>
+#include "support/util.h"
+#include "mrf/version.h"
 
 #if defined(__linux__) || defined(_WIN32)
 #  include "devLibPCI.h"
@@ -109,11 +105,25 @@ extern "C" {
 static
 const double fracref=24.0; // MHz
 
+
+
+long get_ioint_info_statusChange(int dir,dbCommon* prec,IOSCANPVT* io)
+{
+    IOStatus* stat=static_cast<IOStatus*>(prec->dpvt);
+
+    if(!stat) return 1;
+
+    *io=stat->statusChange((dir != 0));
+
+    return 0;
+}
+
+
 EVRMRM::EVRMRM(const std::string& n,
                bus_configuration& busConfig,
-               volatile unsigned char* b,
+               volatile epicsUInt8* b,
                epicsUInt32 bl)
-  :EVR(n,busConfig)
+  :mrf::ObjectInst<EVRMRM>(n)
   ,evrLock()
   ,id(n)
   ,base(b)
@@ -125,6 +135,7 @@ EVRMRM::EVRMRM(const std::string& n,
   ,count_heartbeat(0)
   ,shadowIRQEna(0)
   ,count_FIFO_overflow(0)
+  ,busConfiguration(busConfig)
   ,outputs()
   ,prescalers()
   ,pulsers()
@@ -249,48 +260,48 @@ try{
         inputs[i]=new MRMInput(name.str(), base,i);
     }
 
-    for(unsigned int i=0; i<nOFP; i++){
+    for(size_t i=0; i<nOFP; i++){
         std::ostringstream name;
         name<<id<<":FrontOut"<<i;
         outputs[std::make_pair(OutputFP,i)]=new MRMOutput(name.str(), this, OutputFP, i);
     }
 
-    for(unsigned int i=0; i<nOFPUV; i++){
+    for(size_t i=0; i<nOFPUV; i++){
         std::ostringstream name;
         name<<id<<":FrontUnivOut"<<i;
         outputs[std::make_pair(OutputFPUniv,i)]=new MRMOutput(name.str(), this, OutputFPUniv, i);
     }
 
-    delays.resize(nOFPDly);
-    for(unsigned int i=0; i<nOFPDly; i++){
-        std::ostringstream name;
-        name<<id<<":UnivDlyModule"<<i;
-        delays[i]=new DelayModule(name.str(), this, i);
-    }
-
-    for(unsigned int i=0; i<nORB; i++){
+    for(size_t i=0; i<nORB; i++){
         std::ostringstream name;
         name<<id<<":RearUniv"<<i;
         outputs[std::make_pair(OutputRB,i)]=new MRMOutput(name.str(), this, OutputRB, i);
+    }
+
+    delays.resize(nOFPDly);
+    for(size_t i=0; i<nOFPDly; i++){
+        std::ostringstream name;
+        name<<id<<":UnivDlyModule"<<i;
+        delays[i]=new DelayModule(name.str(), this, i);
     }
 
     prescalers.resize(nPS);
     for(size_t i=0; i<nPS; i++){
         std::ostringstream name;
         name<<id<<":PS"<<i;
-        prescalers[i]=new MRMPreScaler(name.str(), *this, base, i);
+        prescalers[i]=new MRMPreScaler(name.str(), base, i);
     }
 
     pulsers.resize(nPul);
-    for(epicsUInt32 i=0; i<nPul; i++){
+    for(size_t i=0; i<nPul; i++){
         std::ostringstream name;
         name<<id<<":Pul"<<i;
-        pulsers[i]=new MRMPulser(name.str(), i,*this);
+        pulsers[i]=new MRMPulser(name.str(), *this, i);
     }
 
     if(v==formFactor_CPCIFULL) {
         shortcmls.resize(8);
-        for(unsigned int i=4; i<8; i++) {
+        for(size_t i=4; i<8; i++) {
             std::ostringstream name;
             name<<id<<":FrontOut"<<i;
             outputs[std::make_pair(OutputFP,i)]=new MRMOutput(name.str(), this, OutputFP, i);
@@ -307,7 +318,7 @@ try{
         for(size_t i=0; i<nCML; i++){
             std::ostringstream name;
             name<<id<<":CML"<<i;
-            shortcmls[i]=new MRMCML(name.str(), (unsigned char)i,*this,kind,form);
+            shortcmls[i]=new MRMCML(name.str(), i, *this, kind, form);
         }
 
     }else if(nCML){
@@ -403,6 +414,30 @@ EVRMRM::cleanup()
 
 #undef CLEANVEC
     printf("complete\n");
+}
+
+std::string
+EVRMRM::versionSw() const
+{
+    return MRF_VERSION;
+}
+
+
+bus_configuration *
+EVRMRM::getBusConfiguration(){
+    return &busConfiguration;
+}
+
+std::string
+EVRMRM::position() const
+{
+    std::ostringstream position;
+
+    if(busConfiguration.busType == busType_pci) position << busConfiguration.pci.bus << ":" << busConfiguration.pci.device << "." << busConfiguration.pci.function;
+    else if(busConfiguration.busType == busType_vme) position << "Slot #" << busConfiguration.vme.slot;
+    else position << "Unknown position";
+
+    return position.str();
 }
 
 epicsUInt32
@@ -502,14 +537,6 @@ EVRMRM::enable(bool v)
 }
 
 MRMPulser*
-EVRMRM::pulser(epicsUInt32 i)
-{
-    if(i>=pulsers.size())
-        throw std::out_of_range("Pulser id is out of range");
-    return pulsers[i];
-}
-
-const MRMPulser*
 EVRMRM::pulser(epicsUInt32 i) const
 {
     if(i>=pulsers.size())
@@ -518,16 +545,6 @@ EVRMRM::pulser(epicsUInt32 i) const
 }
 
 MRMOutput*
-EVRMRM::output(OutputType otype,epicsUInt32 idx)
-{
-    outputs_t::iterator it=outputs.find(std::make_pair(otype,idx));
-    if(it==outputs.end())
-        return 0;
-    else
-        return it->second;
-}
-
-const MRMOutput*
 EVRMRM::output(OutputType otype,epicsUInt32 idx) const
 {
     outputs_t::const_iterator it=outputs.find(std::make_pair(otype,idx));
@@ -545,14 +562,6 @@ EVRMRM::delay(epicsUInt32 i){
 }
 
 MRMInput*
-EVRMRM::input(epicsUInt32 i)
-{
-    if(i>=inputs.size())
-        throw std::out_of_range("Input id is out of range");
-    return inputs[i];
-}
-
-const MRMInput*
 EVRMRM::input(epicsUInt32 i) const
 {
     if(i>=inputs.size())
@@ -561,14 +570,6 @@ EVRMRM::input(epicsUInt32 i) const
 }
 
 MRMPreScaler*
-EVRMRM::prescaler(epicsUInt32 i)
-{
-    if(i>=prescalers.size())
-        throw std::out_of_range("PreScaler id is out of range");
-    return prescalers[i];
-}
-
-const MRMPreScaler*
 EVRMRM::prescaler(epicsUInt32 i) const
 {
     if(i>=prescalers.size())
@@ -577,14 +578,6 @@ EVRMRM::prescaler(epicsUInt32 i) const
 }
 
 MRMCML*
-EVRMRM::cml(epicsUInt32 i)
-{
-    if(i>=shortcmls.size() || !shortcmls[i])
-        throw std::out_of_range("CML Short id is out of range");
-    return shortcmls[i];
-}
-
-const MRMCML*
 EVRMRM::cml(epicsUInt32 i) const
 {
     if(i>=shortcmls.size() || !shortcmls[i])

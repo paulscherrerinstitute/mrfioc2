@@ -86,7 +86,7 @@ public:
 };
 
 class EVRMRM;
-
+typedef void (*eventCallback)(void* userarg, epicsUInt32 event);
 struct eventCode {
     epicsUInt8 code; // constant
     EVRMRM* owner;
@@ -260,7 +260,7 @@ public:
      *@return false if the counter value is not valid
      */
     bool getTicks(epicsUInt32 *tks);
-    typedef void (*eventCallback)(void* userarg, epicsUInt32 event);
+
     IOSCANPVT eventOccurred(epicsUInt32 event) const;
     void eventNotifyAdd(epicsUInt32, eventCallback, void*);
     void eventNotifyDel(epicsUInt32, eventCallback, void*);
