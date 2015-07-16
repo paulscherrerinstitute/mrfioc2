@@ -9,17 +9,20 @@
  */
 
 
-#include "mrf/databuf.h"
-//#include <epicsMMIO.h>
 #include <mrfCommonIO.h>
 #include "evrRegMap.h"
 
 #include <stdexcept>
-#include <evr/prescaler.h>
-
-#include <epicsExport.h>
 #include "drvemPrescaler.h"
 
+
+MRMPreScaler::MRMPreScaler(const std::string& n, volatile epicsUInt8 * b, size_t i)
+    :mrf::ObjectInst<MRMPreScaler>(n)
+    ,base(b)
+    ,id(i)
+{
+
+}
 
 epicsUInt32
 MRMPreScaler::prescaler() const

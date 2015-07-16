@@ -25,8 +25,8 @@
 
 #include "drvemPulser.h"
 
-MRMPulser::MRMPulser(const std::string& n, epicsUInt32 i, EVRMRM& o)
-  :Pulser(n)
+MRMPulser::MRMPulser(const std::string& n, EVRMRM& o, size_t i)
+  :mrf::ObjectInst<MRMPulser>(n)
   ,id(i)
   ,owner(o)
 {

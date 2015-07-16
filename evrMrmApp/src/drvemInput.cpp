@@ -18,7 +18,7 @@
 #include "drvemInput.h"
 
 MRMInput::MRMInput(const std::string& n, volatile unsigned char *b, size_t i)
-  :Input(n)
+  :mrf::ObjectInst<MRMInput>(n)
   ,base(b)
   ,idx(i)
 {

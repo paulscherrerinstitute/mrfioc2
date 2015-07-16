@@ -20,8 +20,8 @@
 #include <stdexcept>
 #include "drvemOutput.h"
 
-MRMOutput::MRMOutput(const std::string& n, EVRMRM* o, OutputType t, unsigned int idx)
-    :Output(n)
+MRMOutput::MRMOutput(const std::string& n, EVRMRM* o, OutputType t, size_t idx)
+    :mrf::ObjectInst<MRMOutput>(n)
     ,owner(o)
     ,type(t)
     ,N(idx)

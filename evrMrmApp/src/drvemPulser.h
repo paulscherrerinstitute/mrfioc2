@@ -12,50 +12,114 @@
 #define EVRMRMPULSER_H_INC
 
 #include <epicsMutex.h>
+#include "mrf/object.h"
+#include <epicsTypes.h>
+#include <string>
 
-#include <evr/pulser.h>
+#include "support/util.h"
+
 
 class EVRMRM;
 
-class MRMPulser : public Pulser
+struct MapType {
+  enum type {
+    None=0,
+    Trigger,
+    Reset,
+    Set
+  };
+};
+
+/**@brief A programmable delay unit.
+ *
+ * A Pulser has two modes of operation: Triggered,
+ * and gated.  In triggered mode an event starts a count
+ * down (delay) to the start of the pulse.  A second
+ * counter (width) then runs until the end of the pulse.
+ * Gated mode has two event codes.  One is sets the output
+ * high and the second resets the output low.
+ */
+class MRMPulser : public mrf::ObjectInst<MRMPulser>, public IOStatus
 {
     const epicsUInt32 id;
     EVRMRM& owner;
 
 public:
-    MRMPulser(const std::string& n, epicsUInt32,EVRMRM&);
-    virtual ~MRMPulser(){};
+    MRMPulser(const std::string& n, EVRMRM& o, size_t i);
+    ~MRMPulser(){};
 
-    virtual void lock() const;
-    virtual void unlock() const;
+    void lock() const;
+    void unlock() const;
 
-    virtual bool enabled() const;
-    virtual void enable(bool);
+    /**\defgroup ena Enable/disable pulser output.
+     */
+    /*@{*/
+    bool enabled() const;
+    void enable(bool);
+    /*@}*/
 
-    virtual void setDelayRaw(epicsUInt32);
-    virtual void setDelay(double);
-    virtual epicsUInt32 delayRaw() const;
-    virtual double delay() const;
+    /**\defgroup dly Set triggered mode delay length.
+     *
+     * Units of event clock period.
+     */
+    /*@{*/
+    void setDelayRaw(epicsUInt32);
+    void setDelay(double);
+    epicsUInt32 delayRaw() const;
+    double delay() const;
+    /*@}*/
 
-    virtual void setWidthRaw(epicsUInt32);
-    virtual void setWidth(double);
-    virtual epicsUInt32 widthRaw() const;
-    virtual double width() const;
+    /**\defgroup wth Set triggered mode width
+     *
+     * Units of event clock period.
+     */
+    /*@{*/
+    void setWidthRaw(epicsUInt32);
+    void setWidth(double);
+    epicsUInt32 widthRaw() const;
+    double width() const;
+    /*@}*/
 
-    virtual epicsUInt32 prescaler() const;
-    virtual void setPrescaler(epicsUInt32);
+    /**\defgroup scaler Set triggered mode prescaler
+     */
+    /*@{*/
+    epicsUInt32 prescaler() const;
+    void setPrescaler(epicsUInt32);
+    /*@}*/
 
-    virtual bool polarityInvert() const;
-    virtual void setPolarityInvert(bool);
+    /**\defgroup pol Set output polarity
+     *
+     * Selects normal or inverted.
+     */
+    /*@{*/
+    bool polarityInvert() const;
+    void setPolarityInvert(bool);
+    /*@}*/
 
-    virtual MapType::type mappedSource(epicsUInt32 src) const;
-    virtual void sourceSetMap(epicsUInt32 src,MapType::type action);
+    /**\defgroup map Control which source(s) effect this pulser.
+     *
+     * Meaning of source id number is device specific.
+     *
+     * Note: this is one place where Device Support will have some depth.
+     */
+    /*@{*/
+     //! What action is source 'src' mapped to?
+    MapType::type mappedSource(epicsUInt32 src) const;
+    //! Set mapping of source 'src'.
+    void sourceSetMap(epicsUInt32 src,MapType::type action);
+    /*@}*/
 
-    virtual epicsUInt16 gateMask() const;
-    virtual void setGateMask(epicsUInt16 mask);
+    /**\defgroup gate Pulse generator gates.
+     *
+     * Settings for mask and enable gates
+     */
+    /*@{*/
+    epicsUInt16 gateMask() const;
+    void setGateMask(epicsUInt16 mask);
 
-    virtual epicsUInt16 gateEnable() const;
-    virtual void setGateEnable(epicsUInt16 mask);
+    epicsUInt16 gateEnable() const;
+    void setGateEnable(epicsUInt16 mask);
+    /*@}*/
 
 private:
     // bit map of which event #'s are mapped

@@ -1,5 +1,3 @@
-
-
 #include "drvem.h"
 #include "delayModule.h"
 
@@ -9,8 +7,8 @@
 #define OUTPUT_DISABLE_BIT(idx)         (1 << (3+4*idx))
 
 
-DelayModule::DelayModule(const std::string& n, EVRMRM* o, unsigned int idx)
-    : DelayModuleEvr(n)
+DelayModule::DelayModule(const std::string& n, EVRMRM* o, size_t idx)
+    :mrf::ObjectInst<DelayModule>(n)
     ,N_(idx)
     ,gpio_(o->gpio())
 {

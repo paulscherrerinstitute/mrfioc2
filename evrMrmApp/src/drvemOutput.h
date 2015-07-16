@@ -11,10 +11,20 @@
 #ifndef EVRMRMOUTPUT_H_INC
 #define EVRMRMOUTPUT_H_INC
 
-#include "evr/output.h"
-#include "evr/evr.h"
+#include "mrf/object.h"
+#include <epicsTypes.h>
+
+#include "support/util.h"
 
 class EVRMRM;
+
+enum OutputType {
+  OutputInt=0, //!< Internal
+  OutputFP=1,  //!< Front Panel
+  OutputFPUniv=2, //!< FP Universal
+  OutputRB=3 //!< Rear Breakout
+};
+
 
 /**
  * Controls only the single output mapping register
@@ -23,26 +33,37 @@ class EVRMRM;
  * This class is reused by other subunits which
  * have identical mapping registers.
  */
-class MRMOutput : public Output
+class MRMOutput : public mrf::ObjectInst<MRMOutput>, public IOStatus
 {
 public:
-  MRMOutput(const std::string& n, EVRMRM* owner, OutputType t, unsigned int idx);
-  virtual ~MRMOutput();
+  MRMOutput(const std::string& n, EVRMRM* owner, OutputType t, size_t idx);
+  ~MRMOutput();
 
-  virtual void lock() const;
-  virtual void unlock() const;
+  void lock() const;
+  void unlock() const;
 
-  virtual epicsUInt32 source() const;
-  virtual void setSource(epicsUInt32);
+  /**\defgroup src Control which source(s) effect this output.
+   *
+   * Meaning of source id number is device specific.
+   *
+   * When enabled()==true then the user mapping provided to setSource()
+   * is used.  When enabled()==false then a device specific special mapping
+   * is used (eg. Force Low).
+   *
+   * Note: this is one place where Device Support will have some depth.
+   */
+  /*@{*/
+  epicsUInt32 source() const;
+  void setSource(epicsUInt32);
 
-  virtual epicsUInt32 source2() const;
-  virtual void setSource2(epicsUInt32);
+  epicsUInt32 source2() const;
+  void setSource2(epicsUInt32);
 
+  bool enabled() const;
+  void enable(bool);
+  /*@}*/
 
-  virtual bool enabled() const;
-  virtual void enable(bool);
-
-  virtual const char*sourceName(epicsUInt32) const;
+  const char*sourceName(epicsUInt32) const;
 
 private:
   EVRMRM * const owner;
@@ -54,7 +75,7 @@ private:
 
   virtual epicsUInt32 sourceInternal() const;
   virtual epicsUInt32 sourceInternal2() const;
-  virtual void setSourceInternal(epicsUInt32, epicsUInt32 v1);
+  virtual void setSourceInternal(epicsUInt32 v, epicsUInt32 v1);
 };
 
 

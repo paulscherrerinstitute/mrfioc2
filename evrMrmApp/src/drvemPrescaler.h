@@ -11,27 +11,30 @@
 #ifndef MRMEVRPRESCALER_H_INC
 #define MRMEVRPRESCALER_H_INC
 
-#include <evr/prescaler.h>
+#include "mrf/object.h"
+#include <epicsTypes.h>
 
-class epicsShareClass MRMPreScaler : public PreScaler
+#include "support/util.h"
+
+class epicsShareClass MRMPreScaler : public mrf::ObjectInst<MRMPreScaler>, public IOStatus
 {
-    volatile unsigned char* base;
-    epicsUInt32 id;
-
 public:
-    MRMPreScaler(const std::string& n, EVR& o,volatile unsigned char* b, epicsUInt32 i):
-            PreScaler(n,o),base(b), id(i) {};
-    virtual ~MRMPreScaler(){};
+    MRMPreScaler(const std::string& n, volatile epicsUInt8 * b, size_t i);
+    ~MRMPreScaler(){};
 
     /* no locking needed */
-    virtual void lock() const{};
-    virtual void unlock() const{};
+    void lock() const{};
+    void unlock() const{};
 
-    virtual epicsUInt32 prescaler() const;
-    virtual void setPrescaler(epicsUInt32);
+    epicsUInt32 prescaler() const;
+    void setPrescaler(epicsUInt32);
 
-    virtual epicsUInt32 pulserMapping() const;
-    virtual void setPulserMapping(epicsUInt32 pulsers);
+    epicsUInt32 pulserMapping() const;
+    void setPulserMapping(epicsUInt32 pulsers);
+
+private:
+    volatile epicsUInt8* const base;
+    epicsUInt32 id;
 };
 
 #endif // MRMEVRPRESCALER_H_INC

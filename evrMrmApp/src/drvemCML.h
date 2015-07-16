@@ -11,69 +11,108 @@
 #ifndef EVRMRMCMLSHORT_HPP_INC
 #define EVRMRMCMLSHORT_HPP_INC
 
-#include "evr/cml.h"
+#include "mrf/object.h"
+#include <epicsTypes.h>
+
+#include "support/util.h"
 
 #include "evrRegMap.h"
 #include "configurationInfo.h"
 
 class EVRMRM;
 
-class MRMCML : public CML
+enum cmlMode {
+  cmlModeOrig,
+  cmlModeFreq,
+  cmlModePattern,
+  cmlModeInvalid
+};
+
+class MRMCML : public mrf::ObjectInst<MRMCML>, public IOStatus
 {
 public:
     enum outkind { typeCML, typeTG300, typeTG203 };
+    enum pattern {
+      patternWaveform,
+      patternRise,
+      patternHigh,
+      patternFall,
+      patternLow
+    };
 
-    MRMCML(const std::string&, unsigned char, EVRMRM&, outkind, formFactor);
-    virtual ~MRMCML();
+    MRMCML(const std::string&, size_t, EVRMRM&, outkind, formFactor);
+    ~MRMCML();
 
-    virtual void lock() const;
-    virtual void unlock() const;
+    void lock() const;
+    void unlock() const;
 
-    virtual cmlMode mode() const;
-    virtual void setMode(cmlMode);
+    cmlMode mode() const;
+    void setMode(cmlMode);
 
-    virtual bool enabled() const;
-    virtual void enable(bool);
+    bool enabled() const;
+    void enable(bool);
 
-    virtual bool inReset() const;
-    virtual void reset(bool);
+    bool inReset() const;
+    void reset(bool);
 
-    virtual bool powered() const;
-    virtual void power(bool);
+    bool powered() const;
+    void power(bool);
 
-    virtual epicsUInt32 freqMultiple() const{return mult;}
+    //! Speed of CML clock as a multiple of the event clock
+    epicsUInt32 freqMultiple() const{return mult;}
 
-    virtual double fineDelay() const;
-    virtual void setFineDelay(double);
+    //! delay by fraction of one event clock period.  Units of sec
+    double fineDelay() const;
+    void setFineDelay(double);
 
     // For Frequency mode
 
     //! Trigger level
-    virtual bool polarityInvert() const;
-    virtual void setPolarityInvert(bool);
+    bool polarityInvert() const;
+    void setPolarityInvert(bool);
 
-    virtual epicsUInt32 countHigh() const;
-    virtual epicsUInt32 countLow () const;
-    virtual epicsUInt32 countInit () const;
-    virtual void setCountHigh(epicsUInt32);
-    virtual void setCountLow (epicsUInt32);
-    virtual void setCountInit (epicsUInt32);
-    virtual double timeHigh() const;
-    virtual double timeLow () const;
-    virtual double timeInit () const;
-    virtual void setTimeHigh(double);
-    virtual void setTimeLow (double);
-    virtual void setTimeInit (double);
+    epicsUInt32 countHigh() const;
+    epicsUInt32 countLow () const;
+    epicsUInt32 countInit () const;
+    void setCountHigh(epicsUInt32);
+    void setCountLow (epicsUInt32);
+    void setCountInit (epicsUInt32);
+    double timeHigh() const;
+    double timeLow () const;
+    double timeInit () const;
+    void setTimeHigh(double);
+    void setTimeLow (double);
+    void setTimeInit (double);
 
     // For Pattern mode
 
-    virtual bool recyclePat() const;
-    virtual void setRecyclePat(bool);
+    bool recyclePat() const;
+    void setRecyclePat(bool);
 
-    virtual epicsUInt32 lenPattern(pattern) const;
-    virtual epicsUInt32 lenPatternMax(pattern) const;
-    virtual epicsUInt32 getPattern(pattern, unsigned char*, epicsUInt32) const;
-    virtual void setPattern(pattern, const unsigned char*, epicsUInt32);
+    // waveform and 4x pattern modes
+
+    epicsUInt32 lenPattern(pattern) const;
+    epicsUInt32 lenPatternMax(pattern) const;
+    epicsUInt32 getPattern(pattern, unsigned char*, epicsUInt32) const;
+    void setPattern(pattern, const unsigned char*, epicsUInt32);
+
+    // Helpers
+
+    template<pattern P>
+    epicsUInt32 lenPattern() const{return lenPattern(P);}
+    template<pattern P>
+    epicsUInt32 lenPatternMax() const{return lenPatternMax(P);}
+
+    template<pattern P>
+    epicsUInt32
+    getPattern(unsigned char* b, epicsUInt32 l) const{return this->getPattern(P,b,l);};
+
+    template<pattern P>
+    void
+    setPattern(const unsigned char* b, epicsUInt32 l){this->setPattern(P,b,l);};
+
+    void setModRaw(epicsUInt16 r){setMode((cmlMode)r);};
+    epicsUInt16 modeRaw() const{return (epicsUInt16)mode();};
 
 private:
 

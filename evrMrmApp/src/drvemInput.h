@@ -12,7 +12,18 @@
 #define EVRMRMINPUT_H_INC
 
 #include <cstdlib>
-#include "evr/input.h"
+#include "mrf/object.h"
+#include <epicsTypes.h>
+
+#include "support/util.h"
+
+
+enum TrigMode {
+  TrigNone=0,
+  TrigLevel=1,
+  TrigEdge=2
+};
+
 
 /**
  * Controls only the single output mapping register
@@ -21,39 +32,56 @@
  * This class is reused by other subunits which
  * have identical mapping registers.
  */
-class MRMInput : public Input
+class MRMInput : public mrf::ObjectInst<MRMInput>, public IOStatus
 {
 public:
-    MRMInput(const std::string& n, volatile unsigned char *, size_t);
+    MRMInput(const std::string& n, volatile epicsUInt8 *, size_t);
     virtual ~MRMInput(){};
 
     /* no locking needed */
-    virtual void lock() const{};
-    virtual void unlock() const{};
+    void lock() const{};
+    void unlock() const{};
 
-    virtual void dbusSet(epicsUInt16);
-    virtual epicsUInt16 dbus() const;
+    //! Set mask of dbus bits are driven by this input
+    void dbusSet(epicsUInt16);
+    epicsUInt16 dbus() const;
 
-    virtual void levelHighSet(bool);
-    virtual bool levelHigh() const;
+    //! Set active high/low when using level trigger mode
+    void levelHighSet(bool);
+    bool levelHigh() const;
 
-    virtual void edgeRiseSet(bool);
-    virtual bool edgeRise() const;
+    //! Set active rise/fall when using edge trigger mode
+    void edgeRiseSet(bool);
+    bool edgeRise() const;
 
-    virtual void extModeSet(TrigMode);
-    virtual TrigMode extMode() const;
+    //! Set external (local) event trigger mode
+    void extModeSet(TrigMode);
+    TrigMode extMode() const;
 
-    virtual void extEvtSet(epicsUInt32);
-    virtual epicsUInt32 extEvt() const;
+    //! Set the event code sent by an externel (local) event
+    void extEvtSet(epicsUInt32);
+    epicsUInt32 extEvt() const;
 
-    virtual void backModeSet(TrigMode);
-    virtual TrigMode backMode() const;
+    //! Set the backwards event trigger mode
+    void backModeSet(TrigMode);
+    TrigMode backMode() const;
 
-    virtual void backEvtSet(epicsUInt32);
-    virtual epicsUInt32 backEvt() const;
+    //! Set the event code sent by an a backwards event
+    void backEvtSet(epicsUInt32);
+    epicsUInt32 backEvt() const;
+
+    /**\ingroup device support helpers
+     */
+    /*@{*/
+    void extModeSetraw(epicsUInt16 r){extModeSet((TrigMode)r);};
+    epicsUInt16 extModeraw() const{return (TrigMode)extMode();};
+
+    void backModeSetraw(epicsUInt16 r){backModeSet((TrigMode)r);};
+    epicsUInt16 backModeraw() const{return (TrigMode)backMode();};
+    /*@}*/
 
 private:
-    volatile unsigned char * const base;
+    volatile epicsUInt8 * const base;
     const size_t idx;
 };
 
