@@ -8,259 +8,186 @@
  * Author: Michael Davidsaver <mdavidsaver@bnl.gov>
  */
 
-#include "mrf/version.h"
+#include "drvem.h"
+#include "drvemInput.h"
+#include "drvemOutput.h"
+#include "drvemPulser.h"
+#include "drvemPrescaler.h"
+#include "drvemCML.h"
+#include "delayModule.h"
 
-#include "dbCommon.h"
-#include <epicsExport.h>
 
-#include "evr/evr.h"
-#include "evr/pulser.h"
-#include "evr/output.h"
-#include "evr/delay.h"
-#include "evr/input.h"
-#include "evr/prescaler.h"
-#include "evr/cml.h"
-#include "evr/util.h"
 
-/**@file evr.cpp
- *
- * Contains implimentations of the pure virtual
- * destructors of the interfaces for C++ reasons.
- * These must be present event though they are never
- * called.  If they are absent that linking will
- * fail in some cases.
- */
+OBJECT_BEGIN(EVRMRM) {
 
-EVR::~EVR()
-{
-}
+    OBJECT_PROP1("Model", &EVRMRM::model);
 
-std::string EVR::versionSw() const
-{
-    return MRF_VERSION;
-}
+    OBJECT_PROP1("Version", &EVRMRM::version);
+    OBJECT_PROP1("Sw Version", &EVRMRM::versionSw);
 
+    OBJECT_PROP1("Position", &EVRMRM::position);
 
-bus_configuration *EVR::getBusConfiguration(){
-    return &busConfiguration;
-}
+    OBJECT_PROP1("Event Clock TS Div", &EVRMRM::uSecDiv);
 
-std::string EVR::position() const
-{
-    std::ostringstream position;
+    OBJECT_PROP1("Receive Error Count", &EVRMRM::recvErrorCount);
+    OBJECT_PROP1("Receive Error Count", &EVRMRM::linkChanged);
 
-    if(busConfiguration.busType == busType_pci) position << busConfiguration.pci.bus << ":" << busConfiguration.pci.device << "." << busConfiguration.pci.function;
-    else if(busConfiguration.busType == busType_vme) position << "Slot #" << busConfiguration.vme.slot;
-    else position << "Unknown position";
+    OBJECT_PROP1("FIFO Overflow Count", &EVRMRM::FIFOFullCount);
 
-    return position.str();
-}
+    OBJECT_PROP1("FIFO Over rate", &EVRMRM::FIFOOverRate);
+    OBJECT_PROP1("FIFO Event Count", &EVRMRM::FIFOEvtCount);
+    OBJECT_PROP1("FIFO Loop Count", &EVRMRM::FIFOLoopCount);
 
-Pulser::~Pulser()
-{
-}
+    OBJECT_PROP1("HB Timeout Count", &EVRMRM::heartbeatTIMOCount);
+    OBJECT_PROP1("HB Timeout Count", &EVRMRM::heartbeatTIMOOccured);
 
-Output::~Output()
-{
-}
+    OBJECT_PROP1("Timestamp Prescaler", &EVRMRM::tsDiv);
 
-Input::~Input()
-{
-}
+    OBJECT_PROP2("Timestamp Source", &EVRMRM::SourceTSraw, &EVRMRM::setSourceTSraw);
 
-PreScaler::~PreScaler()
-{
-}
+    OBJECT_PROP2("Clock", &EVRMRM::clock, &EVRMRM::clockSet);
 
-CML::~CML()
-{
-}
+    OBJECT_PROP2("Timestamp Clock", &EVRMRM::clockTS, &EVRMRM::clockTSSet);
 
-DelayModuleEvr::~DelayModuleEvr()
-{
-}
+    OBJECT_PROP2("Enable", &EVRMRM::enabled, &EVRMRM::enable);
 
-long get_ioint_info_statusChange(int dir,dbCommon* prec,IOSCANPVT* io)
-{
-    IOStatus* stat=static_cast<IOStatus*>(prec->dpvt);
+    OBJECT_PROP2("External Inhibit", &EVRMRM::extInhib, &EVRMRM::setExtInhib);
 
-    if(!stat) return 1;
+    OBJECT_PROP2("dc enabled", &EVRMRM::isDelayCompensationEnabled, &EVRMRM::setDelayCompensationEnabled);
+    OBJECT_PROP2("dc tv", &EVRMRM::delayCompensationTarget, &EVRMRM::setDelayCompensationTarget);
+    OBJECT_PROP1("dc tpd", &EVRMRM::delayCompensationRxValue);
+    OBJECT_PROP1("dc id", &EVRMRM::delayCompensationIntValue);
+    OBJECT_PROP1("dc s", &EVRMRM::delayCompensationStatus);
 
-    *io=stat->statusChange((dir != 0));
+    OBJECT_PROP1("PLL Lock Status", &EVRMRM::pllLocked);
+    OBJECT_PROP2("PLL Bandwidth", &EVRMRM::pllBandwidthRaw, &EVRMRM::setPllBandwidthRaw);
 
-    return 0;
-}
+    OBJECT_PROP1("Interrupt Count", &EVRMRM::irqCount);
 
-OBJECT_BEGIN(EVR) {
+    OBJECT_PROP1("Link Status", &EVRMRM::linkStatus);
+    OBJECT_PROP1("Link Status", &EVRMRM::linkChanged);
 
-    OBJECT_PROP1("Model", &EVR::model);
+    OBJECT_PROP1("Timestamp Valid", &EVRMRM::TimeStampValid);
+    OBJECT_PROP1("Timestamp Valid", &EVRMRM::TimeStampValidEvent);
 
-    OBJECT_PROP1("Version", &EVR::version);
-    OBJECT_PROP1("Sw Version", &EVR::versionSw);
+    OBJECT_PROP1("DBus status", &EVRMRM::dbus);
+    OBJECT_PROP2("DBus Pulser Map 0", &EVRMRM::dbusToPulserMapping0, &EVRMRM::setDbusToPulserMapping0);
+    OBJECT_PROP2("DBus Pulser Map 1", &EVRMRM::dbusToPulserMapping1, &EVRMRM::setDbusToPulserMapping1);
+    OBJECT_PROP2("DBus Pulser Map 2", &EVRMRM::dbusToPulserMapping2, &EVRMRM::setDbusToPulserMapping2);
+    OBJECT_PROP2("DBus Pulser Map 3", &EVRMRM::dbusToPulserMapping3, &EVRMRM::setDbusToPulserMapping3);
+    OBJECT_PROP2("DBus Pulser Map 4", &EVRMRM::dbusToPulserMapping4, &EVRMRM::setDbusToPulserMapping4);
+    OBJECT_PROP2("DBus Pulser Map 5", &EVRMRM::dbusToPulserMapping5, &EVRMRM::setDbusToPulserMapping5);
+    OBJECT_PROP2("DBus Pulser Map 6", &EVRMRM::dbusToPulserMapping6, &EVRMRM::setDbusToPulserMapping6);
+    OBJECT_PROP2("DBus Pulser Map 7", &EVRMRM::dbusToPulserMapping7, &EVRMRM::setDbusToPulserMapping7);
 
-    OBJECT_PROP1("Position", &EVR::position);
+} OBJECT_END(EVRMRM)
 
-    OBJECT_PROP1("Event Clock TS Div", &EVR::uSecDiv);
 
-    OBJECT_PROP1("Receive Error Count", &EVR::recvErrorCount);
-    OBJECT_PROP1("Receive Error Count", &EVR::linkChanged);
+OBJECT_BEGIN(MRMInput) {
 
-    OBJECT_PROP1("FIFO Overflow Count", &EVR::FIFOFullCount);
+    OBJECT_PROP2("Active Level", &MRMInput::levelHigh, &MRMInput::levelHighSet);
 
-    OBJECT_PROP1("FIFO Over rate", &EVR::FIFOOverRate);
-    OBJECT_PROP1("FIFO Event Count", &EVR::FIFOEvtCount);
-    OBJECT_PROP1("FIFO Loop Count", &EVR::FIFOLoopCount);
+    OBJECT_PROP2("Active Edge", &MRMInput::edgeRise, &MRMInput::edgeRiseSet);
 
-    OBJECT_PROP1("HB Timeout Count", &EVR::heartbeatTIMOCount);
-    OBJECT_PROP1("HB Timeout Count", &EVR::heartbeatTIMOOccured);
+    OBJECT_PROP2("External Code", &MRMInput::extEvt, &MRMInput::extEvtSet);
 
-    OBJECT_PROP1("Timestamp Prescaler", &EVR::tsDiv);
+    OBJECT_PROP2("Backwards Code", &MRMInput::backEvt, &MRMInput::backEvtSet);
 
-    OBJECT_PROP2("Timestamp Source", &EVR::SourceTSraw, &EVR::setSourceTSraw);
+    OBJECT_PROP2("External Mode", &MRMInput::extModeraw, &MRMInput::extModeSetraw);
 
-    OBJECT_PROP2("Clock", &EVR::clock, &EVR::clockSet);
+    OBJECT_PROP2("Backwards Mode", &MRMInput::backModeraw, &MRMInput::backModeSetraw);
 
-    OBJECT_PROP2("Timestamp Clock", &EVR::clockTS, &EVR::clockTSSet);
+    OBJECT_PROP2("DBus Mask", &MRMInput::dbus, &MRMInput::dbusSet);
 
-    OBJECT_PROP2("Enable", &EVR::enabled, &EVR::enable);
+} OBJECT_END(MRMInput)
 
-    OBJECT_PROP2("External Inhibit", &EVR::extInhib, &EVR::setExtInhib);
 
-    OBJECT_PROP2("dc enabled", &EVR::isDelayCompensationEnabled, &EVR::setDelayCompensationEnabled);
-    OBJECT_PROP2("dc tv", &EVR::delayCompensationTarget, &EVR::setDelayCompensationTarget);
-    OBJECT_PROP1("dc tpd", &EVR::delayCompensationRxValue);
-    OBJECT_PROP1("dc id", &EVR::delayCompensationIntValue);
-    OBJECT_PROP1("dc s", &EVR::delayCompensationStatus);
+OBJECT_BEGIN(MRMOutput) {
 
-    OBJECT_PROP1("PLL Lock Status", &EVR::pllLocked);
-    OBJECT_PROP2("PLL Bandwidth", &EVR::pllBandwidthRaw, &EVR::setPllBandwidthRaw);
+    OBJECT_PROP2("Map", &MRMOutput::source, &MRMOutput::setSource);
+    OBJECT_PROP2("MapAlt", &MRMOutput::source2, &MRMOutput::setSource2);
 
-    OBJECT_PROP1("Interrupt Count", &EVR::irqCount);
+    OBJECT_PROP2("Enable", &MRMOutput::enabled, &MRMOutput::enable);
 
-    OBJECT_PROP1("Link Status", &EVR::linkStatus);
-    OBJECT_PROP1("Link Status", &EVR::linkChanged);
+} OBJECT_END(MRMOutput)
 
-    OBJECT_PROP1("Timestamp Valid", &EVR::TimeStampValid);
-    OBJECT_PROP1("Timestamp Valid", &EVR::TimeStampValidEvent);
 
-    OBJECT_PROP1("DBus status", &EVR::dbus);
-    OBJECT_PROP2("DBus Pulser Map 0", &EVR::dbusToPulserMapping0, &EVR::setDbusToPulserMapping0);
-    OBJECT_PROP2("DBus Pulser Map 1", &EVR::dbusToPulserMapping1, &EVR::setDbusToPulserMapping1);
-    OBJECT_PROP2("DBus Pulser Map 2", &EVR::dbusToPulserMapping2, &EVR::setDbusToPulserMapping2);
-    OBJECT_PROP2("DBus Pulser Map 3", &EVR::dbusToPulserMapping3, &EVR::setDbusToPulserMapping3);
-    OBJECT_PROP2("DBus Pulser Map 4", &EVR::dbusToPulserMapping4, &EVR::setDbusToPulserMapping4);
-    OBJECT_PROP2("DBus Pulser Map 5", &EVR::dbusToPulserMapping5, &EVR::setDbusToPulserMapping5);
-    OBJECT_PROP2("DBus Pulser Map 6", &EVR::dbusToPulserMapping6, &EVR::setDbusToPulserMapping6);
-    OBJECT_PROP2("DBus Pulser Map 7", &EVR::dbusToPulserMapping7, &EVR::setDbusToPulserMapping7);
+OBJECT_BEGIN(MRMPulser) {
 
-} OBJECT_END(EVR)
+    OBJECT_PROP2("Delay", &MRMPulser::delay, &MRMPulser::setDelay);
+    OBJECT_PROP2("Delay", &MRMPulser::delayRaw, &MRMPulser::setDelayRaw);
 
+    OBJECT_PROP2("Width", &MRMPulser::width, &MRMPulser::setWidth);
+    OBJECT_PROP2("Width", &MRMPulser::widthRaw, &MRMPulser::setWidthRaw);
 
-OBJECT_BEGIN(Input) {
+    OBJECT_PROP2("Enable", &MRMPulser::enabled, &MRMPulser::enable);
 
-    OBJECT_PROP2("Active Level", &Input::levelHigh, &Input::levelHighSet);
+    OBJECT_PROP2("Polarity", &MRMPulser::polarityInvert, &MRMPulser::setPolarityInvert);
 
-    OBJECT_PROP2("Active Edge", &Input::edgeRise, &Input::edgeRiseSet);
+    OBJECT_PROP2("Prescaler", &MRMPulser::prescaler, &MRMPulser::setPrescaler);
 
-    OBJECT_PROP2("External Code", &Input::extEvt, &Input::extEvtSet);
+    OBJECT_PROP2("Gate mask", &MRMPulser::gateMask, &MRMPulser::setGateMask);
+    OBJECT_PROP2("Gate enable", &MRMPulser::gateEnable, &MRMPulser::setGateEnable);
 
-    OBJECT_PROP2("Backwards Code", &Input::backEvt, &Input::backEvtSet);
+} OBJECT_END(MRMPulser)
 
-    OBJECT_PROP2("External Mode", &Input::extModeraw, &Input::extModeSetraw);
 
-    OBJECT_PROP2("Backwards Mode", &Input::backModeraw, &Input::backModeSetraw);
+OBJECT_BEGIN(MRMPreScaler) {
 
-    OBJECT_PROP2("DBus Mask", &Input::dbus, &Input::dbusSet);
+    OBJECT_PROP2("Divide", &MRMPreScaler::prescaler, &MRMPreScaler::setPrescaler);
+    OBJECT_PROP2("Pulser mapping", &MRMPreScaler::pulserMapping, &MRMPreScaler::setPulserMapping);
 
-} OBJECT_END(Input)
+} OBJECT_END(MRMPreScaler)
 
 
-OBJECT_BEGIN(Output) {
+OBJECT_BEGIN(MRMCML) {
 
-    OBJECT_PROP2("Map", &Output::source, &Output::setSource);
-    OBJECT_PROP2("MapAlt", &Output::source2, &Output::setSource2);
+    OBJECT_PROP2("Enable", &MRMCML::enabled, &MRMCML::enable);
 
-    OBJECT_PROP2("Enable", &Output::enabled, &Output::enable);
+    OBJECT_PROP2("Reset", &MRMCML::inReset, &MRMCML::reset);
 
-} OBJECT_END(Output)
+    OBJECT_PROP2("Power", &MRMCML::powered, &MRMCML::power);
 
+    OBJECT_PROP2("Freq Trig Lvl", &MRMCML::polarityInvert, &MRMCML::setPolarityInvert);
 
-OBJECT_BEGIN(Pulser) {
+    OBJECT_PROP2("Pat Recycle", &MRMCML::recyclePat, &MRMCML::setRecyclePat);
 
-    OBJECT_PROP2("Delay", &Pulser::delay, &Pulser::setDelay);
-    OBJECT_PROP2("Delay", &Pulser::delayRaw, &Pulser::setDelayRaw);
+    OBJECT_PROP2("Counts High", &MRMCML::timeHigh, &MRMCML::setTimeHigh);
+    OBJECT_PROP2("Counts High", &MRMCML::countHigh, &MRMCML::setCountHigh);
 
-    OBJECT_PROP2("Width", &Pulser::width, &Pulser::setWidth);
-    OBJECT_PROP2("Width", &Pulser::widthRaw, &Pulser::setWidthRaw);
+    OBJECT_PROP2("Counts Low", &MRMCML::timeLow, &MRMCML::setTimeLow);
+    OBJECT_PROP2("Counts Low", &MRMCML::countLow, &MRMCML::setCountLow);
 
-    OBJECT_PROP2("Enable", &Pulser::enabled, &Pulser::enable);
+    OBJECT_PROP2("Counts Init", &MRMCML::timeInit, &MRMCML::setTimeInit);
+    OBJECT_PROP2("Counts Init", &MRMCML::countInit, &MRMCML::setCountInit);
 
-    OBJECT_PROP2("Polarity", &Pulser::polarityInvert, &Pulser::setPolarityInvert);
+    OBJECT_PROP2("Fine Delay", &MRMCML::fineDelay, &MRMCML::setFineDelay);
 
-    OBJECT_PROP2("Prescaler", &Pulser::prescaler, &Pulser::setPrescaler);
+    OBJECT_PROP1("Freq Mult", &MRMCML::freqMultiple);
 
-    OBJECT_PROP2("Gate mask", &Pulser::gateMask, &Pulser::setGateMask);
-    OBJECT_PROP2("Gate enable", &Pulser::gateEnable, &Pulser::setGateEnable);
+    OBJECT_PROP2("Mode", &MRMCML::modeRaw, &MRMCML::setModRaw);
 
-} OBJECT_END(Pulser)
+    OBJECT_PROP2("Waveform", &MRMCML::getPattern<MRMCML::patternWaveform>,
+                             &MRMCML::setPattern<MRMCML::patternWaveform>);
 
+    OBJECT_PROP2("Pat Rise", &MRMCML::getPattern<MRMCML::patternRise>,
+                             &MRMCML::setPattern<MRMCML::patternRise>);
 
-OBJECT_BEGIN(PreScaler) {
+    OBJECT_PROP2("Pat High", &MRMCML::getPattern<MRMCML::patternHigh>,
+                             &MRMCML::setPattern<MRMCML::patternHigh>);
 
-    OBJECT_PROP2("Divide", &PreScaler::prescaler, &PreScaler::setPrescaler);
-    OBJECT_PROP2("Pulser mapping", &PreScaler::pulserMapping, &PreScaler::setPulserMapping);
+    OBJECT_PROP2("Pat Fall", &MRMCML::getPattern<MRMCML::patternFall>,
+                             &MRMCML::setPattern<MRMCML::patternFall>);
 
-} OBJECT_END(PreScaler)
+    OBJECT_PROP2("Pat Low", &MRMCML::getPattern<MRMCML::patternLow>,
+                            &MRMCML::setPattern<MRMCML::patternLow>);
 
+} OBJECT_END(MRMCML)
 
-OBJECT_BEGIN(CML) {
+OBJECT_BEGIN(DelayModule) {
 
-    OBJECT_PROP2("Enable", &CML::enabled, &CML::enable);
+    OBJECT_PROP2("Enable", &DelayModule::enabled, &DelayModule::setState);
+    OBJECT_PROP2("Delay0", &DelayModule::getDelay0, &DelayModule::setDelay0);
+    OBJECT_PROP2("Delay1", &DelayModule::getDelay1, &DelayModule::setDelay1);
 
-    OBJECT_PROP2("Reset", &CML::inReset, &CML::reset);
-
-    OBJECT_PROP2("Power", &CML::powered, &CML::power);
-
-    OBJECT_PROP2("Freq Trig Lvl", &CML::polarityInvert, &CML::setPolarityInvert);
-
-    OBJECT_PROP2("Pat Recycle", &CML::recyclePat, &CML::setRecyclePat);
-
-    OBJECT_PROP2("Counts High", &CML::timeHigh, &CML::setTimeHigh);
-    OBJECT_PROP2("Counts High", &CML::countHigh, &CML::setCountHigh);
-
-    OBJECT_PROP2("Counts Low", &CML::timeLow, &CML::setTimeLow);
-    OBJECT_PROP2("Counts Low", &CML::countLow, &CML::setCountLow);
-
-    OBJECT_PROP2("Counts Init", &CML::timeInit, &CML::setTimeInit);
-    OBJECT_PROP2("Counts Init", &CML::countInit, &CML::setCountInit);
-
-    OBJECT_PROP2("Fine Delay", &CML::fineDelay, &CML::setFineDelay);
-
-    OBJECT_PROP1("Freq Mult", &CML::freqMultiple);
-
-    OBJECT_PROP2("Mode", &CML::modeRaw, &CML::setModRaw);
-
-    OBJECT_PROP2("Waveform", &CML::getPattern<CML::patternWaveform>,
-                             &CML::setPattern<CML::patternWaveform>);
-
-    OBJECT_PROP2("Pat Rise", &CML::getPattern<CML::patternRise>,
-                             &CML::setPattern<CML::patternRise>);
-
-    OBJECT_PROP2("Pat High", &CML::getPattern<CML::patternHigh>,
-                             &CML::setPattern<CML::patternHigh>);
-
-    OBJECT_PROP2("Pat Fall", &CML::getPattern<CML::patternFall>,
-                             &CML::setPattern<CML::patternFall>);
-
-    OBJECT_PROP2("Pat Low", &CML::getPattern<CML::patternLow>,
-                            &CML::setPattern<CML::patternLow>);
-
-} OBJECT_END(CML)
-
-OBJECT_BEGIN(DelayModuleEvr) {
-
-	OBJECT_PROP2("Enable", &DelayModuleEvr::enabled, &DelayModuleEvr::setState);
-	OBJECT_PROP2("Delay0", &DelayModuleEvr::getDelay0, &DelayModuleEvr::setDelay0);
-	OBJECT_PROP2("Delay1", &DelayModuleEvr::getDelay1, &DelayModuleEvr::setDelay1);
-
-} OBJECT_END(DelayModuleEvr)
+} OBJECT_END(DelayModule)

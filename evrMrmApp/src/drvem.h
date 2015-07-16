@@ -11,8 +11,6 @@
 #ifndef EVRMRML_H_INC
 #define EVRMRML_H_INC
 
-#include "evr/evr.h"
-
 #include <string>
 #include <vector>
 #include <set>
@@ -43,6 +41,34 @@
 
 #include "mrmremoteflash.h"
 
+
+// ??
+//#include "mrf/object.h"
+//#include <epicsTypes.h>
+
+enum TSSource {
+  TSSourceInternal=0,
+  TSSourceEvent=1,
+  TSSourceDBus4=2
+};
+
+/* PLL Bandwidth Select (see Silicon Labs Si5317 datasheet)
+ *  000 – Si5317, BW setting HM (lowest loop bandwidth)
+ *  001 – Si5317, BW setting HL
+ *  010 – Si5317, BW setting MH
+ *  011 – Si5317, BW setting MM
+ *  100 – Si5317, BW setting ML (highest loop bandwidth)
+ */
+enum PLLBandwidth {
+    PLLBandwidth_HM=0,
+    PLLBandwidth_HL=1,
+    PLLBandwidth_MH=2,
+    PLLBandwidth_MM=3,
+    PLLBandwidth_ML=4,
+    PLLBandwidth_MAX=PLLBandwidth_ML
+};
+
+
 //! @brief Helper to allow one class to have several runable methods
 template<class C,void (C::*Method)()>
 class epicsShareClass epicsThreadRunableMethod : public epicsThreadRunable
@@ -52,8 +78,8 @@ public:
     epicsThreadRunableMethod(C& o)
         :owner(o)
     {}
-    virtual ~epicsThreadRunableMethod(){}
-    virtual void run()
+    ~epicsThreadRunableMethod(){}
+    void run()
     {
         (owner.*Method)();
     }
@@ -61,7 +87,7 @@ public:
 
 class EVRMRM;
 
-struct epicsShareClass eventCode {
+struct eventCode {
     epicsUInt8 code; // constant
     EVRMRM* owner;
 
@@ -75,7 +101,7 @@ struct epicsShareClass eventCode {
 
     IOSCANPVT occured;
 
-    typedef std::list<std::pair<EVR::eventCallback,void*> > notifiees_t;
+    typedef std::list<std::pair<eventCallback,void*> > notifiees_t;
     notifiees_t notifiees;
 
     CALLBACK done;
@@ -87,14 +113,15 @@ struct epicsShareClass eventCode {
     {
         scanIoInit(&occured);
         // done - initialized in EVRMRM::EVRMRM()
-  }
+    }
 };
+
 
 /**@brief Modular Register Map Event Receivers
  *
  * 
  */
-class epicsShareClass EVRMRM : public EVR
+class epicsShareClass EVRMRM : public mrf::ObjectInst<EVRMRM>
 {
 public:    
     /** @brief Guards access to instance
@@ -104,110 +131,155 @@ public:
     mutable epicsMutex evrLock;
 
 
-    EVRMRM(const std::string& n, bus_configuration& busConfig,volatile unsigned char*,epicsUInt32);
+    EVRMRM(const std::string& n, bus_configuration& busConfig, volatile epicsUInt8 *, epicsUInt32);
 
-    virtual ~EVRMRM();
+    ~EVRMRM();
 private:
     void cleanup();
 public:
 
-    virtual void lock() const{evrLock.lock();};
-    virtual void unlock() const{evrLock.unlock();};
+    void lock() const{evrLock.lock();};
+    void unlock() const{evrLock.unlock();};
 
-    virtual epicsUInt32 model() const;
+    //! Hardware model
+    epicsUInt32 model() const;
     epicsUInt32 fpgaFirmware();
     formFactor getFormFactor();
     std::string formFactorStr();
-    virtual epicsUInt32 version() const;
+
+    //! Firmware Version
+    epicsUInt32 version() const;
+
+    //! Software Version -> from version.h
+    std::string versionSw() const;
+
+    //! Position of EVR device in enclosure.
+    std::string position() const;
+    bus_configuration* getBusConfiguration();
 
 
-    virtual bool enabled() const;
-    virtual void enable(bool v);
+    bool enabled() const;
+    void enable(bool v);
 
-    virtual MRMPulser* pulser(epicsUInt32);
-    virtual const MRMPulser* pulser(epicsUInt32) const;
+    MRMPulser* pulser(epicsUInt32) const;
 
-    virtual MRMOutput* output(OutputType,epicsUInt32 o);
-    virtual const MRMOutput* output(OutputType,epicsUInt32 o) const;
+    MRMOutput* output(OutputType,epicsUInt32 o) const;
 
-    virtual DelayModule* delay(epicsUInt32 i);
+    DelayModule* delay(epicsUInt32 i);
 
-    virtual MRMInput* input(epicsUInt32 idx);
-    virtual const MRMInput* input(epicsUInt32) const;
+    MRMInput* input(epicsUInt32) const;
 
-    virtual MRMPreScaler* prescaler(epicsUInt32);
-    virtual const MRMPreScaler* prescaler(epicsUInt32) const;
+    MRMPreScaler* prescaler(epicsUInt32) const;
 
-    virtual MRMCML* cml(epicsUInt32 idx);
-    virtual const MRMCML* cml(epicsUInt32) const;
+    MRMCML* cml(epicsUInt32) const;
 
     MRMGpio* gpio();
 
-    virtual void setDelayCompensationEnabled(bool enabled);
-    virtual bool isDelayCompensationEnabled() const;
-    virtual epicsUInt32 delayCompensationTarget() const;
-    virtual void setDelayCompensationTarget(epicsUInt32 target);
-    virtual epicsUInt32 delayCompensationRxValue() const;
-    virtual epicsUInt32 delayCompensationIntValue() const;
-    virtual epicsUInt32 delayCompensationStatus() const;
+    void setDelayCompensationEnabled(bool enabled);
+    bool isDelayCompensationEnabled() const;
+    epicsUInt32 delayCompensationTarget() const;
+    void setDelayCompensationTarget(epicsUInt32 target);
+    epicsUInt32 delayCompensationRxValue() const;
+    epicsUInt32 delayCompensationIntValue() const;
+    epicsUInt32 delayCompensationStatus() const;
 
-    virtual bool specialMapped(epicsUInt32 code, epicsUInt32 func) const;
-    virtual void specialSetMap(epicsUInt32 code, epicsUInt32 func,bool);
+    /** Hook to handle general event mapping table manipulation.
+     *  Allows 'special' events only (ie heartbeat, log, led, etc)
+     *  Normal mappings (pulsers, outputs) must be made through the
+     *  appropriate class (Pulser, Output).
+     *
+     * Note: this is one place where Device Support will have some depth.
+     */
+    bool specialMapped(epicsUInt32 code, epicsUInt32 func) const;
+    void specialSetMap(epicsUInt32 code, epicsUInt32 func,bool);
 
-    virtual double clock() const
+    /**Set LO frequency
+     *@param clk Clock rate in Hz
+     */
+    double clock() const
         {SCOPED_LOCK(evrLock);return eventClock;}
-    virtual void clockSet(double);
+    void clockSet(double);
 
-    virtual bool pllLocked() const;
-    virtual void setPllBandwidth(PLLBandwidth pllBandwidth);
-    virtual PLLBandwidth pllBandwidth() const;
+    //! Internal PLL Status and bandwidth
+    bool pllLocked() const;
+    void setPllBandwidth(PLLBandwidth pllBandwidth);
+    PLLBandwidth pllBandwidth() const;
 
-    virtual epicsUInt32 irqCount() const{return count_hardware_irq;}
+    epicsUInt32 irqCount() const{return count_hardware_irq;}
 
-    virtual bool linkStatus() const;
-    virtual IOSCANPVT linkChanged() const{return IRQrxError;}
-    virtual epicsUInt32 recvErrorCount() const{return count_recv_error;}
+    bool linkStatus() const;
+    IOSCANPVT linkChanged() const{return IRQrxError;}
+    epicsUInt32 recvErrorCount() const{return count_recv_error;}
 
-    virtual epicsUInt32 uSecDiv() const;
+    //! Approximate divider from event clock period to 1us
+    epicsUInt32 uSecDiv() const;
+    /*@}*/
 
     //! Using external hardware input for inhibit?
-    virtual bool extInhib() const;
-    virtual void setExtInhib(bool);
+    bool extInhib() const;
+    void setExtInhib(bool);
 
-    virtual epicsUInt32 tsDiv() const
+    //!When using internal TS source gives the divider from event clock period to TS period
+    epicsUInt32 tsDiv() const
         {SCOPED_LOCK(evrLock);return shadowCounterPS;}
 
-    virtual void setSourceTS(TSSource);
-    virtual TSSource SourceTS() const
+    //!Select source which increments TS counter
+    void setSourceTS(TSSource);
+    TSSource SourceTS() const
         {SCOPED_LOCK(evrLock);return shadowSourceTS;}
-    virtual double clockTS() const;
-    virtual void clockTSSet(double);
-    virtual bool interestedInEvent(epicsUInt32 event,bool set);
 
-    virtual bool TimeStampValid() const;
-    virtual IOSCANPVT TimeStampValidEvent() const{return timestampValidChange;}
+    /**Find current TS settings
+     *@returns Clock rate in Hz
+     */
+    double clockTS() const;
 
-    virtual bool getTimeStamp(epicsTimeStamp *ts,epicsUInt32 event);
-    virtual bool getTicks(epicsUInt32 *tks);
-    virtual IOSCANPVT eventOccurred(epicsUInt32 event) const;
-    virtual void eventNotifyAdd(epicsUInt32, eventCallback, void*);
-    virtual void eventNotifyDel(epicsUInt32, eventCallback, void*);
+    /**Set TS frequency
+     *@param clk Clock rate in Hz
+     */
+    void clockTSSet(double);
+
+    /** Indicate (lack of) interest in a particular event code.
+     *  This allows an EVR to ignore event codes which are not needed.
+     */
+    bool interestedInEvent(epicsUInt32 event,bool set);
+
+    bool TimeStampValid() const;
+    IOSCANPVT TimeStampValidEvent() const{return timestampValidChange;}
+
+    /** Gives the current time stamp as sec+nsec
+     *@param ts This pointer will be filled in with the current time
+     *@param event N<=0 Return the current wall clock time
+     *@param event N>0  Return the time the most recent event # N was received.
+     *@return true When ts was updated
+     *@return false When ts could not be updated
+     */
+    bool getTimeStamp(epicsTimeStamp *ts,epicsUInt32 event);
+
+    /** Returns the current value of the Timestamp Event Counter
+     *@param tks Pointer to be filled with the counter value
+     *@return false if the counter value is not valid
+     */
+    bool getTicks(epicsUInt32 *tks);
+    typedef void (*eventCallback)(void* userarg, epicsUInt32 event);
+    IOSCANPVT eventOccurred(epicsUInt32 event) const;
+    void eventNotifyAdd(epicsUInt32, eventCallback, void*);
+    void eventNotifyDel(epicsUInt32, eventCallback, void*);
 
     bool convertTS(epicsTimeStamp* ts);
 
-    virtual epicsUInt16 dbus() const;
-    virtual epicsUInt32 dbusToPulserMapping(epicsUInt8 dbus) const;
-    virtual void setDbusToPulserMapping(epicsUInt8 dbus, epicsUInt32 pulsers);
+    epicsUInt16 dbus() const;
+    epicsUInt32 dbusToPulserMapping(epicsUInt8 dbus) const;
+    void setDbusToPulserMapping(epicsUInt8 dbus, epicsUInt32 pulsers);
 
-    virtual epicsUInt32 heartbeatTIMOCount() const{return count_heartbeat;}
-    virtual IOSCANPVT heartbeatTIMOOccured() const{return IRQheartbeat;}
+    epicsUInt32 heartbeatTIMOCount() const{return count_heartbeat;}
+    IOSCANPVT heartbeatTIMOOccured() const{return IRQheartbeat;}
 
-    virtual epicsUInt32 FIFOFullCount() const
+    epicsUInt32 FIFOFullCount() const
     {SCOPED_LOCK(evrLock);return count_FIFO_overflow;}
-    virtual epicsUInt32 FIFOOverRate() const
+    epicsUInt32 FIFOOverRate() const
     {SCOPED_LOCK(evrLock);return count_FIFO_sw_overrate;}
-    virtual epicsUInt32 FIFOEvtCount() const{return count_fifo_events;}
-    virtual epicsUInt32 FIFOLoopCount() const{return count_fifo_loops;}
+    epicsUInt32 FIFOEvtCount() const{return count_fifo_events;}
+    epicsUInt32 FIFOLoopCount() const{return count_fifo_loops;}
 
     void enableIRQ(void);
 
@@ -224,6 +296,36 @@ public:
     mrmDataBufTx buftx;
     mrmBufRx bufrx;
     std::auto_ptr<SFP> sfp;
+
+    /**\defgroup devhelp Device Support Helpers
+     *
+     * These functions exists to make life easier for device support
+     */
+    /*@{*/
+    void setSourceTSraw(epicsUInt32 r){setSourceTS((TSSource)r);}
+    epicsUInt32 SourceTSraw() const{return (epicsUInt32)SourceTS();}
+
+    void setPllBandwidthRaw(epicsUInt16 r){setPllBandwidth((PLLBandwidth)r);}
+    epicsUInt16 pllBandwidthRaw() const{return (epicsUInt16)pllBandwidth();}
+
+    void setDbusToPulserMapping0(epicsUInt32 pulsers){setDbusToPulserMapping(0, pulsers);}
+    epicsUInt32 dbusToPulserMapping0() const{return dbusToPulserMapping(0);}
+    void setDbusToPulserMapping1(epicsUInt32 pulsers){setDbusToPulserMapping(1, pulsers);}
+    epicsUInt32 dbusToPulserMapping1() const{return dbusToPulserMapping(1);}
+    void setDbusToPulserMapping2(epicsUInt32 pulsers){setDbusToPulserMapping(2, pulsers);}
+    epicsUInt32 dbusToPulserMapping2() const{return dbusToPulserMapping(2);}
+    void setDbusToPulserMapping3(epicsUInt32 pulsers){setDbusToPulserMapping(3, pulsers);}
+    epicsUInt32 dbusToPulserMapping3() const{return dbusToPulserMapping(3);}
+    void setDbusToPulserMapping4(epicsUInt32 pulsers){setDbusToPulserMapping(4, pulsers);}
+    epicsUInt32 dbusToPulserMapping4() const{return dbusToPulserMapping(4);}
+    void setDbusToPulserMapping5(epicsUInt32 pulsers){setDbusToPulserMapping(5, pulsers);}
+    epicsUInt32 dbusToPulserMapping5() const{return dbusToPulserMapping(5);}
+    void setDbusToPulserMapping6(epicsUInt32 pulsers){setDbusToPulserMapping(6, pulsers);}
+    epicsUInt32 dbusToPulserMapping6() const{return dbusToPulserMapping(6);}
+    void setDbusToPulserMapping7(epicsUInt32 pulsers){setDbusToPulserMapping(7, pulsers);}
+    epicsUInt32 dbusToPulserMapping7() const{return dbusToPulserMapping(7);}
+
+    /*@}*/
 
 private:
 
@@ -249,6 +351,8 @@ private:
     IOSCANPVT timestampValidChange;
 
     // Set by ctor, not changed after
+
+    bus_configuration busConfiguration;
 
     typedef std::vector<MRMInput*> inputs_t;
     inputs_t inputs;
@@ -312,6 +416,7 @@ private:
 
 
     mrmRemoteFlash m_remoteFlash;
+
 }; // class EVRMRM
 
 #endif // EVRMRML_H_INC
