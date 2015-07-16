@@ -11,6 +11,7 @@
 #ifndef EVRMRMIOCSH_H
 #define EVRMRMIOCSH_H
 
+#include "drvem.h"
 #include <shareLib.h>
 
 #ifdef __cplusplus

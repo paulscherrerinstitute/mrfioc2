@@ -28,7 +28,6 @@
 #include <mrfCommonIO.h>
 #include <mrfBitOps.h>
 
-#include "drvem.h"
 #include "mrfcsr.h"
 #include "mrmpci.h"
 
