@@ -39,19 +39,22 @@ INC += plx9056.h
 INC += delayModule.h
 INC += bufrxmgr.h
 
-INC += evrGTIF.h
+INC += support/evrGTIF.h
 
-evr_SRCS += evrGTIF.cpp
-evr_SRCS += devSupport/devEvrStringIO.cpp
-evr_SRCS += devSupport/devEvrEvent.cpp
-evr_SRCS += devSupport/devEvrMapping.cpp
-evr_SRCS += devSupport/devEvrPulserMapping.cpp
-evr_SRCS += devSupport/devWfMailbox.c
-evr_SRCS += asub.c
-evr_SRCS_Linux += ntpShm.cpp
-evr_SRCS_DEFAULT += ntpShmNull.cpp
+SRC_DIRS += ../support ../devSupport 
+
+evrMrm_SRCS += evrGTIF.cpp
+evrMrm_SRCS += devEvrStringIO.cpp
+evrMrm_SRCS += devEvrEvent.cpp
+evrMrm_SRCS += devEvrMapping.cpp
+evrMrm_SRCS += devEvrPulserMapping.cpp
+evrMrm_SRCS += devWfMailbox.c
+evrMrm_SRCS += asub.c
+evrMrm_SRCS_Linux += ntpShm.cpp
+evrMrm_SRCS_DEFAULT += ntpShmNull.cpp
 
 evrMrm_SRCS += drvemIocsh.c
+evrMrm_SRCS += evr.cpp
 evrMrm_SRCS += drvem.cpp
 evrMrm_SRCS += drvemOutput.cpp
 evrMrm_SRCS += drvemInput.cpp
