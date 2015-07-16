@@ -8,6 +8,7 @@
  * Author: Michael Davidsaver <mdavidsaver@bnl.gov>
  */
 
+#include <epicsExport.h>
 #include "drvem.h"
 #include "drvemInput.h"
 #include "drvemOutput.h"

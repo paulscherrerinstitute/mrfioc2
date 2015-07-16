@@ -12,6 +12,7 @@
 #define UTIL_HPP_INC
 
 #include <dbScan.h>
+#include <epicsExport.h>
 
 struct dbCommon;
 

@@ -11,6 +11,10 @@
 #ifndef EVRMRML_H_INC
 #define EVRMRML_H_INC
 
+#define MRMREMOTEFLASH_H_LEVEL2
+#define SFP_H_LEVEL2
+#define DATABUF_H_INC_LEVEL2
+
 #include <string>
 #include <vector>
 #include <set>
@@ -66,7 +70,7 @@ enum PLLBandwidth {
 
 //! @brief Helper to allow one class to have several runable methods
 template<class C,void (C::*Method)()>
-class epicsShareClass epicsThreadRunableMethod : public epicsThreadRunable
+class epicsThreadRunableMethod : public epicsThreadRunable
 {
     C& owner;
 public:
