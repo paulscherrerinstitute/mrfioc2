@@ -41,11 +41,6 @@
 
 #include "mrmremoteflash.h"
 
-
-// ??
-//#include "mrf/object.h"
-//#include <epicsTypes.h>
-
 enum TSSource {
   TSSourceInternal=0,
   TSSourceEvent=1,
