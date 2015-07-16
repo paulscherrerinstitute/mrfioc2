@@ -39,6 +39,18 @@ INC += plx9056.h
 INC += delayModule.h
 INC += bufrxmgr.h
 
+INC += evrGTIF.h
+
+evr_SRCS += evrGTIF.cpp
+evr_SRCS += devSupport/devEvrStringIO.cpp
+evr_SRCS += devSupport/devEvrEvent.cpp
+evr_SRCS += devSupport/devEvrMapping.cpp
+evr_SRCS += devSupport/devEvrPulserMapping.cpp
+evr_SRCS += devSupport/devWfMailbox.c
+evr_SRCS += asub.c
+evr_SRCS_Linux += ntpShm.cpp
+evr_SRCS_DEFAULT += ntpShmNull.cpp
+
 evrMrm_SRCS += drvemIocsh.c
 evrMrm_SRCS += drvem.cpp
 evrMrm_SRCS += drvemOutput.cpp
@@ -58,13 +70,14 @@ evrMrm_SRCS += irqHack.cpp
 evrMrm_SRCS += mrmGpio.cpp
 
 ifeq ($(OS),Windows_NT)
-evrMrm_LIBS += mrfCommon mrmShared evr epicspci epicsvme $(EPICS_BASE_IOC_LIBS)
+evrMrm_LIBS += mrfCommon mrmShared epicspci epicsvme $(EPICS_BASE_IOC_LIBS)
 endif
 
 #=============================
 # Install the modular register map event receiver support dbd
 
-DBD += drvemSupport.dbd
+DBD += evrSupport.dbd
+DBD += drvemSupport.dbd # includes evrSupport....
 
 ifneq ($(DEVIOCSTATS),)
 evrmrm_DBD += devIocStats.dbd
