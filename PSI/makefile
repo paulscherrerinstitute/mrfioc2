@@ -5,12 +5,12 @@ PROJECT=mrfioc2
 BUILDCLASSES=Linux
 EXCLUDE_VERSIONS=3.13 3.14.8
 # build for IFC, PPMAC, PC
-ARCH_FILTER=eldk52-e500v2 eldk42-ppc4xxFP SL%
-#ARCH_FILTER=eldk52-e500v2
+#ARCH_FILTER=eldk52-e500v2 eldk42-ppc4xxFP SL%
+ARCH_FILTER=eldk52-e500v2
 
 
-SOURCES+=../evrApp/src/asub.c
-SOURCES+=../evrApp/src/devWfMailbox.c
+SOURCES+=../evrMrmApp/src/support/asub.c
+SOURCES+=../evrMrmApp/src/devSupport/devWfMailbox.c
 #SOURCES+=../evrMrmApp/src/evrdump.c
 SOURCES+=../evgMrmApp/src/seqnsls2.c
 SOURCES+=../evgMrmApp/src/seqconst.c
@@ -31,15 +31,15 @@ SOURCES+=../mrmShared/src/mrmremoteflash.cpp
 
 
 
-SOURCES+=../evrApp/src/devEvrStringIO.cpp
-SOURCES+=../evrApp/src/devEvrPulserMapping.cpp
-SOURCES+=../evrApp/src/ntpShm.cpp
-SOURCES+=../evrApp/src/devEvrEvent.cpp
-SOURCES+=../evrApp/src/evrGTIF.cpp
-SOURCES+=../evrApp/src/evr.cpp
+SOURCES+=../evrMrmApp/src/devSupport/devEvrStringIO.cpp
+SOURCES+=../evrMrmApp/src/devSupport/devEvrPulserMapping.cpp
+SOURCES+=../evrMrmApp/src/support/ntpShm.cpp
+SOURCES+=../evrMrmApp/src/devSupport/devEvrEvent.cpp
+SOURCES+=../evrMrmApp/src/support/evrGTIF.cpp
+SOURCES+=../evrMrmApp/src/evr.cpp
 #SOURCES+=../evrApp/src/ntpShmNull.cpp
 #SOURCES+=../evrApp/src/evrMain.cpp
-SOURCES+=../evrApp/src/devEvrMapping.cpp
+SOURCES+=../evrMrmApp/src/devSupport/devEvrMapping.cpp
 SOURCES+=../evrMrmApp/src/devMrmBuf.cpp
 SOURCES+=../evrMrmApp/src/drvemPulser.cpp
 SOURCES+=../evrMrmApp/src/drvemIocsh.cpp
@@ -92,7 +92,7 @@ SOURCES+=../evrMrmApp/src/mrmGpio.cpp
 SOURCES+=../evrMrmApp/src/delayModule.cpp
 
 DBDS+=../mrmShared/src/mrmShared.dbd
-DBDS+=../evrApp/src/evrSupport.dbd
+DBDS+=../evrMrmApp/src/evrSupport.dbd
 DBDS+=../evrMrmApp/src/drvemSupport.dbd
 DBDS+=../evgMrmApp/src/evgInit.dbd
 #DBDS+=../mrfCommon/src/aSubRecord.dbd # aSubRecord is part of epics base!
