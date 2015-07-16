@@ -41,7 +41,7 @@ struct MapType {
  */
 class MRMPulser : public mrf::ObjectInst<MRMPulser>, public IOStatus
 {
-    const epicsUInt32 id;
+    const size_t id;
     EVRMRM& owner;
 
 public:

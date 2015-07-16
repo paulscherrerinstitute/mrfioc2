@@ -253,19 +253,19 @@ try{
     for(size_t i=0; i<nOFP; i++){
         std::ostringstream name;
         name<<id<<":FrontOut"<<i;
-        outputs[std::make_pair(OutputFP,i)]=new MRMOutput(name.str(), this, OutputFP, i);
+        outputs[std::make_pair(OutputFP,(epicsUInt32)i)]=new MRMOutput(name.str(), this, OutputFP, i);
     }
 
     for(size_t i=0; i<nOFPUV; i++){
         std::ostringstream name;
         name<<id<<":FrontUnivOut"<<i;
-        outputs[std::make_pair(OutputFPUniv,i)]=new MRMOutput(name.str(), this, OutputFPUniv, i);
+        outputs[std::make_pair(OutputFPUniv,(epicsUInt32)i)]=new MRMOutput(name.str(), this, OutputFPUniv, i);
     }
 
     for(size_t i=0; i<nORB; i++){
         std::ostringstream name;
         name<<id<<":RearUniv"<<i;
-        outputs[std::make_pair(OutputRB,i)]=new MRMOutput(name.str(), this, OutputRB, i);
+        outputs[std::make_pair(OutputRB,(epicsUInt32)i)]=new MRMOutput(name.str(), this, OutputRB, i);
     }
 
     delays.resize(nOFPDly);
@@ -294,7 +294,7 @@ try{
         for(size_t i=4; i<8; i++) {
             std::ostringstream name;
             name<<id<<":FrontOut"<<i;
-            outputs[std::make_pair(OutputFP,i)]=new MRMOutput(name.str(), this, OutputFP, i);
+            outputs[std::make_pair(OutputFP,(epicsUInt32)i)]=new MRMOutput(name.str(), this, OutputFP, i);
         }
         for(size_t i=0; i<4; i++)
             shortcmls[i]=0;
