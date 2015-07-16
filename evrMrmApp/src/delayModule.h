@@ -52,7 +52,7 @@ public:
     //void set(bool a, bool b, epicsUInt16 c, epicsUInt16 d){setDelay(a,b,c,d);}
 
 private:
-    const unsigned int N_;
+    const size_t N_;
     MRMGpio *gpio_;
     epicsUInt16 dly0_, dly1_;
 

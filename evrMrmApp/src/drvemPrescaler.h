@@ -34,7 +34,7 @@ public:
 
 private:
     volatile epicsUInt8* const base;
-    epicsUInt32 id;
+    size_t id;
 };
 
 #endif // MRMEVRPRESCALER_H_INC

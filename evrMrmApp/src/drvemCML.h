@@ -118,7 +118,7 @@ private:
 
     epicsUInt32 mult, wordlen;
     volatile unsigned char *base;
-    unsigned char N;
+    const size_t N;
     EVRMRM& owner;
 
     epicsUInt32 shadowEnable;

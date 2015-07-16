@@ -1070,7 +1070,8 @@ EVRMRM::dbusToPulserMapping(epicsUInt8 dbus) const{
 
 void
 EVRMRM::setDbusToPulserMapping(epicsUInt8 dbus, epicsUInt32 pulsers){
-    epicsUInt32 check, noOfPulsers;
+    epicsUInt32 check;
+    size_t noOfPulsers;
 
     noOfPulsers = this->pulsers.size();
     if(noOfPulsers < 32){

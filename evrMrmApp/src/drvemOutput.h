@@ -68,7 +68,7 @@ public:
 private:
   EVRMRM * const owner;
   const OutputType type;
-  const unsigned int N;
+  const size_t N;
   bool isEnabled;
   epicsUInt32 shadowSource;
   epicsUInt32 shadowSource2;
