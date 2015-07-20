@@ -1,5 +1,5 @@
 #include "drvem.h"
-#include "delayModule.h"
+#include "EvrDelayModule.h"
 
 #define SERIAL_DATA_BIT(idx)            (1 << (0+4*idx))
 #define SERIAL_CLOCK_BIT(idx)           (1 << (1+4*idx))
@@ -7,42 +7,42 @@
 #define OUTPUT_DISABLE_BIT(idx)         (1 << (3+4*idx))
 
 
-DelayModule::DelayModule(const std::string& n, EVRMRM* o, size_t idx)
-    :mrf::ObjectInst<DelayModule>(n)
+EvrDelayModule::EvrDelayModule(const std::string& n, EVRMRM* o, size_t idx)
+    :mrf::ObjectInst<EvrDelayModule>(n)
     ,N_(idx)
     ,gpio_(o->gpio())
 {
 }
 
-DelayModule::~DelayModule()
+EvrDelayModule::~EvrDelayModule()
 {
 }
 
-void DelayModule::setDelay0(double val)
+void EvrDelayModule::setDelay0(double val)
 {
     if(val < 2.200) val = 2.200;
     if(val > 12.430)val = 12.430;
 	setDelay(true, false, (epicsUInt16)((val - 2.2) * 100 + 0.5), 0);
 }
 
-double DelayModule::getDelay0() const
+double EvrDelayModule::getDelay0() const
 {
     return (dly0_ / 100.0) + 2.200;
 }
 
-void DelayModule::setDelay1(double val)
+void EvrDelayModule::setDelay1(double val)
 {
     if(val < 2.200) val = 2.200;
     if(val > 12.430)val = 12.430;
 	setDelay(false, true, 0, (epicsUInt16)((val - 2.200) * 100.0 + 0.5));
 }
 
-double DelayModule::getDelay1() const
+double EvrDelayModule::getDelay1() const
 {
     return (dly1_ / 100.0) + 2.200;
 }
 
-void DelayModule::setState(bool enabled)
+void EvrDelayModule::setState(bool enabled)
 {
     epicsGuard<epicsMutex> g(gpio_->lock_);
     setGpioOutput();
@@ -50,7 +50,7 @@ void DelayModule::setState(bool enabled)
     else disable();
 }
 
-bool DelayModule::enabled() const
+bool EvrDelayModule::enabled() const
 {
     epicsUInt32 data;
 
@@ -62,7 +62,7 @@ bool DelayModule::enabled() const
 // Private methods below  //
 // ---------------------- //
 
-void DelayModule::setGpioOutput(){
+void EvrDelayModule::setGpioOutput(){
     epicsUInt32 direction;
 
     // set 4 pins affecting the module to output
@@ -71,7 +71,7 @@ void DelayModule::setGpioOutput(){
     gpio_->setDirection(direction);
 }
 
-void DelayModule::enable(){
+void EvrDelayModule::enable(){
     epicsUInt32 data;
 
     //clear output disable bit to enable the module
@@ -80,7 +80,7 @@ void DelayModule::enable(){
     gpio_->setOutput(data);
 }
 
-void DelayModule::disable(){
+void EvrDelayModule::disable(){
     epicsUInt32 data;
 
     //set output disable bit to disable the module
@@ -89,7 +89,7 @@ void DelayModule::disable(){
     gpio_->setOutput(data);
 }
 
-void DelayModule::setDelay(bool output0, bool output1, epicsUInt16 value0, epicsUInt16 value1){
+void EvrDelayModule::setDelay(bool output0, bool output1, epicsUInt16 value0, epicsUInt16 value1){
     epicsUInt32 latch=0, delay=0;
 
     //printf("out0: %d, out1: %d, value0: %d, value1: %d\n", output0, output1, value0, value1);
@@ -121,7 +121,7 @@ void DelayModule::setDelay(bool output0, bool output1, epicsUInt16 value0, epics
     }
 }
 
-void DelayModule::pushData(epicsUInt32 data){
+void EvrDelayModule::pushData(epicsUInt32 data){
     epicsUInt32 bit, gpio;
     epicsUInt8 i;
 

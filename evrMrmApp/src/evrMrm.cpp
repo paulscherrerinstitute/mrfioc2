@@ -272,7 +272,7 @@ try{
     for(size_t i=0; i<nOFPDly; i++){
         std::ostringstream name;
         name<<id<<":UnivDlyModule"<<i;
-        delays[i]=new DelayModule(name.str(), this, i);
+        delays[i]=new EvrDelayModule(name.str(), this, i);
     }
 
     prescalers.resize(nPS);
@@ -544,7 +544,7 @@ EVRMRM::output(OutputType otype,epicsUInt32 idx) const
         return it->second;
 }
 
-DelayModule*
+EvrDelayModule*
 EVRMRM::delay(epicsUInt32 i){
     if(i>=delays.size())
         throw std::out_of_range("Delay Module id is out of range.");

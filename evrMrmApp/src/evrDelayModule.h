@@ -1,5 +1,5 @@
-#ifndef DELAYMODULE_H
-#define DELAYMODULE_H
+#ifndef EvrDelayModule_H
+#define EvrDelayModule_H
 
 #include "mrf/object.h"
 
@@ -10,11 +10,11 @@
 
 class EVRMRM;
 
-class DelayModule : public mrf::ObjectInst<DelayModule>
+class EvrDelayModule : public mrf::ObjectInst<EvrDelayModule>
 {
 public:
-    DelayModule(const std::string&, EVRMRM*, size_t);
-	virtual ~DelayModule();
+    EvrDelayModule(const std::string&, EVRMRM*, size_t);
+    virtual ~EvrDelayModule();
 
     /**
      * @brief setDelay0 Sets the delay of the output 0 in the module
@@ -91,4 +91,4 @@ private:
     virtual void unlock() const {}
 };
 
-#endif // DELAYMODULE_H
+#endif // EvrDelayModule_H

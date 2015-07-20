@@ -15,7 +15,7 @@
 #include "drvemPulser.h"
 #include "drvemPrescaler.h"
 #include "drvemCML.h"
-#include "delayModule.h"
+#include "EvrDelayModule.h"
 
 
 
@@ -185,10 +185,10 @@ OBJECT_BEGIN(EvrCML) {
 
 } OBJECT_END(EvrCML)
 
-OBJECT_BEGIN(DelayModule) {
+OBJECT_BEGIN(EvrDelayModule) {
 
-    OBJECT_PROP2("Enable", &DelayModule::enabled, &DelayModule::setState);
-    OBJECT_PROP2("Delay0", &DelayModule::getDelay0, &DelayModule::setDelay0);
-    OBJECT_PROP2("Delay1", &DelayModule::getDelay1, &DelayModule::setDelay1);
+    OBJECT_PROP2("Enable", &EvrDelayModule::enabled, &EvrDelayModule::setState);
+    OBJECT_PROP2("Delay0", &EvrDelayModule::getDelay0, &EvrDelayModule::setDelay0);
+    OBJECT_PROP2("Delay1", &EvrDelayModule::getDelay1, &EvrDelayModule::setDelay1);
 
-} OBJECT_END(DelayModule)
+} OBJECT_END(EvrDelayModule)

@@ -34,7 +34,7 @@
 #include "evrPrescaler.h"
 #include "evrPulser.h"
 #include "EvrCML.h"
-#include "evrDelayModule.h"
+#include "evrEvrDelayModule.h"
 #include "evrRxBuf.h"
 
 #include "evrGpio.h"
@@ -164,7 +164,7 @@ public:
 
     MRMOutput* output(OutputType,epicsUInt32 o) const;
 
-    DelayModule* delay(epicsUInt32 i);
+    EvrDelayModule* delay(epicsUInt32 i);
 
     MRMInput* input(epicsUInt32) const;
 
@@ -359,7 +359,7 @@ private:
     typedef std::map<std::pair<OutputType,epicsUInt32>,MRMOutput*> outputs_t;
     outputs_t outputs;
 
-    std::vector<DelayModule*> delays;
+    std::vector<EvrDelayModule*> delays;
 
     typedef std::vector<MRMPreScaler*> prescalers_t;
     prescalers_t prescalers;
