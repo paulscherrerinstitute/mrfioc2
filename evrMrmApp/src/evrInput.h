@@ -8,8 +8,8 @@
  * Author: Michael Davidsaver <mdavidsaver@bnl.gov>
  */
 
-#ifndef EVRMRMINPUT_H_INC
-#define EVRMRMINPUT_H_INC
+#ifndef EVREvrInput_H_INC
+#define EVREvrInput_H_INC
 
 #include <cstdlib>
 #include "mrf/object.h"
@@ -32,11 +32,11 @@ enum TrigMode {
  * This class is reused by other subunits which
  * have identical mapping registers.
  */
-class MRMInput : public mrf::ObjectInst<MRMInput>, public IOStatus
+class EvrInput : public mrf::ObjectInst<EvrInput>, public IOStatus
 {
 public:
-    MRMInput(const std::string& n, volatile epicsUInt8 *, size_t);
-    virtual ~MRMInput(){};
+    EvrInput(const std::string& n, volatile epicsUInt8 *, size_t);
+    virtual ~EvrInput(){};
 
     /* no locking needed */
     void lock() const{};
@@ -86,4 +86,4 @@ private:
 };
 
 
-#endif // EVRMRMINPUT_H_INC
+#endif // EVREvrInput_H_INC

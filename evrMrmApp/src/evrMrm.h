@@ -33,8 +33,8 @@
 #include "evrOutput.h"
 #include "evrPrescaler.h"
 #include "evrPulser.h"
-#include "EvrCML.h"
-#include "evrEvrDelayModule.h"
+#include "evrCML.h"
+#include "evrDelayModule.h"
 #include "evrRxBuf.h"
 
 #include "evrGpio.h"
@@ -166,7 +166,7 @@ public:
 
     EvrDelayModule* delay(epicsUInt32 i);
 
-    MRMInput* input(epicsUInt32) const;
+    EvrInput* input(epicsUInt32) const;
 
     MRMPreScaler* prescaler(epicsUInt32) const;
 
@@ -353,7 +353,7 @@ private:
 
     bus_configuration busConfiguration;
 
-    typedef std::vector<MRMInput*> inputs_t;
+    typedef std::vector<EvrInput*> inputs_t;
     inputs_t inputs;
 
     typedef std::map<std::pair<OutputType,epicsUInt32>,MRMOutput*> outputs_t;

@@ -15,7 +15,7 @@
 #include "drvemPulser.h"
 #include "drvemPrescaler.h"
 #include "drvemCML.h"
-#include "EvrDelayModule.h"
+#include "evrDelayModule.h"
 
 
 
@@ -84,23 +84,23 @@ OBJECT_BEGIN(EVRMRM) {
 } OBJECT_END(EVRMRM)
 
 
-OBJECT_BEGIN(MRMInput) {
+OBJECT_BEGIN(EvrInput) {
 
-    OBJECT_PROP2("Active Level", &MRMInput::levelHigh, &MRMInput::levelHighSet);
+    OBJECT_PROP2("Active Level", &EvrInput::levelHigh, &EvrInput::levelHighSet);
 
-    OBJECT_PROP2("Active Edge", &MRMInput::edgeRise, &MRMInput::edgeRiseSet);
+    OBJECT_PROP2("Active Edge", &EvrInput::edgeRise, &EvrInput::edgeRiseSet);
 
-    OBJECT_PROP2("External Code", &MRMInput::extEvt, &MRMInput::extEvtSet);
+    OBJECT_PROP2("External Code", &EvrInput::extEvt, &EvrInput::extEvtSet);
 
-    OBJECT_PROP2("Backwards Code", &MRMInput::backEvt, &MRMInput::backEvtSet);
+    OBJECT_PROP2("Backwards Code", &EvrInput::backEvt, &EvrInput::backEvtSet);
 
-    OBJECT_PROP2("External Mode", &MRMInput::extModeraw, &MRMInput::extModeSetraw);
+    OBJECT_PROP2("External Mode", &EvrInput::extModeraw, &EvrInput::extModeSetraw);
 
-    OBJECT_PROP2("Backwards Mode", &MRMInput::backModeraw, &MRMInput::backModeSetraw);
+    OBJECT_PROP2("Backwards Mode", &EvrInput::backModeraw, &EvrInput::backModeSetraw);
 
-    OBJECT_PROP2("DBus Mask", &MRMInput::dbus, &MRMInput::dbusSet);
+    OBJECT_PROP2("DBus Mask", &EvrInput::dbus, &EvrInput::dbusSet);
 
-} OBJECT_END(MRMInput)
+} OBJECT_END(EvrInput)
 
 
 OBJECT_BEGIN(MRMOutput) {

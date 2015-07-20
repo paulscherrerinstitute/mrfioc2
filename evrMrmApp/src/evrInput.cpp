@@ -15,17 +15,17 @@
 #include <mrfBitOps.h>
 
 #include "evrRegMap.h"
-#include "drvemInput.h"
+#include "evrInput.h"
 
-MRMInput::MRMInput(const std::string& n, volatile unsigned char *b, size_t i)
-  :mrf::ObjectInst<MRMInput>(n)
+EvrInput::EvrInput(const std::string& n, volatile unsigned char *b, size_t i)
+  :mrf::ObjectInst<EvrInput>(n)
   ,base(b)
   ,idx(i)
 {
 }
 
 void
-MRMInput::dbusSet(epicsUInt16 v)
+EvrInput::dbusSet(epicsUInt16 v)
 {
     epicsUInt32 val;
 
@@ -36,7 +36,7 @@ MRMInput::dbusSet(epicsUInt16 v)
 }
 
 epicsUInt16
-MRMInput::dbus() const
+EvrInput::dbus() const
 {
     epicsUInt32 val;
     val = READ32(base, InputMapFP(idx) );
@@ -46,7 +46,7 @@ MRMInput::dbus() const
 }
 
 void
-MRMInput::levelHighSet(bool v)
+EvrInput::levelHighSet(bool v)
 {
     if(v)
         BITCLR(NAT,32, base, InputMapFP(idx), InputMapFP_lvl);
@@ -55,13 +55,13 @@ MRMInput::levelHighSet(bool v)
 }
 
 bool
-MRMInput::levelHigh() const
+EvrInput::levelHigh() const
 {
     return !(READ32(base,InputMapFP(idx)) & InputMapFP_lvl);
 }
 
 void
-MRMInput::edgeRiseSet(bool v)
+EvrInput::edgeRiseSet(bool v)
 {
     if(v)
         BITCLR(NAT,32, base, InputMapFP(idx), InputMapFP_edge);
@@ -70,13 +70,13 @@ MRMInput::edgeRiseSet(bool v)
 }
 
 bool
-MRMInput::edgeRise() const
+EvrInput::edgeRise() const
 {
     return !(READ32(base,InputMapFP(idx)) & InputMapFP_edge);
 }
 
 void
-MRMInput::extModeSet(TrigMode m)
+EvrInput::extModeSet(TrigMode m)
 {
     switch(m){
     case TrigNone:
@@ -98,7 +98,7 @@ MRMInput::extModeSet(TrigMode m)
 }
 
 TrigMode
-MRMInput::extMode() const
+EvrInput::extMode() const
 {
     epicsUInt32 v=READ32(base, InputMapFP(idx));
 
@@ -116,7 +116,7 @@ MRMInput::extMode() const
 }
 
 void
-MRMInput::extEvtSet(epicsUInt32 e)
+EvrInput::extEvtSet(epicsUInt32 e)
 {
     if(e>255)
         throw std::out_of_range("Event code # out of range. Range: 0 - 255");
@@ -134,7 +134,7 @@ MRMInput::extEvtSet(epicsUInt32 e)
 }
 
 epicsUInt32
-MRMInput::extEvt() const
+EvrInput::extEvt() const
 {
     epicsUInt32 val;
     val = READ32(base, InputMapFP(idx) );
@@ -144,7 +144,7 @@ MRMInput::extEvt() const
 }
 
 void
-MRMInput::backModeSet(TrigMode m)
+EvrInput::backModeSet(TrigMode m)
 {
     switch(m){
     case TrigNone:
@@ -166,7 +166,7 @@ MRMInput::backModeSet(TrigMode m)
 }
 
 TrigMode
-MRMInput::backMode() const
+EvrInput::backMode() const
 {
     epicsUInt32 v=READ32(base, InputMapFP(idx));
 
@@ -184,7 +184,7 @@ MRMInput::backMode() const
 }
 
 void
-MRMInput::backEvtSet(epicsUInt32 e)
+EvrInput::backEvtSet(epicsUInt32 e)
 {
     if(e>255)
         throw std::out_of_range("Event code # out of range. Range: 0 - 255");
@@ -202,7 +202,7 @@ MRMInput::backEvtSet(epicsUInt32 e)
 }
 
 epicsUInt32
-MRMInput::backEvt() const
+EvrInput::backEvt() const
 {
     epicsUInt32 val;
     val = READ32(base, InputMapFP(idx) );

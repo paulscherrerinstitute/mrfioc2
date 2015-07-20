@@ -247,7 +247,7 @@ try{
     for(size_t i=0; i<nIFP; i++){
         std::ostringstream name;
         name<<id<<":FPIn"<<i;
-        inputs[i]=new MRMInput(name.str(), base,i);
+        inputs[i]=new EvrInput(name.str(), base,i);
     }
 
     for(size_t i=0; i<nOFP; i++){
@@ -551,7 +551,7 @@ EVRMRM::delay(epicsUInt32 i){
     return delays[i];
 }
 
-MRMInput*
+EvrInput*
 EVRMRM::input(epicsUInt32 i) const
 {
     if(i>=inputs.size())
