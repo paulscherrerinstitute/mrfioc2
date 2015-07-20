@@ -8,8 +8,8 @@
  * Author: Michael Davidsaver <mdavidsaver@bnl.gov>
  */
 
-#ifndef MRMEVRPRESCALER_H_INC
-#define MRMEVRPRESCALER_H_INC
+#ifndef EVRPRESCALER_H_INC
+#define EVRPRESCALER_H_INC
 
 #include "mrf/object.h"
 #include <epicsTypes.h>
@@ -37,4 +37,4 @@ private:
     size_t id;
 };
 
-#endif // MRMEVRPRESCALER_H_INC
+#endif // EVRPRESCALER_H_INC

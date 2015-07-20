@@ -1,5 +1,5 @@
-#ifndef EvrGPIO_H
-#define EvrGPIO_H
+#ifndef EVRGPIO_H_INC
+#define EVRGPIO_H_INC
 
 #include "evrRegMap.h"
 #include "epicsTypes.h"
@@ -28,4 +28,4 @@ private:
     EVRMRM& owner_;
 };
 
-#endif // EvrGPIO_H
+#endif // EVRGPIO_H_INC

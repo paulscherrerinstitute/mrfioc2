@@ -1,5 +1,5 @@
 
-#include "evrGPIO.h"
+#include "evrGpio.h"
 #include "evrMrm.h"
 
 EvrGPIO::EvrGPIO(EVRMRM &o): owner_(o)

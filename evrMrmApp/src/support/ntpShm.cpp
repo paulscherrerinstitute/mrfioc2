@@ -48,7 +48,7 @@
 #include <iocsh.h>
 #include <initHooks.h>
 
-#include "drvem.h"
+#include "evrMrm.h"
 
 // NTPD itself doesn't make much attempt at synchronizing
 // but we try to do better

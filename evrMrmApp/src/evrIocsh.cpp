@@ -33,7 +33,7 @@
 
 #include <epicsExport.h>
 
-#include "drvemIocsh.h"
+#include "evrIocsh.h"
 
 // for htons() et al.
 #ifdef _WIN32

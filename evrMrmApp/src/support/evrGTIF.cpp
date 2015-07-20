@@ -22,7 +22,7 @@
 #include <epicsExport.h>
 
 #include "mrf/object.h"
-#include "drvem.h"
+#include "evrMrm.h"
 #include "evrGTIF.h"
 
 struct priv {

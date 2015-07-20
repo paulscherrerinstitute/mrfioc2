@@ -8,8 +8,8 @@
  * Author: Michael Davidsaver <mdavidsaver@bnl.gov>
  */
 
-#ifndef EVRMRML_H_INC
-#define EVRMRML_H_INC
+#ifndef EVRMRM_H_INC
+#define EVRMRM_H_INC
 
 #define MRMREMOTEFLASH_H_LEVEL2
 #define SFP_H_LEVEL2
@@ -418,4 +418,4 @@ private:
 
 }; // class EVRMRM
 
-#endif // EVRMRML_H_INC
+#endif // EVRMRM_H_INC

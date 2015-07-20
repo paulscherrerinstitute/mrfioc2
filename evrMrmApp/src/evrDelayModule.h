@@ -1,12 +1,12 @@
-#ifndef EvrDelayModule_H
-#define EvrDelayModule_H
+#ifndef EVRDELAYMODULE_H_INC
+#define EVRDELAYMODULE_H_INC
 
 #include "mrf/object.h"
 
 #include <epicsGuard.h>
 #include <epicsTypes.h>
 
-#include "evrGPIO.h"
+#include "evrGpio.h"
 
 class EVRMRM;
 
@@ -91,4 +91,4 @@ private:
     virtual void unlock() const {}
 };
 
-#endif // EvrDelayModule_H
+#endif // EVRDELAYMODULE_H_INC

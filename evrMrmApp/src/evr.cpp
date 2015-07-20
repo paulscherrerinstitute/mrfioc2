@@ -9,12 +9,12 @@
  */
 
 #include <epicsExport.h>
-#include "drvem.h"
-#include "drvemInput.h"
-#include "drvemOutput.h"
-#include "drvemPulser.h"
-#include "drvemPrescaler.h"
-#include "drvemCML.h"
+#include "evrMrm.h"
+#include "evrInput.h"
+#include "evrOutput.h"
+#include "evrPulser.h"
+#include "evrPrescaler.h"
+#include "evrCML.h"
 #include "evrDelayModule.h"
 
 

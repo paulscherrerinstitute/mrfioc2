@@ -8,8 +8,8 @@
  * Author: Michael Davidsaver <mdavidsaver@bnl.gov>
  */
 
-#ifndef EVREvrCMLSHORT_HPP_INC
-#define EVREvrCMLSHORT_HPP_INC
+#ifndef EVRCML_H_INC
+#define EVRCML_H_INC
 
 #include "mrf/object.h"
 #include <epicsTypes.h>
@@ -131,4 +131,4 @@ private:
     outkind kind;
 };
 
-#endif // EVREvrCMLSHORT_HPP_INC
+#endif // EVRCML_H_INC

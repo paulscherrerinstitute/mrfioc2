@@ -30,8 +30,8 @@
 #include <mrfCommonIO.h>
 #include <mrfBitOps.h>
 
-#include "drvemIocsh.h"
-#include "drvem.h"
+#include "evrIocsh.h"
+#include "evrMrm.h"
 
 #include "support/util.h"
 #include "mrf/version.h"

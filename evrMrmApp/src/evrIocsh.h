@@ -8,10 +8,10 @@
  * Author: Michael Davidsaver <mdavidsaver@bnl.gov>
  */
 
-#ifndef EVRMRMIOCSH_H
-#define EVRMRMIOCSH_H
+#ifndef EVRIOCSH_H_INC
+#define EVRIOCSH_H_INC
 
-#include "drvem.h"
+#include "evrMrm.h"
 #include <shareLib.h>
 
 #ifdef __cplusplus
@@ -37,4 +37,4 @@ epicsShareExtern int evrmrmVerb;
 }
 #endif
 
-#endif /* EVRMRMIOCSH_H */
+#endif /* EVRIOCSH_H_INC */

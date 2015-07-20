@@ -22,7 +22,7 @@
 #include <eventRecord.h>
 
 #include "devObj.h"
-#include "drvem.h"
+#include "evrMrm.h"
 
 #include "linkoptions.h"
 

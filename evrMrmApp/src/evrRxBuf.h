@@ -8,8 +8,8 @@
  * Author: Michael Davidsaver <mdavidsaver@bnl.gov>
  */
 
-#ifndef DRVEMRXBUF_H
-#define DRVEMRXBUF_H
+#ifndef EVRRXBUF_H
+#define EVRRXBUF_H
 
 #include <callback.h>
 
@@ -34,4 +34,4 @@ protected:
     volatile unsigned char * const base;
 };
 
-#endif // DRVEMRXBUF_H
+#endif // EVRRXBUF_H

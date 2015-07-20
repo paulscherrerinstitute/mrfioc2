@@ -8,8 +8,8 @@
  * Author: Michael Davidsaver <mdavidsaver@bnl.gov>
  */
 
-#ifndef EVREvrInput_H_INC
-#define EVREvrInput_H_INC
+#ifndef EVRINPUT_H_INC
+#define EVRINPUT_H_INC
 
 #include <cstdlib>
 #include "mrf/object.h"
@@ -86,4 +86,4 @@ private:
 };
 
 
-#endif // EVREvrInput_H_INC
+#endif // EVRINPUT_H_INC

@@ -8,8 +8,8 @@
  * Author: Michael Davidsaver <mdavidsaver@bnl.gov>
  */
 
-#ifndef EVREvrPulser_H_INC
-#define EVREvrPulser_H_INC
+#ifndef EVRPULSER_H_INC
+#define EVRPULSER_H_INC
 
 #include <epicsMutex.h>
 #include "mrf/object.h"
@@ -131,4 +131,4 @@ private:
     bool _ismap(epicsUInt8 evt) const { return (mapped[evt/8]  &    1<<(evt%8)) != 0;  }
 };
 
-#endif // EVREvrPulser_H_INC
+#endif // EVRPULSER_H_INC
