@@ -172,7 +172,7 @@ public:
 
     EvrCML* cml(epicsUInt32) const;
 
-    MRMGpio* gpio();
+    EvrGPIO* gpio();
 
     void setDelayCompensationEnabled(bool enabled);
     bool isDelayCompensationEnabled() const;
@@ -370,7 +370,7 @@ private:
     typedef std::vector<EvrCML*> shortcmls_t;
     shortcmls_t shortcmls;
 
-    MRMGpio gpio_;
+    EvrGPIO gpio_;
 
     // run when FIFO not-full IRQ is received
     void drain_fifo();

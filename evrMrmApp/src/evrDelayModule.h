@@ -6,7 +6,7 @@
 #include <epicsGuard.h>
 #include <epicsTypes.h>
 
-#include "mrmGpio.h"
+#include "evrGPIO.h"
 
 class EVRMRM;
 
@@ -53,7 +53,7 @@ public:
 
 private:
     const size_t N_;
-    MRMGpio *gpio_;
+    EvrGPIO *gpio_;
     epicsUInt16 dly0_, dly1_;
 
     /**

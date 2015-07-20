@@ -1,5 +1,5 @@
-#ifndef MRMGPIO_H
-#define MRMGPIO_H
+#ifndef EvrGPIO_H
+#define EvrGPIO_H
 
 #include "evrRegMap.h"
 #include "epicsTypes.h"
@@ -9,9 +9,9 @@
 
 class EVRMRM;
 
-class MRMGpio{
+class EvrGPIO{
 public:
-    MRMGpio(EVRMRM&);
+    EvrGPIO(EVRMRM&);
 
     epicsUInt32 getDirection(); // returns direction gpio register
     void setDirection(epicsUInt32); // sets direction gpio register
@@ -28,4 +28,4 @@ private:
     EVRMRM& owner_;
 };
 
-#endif // MRMGPIO_H
+#endif // EvrGPIO_H

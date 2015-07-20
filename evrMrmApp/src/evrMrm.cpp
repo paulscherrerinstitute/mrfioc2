@@ -575,7 +575,7 @@ EVRMRM::cml(epicsUInt32 i) const
     return shortcmls[i];
 }
 
-MRMGpio*
+EvrGPIO*
 EVRMRM::gpio(){
     return &gpio_;
 }
