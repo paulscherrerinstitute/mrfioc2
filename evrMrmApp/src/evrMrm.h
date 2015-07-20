@@ -160,7 +160,7 @@ public:
     bool enabled() const;
     void enable(bool v);
 
-    MRMPulser* pulser(epicsUInt32) const;
+    EvrPulser* pulser(epicsUInt32) const;
 
     EvrOutput* output(OutputType,epicsUInt32 o) const;
 
@@ -364,7 +364,7 @@ private:
     typedef std::vector<EvrPrescaler*> prescalers_t;
     prescalers_t prescalers;
 
-    typedef std::vector<MRMPulser*> pulsers_t;
+    typedef std::vector<EvrPulser*> pulsers_t;
     pulsers_t pulsers;
 
     typedef std::vector<EvrCML*> shortcmls_t;

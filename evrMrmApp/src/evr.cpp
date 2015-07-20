@@ -113,24 +113,24 @@ OBJECT_BEGIN(EvrOutput) {
 } OBJECT_END(EvrOutput)
 
 
-OBJECT_BEGIN(MRMPulser) {
+OBJECT_BEGIN(EvrPulser) {
 
-    OBJECT_PROP2("Delay", &MRMPulser::delay, &MRMPulser::setDelay);
-    OBJECT_PROP2("Delay", &MRMPulser::delayRaw, &MRMPulser::setDelayRaw);
+    OBJECT_PROP2("Delay", &EvrPulser::delay, &EvrPulser::setDelay);
+    OBJECT_PROP2("Delay", &EvrPulser::delayRaw, &EvrPulser::setDelayRaw);
 
-    OBJECT_PROP2("Width", &MRMPulser::width, &MRMPulser::setWidth);
-    OBJECT_PROP2("Width", &MRMPulser::widthRaw, &MRMPulser::setWidthRaw);
+    OBJECT_PROP2("Width", &EvrPulser::width, &EvrPulser::setWidth);
+    OBJECT_PROP2("Width", &EvrPulser::widthRaw, &EvrPulser::setWidthRaw);
 
-    OBJECT_PROP2("Enable", &MRMPulser::enabled, &MRMPulser::enable);
+    OBJECT_PROP2("Enable", &EvrPulser::enabled, &EvrPulser::enable);
 
-    OBJECT_PROP2("Polarity", &MRMPulser::polarityInvert, &MRMPulser::setPolarityInvert);
+    OBJECT_PROP2("Polarity", &EvrPulser::polarityInvert, &EvrPulser::setPolarityInvert);
 
-    OBJECT_PROP2("Prescaler", &MRMPulser::prescaler, &MRMPulser::setPrescaler);
+    OBJECT_PROP2("Prescaler", &EvrPulser::prescaler, &EvrPulser::setPrescaler);
 
-    OBJECT_PROP2("Gate mask", &MRMPulser::gateMask, &MRMPulser::setGateMask);
-    OBJECT_PROP2("Gate enable", &MRMPulser::gateEnable, &MRMPulser::setGateEnable);
+    OBJECT_PROP2("Gate mask", &EvrPulser::gateMask, &EvrPulser::setGateMask);
+    OBJECT_PROP2("Gate enable", &EvrPulser::gateEnable, &EvrPulser::setGateEnable);
 
-} OBJECT_END(MRMPulser)
+} OBJECT_END(EvrPulser)
 
 
 OBJECT_BEGIN(EvrPrescaler) {

@@ -9,7 +9,7 @@
  */
 
 #include "evrRegMap.h"
-#include "drvem.h"
+#include "evrMrm.h"
 
 #include <stdexcept>
 #include <cstring>
@@ -23,10 +23,10 @@
 
 
 
-#include "drvemPulser.h"
+#include "evrPulser.h"
 
-MRMPulser::MRMPulser(const std::string& n, EVRMRM& o, size_t i)
-  :mrf::ObjectInst<MRMPulser>(n)
+EvrPulser::EvrPulser(const std::string& n, EVRMRM& o, size_t i)
+  :mrf::ObjectInst<EvrPulser>(n)
   ,id(i)
   ,owner(o)
 {
@@ -36,17 +36,17 @@ MRMPulser::MRMPulser(const std::string& n, EVRMRM& o, size_t i)
     std::memset(&this->mapped, 0, NELEMENTS(this->mapped));
 }
 
-void MRMPulser::lock() const{owner.lock();};
-void MRMPulser::unlock() const{owner.unlock();};
+void EvrPulser::lock() const{owner.lock();};
+void EvrPulser::unlock() const{owner.unlock();};
 
 bool
-MRMPulser::enabled() const
+EvrPulser::enabled() const
 {
     return READ32(owner.base, PulserCtrl(id)) & PulserCtrl_ena;
 }
 
 void
-MRMPulser::enable(bool s)
+EvrPulser::enable(bool s)
 {
     if(s)
         BITSET(NAT,32,owner.base, PulserCtrl(id),
@@ -57,13 +57,13 @@ MRMPulser::enable(bool s)
 }
 
 void
-MRMPulser::setDelayRaw(epicsUInt32 v)
+EvrPulser::setDelayRaw(epicsUInt32 v)
 {
     WRITE32(owner.base, PulserDely(id), v);
 }
 
 void
-MRMPulser::setDelay(double v)
+EvrPulser::setDelay(double v)
 {
     double scal=double(prescaler());
     if (scal<=0) scal=1;
@@ -75,13 +75,13 @@ MRMPulser::setDelay(double v)
 }
 
 epicsUInt32
-MRMPulser::delayRaw() const
+EvrPulser::delayRaw() const
 {
     return READ32(owner.base,PulserDely(id));
 }
 
 double
-MRMPulser::delay() const
+EvrPulser::delay() const
 {
     double scal=double(prescaler());
     double ticks=double(delayRaw());
@@ -92,13 +92,13 @@ MRMPulser::delay() const
 }
 
 void
-MRMPulser::setWidthRaw(epicsUInt32 v)
+EvrPulser::setWidthRaw(epicsUInt32 v)
 {
     WRITE32(owner.base, PulserWdth(id), v);
 }
 
 void
-MRMPulser::setWidth(double v)
+EvrPulser::setWidth(double v)
 {
     double scal=double(prescaler());
     double clk=owner.clock(); // in MHz.  MTicks/second
@@ -110,13 +110,13 @@ MRMPulser::setWidth(double v)
 }
 
 epicsUInt32
-MRMPulser::widthRaw() const
+EvrPulser::widthRaw() const
 {
     return READ32(owner.base,PulserWdth(id));
 }
 
 double
-MRMPulser::width() const
+EvrPulser::width() const
 {
     double scal=double(prescaler());
     double ticks=double(widthRaw());
@@ -127,25 +127,25 @@ MRMPulser::width() const
 }
 
 epicsUInt32
-MRMPulser::prescaler() const
+EvrPulser::prescaler() const
 {
     return READ32(owner.base,PulserScal(id));
 }
 
 void
-MRMPulser::setPrescaler(epicsUInt32 v)
+EvrPulser::setPrescaler(epicsUInt32 v)
 {
     WRITE32(owner.base, PulserScal(id), v);
 }
 
 bool
-MRMPulser::polarityInvert() const
+EvrPulser::polarityInvert() const
 {
     return (READ32(owner.base, PulserCtrl(id)) & PulserCtrl_pol) != 0;
 }
 
 void
-MRMPulser::setPolarityInvert(bool s)
+EvrPulser::setPolarityInvert(bool s)
 {
     if(s)
         BITSET(NAT,32,owner.base, PulserCtrl(id), PulserCtrl_pol);
@@ -154,7 +154,7 @@ MRMPulser::setPolarityInvert(bool s)
 }
 
 MapType::type
-MRMPulser::mappedSource(epicsUInt32 evt) const
+EvrPulser::mappedSource(epicsUInt32 evt) const
 {
     if(evt>255)
         throw std::out_of_range("Event code is out of range");
@@ -198,7 +198,7 @@ MRMPulser::mappedSource(epicsUInt32 evt) const
 }
 
 void
-MRMPulser::sourceSetMap(epicsUInt32 evt,MapType::type action)
+EvrPulser::sourceSetMap(epicsUInt32 evt,MapType::type action)
 {
     if(evt>255)
         throw std::out_of_range("Event code is out of range");
@@ -233,7 +233,7 @@ MRMPulser::sourceSetMap(epicsUInt32 evt,MapType::type action)
 }
 
 epicsUInt16
-MRMPulser::gateMask() const{
+EvrPulser::gateMask() const{
     epicsUInt32 mask;
 
     mask = READ32(owner.base, PulserCtrl(id)) & PulserCtrl_gateMask;
@@ -244,7 +244,7 @@ MRMPulser::gateMask() const{
 }
 
 void
-MRMPulser::setGateMask(epicsUInt16 mask){
+EvrPulser::setGateMask(epicsUInt16 mask){
     epicsUInt32 pulserCtrl;
 
     // TODO check if out of range
@@ -257,7 +257,7 @@ MRMPulser::setGateMask(epicsUInt16 mask){
 }
 
 epicsUInt16
-MRMPulser::gateEnable() const{
+EvrPulser::gateEnable() const{
     epicsUInt32 gate;
 
     gate = READ32(owner.base, PulserCtrl(id)) & PulserCtrl_gateEnable;
@@ -268,7 +268,7 @@ MRMPulser::gateEnable() const{
 }
 
 void
-MRMPulser::setGateEnable(epicsUInt16 gate){
+EvrPulser::setGateEnable(epicsUInt16 gate){
     epicsUInt32 pulserCtrl;
 
     // TODO check if out of range

@@ -8,8 +8,8 @@
  * Author: Michael Davidsaver <mdavidsaver@bnl.gov>
  */
 
-#ifndef EVRMRMPULSER_H_INC
-#define EVRMRMPULSER_H_INC
+#ifndef EVREvrPulser_H_INC
+#define EVREvrPulser_H_INC
 
 #include <epicsMutex.h>
 #include "mrf/object.h"
@@ -39,14 +39,14 @@ struct MapType {
  * Gated mode has two event codes.  One is sets the output
  * high and the second resets the output low.
  */
-class MRMPulser : public mrf::ObjectInst<MRMPulser>, public IOStatus
+class EvrPulser : public mrf::ObjectInst<EvrPulser>, public IOStatus
 {
     const size_t id;
     EVRMRM& owner;
 
 public:
-    MRMPulser(const std::string& n, EVRMRM& o, size_t i);
-    ~MRMPulser(){};
+    EvrPulser(const std::string& n, EVRMRM& o, size_t i);
+    ~EvrPulser(){};
 
     void lock() const;
     void unlock() const;
@@ -131,4 +131,4 @@ private:
     bool _ismap(epicsUInt8 evt) const { return (mapped[evt/8]  &    1<<(evt%8)) != 0;  }
 };
 
-#endif // EVRMRMPULSER_H_INC
+#endif // EVREvrPulser_H_INC

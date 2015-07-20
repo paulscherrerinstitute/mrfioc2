@@ -286,7 +286,7 @@ try{
     for(size_t i=0; i<nPul; i++){
         std::ostringstream name;
         name<<id<<":Pul"<<i;
-        pulsers[i]=new MRMPulser(name.str(), *this, i);
+        pulsers[i]=new EvrPulser(name.str(), *this, i);
     }
 
     if(v==formFactor_CPCIFULL) {
@@ -526,7 +526,7 @@ EVRMRM::enable(bool v)
         BITCLR(NAT,32,base, Control, Control_enable|Control_mapena|Control_outena|Control_evtfwd);
 }
 
-MRMPulser*
+EvrPulser*
 EVRMRM::pulser(epicsUInt32 i) const
 {
     if(i>=pulsers.size())
