@@ -22,21 +22,21 @@ endif
 
 LIBRARY_IOC += evrMrm
 
-INC += drvem.h
+INC += evrMrm.h
 INC += devMrmBuf.h
-INC += drvemInput.h
-INC += drvemOutput.h
-INC += drvemPulser.h
-INC += drvemCML.h
-INC += drvemPrescaler.h
-INC += drvemRxBuf.h
+INC += evrInput.h
+INC += evrOutput.h
+INC += evrPulser.h
+INC += evrCML.h
+INC += evrPrescaler.h
+INC += evrRxBuf.h
 INC += evrRegMap.h
 INC += latticeEC30.h
-INC += mrmGpio.h
+INC += evrGpio.h
 INC += mrmpci.h
 INC += plx9030.h
 INC += plx9056.h
-INC += delayModule.h
+INC += evrDelayModule.h
 INC += bufrxmgr.h
 
 INC += support/evrGTIF.h
@@ -53,16 +53,16 @@ evrMrm_SRCS += asub.c
 evrMrm_SRCS_Linux += ntpShm.cpp
 evrMrm_SRCS_DEFAULT += ntpShmNull.cpp
 
-evrMrm_SRCS += drvemIocsh.c
+evrMrm_SRCS += evrIocsh.c
 evrMrm_SRCS += evr.cpp
-evrMrm_SRCS += drvem.cpp
-evrMrm_SRCS += drvemOutput.cpp
-evrMrm_SRCS += drvemInput.cpp
-evrMrm_SRCS += drvemPrescaler.cpp
-evrMrm_SRCS += drvemPulser.cpp
-evrMrm_SRCS += drvemCML.cpp
-evrMrm_SRCS += delayModule.cpp
-evrMrm_SRCS += drvemRxBuf.cpp
+evrMrm_SRCS += evrMrm.cpp
+evrMrm_SRCS += evrOutput.cpp
+evrMrm_SRCS += evrInput.cpp
+evrMrm_SRCS += evrPrescaler.cpp
+evrMrm_SRCS += evrPulser.cpp
+evrMrm_SRCS += evrCML.cpp
+evrMrm_SRCS += evrDelayModule.cpp
+evrMrm_SRCS += evrRxBuf.cpp
 evrMrm_SRCS += devMrmBuf.cpp
 
 evrMrm_SRCS += bufrxmgr.cpp
@@ -70,7 +70,7 @@ evrMrm_SRCS += devMrmBufRx.cpp
 
 evrMrm_SRCS += irqHack.cpp
 
-evrMrm_SRCS += mrmGpio.cpp
+evrMrm_SRCS += evrGpio.cpp
 
 ifeq ($(OS),Windows_NT)
 evrMrm_LIBS += mrfCommon mrmShared epicspci epicsvme $(EPICS_BASE_IOC_LIBS)
@@ -80,7 +80,6 @@ endif
 # Install the modular register map event receiver support dbd
 
 DBD += evrSupport.dbd
-DBD += drvemSupport.dbd # includes evrSupport....
 
 ifneq ($(DEVIOCSTATS),)
 evrmrm_DBD += devIocStats.dbd
