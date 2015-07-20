@@ -293,7 +293,7 @@ public:
     volatile unsigned char * const base;
     epicsUInt32 baselen;
     mrmDataBufTx buftx;
-    mrmBufRx bufrx;
+    EvrBufRx bufrx;
     std::auto_ptr<SFP> sfp;
 
     /**\defgroup devhelp Device Support Helpers

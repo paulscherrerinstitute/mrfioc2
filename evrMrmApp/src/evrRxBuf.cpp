@@ -25,27 +25,27 @@
 #define DATABUF_H_INC_LEVEL2
 #include <epicsExport.h>
 #include "evrRegMap.h"
-#include "drvemRxBuf.h"
+#include "evrRxBuf.h"
 
-mrmBufRx::mrmBufRx(const std::string& n, volatile void *b,unsigned int qdepth, unsigned int bsize)
+EvrBufRx::EvrBufRx(const std::string& n, volatile void *b,unsigned int qdepth, unsigned int bsize)
     :bufRxManager(n, qdepth, bsize)
     ,base((volatile unsigned char *)b)
 {
 }
 
-mrmBufRx::~mrmBufRx()
+EvrBufRx::~EvrBufRx()
 {
     BITSET(NAT,32,base, DataBufCtrl, DataBufCtrl_stop);
 }
 
 bool
-mrmBufRx::dataRxEnabled() const
+EvrBufRx::dataRxEnabled() const
 {
     return (READ32(base, DataBufCtrl) & DataBufCtrl_mode) != 0;
 }
 
 void
-mrmBufRx::dataRxEnable(bool v)
+EvrBufRx::dataRxEnable(bool v)
 {
     int key=epicsInterruptLock();
     if (v) {
@@ -70,12 +70,12 @@ mrmBufRx::dataRxEnable(bool v)
 extern int evrDebug;
 
 void
-mrmBufRx::drainbuf(CALLBACK* cb)
+EvrBufRx::drainbuf(CALLBACK* cb)
 {
 try {
     void *vptr;
     callbackGetUser(vptr,cb);
-    mrmBufRx& self=*static_cast<mrmBufRx*>(vptr);
+    EvrBufRx& self=*static_cast<EvrBufRx*>(vptr);
 
     epicsUInt32 sts=READ32(self.base, DataBufCtrl);
 
@@ -126,6 +126,6 @@ try {
 
     WRITE32(self.base, DataBufCtrl, sts|DataBufCtrl_rx);
 } catch(std::exception& e) {
-    epicsPrintf("exception in mrmBufRx::drainbuf callback: %s\n", e.what());
+    epicsPrintf("exception in EvrBufRx::drainbuf callback: %s\n", e.what());
 }
 }

@@ -15,11 +15,11 @@
 
 #include "bufrxmgr.h"
 
-class epicsShareClass mrmBufRx : public bufRxManager
+class epicsShareClass EvrBufRx : public bufRxManager
 {
 public:
-    mrmBufRx(const std::string&, volatile void *base,unsigned int qdepth, unsigned int bsize=0);
-    virtual ~mrmBufRx();
+    EvrBufRx(const std::string&, volatile void *base,unsigned int qdepth, unsigned int bsize=0);
+    virtual ~EvrBufRx();
 
     /* no locking needed */
     virtual void lock() const{};
