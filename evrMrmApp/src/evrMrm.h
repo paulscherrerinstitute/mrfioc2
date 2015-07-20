@@ -162,7 +162,7 @@ public:
 
     MRMPulser* pulser(epicsUInt32) const;
 
-    MRMOutput* output(OutputType,epicsUInt32 o) const;
+    EvrOutput* output(OutputType,epicsUInt32 o) const;
 
     EvrDelayModule* delay(epicsUInt32 i);
 
@@ -356,7 +356,7 @@ private:
     typedef std::vector<EvrInput*> inputs_t;
     inputs_t inputs;
 
-    typedef std::map<std::pair<OutputType,epicsUInt32>,MRMOutput*> outputs_t;
+    typedef std::map<std::pair<OutputType,epicsUInt32>,EvrOutput*> outputs_t;
     outputs_t outputs;
 
     std::vector<EvrDelayModule*> delays;

@@ -241,7 +241,7 @@ try{
            (unsigned int)nOFPDly);
 
     // Special output for mapping bus interrupt
-    //outputs[std::make_pair(OutputInt,0)]=new MRMOutput(base+U16_IRQPulseMap);
+    //outputs[std::make_pair(OutputInt,0)]=new EvrOutput(base+U16_IRQPulseMap);
 
     inputs.resize(nIFP);
     for(size_t i=0; i<nIFP; i++){
@@ -253,19 +253,19 @@ try{
     for(size_t i=0; i<nOFP; i++){
         std::ostringstream name;
         name<<id<<":FrontOut"<<i;
-        outputs[std::make_pair(OutputFP,(epicsUInt32)i)]=new MRMOutput(name.str(), this, OutputFP, i);
+        outputs[std::make_pair(OutputFP,(epicsUInt32)i)]=new EvrOutput(name.str(), this, OutputFP, i);
     }
 
     for(size_t i=0; i<nOFPUV; i++){
         std::ostringstream name;
         name<<id<<":FrontUnivOut"<<i;
-        outputs[std::make_pair(OutputFPUniv,(epicsUInt32)i)]=new MRMOutput(name.str(), this, OutputFPUniv, i);
+        outputs[std::make_pair(OutputFPUniv,(epicsUInt32)i)]=new EvrOutput(name.str(), this, OutputFPUniv, i);
     }
 
     for(size_t i=0; i<nORB; i++){
         std::ostringstream name;
         name<<id<<":RearUniv"<<i;
-        outputs[std::make_pair(OutputRB,(epicsUInt32)i)]=new MRMOutput(name.str(), this, OutputRB, i);
+        outputs[std::make_pair(OutputRB,(epicsUInt32)i)]=new EvrOutput(name.str(), this, OutputRB, i);
     }
 
     delays.resize(nOFPDly);
@@ -294,7 +294,7 @@ try{
         for(size_t i=4; i<8; i++) {
             std::ostringstream name;
             name<<id<<":FrontOut"<<i;
-            outputs[std::make_pair(OutputFP,(epicsUInt32)i)]=new MRMOutput(name.str(), this, OutputFP, i);
+            outputs[std::make_pair(OutputFP,(epicsUInt32)i)]=new EvrOutput(name.str(), this, OutputFP, i);
         }
         for(size_t i=0; i<4; i++)
             shortcmls[i]=0;
@@ -534,7 +534,7 @@ EVRMRM::pulser(epicsUInt32 i) const
     return pulsers[i];
 }
 
-MRMOutput*
+EvrOutput*
 EVRMRM::output(OutputType otype,epicsUInt32 idx) const
 {
     outputs_t::const_iterator it=outputs.find(std::make_pair(otype,idx));

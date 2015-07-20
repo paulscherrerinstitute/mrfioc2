@@ -103,14 +103,14 @@ OBJECT_BEGIN(EvrInput) {
 } OBJECT_END(EvrInput)
 
 
-OBJECT_BEGIN(MRMOutput) {
+OBJECT_BEGIN(EvrOutput) {
 
-    OBJECT_PROP2("Map", &MRMOutput::source, &MRMOutput::setSource);
-    OBJECT_PROP2("MapAlt", &MRMOutput::source2, &MRMOutput::setSource2);
+    OBJECT_PROP2("Map", &EvrOutput::source, &EvrOutput::setSource);
+    OBJECT_PROP2("MapAlt", &EvrOutput::source2, &EvrOutput::setSource2);
 
-    OBJECT_PROP2("Enable", &MRMOutput::enabled, &MRMOutput::enable);
+    OBJECT_PROP2("Enable", &EvrOutput::enabled, &EvrOutput::enable);
 
-} OBJECT_END(MRMOutput)
+} OBJECT_END(EvrOutput)
 
 
 OBJECT_BEGIN(MRMPulser) {

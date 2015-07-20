@@ -8,8 +8,8 @@
  * Author: Michael Davidsaver <mdavidsaver@bnl.gov>
  */
 
-#ifndef EVRMRMOUTPUT_H_INC
-#define EVRMRMOUTPUT_H_INC
+#ifndef EVROUTPUT_H_INC
+#define EVROUTPUT_H_INC
 
 #include "mrf/object.h"
 #include <epicsTypes.h>
@@ -33,11 +33,11 @@ enum OutputType {
  * This class is reused by other subunits which
  * have identical mapping registers.
  */
-class MRMOutput : public mrf::ObjectInst<MRMOutput>, public IOStatus
+class EvrOutput : public mrf::ObjectInst<EvrOutput>, public IOStatus
 {
 public:
-  MRMOutput(const std::string& n, EVRMRM* owner, OutputType t, size_t idx);
-  ~MRMOutput();
+  EvrOutput(const std::string& n, EVRMRM* owner, OutputType t, size_t idx);
+  ~EvrOutput();
 
   void lock() const;
   void unlock() const;
@@ -79,4 +79,4 @@ private:
 };
 
 
-#endif // EVRMRMOUTPUT_H_INC
+#endif // EVROUTPUT_H_INC

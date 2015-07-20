@@ -11,17 +11,17 @@
 
 //#include <epicsMMIO.h>
 #include "evrRegMap.h"
-#include "drvem.h"
+#include "evrMrm.h"
 
 #include <mrfCommon.h>
 #include <mrfCommonIO.h>
 #include <mrfBitOps.h>
 
 #include <stdexcept>
-#include "drvemOutput.h"
+#include "evrOutput.h"
 
-MRMOutput::MRMOutput(const std::string& n, EVRMRM* o, OutputType t, size_t idx)
-    :mrf::ObjectInst<MRMOutput>(n)
+EvrOutput::EvrOutput(const std::string& n, EVRMRM* o, OutputType t, size_t idx)
+    :mrf::ObjectInst<EvrOutput>(n)
     ,owner(o)
     ,type(t)
     ,N(idx)
@@ -31,21 +31,21 @@ MRMOutput::MRMOutput(const std::string& n, EVRMRM* o, OutputType t, size_t idx)
     shadowSource2 = 63; //force low, for backwards compatiblity
 }
 
-MRMOutput::~MRMOutput()
+EvrOutput::~EvrOutput()
 {
 }
 
-void MRMOutput::lock() const{owner->lock();};
-void MRMOutput::unlock() const{owner->unlock();};
+void EvrOutput::lock() const{owner->lock();};
+void EvrOutput::unlock() const{owner->unlock();};
 
 epicsUInt32
-MRMOutput::source() const
+EvrOutput::source() const
 {
     return shadowSource;
 }
 
 void
-MRMOutput::setSource(epicsUInt32 v)
+EvrOutput::setSource(epicsUInt32 v)
 {
     if( ! ( (v<=63 && v>=62) ||
             (v<=42 && v>=32) ||
@@ -59,12 +59,12 @@ MRMOutput::setSource(epicsUInt32 v)
         setSourceInternal(shadowSource,shadowSource2);
 }
 
-epicsUInt32 MRMOutput::source2() const
+epicsUInt32 EvrOutput::source2() const
 {
     return shadowSource2;
 }
 
-void MRMOutput::setSource2(epicsUInt32 v)
+void EvrOutput::setSource2(epicsUInt32 v)
 {
     if( ! ( (v<=63 && v>=62) ||
             (v<=42 && v>=32) ||
@@ -79,13 +79,13 @@ void MRMOutput::setSource2(epicsUInt32 v)
 }
 
 bool
-MRMOutput::enabled() const
+EvrOutput::enabled() const
 {
     return isEnabled;
 }
 
 void
-MRMOutput::enable(bool e)
+EvrOutput::enable(bool e)
 {
     if(e==isEnabled)
         return;
@@ -99,7 +99,7 @@ MRMOutput::enable(bool e)
 }
 
 epicsUInt32
-MRMOutput::sourceInternal() const
+EvrOutput::sourceInternal() const
 {
     epicsUInt32 val=64; // an invalid value
     switch(type) {
@@ -118,7 +118,7 @@ MRMOutput::sourceInternal() const
 }
 
 epicsUInt32
-MRMOutput::sourceInternal2() const
+EvrOutput::sourceInternal2() const
 {
     epicsUInt32 val=64; // an invalid value
     switch(type) {
@@ -137,7 +137,7 @@ MRMOutput::sourceInternal2() const
 }
 
 void
-MRMOutput::setSourceInternal(epicsUInt32 v, epicsUInt32 v1)
+EvrOutput::setSourceInternal(epicsUInt32 v, epicsUInt32 v1)
 {
 
     v |= (v1<<8);
@@ -169,7 +169,7 @@ MRMOutput::setSourceInternal(epicsUInt32 v, epicsUInt32 v1)
 }
 
 const char*
-MRMOutput::sourceName(epicsUInt32 id) const
+EvrOutput::sourceName(epicsUInt32 id) const
 {
     switch(id){
     case 63: return "Force Low";
