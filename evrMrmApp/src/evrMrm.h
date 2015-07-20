@@ -29,15 +29,15 @@
 #include <callback.h>
 #include <epicsMutex.h>
 
-#include "drvemInput.h"
-#include "drvemOutput.h"
-#include "drvemPrescaler.h"
-#include "drvemPulser.h"
-#include "drvemCML.h"
-#include "delayModule.h"
-#include "drvemRxBuf.h"
+#include "evrInput.h"
+#include "evrOutput.h"
+#include "evrPrescaler.h"
+#include "evrPulser.h"
+#include "EvrCML.h"
+#include "evrDelayModule.h"
+#include "evrRxBuf.h"
 
-#include "mrmGpio.h"
+#include "evrGpio.h"
 
 #include "mrmDataBufTx.h"
 #include "sfp.h"
@@ -170,7 +170,7 @@ public:
 
     MRMPreScaler* prescaler(epicsUInt32) const;
 
-    MRMCML* cml(epicsUInt32) const;
+    EvrCML* cml(epicsUInt32) const;
 
     MRMGpio* gpio();
 
@@ -367,7 +367,7 @@ private:
     typedef std::vector<MRMPulser*> pulsers_t;
     pulsers_t pulsers;
 
-    typedef std::vector<MRMCML*> shortcmls_t;
+    typedef std::vector<EvrCML*> shortcmls_t;
     shortcmls_t shortcmls;
 
     MRMGpio gpio_;

@@ -18,11 +18,11 @@
 #include "evrRegMap.h"
 
 
-#include "drvem.h"
-#include "drvemCML.h"
+#include "evrMrm.h"
+#include "EvrCML.h"
 
-MRMCML::MRMCML(const std::string& n, size_t i, EVRMRM& o, outkind k, formFactor f)
-  :mrf::ObjectInst<MRMCML>(n)
+EvrCML::EvrCML(const std::string& n, size_t i, EVRMRM& o, outkind k, formFactor f)
+  :mrf::ObjectInst<EvrCML>(n)
   ,base(o.base)
   ,N(i)
   ,owner(o)
@@ -60,17 +60,17 @@ MRMCML::MRMCML(const std::string& n, size_t i, EVRMRM& o, outkind k, formFactor 
     shadowEnable=val;
 }
 
-MRMCML::~MRMCML()
+EvrCML::~EvrCML()
 {
     for(size_t i=0; i<NELEMENTS(shadowPattern); i++)
         delete[] shadowPattern[i];
 }
 
-void MRMCML::lock() const{owner.lock();};
-void MRMCML::unlock() const{owner.unlock();};
+void EvrCML::lock() const{owner.lock();};
+void EvrCML::unlock() const{owner.unlock();};
 
 cmlMode
-MRMCML::mode() const
+EvrCML::mode() const
 {
     switch(shadowEnable&OutputCMLEna_mode_mask) {
     case OutputCMLEna_mode_orig:
@@ -85,7 +85,7 @@ MRMCML::mode() const
 }
 
 void
-MRMCML::setMode(cmlMode m)
+EvrCML::setMode(cmlMode m)
 {
     epicsUInt32 mask=0;
     switch(m) {
@@ -126,13 +126,13 @@ MRMCML::setMode(cmlMode m)
 }
 
 bool
-MRMCML::enabled() const
+EvrCML::enabled() const
 {
     return shadowEnable&OutputCMLEna_ena;
 }
 
 void
-MRMCML::enable(bool s)
+EvrCML::enable(bool s)
 {
     if(s)
         shadowEnable |= OutputCMLEna_ena;
@@ -142,13 +142,13 @@ MRMCML::enable(bool s)
 }
 
 bool
-MRMCML::inReset() const
+EvrCML::inReset() const
 {
     return (shadowEnable & OutputCMLEna_rst) != 0;
 }
 
 void
-MRMCML::reset(bool s)
+EvrCML::reset(bool s)
 {
     if(s)
         shadowEnable |= OutputCMLEna_rst;
@@ -158,13 +158,13 @@ MRMCML::reset(bool s)
 }
 
 bool
-MRMCML::powered() const
+EvrCML::powered() const
 {
     return !(shadowEnable & OutputCMLEna_pow);
 }
 
 void
-MRMCML::power(bool s)
+EvrCML::power(bool s)
 {
     if(!s)
         shadowEnable |= OutputCMLEna_pow;
@@ -174,7 +174,7 @@ MRMCML::power(bool s)
 }
 
 double
-MRMCML::fineDelay() const
+EvrCML::fineDelay() const
 {
     // The GTX output fine delay is an external chip
     // and not related to the clock frequency.
@@ -184,7 +184,7 @@ MRMCML::fineDelay() const
 }
 
 void
-MRMCML::setFineDelay(double v)
+EvrCML::setFineDelay(double v)
 {
     if(v>1024.0){
         printf("Delay will be set to 1024 instead of %f\n", v);
@@ -194,7 +194,7 @@ MRMCML::setFineDelay(double v)
 }
 
 void
-MRMCML::setPolarityInvert(bool s)
+EvrCML::setPolarityInvert(bool s)
 {
     if(s)
         shadowEnable |= OutputCMLEna_ftrg;
@@ -204,13 +204,13 @@ MRMCML::setPolarityInvert(bool s)
 }
 
 bool
-MRMCML::polarityInvert() const
+EvrCML::polarityInvert() const
 {
     return (shadowEnable & OutputCMLEna_ftrg) != 0;
 }
 
 epicsUInt32
-MRMCML::countHigh() const
+EvrCML::countHigh() const
 {
     epicsUInt32 val = READ32(base, OutputCMLCount(N));
     val >>= OutputCMLCount_high_shft;
@@ -218,7 +218,7 @@ MRMCML::countHigh() const
 }
 
 epicsUInt32
-MRMCML::countLow () const
+EvrCML::countLow () const
 {
     epicsUInt32 val = READ32(base, OutputCMLCount(N));
     val >>= OutputCMLCount_low_shft;
@@ -227,14 +227,14 @@ MRMCML::countLow () const
 
 
 epicsUInt32
-MRMCML::countInit () const
+EvrCML::countInit () const
 {
     epicsUInt32 v = shadowEnable & OutputCMLEna_ftrig_mask;
     return v >> OutputCMLEna_ftrig_shft;
 }
 
 void
-MRMCML::setCountHigh(epicsUInt32 v)
+EvrCML::setCountHigh(epicsUInt32 v)
 {
     if(v<=20 || v>=65535){
         throw std::out_of_range("Invalid CML freq. count");
@@ -247,7 +247,7 @@ MRMCML::setCountHigh(epicsUInt32 v)
 }
 
 void
-MRMCML::setCountLow (epicsUInt32 v)
+EvrCML::setCountLow (epicsUInt32 v)
 {
     if(v<=20 || v>=65535)
         throw std::out_of_range("Invalid CML freq. count");
@@ -259,7 +259,7 @@ MRMCML::setCountLow (epicsUInt32 v)
 }
 
 void
-MRMCML::setCountInit (epicsUInt32 v)
+EvrCML::setCountInit (epicsUInt32 v)
 {
     if(v>=65535)
         throw std::out_of_range("Invalid CML freq. count");
@@ -271,7 +271,7 @@ MRMCML::setCountInit (epicsUInt32 v)
 }
 
 double
-MRMCML::timeHigh() const
+EvrCML::timeHigh() const
 {
     double period=1.0/(mult*owner.clock());
 
@@ -279,7 +279,7 @@ MRMCML::timeHigh() const
 }
 
 double
-MRMCML::timeLow () const
+EvrCML::timeLow () const
 {
     double period=1.0/(mult*owner.clock());
 
@@ -287,7 +287,7 @@ MRMCML::timeLow () const
 }
 
 double
-MRMCML::timeInit () const
+EvrCML::timeInit () const
 {
     double period=1.0/(mult*owner.clock());
 
@@ -295,7 +295,7 @@ MRMCML::timeInit () const
 }
 
 void
-MRMCML::setTimeHigh(double v)
+EvrCML::setTimeHigh(double v)
 {
     double period=1.0/(mult*owner.clock());
 
@@ -303,7 +303,7 @@ MRMCML::setTimeHigh(double v)
 }
 
 void
-MRMCML::setTimeLow (double v)
+EvrCML::setTimeLow (double v)
 {
     double period=1.0/(mult*owner.clock());
 
@@ -311,7 +311,7 @@ MRMCML::setTimeLow (double v)
 }
 
 void
-MRMCML::setTimeInit (double v)
+EvrCML::setTimeInit (double v)
 {
     double period=1.0/(mult*owner.clock());
 
@@ -321,13 +321,13 @@ MRMCML::setTimeInit (double v)
   // For Pattern mode
 
 bool
-MRMCML::recyclePat() const
+EvrCML::recyclePat() const
 {
     return (shadowEnable & OutputCMLEna_cycl) != 0;
 }
 
 void
-MRMCML::setRecyclePat(bool s)
+EvrCML::setRecyclePat(bool s)
 {
     if(s)
         shadowEnable |= OutputCMLEna_cycl;
@@ -337,7 +337,7 @@ MRMCML::setRecyclePat(bool s)
 }
 
 epicsUInt32
-MRMCML::lenPattern(pattern p) const
+EvrCML::lenPattern(pattern p) const
 {
     if(p==patternWaveform)
         return mult*shadowWaveformlength;
@@ -346,7 +346,7 @@ MRMCML::lenPattern(pattern p) const
 }
 
 epicsUInt32
-MRMCML::lenPatternMax(pattern p) const
+EvrCML::lenPatternMax(pattern p) const
 {
     if(p==patternWaveform)
         return mult*OutputCMLPatLengthMax;
@@ -355,7 +355,7 @@ MRMCML::lenPatternMax(pattern p) const
 }
 
 epicsUInt32
-MRMCML::getPattern(pattern p, unsigned char *buf, epicsUInt32 blen) const
+EvrCML::getPattern(pattern p, unsigned char *buf, epicsUInt32 blen) const
 {
     epicsUInt32 plen=lenPattern(p);
 
@@ -392,7 +392,7 @@ MRMCML::getPattern(pattern p, unsigned char *buf, epicsUInt32 blen) const
 }
 
 void
-MRMCML::setPattern(pattern p, const unsigned char *buf, epicsUInt32 blen)
+EvrCML::setPattern(pattern p, const unsigned char *buf, epicsUInt32 blen)
 {
     // If we are given a length that is not a multiple of CML word size
     // then truncate.
@@ -447,7 +447,7 @@ MRMCML::setPattern(pattern p, const unsigned char *buf, epicsUInt32 blen)
 }
 
 void
-MRMCML::syncPattern(pattern p)
+EvrCML::syncPattern(pattern p)
 {
     if(mult==20 && p!=patternWaveform) {
         // for 20 bit patterns modifying the 4x pattern

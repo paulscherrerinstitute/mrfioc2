@@ -190,7 +190,7 @@ try{
     size_t nOFPDly=0;  // # of slots== # of delay modules. Some of the FP Universals have GPIOs. Each FPUV==2 GPIO pins, 2 FPUVs in one slot = 4 GPIO pins. One dly module uses 4 GPIO pins.
     // # of CML outputs
     size_t nCML=0;
-    MRMCML::outkind kind=MRMCML::typeCML;
+    EvrCML::outkind kind=EvrCML::typeCML;
     // # of FP inputs
     size_t nIFP=0;
 
@@ -227,7 +227,7 @@ try{
         break;
     case formFactor_CPCIFULL:
         nOFPUV=4;
-        kind=MRMCML::typeTG300;
+        kind=EvrCML::typeTG300;
         break;
     case formFactor_PCIe:
         nOFPUV=16;
@@ -298,17 +298,17 @@ try{
         }
         for(size_t i=0; i<4; i++)
             shortcmls[i]=0;
-        shortcmls[4]=new MRMCML(id+":CML4", 4,*this,MRMCML::typeCML,form);
-        shortcmls[5]=new MRMCML(id+":CML5", 5,*this,MRMCML::typeCML,form);
-        shortcmls[6]=new MRMCML(id+":CML6", 6,*this,MRMCML::typeTG300,form);
-        shortcmls[7]=new MRMCML(id+":CML7", 7,*this,MRMCML::typeTG300,form);
+        shortcmls[4]=new EvrCML(id+":CML4", 4,*this,EvrCML::typeCML,form);
+        shortcmls[5]=new EvrCML(id+":CML5", 5,*this,EvrCML::typeCML,form);
+        shortcmls[6]=new EvrCML(id+":CML6", 6,*this,EvrCML::typeTG300,form);
+        shortcmls[7]=new EvrCML(id+":CML7", 7,*this,EvrCML::typeTG300,form);
 
     } else if(nCML && ver>=4){
         shortcmls.resize(nCML);
         for(size_t i=0; i<nCML; i++){
             std::ostringstream name;
             name<<id<<":CML"<<i;
-            shortcmls[i]=new MRMCML(name.str(), i, *this, kind, form);
+            shortcmls[i]=new EvrCML(name.str(), i, *this, kind, form);
         }
 
     }else if(nCML){
@@ -567,7 +567,7 @@ EVRMRM::prescaler(epicsUInt32 i) const
     return prescalers[i];
 }
 
-MRMCML*
+EvrCML*
 EVRMRM::cml(epicsUInt32 i) const
 {
     if(i>=shortcmls.size() || !shortcmls[i])

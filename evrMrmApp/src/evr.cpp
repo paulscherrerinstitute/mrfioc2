@@ -141,49 +141,49 @@ OBJECT_BEGIN(MRMPreScaler) {
 } OBJECT_END(MRMPreScaler)
 
 
-OBJECT_BEGIN(MRMCML) {
+OBJECT_BEGIN(EvrCML) {
 
-    OBJECT_PROP2("Enable", &MRMCML::enabled, &MRMCML::enable);
+    OBJECT_PROP2("Enable", &EvrCML::enabled, &EvrCML::enable);
 
-    OBJECT_PROP2("Reset", &MRMCML::inReset, &MRMCML::reset);
+    OBJECT_PROP2("Reset", &EvrCML::inReset, &EvrCML::reset);
 
-    OBJECT_PROP2("Power", &MRMCML::powered, &MRMCML::power);
+    OBJECT_PROP2("Power", &EvrCML::powered, &EvrCML::power);
 
-    OBJECT_PROP2("Freq Trig Lvl", &MRMCML::polarityInvert, &MRMCML::setPolarityInvert);
+    OBJECT_PROP2("Freq Trig Lvl", &EvrCML::polarityInvert, &EvrCML::setPolarityInvert);
 
-    OBJECT_PROP2("Pat Recycle", &MRMCML::recyclePat, &MRMCML::setRecyclePat);
+    OBJECT_PROP2("Pat Recycle", &EvrCML::recyclePat, &EvrCML::setRecyclePat);
 
-    OBJECT_PROP2("Counts High", &MRMCML::timeHigh, &MRMCML::setTimeHigh);
-    OBJECT_PROP2("Counts High", &MRMCML::countHigh, &MRMCML::setCountHigh);
+    OBJECT_PROP2("Counts High", &EvrCML::timeHigh, &EvrCML::setTimeHigh);
+    OBJECT_PROP2("Counts High", &EvrCML::countHigh, &EvrCML::setCountHigh);
 
-    OBJECT_PROP2("Counts Low", &MRMCML::timeLow, &MRMCML::setTimeLow);
-    OBJECT_PROP2("Counts Low", &MRMCML::countLow, &MRMCML::setCountLow);
+    OBJECT_PROP2("Counts Low", &EvrCML::timeLow, &EvrCML::setTimeLow);
+    OBJECT_PROP2("Counts Low", &EvrCML::countLow, &EvrCML::setCountLow);
 
-    OBJECT_PROP2("Counts Init", &MRMCML::timeInit, &MRMCML::setTimeInit);
-    OBJECT_PROP2("Counts Init", &MRMCML::countInit, &MRMCML::setCountInit);
+    OBJECT_PROP2("Counts Init", &EvrCML::timeInit, &EvrCML::setTimeInit);
+    OBJECT_PROP2("Counts Init", &EvrCML::countInit, &EvrCML::setCountInit);
 
-    OBJECT_PROP2("Fine Delay", &MRMCML::fineDelay, &MRMCML::setFineDelay);
+    OBJECT_PROP2("Fine Delay", &EvrCML::fineDelay, &EvrCML::setFineDelay);
 
-    OBJECT_PROP1("Freq Mult", &MRMCML::freqMultiple);
+    OBJECT_PROP1("Freq Mult", &EvrCML::freqMultiple);
 
-    OBJECT_PROP2("Mode", &MRMCML::modeRaw, &MRMCML::setModRaw);
+    OBJECT_PROP2("Mode", &EvrCML::modeRaw, &EvrCML::setModRaw);
 
-    OBJECT_PROP2("Waveform", &MRMCML::getPattern<MRMCML::patternWaveform>,
-                             &MRMCML::setPattern<MRMCML::patternWaveform>);
+    OBJECT_PROP2("Waveform", &EvrCML::getPattern<EvrCML::patternWaveform>,
+                             &EvrCML::setPattern<EvrCML::patternWaveform>);
 
-    OBJECT_PROP2("Pat Rise", &MRMCML::getPattern<MRMCML::patternRise>,
-                             &MRMCML::setPattern<MRMCML::patternRise>);
+    OBJECT_PROP2("Pat Rise", &EvrCML::getPattern<EvrCML::patternRise>,
+                             &EvrCML::setPattern<EvrCML::patternRise>);
 
-    OBJECT_PROP2("Pat High", &MRMCML::getPattern<MRMCML::patternHigh>,
-                             &MRMCML::setPattern<MRMCML::patternHigh>);
+    OBJECT_PROP2("Pat High", &EvrCML::getPattern<EvrCML::patternHigh>,
+                             &EvrCML::setPattern<EvrCML::patternHigh>);
 
-    OBJECT_PROP2("Pat Fall", &MRMCML::getPattern<MRMCML::patternFall>,
-                             &MRMCML::setPattern<MRMCML::patternFall>);
+    OBJECT_PROP2("Pat Fall", &EvrCML::getPattern<EvrCML::patternFall>,
+                             &EvrCML::setPattern<EvrCML::patternFall>);
 
-    OBJECT_PROP2("Pat Low", &MRMCML::getPattern<MRMCML::patternLow>,
-                            &MRMCML::setPattern<MRMCML::patternLow>);
+    OBJECT_PROP2("Pat Low", &EvrCML::getPattern<EvrCML::patternLow>,
+                            &EvrCML::setPattern<EvrCML::patternLow>);
 
-} OBJECT_END(MRMCML)
+} OBJECT_END(EvrCML)
 
 OBJECT_BEGIN(DelayModule) {
 

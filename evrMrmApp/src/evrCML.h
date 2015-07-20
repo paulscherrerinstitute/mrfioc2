@@ -8,8 +8,8 @@
  * Author: Michael Davidsaver <mdavidsaver@bnl.gov>
  */
 
-#ifndef EVRMRMCMLSHORT_HPP_INC
-#define EVRMRMCMLSHORT_HPP_INC
+#ifndef EVREvrCMLSHORT_HPP_INC
+#define EVREvrCMLSHORT_HPP_INC
 
 #include "mrf/object.h"
 #include <epicsTypes.h>
@@ -28,7 +28,7 @@ enum cmlMode {
   cmlModeInvalid
 };
 
-class MRMCML : public mrf::ObjectInst<MRMCML>, public IOStatus
+class EvrCML : public mrf::ObjectInst<EvrCML>, public IOStatus
 {
 public:
     enum outkind { typeCML, typeTG300, typeTG203 };
@@ -40,8 +40,8 @@ public:
       patternLow
     };
 
-    MRMCML(const std::string&, size_t, EVRMRM&, outkind, formFactor);
-    ~MRMCML();
+    EvrCML(const std::string&, size_t, EVRMRM&, outkind, formFactor);
+    ~EvrCML();
 
     void lock() const;
     void unlock() const;
@@ -131,4 +131,4 @@ private:
     outkind kind;
 };
 
-#endif // EVRMRMCMLSHORT_HPP_INC
+#endif // EVREvrCMLSHORT_HPP_INC
