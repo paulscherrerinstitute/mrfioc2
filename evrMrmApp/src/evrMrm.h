@@ -168,7 +168,7 @@ public:
 
     EvrInput* input(epicsUInt32) const;
 
-    MRMPreScaler* prescaler(epicsUInt32) const;
+    EvrPrescaler* prescaler(epicsUInt32) const;
 
     EvrCML* cml(epicsUInt32) const;
 
@@ -361,7 +361,7 @@ private:
 
     std::vector<EvrDelayModule*> delays;
 
-    typedef std::vector<MRMPreScaler*> prescalers_t;
+    typedef std::vector<EvrPrescaler*> prescalers_t;
     prescalers_t prescalers;
 
     typedef std::vector<MRMPulser*> pulsers_t;

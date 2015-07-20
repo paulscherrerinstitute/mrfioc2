@@ -133,12 +133,12 @@ OBJECT_BEGIN(MRMPulser) {
 } OBJECT_END(MRMPulser)
 
 
-OBJECT_BEGIN(MRMPreScaler) {
+OBJECT_BEGIN(EvrPrescaler) {
 
-    OBJECT_PROP2("Divide", &MRMPreScaler::prescaler, &MRMPreScaler::setPrescaler);
-    OBJECT_PROP2("Pulser mapping", &MRMPreScaler::pulserMapping, &MRMPreScaler::setPulserMapping);
+    OBJECT_PROP2("Divide", &EvrPrescaler::prescaler, &EvrPrescaler::setPrescaler);
+    OBJECT_PROP2("Pulser mapping", &EvrPrescaler::pulserMapping, &EvrPrescaler::setPulserMapping);
 
-} OBJECT_END(MRMPreScaler)
+} OBJECT_END(EvrPrescaler)
 
 
 OBJECT_BEGIN(EvrCML) {

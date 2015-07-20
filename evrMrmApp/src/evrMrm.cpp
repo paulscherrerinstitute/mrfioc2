@@ -279,7 +279,7 @@ try{
     for(size_t i=0; i<nPS; i++){
         std::ostringstream name;
         name<<id<<":PS"<<i;
-        prescalers[i]=new MRMPreScaler(name.str(), base, i);
+        prescalers[i]=new EvrPrescaler(name.str(), base, i);
     }
 
     pulsers.resize(nPul);
@@ -559,7 +559,7 @@ EVRMRM::input(epicsUInt32 i) const
     return inputs[i];
 }
 
-MRMPreScaler*
+EvrPrescaler*
 EVRMRM::prescaler(epicsUInt32 i) const
 {
     if(i>=prescalers.size())

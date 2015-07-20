@@ -16,11 +16,11 @@
 
 #include "support/util.h"
 
-class MRMPreScaler : public mrf::ObjectInst<MRMPreScaler>, public IOStatus
+class EvrPrescaler : public mrf::ObjectInst<EvrPrescaler>, public IOStatus
 {
 public:
-    MRMPreScaler(const std::string& n, volatile epicsUInt8 * b, size_t i);
-    ~MRMPreScaler(){};
+    EvrPrescaler(const std::string& n, volatile epicsUInt8 * b, size_t i);
+    ~EvrPrescaler(){};
 
     /* no locking needed */
     void lock() const{};

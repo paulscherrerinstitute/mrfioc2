@@ -13,11 +13,11 @@
 #include "evrRegMap.h"
 
 #include <stdexcept>
-#include "drvemPrescaler.h"
+#include "evrPrescaler.h"
 
 
-MRMPreScaler::MRMPreScaler(const std::string& n, volatile epicsUInt8 * b, size_t i)
-    :mrf::ObjectInst<MRMPreScaler>(n)
+EvrPrescaler::EvrPrescaler(const std::string& n, volatile epicsUInt8 * b, size_t i)
+    :mrf::ObjectInst<EvrPrescaler>(n)
     ,base(b)
     ,id(i)
 {
@@ -25,25 +25,25 @@ MRMPreScaler::MRMPreScaler(const std::string& n, volatile epicsUInt8 * b, size_t
 }
 
 epicsUInt32
-MRMPreScaler::prescaler() const
+EvrPrescaler::prescaler() const
 {
     return READ32(base, Scaler(id));
 }
 
 void
-MRMPreScaler::setPrescaler(epicsUInt32 v)
+EvrPrescaler::setPrescaler(epicsUInt32 v)
 {
     WRITE32(base, Scaler(id), v);
 }
 
 
 epicsUInt32
-MRMPreScaler::pulserMapping() const{
+EvrPrescaler::pulserMapping() const{
     return READ32(base, PrescalerTrigger(id));
 }
 
 void
-MRMPreScaler::setPulserMapping(epicsUInt32 pulsers){
+EvrPrescaler::setPulserMapping(epicsUInt32 pulsers){
     //TODO check out of range
     return WRITE32(base, PrescalerTrigger(id), pulsers);
 }
