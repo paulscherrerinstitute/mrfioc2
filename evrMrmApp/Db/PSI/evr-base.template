@@ -161,7 +161,7 @@ record(longin, "$(SYS)-$(EVR):Cnt-IRQ-I") {
   field(DTYP, "Obj Prop uint32")
   field(DESC, "Interrupt Count")
   field(SCAN, "1 second")
-  field(INP , "@OBJ=$(OBJ), PROP=Interrupt Count")
+  field(INP , "@OBJ=$(EVR), PROP=Interrupt Count")
   field(FLNK, "$(SYS)-$(EVR):Rate-IRQ-I")
 }
 
@@ -172,11 +172,11 @@ record(calc, "$(SYS)-$(EVR):Rate-IRQ-I") {
   field(EGU , "Hz")
 }
 
-record(longin, "$(SYS)-$(EVR)Cnt-FIFOEvt-I") {
+record(longin, "$(SYS)-$(EVR):Cnt-FIFOEvt-I") {
   field(DTYP, "Obj Prop uint32")
   field(DESC, "FIFO Event Count")
   field(SCAN, "1 second")
-  field(INP , "@OBJ=$(OBJ), PROP=FIFO Event Count")
+  field(INP , "@OBJ=$(EVR), PROP=FIFO Event Count")
   field(FLNK, "$(SYS)-$(EVR):Rate-FIFOEvt-I")
 }
 
@@ -191,7 +191,7 @@ record(calc, "$(SYS)-$(EVR):Rate-FIFOEvt-I") {
 record(longin, "$(SYS)-$(EVR):Cnt-FIFOLoop-I") {
   field(DTYP, "Obj Prop uint32")
   field(DESC, "FIFO Loop Count")
-  field(INP , "@OBJ=$(OBJ), PROP=FIFO Loop Count")
+  field(INP , "@OBJ=$(EVR), PROP=FIFO Loop Count")
   field(FLNK, "$(SYS)-$(EVR):Rate-FIFOLoop-I")
 }
 
