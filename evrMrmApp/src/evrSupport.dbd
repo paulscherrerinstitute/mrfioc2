@@ -1,3 +1,17 @@
+registrar(mrmsetupreg)
+driver(drvEvrMrm)
+include mrfCommon.dbd
+
+device(waveform, INST_IO, devwaveformindataBufRx, "MRM EVR Buf Rx")
+
+# RTEMS only workaround for VME interrupt timing problem
+registrar(registerISRHack)
+
+variable(mrmEvrFIFOPeriod,double)
+variable(evrDebug,int)
+variable(evrEventDebug,int)
+
+
 # INST_IO link strings
 #
 # Format is macLib style (Key=Value, Key=Value2)
