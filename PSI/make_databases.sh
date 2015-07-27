@@ -3,7 +3,7 @@ set -o errexit
 
 OUTPUT_DIR="./db"
 MRFIOC2_DIR=".."
-DB_LIST=(evgSoftSeq.template evg-vme evg-vme-300 evr-pulserMap.template evr-softEvent.template evr-specialFunctionMap.template evr-delayModule.template evr-vmerf230 evr-pcie-300 evr-cpci-230 evr-vme-300)
+DB_LIST=(evgSoftSeq.template evg-vme evg-vme-300 evg-cpci evr-pulserMap.template evr-softEvent.template evr-specialFunctionMap.template evr-delayModule.template evr-vmerf230 evr-pcie-300 evr-cpci-230 evr-vme-300)
 DB_REL_PATH="Db/PSI"
 
 # Verbose output
