@@ -1,8 +1,8 @@
-record(mbbo, "$(SYS)-$(EVG):$(OBJ)$(ID)-Map-Sel") {
+record(mbbo, "$(SYS)-$(EVG):Dbus$(ID)-Map-Sel") {
     field( DTYP, "Obj Prop uint16")
-    field( OUT , "@OBJ=$(EVG):$(OBJ)$(ID), PROP=Source")
+    field( OUT , "@OBJ=$(EVG):Dbus$(ID), PROP=Source")
     field( PINI, "YES")
-    field( VAL,  "$($(OBJ)$(ID)-Map-Sel\=0)")
+    field( VAL,  "$(Dbus$(ID)-Map-Sel\=0)")
     field( UDF,  "0")
     field( ZRST, "Off")
     field( ONST, "From Input")
