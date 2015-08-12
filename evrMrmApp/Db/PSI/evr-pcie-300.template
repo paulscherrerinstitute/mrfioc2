@@ -157,6 +157,69 @@ record(calc, "$(SYS,recursive)-$(EVR,recursive):Link-ClkPeriod-I") {
   field(TSEL, "$(SYS,recursive)-$(EVR,recursive):Link-Clk-I.TIME")
 }
 
+record(longin, "$(SYS,recursive)-$(EVR,recursive):Cnt-IRQ-I") {
+  field(DTYP, "Obj Prop uint32")
+  field(DESC, "Interrupt Count")
+  field(SCAN, "1 second")
+  field(INP , "@OBJ=$(EVR,recursive), PROP=Interrupt Count")
+  field(FLNK, "$(SYS,recursive)-$(EVR,recursive):Rate-IRQ-I")
+}
+
+record(calc, "$(SYS,recursive)-$(EVR,recursive):Rate-IRQ-I") {
+  field(DESC, "Interrupt rate")
+  field(INPA, "$(SYS,recursive)-$(EVR,recursive):Cnt-IRQ-I")
+  field(CALC, "C:=A-B;B:=A;C")
+  field(EGU , "Hz")
+}
+
+record(longin, "$(SYS,recursive)-$(EVR,recursive):Cnt-FIFOEvt-I") {
+  field(DTYP, "Obj Prop uint32")
+  field(DESC, "FIFO Event Count")
+  field(SCAN, "1 second")
+  field(INP , "@OBJ=$(EVR,recursive), PROP=FIFO Event Count")
+  field(FLNK, "$(SYS,recursive)-$(EVR,recursive):Rate-FIFOEvt-I")
+}
+
+record(calc, "$(SYS,recursive)-$(EVR,recursive):Rate-FIFOEvt-I") {
+  field(DESC, "FIFO reception rate")
+  field(INPA, "$(SYS,recursive)-$(EVR,recursive):Cnt-FIFOEvt-I")
+  field(CALC, "C:=A-B;B:=A;C")
+  field(EGU , "evt/s")
+  field(FLNK, "$(SYS,recursive)-$(EVR,recursive):Cnt-FIFOLoop-I")
+}
+
+record(longin, "$(SYS,recursive)-$(EVR,recursive):Cnt-FIFOLoop-I") {
+  field(DTYP, "Obj Prop uint32")
+  field(DESC, "FIFO Loop Count")
+  field(INP , "@OBJ=$(EVR,recursive), PROP=FIFO Loop Count")
+  field(FLNK, "$(SYS,recursive)-$(EVR,recursive):Rate-FIFOLoop-I")
+}
+
+record(calc, "$(SYS,recursive)-$(EVR,recursive):Rate-FIFOLoop-I") {
+  field(DESC, "FIFO service rate")
+  field(INPA, "$(SYS,recursive)-$(EVR,recursive):Cnt-FIFOLoop-I")
+  field(CALC, "C:=A-B;B:=A;C")
+  field(EGU , "Hz")
+  field(FLNK, "$(SYS,recursive)-$(EVR,recursive):FIFOCap-I")
+}
+
+# average number of events taken from the FIFO during each loop
+record(calc, "$(SYS,recursive)-$(EVR,recursive):FIFOCap-I") {
+  field(DESC, "FIFO capacity utilization")
+  field(INPA, "$(SYS,recursive)-$(EVR,recursive):Rate-FIFOEvt-I")
+  field(INPB, "$(SYS,recursive)-$(EVR,recursive):Rate-FIFOLoop-I")
+  field(INPC, "5.11")
+  field(CALC, "A/B/C")
+  field(EGU , "%")
+  field(HIHI, "98")
+  field(HIGH, "80")
+  field(LOW , "-1")
+  field(HHSV, "MAJOR")
+  field(HSV , "MINOR")
+  field(LSV , "INVALID")
+  info(autosaveFields_pass0, "HIHI HIGH LOW")
+}
+
 record(bi, "$(SYS,recursive)-$(EVR,recursive):Pll-Sts") {
   field(DTYP, "Obj Prop bool")
   field(INP , "@OBJ=$(EVR,recursive), PROP=PLL Lock Status")
@@ -167,6 +230,53 @@ record(bi, "$(SYS,recursive)-$(EVR,recursive):Pll-Sts") {
   field(ONAM, "OK")
   field(ZSV , "MAJOR")
 }
+
+record(mbbo, "$(SYS,recursive)-$(EVR,recursive):PLL-Bandwidth-Sel") {
+  field( DTYP, "Obj Prop uint16")
+  field( OUT , "@OBJ=$(EVR,recursive), PROP=PLL Bandwidth")
+  field( PINI, "YES")
+  field( VAL,  "$(PLL-Bandwidth-Sel=4,undefined)")
+  field( ZRST, "HM")
+  field( ONST, "HL")
+  field( TWST, "MH")
+  field( THST, "MM")
+  field( FRST, "ML")
+  field( ZRVL, "0")
+  field( ONVL, "1")
+  field( TWVL, "2")
+  field( THVL, "3")
+  field( FRVL, "4")
+  field( FVSV, "INVALID")
+  field( SXSV, "INVALID")
+  field( SVSV, "INVALID")
+  field( EISV, "INVALID")
+  field( NISV, "INVALID")
+  field( TESV, "INVALID")
+  field( ELSV, "INVALID")
+  field( TVSV, "INVALID")
+  field( TTSV, "INVALID")
+  field( FTSV, "INVALID")
+  field( FFSV, "INVALID")
+  field( UNSV, "INVALID")
+  field( FLNK, "$(SYS,recursive)-$(EVR,recursive):PLL-Bandwidth-RB")
+  info(autosaveFields_pass0, "VAL")
+}
+
+record(mbbi, "$(SYS,recursive)-$(EVR,recursive):PLL-Bandwidth-RB") {
+  field( DTYP, "Obj Prop uint16")
+  field( INP , "@OBJ=$(EVR,recursive), PROP=PLL Bandwidth")
+  field( ZRST, "HM")
+  field( ONST, "HL")
+  field( TWST, "MH")
+  field( THST, "MM")
+  field( FRST, "ML")
+  field( ZRVL, "0")
+  field( ONVL, "1")
+  field( TWVL, "2")
+  field( THVL, "3")
+  field( FRVL, "4")
+}
+
 
 record(longin, "$(SYS,recursive)-$(EVR,recursive):HwType-I") {
   field(DTYP, "Obj Prop uint32")
@@ -306,20 +416,97 @@ record(bo, "$(SYS,recursive)-$(EVR,recursive):Link-RxMode-Sel") {
   info(autosaveFields_pass0, "VAL")
 }
 
-
-
-record(bo, "$(SYS,recursive)-$(EVR,recursive):SFP-Update-Cmd") {
+## Delay compensation records
+record(bo, "$(SYS,recursive)-$(EVR,recursive):DlyCompensation-Enabled-Sel") {
+  field(DESC, "Enable/disable delay compensation")
   field(DTYP, "Obj Prop bool")
-  field(SCAN, "10 second")
-  field(OUT , "@OBJ=$(EVR,recursive):SFP, PROP=Update")
-  field(ZNAM, "Update")
-  field(ONAM, "Update")
-  field(FLNK, "$(SYS,recursive)-$(EVR,recursive):SFP-T-I")
+  field(OUT , "@OBJ=$(EVR,recursive), PROP=dc enabled")
+  field(PINI, "YES")
+  field(VAL , "$(DlyCompensation-Enabled-Sel=1,undefined)")
+  field(ZNAM, "Disabled")
+  field(ONAM, "Enabled")
+  field(FLNK, "$(SYS,recursive)-$(EVR,recursive):DlyCompensation-Enabled-RB")
+  info(autosaveFields_pass0, "VAL")
 }
 
-record(ai, "$(SYS,recursive)-$(EVR,recursive):SFP-T-I") {
+record(bi, "$(SYS,recursive)-$(EVR,recursive):DlyCompensation-Enabled-RB") {
+  field(DESC, "Enable/disable delay compensation")
+  field(DTYP, "Obj Prop bool")
+  field(INP , "@OBJ=$(EVR,recursive), PROP=dc enabled")
+  field(ZNAM, "Disabled")
+  field(ONAM, "Enabled")
+}
+
+record(ao, "$(SYS,recursive)-$(EVR,recursive):DlyCompensation-Target-SP") {
+  field(DTYP, "Obj Prop uint32")
+  field(OUT , "@OBJ=$(EVR,recursive), PROP=dc tv")
+  field(VAL, "$(DlyCompensation-Target-SP=0,undefined)")
+  field(PINI, "YES")
+  field(EGU, "ps")
+  field(LINR, "LINEAR")
+  field(ESLO, "0.000106812")
+  field(DESC, "Delay compensation target value")
+  field(FLNK, "$(SYS,recursive)-$(EVR,recursive):DlyCompensation-Target-RB")
+  info(autosaveFields_pass0, "VAL")
+}
+
+record(ai, "$(SYS,recursive)-$(EVR,recursive):DlyCompensation-Target-RB") {
+  field(DTYP, "Obj Prop uint32")
+  field(EGU, "ps")
+  field(LINR, "LINEAR")
+  field(ESLO, "0.000106812")
+  field(INP , "@OBJ=$(EVR,recursive), PROP=dc tv")
+  field(DESC, "Delay compensation target value")
+}
+
+record(ai, "$(SYS,recursive)-$(EVR,recursive):DlyCompensation-Path-RB") {
+  field(DTYP, "Obj Prop uint32")
+  field(EGU, "ps")
+  field(LINR, "LINEAR")
+  field(ESLO, "0.000106812")
+  field(INP , "@OBJ=$(EVR,recursive), PROP=dc tpd")
+  field(DESC, "Delay compens trans path dly")
+  field(SCAN, "1 second")
+}
+
+record(ai, "$(SYS,recursive)-$(EVR,recursive):DlyCompensation-Internal-RB") {
+  field(DTYP, "Obj Prop uint32")
+  field(EGU, "ps")
+  field(LINR, "LINEAR")
+  field(ESLO, "0.000106812")
+  field(INP , "@OBJ=$(EVR,recursive), PROP=dc id")
+  field(DESC, "Delay compensation internal delay")
+  field(SCAN, "1 second")
+}
+
+record(longin, "$(SYS,recursive)-$(EVR,recursive):DlyCompensation-Status-RB") {
+  field(DTYP, "Obj Prop uint32")
+  field(INP , "@OBJ=$(EVR,recursive), PROP=dc s")
+  field(DESC, "Delay compensation status")
+  field(SCAN, "1 second")
+}
+
+# DBus status
+record(mbbiDirect, "$(SYS,recursive)-$(EVR,recursive):DBus-Status-I") {
+  field(DTYP, "Obj Prop uint16")
+  field(INP , "@OBJ=$(EVR,recursive), PROP=DBus status")
+  field(PINI, "YES")
+  field(DESC, "DBus bits value")
+  field(SCAN, ".1 second")
+}
+
+record(bo, "$(SYS,recursive)-$(EVR,recursive):SFP0-Update-Cmd") {
+  field(DTYP, "Obj Prop bool")
+  field(SCAN, "10 second")
+  field(OUT , "@OBJ=$(EVR,recursive):SFP0, PROP=Update")
+  field(ZNAM, "Update")
+  field(ONAM, "Update")
+  field(FLNK, "$(SYS,recursive)-$(EVR,recursive):SFP0-T-I")
+}
+
+record(ai, "$(SYS,recursive)-$(EVR,recursive):SFP0-T-I") {
   field(DTYP, "Obj Prop double")
-  field(INP , "@OBJ=$(EVR,recursive):SFP, PROP=Temperature")
+  field(INP , "@OBJ=$(EVR,recursive):SFP0, PROP=Temperature")
   field(DESC, "Tranceiver Temperature")
   field(ADEL, "0.5")
   field(HIGH, "40")
@@ -330,12 +517,12 @@ record(ai, "$(SYS,recursive)-$(EVR,recursive):SFP-T-I") {
   field(LSV , "INVALID")
   field(EGU , "C")
   field(PREC, "1")
-  field(FLNK, "$(SYS,recursive)-$(EVR,recursive):SFP-Pwr-TX-I")
+  field(FLNK, "$(SYS,recursive)-$(EVR,recursive):SFP0-Pwr-TX-I")
 }
 
-record(ai, "$(SYS,recursive)-$(EVR,recursive):SFP-Pwr-TX-I") {
+record(ai, "$(SYS,recursive)-$(EVR,recursive):SFP0-Pwr-TX-I") {
   field(DTYP, "Obj Prop double")
-  field(INP , "@OBJ=$(EVR,recursive):SFP, PROP=Power TX")
+  field(INP , "@OBJ=$(EVR,recursive):SFP0, PROP=Power TX")
   field(DESC, "Tranceiver Output Power")
   field(ADEL, "5")
   field(HIGH, "400")
@@ -348,13 +535,13 @@ record(ai, "$(SYS,recursive)-$(EVR,recursive):SFP-Pwr-TX-I") {
   field(LINR, "LINEAR")
   field(ESLO, "1e6")
   field(PREC, "1")
-  field(FLNK, "$(SYS,recursive)-$(EVR,recursive):SFP-Pwr-RX-I")
+  field(FLNK, "$(SYS,recursive)-$(EVR,recursive):SFP0-Pwr-RX-I")
   info(autosaveFields_pass0, "LOW")
 }
 
-record(ai, "$(SYS,recursive)-$(EVR,recursive):SFP-Pwr-RX-I") {
+record(ai, "$(SYS,recursive)-$(EVR,recursive):SFP0-Pwr-RX-I") {
   field(DTYP, "Obj Prop double")
-  field(INP , "@OBJ=$(EVR,recursive):SFP, PROP=Power RX")
+  field(INP , "@OBJ=$(EVR,recursive):SFP0, PROP=Power RX")
   field(DESC, "Tranceiver Input Power")
   field(ADEL, "5")
   field(HIGH, "600")
@@ -367,13 +554,13 @@ record(ai, "$(SYS,recursive)-$(EVR,recursive):SFP-Pwr-RX-I") {
   field(LINR, "LINEAR")
   field(ESLO, "1e6")
   field(PREC, "1")
-  field(FLNK, "$(SYS,recursive)-$(EVR,recursive):SFP-Speed-Link-I")
+  field(FLNK, "$(SYS,recursive)-$(EVR,recursive):SFP0-Speed-Link-I")
   info(autosaveFields_pass0, "LOW")
 }
 
-record(ai, "$(SYS,recursive)-$(EVR,recursive):SFP-Speed-Link-I") {
+record(ai, "$(SYS,recursive)-$(EVR,recursive):SFP0-Speed-Link-I") {
   field(DTYP, "Obj Prop double")
-  field(INP , "@OBJ=$(EVR,recursive):SFP, PROP=Link Speed")
+  field(INP , "@OBJ=$(EVR,recursive):SFP0, PROP=Link Speed")
   field(DESC, "Tranceiver Line Rate")
   field(HIGH, "5000")
   field(HSV , "MAJOR")
@@ -383,43 +570,106 @@ record(ai, "$(SYS,recursive)-$(EVR,recursive):SFP-Speed-Link-I") {
   field(LLSV, "INVALID")
   field(EGU , "Mb/s")
   field(PREC, "0")
-  field(FLNK, "$(SYS,recursive)-$(EVR,recursive):SFP-Vendor-I")
+  field(FLNK, "$(SYS,recursive)-$(EVR,recursive):SFP0-Vendor-I")
 }
 
-record(stringin, "$(SYS,recursive)-$(EVR,recursive):SFP-Vendor-I") {
+record(stringin, "$(SYS,recursive)-$(EVR,recursive):SFP0-Vendor-I") {
   field(DTYP, "Obj Prop string")
   field(DESC, "Vendor name")
-  field(INP , "@OBJ=$(EVR,recursive):SFP, PROP=Vendor")
-  field(FLNK, "$(SYS,recursive)-$(EVR,recursive):SFP-Part-I")
+  field(INP , "@OBJ=$(EVR,recursive):SFP0, PROP=Vendor")
+  field(FLNK, "$(SYS,recursive)-$(EVR,recursive):SFP0-Part-I")
 }
 
-record(stringin, "$(SYS,recursive)-$(EVR,recursive):SFP-Part-I") {
+record(stringin, "$(SYS,recursive)-$(EVR,recursive):SFP0-Part-I") {
   field(DTYP, "Obj Prop string")
   field(DESC, "Vendor part number")
-  field(INP , "@OBJ=$(EVR,recursive):SFP, PROP=Part")
-  field(FLNK, "$(SYS,recursive)-$(EVR,recursive):SFP-Rev-I")
+  field(INP , "@OBJ=$(EVR,recursive):SFP0, PROP=Part")
+  field(FLNK, "$(SYS,recursive)-$(EVR,recursive):SFP0-Rev-I")
 }
 
-record(stringin, "$(SYS,recursive)-$(EVR,recursive):SFP-Rev-I") {
+record(stringin, "$(SYS,recursive)-$(EVR,recursive):SFP0-Rev-I") {
   field(DTYP, "Obj Prop string")
   field(DESC, "Vendor part revision")
-  field(INP , "@OBJ=$(EVR,recursive):SFP, PROP=Rev")
-  field(FLNK, "$(SYS,recursive)-$(EVR,recursive):SFP-Serial-I")
+  field(INP , "@OBJ=$(EVR,recursive):SFP0, PROP=Rev")
+  field(FLNK, "$(SYS,recursive)-$(EVR,recursive):SFP0-Serial-I")
 }
 
-record(stringin, "$(SYS,recursive)-$(EVR,recursive):SFP-Serial-I") {
+record(stringin, "$(SYS,recursive)-$(EVR,recursive):SFP0-Serial-I") {
   field(DTYP, "Obj Prop string")
   field(DESC, "SFP serial number")
-  field(INP , "@OBJ=$(EVR,recursive):SFP, PROP=Serial")
-  field(FLNK, "$(SYS,recursive)-$(EVR,recursive):SFP-Date-Manu-I")
+  field(INP , "@OBJ=$(EVR,recursive):SFP0, PROP=Serial")
+  field(FLNK, "$(SYS,recursive)-$(EVR,recursive):SFP0-Date-Manu-I")
 }
 
-record(stringin, "$(SYS,recursive)-$(EVR,recursive):SFP-Date-Manu-I") {
+record(stringin, "$(SYS,recursive)-$(EVR,recursive):SFP0-Date-Manu-I") {
   field(DTYP, "Obj Prop string")
   field(DESC, "Manufactored date")
-  field(INP , "@OBJ=$(EVR,recursive):SFP, PROP=Date")
+  field(INP , "@OBJ=$(EVR,recursive):SFP0, PROP=Date")
+  field(FLNK, "$(SYS,recursive)-$(EVR,recursive):SFP0-Status-I")
 }
-# Record set for an EVR's programable frequency divider
+
+record(longin, "$(SYS,recursive)-$(EVR,recursive):SFP0-Status-I") {
+  field(DTYP, "Obj Prop uint16")
+  field(DESC, "Status/control register")
+  field(INP , "@OBJ=$(EVR,recursive):SFP0, PROP=Status")
+  field(FLNK, "$(SYS,recursive)-$(EVR,recursive):SFP0-PowerVCC-I")
+}
+
+record(ai, "$(SYS,recursive)-$(EVR,recursive):SFP0-PowerVCC-I") {
+  field(DTYP, "Obj Prop double")
+  field(DESC, "Supply VCC Power")
+  field(EGU , "V")
+  field(PREC, "4")
+  field(INP , "@OBJ=$(EVR,recursive):SFP0, PROP=Power VCC")
+  field(FLNK, "$(SYS,recursive)-$(EVR,recursive):SFP0-BitRate-upper-I")
+}
+
+record(longin, "$(SYS,recursive)-$(EVR,recursive):SFP0-BitRate-upper-I") {
+  field(DTYP, "Obj Prop uint16")
+  field(DESC, "Upper bit rate margin")
+  field(EGU , "%")
+  field(INP , "@OBJ=$(EVR,recursive):SFP0, PROP=BitRate Upper")
+  field(FLNK, "$(SYS,recursive)-$(EVR,recursive):SFP0-BitRate-lower-I")
+}
+
+record(longin, "$(SYS,recursive)-$(EVR,recursive):SFP0-BitRate-lower-I") {
+  field(DTYP, "Obj Prop uint16")
+  field(DESC, "Lower bit rate margin")
+  field(EGU , "%")
+  field(INP , "@OBJ=$(EVR,recursive):SFP0, PROP=BitRate Lower")
+  field(FLNK, "$(SYS,recursive)-$(EVR,recursive):SFP0-LinkLength-9fiber-I")
+}
+
+record(longin, "$(SYS,recursive)-$(EVR,recursive):SFP0-LinkLength-9fiber-I") {
+  field(DTYP, "Obj Prop uint32")
+  field(DESC, "Link length: 9/125 um fiber")
+  field(EGU , "m")
+  field(INP , "@OBJ=$(EVR,recursive):SFP0, PROP=LinkLength 9um")
+  field(FLNK, "$(SYS,recursive)-$(EVR,recursive):SFP0-LinkLength-50fiber-I")
+}
+
+record(longin, "$(SYS,recursive)-$(EVR,recursive):SFP0-LinkLength-50fiber-I") {
+  field(DTYP, "Obj Prop uint16")
+  field(DESC, "Link length: 50/125 um fiber")
+  field(EGU , "m")
+  field(INP , "@OBJ=$(EVR,recursive):SFP0, PROP=LinkLength 50um")
+  field(FLNK, "$(SYS,recursive)-$(EVR,recursive):SFP0-LinkLength-62fiber-I")
+}
+
+record(longin, "$(SYS,recursive)-$(EVR,recursive):SFP0-LinkLength-62fiber-I") {
+  field(DTYP, "Obj Prop uint16")
+  field(DESC, "Link length: 62.5/125 um fiber")
+  field(EGU , "m")
+  field(INP , "@OBJ=$(EVR,recursive):SFP0, PROP=LinkLength 62um")
+  field(FLNK, "$(SYS,recursive)-$(EVR,recursive):SFP0-LinkLength-copper-I")
+}
+
+record(longin, "$(SYS,recursive)-$(EVR,recursive):SFP0-LinkLength-copper-I") {
+  field(DTYP, "Obj Prop uint16")
+  field(DESC, "Link length: copper")
+  field(EGU , "m")
+  field(INP , "@OBJ=$(EVR,recursive):SFP0, PROP=LinkLength copper")
+}# Record set for an EVR's programable frequency divider
 #
 # Macros:
 #  SYS = System name
@@ -449,6 +699,24 @@ record(calc, "$(SYS,recursive)-$(EVR,recursive):PS0-Rate-I") {
   field(CALC, "B/A")
   field(EGU, "MHz")
   field(PREC, "2")
+}
+
+
+record(mbboDirect, "$(SYS,recursive)-$(EVR,recursive):PS0-PulserMap-SP") {
+  field(DTYP, "Obj Prop uint32")
+  field(OUT , "@OBJ=$(EVR,recursive):PS0, PROP=Pulser mapping")
+  field(PINI, "YES")
+  field(DESC, "Pulser mapping")
+  field(VAL , "$(PS0-PulserMap-SP=0,undefined)")
+  field(NOBT, "16")
+  field(MASK, "0xFFFFFFFF")
+  field(FLNK, "$(SYS,recursive)-$(EVR,recursive):PS0-PulserMap-RB")
+}
+
+
+record(ai, "$(SYS,recursive)-$(EVR,recursive):PS0-PulserMap-RB") {
+  field(DTYP, "Obj Prop uint32")
+  field(INP , "@OBJ=$(EVR,recursive):PS0, PROP=Pulser mapping")
 }
 # Record set for an EVR's programable frequency divider
 #
@@ -481,6 +749,24 @@ record(calc, "$(SYS,recursive)-$(EVR,recursive):PS1-Rate-I") {
   field(EGU, "MHz")
   field(PREC, "2")
 }
+
+
+record(mbboDirect, "$(SYS,recursive)-$(EVR,recursive):PS1-PulserMap-SP") {
+  field(DTYP, "Obj Prop uint32")
+  field(OUT , "@OBJ=$(EVR,recursive):PS1, PROP=Pulser mapping")
+  field(PINI, "YES")
+  field(DESC, "Pulser mapping")
+  field(VAL , "$(PS1-PulserMap-SP=0,undefined)")
+  field(NOBT, "16")
+  field(MASK, "0xFFFFFFFF")
+  field(FLNK, "$(SYS,recursive)-$(EVR,recursive):PS1-PulserMap-RB")
+}
+
+
+record(ai, "$(SYS,recursive)-$(EVR,recursive):PS1-PulserMap-RB") {
+  field(DTYP, "Obj Prop uint32")
+  field(INP , "@OBJ=$(EVR,recursive):PS1, PROP=Pulser mapping")
+}
 # Record set for an EVR's programable frequency divider
 #
 # Macros:
@@ -511,6 +797,24 @@ record(calc, "$(SYS,recursive)-$(EVR,recursive):PS2-Rate-I") {
   field(CALC, "B/A")
   field(EGU, "MHz")
   field(PREC, "2")
+}
+
+
+record(mbboDirect, "$(SYS,recursive)-$(EVR,recursive):PS2-PulserMap-SP") {
+  field(DTYP, "Obj Prop uint32")
+  field(OUT , "@OBJ=$(EVR,recursive):PS2, PROP=Pulser mapping")
+  field(PINI, "YES")
+  field(DESC, "Pulser mapping")
+  field(VAL , "$(PS2-PulserMap-SP=0,undefined)")
+  field(NOBT, "16")
+  field(MASK, "0xFFFFFFFF")
+  field(FLNK, "$(SYS,recursive)-$(EVR,recursive):PS2-PulserMap-RB")
+}
+
+
+record(ai, "$(SYS,recursive)-$(EVR,recursive):PS2-PulserMap-RB") {
+  field(DTYP, "Obj Prop uint32")
+  field(INP , "@OBJ=$(EVR,recursive):PS2, PROP=Pulser mapping")
 }
 # Record set for an EVR's programmable pulse generator
 #
@@ -658,7 +962,36 @@ record(fanout, "$(SYS,recursive)-$(EVR,recursive):Pul0-Res-FO_") {
   field(LNK1, "$(SYS,recursive)-$(EVR,recursive):Pul0-Delay-SP")
   field(LNK2, "$(SYS,recursive)-$(EVR,recursive):Pul0-Width-SP")
 }
-# Record set for an EVR's programmable pulse generator
+
+
+# Pulse generator gates
+record(longout, "$(SYS,recursive)-$(EVR,recursive):Pul0-Gate-Mask-SP") {
+  field(DTYP, "Obj Prop uint16")
+  field(OUT , "@OBJ=$(EVR,recursive):Pul0, PROP=Gate mask")
+  field(PINI, "YES")
+  field(DESC, "Pulser gate mask")
+  field(VAL , "$(Pul0-Gate-Mask-SP=0,undefined)")
+  field(FLNK, "$(SYS,recursive)-$(EVR,recursive):Pul0-Gate-Mask-RB")
+}
+
+record(longin, "$(SYS,recursive)-$(EVR,recursive):Pul0-Gate-Mask-RB") {
+  field(DTYP, "Obj Prop uint16")
+  field(INP , "@OBJ=$(EVR,recursive):Pul0, PROP=Gate mask")
+}
+
+record(longout, "$(SYS,recursive)-$(EVR,recursive):Pul0-Gate-Enable-SP") {
+  field(DTYP, "Obj Prop uint16")
+  field(OUT , "@OBJ=$(EVR,recursive):Pul0, PROP=Gate enable")
+  field(PINI, "YES")
+  field(DESC, "Pulser gate enable")
+  field(VAL , "$(Pul0-Gate-Enable-SP=0,undefined)")
+  field(FLNK, "$(SYS,recursive)-$(EVR,recursive):Pul0-Gate-Enable-RB")
+}
+
+record(longin, "$(SYS,recursive)-$(EVR,recursive):Pul0-Gate-Enable-RB") {
+  field(DTYP, "Obj Prop uint16")
+  field(INP , "@OBJ=$(EVR,recursive):Pul0, PROP=Gate enable")
+}# Record set for an EVR's programmable pulse generator
 #
 # Macros:
 #  SYS = System name
@@ -804,7 +1137,36 @@ record(fanout, "$(SYS,recursive)-$(EVR,recursive):Pul1-Res-FO_") {
   field(LNK1, "$(SYS,recursive)-$(EVR,recursive):Pul1-Delay-SP")
   field(LNK2, "$(SYS,recursive)-$(EVR,recursive):Pul1-Width-SP")
 }
-# Record set for an EVR's programmable pulse generator
+
+
+# Pulse generator gates
+record(longout, "$(SYS,recursive)-$(EVR,recursive):Pul1-Gate-Mask-SP") {
+  field(DTYP, "Obj Prop uint16")
+  field(OUT , "@OBJ=$(EVR,recursive):Pul1, PROP=Gate mask")
+  field(PINI, "YES")
+  field(DESC, "Pulser gate mask")
+  field(VAL , "$(Pul1-Gate-Mask-SP=0,undefined)")
+  field(FLNK, "$(SYS,recursive)-$(EVR,recursive):Pul1-Gate-Mask-RB")
+}
+
+record(longin, "$(SYS,recursive)-$(EVR,recursive):Pul1-Gate-Mask-RB") {
+  field(DTYP, "Obj Prop uint16")
+  field(INP , "@OBJ=$(EVR,recursive):Pul1, PROP=Gate mask")
+}
+
+record(longout, "$(SYS,recursive)-$(EVR,recursive):Pul1-Gate-Enable-SP") {
+  field(DTYP, "Obj Prop uint16")
+  field(OUT , "@OBJ=$(EVR,recursive):Pul1, PROP=Gate enable")
+  field(PINI, "YES")
+  field(DESC, "Pulser gate enable")
+  field(VAL , "$(Pul1-Gate-Enable-SP=0,undefined)")
+  field(FLNK, "$(SYS,recursive)-$(EVR,recursive):Pul1-Gate-Enable-RB")
+}
+
+record(longin, "$(SYS,recursive)-$(EVR,recursive):Pul1-Gate-Enable-RB") {
+  field(DTYP, "Obj Prop uint16")
+  field(INP , "@OBJ=$(EVR,recursive):Pul1, PROP=Gate enable")
+}# Record set for an EVR's programmable pulse generator
 #
 # Macros:
 #  SYS = System name
@@ -950,7 +1312,36 @@ record(fanout, "$(SYS,recursive)-$(EVR,recursive):Pul2-Res-FO_") {
   field(LNK1, "$(SYS,recursive)-$(EVR,recursive):Pul2-Delay-SP")
   field(LNK2, "$(SYS,recursive)-$(EVR,recursive):Pul2-Width-SP")
 }
-# Record set for an EVR's programmable pulse generator
+
+
+# Pulse generator gates
+record(longout, "$(SYS,recursive)-$(EVR,recursive):Pul2-Gate-Mask-SP") {
+  field(DTYP, "Obj Prop uint16")
+  field(OUT , "@OBJ=$(EVR,recursive):Pul2, PROP=Gate mask")
+  field(PINI, "YES")
+  field(DESC, "Pulser gate mask")
+  field(VAL , "$(Pul2-Gate-Mask-SP=0,undefined)")
+  field(FLNK, "$(SYS,recursive)-$(EVR,recursive):Pul2-Gate-Mask-RB")
+}
+
+record(longin, "$(SYS,recursive)-$(EVR,recursive):Pul2-Gate-Mask-RB") {
+  field(DTYP, "Obj Prop uint16")
+  field(INP , "@OBJ=$(EVR,recursive):Pul2, PROP=Gate mask")
+}
+
+record(longout, "$(SYS,recursive)-$(EVR,recursive):Pul2-Gate-Enable-SP") {
+  field(DTYP, "Obj Prop uint16")
+  field(OUT , "@OBJ=$(EVR,recursive):Pul2, PROP=Gate enable")
+  field(PINI, "YES")
+  field(DESC, "Pulser gate enable")
+  field(VAL , "$(Pul2-Gate-Enable-SP=0,undefined)")
+  field(FLNK, "$(SYS,recursive)-$(EVR,recursive):Pul2-Gate-Enable-RB")
+}
+
+record(longin, "$(SYS,recursive)-$(EVR,recursive):Pul2-Gate-Enable-RB") {
+  field(DTYP, "Obj Prop uint16")
+  field(INP , "@OBJ=$(EVR,recursive):Pul2, PROP=Gate enable")
+}# Record set for an EVR's programmable pulse generator
 #
 # Macros:
 #  SYS = System name
@@ -1096,7 +1487,36 @@ record(fanout, "$(SYS,recursive)-$(EVR,recursive):Pul3-Res-FO_") {
   field(LNK1, "$(SYS,recursive)-$(EVR,recursive):Pul3-Delay-SP")
   field(LNK2, "$(SYS,recursive)-$(EVR,recursive):Pul3-Width-SP")
 }
-# Record set for an EVR's programmable pulse generator
+
+
+# Pulse generator gates
+record(longout, "$(SYS,recursive)-$(EVR,recursive):Pul3-Gate-Mask-SP") {
+  field(DTYP, "Obj Prop uint16")
+  field(OUT , "@OBJ=$(EVR,recursive):Pul3, PROP=Gate mask")
+  field(PINI, "YES")
+  field(DESC, "Pulser gate mask")
+  field(VAL , "$(Pul3-Gate-Mask-SP=0,undefined)")
+  field(FLNK, "$(SYS,recursive)-$(EVR,recursive):Pul3-Gate-Mask-RB")
+}
+
+record(longin, "$(SYS,recursive)-$(EVR,recursive):Pul3-Gate-Mask-RB") {
+  field(DTYP, "Obj Prop uint16")
+  field(INP , "@OBJ=$(EVR,recursive):Pul3, PROP=Gate mask")
+}
+
+record(longout, "$(SYS,recursive)-$(EVR,recursive):Pul3-Gate-Enable-SP") {
+  field(DTYP, "Obj Prop uint16")
+  field(OUT , "@OBJ=$(EVR,recursive):Pul3, PROP=Gate enable")
+  field(PINI, "YES")
+  field(DESC, "Pulser gate enable")
+  field(VAL , "$(Pul3-Gate-Enable-SP=0,undefined)")
+  field(FLNK, "$(SYS,recursive)-$(EVR,recursive):Pul3-Gate-Enable-RB")
+}
+
+record(longin, "$(SYS,recursive)-$(EVR,recursive):Pul3-Gate-Enable-RB") {
+  field(DTYP, "Obj Prop uint16")
+  field(INP , "@OBJ=$(EVR,recursive):Pul3, PROP=Gate enable")
+}# Record set for an EVR's programmable pulse generator
 #
 # Macros:
 #  SYS = System name
@@ -1242,7 +1662,36 @@ record(fanout, "$(SYS,recursive)-$(EVR,recursive):Pul4-Res-FO_") {
   field(LNK1, "$(SYS,recursive)-$(EVR,recursive):Pul4-Delay-SP")
   field(LNK2, "$(SYS,recursive)-$(EVR,recursive):Pul4-Width-SP")
 }
-# Record set for an EVR's programmable pulse generator
+
+
+# Pulse generator gates
+record(longout, "$(SYS,recursive)-$(EVR,recursive):Pul4-Gate-Mask-SP") {
+  field(DTYP, "Obj Prop uint16")
+  field(OUT , "@OBJ=$(EVR,recursive):Pul4, PROP=Gate mask")
+  field(PINI, "YES")
+  field(DESC, "Pulser gate mask")
+  field(VAL , "$(Pul4-Gate-Mask-SP=0,undefined)")
+  field(FLNK, "$(SYS,recursive)-$(EVR,recursive):Pul4-Gate-Mask-RB")
+}
+
+record(longin, "$(SYS,recursive)-$(EVR,recursive):Pul4-Gate-Mask-RB") {
+  field(DTYP, "Obj Prop uint16")
+  field(INP , "@OBJ=$(EVR,recursive):Pul4, PROP=Gate mask")
+}
+
+record(longout, "$(SYS,recursive)-$(EVR,recursive):Pul4-Gate-Enable-SP") {
+  field(DTYP, "Obj Prop uint16")
+  field(OUT , "@OBJ=$(EVR,recursive):Pul4, PROP=Gate enable")
+  field(PINI, "YES")
+  field(DESC, "Pulser gate enable")
+  field(VAL , "$(Pul4-Gate-Enable-SP=0,undefined)")
+  field(FLNK, "$(SYS,recursive)-$(EVR,recursive):Pul4-Gate-Enable-RB")
+}
+
+record(longin, "$(SYS,recursive)-$(EVR,recursive):Pul4-Gate-Enable-RB") {
+  field(DTYP, "Obj Prop uint16")
+  field(INP , "@OBJ=$(EVR,recursive):Pul4, PROP=Gate enable")
+}# Record set for an EVR's programmable pulse generator
 #
 # Macros:
 #  SYS = System name
@@ -1388,7 +1837,36 @@ record(fanout, "$(SYS,recursive)-$(EVR,recursive):Pul5-Res-FO_") {
   field(LNK1, "$(SYS,recursive)-$(EVR,recursive):Pul5-Delay-SP")
   field(LNK2, "$(SYS,recursive)-$(EVR,recursive):Pul5-Width-SP")
 }
-# Record set for an EVR's programmable pulse generator
+
+
+# Pulse generator gates
+record(longout, "$(SYS,recursive)-$(EVR,recursive):Pul5-Gate-Mask-SP") {
+  field(DTYP, "Obj Prop uint16")
+  field(OUT , "@OBJ=$(EVR,recursive):Pul5, PROP=Gate mask")
+  field(PINI, "YES")
+  field(DESC, "Pulser gate mask")
+  field(VAL , "$(Pul5-Gate-Mask-SP=0,undefined)")
+  field(FLNK, "$(SYS,recursive)-$(EVR,recursive):Pul5-Gate-Mask-RB")
+}
+
+record(longin, "$(SYS,recursive)-$(EVR,recursive):Pul5-Gate-Mask-RB") {
+  field(DTYP, "Obj Prop uint16")
+  field(INP , "@OBJ=$(EVR,recursive):Pul5, PROP=Gate mask")
+}
+
+record(longout, "$(SYS,recursive)-$(EVR,recursive):Pul5-Gate-Enable-SP") {
+  field(DTYP, "Obj Prop uint16")
+  field(OUT , "@OBJ=$(EVR,recursive):Pul5, PROP=Gate enable")
+  field(PINI, "YES")
+  field(DESC, "Pulser gate enable")
+  field(VAL , "$(Pul5-Gate-Enable-SP=0,undefined)")
+  field(FLNK, "$(SYS,recursive)-$(EVR,recursive):Pul5-Gate-Enable-RB")
+}
+
+record(longin, "$(SYS,recursive)-$(EVR,recursive):Pul5-Gate-Enable-RB") {
+  field(DTYP, "Obj Prop uint16")
+  field(INP , "@OBJ=$(EVR,recursive):Pul5, PROP=Gate enable")
+}# Record set for an EVR's programmable pulse generator
 #
 # Macros:
 #  SYS = System name
@@ -1534,7 +2012,36 @@ record(fanout, "$(SYS,recursive)-$(EVR,recursive):Pul6-Res-FO_") {
   field(LNK1, "$(SYS,recursive)-$(EVR,recursive):Pul6-Delay-SP")
   field(LNK2, "$(SYS,recursive)-$(EVR,recursive):Pul6-Width-SP")
 }
-# Record set for an EVR's programmable pulse generator
+
+
+# Pulse generator gates
+record(longout, "$(SYS,recursive)-$(EVR,recursive):Pul6-Gate-Mask-SP") {
+  field(DTYP, "Obj Prop uint16")
+  field(OUT , "@OBJ=$(EVR,recursive):Pul6, PROP=Gate mask")
+  field(PINI, "YES")
+  field(DESC, "Pulser gate mask")
+  field(VAL , "$(Pul6-Gate-Mask-SP=0,undefined)")
+  field(FLNK, "$(SYS,recursive)-$(EVR,recursive):Pul6-Gate-Mask-RB")
+}
+
+record(longin, "$(SYS,recursive)-$(EVR,recursive):Pul6-Gate-Mask-RB") {
+  field(DTYP, "Obj Prop uint16")
+  field(INP , "@OBJ=$(EVR,recursive):Pul6, PROP=Gate mask")
+}
+
+record(longout, "$(SYS,recursive)-$(EVR,recursive):Pul6-Gate-Enable-SP") {
+  field(DTYP, "Obj Prop uint16")
+  field(OUT , "@OBJ=$(EVR,recursive):Pul6, PROP=Gate enable")
+  field(PINI, "YES")
+  field(DESC, "Pulser gate enable")
+  field(VAL , "$(Pul6-Gate-Enable-SP=0,undefined)")
+  field(FLNK, "$(SYS,recursive)-$(EVR,recursive):Pul6-Gate-Enable-RB")
+}
+
+record(longin, "$(SYS,recursive)-$(EVR,recursive):Pul6-Gate-Enable-RB") {
+  field(DTYP, "Obj Prop uint16")
+  field(INP , "@OBJ=$(EVR,recursive):Pul6, PROP=Gate enable")
+}# Record set for an EVR's programmable pulse generator
 #
 # Macros:
 #  SYS = System name
@@ -1680,7 +2187,36 @@ record(fanout, "$(SYS,recursive)-$(EVR,recursive):Pul7-Res-FO_") {
   field(LNK1, "$(SYS,recursive)-$(EVR,recursive):Pul7-Delay-SP")
   field(LNK2, "$(SYS,recursive)-$(EVR,recursive):Pul7-Width-SP")
 }
-# Record set for an EVR's programmable pulse generator
+
+
+# Pulse generator gates
+record(longout, "$(SYS,recursive)-$(EVR,recursive):Pul7-Gate-Mask-SP") {
+  field(DTYP, "Obj Prop uint16")
+  field(OUT , "@OBJ=$(EVR,recursive):Pul7, PROP=Gate mask")
+  field(PINI, "YES")
+  field(DESC, "Pulser gate mask")
+  field(VAL , "$(Pul7-Gate-Mask-SP=0,undefined)")
+  field(FLNK, "$(SYS,recursive)-$(EVR,recursive):Pul7-Gate-Mask-RB")
+}
+
+record(longin, "$(SYS,recursive)-$(EVR,recursive):Pul7-Gate-Mask-RB") {
+  field(DTYP, "Obj Prop uint16")
+  field(INP , "@OBJ=$(EVR,recursive):Pul7, PROP=Gate mask")
+}
+
+record(longout, "$(SYS,recursive)-$(EVR,recursive):Pul7-Gate-Enable-SP") {
+  field(DTYP, "Obj Prop uint16")
+  field(OUT , "@OBJ=$(EVR,recursive):Pul7, PROP=Gate enable")
+  field(PINI, "YES")
+  field(DESC, "Pulser gate enable")
+  field(VAL , "$(Pul7-Gate-Enable-SP=0,undefined)")
+  field(FLNK, "$(SYS,recursive)-$(EVR,recursive):Pul7-Gate-Enable-RB")
+}
+
+record(longin, "$(SYS,recursive)-$(EVR,recursive):Pul7-Gate-Enable-RB") {
+  field(DTYP, "Obj Prop uint16")
+  field(INP , "@OBJ=$(EVR,recursive):Pul7, PROP=Gate enable")
+}# Record set for an EVR's programmable pulse generator
 #
 # Macros:
 #  SYS = System name
@@ -1826,7 +2362,36 @@ record(fanout, "$(SYS,recursive)-$(EVR,recursive):Pul8-Res-FO_") {
   field(LNK1, "$(SYS,recursive)-$(EVR,recursive):Pul8-Delay-SP")
   field(LNK2, "$(SYS,recursive)-$(EVR,recursive):Pul8-Width-SP")
 }
-# Record set for an EVR's programmable pulse generator
+
+
+# Pulse generator gates
+record(longout, "$(SYS,recursive)-$(EVR,recursive):Pul8-Gate-Mask-SP") {
+  field(DTYP, "Obj Prop uint16")
+  field(OUT , "@OBJ=$(EVR,recursive):Pul8, PROP=Gate mask")
+  field(PINI, "YES")
+  field(DESC, "Pulser gate mask")
+  field(VAL , "$(Pul8-Gate-Mask-SP=0,undefined)")
+  field(FLNK, "$(SYS,recursive)-$(EVR,recursive):Pul8-Gate-Mask-RB")
+}
+
+record(longin, "$(SYS,recursive)-$(EVR,recursive):Pul8-Gate-Mask-RB") {
+  field(DTYP, "Obj Prop uint16")
+  field(INP , "@OBJ=$(EVR,recursive):Pul8, PROP=Gate mask")
+}
+
+record(longout, "$(SYS,recursive)-$(EVR,recursive):Pul8-Gate-Enable-SP") {
+  field(DTYP, "Obj Prop uint16")
+  field(OUT , "@OBJ=$(EVR,recursive):Pul8, PROP=Gate enable")
+  field(PINI, "YES")
+  field(DESC, "Pulser gate enable")
+  field(VAL , "$(Pul8-Gate-Enable-SP=0,undefined)")
+  field(FLNK, "$(SYS,recursive)-$(EVR,recursive):Pul8-Gate-Enable-RB")
+}
+
+record(longin, "$(SYS,recursive)-$(EVR,recursive):Pul8-Gate-Enable-RB") {
+  field(DTYP, "Obj Prop uint16")
+  field(INP , "@OBJ=$(EVR,recursive):Pul8, PROP=Gate enable")
+}# Record set for an EVR's programmable pulse generator
 #
 # Macros:
 #  SYS = System name
@@ -1972,7 +2537,36 @@ record(fanout, "$(SYS,recursive)-$(EVR,recursive):Pul9-Res-FO_") {
   field(LNK1, "$(SYS,recursive)-$(EVR,recursive):Pul9-Delay-SP")
   field(LNK2, "$(SYS,recursive)-$(EVR,recursive):Pul9-Width-SP")
 }
-# Record set for an EVR's programmable pulse generator
+
+
+# Pulse generator gates
+record(longout, "$(SYS,recursive)-$(EVR,recursive):Pul9-Gate-Mask-SP") {
+  field(DTYP, "Obj Prop uint16")
+  field(OUT , "@OBJ=$(EVR,recursive):Pul9, PROP=Gate mask")
+  field(PINI, "YES")
+  field(DESC, "Pulser gate mask")
+  field(VAL , "$(Pul9-Gate-Mask-SP=0,undefined)")
+  field(FLNK, "$(SYS,recursive)-$(EVR,recursive):Pul9-Gate-Mask-RB")
+}
+
+record(longin, "$(SYS,recursive)-$(EVR,recursive):Pul9-Gate-Mask-RB") {
+  field(DTYP, "Obj Prop uint16")
+  field(INP , "@OBJ=$(EVR,recursive):Pul9, PROP=Gate mask")
+}
+
+record(longout, "$(SYS,recursive)-$(EVR,recursive):Pul9-Gate-Enable-SP") {
+  field(DTYP, "Obj Prop uint16")
+  field(OUT , "@OBJ=$(EVR,recursive):Pul9, PROP=Gate enable")
+  field(PINI, "YES")
+  field(DESC, "Pulser gate enable")
+  field(VAL , "$(Pul9-Gate-Enable-SP=0,undefined)")
+  field(FLNK, "$(SYS,recursive)-$(EVR,recursive):Pul9-Gate-Enable-RB")
+}
+
+record(longin, "$(SYS,recursive)-$(EVR,recursive):Pul9-Gate-Enable-RB") {
+  field(DTYP, "Obj Prop uint16")
+  field(INP , "@OBJ=$(EVR,recursive):Pul9, PROP=Gate enable")
+}# Record set for an EVR's programmable pulse generator
 #
 # Macros:
 #  SYS = System name
@@ -2118,7 +2712,36 @@ record(fanout, "$(SYS,recursive)-$(EVR,recursive):Pul10-Res-FO_") {
   field(LNK1, "$(SYS,recursive)-$(EVR,recursive):Pul10-Delay-SP")
   field(LNK2, "$(SYS,recursive)-$(EVR,recursive):Pul10-Width-SP")
 }
-# Record set for an EVR's programmable pulse generator
+
+
+# Pulse generator gates
+record(longout, "$(SYS,recursive)-$(EVR,recursive):Pul10-Gate-Mask-SP") {
+  field(DTYP, "Obj Prop uint16")
+  field(OUT , "@OBJ=$(EVR,recursive):Pul10, PROP=Gate mask")
+  field(PINI, "YES")
+  field(DESC, "Pulser gate mask")
+  field(VAL , "$(Pul10-Gate-Mask-SP=0,undefined)")
+  field(FLNK, "$(SYS,recursive)-$(EVR,recursive):Pul10-Gate-Mask-RB")
+}
+
+record(longin, "$(SYS,recursive)-$(EVR,recursive):Pul10-Gate-Mask-RB") {
+  field(DTYP, "Obj Prop uint16")
+  field(INP , "@OBJ=$(EVR,recursive):Pul10, PROP=Gate mask")
+}
+
+record(longout, "$(SYS,recursive)-$(EVR,recursive):Pul10-Gate-Enable-SP") {
+  field(DTYP, "Obj Prop uint16")
+  field(OUT , "@OBJ=$(EVR,recursive):Pul10, PROP=Gate enable")
+  field(PINI, "YES")
+  field(DESC, "Pulser gate enable")
+  field(VAL , "$(Pul10-Gate-Enable-SP=0,undefined)")
+  field(FLNK, "$(SYS,recursive)-$(EVR,recursive):Pul10-Gate-Enable-RB")
+}
+
+record(longin, "$(SYS,recursive)-$(EVR,recursive):Pul10-Gate-Enable-RB") {
+  field(DTYP, "Obj Prop uint16")
+  field(INP , "@OBJ=$(EVR,recursive):Pul10, PROP=Gate enable")
+}# Record set for an EVR's programmable pulse generator
 #
 # Macros:
 #  SYS = System name
@@ -2264,7 +2887,36 @@ record(fanout, "$(SYS,recursive)-$(EVR,recursive):Pul11-Res-FO_") {
   field(LNK1, "$(SYS,recursive)-$(EVR,recursive):Pul11-Delay-SP")
   field(LNK2, "$(SYS,recursive)-$(EVR,recursive):Pul11-Width-SP")
 }
-# Record set for an EVR's programmable pulse generator
+
+
+# Pulse generator gates
+record(longout, "$(SYS,recursive)-$(EVR,recursive):Pul11-Gate-Mask-SP") {
+  field(DTYP, "Obj Prop uint16")
+  field(OUT , "@OBJ=$(EVR,recursive):Pul11, PROP=Gate mask")
+  field(PINI, "YES")
+  field(DESC, "Pulser gate mask")
+  field(VAL , "$(Pul11-Gate-Mask-SP=0,undefined)")
+  field(FLNK, "$(SYS,recursive)-$(EVR,recursive):Pul11-Gate-Mask-RB")
+}
+
+record(longin, "$(SYS,recursive)-$(EVR,recursive):Pul11-Gate-Mask-RB") {
+  field(DTYP, "Obj Prop uint16")
+  field(INP , "@OBJ=$(EVR,recursive):Pul11, PROP=Gate mask")
+}
+
+record(longout, "$(SYS,recursive)-$(EVR,recursive):Pul11-Gate-Enable-SP") {
+  field(DTYP, "Obj Prop uint16")
+  field(OUT , "@OBJ=$(EVR,recursive):Pul11, PROP=Gate enable")
+  field(PINI, "YES")
+  field(DESC, "Pulser gate enable")
+  field(VAL , "$(Pul11-Gate-Enable-SP=0,undefined)")
+  field(FLNK, "$(SYS,recursive)-$(EVR,recursive):Pul11-Gate-Enable-RB")
+}
+
+record(longin, "$(SYS,recursive)-$(EVR,recursive):Pul11-Gate-Enable-RB") {
+  field(DTYP, "Obj Prop uint16")
+  field(INP , "@OBJ=$(EVR,recursive):Pul11, PROP=Gate enable")
+}# Record set for an EVR's programmable pulse generator
 #
 # Macros:
 #  SYS = System name
@@ -2410,7 +3062,36 @@ record(fanout, "$(SYS,recursive)-$(EVR,recursive):Pul12-Res-FO_") {
   field(LNK1, "$(SYS,recursive)-$(EVR,recursive):Pul12-Delay-SP")
   field(LNK2, "$(SYS,recursive)-$(EVR,recursive):Pul12-Width-SP")
 }
-# Record set for an EVR's programmable pulse generator
+
+
+# Pulse generator gates
+record(longout, "$(SYS,recursive)-$(EVR,recursive):Pul12-Gate-Mask-SP") {
+  field(DTYP, "Obj Prop uint16")
+  field(OUT , "@OBJ=$(EVR,recursive):Pul12, PROP=Gate mask")
+  field(PINI, "YES")
+  field(DESC, "Pulser gate mask")
+  field(VAL , "$(Pul12-Gate-Mask-SP=0,undefined)")
+  field(FLNK, "$(SYS,recursive)-$(EVR,recursive):Pul12-Gate-Mask-RB")
+}
+
+record(longin, "$(SYS,recursive)-$(EVR,recursive):Pul12-Gate-Mask-RB") {
+  field(DTYP, "Obj Prop uint16")
+  field(INP , "@OBJ=$(EVR,recursive):Pul12, PROP=Gate mask")
+}
+
+record(longout, "$(SYS,recursive)-$(EVR,recursive):Pul12-Gate-Enable-SP") {
+  field(DTYP, "Obj Prop uint16")
+  field(OUT , "@OBJ=$(EVR,recursive):Pul12, PROP=Gate enable")
+  field(PINI, "YES")
+  field(DESC, "Pulser gate enable")
+  field(VAL , "$(Pul12-Gate-Enable-SP=0,undefined)")
+  field(FLNK, "$(SYS,recursive)-$(EVR,recursive):Pul12-Gate-Enable-RB")
+}
+
+record(longin, "$(SYS,recursive)-$(EVR,recursive):Pul12-Gate-Enable-RB") {
+  field(DTYP, "Obj Prop uint16")
+  field(INP , "@OBJ=$(EVR,recursive):Pul12, PROP=Gate enable")
+}# Record set for an EVR's programmable pulse generator
 #
 # Macros:
 #  SYS = System name
@@ -2556,7 +3237,36 @@ record(fanout, "$(SYS,recursive)-$(EVR,recursive):Pul13-Res-FO_") {
   field(LNK1, "$(SYS,recursive)-$(EVR,recursive):Pul13-Delay-SP")
   field(LNK2, "$(SYS,recursive)-$(EVR,recursive):Pul13-Width-SP")
 }
-# Record set for an EVR's programmable pulse generator
+
+
+# Pulse generator gates
+record(longout, "$(SYS,recursive)-$(EVR,recursive):Pul13-Gate-Mask-SP") {
+  field(DTYP, "Obj Prop uint16")
+  field(OUT , "@OBJ=$(EVR,recursive):Pul13, PROP=Gate mask")
+  field(PINI, "YES")
+  field(DESC, "Pulser gate mask")
+  field(VAL , "$(Pul13-Gate-Mask-SP=0,undefined)")
+  field(FLNK, "$(SYS,recursive)-$(EVR,recursive):Pul13-Gate-Mask-RB")
+}
+
+record(longin, "$(SYS,recursive)-$(EVR,recursive):Pul13-Gate-Mask-RB") {
+  field(DTYP, "Obj Prop uint16")
+  field(INP , "@OBJ=$(EVR,recursive):Pul13, PROP=Gate mask")
+}
+
+record(longout, "$(SYS,recursive)-$(EVR,recursive):Pul13-Gate-Enable-SP") {
+  field(DTYP, "Obj Prop uint16")
+  field(OUT , "@OBJ=$(EVR,recursive):Pul13, PROP=Gate enable")
+  field(PINI, "YES")
+  field(DESC, "Pulser gate enable")
+  field(VAL , "$(Pul13-Gate-Enable-SP=0,undefined)")
+  field(FLNK, "$(SYS,recursive)-$(EVR,recursive):Pul13-Gate-Enable-RB")
+}
+
+record(longin, "$(SYS,recursive)-$(EVR,recursive):Pul13-Gate-Enable-RB") {
+  field(DTYP, "Obj Prop uint16")
+  field(INP , "@OBJ=$(EVR,recursive):Pul13, PROP=Gate enable")
+}# Record set for an EVR's programmable pulse generator
 #
 # Macros:
 #  SYS = System name
@@ -2702,7 +3412,36 @@ record(fanout, "$(SYS,recursive)-$(EVR,recursive):Pul14-Res-FO_") {
   field(LNK1, "$(SYS,recursive)-$(EVR,recursive):Pul14-Delay-SP")
   field(LNK2, "$(SYS,recursive)-$(EVR,recursive):Pul14-Width-SP")
 }
-# Record set for an EVR's programmable pulse generator
+
+
+# Pulse generator gates
+record(longout, "$(SYS,recursive)-$(EVR,recursive):Pul14-Gate-Mask-SP") {
+  field(DTYP, "Obj Prop uint16")
+  field(OUT , "@OBJ=$(EVR,recursive):Pul14, PROP=Gate mask")
+  field(PINI, "YES")
+  field(DESC, "Pulser gate mask")
+  field(VAL , "$(Pul14-Gate-Mask-SP=0,undefined)")
+  field(FLNK, "$(SYS,recursive)-$(EVR,recursive):Pul14-Gate-Mask-RB")
+}
+
+record(longin, "$(SYS,recursive)-$(EVR,recursive):Pul14-Gate-Mask-RB") {
+  field(DTYP, "Obj Prop uint16")
+  field(INP , "@OBJ=$(EVR,recursive):Pul14, PROP=Gate mask")
+}
+
+record(longout, "$(SYS,recursive)-$(EVR,recursive):Pul14-Gate-Enable-SP") {
+  field(DTYP, "Obj Prop uint16")
+  field(OUT , "@OBJ=$(EVR,recursive):Pul14, PROP=Gate enable")
+  field(PINI, "YES")
+  field(DESC, "Pulser gate enable")
+  field(VAL , "$(Pul14-Gate-Enable-SP=0,undefined)")
+  field(FLNK, "$(SYS,recursive)-$(EVR,recursive):Pul14-Gate-Enable-RB")
+}
+
+record(longin, "$(SYS,recursive)-$(EVR,recursive):Pul14-Gate-Enable-RB") {
+  field(DTYP, "Obj Prop uint16")
+  field(INP , "@OBJ=$(EVR,recursive):Pul14, PROP=Gate enable")
+}# Record set for an EVR's programmable pulse generator
 #
 # Macros:
 #  SYS = System name
@@ -2848,7 +3587,36 @@ record(fanout, "$(SYS,recursive)-$(EVR,recursive):Pul15-Res-FO_") {
   field(LNK1, "$(SYS,recursive)-$(EVR,recursive):Pul15-Delay-SP")
   field(LNK2, "$(SYS,recursive)-$(EVR,recursive):Pul15-Width-SP")
 }
-# Record set for an EVR's physical output
+
+
+# Pulse generator gates
+record(longout, "$(SYS,recursive)-$(EVR,recursive):Pul15-Gate-Mask-SP") {
+  field(DTYP, "Obj Prop uint16")
+  field(OUT , "@OBJ=$(EVR,recursive):Pul15, PROP=Gate mask")
+  field(PINI, "YES")
+  field(DESC, "Pulser gate mask")
+  field(VAL , "$(Pul15-Gate-Mask-SP=0,undefined)")
+  field(FLNK, "$(SYS,recursive)-$(EVR,recursive):Pul15-Gate-Mask-RB")
+}
+
+record(longin, "$(SYS,recursive)-$(EVR,recursive):Pul15-Gate-Mask-RB") {
+  field(DTYP, "Obj Prop uint16")
+  field(INP , "@OBJ=$(EVR,recursive):Pul15, PROP=Gate mask")
+}
+
+record(longout, "$(SYS,recursive)-$(EVR,recursive):Pul15-Gate-Enable-SP") {
+  field(DTYP, "Obj Prop uint16")
+  field(OUT , "@OBJ=$(EVR,recursive):Pul15, PROP=Gate enable")
+  field(PINI, "YES")
+  field(DESC, "Pulser gate enable")
+  field(VAL , "$(Pul15-Gate-Enable-SP=0,undefined)")
+  field(FLNK, "$(SYS,recursive)-$(EVR,recursive):Pul15-Gate-Enable-RB")
+}
+
+record(longin, "$(SYS,recursive)-$(EVR,recursive):Pul15-Gate-Enable-RB") {
+  field(DTYP, "Obj Prop uint16")
+  field(INP , "@OBJ=$(EVR,recursive):Pul15, PROP=Gate enable")
+}# Record set for an EVR's physical output
 #
 # Macros-
 #  SYS = System name
@@ -3101,6 +3869,237 @@ record(waveform, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut0-User-SP") {
   field( NORD, "1") # default include null termination
   info(autosaveFields_pass1, "VAL")
 }
+
+
+
+
+
+### Second source records
+
+record(longout, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut0-Src2-SP") {
+  field( DTYP, "Obj Prop uint32")
+  field( DESC, "UNIV0")
+  field( OUT , "@OBJ=$(EVR,recursive):FrontUnivOut0, PROP=MapAlt")
+  field( FLNK, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut0-Src2-RB")
+  field( PINI, "YES")
+  field( VAL , "$(FrontUnivOut0-Src2-SP=63,undefined)")  # Defaults to Force low (if enabled -> Ena-SP)
+  info(autosaveFields_pass0, "VAL HOPR LOPR DRVH DRVL")
+}
+
+# Settings
+# Users use will set one of these at a time.
+
+record(mbbo, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut0-Src2-Pulse-SP") {
+  field( DTYP, "Raw Soft Channel")
+  field( OUT , "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut0-Src2-SP PP")
+  field( ZRST, "Pulser 0")
+  field( ONST, "Pulser 1")
+  field( TWST, "Pulser 2")
+  field( THST, "Pulser 3")
+  field( FRST, "Pulser 4")
+  field( FVST, "Pulser 5")
+  field( SXST, "Pulser 6")
+  field( SVST, "Pulser 7")
+  field( EIST, "Pulser 8")
+  field( NIST, "Pulser 9")
+  field( TEST, "Pulser 10")
+  field( ELST, "Pulser 11")
+  field( TVST, "Pulser 12")
+  field( TTST, "Pulser 13")
+  field( FTST, "Pulser 14")
+  field( FFST, "Pulser 15")
+  field( ZRVL, "0")
+  field( ONVL, "1")
+  field( TWVL, "2")
+  field( THVL, "3")
+  field( FRVL, "4")
+  field( FVVL, "5")
+  field( SXVL, "6")
+  field( SVVL, "7")
+  field( EIVL, "8")
+  field( NIVL, "9")
+  field( TEVL, "10")
+  field( ELVL, "11")
+  field( TVVL, "12")
+  field( TTVL, "13")
+  field( FTVL, "14")
+  field( FFVL, "15")
+  field( UNSV, "INVALID")
+  field( IVOA, "Don't drive outputs")
+  info(autosaveFields_pass0, "VAL")
+}
+
+record(mbbo, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut0-Src2-DBus-SP") {
+  field( DTYP, "Raw Soft Channel")
+  field( OUT , "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut0-Src2-SP PP")
+  field( ZRST, "DBus 0")
+  field( ONST, "DBus 1")
+  field( TWST, "DBus 2")
+  field( THST, "DBus 3")
+  field( FRST, "DBus 4")
+  field( FVST, "DBus 5")
+  field( SXST, "DBus 6")
+  field( SVST, "DBus 7")
+  field( ZRVL, "32")
+  field( ONVL, "33")
+  field( TWVL, "34")
+  field( THVL, "35")
+  field( FRVL, "36")
+  field( FVVL, "37")
+  field( SXVL, "38")
+  field( SVVL, "39")
+  field( EISV, "INVALID")
+  field( NISV, "INVALID")
+  field( TESV, "INVALID")
+  field( ELSV, "INVALID")
+  field( TVSV, "INVALID")
+  field( TTSV, "INVALID")
+  field( FTSV, "INVALID")
+  field( FFSV, "INVALID")
+  field( UNSV, "INVALID")
+  field( IVOA, "Don't drive outputs")
+  info(autosaveFields_pass0, "VAL")
+}
+
+record(mbbo, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut0-Src2-Scale-SP") {
+  field( DTYP, "Raw Soft Channel")
+  field( OUT , "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut0-Src2-SP PP")
+  field( ZRST, "Prescaler 0")
+  field( ONST, "Prescaler 1")
+  field( TWST, "Prescaler 2")
+  field( ZRVL, "40")
+  field( ONVL, "41")
+  field( TWVL, "42")
+  field( THST, "Force Low")
+  field( FRST, "Force High")
+  field( THVL, "63")
+  field( FRVL, "62")
+  field( VAL , "3")
+  field( FVSV, "INVALID")
+  field( SXSV, "INVALID")
+  field( SVSV, "INVALID")
+  field( EISV, "INVALID")
+  field( NISV, "INVALID")
+  field( TESV, "INVALID")
+  field( ELSV, "INVALID")
+  field( TVSV, "INVALID")
+  field( TTSV, "INVALID")
+  field( FTSV, "INVALID")
+  field( FFSV, "INVALID")
+  field( UNSV, "INVALID")
+  field( IVOA, "Don't drive outputs")
+  info(autosaveFields_pass0, "VAL")
+}
+
+# Mapping readback
+
+
+
+record(longin, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut0-Src2-RB") {
+  field( DTYP, "Obj Prop uint32")
+  field( DESC, "UNIV0")
+  field( INP , "@OBJ=$(EVR,recursive):FrontUnivOut0, PROP=MapAlt")
+  field( FLNK, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut0-Src2-Pulse-RB")
+}
+
+record(mbbi, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut0-Src2-Pulse-RB") {
+  field( DTYP, "Raw Soft Channel")
+  field( INP , "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut0-Src2-RB")
+  field( ZRST, "Pulser 0")
+  field( ONST, "Pulser 1")
+  field( TWST, "Pulser 2")
+  field( THST, "Pulser 3")
+  field( FRST, "Pulser 4")
+  field( FVST, "Pulser 5")
+  field( SXST, "Pulser 6")
+  field( SVST, "Pulser 7")
+  field( EIST, "Pulser 8")
+  field( NIST, "Pulser 9")
+  field( TEST, "Pulser 10")
+  field( ELST, "Pulser 11")
+  field( TVST, "Pulser 12")
+  field( TTST, "Pulser 13")
+  field( FTST, "Pulser 14")
+  field( FFST, "Pulser 15")
+  field( ZRVL, "0")
+  field( ONVL, "1")
+  field( TWVL, "2")
+  field( THVL, "3")
+  field( FRVL, "4")
+  field( FVVL, "5")
+  field( SXVL, "6")
+  field( SVVL, "7")
+  field( EIVL, "8")
+  field( NIVL, "9")
+  field( TEVL, "10")
+  field( ELVL, "11")
+  field( TVVL, "12")
+  field( TTVL, "13")
+  field( FTVL, "14")
+  field( FFVL, "15")
+  field( UNSV, "MAJOR")
+  field( FLNK, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut0-Src2-DBus-RB")
+}
+
+record(mbbi, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut0-Src2-DBus-RB") {
+  field( DTYP, "Raw Soft Channel")
+  field( INP , "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut0-Src2-RB")
+  field( ZRST, "DBus 0")
+  field( ONST, "DBus 1")
+  field( TWST, "DBus 2")
+  field( THST, "DBus 3")
+  field( FRST, "DBus 4")
+  field( FVST, "DBus 5")
+  field( SXST, "DBus 6")
+  field( SVST, "DBus 7")
+  field( ZRVL, "32")
+  field( ONVL, "33")
+  field( TWVL, "34")
+  field( THVL, "35")
+  field( FRVL, "36")
+  field( FVVL, "37")
+  field( SXVL, "38")
+  field( SVVL, "39")
+  field( EISV, "MAJOR")
+  field( NISV, "MAJOR")
+  field( TESV, "MAJOR")
+  field( ELSV, "MAJOR")
+  field( TVSV, "MAJOR")
+  field( TTSV, "MAJOR")
+  field( FTSV, "MAJOR")
+  field( FFSV, "MAJOR")
+  field( UNSV, "MAJOR")
+  field( FLNK, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut0-Src2-Scale-RB")
+}
+
+record(mbbi, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut0-Src2-Scale-RB") {
+  field( DTYP, "Raw Soft Channel")
+  field( INP , "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut0-Src2-RB")
+  field( ZRST, "Prescaler 0")
+  field( ONST, "Prescaler 1")
+  field( TWST, "Prescaler 2")
+  field( ZRVL, "40")
+  field( ONVL, "41")
+  field( TWVL, "42")
+  field( THST, "Force Low")
+  field( FRST, "Force High")
+  field( THVL, "63")
+  field( FRVL, "62")
+  field( FVSV, "MAJOR")
+  field( SXSV, "MAJOR")
+  field( SVSV, "MAJOR")
+  field( EISV, "MAJOR")
+  field( NISV, "MAJOR")
+  field( TESV, "MAJOR")
+  field( ELSV, "MAJOR")
+  field( TVSV, "MAJOR")
+  field( TTSV, "MAJOR")
+  field( FTSV, "MAJOR")
+  field( FFSV, "MAJOR")
+  field( UNSV, "MAJOR")
+  field( UNSV, "MAJOR")
+}
+
 # Record set for an EVR's physical output
 #
 # Macros-
@@ -3354,6 +4353,237 @@ record(waveform, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut1-User-SP") {
   field( NORD, "1") # default include null termination
   info(autosaveFields_pass1, "VAL")
 }
+
+
+
+
+
+### Second source records
+
+record(longout, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut1-Src2-SP") {
+  field( DTYP, "Obj Prop uint32")
+  field( DESC, "UNIV1")
+  field( OUT , "@OBJ=$(EVR,recursive):FrontUnivOut1, PROP=MapAlt")
+  field( FLNK, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut1-Src2-RB")
+  field( PINI, "YES")
+  field( VAL , "$(FrontUnivOut1-Src2-SP=63,undefined)")  # Defaults to Force low (if enabled -> Ena-SP)
+  info(autosaveFields_pass0, "VAL HOPR LOPR DRVH DRVL")
+}
+
+# Settings
+# Users use will set one of these at a time.
+
+record(mbbo, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut1-Src2-Pulse-SP") {
+  field( DTYP, "Raw Soft Channel")
+  field( OUT , "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut1-Src2-SP PP")
+  field( ZRST, "Pulser 0")
+  field( ONST, "Pulser 1")
+  field( TWST, "Pulser 2")
+  field( THST, "Pulser 3")
+  field( FRST, "Pulser 4")
+  field( FVST, "Pulser 5")
+  field( SXST, "Pulser 6")
+  field( SVST, "Pulser 7")
+  field( EIST, "Pulser 8")
+  field( NIST, "Pulser 9")
+  field( TEST, "Pulser 10")
+  field( ELST, "Pulser 11")
+  field( TVST, "Pulser 12")
+  field( TTST, "Pulser 13")
+  field( FTST, "Pulser 14")
+  field( FFST, "Pulser 15")
+  field( ZRVL, "0")
+  field( ONVL, "1")
+  field( TWVL, "2")
+  field( THVL, "3")
+  field( FRVL, "4")
+  field( FVVL, "5")
+  field( SXVL, "6")
+  field( SVVL, "7")
+  field( EIVL, "8")
+  field( NIVL, "9")
+  field( TEVL, "10")
+  field( ELVL, "11")
+  field( TVVL, "12")
+  field( TTVL, "13")
+  field( FTVL, "14")
+  field( FFVL, "15")
+  field( UNSV, "INVALID")
+  field( IVOA, "Don't drive outputs")
+  info(autosaveFields_pass0, "VAL")
+}
+
+record(mbbo, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut1-Src2-DBus-SP") {
+  field( DTYP, "Raw Soft Channel")
+  field( OUT , "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut1-Src2-SP PP")
+  field( ZRST, "DBus 0")
+  field( ONST, "DBus 1")
+  field( TWST, "DBus 2")
+  field( THST, "DBus 3")
+  field( FRST, "DBus 4")
+  field( FVST, "DBus 5")
+  field( SXST, "DBus 6")
+  field( SVST, "DBus 7")
+  field( ZRVL, "32")
+  field( ONVL, "33")
+  field( TWVL, "34")
+  field( THVL, "35")
+  field( FRVL, "36")
+  field( FVVL, "37")
+  field( SXVL, "38")
+  field( SVVL, "39")
+  field( EISV, "INVALID")
+  field( NISV, "INVALID")
+  field( TESV, "INVALID")
+  field( ELSV, "INVALID")
+  field( TVSV, "INVALID")
+  field( TTSV, "INVALID")
+  field( FTSV, "INVALID")
+  field( FFSV, "INVALID")
+  field( UNSV, "INVALID")
+  field( IVOA, "Don't drive outputs")
+  info(autosaveFields_pass0, "VAL")
+}
+
+record(mbbo, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut1-Src2-Scale-SP") {
+  field( DTYP, "Raw Soft Channel")
+  field( OUT , "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut1-Src2-SP PP")
+  field( ZRST, "Prescaler 0")
+  field( ONST, "Prescaler 1")
+  field( TWST, "Prescaler 2")
+  field( ZRVL, "40")
+  field( ONVL, "41")
+  field( TWVL, "42")
+  field( THST, "Force Low")
+  field( FRST, "Force High")
+  field( THVL, "63")
+  field( FRVL, "62")
+  field( VAL , "3")
+  field( FVSV, "INVALID")
+  field( SXSV, "INVALID")
+  field( SVSV, "INVALID")
+  field( EISV, "INVALID")
+  field( NISV, "INVALID")
+  field( TESV, "INVALID")
+  field( ELSV, "INVALID")
+  field( TVSV, "INVALID")
+  field( TTSV, "INVALID")
+  field( FTSV, "INVALID")
+  field( FFSV, "INVALID")
+  field( UNSV, "INVALID")
+  field( IVOA, "Don't drive outputs")
+  info(autosaveFields_pass0, "VAL")
+}
+
+# Mapping readback
+
+
+
+record(longin, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut1-Src2-RB") {
+  field( DTYP, "Obj Prop uint32")
+  field( DESC, "UNIV1")
+  field( INP , "@OBJ=$(EVR,recursive):FrontUnivOut1, PROP=MapAlt")
+  field( FLNK, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut1-Src2-Pulse-RB")
+}
+
+record(mbbi, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut1-Src2-Pulse-RB") {
+  field( DTYP, "Raw Soft Channel")
+  field( INP , "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut1-Src2-RB")
+  field( ZRST, "Pulser 0")
+  field( ONST, "Pulser 1")
+  field( TWST, "Pulser 2")
+  field( THST, "Pulser 3")
+  field( FRST, "Pulser 4")
+  field( FVST, "Pulser 5")
+  field( SXST, "Pulser 6")
+  field( SVST, "Pulser 7")
+  field( EIST, "Pulser 8")
+  field( NIST, "Pulser 9")
+  field( TEST, "Pulser 10")
+  field( ELST, "Pulser 11")
+  field( TVST, "Pulser 12")
+  field( TTST, "Pulser 13")
+  field( FTST, "Pulser 14")
+  field( FFST, "Pulser 15")
+  field( ZRVL, "0")
+  field( ONVL, "1")
+  field( TWVL, "2")
+  field( THVL, "3")
+  field( FRVL, "4")
+  field( FVVL, "5")
+  field( SXVL, "6")
+  field( SVVL, "7")
+  field( EIVL, "8")
+  field( NIVL, "9")
+  field( TEVL, "10")
+  field( ELVL, "11")
+  field( TVVL, "12")
+  field( TTVL, "13")
+  field( FTVL, "14")
+  field( FFVL, "15")
+  field( UNSV, "MAJOR")
+  field( FLNK, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut1-Src2-DBus-RB")
+}
+
+record(mbbi, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut1-Src2-DBus-RB") {
+  field( DTYP, "Raw Soft Channel")
+  field( INP , "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut1-Src2-RB")
+  field( ZRST, "DBus 0")
+  field( ONST, "DBus 1")
+  field( TWST, "DBus 2")
+  field( THST, "DBus 3")
+  field( FRST, "DBus 4")
+  field( FVST, "DBus 5")
+  field( SXST, "DBus 6")
+  field( SVST, "DBus 7")
+  field( ZRVL, "32")
+  field( ONVL, "33")
+  field( TWVL, "34")
+  field( THVL, "35")
+  field( FRVL, "36")
+  field( FVVL, "37")
+  field( SXVL, "38")
+  field( SVVL, "39")
+  field( EISV, "MAJOR")
+  field( NISV, "MAJOR")
+  field( TESV, "MAJOR")
+  field( ELSV, "MAJOR")
+  field( TVSV, "MAJOR")
+  field( TTSV, "MAJOR")
+  field( FTSV, "MAJOR")
+  field( FFSV, "MAJOR")
+  field( UNSV, "MAJOR")
+  field( FLNK, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut1-Src2-Scale-RB")
+}
+
+record(mbbi, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut1-Src2-Scale-RB") {
+  field( DTYP, "Raw Soft Channel")
+  field( INP , "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut1-Src2-RB")
+  field( ZRST, "Prescaler 0")
+  field( ONST, "Prescaler 1")
+  field( TWST, "Prescaler 2")
+  field( ZRVL, "40")
+  field( ONVL, "41")
+  field( TWVL, "42")
+  field( THST, "Force Low")
+  field( FRST, "Force High")
+  field( THVL, "63")
+  field( FRVL, "62")
+  field( FVSV, "MAJOR")
+  field( SXSV, "MAJOR")
+  field( SVSV, "MAJOR")
+  field( EISV, "MAJOR")
+  field( NISV, "MAJOR")
+  field( TESV, "MAJOR")
+  field( ELSV, "MAJOR")
+  field( TVSV, "MAJOR")
+  field( TTSV, "MAJOR")
+  field( FTSV, "MAJOR")
+  field( FFSV, "MAJOR")
+  field( UNSV, "MAJOR")
+  field( UNSV, "MAJOR")
+}
+
 # Record set for an EVR's physical output
 #
 # Macros-
@@ -3607,6 +4837,237 @@ record(waveform, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut2-User-SP") {
   field( NORD, "1") # default include null termination
   info(autosaveFields_pass1, "VAL")
 }
+
+
+
+
+
+### Second source records
+
+record(longout, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut2-Src2-SP") {
+  field( DTYP, "Obj Prop uint32")
+  field( DESC, "UNIV2")
+  field( OUT , "@OBJ=$(EVR,recursive):FrontUnivOut2, PROP=MapAlt")
+  field( FLNK, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut2-Src2-RB")
+  field( PINI, "YES")
+  field( VAL , "$(FrontUnivOut2-Src2-SP=63,undefined)")  # Defaults to Force low (if enabled -> Ena-SP)
+  info(autosaveFields_pass0, "VAL HOPR LOPR DRVH DRVL")
+}
+
+# Settings
+# Users use will set one of these at a time.
+
+record(mbbo, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut2-Src2-Pulse-SP") {
+  field( DTYP, "Raw Soft Channel")
+  field( OUT , "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut2-Src2-SP PP")
+  field( ZRST, "Pulser 0")
+  field( ONST, "Pulser 1")
+  field( TWST, "Pulser 2")
+  field( THST, "Pulser 3")
+  field( FRST, "Pulser 4")
+  field( FVST, "Pulser 5")
+  field( SXST, "Pulser 6")
+  field( SVST, "Pulser 7")
+  field( EIST, "Pulser 8")
+  field( NIST, "Pulser 9")
+  field( TEST, "Pulser 10")
+  field( ELST, "Pulser 11")
+  field( TVST, "Pulser 12")
+  field( TTST, "Pulser 13")
+  field( FTST, "Pulser 14")
+  field( FFST, "Pulser 15")
+  field( ZRVL, "0")
+  field( ONVL, "1")
+  field( TWVL, "2")
+  field( THVL, "3")
+  field( FRVL, "4")
+  field( FVVL, "5")
+  field( SXVL, "6")
+  field( SVVL, "7")
+  field( EIVL, "8")
+  field( NIVL, "9")
+  field( TEVL, "10")
+  field( ELVL, "11")
+  field( TVVL, "12")
+  field( TTVL, "13")
+  field( FTVL, "14")
+  field( FFVL, "15")
+  field( UNSV, "INVALID")
+  field( IVOA, "Don't drive outputs")
+  info(autosaveFields_pass0, "VAL")
+}
+
+record(mbbo, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut2-Src2-DBus-SP") {
+  field( DTYP, "Raw Soft Channel")
+  field( OUT , "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut2-Src2-SP PP")
+  field( ZRST, "DBus 0")
+  field( ONST, "DBus 1")
+  field( TWST, "DBus 2")
+  field( THST, "DBus 3")
+  field( FRST, "DBus 4")
+  field( FVST, "DBus 5")
+  field( SXST, "DBus 6")
+  field( SVST, "DBus 7")
+  field( ZRVL, "32")
+  field( ONVL, "33")
+  field( TWVL, "34")
+  field( THVL, "35")
+  field( FRVL, "36")
+  field( FVVL, "37")
+  field( SXVL, "38")
+  field( SVVL, "39")
+  field( EISV, "INVALID")
+  field( NISV, "INVALID")
+  field( TESV, "INVALID")
+  field( ELSV, "INVALID")
+  field( TVSV, "INVALID")
+  field( TTSV, "INVALID")
+  field( FTSV, "INVALID")
+  field( FFSV, "INVALID")
+  field( UNSV, "INVALID")
+  field( IVOA, "Don't drive outputs")
+  info(autosaveFields_pass0, "VAL")
+}
+
+record(mbbo, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut2-Src2-Scale-SP") {
+  field( DTYP, "Raw Soft Channel")
+  field( OUT , "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut2-Src2-SP PP")
+  field( ZRST, "Prescaler 0")
+  field( ONST, "Prescaler 1")
+  field( TWST, "Prescaler 2")
+  field( ZRVL, "40")
+  field( ONVL, "41")
+  field( TWVL, "42")
+  field( THST, "Force Low")
+  field( FRST, "Force High")
+  field( THVL, "63")
+  field( FRVL, "62")
+  field( VAL , "3")
+  field( FVSV, "INVALID")
+  field( SXSV, "INVALID")
+  field( SVSV, "INVALID")
+  field( EISV, "INVALID")
+  field( NISV, "INVALID")
+  field( TESV, "INVALID")
+  field( ELSV, "INVALID")
+  field( TVSV, "INVALID")
+  field( TTSV, "INVALID")
+  field( FTSV, "INVALID")
+  field( FFSV, "INVALID")
+  field( UNSV, "INVALID")
+  field( IVOA, "Don't drive outputs")
+  info(autosaveFields_pass0, "VAL")
+}
+
+# Mapping readback
+
+
+
+record(longin, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut2-Src2-RB") {
+  field( DTYP, "Obj Prop uint32")
+  field( DESC, "UNIV2")
+  field( INP , "@OBJ=$(EVR,recursive):FrontUnivOut2, PROP=MapAlt")
+  field( FLNK, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut2-Src2-Pulse-RB")
+}
+
+record(mbbi, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut2-Src2-Pulse-RB") {
+  field( DTYP, "Raw Soft Channel")
+  field( INP , "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut2-Src2-RB")
+  field( ZRST, "Pulser 0")
+  field( ONST, "Pulser 1")
+  field( TWST, "Pulser 2")
+  field( THST, "Pulser 3")
+  field( FRST, "Pulser 4")
+  field( FVST, "Pulser 5")
+  field( SXST, "Pulser 6")
+  field( SVST, "Pulser 7")
+  field( EIST, "Pulser 8")
+  field( NIST, "Pulser 9")
+  field( TEST, "Pulser 10")
+  field( ELST, "Pulser 11")
+  field( TVST, "Pulser 12")
+  field( TTST, "Pulser 13")
+  field( FTST, "Pulser 14")
+  field( FFST, "Pulser 15")
+  field( ZRVL, "0")
+  field( ONVL, "1")
+  field( TWVL, "2")
+  field( THVL, "3")
+  field( FRVL, "4")
+  field( FVVL, "5")
+  field( SXVL, "6")
+  field( SVVL, "7")
+  field( EIVL, "8")
+  field( NIVL, "9")
+  field( TEVL, "10")
+  field( ELVL, "11")
+  field( TVVL, "12")
+  field( TTVL, "13")
+  field( FTVL, "14")
+  field( FFVL, "15")
+  field( UNSV, "MAJOR")
+  field( FLNK, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut2-Src2-DBus-RB")
+}
+
+record(mbbi, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut2-Src2-DBus-RB") {
+  field( DTYP, "Raw Soft Channel")
+  field( INP , "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut2-Src2-RB")
+  field( ZRST, "DBus 0")
+  field( ONST, "DBus 1")
+  field( TWST, "DBus 2")
+  field( THST, "DBus 3")
+  field( FRST, "DBus 4")
+  field( FVST, "DBus 5")
+  field( SXST, "DBus 6")
+  field( SVST, "DBus 7")
+  field( ZRVL, "32")
+  field( ONVL, "33")
+  field( TWVL, "34")
+  field( THVL, "35")
+  field( FRVL, "36")
+  field( FVVL, "37")
+  field( SXVL, "38")
+  field( SVVL, "39")
+  field( EISV, "MAJOR")
+  field( NISV, "MAJOR")
+  field( TESV, "MAJOR")
+  field( ELSV, "MAJOR")
+  field( TVSV, "MAJOR")
+  field( TTSV, "MAJOR")
+  field( FTSV, "MAJOR")
+  field( FFSV, "MAJOR")
+  field( UNSV, "MAJOR")
+  field( FLNK, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut2-Src2-Scale-RB")
+}
+
+record(mbbi, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut2-Src2-Scale-RB") {
+  field( DTYP, "Raw Soft Channel")
+  field( INP , "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut2-Src2-RB")
+  field( ZRST, "Prescaler 0")
+  field( ONST, "Prescaler 1")
+  field( TWST, "Prescaler 2")
+  field( ZRVL, "40")
+  field( ONVL, "41")
+  field( TWVL, "42")
+  field( THST, "Force Low")
+  field( FRST, "Force High")
+  field( THVL, "63")
+  field( FRVL, "62")
+  field( FVSV, "MAJOR")
+  field( SXSV, "MAJOR")
+  field( SVSV, "MAJOR")
+  field( EISV, "MAJOR")
+  field( NISV, "MAJOR")
+  field( TESV, "MAJOR")
+  field( ELSV, "MAJOR")
+  field( TVSV, "MAJOR")
+  field( TTSV, "MAJOR")
+  field( FTSV, "MAJOR")
+  field( FFSV, "MAJOR")
+  field( UNSV, "MAJOR")
+  field( UNSV, "MAJOR")
+}
+
 # Record set for an EVR's physical output
 #
 # Macros-
@@ -3860,6 +5321,237 @@ record(waveform, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut3-User-SP") {
   field( NORD, "1") # default include null termination
   info(autosaveFields_pass1, "VAL")
 }
+
+
+
+
+
+### Second source records
+
+record(longout, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut3-Src2-SP") {
+  field( DTYP, "Obj Prop uint32")
+  field( DESC, "UNIV3")
+  field( OUT , "@OBJ=$(EVR,recursive):FrontUnivOut3, PROP=MapAlt")
+  field( FLNK, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut3-Src2-RB")
+  field( PINI, "YES")
+  field( VAL , "$(FrontUnivOut3-Src2-SP=63,undefined)")  # Defaults to Force low (if enabled -> Ena-SP)
+  info(autosaveFields_pass0, "VAL HOPR LOPR DRVH DRVL")
+}
+
+# Settings
+# Users use will set one of these at a time.
+
+record(mbbo, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut3-Src2-Pulse-SP") {
+  field( DTYP, "Raw Soft Channel")
+  field( OUT , "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut3-Src2-SP PP")
+  field( ZRST, "Pulser 0")
+  field( ONST, "Pulser 1")
+  field( TWST, "Pulser 2")
+  field( THST, "Pulser 3")
+  field( FRST, "Pulser 4")
+  field( FVST, "Pulser 5")
+  field( SXST, "Pulser 6")
+  field( SVST, "Pulser 7")
+  field( EIST, "Pulser 8")
+  field( NIST, "Pulser 9")
+  field( TEST, "Pulser 10")
+  field( ELST, "Pulser 11")
+  field( TVST, "Pulser 12")
+  field( TTST, "Pulser 13")
+  field( FTST, "Pulser 14")
+  field( FFST, "Pulser 15")
+  field( ZRVL, "0")
+  field( ONVL, "1")
+  field( TWVL, "2")
+  field( THVL, "3")
+  field( FRVL, "4")
+  field( FVVL, "5")
+  field( SXVL, "6")
+  field( SVVL, "7")
+  field( EIVL, "8")
+  field( NIVL, "9")
+  field( TEVL, "10")
+  field( ELVL, "11")
+  field( TVVL, "12")
+  field( TTVL, "13")
+  field( FTVL, "14")
+  field( FFVL, "15")
+  field( UNSV, "INVALID")
+  field( IVOA, "Don't drive outputs")
+  info(autosaveFields_pass0, "VAL")
+}
+
+record(mbbo, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut3-Src2-DBus-SP") {
+  field( DTYP, "Raw Soft Channel")
+  field( OUT , "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut3-Src2-SP PP")
+  field( ZRST, "DBus 0")
+  field( ONST, "DBus 1")
+  field( TWST, "DBus 2")
+  field( THST, "DBus 3")
+  field( FRST, "DBus 4")
+  field( FVST, "DBus 5")
+  field( SXST, "DBus 6")
+  field( SVST, "DBus 7")
+  field( ZRVL, "32")
+  field( ONVL, "33")
+  field( TWVL, "34")
+  field( THVL, "35")
+  field( FRVL, "36")
+  field( FVVL, "37")
+  field( SXVL, "38")
+  field( SVVL, "39")
+  field( EISV, "INVALID")
+  field( NISV, "INVALID")
+  field( TESV, "INVALID")
+  field( ELSV, "INVALID")
+  field( TVSV, "INVALID")
+  field( TTSV, "INVALID")
+  field( FTSV, "INVALID")
+  field( FFSV, "INVALID")
+  field( UNSV, "INVALID")
+  field( IVOA, "Don't drive outputs")
+  info(autosaveFields_pass0, "VAL")
+}
+
+record(mbbo, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut3-Src2-Scale-SP") {
+  field( DTYP, "Raw Soft Channel")
+  field( OUT , "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut3-Src2-SP PP")
+  field( ZRST, "Prescaler 0")
+  field( ONST, "Prescaler 1")
+  field( TWST, "Prescaler 2")
+  field( ZRVL, "40")
+  field( ONVL, "41")
+  field( TWVL, "42")
+  field( THST, "Force Low")
+  field( FRST, "Force High")
+  field( THVL, "63")
+  field( FRVL, "62")
+  field( VAL , "3")
+  field( FVSV, "INVALID")
+  field( SXSV, "INVALID")
+  field( SVSV, "INVALID")
+  field( EISV, "INVALID")
+  field( NISV, "INVALID")
+  field( TESV, "INVALID")
+  field( ELSV, "INVALID")
+  field( TVSV, "INVALID")
+  field( TTSV, "INVALID")
+  field( FTSV, "INVALID")
+  field( FFSV, "INVALID")
+  field( UNSV, "INVALID")
+  field( IVOA, "Don't drive outputs")
+  info(autosaveFields_pass0, "VAL")
+}
+
+# Mapping readback
+
+
+
+record(longin, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut3-Src2-RB") {
+  field( DTYP, "Obj Prop uint32")
+  field( DESC, "UNIV3")
+  field( INP , "@OBJ=$(EVR,recursive):FrontUnivOut3, PROP=MapAlt")
+  field( FLNK, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut3-Src2-Pulse-RB")
+}
+
+record(mbbi, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut3-Src2-Pulse-RB") {
+  field( DTYP, "Raw Soft Channel")
+  field( INP , "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut3-Src2-RB")
+  field( ZRST, "Pulser 0")
+  field( ONST, "Pulser 1")
+  field( TWST, "Pulser 2")
+  field( THST, "Pulser 3")
+  field( FRST, "Pulser 4")
+  field( FVST, "Pulser 5")
+  field( SXST, "Pulser 6")
+  field( SVST, "Pulser 7")
+  field( EIST, "Pulser 8")
+  field( NIST, "Pulser 9")
+  field( TEST, "Pulser 10")
+  field( ELST, "Pulser 11")
+  field( TVST, "Pulser 12")
+  field( TTST, "Pulser 13")
+  field( FTST, "Pulser 14")
+  field( FFST, "Pulser 15")
+  field( ZRVL, "0")
+  field( ONVL, "1")
+  field( TWVL, "2")
+  field( THVL, "3")
+  field( FRVL, "4")
+  field( FVVL, "5")
+  field( SXVL, "6")
+  field( SVVL, "7")
+  field( EIVL, "8")
+  field( NIVL, "9")
+  field( TEVL, "10")
+  field( ELVL, "11")
+  field( TVVL, "12")
+  field( TTVL, "13")
+  field( FTVL, "14")
+  field( FFVL, "15")
+  field( UNSV, "MAJOR")
+  field( FLNK, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut3-Src2-DBus-RB")
+}
+
+record(mbbi, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut3-Src2-DBus-RB") {
+  field( DTYP, "Raw Soft Channel")
+  field( INP , "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut3-Src2-RB")
+  field( ZRST, "DBus 0")
+  field( ONST, "DBus 1")
+  field( TWST, "DBus 2")
+  field( THST, "DBus 3")
+  field( FRST, "DBus 4")
+  field( FVST, "DBus 5")
+  field( SXST, "DBus 6")
+  field( SVST, "DBus 7")
+  field( ZRVL, "32")
+  field( ONVL, "33")
+  field( TWVL, "34")
+  field( THVL, "35")
+  field( FRVL, "36")
+  field( FVVL, "37")
+  field( SXVL, "38")
+  field( SVVL, "39")
+  field( EISV, "MAJOR")
+  field( NISV, "MAJOR")
+  field( TESV, "MAJOR")
+  field( ELSV, "MAJOR")
+  field( TVSV, "MAJOR")
+  field( TTSV, "MAJOR")
+  field( FTSV, "MAJOR")
+  field( FFSV, "MAJOR")
+  field( UNSV, "MAJOR")
+  field( FLNK, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut3-Src2-Scale-RB")
+}
+
+record(mbbi, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut3-Src2-Scale-RB") {
+  field( DTYP, "Raw Soft Channel")
+  field( INP , "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut3-Src2-RB")
+  field( ZRST, "Prescaler 0")
+  field( ONST, "Prescaler 1")
+  field( TWST, "Prescaler 2")
+  field( ZRVL, "40")
+  field( ONVL, "41")
+  field( TWVL, "42")
+  field( THST, "Force Low")
+  field( FRST, "Force High")
+  field( THVL, "63")
+  field( FRVL, "62")
+  field( FVSV, "MAJOR")
+  field( SXSV, "MAJOR")
+  field( SVSV, "MAJOR")
+  field( EISV, "MAJOR")
+  field( NISV, "MAJOR")
+  field( TESV, "MAJOR")
+  field( ELSV, "MAJOR")
+  field( TVSV, "MAJOR")
+  field( TTSV, "MAJOR")
+  field( FTSV, "MAJOR")
+  field( FFSV, "MAJOR")
+  field( UNSV, "MAJOR")
+  field( UNSV, "MAJOR")
+}
+
 # Record set for an EVR's physical output
 #
 # Macros-
@@ -4113,6 +5805,237 @@ record(waveform, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut4-User-SP") {
   field( NORD, "1") # default include null termination
   info(autosaveFields_pass1, "VAL")
 }
+
+
+
+
+
+### Second source records
+
+record(longout, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut4-Src2-SP") {
+  field( DTYP, "Obj Prop uint32")
+  field( DESC, "UNIV4")
+  field( OUT , "@OBJ=$(EVR,recursive):FrontUnivOut4, PROP=MapAlt")
+  field( FLNK, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut4-Src2-RB")
+  field( PINI, "YES")
+  field( VAL , "$(FrontUnivOut4-Src2-SP=63,undefined)")  # Defaults to Force low (if enabled -> Ena-SP)
+  info(autosaveFields_pass0, "VAL HOPR LOPR DRVH DRVL")
+}
+
+# Settings
+# Users use will set one of these at a time.
+
+record(mbbo, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut4-Src2-Pulse-SP") {
+  field( DTYP, "Raw Soft Channel")
+  field( OUT , "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut4-Src2-SP PP")
+  field( ZRST, "Pulser 0")
+  field( ONST, "Pulser 1")
+  field( TWST, "Pulser 2")
+  field( THST, "Pulser 3")
+  field( FRST, "Pulser 4")
+  field( FVST, "Pulser 5")
+  field( SXST, "Pulser 6")
+  field( SVST, "Pulser 7")
+  field( EIST, "Pulser 8")
+  field( NIST, "Pulser 9")
+  field( TEST, "Pulser 10")
+  field( ELST, "Pulser 11")
+  field( TVST, "Pulser 12")
+  field( TTST, "Pulser 13")
+  field( FTST, "Pulser 14")
+  field( FFST, "Pulser 15")
+  field( ZRVL, "0")
+  field( ONVL, "1")
+  field( TWVL, "2")
+  field( THVL, "3")
+  field( FRVL, "4")
+  field( FVVL, "5")
+  field( SXVL, "6")
+  field( SVVL, "7")
+  field( EIVL, "8")
+  field( NIVL, "9")
+  field( TEVL, "10")
+  field( ELVL, "11")
+  field( TVVL, "12")
+  field( TTVL, "13")
+  field( FTVL, "14")
+  field( FFVL, "15")
+  field( UNSV, "INVALID")
+  field( IVOA, "Don't drive outputs")
+  info(autosaveFields_pass0, "VAL")
+}
+
+record(mbbo, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut4-Src2-DBus-SP") {
+  field( DTYP, "Raw Soft Channel")
+  field( OUT , "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut4-Src2-SP PP")
+  field( ZRST, "DBus 0")
+  field( ONST, "DBus 1")
+  field( TWST, "DBus 2")
+  field( THST, "DBus 3")
+  field( FRST, "DBus 4")
+  field( FVST, "DBus 5")
+  field( SXST, "DBus 6")
+  field( SVST, "DBus 7")
+  field( ZRVL, "32")
+  field( ONVL, "33")
+  field( TWVL, "34")
+  field( THVL, "35")
+  field( FRVL, "36")
+  field( FVVL, "37")
+  field( SXVL, "38")
+  field( SVVL, "39")
+  field( EISV, "INVALID")
+  field( NISV, "INVALID")
+  field( TESV, "INVALID")
+  field( ELSV, "INVALID")
+  field( TVSV, "INVALID")
+  field( TTSV, "INVALID")
+  field( FTSV, "INVALID")
+  field( FFSV, "INVALID")
+  field( UNSV, "INVALID")
+  field( IVOA, "Don't drive outputs")
+  info(autosaveFields_pass0, "VAL")
+}
+
+record(mbbo, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut4-Src2-Scale-SP") {
+  field( DTYP, "Raw Soft Channel")
+  field( OUT , "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut4-Src2-SP PP")
+  field( ZRST, "Prescaler 0")
+  field( ONST, "Prescaler 1")
+  field( TWST, "Prescaler 2")
+  field( ZRVL, "40")
+  field( ONVL, "41")
+  field( TWVL, "42")
+  field( THST, "Force Low")
+  field( FRST, "Force High")
+  field( THVL, "63")
+  field( FRVL, "62")
+  field( VAL , "3")
+  field( FVSV, "INVALID")
+  field( SXSV, "INVALID")
+  field( SVSV, "INVALID")
+  field( EISV, "INVALID")
+  field( NISV, "INVALID")
+  field( TESV, "INVALID")
+  field( ELSV, "INVALID")
+  field( TVSV, "INVALID")
+  field( TTSV, "INVALID")
+  field( FTSV, "INVALID")
+  field( FFSV, "INVALID")
+  field( UNSV, "INVALID")
+  field( IVOA, "Don't drive outputs")
+  info(autosaveFields_pass0, "VAL")
+}
+
+# Mapping readback
+
+
+
+record(longin, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut4-Src2-RB") {
+  field( DTYP, "Obj Prop uint32")
+  field( DESC, "UNIV4")
+  field( INP , "@OBJ=$(EVR,recursive):FrontUnivOut4, PROP=MapAlt")
+  field( FLNK, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut4-Src2-Pulse-RB")
+}
+
+record(mbbi, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut4-Src2-Pulse-RB") {
+  field( DTYP, "Raw Soft Channel")
+  field( INP , "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut4-Src2-RB")
+  field( ZRST, "Pulser 0")
+  field( ONST, "Pulser 1")
+  field( TWST, "Pulser 2")
+  field( THST, "Pulser 3")
+  field( FRST, "Pulser 4")
+  field( FVST, "Pulser 5")
+  field( SXST, "Pulser 6")
+  field( SVST, "Pulser 7")
+  field( EIST, "Pulser 8")
+  field( NIST, "Pulser 9")
+  field( TEST, "Pulser 10")
+  field( ELST, "Pulser 11")
+  field( TVST, "Pulser 12")
+  field( TTST, "Pulser 13")
+  field( FTST, "Pulser 14")
+  field( FFST, "Pulser 15")
+  field( ZRVL, "0")
+  field( ONVL, "1")
+  field( TWVL, "2")
+  field( THVL, "3")
+  field( FRVL, "4")
+  field( FVVL, "5")
+  field( SXVL, "6")
+  field( SVVL, "7")
+  field( EIVL, "8")
+  field( NIVL, "9")
+  field( TEVL, "10")
+  field( ELVL, "11")
+  field( TVVL, "12")
+  field( TTVL, "13")
+  field( FTVL, "14")
+  field( FFVL, "15")
+  field( UNSV, "MAJOR")
+  field( FLNK, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut4-Src2-DBus-RB")
+}
+
+record(mbbi, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut4-Src2-DBus-RB") {
+  field( DTYP, "Raw Soft Channel")
+  field( INP , "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut4-Src2-RB")
+  field( ZRST, "DBus 0")
+  field( ONST, "DBus 1")
+  field( TWST, "DBus 2")
+  field( THST, "DBus 3")
+  field( FRST, "DBus 4")
+  field( FVST, "DBus 5")
+  field( SXST, "DBus 6")
+  field( SVST, "DBus 7")
+  field( ZRVL, "32")
+  field( ONVL, "33")
+  field( TWVL, "34")
+  field( THVL, "35")
+  field( FRVL, "36")
+  field( FVVL, "37")
+  field( SXVL, "38")
+  field( SVVL, "39")
+  field( EISV, "MAJOR")
+  field( NISV, "MAJOR")
+  field( TESV, "MAJOR")
+  field( ELSV, "MAJOR")
+  field( TVSV, "MAJOR")
+  field( TTSV, "MAJOR")
+  field( FTSV, "MAJOR")
+  field( FFSV, "MAJOR")
+  field( UNSV, "MAJOR")
+  field( FLNK, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut4-Src2-Scale-RB")
+}
+
+record(mbbi, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut4-Src2-Scale-RB") {
+  field( DTYP, "Raw Soft Channel")
+  field( INP , "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut4-Src2-RB")
+  field( ZRST, "Prescaler 0")
+  field( ONST, "Prescaler 1")
+  field( TWST, "Prescaler 2")
+  field( ZRVL, "40")
+  field( ONVL, "41")
+  field( TWVL, "42")
+  field( THST, "Force Low")
+  field( FRST, "Force High")
+  field( THVL, "63")
+  field( FRVL, "62")
+  field( FVSV, "MAJOR")
+  field( SXSV, "MAJOR")
+  field( SVSV, "MAJOR")
+  field( EISV, "MAJOR")
+  field( NISV, "MAJOR")
+  field( TESV, "MAJOR")
+  field( ELSV, "MAJOR")
+  field( TVSV, "MAJOR")
+  field( TTSV, "MAJOR")
+  field( FTSV, "MAJOR")
+  field( FFSV, "MAJOR")
+  field( UNSV, "MAJOR")
+  field( UNSV, "MAJOR")
+}
+
 # Record set for an EVR's physical output
 #
 # Macros-
@@ -4366,6 +6289,237 @@ record(waveform, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut5-User-SP") {
   field( NORD, "1") # default include null termination
   info(autosaveFields_pass1, "VAL")
 }
+
+
+
+
+
+### Second source records
+
+record(longout, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut5-Src2-SP") {
+  field( DTYP, "Obj Prop uint32")
+  field( DESC, "UNIV5")
+  field( OUT , "@OBJ=$(EVR,recursive):FrontUnivOut5, PROP=MapAlt")
+  field( FLNK, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut5-Src2-RB")
+  field( PINI, "YES")
+  field( VAL , "$(FrontUnivOut5-Src2-SP=63,undefined)")  # Defaults to Force low (if enabled -> Ena-SP)
+  info(autosaveFields_pass0, "VAL HOPR LOPR DRVH DRVL")
+}
+
+# Settings
+# Users use will set one of these at a time.
+
+record(mbbo, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut5-Src2-Pulse-SP") {
+  field( DTYP, "Raw Soft Channel")
+  field( OUT , "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut5-Src2-SP PP")
+  field( ZRST, "Pulser 0")
+  field( ONST, "Pulser 1")
+  field( TWST, "Pulser 2")
+  field( THST, "Pulser 3")
+  field( FRST, "Pulser 4")
+  field( FVST, "Pulser 5")
+  field( SXST, "Pulser 6")
+  field( SVST, "Pulser 7")
+  field( EIST, "Pulser 8")
+  field( NIST, "Pulser 9")
+  field( TEST, "Pulser 10")
+  field( ELST, "Pulser 11")
+  field( TVST, "Pulser 12")
+  field( TTST, "Pulser 13")
+  field( FTST, "Pulser 14")
+  field( FFST, "Pulser 15")
+  field( ZRVL, "0")
+  field( ONVL, "1")
+  field( TWVL, "2")
+  field( THVL, "3")
+  field( FRVL, "4")
+  field( FVVL, "5")
+  field( SXVL, "6")
+  field( SVVL, "7")
+  field( EIVL, "8")
+  field( NIVL, "9")
+  field( TEVL, "10")
+  field( ELVL, "11")
+  field( TVVL, "12")
+  field( TTVL, "13")
+  field( FTVL, "14")
+  field( FFVL, "15")
+  field( UNSV, "INVALID")
+  field( IVOA, "Don't drive outputs")
+  info(autosaveFields_pass0, "VAL")
+}
+
+record(mbbo, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut5-Src2-DBus-SP") {
+  field( DTYP, "Raw Soft Channel")
+  field( OUT , "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut5-Src2-SP PP")
+  field( ZRST, "DBus 0")
+  field( ONST, "DBus 1")
+  field( TWST, "DBus 2")
+  field( THST, "DBus 3")
+  field( FRST, "DBus 4")
+  field( FVST, "DBus 5")
+  field( SXST, "DBus 6")
+  field( SVST, "DBus 7")
+  field( ZRVL, "32")
+  field( ONVL, "33")
+  field( TWVL, "34")
+  field( THVL, "35")
+  field( FRVL, "36")
+  field( FVVL, "37")
+  field( SXVL, "38")
+  field( SVVL, "39")
+  field( EISV, "INVALID")
+  field( NISV, "INVALID")
+  field( TESV, "INVALID")
+  field( ELSV, "INVALID")
+  field( TVSV, "INVALID")
+  field( TTSV, "INVALID")
+  field( FTSV, "INVALID")
+  field( FFSV, "INVALID")
+  field( UNSV, "INVALID")
+  field( IVOA, "Don't drive outputs")
+  info(autosaveFields_pass0, "VAL")
+}
+
+record(mbbo, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut5-Src2-Scale-SP") {
+  field( DTYP, "Raw Soft Channel")
+  field( OUT , "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut5-Src2-SP PP")
+  field( ZRST, "Prescaler 0")
+  field( ONST, "Prescaler 1")
+  field( TWST, "Prescaler 2")
+  field( ZRVL, "40")
+  field( ONVL, "41")
+  field( TWVL, "42")
+  field( THST, "Force Low")
+  field( FRST, "Force High")
+  field( THVL, "63")
+  field( FRVL, "62")
+  field( VAL , "3")
+  field( FVSV, "INVALID")
+  field( SXSV, "INVALID")
+  field( SVSV, "INVALID")
+  field( EISV, "INVALID")
+  field( NISV, "INVALID")
+  field( TESV, "INVALID")
+  field( ELSV, "INVALID")
+  field( TVSV, "INVALID")
+  field( TTSV, "INVALID")
+  field( FTSV, "INVALID")
+  field( FFSV, "INVALID")
+  field( UNSV, "INVALID")
+  field( IVOA, "Don't drive outputs")
+  info(autosaveFields_pass0, "VAL")
+}
+
+# Mapping readback
+
+
+
+record(longin, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut5-Src2-RB") {
+  field( DTYP, "Obj Prop uint32")
+  field( DESC, "UNIV5")
+  field( INP , "@OBJ=$(EVR,recursive):FrontUnivOut5, PROP=MapAlt")
+  field( FLNK, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut5-Src2-Pulse-RB")
+}
+
+record(mbbi, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut5-Src2-Pulse-RB") {
+  field( DTYP, "Raw Soft Channel")
+  field( INP , "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut5-Src2-RB")
+  field( ZRST, "Pulser 0")
+  field( ONST, "Pulser 1")
+  field( TWST, "Pulser 2")
+  field( THST, "Pulser 3")
+  field( FRST, "Pulser 4")
+  field( FVST, "Pulser 5")
+  field( SXST, "Pulser 6")
+  field( SVST, "Pulser 7")
+  field( EIST, "Pulser 8")
+  field( NIST, "Pulser 9")
+  field( TEST, "Pulser 10")
+  field( ELST, "Pulser 11")
+  field( TVST, "Pulser 12")
+  field( TTST, "Pulser 13")
+  field( FTST, "Pulser 14")
+  field( FFST, "Pulser 15")
+  field( ZRVL, "0")
+  field( ONVL, "1")
+  field( TWVL, "2")
+  field( THVL, "3")
+  field( FRVL, "4")
+  field( FVVL, "5")
+  field( SXVL, "6")
+  field( SVVL, "7")
+  field( EIVL, "8")
+  field( NIVL, "9")
+  field( TEVL, "10")
+  field( ELVL, "11")
+  field( TVVL, "12")
+  field( TTVL, "13")
+  field( FTVL, "14")
+  field( FFVL, "15")
+  field( UNSV, "MAJOR")
+  field( FLNK, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut5-Src2-DBus-RB")
+}
+
+record(mbbi, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut5-Src2-DBus-RB") {
+  field( DTYP, "Raw Soft Channel")
+  field( INP , "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut5-Src2-RB")
+  field( ZRST, "DBus 0")
+  field( ONST, "DBus 1")
+  field( TWST, "DBus 2")
+  field( THST, "DBus 3")
+  field( FRST, "DBus 4")
+  field( FVST, "DBus 5")
+  field( SXST, "DBus 6")
+  field( SVST, "DBus 7")
+  field( ZRVL, "32")
+  field( ONVL, "33")
+  field( TWVL, "34")
+  field( THVL, "35")
+  field( FRVL, "36")
+  field( FVVL, "37")
+  field( SXVL, "38")
+  field( SVVL, "39")
+  field( EISV, "MAJOR")
+  field( NISV, "MAJOR")
+  field( TESV, "MAJOR")
+  field( ELSV, "MAJOR")
+  field( TVSV, "MAJOR")
+  field( TTSV, "MAJOR")
+  field( FTSV, "MAJOR")
+  field( FFSV, "MAJOR")
+  field( UNSV, "MAJOR")
+  field( FLNK, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut5-Src2-Scale-RB")
+}
+
+record(mbbi, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut5-Src2-Scale-RB") {
+  field( DTYP, "Raw Soft Channel")
+  field( INP , "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut5-Src2-RB")
+  field( ZRST, "Prescaler 0")
+  field( ONST, "Prescaler 1")
+  field( TWST, "Prescaler 2")
+  field( ZRVL, "40")
+  field( ONVL, "41")
+  field( TWVL, "42")
+  field( THST, "Force Low")
+  field( FRST, "Force High")
+  field( THVL, "63")
+  field( FRVL, "62")
+  field( FVSV, "MAJOR")
+  field( SXSV, "MAJOR")
+  field( SVSV, "MAJOR")
+  field( EISV, "MAJOR")
+  field( NISV, "MAJOR")
+  field( TESV, "MAJOR")
+  field( ELSV, "MAJOR")
+  field( TVSV, "MAJOR")
+  field( TTSV, "MAJOR")
+  field( FTSV, "MAJOR")
+  field( FFSV, "MAJOR")
+  field( UNSV, "MAJOR")
+  field( UNSV, "MAJOR")
+}
+
 # Record set for an EVR's physical output
 #
 # Macros-
@@ -4619,6 +6773,237 @@ record(waveform, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut6-User-SP") {
   field( NORD, "1") # default include null termination
   info(autosaveFields_pass1, "VAL")
 }
+
+
+
+
+
+### Second source records
+
+record(longout, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut6-Src2-SP") {
+  field( DTYP, "Obj Prop uint32")
+  field( DESC, "UNIV6")
+  field( OUT , "@OBJ=$(EVR,recursive):FrontUnivOut6, PROP=MapAlt")
+  field( FLNK, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut6-Src2-RB")
+  field( PINI, "YES")
+  field( VAL , "$(FrontUnivOut6-Src2-SP=63,undefined)")  # Defaults to Force low (if enabled -> Ena-SP)
+  info(autosaveFields_pass0, "VAL HOPR LOPR DRVH DRVL")
+}
+
+# Settings
+# Users use will set one of these at a time.
+
+record(mbbo, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut6-Src2-Pulse-SP") {
+  field( DTYP, "Raw Soft Channel")
+  field( OUT , "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut6-Src2-SP PP")
+  field( ZRST, "Pulser 0")
+  field( ONST, "Pulser 1")
+  field( TWST, "Pulser 2")
+  field( THST, "Pulser 3")
+  field( FRST, "Pulser 4")
+  field( FVST, "Pulser 5")
+  field( SXST, "Pulser 6")
+  field( SVST, "Pulser 7")
+  field( EIST, "Pulser 8")
+  field( NIST, "Pulser 9")
+  field( TEST, "Pulser 10")
+  field( ELST, "Pulser 11")
+  field( TVST, "Pulser 12")
+  field( TTST, "Pulser 13")
+  field( FTST, "Pulser 14")
+  field( FFST, "Pulser 15")
+  field( ZRVL, "0")
+  field( ONVL, "1")
+  field( TWVL, "2")
+  field( THVL, "3")
+  field( FRVL, "4")
+  field( FVVL, "5")
+  field( SXVL, "6")
+  field( SVVL, "7")
+  field( EIVL, "8")
+  field( NIVL, "9")
+  field( TEVL, "10")
+  field( ELVL, "11")
+  field( TVVL, "12")
+  field( TTVL, "13")
+  field( FTVL, "14")
+  field( FFVL, "15")
+  field( UNSV, "INVALID")
+  field( IVOA, "Don't drive outputs")
+  info(autosaveFields_pass0, "VAL")
+}
+
+record(mbbo, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut6-Src2-DBus-SP") {
+  field( DTYP, "Raw Soft Channel")
+  field( OUT , "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut6-Src2-SP PP")
+  field( ZRST, "DBus 0")
+  field( ONST, "DBus 1")
+  field( TWST, "DBus 2")
+  field( THST, "DBus 3")
+  field( FRST, "DBus 4")
+  field( FVST, "DBus 5")
+  field( SXST, "DBus 6")
+  field( SVST, "DBus 7")
+  field( ZRVL, "32")
+  field( ONVL, "33")
+  field( TWVL, "34")
+  field( THVL, "35")
+  field( FRVL, "36")
+  field( FVVL, "37")
+  field( SXVL, "38")
+  field( SVVL, "39")
+  field( EISV, "INVALID")
+  field( NISV, "INVALID")
+  field( TESV, "INVALID")
+  field( ELSV, "INVALID")
+  field( TVSV, "INVALID")
+  field( TTSV, "INVALID")
+  field( FTSV, "INVALID")
+  field( FFSV, "INVALID")
+  field( UNSV, "INVALID")
+  field( IVOA, "Don't drive outputs")
+  info(autosaveFields_pass0, "VAL")
+}
+
+record(mbbo, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut6-Src2-Scale-SP") {
+  field( DTYP, "Raw Soft Channel")
+  field( OUT , "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut6-Src2-SP PP")
+  field( ZRST, "Prescaler 0")
+  field( ONST, "Prescaler 1")
+  field( TWST, "Prescaler 2")
+  field( ZRVL, "40")
+  field( ONVL, "41")
+  field( TWVL, "42")
+  field( THST, "Force Low")
+  field( FRST, "Force High")
+  field( THVL, "63")
+  field( FRVL, "62")
+  field( VAL , "3")
+  field( FVSV, "INVALID")
+  field( SXSV, "INVALID")
+  field( SVSV, "INVALID")
+  field( EISV, "INVALID")
+  field( NISV, "INVALID")
+  field( TESV, "INVALID")
+  field( ELSV, "INVALID")
+  field( TVSV, "INVALID")
+  field( TTSV, "INVALID")
+  field( FTSV, "INVALID")
+  field( FFSV, "INVALID")
+  field( UNSV, "INVALID")
+  field( IVOA, "Don't drive outputs")
+  info(autosaveFields_pass0, "VAL")
+}
+
+# Mapping readback
+
+
+
+record(longin, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut6-Src2-RB") {
+  field( DTYP, "Obj Prop uint32")
+  field( DESC, "UNIV6")
+  field( INP , "@OBJ=$(EVR,recursive):FrontUnivOut6, PROP=MapAlt")
+  field( FLNK, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut6-Src2-Pulse-RB")
+}
+
+record(mbbi, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut6-Src2-Pulse-RB") {
+  field( DTYP, "Raw Soft Channel")
+  field( INP , "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut6-Src2-RB")
+  field( ZRST, "Pulser 0")
+  field( ONST, "Pulser 1")
+  field( TWST, "Pulser 2")
+  field( THST, "Pulser 3")
+  field( FRST, "Pulser 4")
+  field( FVST, "Pulser 5")
+  field( SXST, "Pulser 6")
+  field( SVST, "Pulser 7")
+  field( EIST, "Pulser 8")
+  field( NIST, "Pulser 9")
+  field( TEST, "Pulser 10")
+  field( ELST, "Pulser 11")
+  field( TVST, "Pulser 12")
+  field( TTST, "Pulser 13")
+  field( FTST, "Pulser 14")
+  field( FFST, "Pulser 15")
+  field( ZRVL, "0")
+  field( ONVL, "1")
+  field( TWVL, "2")
+  field( THVL, "3")
+  field( FRVL, "4")
+  field( FVVL, "5")
+  field( SXVL, "6")
+  field( SVVL, "7")
+  field( EIVL, "8")
+  field( NIVL, "9")
+  field( TEVL, "10")
+  field( ELVL, "11")
+  field( TVVL, "12")
+  field( TTVL, "13")
+  field( FTVL, "14")
+  field( FFVL, "15")
+  field( UNSV, "MAJOR")
+  field( FLNK, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut6-Src2-DBus-RB")
+}
+
+record(mbbi, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut6-Src2-DBus-RB") {
+  field( DTYP, "Raw Soft Channel")
+  field( INP , "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut6-Src2-RB")
+  field( ZRST, "DBus 0")
+  field( ONST, "DBus 1")
+  field( TWST, "DBus 2")
+  field( THST, "DBus 3")
+  field( FRST, "DBus 4")
+  field( FVST, "DBus 5")
+  field( SXST, "DBus 6")
+  field( SVST, "DBus 7")
+  field( ZRVL, "32")
+  field( ONVL, "33")
+  field( TWVL, "34")
+  field( THVL, "35")
+  field( FRVL, "36")
+  field( FVVL, "37")
+  field( SXVL, "38")
+  field( SVVL, "39")
+  field( EISV, "MAJOR")
+  field( NISV, "MAJOR")
+  field( TESV, "MAJOR")
+  field( ELSV, "MAJOR")
+  field( TVSV, "MAJOR")
+  field( TTSV, "MAJOR")
+  field( FTSV, "MAJOR")
+  field( FFSV, "MAJOR")
+  field( UNSV, "MAJOR")
+  field( FLNK, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut6-Src2-Scale-RB")
+}
+
+record(mbbi, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut6-Src2-Scale-RB") {
+  field( DTYP, "Raw Soft Channel")
+  field( INP , "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut6-Src2-RB")
+  field( ZRST, "Prescaler 0")
+  field( ONST, "Prescaler 1")
+  field( TWST, "Prescaler 2")
+  field( ZRVL, "40")
+  field( ONVL, "41")
+  field( TWVL, "42")
+  field( THST, "Force Low")
+  field( FRST, "Force High")
+  field( THVL, "63")
+  field( FRVL, "62")
+  field( FVSV, "MAJOR")
+  field( SXSV, "MAJOR")
+  field( SVSV, "MAJOR")
+  field( EISV, "MAJOR")
+  field( NISV, "MAJOR")
+  field( TESV, "MAJOR")
+  field( ELSV, "MAJOR")
+  field( TVSV, "MAJOR")
+  field( TTSV, "MAJOR")
+  field( FTSV, "MAJOR")
+  field( FFSV, "MAJOR")
+  field( UNSV, "MAJOR")
+  field( UNSV, "MAJOR")
+}
+
 # Record set for an EVR's physical output
 #
 # Macros-
@@ -4872,6 +7257,237 @@ record(waveform, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut7-User-SP") {
   field( NORD, "1") # default include null termination
   info(autosaveFields_pass1, "VAL")
 }
+
+
+
+
+
+### Second source records
+
+record(longout, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut7-Src2-SP") {
+  field( DTYP, "Obj Prop uint32")
+  field( DESC, "UNIV7")
+  field( OUT , "@OBJ=$(EVR,recursive):FrontUnivOut7, PROP=MapAlt")
+  field( FLNK, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut7-Src2-RB")
+  field( PINI, "YES")
+  field( VAL , "$(FrontUnivOut7-Src2-SP=63,undefined)")  # Defaults to Force low (if enabled -> Ena-SP)
+  info(autosaveFields_pass0, "VAL HOPR LOPR DRVH DRVL")
+}
+
+# Settings
+# Users use will set one of these at a time.
+
+record(mbbo, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut7-Src2-Pulse-SP") {
+  field( DTYP, "Raw Soft Channel")
+  field( OUT , "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut7-Src2-SP PP")
+  field( ZRST, "Pulser 0")
+  field( ONST, "Pulser 1")
+  field( TWST, "Pulser 2")
+  field( THST, "Pulser 3")
+  field( FRST, "Pulser 4")
+  field( FVST, "Pulser 5")
+  field( SXST, "Pulser 6")
+  field( SVST, "Pulser 7")
+  field( EIST, "Pulser 8")
+  field( NIST, "Pulser 9")
+  field( TEST, "Pulser 10")
+  field( ELST, "Pulser 11")
+  field( TVST, "Pulser 12")
+  field( TTST, "Pulser 13")
+  field( FTST, "Pulser 14")
+  field( FFST, "Pulser 15")
+  field( ZRVL, "0")
+  field( ONVL, "1")
+  field( TWVL, "2")
+  field( THVL, "3")
+  field( FRVL, "4")
+  field( FVVL, "5")
+  field( SXVL, "6")
+  field( SVVL, "7")
+  field( EIVL, "8")
+  field( NIVL, "9")
+  field( TEVL, "10")
+  field( ELVL, "11")
+  field( TVVL, "12")
+  field( TTVL, "13")
+  field( FTVL, "14")
+  field( FFVL, "15")
+  field( UNSV, "INVALID")
+  field( IVOA, "Don't drive outputs")
+  info(autosaveFields_pass0, "VAL")
+}
+
+record(mbbo, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut7-Src2-DBus-SP") {
+  field( DTYP, "Raw Soft Channel")
+  field( OUT , "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut7-Src2-SP PP")
+  field( ZRST, "DBus 0")
+  field( ONST, "DBus 1")
+  field( TWST, "DBus 2")
+  field( THST, "DBus 3")
+  field( FRST, "DBus 4")
+  field( FVST, "DBus 5")
+  field( SXST, "DBus 6")
+  field( SVST, "DBus 7")
+  field( ZRVL, "32")
+  field( ONVL, "33")
+  field( TWVL, "34")
+  field( THVL, "35")
+  field( FRVL, "36")
+  field( FVVL, "37")
+  field( SXVL, "38")
+  field( SVVL, "39")
+  field( EISV, "INVALID")
+  field( NISV, "INVALID")
+  field( TESV, "INVALID")
+  field( ELSV, "INVALID")
+  field( TVSV, "INVALID")
+  field( TTSV, "INVALID")
+  field( FTSV, "INVALID")
+  field( FFSV, "INVALID")
+  field( UNSV, "INVALID")
+  field( IVOA, "Don't drive outputs")
+  info(autosaveFields_pass0, "VAL")
+}
+
+record(mbbo, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut7-Src2-Scale-SP") {
+  field( DTYP, "Raw Soft Channel")
+  field( OUT , "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut7-Src2-SP PP")
+  field( ZRST, "Prescaler 0")
+  field( ONST, "Prescaler 1")
+  field( TWST, "Prescaler 2")
+  field( ZRVL, "40")
+  field( ONVL, "41")
+  field( TWVL, "42")
+  field( THST, "Force Low")
+  field( FRST, "Force High")
+  field( THVL, "63")
+  field( FRVL, "62")
+  field( VAL , "3")
+  field( FVSV, "INVALID")
+  field( SXSV, "INVALID")
+  field( SVSV, "INVALID")
+  field( EISV, "INVALID")
+  field( NISV, "INVALID")
+  field( TESV, "INVALID")
+  field( ELSV, "INVALID")
+  field( TVSV, "INVALID")
+  field( TTSV, "INVALID")
+  field( FTSV, "INVALID")
+  field( FFSV, "INVALID")
+  field( UNSV, "INVALID")
+  field( IVOA, "Don't drive outputs")
+  info(autosaveFields_pass0, "VAL")
+}
+
+# Mapping readback
+
+
+
+record(longin, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut7-Src2-RB") {
+  field( DTYP, "Obj Prop uint32")
+  field( DESC, "UNIV7")
+  field( INP , "@OBJ=$(EVR,recursive):FrontUnivOut7, PROP=MapAlt")
+  field( FLNK, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut7-Src2-Pulse-RB")
+}
+
+record(mbbi, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut7-Src2-Pulse-RB") {
+  field( DTYP, "Raw Soft Channel")
+  field( INP , "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut7-Src2-RB")
+  field( ZRST, "Pulser 0")
+  field( ONST, "Pulser 1")
+  field( TWST, "Pulser 2")
+  field( THST, "Pulser 3")
+  field( FRST, "Pulser 4")
+  field( FVST, "Pulser 5")
+  field( SXST, "Pulser 6")
+  field( SVST, "Pulser 7")
+  field( EIST, "Pulser 8")
+  field( NIST, "Pulser 9")
+  field( TEST, "Pulser 10")
+  field( ELST, "Pulser 11")
+  field( TVST, "Pulser 12")
+  field( TTST, "Pulser 13")
+  field( FTST, "Pulser 14")
+  field( FFST, "Pulser 15")
+  field( ZRVL, "0")
+  field( ONVL, "1")
+  field( TWVL, "2")
+  field( THVL, "3")
+  field( FRVL, "4")
+  field( FVVL, "5")
+  field( SXVL, "6")
+  field( SVVL, "7")
+  field( EIVL, "8")
+  field( NIVL, "9")
+  field( TEVL, "10")
+  field( ELVL, "11")
+  field( TVVL, "12")
+  field( TTVL, "13")
+  field( FTVL, "14")
+  field( FFVL, "15")
+  field( UNSV, "MAJOR")
+  field( FLNK, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut7-Src2-DBus-RB")
+}
+
+record(mbbi, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut7-Src2-DBus-RB") {
+  field( DTYP, "Raw Soft Channel")
+  field( INP , "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut7-Src2-RB")
+  field( ZRST, "DBus 0")
+  field( ONST, "DBus 1")
+  field( TWST, "DBus 2")
+  field( THST, "DBus 3")
+  field( FRST, "DBus 4")
+  field( FVST, "DBus 5")
+  field( SXST, "DBus 6")
+  field( SVST, "DBus 7")
+  field( ZRVL, "32")
+  field( ONVL, "33")
+  field( TWVL, "34")
+  field( THVL, "35")
+  field( FRVL, "36")
+  field( FVVL, "37")
+  field( SXVL, "38")
+  field( SVVL, "39")
+  field( EISV, "MAJOR")
+  field( NISV, "MAJOR")
+  field( TESV, "MAJOR")
+  field( ELSV, "MAJOR")
+  field( TVSV, "MAJOR")
+  field( TTSV, "MAJOR")
+  field( FTSV, "MAJOR")
+  field( FFSV, "MAJOR")
+  field( UNSV, "MAJOR")
+  field( FLNK, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut7-Src2-Scale-RB")
+}
+
+record(mbbi, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut7-Src2-Scale-RB") {
+  field( DTYP, "Raw Soft Channel")
+  field( INP , "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut7-Src2-RB")
+  field( ZRST, "Prescaler 0")
+  field( ONST, "Prescaler 1")
+  field( TWST, "Prescaler 2")
+  field( ZRVL, "40")
+  field( ONVL, "41")
+  field( TWVL, "42")
+  field( THST, "Force Low")
+  field( FRST, "Force High")
+  field( THVL, "63")
+  field( FRVL, "62")
+  field( FVSV, "MAJOR")
+  field( SXSV, "MAJOR")
+  field( SVSV, "MAJOR")
+  field( EISV, "MAJOR")
+  field( NISV, "MAJOR")
+  field( TESV, "MAJOR")
+  field( ELSV, "MAJOR")
+  field( TVSV, "MAJOR")
+  field( TTSV, "MAJOR")
+  field( FTSV, "MAJOR")
+  field( FFSV, "MAJOR")
+  field( UNSV, "MAJOR")
+  field( UNSV, "MAJOR")
+}
+
 # Record set for an EVR's physical output
 #
 # Macros-
@@ -5125,6 +7741,237 @@ record(waveform, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut8-User-SP") {
   field( NORD, "1") # default include null termination
   info(autosaveFields_pass1, "VAL")
 }
+
+
+
+
+
+### Second source records
+
+record(longout, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut8-Src2-SP") {
+  field( DTYP, "Obj Prop uint32")
+  field( DESC, "UNIV8")
+  field( OUT , "@OBJ=$(EVR,recursive):FrontUnivOut8, PROP=MapAlt")
+  field( FLNK, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut8-Src2-RB")
+  field( PINI, "YES")
+  field( VAL , "$(FrontUnivOut8-Src2-SP=63,undefined)")  # Defaults to Force low (if enabled -> Ena-SP)
+  info(autosaveFields_pass0, "VAL HOPR LOPR DRVH DRVL")
+}
+
+# Settings
+# Users use will set one of these at a time.
+
+record(mbbo, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut8-Src2-Pulse-SP") {
+  field( DTYP, "Raw Soft Channel")
+  field( OUT , "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut8-Src2-SP PP")
+  field( ZRST, "Pulser 0")
+  field( ONST, "Pulser 1")
+  field( TWST, "Pulser 2")
+  field( THST, "Pulser 3")
+  field( FRST, "Pulser 4")
+  field( FVST, "Pulser 5")
+  field( SXST, "Pulser 6")
+  field( SVST, "Pulser 7")
+  field( EIST, "Pulser 8")
+  field( NIST, "Pulser 9")
+  field( TEST, "Pulser 10")
+  field( ELST, "Pulser 11")
+  field( TVST, "Pulser 12")
+  field( TTST, "Pulser 13")
+  field( FTST, "Pulser 14")
+  field( FFST, "Pulser 15")
+  field( ZRVL, "0")
+  field( ONVL, "1")
+  field( TWVL, "2")
+  field( THVL, "3")
+  field( FRVL, "4")
+  field( FVVL, "5")
+  field( SXVL, "6")
+  field( SVVL, "7")
+  field( EIVL, "8")
+  field( NIVL, "9")
+  field( TEVL, "10")
+  field( ELVL, "11")
+  field( TVVL, "12")
+  field( TTVL, "13")
+  field( FTVL, "14")
+  field( FFVL, "15")
+  field( UNSV, "INVALID")
+  field( IVOA, "Don't drive outputs")
+  info(autosaveFields_pass0, "VAL")
+}
+
+record(mbbo, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut8-Src2-DBus-SP") {
+  field( DTYP, "Raw Soft Channel")
+  field( OUT , "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut8-Src2-SP PP")
+  field( ZRST, "DBus 0")
+  field( ONST, "DBus 1")
+  field( TWST, "DBus 2")
+  field( THST, "DBus 3")
+  field( FRST, "DBus 4")
+  field( FVST, "DBus 5")
+  field( SXST, "DBus 6")
+  field( SVST, "DBus 7")
+  field( ZRVL, "32")
+  field( ONVL, "33")
+  field( TWVL, "34")
+  field( THVL, "35")
+  field( FRVL, "36")
+  field( FVVL, "37")
+  field( SXVL, "38")
+  field( SVVL, "39")
+  field( EISV, "INVALID")
+  field( NISV, "INVALID")
+  field( TESV, "INVALID")
+  field( ELSV, "INVALID")
+  field( TVSV, "INVALID")
+  field( TTSV, "INVALID")
+  field( FTSV, "INVALID")
+  field( FFSV, "INVALID")
+  field( UNSV, "INVALID")
+  field( IVOA, "Don't drive outputs")
+  info(autosaveFields_pass0, "VAL")
+}
+
+record(mbbo, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut8-Src2-Scale-SP") {
+  field( DTYP, "Raw Soft Channel")
+  field( OUT , "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut8-Src2-SP PP")
+  field( ZRST, "Prescaler 0")
+  field( ONST, "Prescaler 1")
+  field( TWST, "Prescaler 2")
+  field( ZRVL, "40")
+  field( ONVL, "41")
+  field( TWVL, "42")
+  field( THST, "Force Low")
+  field( FRST, "Force High")
+  field( THVL, "63")
+  field( FRVL, "62")
+  field( VAL , "3")
+  field( FVSV, "INVALID")
+  field( SXSV, "INVALID")
+  field( SVSV, "INVALID")
+  field( EISV, "INVALID")
+  field( NISV, "INVALID")
+  field( TESV, "INVALID")
+  field( ELSV, "INVALID")
+  field( TVSV, "INVALID")
+  field( TTSV, "INVALID")
+  field( FTSV, "INVALID")
+  field( FFSV, "INVALID")
+  field( UNSV, "INVALID")
+  field( IVOA, "Don't drive outputs")
+  info(autosaveFields_pass0, "VAL")
+}
+
+# Mapping readback
+
+
+
+record(longin, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut8-Src2-RB") {
+  field( DTYP, "Obj Prop uint32")
+  field( DESC, "UNIV8")
+  field( INP , "@OBJ=$(EVR,recursive):FrontUnivOut8, PROP=MapAlt")
+  field( FLNK, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut8-Src2-Pulse-RB")
+}
+
+record(mbbi, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut8-Src2-Pulse-RB") {
+  field( DTYP, "Raw Soft Channel")
+  field( INP , "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut8-Src2-RB")
+  field( ZRST, "Pulser 0")
+  field( ONST, "Pulser 1")
+  field( TWST, "Pulser 2")
+  field( THST, "Pulser 3")
+  field( FRST, "Pulser 4")
+  field( FVST, "Pulser 5")
+  field( SXST, "Pulser 6")
+  field( SVST, "Pulser 7")
+  field( EIST, "Pulser 8")
+  field( NIST, "Pulser 9")
+  field( TEST, "Pulser 10")
+  field( ELST, "Pulser 11")
+  field( TVST, "Pulser 12")
+  field( TTST, "Pulser 13")
+  field( FTST, "Pulser 14")
+  field( FFST, "Pulser 15")
+  field( ZRVL, "0")
+  field( ONVL, "1")
+  field( TWVL, "2")
+  field( THVL, "3")
+  field( FRVL, "4")
+  field( FVVL, "5")
+  field( SXVL, "6")
+  field( SVVL, "7")
+  field( EIVL, "8")
+  field( NIVL, "9")
+  field( TEVL, "10")
+  field( ELVL, "11")
+  field( TVVL, "12")
+  field( TTVL, "13")
+  field( FTVL, "14")
+  field( FFVL, "15")
+  field( UNSV, "MAJOR")
+  field( FLNK, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut8-Src2-DBus-RB")
+}
+
+record(mbbi, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut8-Src2-DBus-RB") {
+  field( DTYP, "Raw Soft Channel")
+  field( INP , "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut8-Src2-RB")
+  field( ZRST, "DBus 0")
+  field( ONST, "DBus 1")
+  field( TWST, "DBus 2")
+  field( THST, "DBus 3")
+  field( FRST, "DBus 4")
+  field( FVST, "DBus 5")
+  field( SXST, "DBus 6")
+  field( SVST, "DBus 7")
+  field( ZRVL, "32")
+  field( ONVL, "33")
+  field( TWVL, "34")
+  field( THVL, "35")
+  field( FRVL, "36")
+  field( FVVL, "37")
+  field( SXVL, "38")
+  field( SVVL, "39")
+  field( EISV, "MAJOR")
+  field( NISV, "MAJOR")
+  field( TESV, "MAJOR")
+  field( ELSV, "MAJOR")
+  field( TVSV, "MAJOR")
+  field( TTSV, "MAJOR")
+  field( FTSV, "MAJOR")
+  field( FFSV, "MAJOR")
+  field( UNSV, "MAJOR")
+  field( FLNK, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut8-Src2-Scale-RB")
+}
+
+record(mbbi, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut8-Src2-Scale-RB") {
+  field( DTYP, "Raw Soft Channel")
+  field( INP , "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut8-Src2-RB")
+  field( ZRST, "Prescaler 0")
+  field( ONST, "Prescaler 1")
+  field( TWST, "Prescaler 2")
+  field( ZRVL, "40")
+  field( ONVL, "41")
+  field( TWVL, "42")
+  field( THST, "Force Low")
+  field( FRST, "Force High")
+  field( THVL, "63")
+  field( FRVL, "62")
+  field( FVSV, "MAJOR")
+  field( SXSV, "MAJOR")
+  field( SVSV, "MAJOR")
+  field( EISV, "MAJOR")
+  field( NISV, "MAJOR")
+  field( TESV, "MAJOR")
+  field( ELSV, "MAJOR")
+  field( TVSV, "MAJOR")
+  field( TTSV, "MAJOR")
+  field( FTSV, "MAJOR")
+  field( FFSV, "MAJOR")
+  field( UNSV, "MAJOR")
+  field( UNSV, "MAJOR")
+}
+
 # Record set for an EVR's physical output
 #
 # Macros-
@@ -5378,6 +8225,237 @@ record(waveform, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut9-User-SP") {
   field( NORD, "1") # default include null termination
   info(autosaveFields_pass1, "VAL")
 }
+
+
+
+
+
+### Second source records
+
+record(longout, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut9-Src2-SP") {
+  field( DTYP, "Obj Prop uint32")
+  field( DESC, "UNIV9")
+  field( OUT , "@OBJ=$(EVR,recursive):FrontUnivOut9, PROP=MapAlt")
+  field( FLNK, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut9-Src2-RB")
+  field( PINI, "YES")
+  field( VAL , "$(FrontUnivOut9-Src2-SP=63,undefined)")  # Defaults to Force low (if enabled -> Ena-SP)
+  info(autosaveFields_pass0, "VAL HOPR LOPR DRVH DRVL")
+}
+
+# Settings
+# Users use will set one of these at a time.
+
+record(mbbo, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut9-Src2-Pulse-SP") {
+  field( DTYP, "Raw Soft Channel")
+  field( OUT , "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut9-Src2-SP PP")
+  field( ZRST, "Pulser 0")
+  field( ONST, "Pulser 1")
+  field( TWST, "Pulser 2")
+  field( THST, "Pulser 3")
+  field( FRST, "Pulser 4")
+  field( FVST, "Pulser 5")
+  field( SXST, "Pulser 6")
+  field( SVST, "Pulser 7")
+  field( EIST, "Pulser 8")
+  field( NIST, "Pulser 9")
+  field( TEST, "Pulser 10")
+  field( ELST, "Pulser 11")
+  field( TVST, "Pulser 12")
+  field( TTST, "Pulser 13")
+  field( FTST, "Pulser 14")
+  field( FFST, "Pulser 15")
+  field( ZRVL, "0")
+  field( ONVL, "1")
+  field( TWVL, "2")
+  field( THVL, "3")
+  field( FRVL, "4")
+  field( FVVL, "5")
+  field( SXVL, "6")
+  field( SVVL, "7")
+  field( EIVL, "8")
+  field( NIVL, "9")
+  field( TEVL, "10")
+  field( ELVL, "11")
+  field( TVVL, "12")
+  field( TTVL, "13")
+  field( FTVL, "14")
+  field( FFVL, "15")
+  field( UNSV, "INVALID")
+  field( IVOA, "Don't drive outputs")
+  info(autosaveFields_pass0, "VAL")
+}
+
+record(mbbo, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut9-Src2-DBus-SP") {
+  field( DTYP, "Raw Soft Channel")
+  field( OUT , "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut9-Src2-SP PP")
+  field( ZRST, "DBus 0")
+  field( ONST, "DBus 1")
+  field( TWST, "DBus 2")
+  field( THST, "DBus 3")
+  field( FRST, "DBus 4")
+  field( FVST, "DBus 5")
+  field( SXST, "DBus 6")
+  field( SVST, "DBus 7")
+  field( ZRVL, "32")
+  field( ONVL, "33")
+  field( TWVL, "34")
+  field( THVL, "35")
+  field( FRVL, "36")
+  field( FVVL, "37")
+  field( SXVL, "38")
+  field( SVVL, "39")
+  field( EISV, "INVALID")
+  field( NISV, "INVALID")
+  field( TESV, "INVALID")
+  field( ELSV, "INVALID")
+  field( TVSV, "INVALID")
+  field( TTSV, "INVALID")
+  field( FTSV, "INVALID")
+  field( FFSV, "INVALID")
+  field( UNSV, "INVALID")
+  field( IVOA, "Don't drive outputs")
+  info(autosaveFields_pass0, "VAL")
+}
+
+record(mbbo, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut9-Src2-Scale-SP") {
+  field( DTYP, "Raw Soft Channel")
+  field( OUT , "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut9-Src2-SP PP")
+  field( ZRST, "Prescaler 0")
+  field( ONST, "Prescaler 1")
+  field( TWST, "Prescaler 2")
+  field( ZRVL, "40")
+  field( ONVL, "41")
+  field( TWVL, "42")
+  field( THST, "Force Low")
+  field( FRST, "Force High")
+  field( THVL, "63")
+  field( FRVL, "62")
+  field( VAL , "3")
+  field( FVSV, "INVALID")
+  field( SXSV, "INVALID")
+  field( SVSV, "INVALID")
+  field( EISV, "INVALID")
+  field( NISV, "INVALID")
+  field( TESV, "INVALID")
+  field( ELSV, "INVALID")
+  field( TVSV, "INVALID")
+  field( TTSV, "INVALID")
+  field( FTSV, "INVALID")
+  field( FFSV, "INVALID")
+  field( UNSV, "INVALID")
+  field( IVOA, "Don't drive outputs")
+  info(autosaveFields_pass0, "VAL")
+}
+
+# Mapping readback
+
+
+
+record(longin, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut9-Src2-RB") {
+  field( DTYP, "Obj Prop uint32")
+  field( DESC, "UNIV9")
+  field( INP , "@OBJ=$(EVR,recursive):FrontUnivOut9, PROP=MapAlt")
+  field( FLNK, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut9-Src2-Pulse-RB")
+}
+
+record(mbbi, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut9-Src2-Pulse-RB") {
+  field( DTYP, "Raw Soft Channel")
+  field( INP , "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut9-Src2-RB")
+  field( ZRST, "Pulser 0")
+  field( ONST, "Pulser 1")
+  field( TWST, "Pulser 2")
+  field( THST, "Pulser 3")
+  field( FRST, "Pulser 4")
+  field( FVST, "Pulser 5")
+  field( SXST, "Pulser 6")
+  field( SVST, "Pulser 7")
+  field( EIST, "Pulser 8")
+  field( NIST, "Pulser 9")
+  field( TEST, "Pulser 10")
+  field( ELST, "Pulser 11")
+  field( TVST, "Pulser 12")
+  field( TTST, "Pulser 13")
+  field( FTST, "Pulser 14")
+  field( FFST, "Pulser 15")
+  field( ZRVL, "0")
+  field( ONVL, "1")
+  field( TWVL, "2")
+  field( THVL, "3")
+  field( FRVL, "4")
+  field( FVVL, "5")
+  field( SXVL, "6")
+  field( SVVL, "7")
+  field( EIVL, "8")
+  field( NIVL, "9")
+  field( TEVL, "10")
+  field( ELVL, "11")
+  field( TVVL, "12")
+  field( TTVL, "13")
+  field( FTVL, "14")
+  field( FFVL, "15")
+  field( UNSV, "MAJOR")
+  field( FLNK, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut9-Src2-DBus-RB")
+}
+
+record(mbbi, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut9-Src2-DBus-RB") {
+  field( DTYP, "Raw Soft Channel")
+  field( INP , "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut9-Src2-RB")
+  field( ZRST, "DBus 0")
+  field( ONST, "DBus 1")
+  field( TWST, "DBus 2")
+  field( THST, "DBus 3")
+  field( FRST, "DBus 4")
+  field( FVST, "DBus 5")
+  field( SXST, "DBus 6")
+  field( SVST, "DBus 7")
+  field( ZRVL, "32")
+  field( ONVL, "33")
+  field( TWVL, "34")
+  field( THVL, "35")
+  field( FRVL, "36")
+  field( FVVL, "37")
+  field( SXVL, "38")
+  field( SVVL, "39")
+  field( EISV, "MAJOR")
+  field( NISV, "MAJOR")
+  field( TESV, "MAJOR")
+  field( ELSV, "MAJOR")
+  field( TVSV, "MAJOR")
+  field( TTSV, "MAJOR")
+  field( FTSV, "MAJOR")
+  field( FFSV, "MAJOR")
+  field( UNSV, "MAJOR")
+  field( FLNK, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut9-Src2-Scale-RB")
+}
+
+record(mbbi, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut9-Src2-Scale-RB") {
+  field( DTYP, "Raw Soft Channel")
+  field( INP , "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut9-Src2-RB")
+  field( ZRST, "Prescaler 0")
+  field( ONST, "Prescaler 1")
+  field( TWST, "Prescaler 2")
+  field( ZRVL, "40")
+  field( ONVL, "41")
+  field( TWVL, "42")
+  field( THST, "Force Low")
+  field( FRST, "Force High")
+  field( THVL, "63")
+  field( FRVL, "62")
+  field( FVSV, "MAJOR")
+  field( SXSV, "MAJOR")
+  field( SVSV, "MAJOR")
+  field( EISV, "MAJOR")
+  field( NISV, "MAJOR")
+  field( TESV, "MAJOR")
+  field( ELSV, "MAJOR")
+  field( TVSV, "MAJOR")
+  field( TTSV, "MAJOR")
+  field( FTSV, "MAJOR")
+  field( FFSV, "MAJOR")
+  field( UNSV, "MAJOR")
+  field( UNSV, "MAJOR")
+}
+
 # Record set for an EVR's physical output
 #
 # Macros-
@@ -5631,6 +8709,237 @@ record(waveform, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut10-User-SP") {
   field( NORD, "1") # default include null termination
   info(autosaveFields_pass1, "VAL")
 }
+
+
+
+
+
+### Second source records
+
+record(longout, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut10-Src2-SP") {
+  field( DTYP, "Obj Prop uint32")
+  field( DESC, "UNIV10")
+  field( OUT , "@OBJ=$(EVR,recursive):FrontUnivOut10, PROP=MapAlt")
+  field( FLNK, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut10-Src2-RB")
+  field( PINI, "YES")
+  field( VAL , "$(FrontUnivOut10-Src2-SP=63,undefined)")  # Defaults to Force low (if enabled -> Ena-SP)
+  info(autosaveFields_pass0, "VAL HOPR LOPR DRVH DRVL")
+}
+
+# Settings
+# Users use will set one of these at a time.
+
+record(mbbo, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut10-Src2-Pulse-SP") {
+  field( DTYP, "Raw Soft Channel")
+  field( OUT , "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut10-Src2-SP PP")
+  field( ZRST, "Pulser 0")
+  field( ONST, "Pulser 1")
+  field( TWST, "Pulser 2")
+  field( THST, "Pulser 3")
+  field( FRST, "Pulser 4")
+  field( FVST, "Pulser 5")
+  field( SXST, "Pulser 6")
+  field( SVST, "Pulser 7")
+  field( EIST, "Pulser 8")
+  field( NIST, "Pulser 9")
+  field( TEST, "Pulser 10")
+  field( ELST, "Pulser 11")
+  field( TVST, "Pulser 12")
+  field( TTST, "Pulser 13")
+  field( FTST, "Pulser 14")
+  field( FFST, "Pulser 15")
+  field( ZRVL, "0")
+  field( ONVL, "1")
+  field( TWVL, "2")
+  field( THVL, "3")
+  field( FRVL, "4")
+  field( FVVL, "5")
+  field( SXVL, "6")
+  field( SVVL, "7")
+  field( EIVL, "8")
+  field( NIVL, "9")
+  field( TEVL, "10")
+  field( ELVL, "11")
+  field( TVVL, "12")
+  field( TTVL, "13")
+  field( FTVL, "14")
+  field( FFVL, "15")
+  field( UNSV, "INVALID")
+  field( IVOA, "Don't drive outputs")
+  info(autosaveFields_pass0, "VAL")
+}
+
+record(mbbo, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut10-Src2-DBus-SP") {
+  field( DTYP, "Raw Soft Channel")
+  field( OUT , "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut10-Src2-SP PP")
+  field( ZRST, "DBus 0")
+  field( ONST, "DBus 1")
+  field( TWST, "DBus 2")
+  field( THST, "DBus 3")
+  field( FRST, "DBus 4")
+  field( FVST, "DBus 5")
+  field( SXST, "DBus 6")
+  field( SVST, "DBus 7")
+  field( ZRVL, "32")
+  field( ONVL, "33")
+  field( TWVL, "34")
+  field( THVL, "35")
+  field( FRVL, "36")
+  field( FVVL, "37")
+  field( SXVL, "38")
+  field( SVVL, "39")
+  field( EISV, "INVALID")
+  field( NISV, "INVALID")
+  field( TESV, "INVALID")
+  field( ELSV, "INVALID")
+  field( TVSV, "INVALID")
+  field( TTSV, "INVALID")
+  field( FTSV, "INVALID")
+  field( FFSV, "INVALID")
+  field( UNSV, "INVALID")
+  field( IVOA, "Don't drive outputs")
+  info(autosaveFields_pass0, "VAL")
+}
+
+record(mbbo, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut10-Src2-Scale-SP") {
+  field( DTYP, "Raw Soft Channel")
+  field( OUT , "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut10-Src2-SP PP")
+  field( ZRST, "Prescaler 0")
+  field( ONST, "Prescaler 1")
+  field( TWST, "Prescaler 2")
+  field( ZRVL, "40")
+  field( ONVL, "41")
+  field( TWVL, "42")
+  field( THST, "Force Low")
+  field( FRST, "Force High")
+  field( THVL, "63")
+  field( FRVL, "62")
+  field( VAL , "3")
+  field( FVSV, "INVALID")
+  field( SXSV, "INVALID")
+  field( SVSV, "INVALID")
+  field( EISV, "INVALID")
+  field( NISV, "INVALID")
+  field( TESV, "INVALID")
+  field( ELSV, "INVALID")
+  field( TVSV, "INVALID")
+  field( TTSV, "INVALID")
+  field( FTSV, "INVALID")
+  field( FFSV, "INVALID")
+  field( UNSV, "INVALID")
+  field( IVOA, "Don't drive outputs")
+  info(autosaveFields_pass0, "VAL")
+}
+
+# Mapping readback
+
+
+
+record(longin, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut10-Src2-RB") {
+  field( DTYP, "Obj Prop uint32")
+  field( DESC, "UNIV10")
+  field( INP , "@OBJ=$(EVR,recursive):FrontUnivOut10, PROP=MapAlt")
+  field( FLNK, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut10-Src2-Pulse-RB")
+}
+
+record(mbbi, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut10-Src2-Pulse-RB") {
+  field( DTYP, "Raw Soft Channel")
+  field( INP , "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut10-Src2-RB")
+  field( ZRST, "Pulser 0")
+  field( ONST, "Pulser 1")
+  field( TWST, "Pulser 2")
+  field( THST, "Pulser 3")
+  field( FRST, "Pulser 4")
+  field( FVST, "Pulser 5")
+  field( SXST, "Pulser 6")
+  field( SVST, "Pulser 7")
+  field( EIST, "Pulser 8")
+  field( NIST, "Pulser 9")
+  field( TEST, "Pulser 10")
+  field( ELST, "Pulser 11")
+  field( TVST, "Pulser 12")
+  field( TTST, "Pulser 13")
+  field( FTST, "Pulser 14")
+  field( FFST, "Pulser 15")
+  field( ZRVL, "0")
+  field( ONVL, "1")
+  field( TWVL, "2")
+  field( THVL, "3")
+  field( FRVL, "4")
+  field( FVVL, "5")
+  field( SXVL, "6")
+  field( SVVL, "7")
+  field( EIVL, "8")
+  field( NIVL, "9")
+  field( TEVL, "10")
+  field( ELVL, "11")
+  field( TVVL, "12")
+  field( TTVL, "13")
+  field( FTVL, "14")
+  field( FFVL, "15")
+  field( UNSV, "MAJOR")
+  field( FLNK, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut10-Src2-DBus-RB")
+}
+
+record(mbbi, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut10-Src2-DBus-RB") {
+  field( DTYP, "Raw Soft Channel")
+  field( INP , "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut10-Src2-RB")
+  field( ZRST, "DBus 0")
+  field( ONST, "DBus 1")
+  field( TWST, "DBus 2")
+  field( THST, "DBus 3")
+  field( FRST, "DBus 4")
+  field( FVST, "DBus 5")
+  field( SXST, "DBus 6")
+  field( SVST, "DBus 7")
+  field( ZRVL, "32")
+  field( ONVL, "33")
+  field( TWVL, "34")
+  field( THVL, "35")
+  field( FRVL, "36")
+  field( FVVL, "37")
+  field( SXVL, "38")
+  field( SVVL, "39")
+  field( EISV, "MAJOR")
+  field( NISV, "MAJOR")
+  field( TESV, "MAJOR")
+  field( ELSV, "MAJOR")
+  field( TVSV, "MAJOR")
+  field( TTSV, "MAJOR")
+  field( FTSV, "MAJOR")
+  field( FFSV, "MAJOR")
+  field( UNSV, "MAJOR")
+  field( FLNK, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut10-Src2-Scale-RB")
+}
+
+record(mbbi, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut10-Src2-Scale-RB") {
+  field( DTYP, "Raw Soft Channel")
+  field( INP , "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut10-Src2-RB")
+  field( ZRST, "Prescaler 0")
+  field( ONST, "Prescaler 1")
+  field( TWST, "Prescaler 2")
+  field( ZRVL, "40")
+  field( ONVL, "41")
+  field( TWVL, "42")
+  field( THST, "Force Low")
+  field( FRST, "Force High")
+  field( THVL, "63")
+  field( FRVL, "62")
+  field( FVSV, "MAJOR")
+  field( SXSV, "MAJOR")
+  field( SVSV, "MAJOR")
+  field( EISV, "MAJOR")
+  field( NISV, "MAJOR")
+  field( TESV, "MAJOR")
+  field( ELSV, "MAJOR")
+  field( TVSV, "MAJOR")
+  field( TTSV, "MAJOR")
+  field( FTSV, "MAJOR")
+  field( FFSV, "MAJOR")
+  field( UNSV, "MAJOR")
+  field( UNSV, "MAJOR")
+}
+
 # Record set for an EVR's physical output
 #
 # Macros-
@@ -5884,6 +9193,237 @@ record(waveform, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut11-User-SP") {
   field( NORD, "1") # default include null termination
   info(autosaveFields_pass1, "VAL")
 }
+
+
+
+
+
+### Second source records
+
+record(longout, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut11-Src2-SP") {
+  field( DTYP, "Obj Prop uint32")
+  field( DESC, "UNIV11")
+  field( OUT , "@OBJ=$(EVR,recursive):FrontUnivOut11, PROP=MapAlt")
+  field( FLNK, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut11-Src2-RB")
+  field( PINI, "YES")
+  field( VAL , "$(FrontUnivOut11-Src2-SP=63,undefined)")  # Defaults to Force low (if enabled -> Ena-SP)
+  info(autosaveFields_pass0, "VAL HOPR LOPR DRVH DRVL")
+}
+
+# Settings
+# Users use will set one of these at a time.
+
+record(mbbo, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut11-Src2-Pulse-SP") {
+  field( DTYP, "Raw Soft Channel")
+  field( OUT , "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut11-Src2-SP PP")
+  field( ZRST, "Pulser 0")
+  field( ONST, "Pulser 1")
+  field( TWST, "Pulser 2")
+  field( THST, "Pulser 3")
+  field( FRST, "Pulser 4")
+  field( FVST, "Pulser 5")
+  field( SXST, "Pulser 6")
+  field( SVST, "Pulser 7")
+  field( EIST, "Pulser 8")
+  field( NIST, "Pulser 9")
+  field( TEST, "Pulser 10")
+  field( ELST, "Pulser 11")
+  field( TVST, "Pulser 12")
+  field( TTST, "Pulser 13")
+  field( FTST, "Pulser 14")
+  field( FFST, "Pulser 15")
+  field( ZRVL, "0")
+  field( ONVL, "1")
+  field( TWVL, "2")
+  field( THVL, "3")
+  field( FRVL, "4")
+  field( FVVL, "5")
+  field( SXVL, "6")
+  field( SVVL, "7")
+  field( EIVL, "8")
+  field( NIVL, "9")
+  field( TEVL, "10")
+  field( ELVL, "11")
+  field( TVVL, "12")
+  field( TTVL, "13")
+  field( FTVL, "14")
+  field( FFVL, "15")
+  field( UNSV, "INVALID")
+  field( IVOA, "Don't drive outputs")
+  info(autosaveFields_pass0, "VAL")
+}
+
+record(mbbo, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut11-Src2-DBus-SP") {
+  field( DTYP, "Raw Soft Channel")
+  field( OUT , "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut11-Src2-SP PP")
+  field( ZRST, "DBus 0")
+  field( ONST, "DBus 1")
+  field( TWST, "DBus 2")
+  field( THST, "DBus 3")
+  field( FRST, "DBus 4")
+  field( FVST, "DBus 5")
+  field( SXST, "DBus 6")
+  field( SVST, "DBus 7")
+  field( ZRVL, "32")
+  field( ONVL, "33")
+  field( TWVL, "34")
+  field( THVL, "35")
+  field( FRVL, "36")
+  field( FVVL, "37")
+  field( SXVL, "38")
+  field( SVVL, "39")
+  field( EISV, "INVALID")
+  field( NISV, "INVALID")
+  field( TESV, "INVALID")
+  field( ELSV, "INVALID")
+  field( TVSV, "INVALID")
+  field( TTSV, "INVALID")
+  field( FTSV, "INVALID")
+  field( FFSV, "INVALID")
+  field( UNSV, "INVALID")
+  field( IVOA, "Don't drive outputs")
+  info(autosaveFields_pass0, "VAL")
+}
+
+record(mbbo, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut11-Src2-Scale-SP") {
+  field( DTYP, "Raw Soft Channel")
+  field( OUT , "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut11-Src2-SP PP")
+  field( ZRST, "Prescaler 0")
+  field( ONST, "Prescaler 1")
+  field( TWST, "Prescaler 2")
+  field( ZRVL, "40")
+  field( ONVL, "41")
+  field( TWVL, "42")
+  field( THST, "Force Low")
+  field( FRST, "Force High")
+  field( THVL, "63")
+  field( FRVL, "62")
+  field( VAL , "3")
+  field( FVSV, "INVALID")
+  field( SXSV, "INVALID")
+  field( SVSV, "INVALID")
+  field( EISV, "INVALID")
+  field( NISV, "INVALID")
+  field( TESV, "INVALID")
+  field( ELSV, "INVALID")
+  field( TVSV, "INVALID")
+  field( TTSV, "INVALID")
+  field( FTSV, "INVALID")
+  field( FFSV, "INVALID")
+  field( UNSV, "INVALID")
+  field( IVOA, "Don't drive outputs")
+  info(autosaveFields_pass0, "VAL")
+}
+
+# Mapping readback
+
+
+
+record(longin, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut11-Src2-RB") {
+  field( DTYP, "Obj Prop uint32")
+  field( DESC, "UNIV11")
+  field( INP , "@OBJ=$(EVR,recursive):FrontUnivOut11, PROP=MapAlt")
+  field( FLNK, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut11-Src2-Pulse-RB")
+}
+
+record(mbbi, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut11-Src2-Pulse-RB") {
+  field( DTYP, "Raw Soft Channel")
+  field( INP , "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut11-Src2-RB")
+  field( ZRST, "Pulser 0")
+  field( ONST, "Pulser 1")
+  field( TWST, "Pulser 2")
+  field( THST, "Pulser 3")
+  field( FRST, "Pulser 4")
+  field( FVST, "Pulser 5")
+  field( SXST, "Pulser 6")
+  field( SVST, "Pulser 7")
+  field( EIST, "Pulser 8")
+  field( NIST, "Pulser 9")
+  field( TEST, "Pulser 10")
+  field( ELST, "Pulser 11")
+  field( TVST, "Pulser 12")
+  field( TTST, "Pulser 13")
+  field( FTST, "Pulser 14")
+  field( FFST, "Pulser 15")
+  field( ZRVL, "0")
+  field( ONVL, "1")
+  field( TWVL, "2")
+  field( THVL, "3")
+  field( FRVL, "4")
+  field( FVVL, "5")
+  field( SXVL, "6")
+  field( SVVL, "7")
+  field( EIVL, "8")
+  field( NIVL, "9")
+  field( TEVL, "10")
+  field( ELVL, "11")
+  field( TVVL, "12")
+  field( TTVL, "13")
+  field( FTVL, "14")
+  field( FFVL, "15")
+  field( UNSV, "MAJOR")
+  field( FLNK, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut11-Src2-DBus-RB")
+}
+
+record(mbbi, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut11-Src2-DBus-RB") {
+  field( DTYP, "Raw Soft Channel")
+  field( INP , "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut11-Src2-RB")
+  field( ZRST, "DBus 0")
+  field( ONST, "DBus 1")
+  field( TWST, "DBus 2")
+  field( THST, "DBus 3")
+  field( FRST, "DBus 4")
+  field( FVST, "DBus 5")
+  field( SXST, "DBus 6")
+  field( SVST, "DBus 7")
+  field( ZRVL, "32")
+  field( ONVL, "33")
+  field( TWVL, "34")
+  field( THVL, "35")
+  field( FRVL, "36")
+  field( FVVL, "37")
+  field( SXVL, "38")
+  field( SVVL, "39")
+  field( EISV, "MAJOR")
+  field( NISV, "MAJOR")
+  field( TESV, "MAJOR")
+  field( ELSV, "MAJOR")
+  field( TVSV, "MAJOR")
+  field( TTSV, "MAJOR")
+  field( FTSV, "MAJOR")
+  field( FFSV, "MAJOR")
+  field( UNSV, "MAJOR")
+  field( FLNK, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut11-Src2-Scale-RB")
+}
+
+record(mbbi, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut11-Src2-Scale-RB") {
+  field( DTYP, "Raw Soft Channel")
+  field( INP , "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut11-Src2-RB")
+  field( ZRST, "Prescaler 0")
+  field( ONST, "Prescaler 1")
+  field( TWST, "Prescaler 2")
+  field( ZRVL, "40")
+  field( ONVL, "41")
+  field( TWVL, "42")
+  field( THST, "Force Low")
+  field( FRST, "Force High")
+  field( THVL, "63")
+  field( FRVL, "62")
+  field( FVSV, "MAJOR")
+  field( SXSV, "MAJOR")
+  field( SVSV, "MAJOR")
+  field( EISV, "MAJOR")
+  field( NISV, "MAJOR")
+  field( TESV, "MAJOR")
+  field( ELSV, "MAJOR")
+  field( TVSV, "MAJOR")
+  field( TTSV, "MAJOR")
+  field( FTSV, "MAJOR")
+  field( FFSV, "MAJOR")
+  field( UNSV, "MAJOR")
+  field( UNSV, "MAJOR")
+}
+
 # Record set for an EVR's physical output
 #
 # Macros-
@@ -6137,6 +9677,237 @@ record(waveform, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut12-User-SP") {
   field( NORD, "1") # default include null termination
   info(autosaveFields_pass1, "VAL")
 }
+
+
+
+
+
+### Second source records
+
+record(longout, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut12-Src2-SP") {
+  field( DTYP, "Obj Prop uint32")
+  field( DESC, "UNIV12")
+  field( OUT , "@OBJ=$(EVR,recursive):FrontUnivOut12, PROP=MapAlt")
+  field( FLNK, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut12-Src2-RB")
+  field( PINI, "YES")
+  field( VAL , "$(FrontUnivOut12-Src2-SP=63,undefined)")  # Defaults to Force low (if enabled -> Ena-SP)
+  info(autosaveFields_pass0, "VAL HOPR LOPR DRVH DRVL")
+}
+
+# Settings
+# Users use will set one of these at a time.
+
+record(mbbo, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut12-Src2-Pulse-SP") {
+  field( DTYP, "Raw Soft Channel")
+  field( OUT , "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut12-Src2-SP PP")
+  field( ZRST, "Pulser 0")
+  field( ONST, "Pulser 1")
+  field( TWST, "Pulser 2")
+  field( THST, "Pulser 3")
+  field( FRST, "Pulser 4")
+  field( FVST, "Pulser 5")
+  field( SXST, "Pulser 6")
+  field( SVST, "Pulser 7")
+  field( EIST, "Pulser 8")
+  field( NIST, "Pulser 9")
+  field( TEST, "Pulser 10")
+  field( ELST, "Pulser 11")
+  field( TVST, "Pulser 12")
+  field( TTST, "Pulser 13")
+  field( FTST, "Pulser 14")
+  field( FFST, "Pulser 15")
+  field( ZRVL, "0")
+  field( ONVL, "1")
+  field( TWVL, "2")
+  field( THVL, "3")
+  field( FRVL, "4")
+  field( FVVL, "5")
+  field( SXVL, "6")
+  field( SVVL, "7")
+  field( EIVL, "8")
+  field( NIVL, "9")
+  field( TEVL, "10")
+  field( ELVL, "11")
+  field( TVVL, "12")
+  field( TTVL, "13")
+  field( FTVL, "14")
+  field( FFVL, "15")
+  field( UNSV, "INVALID")
+  field( IVOA, "Don't drive outputs")
+  info(autosaveFields_pass0, "VAL")
+}
+
+record(mbbo, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut12-Src2-DBus-SP") {
+  field( DTYP, "Raw Soft Channel")
+  field( OUT , "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut12-Src2-SP PP")
+  field( ZRST, "DBus 0")
+  field( ONST, "DBus 1")
+  field( TWST, "DBus 2")
+  field( THST, "DBus 3")
+  field( FRST, "DBus 4")
+  field( FVST, "DBus 5")
+  field( SXST, "DBus 6")
+  field( SVST, "DBus 7")
+  field( ZRVL, "32")
+  field( ONVL, "33")
+  field( TWVL, "34")
+  field( THVL, "35")
+  field( FRVL, "36")
+  field( FVVL, "37")
+  field( SXVL, "38")
+  field( SVVL, "39")
+  field( EISV, "INVALID")
+  field( NISV, "INVALID")
+  field( TESV, "INVALID")
+  field( ELSV, "INVALID")
+  field( TVSV, "INVALID")
+  field( TTSV, "INVALID")
+  field( FTSV, "INVALID")
+  field( FFSV, "INVALID")
+  field( UNSV, "INVALID")
+  field( IVOA, "Don't drive outputs")
+  info(autosaveFields_pass0, "VAL")
+}
+
+record(mbbo, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut12-Src2-Scale-SP") {
+  field( DTYP, "Raw Soft Channel")
+  field( OUT , "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut12-Src2-SP PP")
+  field( ZRST, "Prescaler 0")
+  field( ONST, "Prescaler 1")
+  field( TWST, "Prescaler 2")
+  field( ZRVL, "40")
+  field( ONVL, "41")
+  field( TWVL, "42")
+  field( THST, "Force Low")
+  field( FRST, "Force High")
+  field( THVL, "63")
+  field( FRVL, "62")
+  field( VAL , "3")
+  field( FVSV, "INVALID")
+  field( SXSV, "INVALID")
+  field( SVSV, "INVALID")
+  field( EISV, "INVALID")
+  field( NISV, "INVALID")
+  field( TESV, "INVALID")
+  field( ELSV, "INVALID")
+  field( TVSV, "INVALID")
+  field( TTSV, "INVALID")
+  field( FTSV, "INVALID")
+  field( FFSV, "INVALID")
+  field( UNSV, "INVALID")
+  field( IVOA, "Don't drive outputs")
+  info(autosaveFields_pass0, "VAL")
+}
+
+# Mapping readback
+
+
+
+record(longin, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut12-Src2-RB") {
+  field( DTYP, "Obj Prop uint32")
+  field( DESC, "UNIV12")
+  field( INP , "@OBJ=$(EVR,recursive):FrontUnivOut12, PROP=MapAlt")
+  field( FLNK, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut12-Src2-Pulse-RB")
+}
+
+record(mbbi, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut12-Src2-Pulse-RB") {
+  field( DTYP, "Raw Soft Channel")
+  field( INP , "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut12-Src2-RB")
+  field( ZRST, "Pulser 0")
+  field( ONST, "Pulser 1")
+  field( TWST, "Pulser 2")
+  field( THST, "Pulser 3")
+  field( FRST, "Pulser 4")
+  field( FVST, "Pulser 5")
+  field( SXST, "Pulser 6")
+  field( SVST, "Pulser 7")
+  field( EIST, "Pulser 8")
+  field( NIST, "Pulser 9")
+  field( TEST, "Pulser 10")
+  field( ELST, "Pulser 11")
+  field( TVST, "Pulser 12")
+  field( TTST, "Pulser 13")
+  field( FTST, "Pulser 14")
+  field( FFST, "Pulser 15")
+  field( ZRVL, "0")
+  field( ONVL, "1")
+  field( TWVL, "2")
+  field( THVL, "3")
+  field( FRVL, "4")
+  field( FVVL, "5")
+  field( SXVL, "6")
+  field( SVVL, "7")
+  field( EIVL, "8")
+  field( NIVL, "9")
+  field( TEVL, "10")
+  field( ELVL, "11")
+  field( TVVL, "12")
+  field( TTVL, "13")
+  field( FTVL, "14")
+  field( FFVL, "15")
+  field( UNSV, "MAJOR")
+  field( FLNK, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut12-Src2-DBus-RB")
+}
+
+record(mbbi, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut12-Src2-DBus-RB") {
+  field( DTYP, "Raw Soft Channel")
+  field( INP , "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut12-Src2-RB")
+  field( ZRST, "DBus 0")
+  field( ONST, "DBus 1")
+  field( TWST, "DBus 2")
+  field( THST, "DBus 3")
+  field( FRST, "DBus 4")
+  field( FVST, "DBus 5")
+  field( SXST, "DBus 6")
+  field( SVST, "DBus 7")
+  field( ZRVL, "32")
+  field( ONVL, "33")
+  field( TWVL, "34")
+  field( THVL, "35")
+  field( FRVL, "36")
+  field( FVVL, "37")
+  field( SXVL, "38")
+  field( SVVL, "39")
+  field( EISV, "MAJOR")
+  field( NISV, "MAJOR")
+  field( TESV, "MAJOR")
+  field( ELSV, "MAJOR")
+  field( TVSV, "MAJOR")
+  field( TTSV, "MAJOR")
+  field( FTSV, "MAJOR")
+  field( FFSV, "MAJOR")
+  field( UNSV, "MAJOR")
+  field( FLNK, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut12-Src2-Scale-RB")
+}
+
+record(mbbi, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut12-Src2-Scale-RB") {
+  field( DTYP, "Raw Soft Channel")
+  field( INP , "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut12-Src2-RB")
+  field( ZRST, "Prescaler 0")
+  field( ONST, "Prescaler 1")
+  field( TWST, "Prescaler 2")
+  field( ZRVL, "40")
+  field( ONVL, "41")
+  field( TWVL, "42")
+  field( THST, "Force Low")
+  field( FRST, "Force High")
+  field( THVL, "63")
+  field( FRVL, "62")
+  field( FVSV, "MAJOR")
+  field( SXSV, "MAJOR")
+  field( SVSV, "MAJOR")
+  field( EISV, "MAJOR")
+  field( NISV, "MAJOR")
+  field( TESV, "MAJOR")
+  field( ELSV, "MAJOR")
+  field( TVSV, "MAJOR")
+  field( TTSV, "MAJOR")
+  field( FTSV, "MAJOR")
+  field( FFSV, "MAJOR")
+  field( UNSV, "MAJOR")
+  field( UNSV, "MAJOR")
+}
+
 # Record set for an EVR's physical output
 #
 # Macros-
@@ -6390,6 +10161,237 @@ record(waveform, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut13-User-SP") {
   field( NORD, "1") # default include null termination
   info(autosaveFields_pass1, "VAL")
 }
+
+
+
+
+
+### Second source records
+
+record(longout, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut13-Src2-SP") {
+  field( DTYP, "Obj Prop uint32")
+  field( DESC, "UNIV13")
+  field( OUT , "@OBJ=$(EVR,recursive):FrontUnivOut13, PROP=MapAlt")
+  field( FLNK, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut13-Src2-RB")
+  field( PINI, "YES")
+  field( VAL , "$(FrontUnivOut13-Src2-SP=63,undefined)")  # Defaults to Force low (if enabled -> Ena-SP)
+  info(autosaveFields_pass0, "VAL HOPR LOPR DRVH DRVL")
+}
+
+# Settings
+# Users use will set one of these at a time.
+
+record(mbbo, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut13-Src2-Pulse-SP") {
+  field( DTYP, "Raw Soft Channel")
+  field( OUT , "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut13-Src2-SP PP")
+  field( ZRST, "Pulser 0")
+  field( ONST, "Pulser 1")
+  field( TWST, "Pulser 2")
+  field( THST, "Pulser 3")
+  field( FRST, "Pulser 4")
+  field( FVST, "Pulser 5")
+  field( SXST, "Pulser 6")
+  field( SVST, "Pulser 7")
+  field( EIST, "Pulser 8")
+  field( NIST, "Pulser 9")
+  field( TEST, "Pulser 10")
+  field( ELST, "Pulser 11")
+  field( TVST, "Pulser 12")
+  field( TTST, "Pulser 13")
+  field( FTST, "Pulser 14")
+  field( FFST, "Pulser 15")
+  field( ZRVL, "0")
+  field( ONVL, "1")
+  field( TWVL, "2")
+  field( THVL, "3")
+  field( FRVL, "4")
+  field( FVVL, "5")
+  field( SXVL, "6")
+  field( SVVL, "7")
+  field( EIVL, "8")
+  field( NIVL, "9")
+  field( TEVL, "10")
+  field( ELVL, "11")
+  field( TVVL, "12")
+  field( TTVL, "13")
+  field( FTVL, "14")
+  field( FFVL, "15")
+  field( UNSV, "INVALID")
+  field( IVOA, "Don't drive outputs")
+  info(autosaveFields_pass0, "VAL")
+}
+
+record(mbbo, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut13-Src2-DBus-SP") {
+  field( DTYP, "Raw Soft Channel")
+  field( OUT , "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut13-Src2-SP PP")
+  field( ZRST, "DBus 0")
+  field( ONST, "DBus 1")
+  field( TWST, "DBus 2")
+  field( THST, "DBus 3")
+  field( FRST, "DBus 4")
+  field( FVST, "DBus 5")
+  field( SXST, "DBus 6")
+  field( SVST, "DBus 7")
+  field( ZRVL, "32")
+  field( ONVL, "33")
+  field( TWVL, "34")
+  field( THVL, "35")
+  field( FRVL, "36")
+  field( FVVL, "37")
+  field( SXVL, "38")
+  field( SVVL, "39")
+  field( EISV, "INVALID")
+  field( NISV, "INVALID")
+  field( TESV, "INVALID")
+  field( ELSV, "INVALID")
+  field( TVSV, "INVALID")
+  field( TTSV, "INVALID")
+  field( FTSV, "INVALID")
+  field( FFSV, "INVALID")
+  field( UNSV, "INVALID")
+  field( IVOA, "Don't drive outputs")
+  info(autosaveFields_pass0, "VAL")
+}
+
+record(mbbo, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut13-Src2-Scale-SP") {
+  field( DTYP, "Raw Soft Channel")
+  field( OUT , "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut13-Src2-SP PP")
+  field( ZRST, "Prescaler 0")
+  field( ONST, "Prescaler 1")
+  field( TWST, "Prescaler 2")
+  field( ZRVL, "40")
+  field( ONVL, "41")
+  field( TWVL, "42")
+  field( THST, "Force Low")
+  field( FRST, "Force High")
+  field( THVL, "63")
+  field( FRVL, "62")
+  field( VAL , "3")
+  field( FVSV, "INVALID")
+  field( SXSV, "INVALID")
+  field( SVSV, "INVALID")
+  field( EISV, "INVALID")
+  field( NISV, "INVALID")
+  field( TESV, "INVALID")
+  field( ELSV, "INVALID")
+  field( TVSV, "INVALID")
+  field( TTSV, "INVALID")
+  field( FTSV, "INVALID")
+  field( FFSV, "INVALID")
+  field( UNSV, "INVALID")
+  field( IVOA, "Don't drive outputs")
+  info(autosaveFields_pass0, "VAL")
+}
+
+# Mapping readback
+
+
+
+record(longin, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut13-Src2-RB") {
+  field( DTYP, "Obj Prop uint32")
+  field( DESC, "UNIV13")
+  field( INP , "@OBJ=$(EVR,recursive):FrontUnivOut13, PROP=MapAlt")
+  field( FLNK, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut13-Src2-Pulse-RB")
+}
+
+record(mbbi, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut13-Src2-Pulse-RB") {
+  field( DTYP, "Raw Soft Channel")
+  field( INP , "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut13-Src2-RB")
+  field( ZRST, "Pulser 0")
+  field( ONST, "Pulser 1")
+  field( TWST, "Pulser 2")
+  field( THST, "Pulser 3")
+  field( FRST, "Pulser 4")
+  field( FVST, "Pulser 5")
+  field( SXST, "Pulser 6")
+  field( SVST, "Pulser 7")
+  field( EIST, "Pulser 8")
+  field( NIST, "Pulser 9")
+  field( TEST, "Pulser 10")
+  field( ELST, "Pulser 11")
+  field( TVST, "Pulser 12")
+  field( TTST, "Pulser 13")
+  field( FTST, "Pulser 14")
+  field( FFST, "Pulser 15")
+  field( ZRVL, "0")
+  field( ONVL, "1")
+  field( TWVL, "2")
+  field( THVL, "3")
+  field( FRVL, "4")
+  field( FVVL, "5")
+  field( SXVL, "6")
+  field( SVVL, "7")
+  field( EIVL, "8")
+  field( NIVL, "9")
+  field( TEVL, "10")
+  field( ELVL, "11")
+  field( TVVL, "12")
+  field( TTVL, "13")
+  field( FTVL, "14")
+  field( FFVL, "15")
+  field( UNSV, "MAJOR")
+  field( FLNK, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut13-Src2-DBus-RB")
+}
+
+record(mbbi, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut13-Src2-DBus-RB") {
+  field( DTYP, "Raw Soft Channel")
+  field( INP , "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut13-Src2-RB")
+  field( ZRST, "DBus 0")
+  field( ONST, "DBus 1")
+  field( TWST, "DBus 2")
+  field( THST, "DBus 3")
+  field( FRST, "DBus 4")
+  field( FVST, "DBus 5")
+  field( SXST, "DBus 6")
+  field( SVST, "DBus 7")
+  field( ZRVL, "32")
+  field( ONVL, "33")
+  field( TWVL, "34")
+  field( THVL, "35")
+  field( FRVL, "36")
+  field( FVVL, "37")
+  field( SXVL, "38")
+  field( SVVL, "39")
+  field( EISV, "MAJOR")
+  field( NISV, "MAJOR")
+  field( TESV, "MAJOR")
+  field( ELSV, "MAJOR")
+  field( TVSV, "MAJOR")
+  field( TTSV, "MAJOR")
+  field( FTSV, "MAJOR")
+  field( FFSV, "MAJOR")
+  field( UNSV, "MAJOR")
+  field( FLNK, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut13-Src2-Scale-RB")
+}
+
+record(mbbi, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut13-Src2-Scale-RB") {
+  field( DTYP, "Raw Soft Channel")
+  field( INP , "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut13-Src2-RB")
+  field( ZRST, "Prescaler 0")
+  field( ONST, "Prescaler 1")
+  field( TWST, "Prescaler 2")
+  field( ZRVL, "40")
+  field( ONVL, "41")
+  field( TWVL, "42")
+  field( THST, "Force Low")
+  field( FRST, "Force High")
+  field( THVL, "63")
+  field( FRVL, "62")
+  field( FVSV, "MAJOR")
+  field( SXSV, "MAJOR")
+  field( SVSV, "MAJOR")
+  field( EISV, "MAJOR")
+  field( NISV, "MAJOR")
+  field( TESV, "MAJOR")
+  field( ELSV, "MAJOR")
+  field( TVSV, "MAJOR")
+  field( TTSV, "MAJOR")
+  field( FTSV, "MAJOR")
+  field( FFSV, "MAJOR")
+  field( UNSV, "MAJOR")
+  field( UNSV, "MAJOR")
+}
+
 # Record set for an EVR's physical output
 #
 # Macros-
@@ -6643,6 +10645,237 @@ record(waveform, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut14-User-SP") {
   field( NORD, "1") # default include null termination
   info(autosaveFields_pass1, "VAL")
 }
+
+
+
+
+
+### Second source records
+
+record(longout, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut14-Src2-SP") {
+  field( DTYP, "Obj Prop uint32")
+  field( DESC, "UNIV14")
+  field( OUT , "@OBJ=$(EVR,recursive):FrontUnivOut14, PROP=MapAlt")
+  field( FLNK, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut14-Src2-RB")
+  field( PINI, "YES")
+  field( VAL , "$(FrontUnivOut14-Src2-SP=63,undefined)")  # Defaults to Force low (if enabled -> Ena-SP)
+  info(autosaveFields_pass0, "VAL HOPR LOPR DRVH DRVL")
+}
+
+# Settings
+# Users use will set one of these at a time.
+
+record(mbbo, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut14-Src2-Pulse-SP") {
+  field( DTYP, "Raw Soft Channel")
+  field( OUT , "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut14-Src2-SP PP")
+  field( ZRST, "Pulser 0")
+  field( ONST, "Pulser 1")
+  field( TWST, "Pulser 2")
+  field( THST, "Pulser 3")
+  field( FRST, "Pulser 4")
+  field( FVST, "Pulser 5")
+  field( SXST, "Pulser 6")
+  field( SVST, "Pulser 7")
+  field( EIST, "Pulser 8")
+  field( NIST, "Pulser 9")
+  field( TEST, "Pulser 10")
+  field( ELST, "Pulser 11")
+  field( TVST, "Pulser 12")
+  field( TTST, "Pulser 13")
+  field( FTST, "Pulser 14")
+  field( FFST, "Pulser 15")
+  field( ZRVL, "0")
+  field( ONVL, "1")
+  field( TWVL, "2")
+  field( THVL, "3")
+  field( FRVL, "4")
+  field( FVVL, "5")
+  field( SXVL, "6")
+  field( SVVL, "7")
+  field( EIVL, "8")
+  field( NIVL, "9")
+  field( TEVL, "10")
+  field( ELVL, "11")
+  field( TVVL, "12")
+  field( TTVL, "13")
+  field( FTVL, "14")
+  field( FFVL, "15")
+  field( UNSV, "INVALID")
+  field( IVOA, "Don't drive outputs")
+  info(autosaveFields_pass0, "VAL")
+}
+
+record(mbbo, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut14-Src2-DBus-SP") {
+  field( DTYP, "Raw Soft Channel")
+  field( OUT , "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut14-Src2-SP PP")
+  field( ZRST, "DBus 0")
+  field( ONST, "DBus 1")
+  field( TWST, "DBus 2")
+  field( THST, "DBus 3")
+  field( FRST, "DBus 4")
+  field( FVST, "DBus 5")
+  field( SXST, "DBus 6")
+  field( SVST, "DBus 7")
+  field( ZRVL, "32")
+  field( ONVL, "33")
+  field( TWVL, "34")
+  field( THVL, "35")
+  field( FRVL, "36")
+  field( FVVL, "37")
+  field( SXVL, "38")
+  field( SVVL, "39")
+  field( EISV, "INVALID")
+  field( NISV, "INVALID")
+  field( TESV, "INVALID")
+  field( ELSV, "INVALID")
+  field( TVSV, "INVALID")
+  field( TTSV, "INVALID")
+  field( FTSV, "INVALID")
+  field( FFSV, "INVALID")
+  field( UNSV, "INVALID")
+  field( IVOA, "Don't drive outputs")
+  info(autosaveFields_pass0, "VAL")
+}
+
+record(mbbo, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut14-Src2-Scale-SP") {
+  field( DTYP, "Raw Soft Channel")
+  field( OUT , "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut14-Src2-SP PP")
+  field( ZRST, "Prescaler 0")
+  field( ONST, "Prescaler 1")
+  field( TWST, "Prescaler 2")
+  field( ZRVL, "40")
+  field( ONVL, "41")
+  field( TWVL, "42")
+  field( THST, "Force Low")
+  field( FRST, "Force High")
+  field( THVL, "63")
+  field( FRVL, "62")
+  field( VAL , "3")
+  field( FVSV, "INVALID")
+  field( SXSV, "INVALID")
+  field( SVSV, "INVALID")
+  field( EISV, "INVALID")
+  field( NISV, "INVALID")
+  field( TESV, "INVALID")
+  field( ELSV, "INVALID")
+  field( TVSV, "INVALID")
+  field( TTSV, "INVALID")
+  field( FTSV, "INVALID")
+  field( FFSV, "INVALID")
+  field( UNSV, "INVALID")
+  field( IVOA, "Don't drive outputs")
+  info(autosaveFields_pass0, "VAL")
+}
+
+# Mapping readback
+
+
+
+record(longin, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut14-Src2-RB") {
+  field( DTYP, "Obj Prop uint32")
+  field( DESC, "UNIV14")
+  field( INP , "@OBJ=$(EVR,recursive):FrontUnivOut14, PROP=MapAlt")
+  field( FLNK, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut14-Src2-Pulse-RB")
+}
+
+record(mbbi, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut14-Src2-Pulse-RB") {
+  field( DTYP, "Raw Soft Channel")
+  field( INP , "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut14-Src2-RB")
+  field( ZRST, "Pulser 0")
+  field( ONST, "Pulser 1")
+  field( TWST, "Pulser 2")
+  field( THST, "Pulser 3")
+  field( FRST, "Pulser 4")
+  field( FVST, "Pulser 5")
+  field( SXST, "Pulser 6")
+  field( SVST, "Pulser 7")
+  field( EIST, "Pulser 8")
+  field( NIST, "Pulser 9")
+  field( TEST, "Pulser 10")
+  field( ELST, "Pulser 11")
+  field( TVST, "Pulser 12")
+  field( TTST, "Pulser 13")
+  field( FTST, "Pulser 14")
+  field( FFST, "Pulser 15")
+  field( ZRVL, "0")
+  field( ONVL, "1")
+  field( TWVL, "2")
+  field( THVL, "3")
+  field( FRVL, "4")
+  field( FVVL, "5")
+  field( SXVL, "6")
+  field( SVVL, "7")
+  field( EIVL, "8")
+  field( NIVL, "9")
+  field( TEVL, "10")
+  field( ELVL, "11")
+  field( TVVL, "12")
+  field( TTVL, "13")
+  field( FTVL, "14")
+  field( FFVL, "15")
+  field( UNSV, "MAJOR")
+  field( FLNK, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut14-Src2-DBus-RB")
+}
+
+record(mbbi, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut14-Src2-DBus-RB") {
+  field( DTYP, "Raw Soft Channel")
+  field( INP , "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut14-Src2-RB")
+  field( ZRST, "DBus 0")
+  field( ONST, "DBus 1")
+  field( TWST, "DBus 2")
+  field( THST, "DBus 3")
+  field( FRST, "DBus 4")
+  field( FVST, "DBus 5")
+  field( SXST, "DBus 6")
+  field( SVST, "DBus 7")
+  field( ZRVL, "32")
+  field( ONVL, "33")
+  field( TWVL, "34")
+  field( THVL, "35")
+  field( FRVL, "36")
+  field( FVVL, "37")
+  field( SXVL, "38")
+  field( SVVL, "39")
+  field( EISV, "MAJOR")
+  field( NISV, "MAJOR")
+  field( TESV, "MAJOR")
+  field( ELSV, "MAJOR")
+  field( TVSV, "MAJOR")
+  field( TTSV, "MAJOR")
+  field( FTSV, "MAJOR")
+  field( FFSV, "MAJOR")
+  field( UNSV, "MAJOR")
+  field( FLNK, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut14-Src2-Scale-RB")
+}
+
+record(mbbi, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut14-Src2-Scale-RB") {
+  field( DTYP, "Raw Soft Channel")
+  field( INP , "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut14-Src2-RB")
+  field( ZRST, "Prescaler 0")
+  field( ONST, "Prescaler 1")
+  field( TWST, "Prescaler 2")
+  field( ZRVL, "40")
+  field( ONVL, "41")
+  field( TWVL, "42")
+  field( THST, "Force Low")
+  field( FRST, "Force High")
+  field( THVL, "63")
+  field( FRVL, "62")
+  field( FVSV, "MAJOR")
+  field( SXSV, "MAJOR")
+  field( SVSV, "MAJOR")
+  field( EISV, "MAJOR")
+  field( NISV, "MAJOR")
+  field( TESV, "MAJOR")
+  field( ELSV, "MAJOR")
+  field( TVSV, "MAJOR")
+  field( TTSV, "MAJOR")
+  field( FTSV, "MAJOR")
+  field( FFSV, "MAJOR")
+  field( UNSV, "MAJOR")
+  field( UNSV, "MAJOR")
+}
+
 # Record set for an EVR's physical output
 #
 # Macros-
@@ -6896,3 +11129,234 @@ record(waveform, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut15-User-SP") {
   field( NORD, "1") # default include null termination
   info(autosaveFields_pass1, "VAL")
 }
+
+
+
+
+
+### Second source records
+
+record(longout, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut15-Src2-SP") {
+  field( DTYP, "Obj Prop uint32")
+  field( DESC, "UNIV15")
+  field( OUT , "@OBJ=$(EVR,recursive):FrontUnivOut15, PROP=MapAlt")
+  field( FLNK, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut15-Src2-RB")
+  field( PINI, "YES")
+  field( VAL , "$(FrontUnivOut15-Src2-SP=63,undefined)")  # Defaults to Force low (if enabled -> Ena-SP)
+  info(autosaveFields_pass0, "VAL HOPR LOPR DRVH DRVL")
+}
+
+# Settings
+# Users use will set one of these at a time.
+
+record(mbbo, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut15-Src2-Pulse-SP") {
+  field( DTYP, "Raw Soft Channel")
+  field( OUT , "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut15-Src2-SP PP")
+  field( ZRST, "Pulser 0")
+  field( ONST, "Pulser 1")
+  field( TWST, "Pulser 2")
+  field( THST, "Pulser 3")
+  field( FRST, "Pulser 4")
+  field( FVST, "Pulser 5")
+  field( SXST, "Pulser 6")
+  field( SVST, "Pulser 7")
+  field( EIST, "Pulser 8")
+  field( NIST, "Pulser 9")
+  field( TEST, "Pulser 10")
+  field( ELST, "Pulser 11")
+  field( TVST, "Pulser 12")
+  field( TTST, "Pulser 13")
+  field( FTST, "Pulser 14")
+  field( FFST, "Pulser 15")
+  field( ZRVL, "0")
+  field( ONVL, "1")
+  field( TWVL, "2")
+  field( THVL, "3")
+  field( FRVL, "4")
+  field( FVVL, "5")
+  field( SXVL, "6")
+  field( SVVL, "7")
+  field( EIVL, "8")
+  field( NIVL, "9")
+  field( TEVL, "10")
+  field( ELVL, "11")
+  field( TVVL, "12")
+  field( TTVL, "13")
+  field( FTVL, "14")
+  field( FFVL, "15")
+  field( UNSV, "INVALID")
+  field( IVOA, "Don't drive outputs")
+  info(autosaveFields_pass0, "VAL")
+}
+
+record(mbbo, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut15-Src2-DBus-SP") {
+  field( DTYP, "Raw Soft Channel")
+  field( OUT , "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut15-Src2-SP PP")
+  field( ZRST, "DBus 0")
+  field( ONST, "DBus 1")
+  field( TWST, "DBus 2")
+  field( THST, "DBus 3")
+  field( FRST, "DBus 4")
+  field( FVST, "DBus 5")
+  field( SXST, "DBus 6")
+  field( SVST, "DBus 7")
+  field( ZRVL, "32")
+  field( ONVL, "33")
+  field( TWVL, "34")
+  field( THVL, "35")
+  field( FRVL, "36")
+  field( FVVL, "37")
+  field( SXVL, "38")
+  field( SVVL, "39")
+  field( EISV, "INVALID")
+  field( NISV, "INVALID")
+  field( TESV, "INVALID")
+  field( ELSV, "INVALID")
+  field( TVSV, "INVALID")
+  field( TTSV, "INVALID")
+  field( FTSV, "INVALID")
+  field( FFSV, "INVALID")
+  field( UNSV, "INVALID")
+  field( IVOA, "Don't drive outputs")
+  info(autosaveFields_pass0, "VAL")
+}
+
+record(mbbo, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut15-Src2-Scale-SP") {
+  field( DTYP, "Raw Soft Channel")
+  field( OUT , "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut15-Src2-SP PP")
+  field( ZRST, "Prescaler 0")
+  field( ONST, "Prescaler 1")
+  field( TWST, "Prescaler 2")
+  field( ZRVL, "40")
+  field( ONVL, "41")
+  field( TWVL, "42")
+  field( THST, "Force Low")
+  field( FRST, "Force High")
+  field( THVL, "63")
+  field( FRVL, "62")
+  field( VAL , "3")
+  field( FVSV, "INVALID")
+  field( SXSV, "INVALID")
+  field( SVSV, "INVALID")
+  field( EISV, "INVALID")
+  field( NISV, "INVALID")
+  field( TESV, "INVALID")
+  field( ELSV, "INVALID")
+  field( TVSV, "INVALID")
+  field( TTSV, "INVALID")
+  field( FTSV, "INVALID")
+  field( FFSV, "INVALID")
+  field( UNSV, "INVALID")
+  field( IVOA, "Don't drive outputs")
+  info(autosaveFields_pass0, "VAL")
+}
+
+# Mapping readback
+
+
+
+record(longin, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut15-Src2-RB") {
+  field( DTYP, "Obj Prop uint32")
+  field( DESC, "UNIV15")
+  field( INP , "@OBJ=$(EVR,recursive):FrontUnivOut15, PROP=MapAlt")
+  field( FLNK, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut15-Src2-Pulse-RB")
+}
+
+record(mbbi, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut15-Src2-Pulse-RB") {
+  field( DTYP, "Raw Soft Channel")
+  field( INP , "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut15-Src2-RB")
+  field( ZRST, "Pulser 0")
+  field( ONST, "Pulser 1")
+  field( TWST, "Pulser 2")
+  field( THST, "Pulser 3")
+  field( FRST, "Pulser 4")
+  field( FVST, "Pulser 5")
+  field( SXST, "Pulser 6")
+  field( SVST, "Pulser 7")
+  field( EIST, "Pulser 8")
+  field( NIST, "Pulser 9")
+  field( TEST, "Pulser 10")
+  field( ELST, "Pulser 11")
+  field( TVST, "Pulser 12")
+  field( TTST, "Pulser 13")
+  field( FTST, "Pulser 14")
+  field( FFST, "Pulser 15")
+  field( ZRVL, "0")
+  field( ONVL, "1")
+  field( TWVL, "2")
+  field( THVL, "3")
+  field( FRVL, "4")
+  field( FVVL, "5")
+  field( SXVL, "6")
+  field( SVVL, "7")
+  field( EIVL, "8")
+  field( NIVL, "9")
+  field( TEVL, "10")
+  field( ELVL, "11")
+  field( TVVL, "12")
+  field( TTVL, "13")
+  field( FTVL, "14")
+  field( FFVL, "15")
+  field( UNSV, "MAJOR")
+  field( FLNK, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut15-Src2-DBus-RB")
+}
+
+record(mbbi, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut15-Src2-DBus-RB") {
+  field( DTYP, "Raw Soft Channel")
+  field( INP , "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut15-Src2-RB")
+  field( ZRST, "DBus 0")
+  field( ONST, "DBus 1")
+  field( TWST, "DBus 2")
+  field( THST, "DBus 3")
+  field( FRST, "DBus 4")
+  field( FVST, "DBus 5")
+  field( SXST, "DBus 6")
+  field( SVST, "DBus 7")
+  field( ZRVL, "32")
+  field( ONVL, "33")
+  field( TWVL, "34")
+  field( THVL, "35")
+  field( FRVL, "36")
+  field( FVVL, "37")
+  field( SXVL, "38")
+  field( SVVL, "39")
+  field( EISV, "MAJOR")
+  field( NISV, "MAJOR")
+  field( TESV, "MAJOR")
+  field( ELSV, "MAJOR")
+  field( TVSV, "MAJOR")
+  field( TTSV, "MAJOR")
+  field( FTSV, "MAJOR")
+  field( FFSV, "MAJOR")
+  field( UNSV, "MAJOR")
+  field( FLNK, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut15-Src2-Scale-RB")
+}
+
+record(mbbi, "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut15-Src2-Scale-RB") {
+  field( DTYP, "Raw Soft Channel")
+  field( INP , "$(SYS,recursive)-$(EVR,recursive):FrontUnivOut15-Src2-RB")
+  field( ZRST, "Prescaler 0")
+  field( ONST, "Prescaler 1")
+  field( TWST, "Prescaler 2")
+  field( ZRVL, "40")
+  field( ONVL, "41")
+  field( TWVL, "42")
+  field( THST, "Force Low")
+  field( FRST, "Force High")
+  field( THVL, "63")
+  field( FRVL, "62")
+  field( FVSV, "MAJOR")
+  field( SXSV, "MAJOR")
+  field( SVSV, "MAJOR")
+  field( EISV, "MAJOR")
+  field( NISV, "MAJOR")
+  field( TESV, "MAJOR")
+  field( ELSV, "MAJOR")
+  field( TVSV, "MAJOR")
+  field( TTSV, "MAJOR")
+  field( FTSV, "MAJOR")
+  field( FFSV, "MAJOR")
+  field( UNSV, "MAJOR")
+  field( UNSV, "MAJOR")
+}
+
