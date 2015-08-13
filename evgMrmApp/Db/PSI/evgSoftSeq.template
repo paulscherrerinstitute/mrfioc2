@@ -1,8 +1,8 @@
 ##Macros:
-## TSIMODE  [EGU,TICKS]
-## TSRES    [Sec,mSec,uSec,nSec]
-## RUNMODE  [Normal,Automatic,Single]
-## TRIGSRC  [None,Mxc(0-7),AC,Software,Front0,Front1,Univ0,Univ1,Univ2]
+## TSINPMODE [EGU,TICKS]
+## TSRES     [Sec,mSec,uSec,nSec]
+## RUNMODE   [Normal,Automatic,Single]
+## TRIGSRC   [None,Mxc(0-7),AC,Software,Front0,Front1,Univ0,Univ1,Univ2]
 
 record(bo, "$(SYS)-$(EVG):SoftSeq-$(SEQNUM)-TsInpMode-Sel") {
     field( DTYP, "EVG SEQ INPUT MODE")
