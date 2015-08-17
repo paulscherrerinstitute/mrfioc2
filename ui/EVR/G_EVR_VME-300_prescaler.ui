@@ -29,7 +29,7 @@
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>-1291</y>
+      <y>-160</y>
       <width>651</width>
       <height>1700</height>
      </rect>
@@ -94,7 +94,7 @@
       </rect>
      </property>
      <property name="macro">
-      <string notr="true">ID=0, EVR=$(EVR)</string>
+      <string notr="true">ID=2, EVR=$(EVR)</string>
      </property>
      <property name="filename" stdset="0">
       <string notr="true">G_EVR_prescaler-withPulserTrigger.ui</string>
