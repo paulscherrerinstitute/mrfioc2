@@ -573,20 +573,20 @@ file "db/evg-vme.template"
 file "db/evgSoftSeq.template"
 {
     {
-          SEQNUM  = 1,
-          NELM    = 2047,
-          TSIMODE = 0,         ## 0 = EGU, 1 = Ticks
-          TSRES   = 2,         ## 0 = Sec, 1 = mSec, 2 = uSec, 3 = nSec
-          TRIGSRC = 1,         ## 0 = None, 1-8 = Mxc0-7, 9 = AC, 10 = Soft, 11 = Front0, 12 = Front1, 13 = Univ0, 14 = Univ1, 15 = Univ2,
-          RUNMODE = 2          ## 0 = Normal, 1 = Automatic, 2 = Single
+          SEQNUM    = 1,
+          NELM      = 2047,
+          TSINPMODE = 0,         ## 0 = EGU, 1 = Ticks
+          TSRES     = 2,         ## 0 = Sec, 1 = mSec, 2 = uSec, 3 = nSec
+          TRIGSRC   = 1,         ## 0 = None, 1-8 = Mxc0-7, 9 = AC, 10 = Soft, 11 = Front0, 12 = Front1, 13 = Univ0, 14 = Univ1, 15 = Univ2,
+          RUNMODE   = 2          ## 0 = Normal, 1 = Automatic, 2 = Single
         }
 
         {
-          SEQNUM  = 2,
-          NELM    = 2047,
-          TSIMODE = 0,         ## 0 = EGU, 1 = Ticks
-          TSRES   = 2,         ## 0 = Sec, 1 = mSec, 2 = uSec, 3 = nSec
-          TRIGSRC = 1,         ## 0 = None, 1-8 = Mxc0-7, 9 = AC, 10 = Soft, 11 = Front0, 12 = Front1, 13 = Univ0, 14 = Univ1, 15 = Univ2,
-          RUNMODE = 2          ## 0 = Normal, 1 = Automatic, 2 = Single
+          SEQNUM    = 2,
+          NELM      = 2047,
+          TSINPMODE = 0,         ## 0 = EGU, 1 = Ticks
+          TSRES     = 2,         ## 0 = Sec, 1 = mSec, 2 = uSec, 3 = nSec
+          TRIGSRC   = 1,         ## 0 = None, 1-8 = Mxc0-7, 9 = AC, 10 = Soft, 11 = Front0, 12 = Front1, 13 = Univ0, 14 = Univ1, 15 = Univ2,
+          RUNMODE   = 2          ## 0 = Normal, 1 = Automatic, 2 = Single
         }
 }
