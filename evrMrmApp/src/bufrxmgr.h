@@ -16,10 +16,6 @@
 #include <callback.h>
 #include "mrf/databuf.h"
 
-
-
-#include "mrf/databuf.h"
-
 class epicsShareClass bufRxManager : public dataBufRx
 {
 public:

@@ -9,8 +9,8 @@ ARCH_FILTER=eldk52-e500v2 eldk42-ppc4xxFP SL%
 #ARCH_FILTER=eldk52-e500v2
 
 
-SOURCES+=../evrApp/src/asub.c
-SOURCES+=../evrApp/src/devWfMailbox.c
+SOURCES+=../evrMrmApp/src/support/asub.c
+SOURCES+=../evrMrmApp/src/devSupport/devWfMailbox.c
 #SOURCES+=../evrMrmApp/src/evrdump.c
 SOURCES+=../evgMrmApp/src/seqnsls2.c
 SOURCES+=../evgMrmApp/src/seqconst.c
@@ -31,29 +31,29 @@ SOURCES+=../mrmShared/src/mrmremoteflash.cpp
 
 
 
-SOURCES+=../evrApp/src/devEvrStringIO.cpp
-SOURCES+=../evrApp/src/devEvrPulserMapping.cpp
-SOURCES+=../evrApp/src/ntpShm.cpp
-SOURCES+=../evrApp/src/devEvrEvent.cpp
-SOURCES+=../evrApp/src/evrGTIF.cpp
-SOURCES+=../evrApp/src/evr.cpp
+SOURCES+=../evrMrmApp/src/devSupport/devEvrStringIO.cpp
+SOURCES+=../evrMrmApp/src/devSupport/devEvrPulserMapping.cpp
+SOURCES+=../evrMrmApp/src/support/ntpShm.cpp
+SOURCES+=../evrMrmApp/src/devSupport/devEvrEvent.cpp
+SOURCES+=../evrMrmApp/src/support/evrGTIF.cpp
+SOURCES+=../evrMrmApp/src/evr.cpp
 #SOURCES+=../evrApp/src/ntpShmNull.cpp
 #SOURCES+=../evrApp/src/evrMain.cpp
-SOURCES+=../evrApp/src/devEvrMapping.cpp
+SOURCES+=../evrMrmApp/src/devSupport/devEvrMapping.cpp
 SOURCES+=../evrMrmApp/src/devMrmBuf.cpp
-SOURCES+=../evrMrmApp/src/drvemPulser.cpp
-SOURCES+=../evrMrmApp/src/drvemIocsh.cpp
+SOURCES+=../evrMrmApp/src/evrPulser.cpp
+SOURCES+=../evrMrmApp/src/evrIocsh.cpp
 SOURCES+=../evrMrmApp/src/bufrxmgr.cpp
 SOURCES+=../evrMrmApp/src/devMrmBufRx.cpp
-SOURCES+=../evrMrmApp/src/drvem.cpp
-SOURCES+=../evrMrmApp/src/drvemInput.cpp
-SOURCES+=../evrMrmApp/src/drvemRxBuf.cpp
+SOURCES+=../evrMrmApp/src/evrMrm.cpp
+SOURCES+=../evrMrmApp/src/evrInput.cpp
+SOURCES+=../evrMrmApp/src/evrRxBuf.cpp
 SOURCES+=../evrMrmApp/src/os/default/irqHack.cpp
 #SOURCES+=../evrMrmApp/src/os/RTEMS/irqHack.cpp
 #SOURCES+=../evrMrmApp/src/evrmrmMain.cpp
-SOURCES+=../evrMrmApp/src/drvemPrescaler.cpp
-SOURCES+=../evrMrmApp/src/drvemCML.cpp
-SOURCES+=../evrMrmApp/src/drvemOutput.cpp
+SOURCES+=../evrMrmApp/src/evrPrescaler.cpp
+SOURCES+=../evrMrmApp/src/evrCML.cpp
+SOURCES+=../evrMrmApp/src/evrOutput.cpp
 SOURCES+=../evgMrmApp/src/evgSequencer/evgSeqRam.cpp
 SOURCES+=../evgMrmApp/src/evgSequencer/evgSoftSeq.cpp
 SOURCES+=../evgMrmApp/src/evgSequencer/evgSeqRamManager.cpp
@@ -88,12 +88,11 @@ SOURCES+=../mrfCommon/src/objectTest.cpp
 SOURCES+=../mrfCommon/src/devObjMBB.cpp
 #SOURCES+=../mrmtestApp/src/mrfMain.cpp
 
-SOURCES+=../evrMrmApp/src/mrmGpio.cpp
-SOURCES+=../evrMrmApp/src/delayModule.cpp
+SOURCES+=../evrMrmApp/src/evrGpio.cpp
+SOURCES+=../evrMrmApp/src/evrDelayModule.cpp
 
 DBDS+=../mrmShared/src/mrmShared.dbd
-DBDS+=../evrApp/src/evrSupport.dbd
-DBDS+=../evrMrmApp/src/drvemSupport.dbd
+DBDS+=../evrMrmApp/src/evrSupport.dbd
 DBDS+=../evgMrmApp/src/evgInit.dbd
 #DBDS+=../mrfCommon/src/aSubRecord.dbd # aSubRecord is part of epics base!
 DBDS+=../mrfCommon/src/mrfCommon.dbd
