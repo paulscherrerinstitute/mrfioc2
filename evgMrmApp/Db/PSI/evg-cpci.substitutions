@@ -1,37 +1,37 @@
-file evgMrm.db {
+file evgMrm.template {
 pattern { SYS,      EVG}
         {"$(SYS)", "$(EVG)"}
 }
 
-file evgSoftEvt.db {
-pattern { SYS,      EVG,      OBJ }
-        {"$(SYS)", "$(EVG)", "SoftEvt" }
+file evgSoftEvt.template {
+pattern { SYS,      EVG     }
+        {"$(SYS)", "$(EVG)" }
 }
 
-file evgAcTrig.db {
-pattern { SYS,      EVG,      OBJ }
-        {"$(SYS)", "$(EVG)", "AcTrig" }
+file evgAcTrig.template {
+pattern { SYS,      EVG     }
+        {"$(SYS)", "$(EVG)" }
 }
 
-file evgEvtClk.db {
-pattern { SYS,      EVG,      OBJ }
-        {"$(SYS)", "$(EVG)", "EvtClk" }
+file evgEvtClk.template {
+pattern { SYS,      EVG     }
+        {"$(SYS)", "$(EVG)" }
 }
 
-file evgDbus.db {
-pattern { SYS,      EVG,      OBJ,    ID }
-        {"$(SYS)", "$(EVG)", "Dbus",  0  }
-        {"$(SYS)", "$(EVG)", "Dbus",  1  }
-        {"$(SYS)", "$(EVG)", "Dbus",  2  }
-        {"$(SYS)", "$(EVG)", "Dbus",  3  }
-        {"$(SYS)", "$(EVG)", "Dbus",  4  }
-        {"$(SYS)", "$(EVG)", "Dbus",  5  }
-        {"$(SYS)", "$(EVG)", "Dbus",  6  }
-        {"$(SYS)", "$(EVG)", "Dbus",  7  }
+file evgDbus.template {
+pattern { SYS,      EVG,     ID }
+        {"$(SYS)", "$(EVG)", 0  }
+        {"$(SYS)", "$(EVG)", 1  }
+        {"$(SYS)", "$(EVG)", 2  }
+        {"$(SYS)", "$(EVG)", 3  }
+        {"$(SYS)", "$(EVG)", 4  }
+        {"$(SYS)", "$(EVG)", 5  }
+        {"$(SYS)", "$(EVG)", 6  }
+        {"$(SYS)", "$(EVG)", 7  }
 
 }
 
-file evgInput.db {
+file evgInput.template {
 pattern { SYS,      EVG,      OBJ,       ID,  PPS,  DBUSOBJ}
         {"$(SYS)", "$(EVG)", "UnivInp",  0,   3,    "Dbus"}
         {"$(SYS)", "$(EVG)", "UnivInp",  1,   4,    "Dbus"}
@@ -39,7 +39,7 @@ pattern { SYS,      EVG,      OBJ,       ID,  PPS,  DBUSOBJ}
         {"$(SYS)", "$(EVG)", "UnivInp",  3,   6,    "Dbus"}
 }
 
-file evgOutput.db {
+file evgOutput.template {
 pattern { SYS,      EVG,      OBJ,        ID }
         {"$(SYS)", "$(EVG)", "UnivOut",   0  }
         {"$(SYS)", "$(EVG)", "UnivOut",   1  }
@@ -47,31 +47,31 @@ pattern { SYS,      EVG,      OBJ,        ID }
         {"$(SYS)", "$(EVG)", "UnivOut",   3  }
 }
 
-file evgTrigEvt.db {
-pattern { SYS,      EVG,      OBJ,       ID }
-        {"$(SYS)", "$(EVG)", "TrigEvt",  0  }
-        {"$(SYS)", "$(EVG)", "TrigEvt",  1  }
-        {"$(SYS)", "$(EVG)", "TrigEvt",  2  }
-        {"$(SYS)", "$(EVG)", "TrigEvt",  3  }
-        {"$(SYS)", "$(EVG)", "TrigEvt",  4  }
-        {"$(SYS)", "$(EVG)", "TrigEvt",  5  }
-        {"$(SYS)", "$(EVG)", "TrigEvt",  6  }
-        {"$(SYS)", "$(EVG)", "TrigEvt",  7  }
+file evgTrigEvt.template {
+pattern { SYS,      EVG,     ID }
+        {"$(SYS)", "$(EVG)", 0  }
+        {"$(SYS)", "$(EVG)", 1  }
+        {"$(SYS)", "$(EVG)", 2  }
+        {"$(SYS)", "$(EVG)", 3  }
+        {"$(SYS)", "$(EVG)", 4  }
+        {"$(SYS)", "$(EVG)", 5  }
+        {"$(SYS)", "$(EVG)", 6  }
+        {"$(SYS)", "$(EVG)", 7  }
 }
 
-file evgMxc.db {
-pattern { SYS,      EVG,      OBJ,   ID }
-        {"$(SYS)", "$(EVG)", "Mxc",  0  }
-        {"$(SYS)", "$(EVG)", "Mxc",  1  }
-        {"$(SYS)", "$(EVG)", "Mxc",  2  }
-        {"$(SYS)", "$(EVG)", "Mxc",  3  }
-        {"$(SYS)", "$(EVG)", "Mxc",  4  }
-        {"$(SYS)", "$(EVG)", "Mxc",  5  }
-        {"$(SYS)", "$(EVG)", "Mxc",  6  }
-        {"$(SYS)", "$(EVG)", "Mxc",  7  }
+file evgMxc.template {
+pattern { SYS,      EVG,     ID }
+        {"$(SYS)", "$(EVG)", 0  }
+        {"$(SYS)", "$(EVG)", 1  }
+        {"$(SYS)", "$(EVG)", 2  }
+        {"$(SYS)", "$(EVG)", 3  }
+        {"$(SYS)", "$(EVG)", 4  }
+        {"$(SYS)", "$(EVG)", 5  }
+        {"$(SYS)", "$(EVG)", 6  }
+        {"$(SYS)", "$(EVG)", 7  }
 }
 
 file "sfp.template"{
-pattern { SYS,      EVG,      OBJ,   ID }
-        {"$(SYS)", "$(EVG)", "SFP",  0  }
+pattern { SYS,      EVG,     ID }
+        {"$(SYS)", "$(EVG)", 0  }
 }

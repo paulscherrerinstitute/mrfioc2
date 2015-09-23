@@ -147,7 +147,7 @@
     <string notr="true">background-color: rgb(212, 219, 157);</string>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(EVR):Ena-Sel</string>
+    <string notr="true">$(EVR):ExtInhib-Sel</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_17">

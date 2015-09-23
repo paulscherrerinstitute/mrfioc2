@@ -1,43 +1,43 @@
-record(bo, "$(SYS)-$(EVG):$(OBJ)$(ID)-Enable-Sel") {
+record(bo, "$(SYS)-$(EVG):TrigEvt$(ID)-Enable-Sel") {
     field( DESC, "EVG Trigger Event Enable")
     field( DTYP, "Obj Prop bool")
-    field( OUT,  "@OBJ=$(EVG):$(OBJ)$(ID), PROP=Enable")
+    field( OUT,  "@OBJ=$(EVG):TrigEvt$(ID), PROP=Enable")
     field( ZNAM, "Disabled")
     field( ONAM, "Enabled")
     field( PINI, "YES")
-    field( VAL,  "$($(OBJ)$(ID)-Enable-Sel\=1)")
+    field( VAL,  "$(TrigEvt$(ID)-Enable-Sel\=1)")
     field( UDF,  "0")
-    field( FLNK, "$(SYS)-$(EVG):$(OBJ)$(ID)-Enable-RB")
+    field( FLNK, "$(SYS)-$(EVG):TrigEvt$(ID)-Enable-RB")
     info( autosaveFields_pass0, "VAL")
 }
 
-record(bi, "$(SYS)-$(EVG):$(OBJ)$(ID)-Enable-RB") {
+record(bi, "$(SYS)-$(EVG):TrigEvt$(ID)-Enable-RB") {
     field( DESC, "EVG Trigger Event Enable")
     field( DTYP, "Obj Prop bool")
-    field( INP,  "@OBJ=$(EVG):$(OBJ)$(ID), PROP=Enable")
+    field( INP,  "@OBJ=$(EVG):TrigEvt$(ID), PROP=Enable")
     field( ZNAM, "Disabled")
     field( ONAM, "Enabled")
 }
 
-record(longout, "$(SYS)-$(EVG):$(OBJ)$(ID)-EvtCode-SP") {
+record(longout, "$(SYS)-$(EVG):TrigEvt$(ID)-EvtCode-SP") {
     field( DESC, "EVG Trigger Event Code")
     field( DTYP, "Obj Prop uint32")
-    field( OUT,  "@OBJ=$(EVG):$(OBJ)$(ID), PROP=EvtCode")
+    field( OUT,  "@OBJ=$(EVG):TrigEvt$(ID), PROP=EvtCode")
     field( PINI, "YES")
-    field( VAL,  "$($(OBJ)$(ID)-EvtCode-SP\=0)")
+    field( VAL,  "$(TrigEvt$(ID)-EvtCode-SP\=0)")
     field( UDF,  "0")
     field( HIHI, "256")
     field( LOLO, "-1")
     field( HHSV, "MAJOR")
     field( LLSV, "MAJOR")
-    field( FLNK, "$(SYS)-$(EVG):$(OBJ)$(ID)-EvtCode-RB")
+    field( FLNK, "$(SYS)-$(EVG):TrigEvt$(ID)-EvtCode-RB")
     info( autosaveFields_pass0, "VAL")
 }
 
-record(longin, "$(SYS)-$(EVG):$(OBJ)$(ID)-EvtCode-RB") {
+record(longin, "$(SYS)-$(EVG):TrigEvt$(ID)-EvtCode-RB") {
     field( DESC, "EVG Trigger Event Code")
     field( DTYP, "Obj Prop uint32")
-    field( INP,  "@OBJ=$(EVG):$(OBJ)$(ID), PROP=EvtCode")
+    field( INP,  "@OBJ=$(EVG):TrigEvt$(ID), PROP=EvtCode")
     field( HIHI, "256")
     field( LOLO, "-1")
     field( HHSV, "MAJOR")

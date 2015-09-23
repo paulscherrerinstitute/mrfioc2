@@ -1,6 +1,6 @@
-record(ai, "$(SYS)-$(EVG):$(OBJ)-upstreamDC-I") {
+record(ai, "$(SYS)-$(EVG):FCT-upstreamDC-I") {
   field(DTYP, "Obj Prop uint32")
-  field(INP , "@OBJ=$(EVG):$(OBJ), PROP=DlyCompens upstream")
+  field(INP , "@OBJ=$(EVG):FCT, PROP=DlyCompens upstream")
   field(EGU, "ps")
   field(LINR, "LINEAR")
   field(ESLO, "0.000106812")
@@ -8,9 +8,9 @@ record(ai, "$(SYS)-$(EVG):$(OBJ)-upstreamDC-I") {
   field(SCAN, "1 second")
 }
 
-record(ai, "$(SYS)-$(EVG):$(OBJ)-fifoDC-I") {
+record(ai, "$(SYS)-$(EVG):FCT-fifoDC-I") {
   field(DTYP, "Obj Prop uint32")
-  field(INP , "@OBJ=$(EVG):$(OBJ), PROP=DlyCompens fifo")
+  field(INP , "@OBJ=$(EVG):FCT, PROP=DlyCompens fifo")
   field(EGU, "ps")
   field(LINR, "LINEAR")
   field(ESLO, "0.000106812")
@@ -18,9 +18,9 @@ record(ai, "$(SYS)-$(EVG):$(OBJ)-fifoDC-I") {
   field(SCAN, "1 second")
 }
 
-record(ai, "$(SYS)-$(EVG):$(OBJ)-internalDC-I") {
+record(ai, "$(SYS)-$(EVG):FCT-internalDC-I") {
   field(DTYP, "Obj Prop uint32")
-  field(INP , "@OBJ=$(EVG):$(OBJ), PROP=DlyCompens internal")
+  field(INP , "@OBJ=$(EVG):FCT, PROP=DlyCompens internal")
   field(EGU, "ps")
   field(LINR, "LINEAR")
   field(ESLO, "0.000106812")
@@ -28,103 +28,103 @@ record(ai, "$(SYS)-$(EVG):$(OBJ)-internalDC-I") {
   field(SCAN, "1 second")
 }
 
-record(mbbiDirect, "$(SYS)-$(EVG):$(OBJ)-status-I") {
+record(mbbiDirect, "$(SYS)-$(EVG):FCT-status-I") {
   field(DTYP, "Obj Prop uint16")
-  field(INP , "@OBJ=$(EVG):$(OBJ), PROP=Status")
+  field(INP , "@OBJ=$(EVG):FCT, PROP=Status")
   field(PINI, "YES")
   field(DESC, "Downstream link status")
   field(SCAN, "1 second")
 }
 
-record(longout, "$(SYS)-$(EVG):$(OBJ)-ClearViolation-SP") {
+record(longout, "$(SYS)-$(EVG):FCT-ClearViolation-SP") {
   field(DTYP, "Obj Prop uint16")
-  field(OUT , "@OBJ=$(EVG):$(OBJ), PROP=Violation")
+  field(OUT , "@OBJ=$(EVG):FCT, PROP=Violation")
   field(DESC, "Clear link violation")
-  field(FLNK, "$(SYS)-$(EVG):$(OBJ)-Violation-I")
+  field(FLNK, "$(SYS)-$(EVG):FCT-Violation-I")
 }
 
-record(mbbiDirect, "$(SYS)-$(EVG):$(OBJ)-Violation-I") {
+record(mbbiDirect, "$(SYS)-$(EVG):FCT-Violation-I") {
   field(DTYP, "Obj Prop uint16")
-  field(INP , "@OBJ=$(EVG):$(OBJ), PROP=Violation")
+  field(INP , "@OBJ=$(EVG):FCT, PROP=Violation")
   field(PINI, "YES")
   field(DESC, "Link violation status")
   field(SCAN, "1 second")
 }
 
-record(ai, "$(SYS)-$(EVG):$(OBJ)-Port1DC-I") {
+record(ai, "$(SYS)-$(EVG):FCT-Port1DC-I") {
   field(DESC, "Downstream link port 1 loop dly val")
   field(DTYP, "Obj Prop uint32")
-  field(INP , "@OBJ=$(EVG):$(OBJ), PROP=LoopDelay port1")
+  field(INP , "@OBJ=$(EVG):FCT, PROP=LoopDelay port1")
   field(EGU, "ps")
   field(LINR, "LINEAR")
   field(ESLO, "0.000106812")
   field(SCAN, "1 second")
 }
 
-record(ai, "$(SYS)-$(EVG):$(OBJ)-Port2DC-I") {
+record(ai, "$(SYS)-$(EVG):FCT-Port2DC-I") {
   field(DESC, "Downstream link port 2 loop dly val")
   field(DTYP, "Obj Prop uint32")
-  field(INP , "@OBJ=$(EVG):$(OBJ), PROP=LoopDelay port2")
+  field(INP , "@OBJ=$(EVG):FCT, PROP=LoopDelay port2")
   field(EGU, "ps")
   field(LINR, "LINEAR")
   field(ESLO, "0.000106812")
   field(SCAN, "1 second")
 }
 
-record(ai, "$(SYS)-$(EVG):$(OBJ)-Port3DC-I") {
+record(ai, "$(SYS)-$(EVG):FCT-Port3DC-I") {
   field(DESC, "Downstream link port 3 loop dly val")
   field(DTYP, "Obj Prop uint32")
-  field(INP , "@OBJ=$(EVG):$(OBJ), PROP=LoopDelay port3")
+  field(INP , "@OBJ=$(EVG):FCT, PROP=LoopDelay port3")
   field(EGU, "ps")
   field(LINR, "LINEAR")
   field(ESLO, "0.000106812")
   field(SCAN, "1 second")
 }
 
-record(ai, "$(SYS)-$(EVG):$(OBJ)-Port4DC-I") {
+record(ai, "$(SYS)-$(EVG):FCT-Port4DC-I") {
   field(DESC, "Downstream link port 4 loop dly val")
   field(DTYP, "Obj Prop uint32")
-  field(INP , "@OBJ=$(EVG):$(OBJ), PROP=LoopDelay port4")
+  field(INP , "@OBJ=$(EVG):FCT, PROP=LoopDelay port4")
   field(EGU, "ps")
   field(LINR, "LINEAR")
   field(ESLO, "0.000106812")
   field(SCAN, "1 second")
 }
 
-record(ai, "$(SYS)-$(EVG):$(OBJ)-Port5DC-I") {
+record(ai, "$(SYS)-$(EVG):FCT-Port5DC-I") {
   field(DESC, "Downstream link port 5 loop dly val")
   field(DTYP, "Obj Prop uint32")
-  field(INP , "@OBJ=$(EVG):$(OBJ), PROP=LoopDelay port5")
+  field(INP , "@OBJ=$(EVG):FCT, PROP=LoopDelay port5")
   field(EGU, "ps")
   field(LINR, "LINEAR")
   field(ESLO, "0.000106812")
   field(SCAN, "1 second")
 }
 
-record(ai, "$(SYS)-$(EVG):$(OBJ)-Port6DC-I") {
+record(ai, "$(SYS)-$(EVG):FCT-Port6DC-I") {
   field(DESC, "Downstream link port 6 loop dly val")
   field(DTYP, "Obj Prop uint32")
-  field(INP , "@OBJ=$(EVG):$(OBJ), PROP=LoopDelay port6")
+  field(INP , "@OBJ=$(EVG):FCT, PROP=LoopDelay port6")
   field(EGU, "ps")
   field(LINR, "LINEAR")
   field(ESLO, "0.000106812")
   field(SCAN, "1 second")
 }
 
-record(ai, "$(SYS)-$(EVG):$(OBJ)-Port7DC-I") {
+record(ai, "$(SYS)-$(EVG):FCT-Port7DC-I") {
   field(DESC, "Downstream link port 7 loop dly val")
   field(DTYP, "Obj Prop uint32")
-  field(INP , "@OBJ=$(EVG):$(OBJ), PROP=LoopDelay port7")
+  field(INP , "@OBJ=$(EVG):FCT, PROP=LoopDelay port7")
   field(EGU, "ps")
   field(LINR, "LINEAR")
   field(ESLO, "0.000106812")
   field(SCAN, "1 second")
 }
 
-record(ai, "$(SYS)-$(EVG):$(OBJ)-Port8DC-I") {
+record(ai, "$(SYS)-$(EVG):FCT-Port8DC-I") {
   field(DESC, "Downstream link port 8 loop dly val")
   field(DTYP, "Obj Prop uint32")
-  field(INP , "@OBJ=$(EVG):$(OBJ), PROP=LoopDelay port8")
+  field(INP , "@OBJ=$(EVG):FCT, PROP=LoopDelay port8")
   field(EGU, "ps")
   field(LINR, "LINEAR")
   field(ESLO, "0.000106812")

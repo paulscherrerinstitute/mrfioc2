@@ -32,15 +32,15 @@
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>0</y>
+      <y>-1691</y>
       <width>651</width>
-      <height>7000</height>
+      <height>2100</height>
      </rect>
     </property>
     <property name="minimumSize">
      <size>
       <width>0</width>
-      <height>7000</height>
+      <height>2100</height>
      </size>
     </property>
     <property name="maximumSize">
@@ -55,7 +55,7 @@
        <x>70</x>
        <y>10</y>
        <width>531</width>
-       <height>131</height>
+       <height>251</height>
       </rect>
      </property>
      <property name="macro">
@@ -69,13 +69,10 @@
      <property name="geometry">
       <rect>
        <x>70</x>
-       <y>150</y>
+       <y>270</y>
        <width>531</width>
-       <height>131</height>
+       <height>251</height>
       </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">border-color: rgb(0, 0, 0);</string>
      </property>
      <property name="macro">
       <string notr="true">EVR=$(EVR),ID=1</string>
@@ -88,16 +85,93 @@
      <property name="geometry">
       <rect>
        <x>70</x>
-       <y>290</y>
+       <y>530</y>
        <width>531</width>
-       <height>131</height>
+       <height>251</height>
       </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">border-color: rgb(0, 0, 0);</string>
      </property>
      <property name="macro">
       <string notr="true">EVR=$(EVR),ID=2</string>
+     </property>
+     <property name="filename" stdset="0">
+      <string notr="true">G_EVR_dbus.ui</string>
+     </property>
+    </widget>
+    <widget class="caInclude" name="cainclude_4">
+     <property name="geometry">
+      <rect>
+       <x>70</x>
+       <y>790</y>
+       <width>531</width>
+       <height>251</height>
+      </rect>
+     </property>
+     <property name="macro">
+      <string notr="true">EVR=$(EVR),ID=3</string>
+     </property>
+     <property name="filename" stdset="0">
+      <string notr="true">G_EVR_dbus.ui</string>
+     </property>
+    </widget>
+    <widget class="caInclude" name="cainclude_5">
+     <property name="geometry">
+      <rect>
+       <x>70</x>
+       <y>1050</y>
+       <width>531</width>
+       <height>251</height>
+      </rect>
+     </property>
+     <property name="macro">
+      <string notr="true">EVR=$(EVR),ID=4</string>
+     </property>
+     <property name="filename" stdset="0">
+      <string notr="true">G_EVR_dbus.ui</string>
+     </property>
+    </widget>
+    <widget class="caInclude" name="cainclude_6">
+     <property name="geometry">
+      <rect>
+       <x>70</x>
+       <y>1310</y>
+       <width>531</width>
+       <height>251</height>
+      </rect>
+     </property>
+     <property name="macro">
+      <string notr="true">EVR=$(EVR),ID=5</string>
+     </property>
+     <property name="filename" stdset="0">
+      <string notr="true">G_EVR_dbus.ui</string>
+     </property>
+    </widget>
+    <widget class="caInclude" name="cainclude_7">
+     <property name="geometry">
+      <rect>
+       <x>70</x>
+       <y>1570</y>
+       <width>531</width>
+       <height>251</height>
+      </rect>
+     </property>
+     <property name="macro">
+      <string notr="true">EVR=$(EVR),ID=6</string>
+     </property>
+     <property name="filename" stdset="0">
+      <string notr="true">G_EVR_dbus.ui</string>
+     </property>
+    </widget>
+    <widget class="caInclude" name="cainclude_8">
+     <property name="geometry">
+      <rect>
+       <x>70</x>
+       <y>1830</y>
+       <width>531</width>
+       <height>251</height>
+      </rect>
+     </property>
+     <property name="macro">
+      <string notr="true">EVR=$(EVR),ID=7</string>
      </property>
      <property name="filename" stdset="0">
       <string notr="true">G_EVR_dbus.ui</string>
