@@ -452,7 +452,7 @@ record(calcout, "$(SYS)-$(EVR):DlyCompensation-Target-Raw_") {
   field(INPB, "$(SYS)-$(EVR):Link-Clk-I CP")
   field(EGU, "ns")
   field(PREC, "0")
-  field(CALC, "(FLOOR(A*B/1000)<<16)+((A-(FLOOR(A*B/1000)/B*1000))/0.000106812)")
+  field(CALC, "(FLOOR(A*B/1000)<<16)+((A-(FLOOR(A*B/1000)/B*1000))/(1000/(B*65535)))")
   field(FLNK, "$(SYS)-$(EVR):DlyCompensation-Target-Raw-SP")
   field(OUT, "$(SYS)-$(EVR):DlyCompensation-Target-Raw-SP")
 }
@@ -479,7 +479,7 @@ record(calc, "$(SYS)-$(EVR):DlyCompensation-Target-RB") {
   field(INPB, "$(SYS)-$(EVR):Link-Clk-I CP")
   field(EGU, "ns")
   field(PREC, "5")
-  field(CALC, "((A>>16)/B*1000)+((A & 65535)*0.000106812)")
+  field(CALC, "((A>>16)/B*1000)+((A & 65535)*(1000/(B*65535)))")
 }
 
 record(longin, "$(SYS)-$(EVR):DlyCompensation-Path-Raw-RB") {
@@ -497,7 +497,7 @@ record(calc, "$(SYS)-$(EVR):DlyCompensation-Path-RB") {
   field(INPB, "$(SYS)-$(EVR):Link-Clk-I CP")
   field(EGU, "ns")
   field(PREC, "5")
-  field(CALC, "((A>>16)/B*1000)+((A & 65535)*0.000106812)")
+  field(CALC, "((A>>16)/B*1000)+((A & 65535)*(1000/(B*65535)))")
 }
 
 record(longin, "$(SYS)-$(EVR):DlyCompensation-Internal-Raw-RB") {
@@ -515,7 +515,7 @@ record(calc, "$(SYS)-$(EVR):DlyCompensation-Internal-RB") {
   field(INPB, "$(SYS)-$(EVR):Link-Clk-I CP")
   field(EGU, "ns")
   field(PREC, "5")
-  field(CALC, "((A>>16)/B*1000)+((A & 65535)*0.000106812)")
+  field(CALC, "((A>>16)/B*1000)+((A & 65535)*(1000/(B*65535)))")
 }
 
 record(longin, "$(SYS)-$(EVR):DlyCompensation-Status-RB") {

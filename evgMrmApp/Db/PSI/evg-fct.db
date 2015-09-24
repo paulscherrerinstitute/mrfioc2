@@ -13,7 +13,7 @@ record(calc, "$(SYS)-$(EVG):$(OBJ)-upstreamDC-I") {
   field(INPB, "$(SYS)-$(EVG):EvtClk-Frequency-RB CP")
   field(EGU, "ns")
   field(PREC, "3")
-  field(CALC, "((A>>16)/B*1000)+((A & 65535)*0.000106812)")
+  field(CALC, "((A>>16)/B*1000)+((A & 65535)*(1000/(B*65535)))")
 }
 
 record(longin, "$(SYS)-$(EVG):$(OBJ)-fifoDC-Raw-I") {
@@ -31,7 +31,7 @@ record(calc, "$(SYS)-$(EVG):$(OBJ)-fifoDC-I") {
   field(INPB, "$(SYS)-$(EVG):EvtClk-Frequency-RB CP")
   field(EGU, "ns")
   field(PREC, "3")
-  field(CALC, "((A>>16)/B*1000)+((A & 65535)*0.000106812)")
+  field(CALC, "((A>>16)/B*1000)+((A & 65535)*(1000/(B*65535)))")
 }
 
 record(longin, "$(SYS)-$(EVG):$(OBJ)-internalDC-Raw-I") {
@@ -49,7 +49,7 @@ record(calc, "$(SYS)-$(EVG):$(OBJ)-internalDC-I") {
   field(INPB, "$(SYS)-$(EVG):EvtClk-Frequency-RB CP")
   field(EGU, "ns")
   field(PREC, "3")
-  field(CALC, "((A>>16)/B*1000)+((A & 65535)*0.000106812)")
+  field(CALC, "((A>>16)/B*1000)+((A & 65535)*(1000/(B*65535)))")
 }
 
 record(mbbiDirect, "$(SYS)-$(EVG):$(OBJ)-status-I") {
@@ -90,7 +90,7 @@ record(calc, "$(SYS)-$(EVG):$(OBJ)-Port1DC-I") {
   field(INPB, "$(SYS)-$(EVG):EvtClk-Frequency-RB CP")
   field(EGU, "ns")
   field(PREC, "3")
-  field(CALC, "((A>>16)/B*1000)+((A & 65535)*0.000106812)")
+  field(CALC, "((A>>16)/B*1000)+((A & 65535)*(1000/(B*65535)))")
 }
 
 record(longin, "$(SYS)-$(EVG):$(OBJ)-Port2DC-Raw-I") {
@@ -108,7 +108,7 @@ record(calc, "$(SYS)-$(EVG):$(OBJ)-Port2DC-I") {
   field(INPB, "$(SYS)-$(EVG):EvtClk-Frequency-RB CP")
   field(EGU, "ns")
   field(PREC, "3")
-  field(CALC, "((A>>16)/B*1000)+((A & 65535)*0.000106812)")
+  field(CALC, "((A>>16)/B*1000)+((A & 65535)*(1000/(B*65535)))")
 }
 
 record(longin, "$(SYS)-$(EVG):$(OBJ)-Port3DC-Raw-I") {
@@ -126,7 +126,7 @@ record(calc, "$(SYS)-$(EVG):$(OBJ)-Port3DC-I") {
   field(INPB, "$(SYS)-$(EVG):EvtClk-Frequency-RB CP")
   field(EGU, "ns")
   field(PREC, "3")
-  field(CALC, "((A>>16)/B*1000)+((A & 65535)*0.000106812)")
+  field(CALC, "((A>>16)/B*1000)+((A & 65535)*(1000/(B*65535)))")
 }
 
 record(longin, "$(SYS)-$(EVG):$(OBJ)-Port4DC-Raw-I") {
@@ -144,7 +144,7 @@ record(calc, "$(SYS)-$(EVG):$(OBJ)-Port4DC-I") {
   field(INPB, "$(SYS)-$(EVG):EvtClk-Frequency-RB CP")
   field(EGU, "ns")
   field(PREC, "3")
-  field(CALC, "((A>>16)/B*1000)+((A & 65535)*0.000106812)")
+  field(CALC, "((A>>16)/B*1000)+((A & 65535)*(1000/(B*65535)))")
 }
 
 record(longin, "$(SYS)-$(EVG):$(OBJ)-Port5DC-Raw-I") {
@@ -162,7 +162,7 @@ record(calc, "$(SYS)-$(EVG):$(OBJ)-Port5DC-I") {
   field(INPB, "$(SYS)-$(EVG):EvtClk-Frequency-RB CP")
   field(EGU, "ns")
   field(PREC, "3")
-  field(CALC, "((A>>16)/B*1000)+((A & 65535)*0.000106812)")
+  field(CALC, "((A>>16)/B*1000)+((A & 65535)*(1000/(B*65535)))")
 }
 
 record(longin, "$(SYS)-$(EVG):$(OBJ)-Port6DC-Raw-I") {
@@ -180,7 +180,7 @@ record(calc, "$(SYS)-$(EVG):$(OBJ)-Port6DC-I") {
   field(INPB, "$(SYS)-$(EVG):EvtClk-Frequency-RB CP")
   field(EGU, "ns")
   field(PREC, "3")
-  field(CALC, "((A>>16)/B*1000)+((A & 65535)*0.000106812)")
+  field(CALC, "((A>>16)/B*1000)+((A & 65535)*(1000/(B*65535)))")
 }
 
 record(longin, "$(SYS)-$(EVG):$(OBJ)-Port7DC-Raw-I") {
@@ -198,7 +198,7 @@ record(calc, "$(SYS)-$(EVG):$(OBJ)-Port7DC-I") {
   field(INPB, "$(SYS)-$(EVG):EvtClk-Frequency-RB CP")
   field(EGU, "ns")
   field(PREC, "3")
-  field(CALC, "((A>>16)/B*1000)+((A & 65535)*0.000106812)")
+  field(CALC, "((A>>16)/B*1000)+((A & 65535)*(1000/(B*65535)))")
 }
 
 record(longin, "$(SYS)-$(EVG):$(OBJ)-Port8DC-Raw-I") {
@@ -216,5 +216,5 @@ record(calc, "$(SYS)-$(EVG):$(OBJ)-Port8DC-I") {
   field(INPB, "$(SYS)-$(EVG):EvtClk-Frequency-RB CP")
   field(EGU, "ns")
   field(PREC, "3")
-  field(CALC, "((A>>16)/B*1000)+((A & 65535)*0.000106812)")
+  field(CALC, "((A>>16)/B*1000)+((A & 65535)*(1000/(B*65535)))")
 }
