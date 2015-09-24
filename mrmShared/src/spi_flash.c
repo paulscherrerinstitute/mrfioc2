@@ -9,6 +9,7 @@
 */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include "erapi.h"
 #include "pci_mrfev.h"
 #include "epicsTypes.h"
