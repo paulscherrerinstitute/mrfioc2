@@ -438,45 +438,84 @@ record(bi, "$(SYS)-$(EVR):DlyCompensation-Enabled-RB") {
 }
 
 record(ao, "$(SYS)-$(EVR):DlyCompensation-Target-SP") {
-  field(DTYP, "Obj Prop uint32")
-  field(OUT , "@OBJ=$(EVR), PROP=dc tv")
   field(VAL, "$(DlyCompensation-Target-SP\=0)")
   field(PINI, "YES")
-  field(EGU, "ps")
-  field(LINR, "LINEAR")
-  field(ESLO, "0.000106812")
+  field(EGU, "ns")
   field(DESC, "Delay compensation target value")
-  field(FLNK, "$(SYS)-$(EVR):DlyCompensation-Target-RB")
+  field(FLNK, "$(SYS)-$(EVR):DlyCompensation-Target-Raw_")
   info(autosaveFields_pass0, "VAL")
 }
 
-record(ai, "$(SYS)-$(EVR):DlyCompensation-Target-RB") {
-  field(DTYP, "Obj Prop uint32")
-  field(EGU, "ps")
-  field(LINR, "LINEAR")
-  field(ESLO, "0.000106812")
-  field(INP , "@OBJ=$(EVR), PROP=dc tv")
+record(calcout, "$(SYS)-$(EVR):DlyCompensation-Target-Raw_") {
   field(DESC, "Delay compensation target value")
+  field(INPA, "$(SYS)-$(EVR):DlyCompensation-Target-SP")
+  field(INPB, "$(SYS)-$(EVR):Link-Clk-I CP")
+  field(EGU, "ns")
+  field(PREC, "0")
+  field(CALC, "(FLOOR(A*B/1000)<<16)+((A-(FLOOR(A*B/1000)/B*1000))/(1000/(B*65535)))")
+  field(FLNK, "$(SYS)-$(EVR):DlyCompensation-Target-Raw-SP")
+  field(OUT, "$(SYS)-$(EVR):DlyCompensation-Target-Raw-SP")
 }
 
-record(ai, "$(SYS)-$(EVR):DlyCompensation-Path-RB") {
+record(longout, "$(SYS)-$(EVR):DlyCompensation-Target-Raw-SP") {
   field(DTYP, "Obj Prop uint32")
-  field(EGU, "ps")
-  field(LINR, "LINEAR")
-  field(ESLO, "0.000106812")
+  field(OUT , "@OBJ=$(EVR), PROP=dc tv")
+  field(EGU, "raw")
+  field(DESC, "Delay compensation target value")
+  field(FLNK, "$(SYS)-$(EVR):DlyCompensation-Target-Raw-RB")
+}
+
+record(longin, "$(SYS)-$(EVR):DlyCompensation-Target-Raw-RB") {
+  field(DTYP, "Obj Prop uint32")
+  field(EGU, "raw")
+  field(INP , "@OBJ=$(EVR), PROP=dc tv")
+  field(DESC, "Delay compensation target value")
+  field(FLNK, "$(SYS)-$(EVR):DlyCompensation-Target-RB")
+}
+
+record(calc, "$(SYS)-$(EVR):DlyCompensation-Target-RB") {
+  field(DESC, "Delay compensation target value")
+  field(INPA, "$(SYS)-$(EVR):DlyCompensation-Target-Raw-RB")
+  field(INPB, "$(SYS)-$(EVR):Link-Clk-I CP")
+  field(EGU, "ns")
+  field(PREC, "5")
+  field(CALC, "((A>>16)/B*1000)+((A & 65535)*(1000/(B*65535)))")
+}
+
+record(longin, "$(SYS)-$(EVR):DlyCompensation-Path-Raw-RB") {
+  field(DTYP, "Obj Prop uint32")
+  field(EGU, "raw")
   field(INP , "@OBJ=$(EVR), PROP=dc tpd")
   field(DESC, "Delay compens trans path dly")
   field(SCAN, "1 second")
+  field(FLNK, "$(SYS)-$(EVR):DlyCompensation-Path-RB")
 }
 
-record(ai, "$(SYS)-$(EVR):DlyCompensation-Internal-RB") {
+record(calc, "$(SYS)-$(EVR):DlyCompensation-Path-RB") {
+  field(DESC, "Delay compens trans path dly")
+  field(INPA, "$(SYS)-$(EVR):DlyCompensation-Path-Raw-RB")
+  field(INPB, "$(SYS)-$(EVR):Link-Clk-I CP")
+  field(EGU, "ns")
+  field(PREC, "5")
+  field(CALC, "((A>>16)/B*1000)+((A & 65535)*(1000/(B*65535)))")
+}
+
+record(longin, "$(SYS)-$(EVR):DlyCompensation-Internal-Raw-RB") {
   field(DTYP, "Obj Prop uint32")
-  field(EGU, "ps")
-  field(LINR, "LINEAR")
-  field(ESLO, "0.000106812")
+  field(EGU, "raw")
   field(INP , "@OBJ=$(EVR), PROP=dc id")
   field(DESC, "Delay compensation internal delay")
   field(SCAN, "1 second")
+  field(FLNK, "$(SYS)-$(EVR):DlyCompensation-Internal-RB")
+}
+
+record(calc, "$(SYS)-$(EVR):DlyCompensation-Internal-RB") {
+  field(DESC, "Delay compensation internal delay")
+  field(INPA, "$(SYS)-$(EVR):DlyCompensation-Internal-Raw-RB")
+  field(INPB, "$(SYS)-$(EVR):Link-Clk-I CP")
+  field(EGU, "ns")
+  field(PREC, "5")
+  field(CALC, "((A>>16)/B*1000)+((A & 65535)*(1000/(B*65535)))")
 }
 
 record(longin, "$(SYS)-$(EVR):DlyCompensation-Status-RB") {

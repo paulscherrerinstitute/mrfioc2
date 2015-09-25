@@ -12,7 +12,7 @@ file "$(TEMPLATE_DIR)/evr-vme-300.template"
 
 		## Delay compensation
 		DlyCompensation-Enabled-Sel=1,	#0 = Disabled, 1 = Enabled: Enables or disables delay compensation
-		DlyCompensation-Target-SP=0,	# Delay compensation value in [ps]
+		DlyCompensation-Target-SP=0,	# Delay compensation value in [ns]
 
 		## Prescalers
 		PS0-Div-SP=2, 			#2-65535 :Integer divisor between the Event Clock and the sub-unit output.
