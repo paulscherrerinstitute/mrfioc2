@@ -147,30 +147,34 @@ record(fanout, "$(SYS)-$(EVR):$(OBJ)$(ID)-Res-FO_") {
 
 
 # Pulse generator gates
-record(longout, "$(SYS)-$(EVR):$(OBJ)$(ID)-Gate-Mask-SP") {
+record(mbboDirect, "$(SYS)-$(EVR):$(OBJ)$(ID)-Gate-Mask-SP") {
   field(DTYP, "Obj Prop uint16")
   field(OUT , "@OBJ=$(EVR):$(OBJ)$(ID), PROP=Gate mask")
   field(PINI, "YES")
+  field(NOBT, "16")
   field(DESC, "Pulser gate mask")
   field(VAL , "$($(OBJ)$(ID)-Gate-Mask-SP\=0)")
   field(FLNK, "$(SYS)-$(EVR):$(OBJ)$(ID)-Gate-Mask-RB")
 }
 
-record(longin, "$(SYS)-$(EVR):$(OBJ)$(ID)-Gate-Mask-RB") {
+record(mbbiDirect, "$(SYS)-$(EVR):$(OBJ)$(ID)-Gate-Mask-RB") {
   field(DTYP, "Obj Prop uint16")
+  field(NOBT, "16")
   field(INP , "@OBJ=$(EVR):$(OBJ)$(ID), PROP=Gate mask")
 }
 
-record(longout, "$(SYS)-$(EVR):$(OBJ)$(ID)-Gate-Enable-SP") {
+record(mbboDirect, "$(SYS)-$(EVR):$(OBJ)$(ID)-Gate-Enable-SP") {
   field(DTYP, "Obj Prop uint16")
   field(OUT , "@OBJ=$(EVR):$(OBJ)$(ID), PROP=Gate enable")
   field(PINI, "YES")
+  field(NOBT, "16")
   field(DESC, "Pulser gate enable")
   field(VAL , "$($(OBJ)$(ID)-Gate-Enable-SP\=0)")
   field(FLNK, "$(SYS)-$(EVR):$(OBJ)$(ID)-Gate-Enable-RB")
 }
 
-record(longin, "$(SYS)-$(EVR):$(OBJ)$(ID)-Gate-Enable-RB") {
+record(mbbiDirect, "$(SYS)-$(EVR):$(OBJ)$(ID)-Gate-Enable-RB") {
   field(DTYP, "Obj Prop uint16")
+  field(NOBT, "16")
   field(INP , "@OBJ=$(EVR):$(OBJ)$(ID), PROP=Gate enable")
 }

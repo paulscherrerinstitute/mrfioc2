@@ -128,7 +128,47 @@ file "$(TEMPLATE_DIR)/evr-vme-300.template"
 		Pul15-Polarity-Sel=0,  	#0 = Active High, 1 = Active Low
 		Pul15-Delay-SP=0,		#0-4294967295 : Delay in us 
 		Pul15-Width-SP=0,		#0-65535 : Width in us
-		#add pulsers
+
+		Pul16-Ena-Sel=1,		#0 = Disabled, 1 = Enabled
+		Pul16-Polarity-Sel=0,  	#0 = Active High, 1 = Active Low
+		Pul16-Delay-SP=0,		#0-4294967295 : Delay in us 
+		Pul16-Width-SP=0,		#0-65535 : Width in us
+
+		Pul17-Ena-Sel=1,		#0 = Disabled, 1 = Enabled
+		Pul17-Polarity-Sel=0,  	#0 = Active High, 1 = Active Low
+		Pul17-Delay-SP=0,		#0-4294967295 : Delay in us 
+		Pul17-Width-SP=0,		#0-65535 : Width in us
+
+		Pul18-Ena-Sel=1,		#0 = Disabled, 1 = Enabled
+		Pul18-Polarity-Sel=0,  	#0 = Active High, 1 = Active Low
+		Pul18-Delay-SP=0,		#0-4294967295 : Delay in us 
+		Pul18-Width-SP=0,		#0-65535 : Width in us
+
+		Pul19-Ena-Sel=1,		#0 = Disabled, 1 = Enabled
+		Pul19-Polarity-Sel=0,  	#0 = Active High, 1 = Active Low
+		Pul19-Delay-SP=0,		#0-4294967295 : Delay in us 
+		Pul19-Width-SP=0,		#0-65535 : Width in us
+
+		Pul20-Ena-Sel=1,		#0 = Disabled, 1 = Enabled
+		Pul20-Polarity-Sel=0,  	#0 = Active High, 1 = Active Low
+		Pul20-Delay-SP=0,		#0-4294967295 : Delay in us 
+		Pul20-Width-SP=0,		#0-65535 : Width in us
+
+		Pul21-Ena-Sel=1,		#0 = Disabled, 1 = Enabled
+		Pul21-Polarity-Sel=0,  	#0 = Active High, 1 = Active Low
+		Pul21-Delay-SP=0,		#0-4294967295 : Delay in us 
+		Pul21-Width-SP=0,		#0-65535 : Width in us
+
+		Pul22-Ena-Sel=1,		#0 = Disabled, 1 = Enabled
+		Pul22-Polarity-Sel=0,  	#0 = Active High, 1 = Active Low
+		Pul22-Delay-SP=0,		#0-4294967295 : Delay in us 
+		Pul22-Width-SP=0,		#0-65535 : Width in us
+
+		Pul23-Ena-Sel=1,		#0 = Disabled, 1 = Enabled
+		Pul23-Polarity-Sel=0,  	#0 = Active High, 1 = Active Low
+		Pul23-Delay-SP=0,		#0-4294967295 : Delay in us 
+		Pul23-Width-SP=0,		#0-65535 : Width in us
+		
 
 		## Front panel inputs
 		FPIn0-Lvl-Sel=1,		#0 = Active Low, 1 = Active High : Active Level
@@ -481,6 +521,18 @@ pattern {PID   F,      EVT, ID}
         {13,   Trig,   0,   0 }
         {14,   Trig,   0,   0 }
         {15,   Trig,   0,   0 }
+        {16,   Trig,   0,   0 }
+        {17,   Trig,   0,   0 }
+        {18,   Trig,   0,   0 }
+        {19,   Trig,   0,   0 }
+        {20,   Trig,   0,   0 }
+        {21,   Trig,   0,   0 }
+        {22,   Trig,   0,   0 }
+        {23,   Trig,   0,   0 }
+        {28,   Trig,   0,   0 }
+        {29,   Trig,   0,   0 }
+        {30,   Trig,   0,   0 }
+        {31,   Trig,   0,   0 }
 
 
         {0,    Set,   0,   0 }
@@ -499,6 +551,18 @@ pattern {PID   F,      EVT, ID}
         {13,   Set,   0,   0 }
         {14,   Set,   0,   0 }
         {15,   Set,   0,   0 }
+        {16,   Set,   0,   0 }
+        {17,   Set,   0,   0 }
+        {18,   Set,   0,   0 }
+        {19,   Set,   0,   0 }
+        {20,   Set,   0,   0 }
+        {21,   Set,   0,   0 }
+        {22,   Set,   0,   0 }
+        {23,   Set,   0,   0 }
+        {28,   Set,   0,   0 }
+        {29,   Set,   0,   0 }
+        {30,   Set,   0,   0 }
+        {31,   Set,   0,   0 }
 
 
         {0,    Reset,   0,   0 }
@@ -517,6 +581,18 @@ pattern {PID   F,      EVT, ID}
         {13,   Reset,   0,   0 }
         {14,   Reset,   0,   0 }
         {15,   Reset,   0,   0 }
+        {16,   Reset,   0,   0 }
+        {17,   Reset,   0,   0 }
+        {18,   Reset,   0,   0 }
+        {19,   Reset,   0,   0 }
+        {20,   Reset,   0,   0 }
+        {21,   Reset,   0,   0 }
+        {22,   Reset,   0,   0 }
+        {23,   Reset,   0,   0 }
+        {28,   Reset,   0,   0 }
+        {29,   Reset,   0,   0 }
+        {30,   Reset,   0,   0 }
+        {31,   Reset,   0,   0 }
 }
 
 ## UNIV-LVPECL-DLY Delay module
