@@ -438,45 +438,84 @@ record(bi, "$(SYS,recursive)-$(EVR,recursive):DlyCompensation-Enabled-RB") {
 }
 
 record(ao, "$(SYS,recursive)-$(EVR,recursive):DlyCompensation-Target-SP") {
-  field(DTYP, "Obj Prop uint32")
-  field(OUT , "@OBJ=$(EVR,recursive), PROP=dc tv")
   field(VAL, "$(DlyCompensation-Target-SP=0,undefined)")
   field(PINI, "YES")
-  field(EGU, "ps")
-  field(LINR, "LINEAR")
-  field(ESLO, "0.000106812")
+  field(EGU, "ns")
   field(DESC, "Delay compensation target value")
-  field(FLNK, "$(SYS,recursive)-$(EVR,recursive):DlyCompensation-Target-RB")
+  field(FLNK, "$(SYS,recursive)-$(EVR,recursive):DlyCompensation-Target-Raw_")
   info(autosaveFields_pass0, "VAL")
 }
 
-record(ai, "$(SYS,recursive)-$(EVR,recursive):DlyCompensation-Target-RB") {
-  field(DTYP, "Obj Prop uint32")
-  field(EGU, "ps")
-  field(LINR, "LINEAR")
-  field(ESLO, "0.000106812")
-  field(INP , "@OBJ=$(EVR,recursive), PROP=dc tv")
+record(calcout, "$(SYS,recursive)-$(EVR,recursive):DlyCompensation-Target-Raw_") {
   field(DESC, "Delay compensation target value")
+  field(INPA, "$(SYS,recursive)-$(EVR,recursive):DlyCompensation-Target-SP")
+  field(INPB, "$(SYS,recursive)-$(EVR,recursive):Link-Clk-I CP")
+  field(EGU, "ns")
+  field(PREC, "0")
+  field(CALC, "(FLOOR(A*B/1000)<<16)+((A-(FLOOR(A*B/1000)/B*1000))/(1000/(B*65535)))")
+  field(FLNK, "$(SYS,recursive)-$(EVR,recursive):DlyCompensation-Target-Raw-SP")
+  field(OUT, "$(SYS,recursive)-$(EVR,recursive):DlyCompensation-Target-Raw-SP")
 }
 
-record(ai, "$(SYS,recursive)-$(EVR,recursive):DlyCompensation-Path-RB") {
+record(longout, "$(SYS,recursive)-$(EVR,recursive):DlyCompensation-Target-Raw-SP") {
   field(DTYP, "Obj Prop uint32")
-  field(EGU, "ps")
-  field(LINR, "LINEAR")
-  field(ESLO, "0.000106812")
+  field(OUT , "@OBJ=$(EVR,recursive), PROP=dc tv")
+  field(EGU, "raw")
+  field(DESC, "Delay compensation target value")
+  field(FLNK, "$(SYS,recursive)-$(EVR,recursive):DlyCompensation-Target-Raw-RB")
+}
+
+record(longin, "$(SYS,recursive)-$(EVR,recursive):DlyCompensation-Target-Raw-RB") {
+  field(DTYP, "Obj Prop uint32")
+  field(EGU, "raw")
+  field(INP , "@OBJ=$(EVR,recursive), PROP=dc tv")
+  field(DESC, "Delay compensation target value")
+  field(FLNK, "$(SYS,recursive)-$(EVR,recursive):DlyCompensation-Target-RB")
+}
+
+record(calc, "$(SYS,recursive)-$(EVR,recursive):DlyCompensation-Target-RB") {
+  field(DESC, "Delay compensation target value")
+  field(INPA, "$(SYS,recursive)-$(EVR,recursive):DlyCompensation-Target-Raw-RB")
+  field(INPB, "$(SYS,recursive)-$(EVR,recursive):Link-Clk-I CP")
+  field(EGU, "ns")
+  field(PREC, "5")
+  field(CALC, "((A>>16)/B*1000)+((A & 65535)*(1000/(B*65535)))")
+}
+
+record(longin, "$(SYS,recursive)-$(EVR,recursive):DlyCompensation-Path-Raw-RB") {
+  field(DTYP, "Obj Prop uint32")
+  field(EGU, "raw")
   field(INP , "@OBJ=$(EVR,recursive), PROP=dc tpd")
   field(DESC, "Delay compens trans path dly")
   field(SCAN, "1 second")
+  field(FLNK, "$(SYS,recursive)-$(EVR,recursive):DlyCompensation-Path-RB")
 }
 
-record(ai, "$(SYS,recursive)-$(EVR,recursive):DlyCompensation-Internal-RB") {
+record(calc, "$(SYS,recursive)-$(EVR,recursive):DlyCompensation-Path-RB") {
+  field(DESC, "Delay compens trans path dly")
+  field(INPA, "$(SYS,recursive)-$(EVR,recursive):DlyCompensation-Path-Raw-RB")
+  field(INPB, "$(SYS,recursive)-$(EVR,recursive):Link-Clk-I CP")
+  field(EGU, "ns")
+  field(PREC, "5")
+  field(CALC, "((A>>16)/B*1000)+((A & 65535)*(1000/(B*65535)))")
+}
+
+record(longin, "$(SYS,recursive)-$(EVR,recursive):DlyCompensation-Internal-Raw-RB") {
   field(DTYP, "Obj Prop uint32")
-  field(EGU, "ps")
-  field(LINR, "LINEAR")
-  field(ESLO, "0.000106812")
+  field(EGU, "raw")
   field(INP , "@OBJ=$(EVR,recursive), PROP=dc id")
   field(DESC, "Delay compensation internal delay")
   field(SCAN, "1 second")
+  field(FLNK, "$(SYS,recursive)-$(EVR,recursive):DlyCompensation-Internal-RB")
+}
+
+record(calc, "$(SYS,recursive)-$(EVR,recursive):DlyCompensation-Internal-RB") {
+  field(DESC, "Delay compensation internal delay")
+  field(INPA, "$(SYS,recursive)-$(EVR,recursive):DlyCompensation-Internal-Raw-RB")
+  field(INPB, "$(SYS,recursive)-$(EVR,recursive):Link-Clk-I CP")
+  field(EGU, "ns")
+  field(PREC, "5")
+  field(CALC, "((A>>16)/B*1000)+((A & 65535)*(1000/(B*65535)))")
 }
 
 record(longin, "$(SYS,recursive)-$(EVR,recursive):DlyCompensation-Status-RB") {
@@ -965,31 +1004,35 @@ record(fanout, "$(SYS,recursive)-$(EVR,recursive):Pul0-Res-FO_") {
 
 
 # Pulse generator gates
-record(longout, "$(SYS,recursive)-$(EVR,recursive):Pul0-Gate-Mask-SP") {
+record(mbboDirect, "$(SYS,recursive)-$(EVR,recursive):Pul0-Gate-Mask-SP") {
   field(DTYP, "Obj Prop uint16")
   field(OUT , "@OBJ=$(EVR,recursive):Pul0, PROP=Gate mask")
   field(PINI, "YES")
+  field(NOBT, "16")
   field(DESC, "Pulser gate mask")
   field(VAL , "$(Pul0-Gate-Mask-SP=0,undefined)")
   field(FLNK, "$(SYS,recursive)-$(EVR,recursive):Pul0-Gate-Mask-RB")
 }
 
-record(longin, "$(SYS,recursive)-$(EVR,recursive):Pul0-Gate-Mask-RB") {
+record(mbbiDirect, "$(SYS,recursive)-$(EVR,recursive):Pul0-Gate-Mask-RB") {
   field(DTYP, "Obj Prop uint16")
+  field(NOBT, "16")
   field(INP , "@OBJ=$(EVR,recursive):Pul0, PROP=Gate mask")
 }
 
-record(longout, "$(SYS,recursive)-$(EVR,recursive):Pul0-Gate-Enable-SP") {
+record(mbboDirect, "$(SYS,recursive)-$(EVR,recursive):Pul0-Gate-Enable-SP") {
   field(DTYP, "Obj Prop uint16")
   field(OUT , "@OBJ=$(EVR,recursive):Pul0, PROP=Gate enable")
   field(PINI, "YES")
+  field(NOBT, "16")
   field(DESC, "Pulser gate enable")
   field(VAL , "$(Pul0-Gate-Enable-SP=0,undefined)")
   field(FLNK, "$(SYS,recursive)-$(EVR,recursive):Pul0-Gate-Enable-RB")
 }
 
-record(longin, "$(SYS,recursive)-$(EVR,recursive):Pul0-Gate-Enable-RB") {
+record(mbbiDirect, "$(SYS,recursive)-$(EVR,recursive):Pul0-Gate-Enable-RB") {
   field(DTYP, "Obj Prop uint16")
+  field(NOBT, "16")
   field(INP , "@OBJ=$(EVR,recursive):Pul0, PROP=Gate enable")
 }# Record set for an EVR's programmable pulse generator
 #
@@ -1140,31 +1183,35 @@ record(fanout, "$(SYS,recursive)-$(EVR,recursive):Pul1-Res-FO_") {
 
 
 # Pulse generator gates
-record(longout, "$(SYS,recursive)-$(EVR,recursive):Pul1-Gate-Mask-SP") {
+record(mbboDirect, "$(SYS,recursive)-$(EVR,recursive):Pul1-Gate-Mask-SP") {
   field(DTYP, "Obj Prop uint16")
   field(OUT , "@OBJ=$(EVR,recursive):Pul1, PROP=Gate mask")
   field(PINI, "YES")
+  field(NOBT, "16")
   field(DESC, "Pulser gate mask")
   field(VAL , "$(Pul1-Gate-Mask-SP=0,undefined)")
   field(FLNK, "$(SYS,recursive)-$(EVR,recursive):Pul1-Gate-Mask-RB")
 }
 
-record(longin, "$(SYS,recursive)-$(EVR,recursive):Pul1-Gate-Mask-RB") {
+record(mbbiDirect, "$(SYS,recursive)-$(EVR,recursive):Pul1-Gate-Mask-RB") {
   field(DTYP, "Obj Prop uint16")
+  field(NOBT, "16")
   field(INP , "@OBJ=$(EVR,recursive):Pul1, PROP=Gate mask")
 }
 
-record(longout, "$(SYS,recursive)-$(EVR,recursive):Pul1-Gate-Enable-SP") {
+record(mbboDirect, "$(SYS,recursive)-$(EVR,recursive):Pul1-Gate-Enable-SP") {
   field(DTYP, "Obj Prop uint16")
   field(OUT , "@OBJ=$(EVR,recursive):Pul1, PROP=Gate enable")
   field(PINI, "YES")
+  field(NOBT, "16")
   field(DESC, "Pulser gate enable")
   field(VAL , "$(Pul1-Gate-Enable-SP=0,undefined)")
   field(FLNK, "$(SYS,recursive)-$(EVR,recursive):Pul1-Gate-Enable-RB")
 }
 
-record(longin, "$(SYS,recursive)-$(EVR,recursive):Pul1-Gate-Enable-RB") {
+record(mbbiDirect, "$(SYS,recursive)-$(EVR,recursive):Pul1-Gate-Enable-RB") {
   field(DTYP, "Obj Prop uint16")
+  field(NOBT, "16")
   field(INP , "@OBJ=$(EVR,recursive):Pul1, PROP=Gate enable")
 }# Record set for an EVR's programmable pulse generator
 #
@@ -1315,31 +1362,35 @@ record(fanout, "$(SYS,recursive)-$(EVR,recursive):Pul2-Res-FO_") {
 
 
 # Pulse generator gates
-record(longout, "$(SYS,recursive)-$(EVR,recursive):Pul2-Gate-Mask-SP") {
+record(mbboDirect, "$(SYS,recursive)-$(EVR,recursive):Pul2-Gate-Mask-SP") {
   field(DTYP, "Obj Prop uint16")
   field(OUT , "@OBJ=$(EVR,recursive):Pul2, PROP=Gate mask")
   field(PINI, "YES")
+  field(NOBT, "16")
   field(DESC, "Pulser gate mask")
   field(VAL , "$(Pul2-Gate-Mask-SP=0,undefined)")
   field(FLNK, "$(SYS,recursive)-$(EVR,recursive):Pul2-Gate-Mask-RB")
 }
 
-record(longin, "$(SYS,recursive)-$(EVR,recursive):Pul2-Gate-Mask-RB") {
+record(mbbiDirect, "$(SYS,recursive)-$(EVR,recursive):Pul2-Gate-Mask-RB") {
   field(DTYP, "Obj Prop uint16")
+  field(NOBT, "16")
   field(INP , "@OBJ=$(EVR,recursive):Pul2, PROP=Gate mask")
 }
 
-record(longout, "$(SYS,recursive)-$(EVR,recursive):Pul2-Gate-Enable-SP") {
+record(mbboDirect, "$(SYS,recursive)-$(EVR,recursive):Pul2-Gate-Enable-SP") {
   field(DTYP, "Obj Prop uint16")
   field(OUT , "@OBJ=$(EVR,recursive):Pul2, PROP=Gate enable")
   field(PINI, "YES")
+  field(NOBT, "16")
   field(DESC, "Pulser gate enable")
   field(VAL , "$(Pul2-Gate-Enable-SP=0,undefined)")
   field(FLNK, "$(SYS,recursive)-$(EVR,recursive):Pul2-Gate-Enable-RB")
 }
 
-record(longin, "$(SYS,recursive)-$(EVR,recursive):Pul2-Gate-Enable-RB") {
+record(mbbiDirect, "$(SYS,recursive)-$(EVR,recursive):Pul2-Gate-Enable-RB") {
   field(DTYP, "Obj Prop uint16")
+  field(NOBT, "16")
   field(INP , "@OBJ=$(EVR,recursive):Pul2, PROP=Gate enable")
 }# Record set for an EVR's programmable pulse generator
 #
@@ -1490,31 +1541,35 @@ record(fanout, "$(SYS,recursive)-$(EVR,recursive):Pul3-Res-FO_") {
 
 
 # Pulse generator gates
-record(longout, "$(SYS,recursive)-$(EVR,recursive):Pul3-Gate-Mask-SP") {
+record(mbboDirect, "$(SYS,recursive)-$(EVR,recursive):Pul3-Gate-Mask-SP") {
   field(DTYP, "Obj Prop uint16")
   field(OUT , "@OBJ=$(EVR,recursive):Pul3, PROP=Gate mask")
   field(PINI, "YES")
+  field(NOBT, "16")
   field(DESC, "Pulser gate mask")
   field(VAL , "$(Pul3-Gate-Mask-SP=0,undefined)")
   field(FLNK, "$(SYS,recursive)-$(EVR,recursive):Pul3-Gate-Mask-RB")
 }
 
-record(longin, "$(SYS,recursive)-$(EVR,recursive):Pul3-Gate-Mask-RB") {
+record(mbbiDirect, "$(SYS,recursive)-$(EVR,recursive):Pul3-Gate-Mask-RB") {
   field(DTYP, "Obj Prop uint16")
+  field(NOBT, "16")
   field(INP , "@OBJ=$(EVR,recursive):Pul3, PROP=Gate mask")
 }
 
-record(longout, "$(SYS,recursive)-$(EVR,recursive):Pul3-Gate-Enable-SP") {
+record(mbboDirect, "$(SYS,recursive)-$(EVR,recursive):Pul3-Gate-Enable-SP") {
   field(DTYP, "Obj Prop uint16")
   field(OUT , "@OBJ=$(EVR,recursive):Pul3, PROP=Gate enable")
   field(PINI, "YES")
+  field(NOBT, "16")
   field(DESC, "Pulser gate enable")
   field(VAL , "$(Pul3-Gate-Enable-SP=0,undefined)")
   field(FLNK, "$(SYS,recursive)-$(EVR,recursive):Pul3-Gate-Enable-RB")
 }
 
-record(longin, "$(SYS,recursive)-$(EVR,recursive):Pul3-Gate-Enable-RB") {
+record(mbbiDirect, "$(SYS,recursive)-$(EVR,recursive):Pul3-Gate-Enable-RB") {
   field(DTYP, "Obj Prop uint16")
+  field(NOBT, "16")
   field(INP , "@OBJ=$(EVR,recursive):Pul3, PROP=Gate enable")
 }# Record set for an EVR's programmable pulse generator
 #
@@ -1665,31 +1720,35 @@ record(fanout, "$(SYS,recursive)-$(EVR,recursive):Pul4-Res-FO_") {
 
 
 # Pulse generator gates
-record(longout, "$(SYS,recursive)-$(EVR,recursive):Pul4-Gate-Mask-SP") {
+record(mbboDirect, "$(SYS,recursive)-$(EVR,recursive):Pul4-Gate-Mask-SP") {
   field(DTYP, "Obj Prop uint16")
   field(OUT , "@OBJ=$(EVR,recursive):Pul4, PROP=Gate mask")
   field(PINI, "YES")
+  field(NOBT, "16")
   field(DESC, "Pulser gate mask")
   field(VAL , "$(Pul4-Gate-Mask-SP=0,undefined)")
   field(FLNK, "$(SYS,recursive)-$(EVR,recursive):Pul4-Gate-Mask-RB")
 }
 
-record(longin, "$(SYS,recursive)-$(EVR,recursive):Pul4-Gate-Mask-RB") {
+record(mbbiDirect, "$(SYS,recursive)-$(EVR,recursive):Pul4-Gate-Mask-RB") {
   field(DTYP, "Obj Prop uint16")
+  field(NOBT, "16")
   field(INP , "@OBJ=$(EVR,recursive):Pul4, PROP=Gate mask")
 }
 
-record(longout, "$(SYS,recursive)-$(EVR,recursive):Pul4-Gate-Enable-SP") {
+record(mbboDirect, "$(SYS,recursive)-$(EVR,recursive):Pul4-Gate-Enable-SP") {
   field(DTYP, "Obj Prop uint16")
   field(OUT , "@OBJ=$(EVR,recursive):Pul4, PROP=Gate enable")
   field(PINI, "YES")
+  field(NOBT, "16")
   field(DESC, "Pulser gate enable")
   field(VAL , "$(Pul4-Gate-Enable-SP=0,undefined)")
   field(FLNK, "$(SYS,recursive)-$(EVR,recursive):Pul4-Gate-Enable-RB")
 }
 
-record(longin, "$(SYS,recursive)-$(EVR,recursive):Pul4-Gate-Enable-RB") {
+record(mbbiDirect, "$(SYS,recursive)-$(EVR,recursive):Pul4-Gate-Enable-RB") {
   field(DTYP, "Obj Prop uint16")
+  field(NOBT, "16")
   field(INP , "@OBJ=$(EVR,recursive):Pul4, PROP=Gate enable")
 }# Record set for an EVR's programmable pulse generator
 #
@@ -1840,31 +1899,35 @@ record(fanout, "$(SYS,recursive)-$(EVR,recursive):Pul5-Res-FO_") {
 
 
 # Pulse generator gates
-record(longout, "$(SYS,recursive)-$(EVR,recursive):Pul5-Gate-Mask-SP") {
+record(mbboDirect, "$(SYS,recursive)-$(EVR,recursive):Pul5-Gate-Mask-SP") {
   field(DTYP, "Obj Prop uint16")
   field(OUT , "@OBJ=$(EVR,recursive):Pul5, PROP=Gate mask")
   field(PINI, "YES")
+  field(NOBT, "16")
   field(DESC, "Pulser gate mask")
   field(VAL , "$(Pul5-Gate-Mask-SP=0,undefined)")
   field(FLNK, "$(SYS,recursive)-$(EVR,recursive):Pul5-Gate-Mask-RB")
 }
 
-record(longin, "$(SYS,recursive)-$(EVR,recursive):Pul5-Gate-Mask-RB") {
+record(mbbiDirect, "$(SYS,recursive)-$(EVR,recursive):Pul5-Gate-Mask-RB") {
   field(DTYP, "Obj Prop uint16")
+  field(NOBT, "16")
   field(INP , "@OBJ=$(EVR,recursive):Pul5, PROP=Gate mask")
 }
 
-record(longout, "$(SYS,recursive)-$(EVR,recursive):Pul5-Gate-Enable-SP") {
+record(mbboDirect, "$(SYS,recursive)-$(EVR,recursive):Pul5-Gate-Enable-SP") {
   field(DTYP, "Obj Prop uint16")
   field(OUT , "@OBJ=$(EVR,recursive):Pul5, PROP=Gate enable")
   field(PINI, "YES")
+  field(NOBT, "16")
   field(DESC, "Pulser gate enable")
   field(VAL , "$(Pul5-Gate-Enable-SP=0,undefined)")
   field(FLNK, "$(SYS,recursive)-$(EVR,recursive):Pul5-Gate-Enable-RB")
 }
 
-record(longin, "$(SYS,recursive)-$(EVR,recursive):Pul5-Gate-Enable-RB") {
+record(mbbiDirect, "$(SYS,recursive)-$(EVR,recursive):Pul5-Gate-Enable-RB") {
   field(DTYP, "Obj Prop uint16")
+  field(NOBT, "16")
   field(INP , "@OBJ=$(EVR,recursive):Pul5, PROP=Gate enable")
 }# Record set for an EVR's programmable pulse generator
 #
@@ -2015,31 +2078,35 @@ record(fanout, "$(SYS,recursive)-$(EVR,recursive):Pul6-Res-FO_") {
 
 
 # Pulse generator gates
-record(longout, "$(SYS,recursive)-$(EVR,recursive):Pul6-Gate-Mask-SP") {
+record(mbboDirect, "$(SYS,recursive)-$(EVR,recursive):Pul6-Gate-Mask-SP") {
   field(DTYP, "Obj Prop uint16")
   field(OUT , "@OBJ=$(EVR,recursive):Pul6, PROP=Gate mask")
   field(PINI, "YES")
+  field(NOBT, "16")
   field(DESC, "Pulser gate mask")
   field(VAL , "$(Pul6-Gate-Mask-SP=0,undefined)")
   field(FLNK, "$(SYS,recursive)-$(EVR,recursive):Pul6-Gate-Mask-RB")
 }
 
-record(longin, "$(SYS,recursive)-$(EVR,recursive):Pul6-Gate-Mask-RB") {
+record(mbbiDirect, "$(SYS,recursive)-$(EVR,recursive):Pul6-Gate-Mask-RB") {
   field(DTYP, "Obj Prop uint16")
+  field(NOBT, "16")
   field(INP , "@OBJ=$(EVR,recursive):Pul6, PROP=Gate mask")
 }
 
-record(longout, "$(SYS,recursive)-$(EVR,recursive):Pul6-Gate-Enable-SP") {
+record(mbboDirect, "$(SYS,recursive)-$(EVR,recursive):Pul6-Gate-Enable-SP") {
   field(DTYP, "Obj Prop uint16")
   field(OUT , "@OBJ=$(EVR,recursive):Pul6, PROP=Gate enable")
   field(PINI, "YES")
+  field(NOBT, "16")
   field(DESC, "Pulser gate enable")
   field(VAL , "$(Pul6-Gate-Enable-SP=0,undefined)")
   field(FLNK, "$(SYS,recursive)-$(EVR,recursive):Pul6-Gate-Enable-RB")
 }
 
-record(longin, "$(SYS,recursive)-$(EVR,recursive):Pul6-Gate-Enable-RB") {
+record(mbbiDirect, "$(SYS,recursive)-$(EVR,recursive):Pul6-Gate-Enable-RB") {
   field(DTYP, "Obj Prop uint16")
+  field(NOBT, "16")
   field(INP , "@OBJ=$(EVR,recursive):Pul6, PROP=Gate enable")
 }# Record set for an EVR's programmable pulse generator
 #
@@ -2190,31 +2257,35 @@ record(fanout, "$(SYS,recursive)-$(EVR,recursive):Pul7-Res-FO_") {
 
 
 # Pulse generator gates
-record(longout, "$(SYS,recursive)-$(EVR,recursive):Pul7-Gate-Mask-SP") {
+record(mbboDirect, "$(SYS,recursive)-$(EVR,recursive):Pul7-Gate-Mask-SP") {
   field(DTYP, "Obj Prop uint16")
   field(OUT , "@OBJ=$(EVR,recursive):Pul7, PROP=Gate mask")
   field(PINI, "YES")
+  field(NOBT, "16")
   field(DESC, "Pulser gate mask")
   field(VAL , "$(Pul7-Gate-Mask-SP=0,undefined)")
   field(FLNK, "$(SYS,recursive)-$(EVR,recursive):Pul7-Gate-Mask-RB")
 }
 
-record(longin, "$(SYS,recursive)-$(EVR,recursive):Pul7-Gate-Mask-RB") {
+record(mbbiDirect, "$(SYS,recursive)-$(EVR,recursive):Pul7-Gate-Mask-RB") {
   field(DTYP, "Obj Prop uint16")
+  field(NOBT, "16")
   field(INP , "@OBJ=$(EVR,recursive):Pul7, PROP=Gate mask")
 }
 
-record(longout, "$(SYS,recursive)-$(EVR,recursive):Pul7-Gate-Enable-SP") {
+record(mbboDirect, "$(SYS,recursive)-$(EVR,recursive):Pul7-Gate-Enable-SP") {
   field(DTYP, "Obj Prop uint16")
   field(OUT , "@OBJ=$(EVR,recursive):Pul7, PROP=Gate enable")
   field(PINI, "YES")
+  field(NOBT, "16")
   field(DESC, "Pulser gate enable")
   field(VAL , "$(Pul7-Gate-Enable-SP=0,undefined)")
   field(FLNK, "$(SYS,recursive)-$(EVR,recursive):Pul7-Gate-Enable-RB")
 }
 
-record(longin, "$(SYS,recursive)-$(EVR,recursive):Pul7-Gate-Enable-RB") {
+record(mbbiDirect, "$(SYS,recursive)-$(EVR,recursive):Pul7-Gate-Enable-RB") {
   field(DTYP, "Obj Prop uint16")
+  field(NOBT, "16")
   field(INP , "@OBJ=$(EVR,recursive):Pul7, PROP=Gate enable")
 }# Record set for an EVR's programmable pulse generator
 #
@@ -2365,31 +2436,35 @@ record(fanout, "$(SYS,recursive)-$(EVR,recursive):Pul8-Res-FO_") {
 
 
 # Pulse generator gates
-record(longout, "$(SYS,recursive)-$(EVR,recursive):Pul8-Gate-Mask-SP") {
+record(mbboDirect, "$(SYS,recursive)-$(EVR,recursive):Pul8-Gate-Mask-SP") {
   field(DTYP, "Obj Prop uint16")
   field(OUT , "@OBJ=$(EVR,recursive):Pul8, PROP=Gate mask")
   field(PINI, "YES")
+  field(NOBT, "16")
   field(DESC, "Pulser gate mask")
   field(VAL , "$(Pul8-Gate-Mask-SP=0,undefined)")
   field(FLNK, "$(SYS,recursive)-$(EVR,recursive):Pul8-Gate-Mask-RB")
 }
 
-record(longin, "$(SYS,recursive)-$(EVR,recursive):Pul8-Gate-Mask-RB") {
+record(mbbiDirect, "$(SYS,recursive)-$(EVR,recursive):Pul8-Gate-Mask-RB") {
   field(DTYP, "Obj Prop uint16")
+  field(NOBT, "16")
   field(INP , "@OBJ=$(EVR,recursive):Pul8, PROP=Gate mask")
 }
 
-record(longout, "$(SYS,recursive)-$(EVR,recursive):Pul8-Gate-Enable-SP") {
+record(mbboDirect, "$(SYS,recursive)-$(EVR,recursive):Pul8-Gate-Enable-SP") {
   field(DTYP, "Obj Prop uint16")
   field(OUT , "@OBJ=$(EVR,recursive):Pul8, PROP=Gate enable")
   field(PINI, "YES")
+  field(NOBT, "16")
   field(DESC, "Pulser gate enable")
   field(VAL , "$(Pul8-Gate-Enable-SP=0,undefined)")
   field(FLNK, "$(SYS,recursive)-$(EVR,recursive):Pul8-Gate-Enable-RB")
 }
 
-record(longin, "$(SYS,recursive)-$(EVR,recursive):Pul8-Gate-Enable-RB") {
+record(mbbiDirect, "$(SYS,recursive)-$(EVR,recursive):Pul8-Gate-Enable-RB") {
   field(DTYP, "Obj Prop uint16")
+  field(NOBT, "16")
   field(INP , "@OBJ=$(EVR,recursive):Pul8, PROP=Gate enable")
 }# Record set for an EVR's programmable pulse generator
 #
@@ -2540,31 +2615,35 @@ record(fanout, "$(SYS,recursive)-$(EVR,recursive):Pul9-Res-FO_") {
 
 
 # Pulse generator gates
-record(longout, "$(SYS,recursive)-$(EVR,recursive):Pul9-Gate-Mask-SP") {
+record(mbboDirect, "$(SYS,recursive)-$(EVR,recursive):Pul9-Gate-Mask-SP") {
   field(DTYP, "Obj Prop uint16")
   field(OUT , "@OBJ=$(EVR,recursive):Pul9, PROP=Gate mask")
   field(PINI, "YES")
+  field(NOBT, "16")
   field(DESC, "Pulser gate mask")
   field(VAL , "$(Pul9-Gate-Mask-SP=0,undefined)")
   field(FLNK, "$(SYS,recursive)-$(EVR,recursive):Pul9-Gate-Mask-RB")
 }
 
-record(longin, "$(SYS,recursive)-$(EVR,recursive):Pul9-Gate-Mask-RB") {
+record(mbbiDirect, "$(SYS,recursive)-$(EVR,recursive):Pul9-Gate-Mask-RB") {
   field(DTYP, "Obj Prop uint16")
+  field(NOBT, "16")
   field(INP , "@OBJ=$(EVR,recursive):Pul9, PROP=Gate mask")
 }
 
-record(longout, "$(SYS,recursive)-$(EVR,recursive):Pul9-Gate-Enable-SP") {
+record(mbboDirect, "$(SYS,recursive)-$(EVR,recursive):Pul9-Gate-Enable-SP") {
   field(DTYP, "Obj Prop uint16")
   field(OUT , "@OBJ=$(EVR,recursive):Pul9, PROP=Gate enable")
   field(PINI, "YES")
+  field(NOBT, "16")
   field(DESC, "Pulser gate enable")
   field(VAL , "$(Pul9-Gate-Enable-SP=0,undefined)")
   field(FLNK, "$(SYS,recursive)-$(EVR,recursive):Pul9-Gate-Enable-RB")
 }
 
-record(longin, "$(SYS,recursive)-$(EVR,recursive):Pul9-Gate-Enable-RB") {
+record(mbbiDirect, "$(SYS,recursive)-$(EVR,recursive):Pul9-Gate-Enable-RB") {
   field(DTYP, "Obj Prop uint16")
+  field(NOBT, "16")
   field(INP , "@OBJ=$(EVR,recursive):Pul9, PROP=Gate enable")
 }# Record set for an EVR's programmable pulse generator
 #
@@ -2715,31 +2794,35 @@ record(fanout, "$(SYS,recursive)-$(EVR,recursive):Pul10-Res-FO_") {
 
 
 # Pulse generator gates
-record(longout, "$(SYS,recursive)-$(EVR,recursive):Pul10-Gate-Mask-SP") {
+record(mbboDirect, "$(SYS,recursive)-$(EVR,recursive):Pul10-Gate-Mask-SP") {
   field(DTYP, "Obj Prop uint16")
   field(OUT , "@OBJ=$(EVR,recursive):Pul10, PROP=Gate mask")
   field(PINI, "YES")
+  field(NOBT, "16")
   field(DESC, "Pulser gate mask")
   field(VAL , "$(Pul10-Gate-Mask-SP=0,undefined)")
   field(FLNK, "$(SYS,recursive)-$(EVR,recursive):Pul10-Gate-Mask-RB")
 }
 
-record(longin, "$(SYS,recursive)-$(EVR,recursive):Pul10-Gate-Mask-RB") {
+record(mbbiDirect, "$(SYS,recursive)-$(EVR,recursive):Pul10-Gate-Mask-RB") {
   field(DTYP, "Obj Prop uint16")
+  field(NOBT, "16")
   field(INP , "@OBJ=$(EVR,recursive):Pul10, PROP=Gate mask")
 }
 
-record(longout, "$(SYS,recursive)-$(EVR,recursive):Pul10-Gate-Enable-SP") {
+record(mbboDirect, "$(SYS,recursive)-$(EVR,recursive):Pul10-Gate-Enable-SP") {
   field(DTYP, "Obj Prop uint16")
   field(OUT , "@OBJ=$(EVR,recursive):Pul10, PROP=Gate enable")
   field(PINI, "YES")
+  field(NOBT, "16")
   field(DESC, "Pulser gate enable")
   field(VAL , "$(Pul10-Gate-Enable-SP=0,undefined)")
   field(FLNK, "$(SYS,recursive)-$(EVR,recursive):Pul10-Gate-Enable-RB")
 }
 
-record(longin, "$(SYS,recursive)-$(EVR,recursive):Pul10-Gate-Enable-RB") {
+record(mbbiDirect, "$(SYS,recursive)-$(EVR,recursive):Pul10-Gate-Enable-RB") {
   field(DTYP, "Obj Prop uint16")
+  field(NOBT, "16")
   field(INP , "@OBJ=$(EVR,recursive):Pul10, PROP=Gate enable")
 }# Record set for an EVR's programmable pulse generator
 #
@@ -2890,31 +2973,35 @@ record(fanout, "$(SYS,recursive)-$(EVR,recursive):Pul11-Res-FO_") {
 
 
 # Pulse generator gates
-record(longout, "$(SYS,recursive)-$(EVR,recursive):Pul11-Gate-Mask-SP") {
+record(mbboDirect, "$(SYS,recursive)-$(EVR,recursive):Pul11-Gate-Mask-SP") {
   field(DTYP, "Obj Prop uint16")
   field(OUT , "@OBJ=$(EVR,recursive):Pul11, PROP=Gate mask")
   field(PINI, "YES")
+  field(NOBT, "16")
   field(DESC, "Pulser gate mask")
   field(VAL , "$(Pul11-Gate-Mask-SP=0,undefined)")
   field(FLNK, "$(SYS,recursive)-$(EVR,recursive):Pul11-Gate-Mask-RB")
 }
 
-record(longin, "$(SYS,recursive)-$(EVR,recursive):Pul11-Gate-Mask-RB") {
+record(mbbiDirect, "$(SYS,recursive)-$(EVR,recursive):Pul11-Gate-Mask-RB") {
   field(DTYP, "Obj Prop uint16")
+  field(NOBT, "16")
   field(INP , "@OBJ=$(EVR,recursive):Pul11, PROP=Gate mask")
 }
 
-record(longout, "$(SYS,recursive)-$(EVR,recursive):Pul11-Gate-Enable-SP") {
+record(mbboDirect, "$(SYS,recursive)-$(EVR,recursive):Pul11-Gate-Enable-SP") {
   field(DTYP, "Obj Prop uint16")
   field(OUT , "@OBJ=$(EVR,recursive):Pul11, PROP=Gate enable")
   field(PINI, "YES")
+  field(NOBT, "16")
   field(DESC, "Pulser gate enable")
   field(VAL , "$(Pul11-Gate-Enable-SP=0,undefined)")
   field(FLNK, "$(SYS,recursive)-$(EVR,recursive):Pul11-Gate-Enable-RB")
 }
 
-record(longin, "$(SYS,recursive)-$(EVR,recursive):Pul11-Gate-Enable-RB") {
+record(mbbiDirect, "$(SYS,recursive)-$(EVR,recursive):Pul11-Gate-Enable-RB") {
   field(DTYP, "Obj Prop uint16")
+  field(NOBT, "16")
   field(INP , "@OBJ=$(EVR,recursive):Pul11, PROP=Gate enable")
 }# Record set for an EVR's programmable pulse generator
 #
@@ -3065,31 +3152,35 @@ record(fanout, "$(SYS,recursive)-$(EVR,recursive):Pul12-Res-FO_") {
 
 
 # Pulse generator gates
-record(longout, "$(SYS,recursive)-$(EVR,recursive):Pul12-Gate-Mask-SP") {
+record(mbboDirect, "$(SYS,recursive)-$(EVR,recursive):Pul12-Gate-Mask-SP") {
   field(DTYP, "Obj Prop uint16")
   field(OUT , "@OBJ=$(EVR,recursive):Pul12, PROP=Gate mask")
   field(PINI, "YES")
+  field(NOBT, "16")
   field(DESC, "Pulser gate mask")
   field(VAL , "$(Pul12-Gate-Mask-SP=0,undefined)")
   field(FLNK, "$(SYS,recursive)-$(EVR,recursive):Pul12-Gate-Mask-RB")
 }
 
-record(longin, "$(SYS,recursive)-$(EVR,recursive):Pul12-Gate-Mask-RB") {
+record(mbbiDirect, "$(SYS,recursive)-$(EVR,recursive):Pul12-Gate-Mask-RB") {
   field(DTYP, "Obj Prop uint16")
+  field(NOBT, "16")
   field(INP , "@OBJ=$(EVR,recursive):Pul12, PROP=Gate mask")
 }
 
-record(longout, "$(SYS,recursive)-$(EVR,recursive):Pul12-Gate-Enable-SP") {
+record(mbboDirect, "$(SYS,recursive)-$(EVR,recursive):Pul12-Gate-Enable-SP") {
   field(DTYP, "Obj Prop uint16")
   field(OUT , "@OBJ=$(EVR,recursive):Pul12, PROP=Gate enable")
   field(PINI, "YES")
+  field(NOBT, "16")
   field(DESC, "Pulser gate enable")
   field(VAL , "$(Pul12-Gate-Enable-SP=0,undefined)")
   field(FLNK, "$(SYS,recursive)-$(EVR,recursive):Pul12-Gate-Enable-RB")
 }
 
-record(longin, "$(SYS,recursive)-$(EVR,recursive):Pul12-Gate-Enable-RB") {
+record(mbbiDirect, "$(SYS,recursive)-$(EVR,recursive):Pul12-Gate-Enable-RB") {
   field(DTYP, "Obj Prop uint16")
+  field(NOBT, "16")
   field(INP , "@OBJ=$(EVR,recursive):Pul12, PROP=Gate enable")
 }# Record set for an EVR's programmable pulse generator
 #
@@ -3240,31 +3331,35 @@ record(fanout, "$(SYS,recursive)-$(EVR,recursive):Pul13-Res-FO_") {
 
 
 # Pulse generator gates
-record(longout, "$(SYS,recursive)-$(EVR,recursive):Pul13-Gate-Mask-SP") {
+record(mbboDirect, "$(SYS,recursive)-$(EVR,recursive):Pul13-Gate-Mask-SP") {
   field(DTYP, "Obj Prop uint16")
   field(OUT , "@OBJ=$(EVR,recursive):Pul13, PROP=Gate mask")
   field(PINI, "YES")
+  field(NOBT, "16")
   field(DESC, "Pulser gate mask")
   field(VAL , "$(Pul13-Gate-Mask-SP=0,undefined)")
   field(FLNK, "$(SYS,recursive)-$(EVR,recursive):Pul13-Gate-Mask-RB")
 }
 
-record(longin, "$(SYS,recursive)-$(EVR,recursive):Pul13-Gate-Mask-RB") {
+record(mbbiDirect, "$(SYS,recursive)-$(EVR,recursive):Pul13-Gate-Mask-RB") {
   field(DTYP, "Obj Prop uint16")
+  field(NOBT, "16")
   field(INP , "@OBJ=$(EVR,recursive):Pul13, PROP=Gate mask")
 }
 
-record(longout, "$(SYS,recursive)-$(EVR,recursive):Pul13-Gate-Enable-SP") {
+record(mbboDirect, "$(SYS,recursive)-$(EVR,recursive):Pul13-Gate-Enable-SP") {
   field(DTYP, "Obj Prop uint16")
   field(OUT , "@OBJ=$(EVR,recursive):Pul13, PROP=Gate enable")
   field(PINI, "YES")
+  field(NOBT, "16")
   field(DESC, "Pulser gate enable")
   field(VAL , "$(Pul13-Gate-Enable-SP=0,undefined)")
   field(FLNK, "$(SYS,recursive)-$(EVR,recursive):Pul13-Gate-Enable-RB")
 }
 
-record(longin, "$(SYS,recursive)-$(EVR,recursive):Pul13-Gate-Enable-RB") {
+record(mbbiDirect, "$(SYS,recursive)-$(EVR,recursive):Pul13-Gate-Enable-RB") {
   field(DTYP, "Obj Prop uint16")
+  field(NOBT, "16")
   field(INP , "@OBJ=$(EVR,recursive):Pul13, PROP=Gate enable")
 }# Record set for an EVR's programmable pulse generator
 #
@@ -3415,31 +3510,35 @@ record(fanout, "$(SYS,recursive)-$(EVR,recursive):Pul14-Res-FO_") {
 
 
 # Pulse generator gates
-record(longout, "$(SYS,recursive)-$(EVR,recursive):Pul14-Gate-Mask-SP") {
+record(mbboDirect, "$(SYS,recursive)-$(EVR,recursive):Pul14-Gate-Mask-SP") {
   field(DTYP, "Obj Prop uint16")
   field(OUT , "@OBJ=$(EVR,recursive):Pul14, PROP=Gate mask")
   field(PINI, "YES")
+  field(NOBT, "16")
   field(DESC, "Pulser gate mask")
   field(VAL , "$(Pul14-Gate-Mask-SP=0,undefined)")
   field(FLNK, "$(SYS,recursive)-$(EVR,recursive):Pul14-Gate-Mask-RB")
 }
 
-record(longin, "$(SYS,recursive)-$(EVR,recursive):Pul14-Gate-Mask-RB") {
+record(mbbiDirect, "$(SYS,recursive)-$(EVR,recursive):Pul14-Gate-Mask-RB") {
   field(DTYP, "Obj Prop uint16")
+  field(NOBT, "16")
   field(INP , "@OBJ=$(EVR,recursive):Pul14, PROP=Gate mask")
 }
 
-record(longout, "$(SYS,recursive)-$(EVR,recursive):Pul14-Gate-Enable-SP") {
+record(mbboDirect, "$(SYS,recursive)-$(EVR,recursive):Pul14-Gate-Enable-SP") {
   field(DTYP, "Obj Prop uint16")
   field(OUT , "@OBJ=$(EVR,recursive):Pul14, PROP=Gate enable")
   field(PINI, "YES")
+  field(NOBT, "16")
   field(DESC, "Pulser gate enable")
   field(VAL , "$(Pul14-Gate-Enable-SP=0,undefined)")
   field(FLNK, "$(SYS,recursive)-$(EVR,recursive):Pul14-Gate-Enable-RB")
 }
 
-record(longin, "$(SYS,recursive)-$(EVR,recursive):Pul14-Gate-Enable-RB") {
+record(mbbiDirect, "$(SYS,recursive)-$(EVR,recursive):Pul14-Gate-Enable-RB") {
   field(DTYP, "Obj Prop uint16")
+  field(NOBT, "16")
   field(INP , "@OBJ=$(EVR,recursive):Pul14, PROP=Gate enable")
 }# Record set for an EVR's programmable pulse generator
 #
@@ -3590,31 +3689,35 @@ record(fanout, "$(SYS,recursive)-$(EVR,recursive):Pul15-Res-FO_") {
 
 
 # Pulse generator gates
-record(longout, "$(SYS,recursive)-$(EVR,recursive):Pul15-Gate-Mask-SP") {
+record(mbboDirect, "$(SYS,recursive)-$(EVR,recursive):Pul15-Gate-Mask-SP") {
   field(DTYP, "Obj Prop uint16")
   field(OUT , "@OBJ=$(EVR,recursive):Pul15, PROP=Gate mask")
   field(PINI, "YES")
+  field(NOBT, "16")
   field(DESC, "Pulser gate mask")
   field(VAL , "$(Pul15-Gate-Mask-SP=0,undefined)")
   field(FLNK, "$(SYS,recursive)-$(EVR,recursive):Pul15-Gate-Mask-RB")
 }
 
-record(longin, "$(SYS,recursive)-$(EVR,recursive):Pul15-Gate-Mask-RB") {
+record(mbbiDirect, "$(SYS,recursive)-$(EVR,recursive):Pul15-Gate-Mask-RB") {
   field(DTYP, "Obj Prop uint16")
+  field(NOBT, "16")
   field(INP , "@OBJ=$(EVR,recursive):Pul15, PROP=Gate mask")
 }
 
-record(longout, "$(SYS,recursive)-$(EVR,recursive):Pul15-Gate-Enable-SP") {
+record(mbboDirect, "$(SYS,recursive)-$(EVR,recursive):Pul15-Gate-Enable-SP") {
   field(DTYP, "Obj Prop uint16")
   field(OUT , "@OBJ=$(EVR,recursive):Pul15, PROP=Gate enable")
   field(PINI, "YES")
+  field(NOBT, "16")
   field(DESC, "Pulser gate enable")
   field(VAL , "$(Pul15-Gate-Enable-SP=0,undefined)")
   field(FLNK, "$(SYS,recursive)-$(EVR,recursive):Pul15-Gate-Enable-RB")
 }
 
-record(longin, "$(SYS,recursive)-$(EVR,recursive):Pul15-Gate-Enable-RB") {
+record(mbbiDirect, "$(SYS,recursive)-$(EVR,recursive):Pul15-Gate-Enable-RB") {
   field(DTYP, "Obj Prop uint16")
+  field(NOBT, "16")
   field(INP , "@OBJ=$(EVR,recursive):Pul15, PROP=Gate enable")
 }# Record set for an EVR's physical output
 #

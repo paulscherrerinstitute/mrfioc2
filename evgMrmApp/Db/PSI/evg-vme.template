@@ -62,7 +62,76 @@ record(longin, "$(SYS,recursive)-$(EVG,recursive):DbusStatus-RB" ) {
     field( INP , "@OBJ=$(EVG,recursive), PROP=DbusStatus")
 }
 
-record(bo, "$(SYS,recursive)-$(EVG,recursive):SoftEvt-Enable-Sel") {
+# Sequence SW mask from sequence ram
+record(longout, "$(SYS,recursive)-$(EVG,recursive):SoftSeqMask-1-SP" ) {
+    field( DESC, "Seq. RAM SW mask")
+    field( DTYP, "Obj Prop uint16")
+    field( OUT , "@OBJ=$(EVG,recursive), PROP=Seq 0 mask")
+    field( FLNK, "$(SYS,recursive)-$(EVG,recursive):SoftSeqMask-1-RB")
+}
+
+record(longin, "$(SYS,recursive)-$(EVG,recursive):SoftSeqMask-1-RB" ) {
+    field( DESC, "Seq. RAM SW mask")
+    field( DTYP, "Obj Prop uint16")
+    field( INP , "@OBJ=$(EVG,recursive), PROP=Seq 0 mask")
+    field( PINI, "YES")
+}
+
+record(longout, "$(SYS,recursive)-$(EVG,recursive):SoftSeqMask-2-SP" ) {
+    field( DESC, "Seq. RAM SW mask")
+    field( DTYP, "Obj Prop uint16")
+    field( OUT , "@OBJ=$(EVG,recursive), PROP=Seq 1 mask")
+    field( FLNK, "$(SYS,recursive)-$(EVG,recursive):SoftSeqMask-2-RB")
+}
+
+record(longin, "$(SYS,recursive)-$(EVG,recursive):SoftSeqMask-2-RB" ) {
+    field( DESC, "Seq. RAM SW mask")
+    field( DTYP, "Obj Prop uint16")
+    field( INP , "@OBJ=$(EVG,recursive), PROP=Seq 1 mask")
+}
+
+# Delay compensation
+record(bo, "$(SYS,recursive)-$(EVG,recursive):DlyCompensation-Beacon-Sel") {
+    field( DESC, "Dly compens. beacon enable")
+    field( DTYP, "Obj Prop bool")
+    field( OUT , "@OBJ=$(EVG,recursive), PROP=DlyCompens beacon")
+    field( UDF , "0")
+    field( VAL , "$(DlyCompensation-Beacon-Sel=0,undefined)")
+    field( PINI, "YES")
+    field( ZNAM, "Disabled")
+    field( ONAM, "Enabled")
+    field( FLNK, "$(SYS,recursive)-$(EVG,recursive):DlyCompensation-Beacon-RB")
+    info( autosaveFields_pass0, "VAL")
+}
+
+record(bi, "$(SYS,recursive)-$(EVG,recursive):DlyCompensation-Beacon-RB") {
+    field( DESC, "Dly compens. beacon enable")
+    field( DTYP, "Obj Prop bool")
+    field( INP , "@OBJ=$(EVG,recursive), PROP=DlyCompens beacon")
+    field( ZNAM, "Disabled")
+    field( ONAM, "Enabled")
+}
+
+record(bo, "$(SYS,recursive)-$(EVG,recursive):DlyCompensation-Master-Sel") {
+    field( DESC, "Dly compens. beacon enable")
+    field( DTYP, "Obj Prop bool")
+    field( OUT , "@OBJ=$(EVG,recursive), PROP=DlyCompens master")
+    field( UDF , "0")
+    field( VAL , "$(DlyCompensation-Master-Sel=0,undefined)")
+    field( PINI, "YES")
+    field( ZNAM, "Disabled")
+    field( ONAM, "Enabled")
+    field( FLNK, "$(SYS,recursive)-$(EVG,recursive):DlyCompensation-Master-RB")
+    info( autosaveFields_pass0, "VAL")
+}
+
+record(bi, "$(SYS,recursive)-$(EVG,recursive):DlyCompensation-Master-RB") {
+    field( DESC, "Dly compens. beacon enable")
+    field( DTYP, "Obj Prop bool")
+    field( INP , "@OBJ=$(EVG,recursive), PROP=DlyCompens master")
+    field( ZNAM, "Disabled")
+    field( ONAM, "Enabled")
+}record(bo, "$(SYS,recursive)-$(EVG,recursive):SoftEvt-Enable-Sel") {
     field( DESC, "EVG Soft Event Enable")
     field( DTYP, "Obj Prop bool")
     field( OUT,  "@OBJ=$(EVG,recursive):SoftEvt, PROP=Enable")
@@ -294,26 +363,100 @@ record(bo, "$(SYS,recursive)-$(EVG,recursive):AcTrig-TrigSrc7-SP") {
     info( autosaveFields_pass0, "VAL")
 }
 
-record(bo, "$(SYS,recursive)-$(EVG,recursive):EvtClk-Source-Sel") {
+record(mbbo, "$(SYS,recursive)-$(EVG,recursive):EvtClk-Source-Sel") {
     field( DESC, "EVG Evt Clk Source")
-    field( DTYP, "Obj Prop bool")
+    field( DTYP, "Obj Prop uint16")
     field( OUT,  "@OBJ=$(EVG,recursive):EvtClk, PROP=Source")
     field( PINI, "YES")
     field( VAL,  "$(EvtClk-Source-Sel=0,undefined)")
-    field( UDF,  "0")
-    field( ZNAM, "FracSyn")
-    field( ONAM, "RF")
+    field( ZRST, "Fractional Synthesizer")
+    field( ONST, "External")
+    field( TWST, "PXIe 100 MHz")
+    field( THST, "Recovered RX clock")
+    field( FRST, "PXIe 10MHz")
+    field( ZRVL, "0")
+    field( ONVL, "1")
+    field( TWVL, "2")
+    field( THVL, "3")
+    field( FRVL, "4")
+    field( FVSV, "INVALID")
+    field( SXSV, "INVALID")
+    field( SVSV, "INVALID")
+    field( EISV, "INVALID")
+    field( NISV, "INVALID")
+    field( TESV, "INVALID")
+    field( ELSV, "INVALID")
+    field( TVSV, "INVALID")
+    field( TTSV, "INVALID")
+    field( FTSV, "INVALID")
+    field( FFSV, "INVALID")
+    field( UNSV, "INVALID")
     field( FLNK, "$(SYS,recursive)-$(EVG,recursive):EvtClk-Source-RB")
     info( autosaveFields_pass0, "VAL")
 }
 
-record(bi, "$(SYS,recursive)-$(EVG,recursive):EvtClk-Source-RB") {
+record(mbbi, "$(SYS,recursive)-$(EVG,recursive):EvtClk-Source-RB") {
     field( DESC, "EVG Evt Clk Source")
-    field( DTYP, "Obj Prop bool")
-    field( INP , "@OBJ=$(EVG,recursive):EvtClk, PROP=Source")
-    field( ZNAM, "FracSyn")
-    field( ONAM, "RF")
-    field( FLNK, "$(SYS,recursive)-$(EVG,recursive):EvtClk-Frequency-RB")
+    field( DTYP, "Obj Prop uint16")
+    field( INP,  "@OBJ=$(EVG,recursive):EvtClk, PROP=Source")
+    field( ZRST, "Fractional Synthesizer")
+    field( ONST, "External")
+    field( TWST, "PXIe 100 MHz")
+    field( THST, "Recovered RX clock")
+    field( FRST, "PXIe 10MHz")
+    field( ZRVL, "0")
+    field( ONVL, "1")
+    field( TWVL, "2")
+    field( THVL, "3")
+    field( FRVL, "4")
+}
+
+record(mbbo, "$(SYS,recursive)-$(EVG,recursive):EvtClk-PLL-Bandwidth-Sel") {
+    field( DESC, "EVG Evt Clk Source")
+    field( DTYP, "Obj Prop uint16")
+    field( OUT,  "@OBJ=$(EVG,recursive):EvtClk, PROP=PLL Bandwidth")
+    field( PINI, "YES")
+    field( VAL,  "$(EvtClk-PLL-Bandwidth-Sel=4,undefined)")
+    field( ZRST, "HM")
+    field( ONST, "HL")
+    field( TWST, "MH")
+    field( THST, "MM")
+    field( FRST, "ML")
+    field( ZRVL, "0")
+    field( ONVL, "1")
+    field( TWVL, "2")
+    field( THVL, "3")
+    field( FRVL, "4")
+    field( FVSV, "INVALID")
+    field( SXSV, "INVALID")
+    field( SVSV, "INVALID")
+    field( EISV, "INVALID")
+    field( NISV, "INVALID")
+    field( TESV, "INVALID")
+    field( ELSV, "INVALID")
+    field( TVSV, "INVALID")
+    field( TTSV, "INVALID")
+    field( FTSV, "INVALID")
+    field( FFSV, "INVALID")
+    field( UNSV, "INVALID")
+    field( FLNK, "$(SYS,recursive)-$(EVG,recursive):EvtClk-PLL-Bandwidth-RB")
+    info( autosaveFields_pass0, "VAL")
+}
+
+record(mbbi, "$(SYS,recursive)-$(EVG,recursive):EvtClk-PLL-Bandwidth-RB") {
+    field( DESC, "EVG Evt Clk Source")
+    field( DTYP, "Obj Prop uint16")
+    field( INP,  "@OBJ=$(EVG,recursive):EvtClk, PROP=PLL Bandwidth")
+    field( ZRST, "HM")
+    field( ONST, "HL")
+    field( TWST, "MH")
+    field( THST, "MM")
+    field( FRST, "ML")
+    field( ZRVL, "0")
+    field( ONVL, "1")
+    field( TWVL, "2")
+    field( THVL, "3")
+    field( FRVL, "4")
 }
 
 record(ao, "$(SYS,recursive)-$(EVG,recursive):EvtClk-RFFreq-SP") {
@@ -419,8 +562,6 @@ record(ai, "$(SYS,recursive)-$(EVG,recursive):EvtClk-Frequency-RB") {
     field( EGU,  "MHz")
     field( PREC, "3")
 }
-
-
 record(mbbo, "$(SYS,recursive)-$(EVG,recursive):Dbus0-Map-Sel") {
     field( DTYP, "Obj Prop uint16")
     field( OUT , "@OBJ=$(EVG,recursive):Dbus0, PROP=Source")
@@ -7443,4 +7584,180 @@ record(bo, "$(SYS,recursive)-$(EVG,recursive):Mxc7-TrigSrc7-SP") {
     field( ONAM, "Set")
     field( VAL, "$(Mxc7-TrigSrc7-SP=0,undefined)")
     info( autosaveFields_pass0, "VAL")
+}
+
+record(bo, "$(SYS,recursive)-$(EVG,recursive):SFP0-Update-Cmd") {
+  field(DTYP, "Obj Prop bool")
+  field(SCAN, "10 second")
+  field(OUT , "@OBJ=$(EVG,recursive):SFP0, PROP=Update")
+  field(ZNAM, "Update")
+  field(ONAM, "Update")
+  field(FLNK, "$(SYS,recursive)-$(EVG,recursive):SFP0-T-I")
+}
+
+record(ai, "$(SYS,recursive)-$(EVG,recursive):SFP0-T-I") {
+  field(DTYP, "Obj Prop double")
+  field(INP , "@OBJ=$(EVG,recursive):SFP0, PROP=Temperature")
+  field(DESC, "Tranceiver Temperature")
+  field(ADEL, "0.5")
+  field(HIGH, "40")
+  field(HSV , "MINOR")
+  field(HIHI, "50")
+  field(HHSV, "MAJOR")
+  field(LOW , "0")
+  field(LSV , "INVALID")
+  field(EGU , "C")
+  field(PREC, "1")
+  field(FLNK, "$(SYS,recursive)-$(EVG,recursive):SFP0-Pwr-TX-I")
+}
+
+record(ai, "$(SYS,recursive)-$(EVG,recursive):SFP0-Pwr-TX-I") {
+  field(DTYP, "Obj Prop double")
+  field(INP , "@OBJ=$(EVG,recursive):SFP0, PROP=Power TX")
+  field(DESC, "Tranceiver Output Power")
+  field(ADEL, "5")
+  field(HIGH, "400")
+  field(HSV , "MINOR")
+  field(LOW , "200")
+  field(LSV , "MAJOR")
+  field(LOLO, "-0.1") # SFP module removed
+  field(LLSV, "INVALID")
+  field(EGU , "uW")
+  field(LINR, "LINEAR")
+  field(ESLO, "1e6")
+  field(PREC, "1")
+  field(FLNK, "$(SYS,recursive)-$(EVG,recursive):SFP0-Pwr-RX-I")
+  info(autosaveFields_pass0, "LOW")
+}
+
+record(ai, "$(SYS,recursive)-$(EVG,recursive):SFP0-Pwr-RX-I") {
+  field(DTYP, "Obj Prop double")
+  field(INP , "@OBJ=$(EVG,recursive):SFP0, PROP=Power RX")
+  field(DESC, "Tranceiver Input Power")
+  field(ADEL, "5")
+  field(HIGH, "600")
+  field(HSV , "MINOR")
+  field(LOW , "100")
+  field(LSV , "MAJOR")
+  field(LOLO, "-0.1") # SFP module removed
+  field(LLSV, "INVALID")
+  field(EGU , "uW")
+  field(LINR, "LINEAR")
+  field(ESLO, "1e6")
+  field(PREC, "1")
+  field(FLNK, "$(SYS,recursive)-$(EVG,recursive):SFP0-Speed-Link-I")
+  info(autosaveFields_pass0, "LOW")
+}
+
+record(ai, "$(SYS,recursive)-$(EVG,recursive):SFP0-Speed-Link-I") {
+  field(DTYP, "Obj Prop double")
+  field(INP , "@OBJ=$(EVG,recursive):SFP0, PROP=Link Speed")
+  field(DESC, "Tranceiver Line Rate")
+  field(HIGH, "5000")
+  field(HSV , "MAJOR")
+  field(LOW , "3000")
+  field(LSV , "MAJOR")
+  field(LOLO, "-0.1")
+  field(LLSV, "INVALID")
+  field(EGU , "Mb/s")
+  field(PREC, "0")
+  field(FLNK, "$(SYS,recursive)-$(EVG,recursive):SFP0-Vendor-I")
+}
+
+record(stringin, "$(SYS,recursive)-$(EVG,recursive):SFP0-Vendor-I") {
+  field(DTYP, "Obj Prop string")
+  field(DESC, "Vendor name")
+  field(INP , "@OBJ=$(EVG,recursive):SFP0, PROP=Vendor")
+  field(FLNK, "$(SYS,recursive)-$(EVG,recursive):SFP0-Part-I")
+}
+
+record(stringin, "$(SYS,recursive)-$(EVG,recursive):SFP0-Part-I") {
+  field(DTYP, "Obj Prop string")
+  field(DESC, "Vendor part number")
+  field(INP , "@OBJ=$(EVG,recursive):SFP0, PROP=Part")
+  field(FLNK, "$(SYS,recursive)-$(EVG,recursive):SFP0-Rev-I")
+}
+
+record(stringin, "$(SYS,recursive)-$(EVG,recursive):SFP0-Rev-I") {
+  field(DTYP, "Obj Prop string")
+  field(DESC, "Vendor part revision")
+  field(INP , "@OBJ=$(EVG,recursive):SFP0, PROP=Rev")
+  field(FLNK, "$(SYS,recursive)-$(EVG,recursive):SFP0-Serial-I")
+}
+
+record(stringin, "$(SYS,recursive)-$(EVG,recursive):SFP0-Serial-I") {
+  field(DTYP, "Obj Prop string")
+  field(DESC, "SFP serial number")
+  field(INP , "@OBJ=$(EVG,recursive):SFP0, PROP=Serial")
+  field(FLNK, "$(SYS,recursive)-$(EVG,recursive):SFP0-Date-Manu-I")
+}
+
+record(stringin, "$(SYS,recursive)-$(EVG,recursive):SFP0-Date-Manu-I") {
+  field(DTYP, "Obj Prop string")
+  field(DESC, "Manufactored date")
+  field(INP , "@OBJ=$(EVG,recursive):SFP0, PROP=Date")
+  field(FLNK, "$(SYS,recursive)-$(EVG,recursive):SFP0-Status-I")
+}
+
+record(longin, "$(SYS,recursive)-$(EVG,recursive):SFP0-Status-I") {
+  field(DTYP, "Obj Prop uint16")
+  field(DESC, "Status/control register")
+  field(INP , "@OBJ=$(EVG,recursive):SFP0, PROP=Status")
+  field(FLNK, "$(SYS,recursive)-$(EVG,recursive):SFP0-PowerVCC-I")
+}
+
+record(ai, "$(SYS,recursive)-$(EVG,recursive):SFP0-PowerVCC-I") {
+  field(DTYP, "Obj Prop double")
+  field(DESC, "Supply VCC Power")
+  field(EGU , "V")
+  field(PREC, "4")
+  field(INP , "@OBJ=$(EVG,recursive):SFP0, PROP=Power VCC")
+  field(FLNK, "$(SYS,recursive)-$(EVG,recursive):SFP0-BitRate-upper-I")
+}
+
+record(longin, "$(SYS,recursive)-$(EVG,recursive):SFP0-BitRate-upper-I") {
+  field(DTYP, "Obj Prop uint16")
+  field(DESC, "Upper bit rate margin")
+  field(EGU , "%")
+  field(INP , "@OBJ=$(EVG,recursive):SFP0, PROP=BitRate Upper")
+  field(FLNK, "$(SYS,recursive)-$(EVG,recursive):SFP0-BitRate-lower-I")
+}
+
+record(longin, "$(SYS,recursive)-$(EVG,recursive):SFP0-BitRate-lower-I") {
+  field(DTYP, "Obj Prop uint16")
+  field(DESC, "Lower bit rate margin")
+  field(EGU , "%")
+  field(INP , "@OBJ=$(EVG,recursive):SFP0, PROP=BitRate Lower")
+  field(FLNK, "$(SYS,recursive)-$(EVG,recursive):SFP0-LinkLength-9fiber-I")
+}
+
+record(longin, "$(SYS,recursive)-$(EVG,recursive):SFP0-LinkLength-9fiber-I") {
+  field(DTYP, "Obj Prop uint32")
+  field(DESC, "Link length: 9/125 um fiber")
+  field(EGU , "m")
+  field(INP , "@OBJ=$(EVG,recursive):SFP0, PROP=LinkLength 9um")
+  field(FLNK, "$(SYS,recursive)-$(EVG,recursive):SFP0-LinkLength-50fiber-I")
+}
+
+record(longin, "$(SYS,recursive)-$(EVG,recursive):SFP0-LinkLength-50fiber-I") {
+  field(DTYP, "Obj Prop uint16")
+  field(DESC, "Link length: 50/125 um fiber")
+  field(EGU , "m")
+  field(INP , "@OBJ=$(EVG,recursive):SFP0, PROP=LinkLength 50um")
+  field(FLNK, "$(SYS,recursive)-$(EVG,recursive):SFP0-LinkLength-62fiber-I")
+}
+
+record(longin, "$(SYS,recursive)-$(EVG,recursive):SFP0-LinkLength-62fiber-I") {
+  field(DTYP, "Obj Prop uint16")
+  field(DESC, "Link length: 62.5/125 um fiber")
+  field(EGU , "m")
+  field(INP , "@OBJ=$(EVG,recursive):SFP0, PROP=LinkLength 62um")
+  field(FLNK, "$(SYS,recursive)-$(EVG,recursive):SFP0-LinkLength-copper-I")
+}
+
+record(longin, "$(SYS,recursive)-$(EVG,recursive):SFP0-LinkLength-copper-I") {
+  field(DTYP, "Obj Prop uint16")
+  field(DESC, "Link length: copper")
+  field(EGU , "m")
+  field(INP , "@OBJ=$(EVG,recursive):SFP0, PROP=LinkLength copper")
 }
