@@ -1,0 +1,10 @@
+TODO.txt
+
+
+in EVR: 
+
+ - evr-pmc-230.substitutions: currently unsporrted
+ - evr-pulserMap-dbus.template: need to check current status
+
+
+ Example ioc application
