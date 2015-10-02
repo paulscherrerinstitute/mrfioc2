@@ -22,6 +22,7 @@ DB += evr-softEvent.template
 DB += evr-specialFunctionMap.template
 DB += evr-pulserMap.template
 DB += evr-pulserMap-dbus.template
+DB += evr-health.template
 
 
 # If <anyname>.db template is not named <anyname>*.template add

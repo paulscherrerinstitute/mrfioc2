@@ -12,7 +12,7 @@ dbLoadTemplate $(EVR_SUBS=cfg/$(EVR=EVR0).subs),"SYS=$(SYS),EVR=$(EVR=EVR0)"
 
 
 ##Health monitoring: 
-#dbLoadRecords "${EVR_TEMPLATE_DIR}/evr-health.template", "SYS=$(SYS),EVR=$(EVR=EVR0)"
+dbLoadRecords "evr-health.template", "SYS=$(SYS),EVR=$(EVR=EVR0)"
 
 
 

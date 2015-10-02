@@ -124,6 +124,9 @@ TEMPLATES += evrMrmApp/Db/evr-specialFunctionMap.template
 TEMPLATES += evrMrmApp/Db/evr-pulserMap.template
 TEMPLATES += evrMrmApp/Db/evr-pulserMap-dbus.template
 
+## EVR health monitoring (fixed template)
+TEMPLATES += evrMrmApp/Db/evr-health.template
+
 ## EVR and EVG substitution files
 TEMPLATES += PSI/evr_VME-230.subs
 TEMPLATES += PSI/evr_VME-300.subs
