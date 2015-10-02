@@ -11,7 +11,7 @@ include $(TOP)/configure/CONFIG
 
 ##Generate form factor specific database files
 DB += evg-vme-300.db
-DB += evg-vme.db
+DB += evg-vme-230.db
 DB += evg-cpci.db 
 
 ## Install non form factor specific tempalates

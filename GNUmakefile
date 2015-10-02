@@ -1,15 +1,17 @@
 include /ioc/tools/driver.makefile
 
 MODULE=mrfioc2
-LIBVERSION=prod_test
+#LIBVERSION=prod_test
 
 
 BUILDCLASSES=Linux
 EXCLUDE_VERSIONS=3.13 3.14.8
 # build for IFC, PPMAC, PC
-ARCH_FILTER=eldk52-e500v2 eldk42-ppc4xxFP SL%
-#ARCH_FILTER=eldk52-e500v2
+#ARCH_FILTER=eldk52-e500v2 eldk42-ppc4xxFP SL%
+ARCH_FILTER=eldk52-e500v2
+#ARCH_FILTER=SL%
 
+REQUIRED_eldk52-e500v2 = pev
 
 SOURCES+=evrMrmApp/src/support/asub.c
 SOURCES+=evrMrmApp/src/devSupport/devWfMailbox.c
@@ -107,14 +109,14 @@ HEADERS+=../evrMrmApp/src/devMrmBuf.h
 
 ## EVG templates
 TEMPLATES += evgMrmApp/Db/evg-vme-300.db
-TEMPLATES += evgMrmApp/Db/evg-vme.db
+TEMPLATES += evgMrmApp/Db/evg-vme-230.db
 TEMPLATES += evgMrmApp/Db/evgSoftSeq.template
 
 ##Generated EVR templates
 TEMPLATES += evrMrmApp/Db/evr-cpci-230.db
 TEMPLATES += evrMrmApp/Db/evr-pcie-300.db
 TEMPLATES += evrMrmApp/Db/evr-vme-300.db
-TEMPLATES += evrMrmApp/Db/evr-vmerf230.db
+TEMPLATES += evrMrmApp/Db/evr-vme-230.db
 
 ## Fixed EVR templates
 TEMPLATES += evrMrmApp/Db/evr-softEvent.template
@@ -122,31 +124,42 @@ TEMPLATES += evrMrmApp/Db/evr-specialFunctionMap.template
 TEMPLATES += evrMrmApp/Db/evr-pulserMap.template
 TEMPLATES += evrMrmApp/Db/evr-pulserMap-dbus.template
 
-t: dbclean dbexpand
+## EVR and EVG substitution files
+TEMPLATES += PSI/evr_VME-230.subs
+TEMPLATES += PSI/evr_VME-300.subs
+TEMPLATES += PSI/evr_cPCI-230.subs
+TEMPLATES += PSI/evr_PCIe-300.subs
+TEMPLATES += PSI/evg_VME-230.subs
+TEMPLATES += PSI/evg_VME-300.subs
+
+## SCRIPTS ##
+#SCRIPTS += PSI/mrfioc2_evr-PCIe.cmd
+
+db: dbclean dbexpand
 
 dbclean: 
 	
-	echo "cleaning databases"	
+	echo "Cleaning databases"	
 
 	rm -f evgMrmApp/Db/evg-vme-300.db
-	rm -f evgMrmApp/Db/evg-vme.db
+	rm -f evgMrmApp/Db/evg-vme-230.db
 	rm -f evrMrmApp/Db/evr-cpci-230.db
 	rm -f evrMrmApp/Db/evr-pcie-300.db
 	rm -f evrMrmApp/Db/evr-vme-300.db
-	rm -f evrMrmApp/Db/evr-vmerf230.db
+	rm -f evrMrmApp/Db/evr-vme-230.db
 
 dbexpand: 
 	
 	echo "Exapanding EVG database"	
 
 	msi -I evgMrmApp/Db/ -S evgMrmApp/Db/evg-vme-300.substitutions 	-o evgMrmApp/Db/evg-vme-300.db
-	msi -I evgMrmApp/Db/ -S evgMrmApp/Db/evg-vme.substitutions 		-o evgMrmApp/Db/evg-vme.db
+	msi -I evgMrmApp/Db/ -S evgMrmApp/Db/evg-vme-230.substitutions 	-o evgMrmApp/Db/evg-vme-230.db
 
 	echo "Exapanding EVR database"	
 	msi -I evrMrmApp/Db -S evrMrmApp/Db/evr-cpci-230.substitutions 	-o evrMrmApp/Db/evr-cpci-230.db
 	msi -I evrMrmApp/Db -S evrMrmApp/Db/evr-pcie-300.substitutions 	-o evrMrmApp/Db/evr-pcie-300.db
 	msi -I evrMrmApp/Db -S evrMrmApp/Db/evr-vme-300.substitutions 	-o evrMrmApp/Db/evr-vme-300.db
-	msi -I evrMrmApp/Db -S evrMrmApp/Db/evr-vmerf230.substitutions 	-o evrMrmApp/Db/evr-vmerf230.db
+	msi -I evrMrmApp/Db -S evrMrmApp/Db/evr-vme-230.substitutions 	-o evrMrmApp/Db/evr-vme-230.db
 
 
 

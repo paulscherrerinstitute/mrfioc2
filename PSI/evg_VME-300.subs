@@ -1,6 +1,6 @@
 
 ##EVG Base
-file "db/evg-vme-300.template"
+file "$($(MODULE)_TEMPLATES=db)/evg-vme-300.db"
 {
     {
          DlyCompensation-Beacon-Sel=0, # 0 = Disable, 1 = Enable : Delay compensation beacon generator
@@ -507,7 +507,7 @@ file "db/evg-vme-300.template"
 }
 
 ##EVG soft sequences (we need 2 for ping-pong loader)
-file "db/evgSoftSeq.template"
+file "$($(MODULE)_TEMPLATES=db)/evgSoftSeq.template"
 {
     {
           SEQNUM    = 1,

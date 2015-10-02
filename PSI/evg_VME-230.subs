@@ -1,6 +1,6 @@
 
 ##EVG Base
-file "db/evg-vme.template"
+file "$($(MODULE)_TEMPLATES=db)/evg-vme-230.db"
 {
     {
         
@@ -570,7 +570,7 @@ file "db/evg-vme.template"
 }
 
 ##EVG soft sequences (we need 2 for ping-pong loader)
-file "db/evgSoftSeq.template"
+file "$($(MODULE)_TEMPLATES=db)/evgSoftSeq.template"
 {
     {
           SEQNUM    = 1,

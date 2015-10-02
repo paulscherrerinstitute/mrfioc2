@@ -8,3 +8,9 @@ in EVR:
 
 
  Example ioc application
+  - EVR bunchID
+  - dbuffer config
+
+MAKEFILE:
+- do not forget to use right arch flter!!
+- Ask dirk about SCRIPT +=

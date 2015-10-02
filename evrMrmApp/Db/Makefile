@@ -13,7 +13,7 @@ include $(TOP)/configure/CONFIG
 DB += evr-cpci-230.db
 DB += evr-pcie-300.db
 DB += evr-vme-300.db
-DB += evr-vmerf230.db
+DB += evr-vme-230.db
 # DB += evr-pmc-230.db
 
 
