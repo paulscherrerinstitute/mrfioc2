@@ -321,7 +321,7 @@ const epicsUInt16 evgNumFrontInp = 2;
 const epicsUInt16 evgNumUnivInp = 4;
 const epicsUInt16 evgNumRearInp = 16;*/
 const epicsUInt16 evgNumSeqRam = 2;
-const epicsFloat32 evgAllowedTsGitter = 0.5f;
+
 const epicsUInt16 evgEndOfSeqBuf = 5;
 const epicsUInt16 evgNumSFPModules = 8;
 

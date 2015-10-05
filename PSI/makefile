@@ -1,12 +1,13 @@
 include /ioc/tools/driver.makefile
 
 PROJECT=mrfioc2
+LIBVERSION=skube_dbuff
 
 BUILDCLASSES=Linux
 EXCLUDE_VERSIONS=3.13 3.14.8
 # build for IFC, PPMAC, PC
-ARCH_FILTER=eldk52-e500v2 eldk42-ppc4xxFP SL%
-#ARCH_FILTER=eldk52-e500v2
+#ARCH_FILTER=eldk52-e500v2 eldk42-ppc4xxFP SL%
+ARCH_FILTER=eldk52-e500v2
 
 
 SOURCES+=../evrApp/src/asub.c
@@ -87,6 +88,9 @@ SOURCES+=../mrfCommon/src/devObjBinary.cpp
 SOURCES+=../mrfCommon/src/objectTest.cpp
 SOURCES+=../mrfCommon/src/devObjMBB.cpp
 #SOURCES+=../mrmtestApp/src/mrfMain.cpp
+SOURCES+=../mrmShared/src/dataBuffer/mrmDataBuffer.cpp
+SOURCES+=../mrmShared/src/dataBuffer/mrmNonSegmentedDataBuffer.cpp
+SOURCES+=../mrmShared/src/dataBuffer/mrmDataBufferUser.cpp
 
 SOURCES+=../evrMrmApp/src/mrmGpio.cpp
 SOURCES+=../evrMrmApp/src/delayModule.cpp
@@ -103,3 +107,7 @@ SOURCES+=mrfioc2RegDev/drvMrfiocDBuff.cpp
 DBDS+=mrfioc2RegDev/mrfregdev.dbd
  
 HEADERS+=../evrMrmApp/src/devMrmBuf.h
+
+# TESTS
+SOURCES+=../mrmShared/src/dataBuffer/tests/mrmDataBuffer_test.cpp
+DBDS+=../mrmShared/src/dataBuffer/tests/dataBufferTests.dbd

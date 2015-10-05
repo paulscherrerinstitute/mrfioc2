@@ -37,11 +37,13 @@
 #include "evgSequencer/evgSeqRamManager.h"    
 #include "evgSequencer/evgSoftSeqManager.h"
 #include "mrmDataBufTx.h"
-#include "evgRegMap.h"
+
 #include "configurationInfo.h"
 #include "sfp.h"
 #include "evgFct.h"
 #include "mrmremoteflash.h"
+#include "dataBuffer/mrmDataBuffer.h"
+#include "dataBuffer/mrmNonSegmentedDataBuffer.h"
 
 /*********
  * Each EVG will be represented by the instance of class 'evgMrm'. Each evg 
@@ -125,6 +127,7 @@ public:
     epicsEvent* getTimerEvent();
     bus_configuration* getBusConfiguration();
     SFP* getSFP(epicsUInt32);
+    mrmDataBuffer* getDataBuffer();
 
     typedef std::map< std::pair<epicsUInt32, InputType>, evgInput*> Input_t;
     Input_t                       m_input;  // TODO the rest of the sub-units are private...(evgSeqRam needs this)
@@ -190,8 +193,10 @@ private:
     epicsEvent*                   m_timerEvent;
 
     std::vector<SFP*>             m_sfp;    // upstream + fanout transceivers. Transceiver indexed 0 is upstream transceiver.
-};
 
+    mrmDataBuffer*                m_dataBuffer;
+};
+#define evgAllowedTsGitter 0.5f
 /*Creating a timer thread bcz epicsTimer uses epicsGeneralTime and when
   generalTime stops working even the timer stop working*/
 class wdTimer : public epicsThreadRunable {
@@ -207,6 +212,7 @@ public:
     virtual void run() {
         struct epicsTimeStamp ts;
         bool timeout;
+        //const epicsFloat32 evgAllowedTsGitter = 0.5f;
 
          while(1) {
              m_lock.lock();

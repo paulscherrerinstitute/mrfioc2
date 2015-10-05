@@ -94,11 +94,11 @@ evgEvtClk::getFracSynFreq() const {
 }
 
 void
-evgEvtClk::setPLLBandwidth(PLLBandwidth pllBandwidth) {
+evgEvtClk::setPLLBandwidth(PLLBandwidthEvg pllBandwidth) {
     epicsUInt8 clkCtrl;
     epicsUInt8 bw;
 
-    if(pllBandwidth > PLLBandwidth_MAX){
+    if(pllBandwidth > PLLBandwidthEvg_MAX){
         throw std::out_of_range("PLL bandwith you selected is not available.");
     }
 
@@ -111,14 +111,14 @@ evgEvtClk::setPLLBandwidth(PLLBandwidth pllBandwidth) {
     WRITE8(m_pReg, ClockSource, clkCtrl);   // write the new value to the register
 }
 
-PLLBandwidth
+PLLBandwidthEvg
 evgEvtClk::getPLLBandwidth() const {
     epicsUInt8 bw;
 
     bw = (READ8(m_pReg, ClockSource) & EVG_CLK_BW);    // read and mask out the PLL BW value
     bw = bw >> EVG_CLK_BW_shift;                       // shift appropriately
 
-    return (PLLBandwidth)bw;
+    return (PLLBandwidthEvg)bw;
 }
 
 void

@@ -20,6 +20,7 @@
 #include "mrf/version.h"
 #include <mrfCommonIO.h> 
 #include <mrfCommon.h> 
+#include "evgRegMap.h"
 
 #ifdef __rtems__
 #include <rtems/bspIo.h>
@@ -141,6 +142,12 @@ evgMrm::evgMrm(const std::string& id, bus_configuration& busConfig, volatile epi
             m_fct = 0;
         }
 
+        // TODO: use define?
+        if(version < 200){
+            m_dataBuffer = new mrmNonSegmentedDataBuffer(pReg, U32_DataBufferControl, 0, U8_DataBuffer_base, 0);
+        } else {
+            m_dataBuffer = new mrmDataBuffer(pReg, U32_DataBufferControl, 0, U8_DataBuffer_base, 0);
+        }
     
         /*
          * Swtiched order of creation for m_timerEvent and m_wdTimer.
@@ -812,6 +819,11 @@ evgMrm::getSFP(epicsUInt32 n){
     }
 
     return sfp;
+}
+
+mrmDataBuffer *evgMrm::getDataBuffer()
+{
+    return m_dataBuffer;
 }
 
 namespace {

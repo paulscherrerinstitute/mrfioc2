@@ -260,6 +260,11 @@ public:
 
   /*@}*/
 
+  virtual epicsUInt32 dbuff_IRQ() const=0;
+  virtual epicsUInt32 dbuff_IRQd() const=0;
+  virtual epicsUInt32 dbuff_segment() const=0;
+  virtual epicsUInt32 dbuff_rx() const=0;
+
 private:
   bus_configuration busConfiguration;
 }; // class EVR

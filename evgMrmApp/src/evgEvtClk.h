@@ -22,13 +22,13 @@ enum RFClockReference {
  *  011 – Si5317, BW setting MM
  *  100 – Si5317, BW setting ML (highest loop bandwidth)
  */
-enum PLLBandwidth {
-    PLLBandwidth_HM=0,
-    PLLBandwidth_HL=1,
-    PLLBandwidth_MH=2,
-    PLLBandwidth_MM=3,
-    PLLBandwidth_ML=4,
-    PLLBandwidth_MAX=PLLBandwidth_ML
+enum PLLBandwidthEvg {
+    PLLBandwidthEvg_HM=0,
+    PLLBandwidthEvg_HL=1,
+    PLLBandwidthEvg_MH=2,
+    PLLBandwidthEvg_MM=3,
+    PLLBandwidthEvg_ML=4,
+    PLLBandwidthEvg_MAX=PLLBandwidthEvg_ML
 };
 
 class evgEvtClk : public mrf::ObjectInst<evgEvtClk> {
@@ -51,14 +51,14 @@ public:
     void setFracSynFreq(epicsFloat64);
     epicsFloat64 getFracSynFreq() const;
 
-    void setPLLBandwidth(PLLBandwidth pllBandwidth);
-    PLLBandwidth getPLLBandwidth() const;
+    void setPLLBandwidth(PLLBandwidthEvg pllBandwidth);
+    PLLBandwidthEvg getPLLBandwidth() const;
 
     void setSource(epicsUInt16 source);
     epicsUInt16 getSource() const;
 
     /** helper for object access **/
-    void setPLLBandwidthRaw(epicsUInt16 r){setPLLBandwidth((PLLBandwidth)r);}
+    void setPLLBandwidthRaw(epicsUInt16 r){setPLLBandwidth((PLLBandwidthEvg)r);}
     epicsUInt16 getPLLBandwidthRaw() const{return (epicsUInt16)getPLLBandwidth();}
 
 private:
