@@ -8,6 +8,7 @@ BUILDCLASSES=Linux
 EXCLUDE_VERSIONS=3.13 3.14.8
 # build for IFC, PPMAC, PC
 #ARCH_FILTER=eldk52-e500v2 eldk42-ppc4xxFP SL%
+#ARCH_FILTER=eldk42-ppc4xxFP
 ARCH_FILTER=eldk52-e500v2
 #ARCH_FILTER=SL%
 
@@ -136,7 +137,9 @@ TEMPLATES += PSI/evg_VME-230.subs
 TEMPLATES += PSI/evg_VME-300.subs
 
 ## SCRIPTS ##
-#SCRIPTS += PSI/mrfioc2_evr-PCIe.cmd
+SCRIPTS += PSI/mrfioc2_evr-PCIe.cmd
+SCRIPTS += PSI/mrfioc2_evr-VME.cmd
+SCRIPTS += PSI/mrfioc2_evg-VME.cmd
 
 db: dbclean dbexpand
 

@@ -1,8 +1,8 @@
 ## EVR SETUP ##
 
-mrmEvrSetupPCI($(EVR=EVR0),$(EVR_DOMAIN=0x1),$(EVR_BUS=0x81), $(EVR_DEVICE=0), $(EVR_FUNCTION=0));
+mrmEvrSetupPCI($(EVR=EVR0),$(EVR_DOMAIN=0x1),$(EVR_BUS=0x21), $(EVR_DEVICE=0), $(EVR_FUNCTION=0));
 
-mrfiocDBuffConfigure EVRDBUFF $(EVR=EVR0) 1
+mrfiocDBuffConfigure $(EVR=EVR0)DBUFF $(EVR=EVR0) 1
 
 dbLoadTemplate $(EVR_SUBS=cfg/$(EVR=EVR0).subs),"SYS=$(SYS),EVR=$(EVR=EVR0)"
 
