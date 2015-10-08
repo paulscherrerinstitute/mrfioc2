@@ -82,8 +82,8 @@ endif
 DBD += evrSupport.dbd
 
 ifneq ($(DEVIOCSTATS),)
-evrmrm_DBD += devIocStats.dbd
-evrmrm_LIBS += devIocStats
+evrMrm_DBD += devIocStats.dbd
+evrMrm_LIBS += devIocStats
 endif
 
 #===========================

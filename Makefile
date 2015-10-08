@@ -3,7 +3,7 @@
 TOP = .
 include $(TOP)/configure/CONFIG
 # DIRS := configure mrfCommon mrmShared evgMrmApp evrMrmApp mrmtestApp iocBoot
-DIRS := configure mrfCommon mrmShared evgMrmApp  evrMrmApp #mrmtestApp
+DIRS := configure mrfCommon mrmShared evgMrmApp  evrMrmApp mrfApp iocBoot
 
 # 3.14.10 style directory dependencies
 # previous versions will just ignore them
@@ -21,7 +21,9 @@ evrMrmApp_DEPEND_DIRS += mrmShared
 
 evgMrmApp_DEPEND_DIRS += mrmShared
 
-mrmtestApp_DEPEND_DIRS += evrMrmApp evgMrmApp
+mrfApp_DEPEND_DIRS += evrMrmApp evgMrmApp
+
+iocBoot_DEPEND_DIRS += mrfApp
 
 include $(TOP)/configure/RULES_TOP
 
