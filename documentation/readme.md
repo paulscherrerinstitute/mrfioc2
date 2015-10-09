@@ -1,13 +1,14 @@
 # Documentation
 The following files are available in this folder:
 
-* `tutorial.pdf` contains the Tutorials for the event receiver.
+* `tutorial.pdf` contains the Tutorials for the event receiver, tailored for PSI users.
 * `tutorial.tex` contains the LaTeX source for the tutorials.
 * `evr_manual.pdf` contains the EVR Manual.
 * `evr_manual.tex` contains the LaTeX source for the EVR Manual.
 * `references.bib` contains the bibliography for the Tutorials and the EVR Manual in BibTeX format.
 
-Folder `img` contains images used in the Tutorial and the EVR Manual in _svg_ format.
+Folder `img` contains images used in the Tutorial and the EVR Manual in _svg_ format. 
+Folder `doxy` contains generated doxygen documentation.
 
 ## Building the documentation from source
 __Prerequisites:__
@@ -21,11 +22,15 @@ In order to build the documentation from source, follow theese simple steps:
 
 		git clone https://skube_s@github.psi.ch/scm/ed/mrfioc2.git
 
-2. Change current directory to the documentation folder
+2. To build the doxygen documentation run the following command in the main project folder `mrfioc2`:
 
-		cd mrfioc2/documentation/PSI
+		doxygen
 
-3. Convert the images to pdf using the [inkscape](https://inkscape.org/en/) tool:
+3. Change current directory to the documentation folder
+
+		cd mrfioc2/documentation
+
+4. Convert the images to pdf using the [inkscape](https://inkscape.org/en/) tool:
  
 		inkscape -C -z --file=img/CML.svg --export-pdf=img/CML.pdf 
 		inkscape -C -z --file=img/dbus.svg --export-pdf=img/dbus.pdf
@@ -41,14 +46,14 @@ In order to build the documentation from source, follow theese simple steps:
 		inkscape -C -z --file=img/templates.svg --export-pdf=img/templates.pdf
 		inkscape -C -z --file=img/gen_evt_clk.svg --export-pdf=img/gen_evt_clk.pdf
 
-4. Build the Tutorials
+5. Build the Tutorials
 
 		pdflatex -synctex=1 -interaction=nonstopmode "tutorial".tex
 		bibtex "tutorial".aux
 		pdflatex -synctex=1 -interaction=nonstopmode "tutorial".tex
 		pdflatex -synctex=1 -interaction=nonstopmode "tutorial".tex
 
-5. Build the EVR Manual
+6. Build the EVR Manual
 
 		pdflatex -synctex=1 -interaction=nonstopmode "evr_manual".tex
 		bibtex "evr_manual".aux

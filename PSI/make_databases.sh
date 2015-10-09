@@ -3,8 +3,8 @@ set -o errexit
 
 OUTPUT_DIR="./db"
 MRFIOC2_DIR=".."
-DB_LIST=(evgSoftSeq.template evg-vme evg-vme-300 evg-cpci evr-pulserMap.template evr-softEvent.template evr-specialFunctionMap.template evr-delayModule.template evr-vmerf230 evr-pcie-300 evr-cpci-230 evr-vme-300)
-DB_REL_PATH="Db/PSI"
+DB_LIST=(evgSoftSeq.template evg-vme-230 evg-vme-300 evg-cpci evr-pulserMap.template evr-softEvent.template evr-specialFunctionMap.template evr-delayModule.template evr-vme-230 evr-pcie-300 evr-cpci-230 evr-vme-300)
+DB_REL_PATH="Db"
 
 # Verbose output
 VO=0
@@ -62,7 +62,7 @@ for db in ${DB_LIST[@]}; do
     db_name=`basename "$db" | cut -d. -f1`
     sub_file=$(find $MRFIOC2_DIR/*MrmApp/$DB_REL_PATH -name $db_name.substitutions 2>/dev/null)
     if [ ! -z $sub_file ]; then
-        msi -I$(dirname $sub_file) -S$sub_file > "$OUTPUT_DIR/$db_name.template"
+        msi -I$(dirname $sub_file) -S$sub_file -o "$OUTPUT_DIR/$db_name.db"
         echo "EXPANDED: $sub_file"
     else
         db_file=$(find $MRFIOC2_DIR/*MrmApp/$DB_REL_PATH -name $db_name.template 2>/dev/null)

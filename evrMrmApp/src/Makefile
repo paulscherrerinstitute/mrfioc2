@@ -7,19 +7,6 @@ include $(TOP)/configure/CONFIG
 
 #=============================
 # Build the modular register map event receiver library
-
-PROD_HOST += evrdump
-
-evrdump_SRCS += evrdump.c
-evrdump_LIBS += epicspci $(EPICS_BASE_IOC_LIBS)
-
-ifeq ($(EPICS_VERSION)$(EPICS_REVISION),314)
-ifneq ($(findstring $(EPICS_MODIFICATION),1 2 3 4 5 6 7 8 9),)
-# libiocsh is merged with libCom starting with 3.14.10
-evrdump_LIBS += iocsh
-endif
-endif
-
 LIBRARY_IOC += evrMrm
 
 INC += evrMrm.h
@@ -31,7 +18,6 @@ INC += evrCML.h
 INC += evrPrescaler.h
 INC += evrRxBuf.h
 INC += evrRegMap.h
-INC += latticeEC30.h
 INC += evrGpio.h
 INC += mrmpci.h
 INC += plx9030.h
@@ -80,11 +66,6 @@ endif
 # Install the modular register map event receiver support dbd
 
 DBD += evrSupport.dbd
-
-ifneq ($(DEVIOCSTATS),)
-evrMrm_DBD += devIocStats.dbd
-evrMrm_LIBS += devIocStats
-endif
 
 #===========================
 

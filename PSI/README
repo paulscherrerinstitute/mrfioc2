@@ -1,7 +1,7 @@
 COMPILATION
 ===========
 
-To complile to a PSI style module (loadable with require) run make in this folder.
+To complile to a PSI style module (loadable with require) run `make` in the parent folder.
 
 Compilation will only work on a PSI infrastructure where the correct applications and environment variables are already configured.
 
@@ -9,7 +9,9 @@ Compilation will only work on a PSI infrastructure where the correct application
 DATABASES
 =========
 
-PSI databases should be prepared separately using the provided script:
+To expand the databases you need `msi` tool installed (available as an EPICS extension). Then run `make db` in the parent folder. You cannot install the module before databases are expanded.
+
+There is also an option to manually expand the databases using the provided script, but the above mentioned method should be used whenever possible:
 
 cd mrfioc2/PSI
 ./make_databases.sh
@@ -25,18 +27,20 @@ cd mrfioc2/PSI
 ./make_databases.sh -o /home/johndoe/workspace/PSI/databases
 
 
-EXAMPLE STARTUP SCRIPT
+EXAMPLE STARTUP SCRIPT AND EXAMPLE SUBSTITUTION FILES
 ======================
 
-PSI folder contains an example st.cmd file for the VME platform named example_st.cmd.
+`mrfioc2/iocBoot/PSI` folder contains example startup scripts. They load default substitution files which are installed on the PSI infrastructure, and available in this folder (*.subs files). Each substitution file coresponds to a specific form factor/firmware version and contains all the available macros the user needs to start using the driver. More details are available in the documentation.
 
 
 DOCUMENTATION
 =============
 
-Documentation is located in the documentation folder and be expanded into HTML using Doxygen:
+A tutorial and general EVR manual is available in the `mrfioc2/documentation` folder. The tutorials are tailored for PSI users, where EVR manual is intended for general audience.
 
-cd mrfioc2/documentation
+Original mrfioc2 documentation is located in the documentation folder and be expanded into HTML using Doxygen:
+
+cd mrfioc2
 Doxygen
 
 A folder named html is created in the documentation folder. Open the index.html file in that folder. The first page contains the changelog as well as links to other pages.

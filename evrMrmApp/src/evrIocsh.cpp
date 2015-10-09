@@ -43,7 +43,6 @@
 #include "evrRegMap.h"
 #include "plx9030.h"
 #include "plx9056.h"
-#include "latticeEC30.h"
 
 #ifdef _WIN32
  #define strtok_r(strToken,strDelimit,lasts ) (*(lasts) = strtok((strToken),(strDelimit)))

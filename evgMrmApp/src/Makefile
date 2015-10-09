@@ -70,26 +70,6 @@ endif
 
 DBD += evgInit.dbd
 
-ifneq ($(DEVIOCSTATS),)
-evgMrm_DBD += devIocStats.dbd
-evgMrm_LIBS += devIocStats
-endif
-
-ifneq ($(AUTOSAVE),)
-evgMrm_DBD += asSupport.dbd
-evgMrm_LIBS += autosave
-endif
-
-ifneq ($(GENERAL_TIME),)
-evgMrm_DBD  += generalTime.dbd
-evgMrm_LIBS += generalTime
-endif
-
-ifneq ($(CAPUTLOG),)
-mrf_DBD += caPutLog.dbd
-mrf_LIBS += caPutLog
-endif
-
 #===========================
 
 include $(TOP)/configure/RULES

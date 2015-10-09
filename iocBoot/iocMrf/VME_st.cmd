@@ -50,7 +50,7 @@ mrmEvrSetupVME($(EVR), $(EVR_SLOT), $(EVR_MEMOFFSET), $(EVR_IRQLINE), $(EVR_IRQV
 ##########################
 ## It is recommended to put record loading in a seperate substitution file. 
 ## Records contain many macros which can be used to set starting values of the device components. Refer to the documentation for details.
-## For other options inspect substitution files in $(TOP)/PSI folder. They also contain all macro substitutions available. Theese example substitution files can be reused if SYS and EVR macros are added to each record inclusion. 
+## For other options inspect substitution files in $(TOP)/PSI/example folder. They also contain all macro substitutions available. Theese example substitution files can be reused if SYS and EVR macros are added to each record inclusion. 
 
 ## Load form factor and/or firmware specific records with default device component values.
 dbLoadRecords("db/evr-vme-300.db", "SYS=$(SYS), EVR=$(EVR)")

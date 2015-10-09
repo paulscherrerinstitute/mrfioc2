@@ -5,17 +5,3 @@ in EVR:
 
  - evr-pmc-230.substitutions: currently unsporrted
  - evr-pulserMap-dbus.template: need to check current status
-
-
- Example ioc application
-  - EVR bunchID
-  - dbuffer config
-
-MAKEFILE:
-- do not forget to use right arch flter!!
-- remove evr->lattice*.h
-- remove make_databases.sh
-- check utils folder
-- redo readme files
-- documentation update :/
-- what to do with bunchID templates?
