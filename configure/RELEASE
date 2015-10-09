@@ -30,6 +30,11 @@ TEMPLATE_TOP=$(EPICS_BASE)/templates/makeBaseApp/top
 # logging of remote settings changes
 #CAPUTLOG=$(EPICS_BASE)
 
+
+# regDev support
+#MRFIOC2REGDEV=$(TOP)/../mrfioc2_regDev
+
+
 ## Required Modules ##
 
 # PCI and VME64x support library
@@ -50,5 +55,3 @@ ifeq ($(OS),Windows_NT)
 EPICS_BASE=C:\epics\base-3.14.12.3
 endif
 
-EPICS_BASE=/opt/epics/base
-DEVLIB2=/opt/epics/extensions/devlib2

@@ -52,6 +52,11 @@ mrf_DBD += caPutLog.dbd
 mrf_LIBS += caPutLog
 endif
 
+ifdef MRFIOC2REGDEV
+mrf_LIBS += mrfioc2_regDev
+mrf_DBD += mrfregdev.dbd
+endif
+
 # Finally link to the EPICS Base libraries
 mrf_LIBS += $(EPICS_BASE_IOC_LIBS)
 

@@ -101,9 +101,6 @@ DBDS+=evgMrmApp/src/evgInit.dbd
 DBDS+=mrfCommon/src/mrfCommon.dbd
 
 # regDev Support
-SOURCES+=PSI/mrfioc2RegDev/drvMrfiocDBuff.cpp
-DBDS+=PSI/mrfioc2RegDev/mrfregdev.dbd
- 
 HEADERS+=../evrMrmApp/src/devMrmBuf.h
 
 ############# TEMPLATES #############
@@ -136,7 +133,7 @@ TEMPLATES += PSI/evr_PCIe-300.subs
 TEMPLATES += PSI/evg_VME-230.subs
 TEMPLATES += PSI/evg_VME-300.subs
 
-## SCRIPTS ##
+## GENERIC STARTUP SCRIPTS ##
 SCRIPTS += PSI/mrfioc2_evr-PCIe.cmd
 SCRIPTS += PSI/mrfioc2_evr-VME.cmd
 SCRIPTS += PSI/mrfioc2_evg-VME.cmd

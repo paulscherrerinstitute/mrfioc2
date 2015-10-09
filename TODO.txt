@@ -13,4 +13,9 @@ in EVR:
 
 MAKEFILE:
 - do not forget to use right arch flter!!
-- Ask dirk about SCRIPT +=
+- remove evr->lattice*.h
+- remove make_databases.sh
+- check utils folder
+- redo readme files
+- documentation update :/
+- what to do with bunchID templates?

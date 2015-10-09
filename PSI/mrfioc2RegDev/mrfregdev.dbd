@@ -1,2 +1,0 @@
-registrar(mrfiocDBuffRegistrar)
-variable(drvMrfiocDBuffDebug, int)

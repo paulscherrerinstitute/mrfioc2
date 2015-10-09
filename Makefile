@@ -2,7 +2,6 @@
 #Makefile at top of application tree
 TOP = .
 include $(TOP)/configure/CONFIG
-# DIRS := configure mrfCommon mrmShared evgMrmApp evrMrmApp mrmtestApp iocBoot
 DIRS := configure mrfCommon mrmShared evgMrmApp  evrMrmApp mrfApp iocBoot
 
 # 3.14.10 style directory dependencies
@@ -24,6 +23,7 @@ evgMrmApp_DEPEND_DIRS += mrmShared
 mrfApp_DEPEND_DIRS += evrMrmApp evgMrmApp
 
 iocBoot_DEPEND_DIRS += mrfApp
+
 
 include $(TOP)/configure/RULES_TOP
 
