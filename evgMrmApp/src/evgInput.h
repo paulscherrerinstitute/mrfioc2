@@ -34,6 +34,9 @@ public:
     void setSeqMask(epicsUInt16 mask);
     epicsUInt16 getSeqMask() const;
 
+    void setSeqEnable(epicsUInt16 enable);
+    epicsUInt16 getSeqEnable() const;
+
     void setDbusMap(epicsUInt16, bool);
     bool getDbusMap(epicsUInt16) const;
 

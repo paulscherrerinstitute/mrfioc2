@@ -276,9 +276,11 @@
 /* Input                                                                                          */
 /**************************************************************************************************/
 
-#define  EVG_EXT_INP_IRQ_ENA    0x01000000
-#define  EVG_INP_SEQ_MASK       0x01FFFFFF
-#define  EVG_INP_SEQ_MASK_shift 25
+#define  EVG_EXT_INP_IRQ_ENA      0x01000000
+#define  EVG_INP_SEQ_MASK         0xF0000000
+#define  EVG_INP_SEQ_MASK_shift   28
+#define  EVG_INP_SEQ_ENABLE       0x0E000000
+#define  EVG_INP_SEQ_ENABLE_shift 25
 
 
 /**************************************************************************************************/

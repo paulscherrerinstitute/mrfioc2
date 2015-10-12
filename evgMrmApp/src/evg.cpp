@@ -40,7 +40,8 @@ OBJECT_BEGIN(evgEvtClk) {
 
 OBJECT_BEGIN(evgInput) {
     OBJECT_PROP2("IRQ", &evgInput::getExtIrq, &evgInput::setExtIrq);
-    OBJECT_PROP2("SQMK", &evgInput::getSeqMask, &evgInput::setSeqMask);
+    OBJECT_PROP2("Sequence mask", &evgInput::getSeqMask, &evgInput::setSeqMask);
+    OBJECT_PROP2("Sequence enable", &evgInput::getSeqEnable, &evgInput::setSeqEnable);
 } OBJECT_END(evgInput)
 
 OBJECT_BEGIN(evgMxc) {

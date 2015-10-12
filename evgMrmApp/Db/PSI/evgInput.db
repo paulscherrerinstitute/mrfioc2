@@ -18,22 +18,34 @@ record(bi, "$(SYS)-$(EVG):$(OBJ)$(ID)-EnaIrq-RB") {
 }
 
 
-## Sequence mask input config
+## Sequence mask and enable input config
 record(longout, "$(SYS)-$(EVG):$(OBJ)$(ID)-SeqMask-SP") {
     field( DESC, "Set input sequence mask")
     field( DTYP, "Obj Prop uint16")
-    field( OUT , "@OBJ=$(EVG):$(OBJ)$(ID), PROP=SQMK")
+    field( OUT , "@OBJ=$(EVG):$(OBJ)$(ID), PROP=Sequence mask")
     field( VAL, "$($(OBJ)$(ID)-SeqMask-SP\=0)")
     field( FLNK, "$(SYS)-$(EVG):$(OBJ)$(ID)-SeqMask-RB")
 }
 
 record(longin, "$(SYS)-$(EVG):$(OBJ)$(ID)-SeqMask-RB") {
-    field( DESC, "input sequence mask")
-    field( INP , "@OBJ=$(EVG):$(OBJ)$(ID), PROP=SQMK")
+    field( DESC, "Input sequence mask")
+    field( INP , "@OBJ=$(EVG):$(OBJ)$(ID), PROP=Sequence mask")
     field( DTYP, "Obj Prop uint16")
-    field( VAL, "$($(OBJ)$(ID)-EnaIrq-Sel\=0)")
 }
 
+record(longout, "$(SYS)-$(EVG):$(OBJ)$(ID)-SeqEnable-SP") {
+    field( DESC, "Set input sequence enable")
+    field( DTYP, "Obj Prop uint16")
+    field( OUT , "@OBJ=$(EVG):$(OBJ)$(ID), PROP=Sequence enable")
+    field( VAL, "$($(OBJ)$(ID)-SeqEnable-SP\=0)")
+    field( FLNK, "$(SYS)-$(EVG):$(OBJ)$(ID)-SeqEnable-RB")
+}
+
+record(longin, "$(SYS)-$(EVG):$(OBJ)$(ID)-SeqEnable-RB") {
+    field( DESC, "Input sequence enable")
+    field( INP , "@OBJ=$(EVG):$(OBJ)$(ID), PROP=Sequence enable")
+    field( DTYP, "Obj Prop uint16")
+}
 
 ## Event trigger select
 record(bo, "$(SYS)-$(EVG):$(OBJ)$(ID)-TrigSrc0-SP") {

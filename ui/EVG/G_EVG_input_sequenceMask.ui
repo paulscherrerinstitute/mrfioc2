@@ -47,9 +47,9 @@
    <widget class="caTextEntry" name="catextentry_2">
     <property name="geometry">
      <rect>
-      <x>159</x>
+      <x>129</x>
       <y>90</y>
-      <width>101</width>
+      <width>51</width>
       <height>20</height>
      </rect>
     </property>
@@ -73,9 +73,9 @@
    <widget class="caLineEdit" name="calineedit_9">
     <property name="geometry">
      <rect>
-      <x>270</x>
+      <x>190</x>
       <y>90</y>
-      <width>70</width>
+      <width>61</width>
       <height>20</height>
      </rect>
     </property>
@@ -95,9 +95,9 @@
    <widget class="QLabel" name="label_2">
     <property name="geometry">
      <rect>
-      <x>30</x>
+      <x>10</x>
       <y>90</y>
-      <width>121</width>
+      <width>111</width>
       <height>20</height>
      </rect>
     </property>
@@ -106,6 +106,70 @@
     </property>
     <property name="alignment">
      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_3">
+    <property name="geometry">
+     <rect>
+      <x>300</x>
+      <y>90</y>
+      <width>121</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Sequence enable</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+    </property>
+   </widget>
+   <widget class="caTextEntry" name="catextentry_3">
+    <property name="geometry">
+     <rect>
+      <x>429</x>
+      <y>90</y>
+      <width>51</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="channel" stdset="0">
+     <string notr="true">$(EVG):$(ID)-SeqEnable-SP</string>
+    </property>
+    <property name="background">
+     <color>
+      <red>212</red>
+      <green>219</green>
+      <blue>157</blue>
+     </color>
+    </property>
+    <property name="colorMode">
+     <enum>caLineEdit::Static</enum>
+    </property>
+    <property name="formatType">
+     <enum>caLineEdit::hexadecimal</enum>
+    </property>
+   </widget>
+   <widget class="caLineEdit" name="calineedit_10">
+    <property name="geometry">
+     <rect>
+      <x>490</x>
+      <y>90</y>
+      <width>61</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+    <property name="channel" stdset="0">
+     <string notr="true">$(EVG):$(ID)-SeqEnable-RB</string>
+    </property>
+    <property name="colorMode">
+     <enum>caLineEdit::Alarm_Default</enum>
+    </property>
+    <property name="formatType">
+     <enum>caLineEdit::hexadecimal</enum>
     </property>
    </widget>
   </widget>
