@@ -159,6 +159,8 @@ OBJECT_BEGIN(EVR) {
 
 OBJECT_BEGIN(Input) {
 
+    OBJECT_PROP1("State", &Input::state);
+
     OBJECT_PROP2("Active Level", &Input::levelHigh, &Input::levelHighSet);
 
     OBJECT_PROP2("Active Edge", &Input::edgeRise, &Input::edgeRiseSet);

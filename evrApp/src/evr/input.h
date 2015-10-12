@@ -28,6 +28,9 @@ public:
   Input(const std::string& n) : mrf::ObjectInst<Input>(n) {}
   virtual ~Input()=0;
 
+  //! Get the input state (low or high)
+  virtual bool state() const=0;
+
   //! Set mask of dbus bits are driven by this input
   virtual void dbusSet(epicsUInt16)=0;
   virtual epicsUInt16 dbus() const=0;

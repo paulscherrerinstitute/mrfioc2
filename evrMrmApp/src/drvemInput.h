@@ -31,6 +31,8 @@ public:
     virtual void lock() const{};
     virtual void unlock() const{};
 
+    virtual bool state() const;
+
     virtual void dbusSet(epicsUInt16);
     virtual epicsUInt16 dbus() const;
 

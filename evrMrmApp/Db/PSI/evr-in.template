@@ -7,6 +7,15 @@
 #  ID  = input ID #
 #  DESC = Physical label found on output jack
 
+record(bi, "$(SYS)-$(EVR):$(OBJ)$(ID)-State-I") {
+  field( DTYP, "Obj Prop bool")
+  field( DESC, "Input state")
+  field( INP , "@OBJ=$(EVR):$(OBJ)$(ID), PROP=State")
+  field( SCAN, "1 second")
+  field( ZNAM, "Low")
+  field( ONAM, "High")
+}
+
 record(bo, "$(SYS)-$(EVR):$(OBJ)$(ID)-Lvl-Sel") {
   field( DTYP, "Obj Prop bool")
   field( DESC, "Input $(DESC)")

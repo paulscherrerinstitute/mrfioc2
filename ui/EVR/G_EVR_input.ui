@@ -50,7 +50,7 @@
    <widget class="QGroupBox" name="groupBox">
     <property name="geometry">
      <rect>
-      <x>110</x>
+      <x>118</x>
       <y>1</y>
       <width>141</width>
       <height>82</height>
@@ -231,24 +231,21 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>30</y>
-      <width>81</width>
+      <y>50</y>
+      <width>36</width>
       <height>20</height>
      </rect>
     </property>
     <property name="text">
-     <string>DBus Select</string>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     <string>DBus</string>
     </property>
    </widget>
    <widget class="caMenu" name="camenu">
     <property name="geometry">
      <rect>
-      <x>13</x>
+      <x>50</x>
       <y>50</y>
-      <width>81</width>
+      <width>61</width>
       <height>25</height>
      </rect>
     </property>
@@ -360,6 +357,53 @@
      </property>
     </widget>
    </widget>
+   <widget class="QLabel" name="label_19">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>25</y>
+      <width>36</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>State</string>
+    </property>
+   </widget>
+   <widget class="caLed" name="caled">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>25</y>
+      <width>20</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="channel" stdset="0">
+     <string notr="true">$(EVR):FPIn$(ID)-State-I</string>
+    </property>
+    <property name="falseColor">
+     <color>
+      <red>200</red>
+      <green>200</green>
+      <blue>200</blue>
+     </color>
+    </property>
+    <property name="trueColor">
+     <color>
+      <red>0</red>
+      <green>205</green>
+      <blue>0</blue>
+     </color>
+    </property>
+    <property name="undefinedColor">
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+    </property>
+   </widget>
   </widget>
  </widget>
  <customwidgets>
@@ -382,6 +426,11 @@
    <class>caLabel</class>
    <extends>QLabel</extends>
    <header>caLabel</header>
+  </customwidget>
+  <customwidget>
+   <class>caLed</class>
+   <extends>QWidget</extends>
+   <header>caLed</header>
   </customwidget>
   <customwidget>
    <class>caLineEdit</class>
