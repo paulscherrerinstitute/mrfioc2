@@ -93,6 +93,11 @@ evgEvtClk::getFracSynFreq() const {
     return FracSynthAnalyze(READ32(m_pReg, FracSynthWord), 24.0, 0);
 }
 
+bool
+evgEvtClk::getPllLocked() const {
+    return (READ8(m_pReg, ClockSource) & EVG_CLK_PLLLOCK) != 0;
+}
+
 void
 evgEvtClk::setPLLBandwidth(PLLBandwidth pllBandwidth) {
     epicsUInt8 clkCtrl;

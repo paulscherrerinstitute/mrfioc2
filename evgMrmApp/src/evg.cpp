@@ -29,12 +29,13 @@ OBJECT_BEGIN(evgDbus) {
 } OBJECT_END(evgDbus)
 
 OBJECT_BEGIN(evgEvtClk) {
-    OBJECT_PROP2("Source",        &evgEvtClk::getSource, &evgEvtClk::setSource);
-    OBJECT_PROP2("RFFreq",        &evgEvtClk::getRFFreq, &evgEvtClk::setRFFreq);
-    OBJECT_PROP2("RFDiv",         &evgEvtClk::getRFDiv,  &evgEvtClk::setRFDiv);
-    OBJECT_PROP2("PLL Bandwidth", &evgEvtClk::getPLLBandwidthRaw,  &evgEvtClk::setPLLBandwidthRaw);
-    OBJECT_PROP2("FracSynFreq",   &evgEvtClk::getFracSynFreq, &evgEvtClk::setFracSynFreq);
-    OBJECT_PROP1("Frequency",     &evgEvtClk::getFrequency);
+    OBJECT_PROP2("Source",         &evgEvtClk::getSource, &evgEvtClk::setSource);
+    OBJECT_PROP2("RFFreq",         &evgEvtClk::getRFFreq, &evgEvtClk::setRFFreq);
+    OBJECT_PROP2("RFDiv",          &evgEvtClk::getRFDiv,  &evgEvtClk::setRFDiv);
+    OBJECT_PROP1("PLL Lock Status",&evgEvtClk::getPllLocked);
+    OBJECT_PROP2("PLL Bandwidth",  &evgEvtClk::getPLLBandwidthRaw,  &evgEvtClk::setPLLBandwidthRaw);
+    OBJECT_PROP2("FracSynFreq",    &evgEvtClk::getFracSynFreq, &evgEvtClk::setFracSynFreq);
+    OBJECT_PROP1("Frequency",      &evgEvtClk::getFrequency);
 } OBJECT_END(evgEvtClk)
 
 OBJECT_BEGIN(evgInput) {

@@ -46,6 +46,18 @@ record(mbbi, "$(SYS)-$(EVG):$(OBJ)-Source-RB") {
     field( FRVL, "4")
 }
 
+
+record(bi, "$(SYS)-$(EVG):$(OBJ)-PLL-Sts") {
+  field(DTYP, "Obj Prop bool")
+  field(INP , "@OBJ=$(EVG):$(OBJ), PROP=PLL Lock Status")
+  field(SCAN, "1 second")
+  field(PINI, "YES")
+  field(DESC, "Status of PLL")
+  field(ZNAM, "Error")
+  field(ONAM, "OK")
+  field(ZSV , "MAJOR")
+}
+
 record(mbbo, "$(SYS)-$(EVG):$(OBJ)-PLL-Bandwidth-Sel") {
     field( DESC, "EVG Evt Clk Source")
     field( DTYP, "Obj Prop uint16")
