@@ -79,11 +79,11 @@ public:
     epicsUInt32 getDbusStatus() const;
 
     /* From sequence ram control register */
-    void setSWMask0(epicsUInt16 mask);
-    epicsUInt16 getSWMask0() const;
+    void setSWSequenceMask(epicsUInt16 mask);
+    epicsUInt16 getSWSequenceMask() const;
 
-    void setSWMask1(epicsUInt16 mask);
-    epicsUInt16 getSWMask1() const;
+    void setSWSequenceEnable(epicsUInt16 enable);
+    epicsUInt16 getSWSequenceEnable() const;
     /*************************************/
 
     void dlyCompBeaconEnable(bool ena);

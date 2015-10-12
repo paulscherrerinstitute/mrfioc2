@@ -299,29 +299,46 @@ evgMrm::getDbusStatus() const {
 }
 
 /* From sequence ram control register */
+// Always reading/writing from/to sequence 1 register, since mask and enable values are common for all RAMs
 void
-evgMrm::setSWMask0(epicsUInt16 mask){
-    WRITE8(m_pReg, SeqSWMask(0), (epicsUInt8)mask);
+evgMrm::setSWSequenceMask(epicsUInt16 mask){
+    epicsUInt32 val = READ32(m_pReg, SeqControl_base);
+
+    val &= ~EVG_SEQ_RAM_SWMASK;
+    val |= mask << EVG_SEQ_RAM_SWMASK_shift;
+
+    WRITE32(m_pReg, SeqControl_base, val);
 }
 
-/* From sequence ram control register */
 epicsUInt16
-evgMrm::getSWMask0() const{
-    return (epicsUInt16)READ8(m_pReg, SeqSWMask(0));
+evgMrm::getSWSequenceMask() const{
+    epicsUInt32 val = READ32(m_pReg, SeqControl_base);
+
+    val &= EVG_SEQ_RAM_SWMASK;
+    val >>= EVG_SEQ_RAM_SWMASK_shift;
+
+    return (epicsUInt16)val;
 }
 
-/* From sequence ram control register */
 void
-evgMrm::setSWMask1(epicsUInt16 mask){
+evgMrm::setSWSequenceEnable(epicsUInt16 enable){
+    epicsUInt32 val = READ32(m_pReg, SeqControl_base);
 
-    WRITE8(m_pReg, SeqSWMask(1), (epicsUInt8)mask);
+    val &= ~EVG_SEQ_RAM_SWENABLE;
+    val |= enable << EVG_SEQ_RAM_SWENABLE_shift;
+
+    WRITE32(m_pReg, SeqControl_base, val);
 }
 
-/* From sequence ram control register */
 epicsUInt16
-evgMrm::getSWMask1() const{
-    return (epicsUInt16)READ8(m_pReg, SeqSWMask(1));
+evgMrm::getSWSequenceEnable() const{
+    epicsUInt32 val = READ32(m_pReg, SeqControl_base);
+
+    val &= EVG_SEQ_RAM_SWENABLE;
+    val >>= EVG_SEQ_RAM_SWENABLE_shift;
+    return (epicsUInt16)val;
 }
+/* --------------------------------- */
 
 void
 evgMrm::dlyCompBeaconEnable(bool ena){

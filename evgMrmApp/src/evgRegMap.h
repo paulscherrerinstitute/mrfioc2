@@ -84,9 +84,6 @@
 #define  U32_SeqControl_base    0x0070  // Sequencer Control Register Array Base
 #define  U32_SeqControl(n)      (U32_SeqControl_base + (4*(n)))
 
-#define  U8_SeqSWMask_base      0x0072  // Sequence RAM SW mask register. TODO currently implemented in main EVG class. Maybe this is not the right place...
-#define  U8_SeqSWMask(n)        (U8_SeqSWMask_base + (4*(n)))
-
 #define  U8_SeqTrigSrc_base     0x0073
 #define  U8_SeqTrigSrc(n)       (U8_SeqTrigSrc_base + (4*(n)))
 
@@ -245,6 +242,11 @@
 #define  EVG_SEQ_RAM_RESET      0x00040000  // Sequence RAM Reset
 #define  EVG_SEQ_RAM_DISABLE    0x00020000  // Sequence RAM Disable
 #define  EVG_SEQ_RAM_ARM        0x00010000  // Sequence RAM Enable/Arm
+
+#define  EVG_SEQ_RAM_SWMASK     0x0000F000  // Sequence RAM Software mask
+#define  EVG_SEQ_RAM_SWMASK_shift   12
+#define  EVG_SEQ_RAM_SWENABLE   0x00000F00  // Sequence RAM Software enable
+#define  EVG_SEQ_RAM_SWENABLE_shift 8
 
 #define  EVG_SEQ_RAM_REPEAT_MASK 0x00180000 // Sequence RAM Repeat Mode Mask
 #define  EVG_SEQ_RAM_NORMAL     0x00000000  // Normal Mode: Repeat every trigger

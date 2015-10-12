@@ -63,31 +63,33 @@ record(longin, "$(SYS)-$(EVG):DbusStatus-RB" ) {
 }
 
 # Sequence SW mask from sequence ram
-record(longout, "$(SYS)-$(EVG):SoftSeqMask-1-SP" ) {
+record(longout, "$(SYS)-$(EVG):SoftSeqMask-SP" ) {
     field( DESC, "Seq. RAM SW mask")
     field( DTYP, "Obj Prop uint16")
-    field( OUT , "@OBJ=$(EVG), PROP=Seq 0 mask")
-    field( FLNK, "$(SYS)-$(EVG):SoftSeqMask-1-RB")
+    field( VAL , "$(SoftSeqMask-SP\=0)")
+    field( OUT , "@OBJ=$(EVG), PROP=Seq mask")
+    field( FLNK, "$(SYS)-$(EVG):SoftSeqMask-RB")
 }
 
-record(longin, "$(SYS)-$(EVG):SoftSeqMask-1-RB" ) {
+record(longin, "$(SYS)-$(EVG):SoftSeqMask-RB" ) {
     field( DESC, "Seq. RAM SW mask")
     field( DTYP, "Obj Prop uint16")
-    field( INP , "@OBJ=$(EVG), PROP=Seq 0 mask")
+    field( INP , "@OBJ=$(EVG), PROP=Seq mask")
     field( PINI, "YES")
 }
 
-record(longout, "$(SYS)-$(EVG):SoftSeqMask-2-SP" ) {
-    field( DESC, "Seq. RAM SW mask")
+record(longout, "$(SYS)-$(EVG):SoftSeqEnable-SP" ) {
+    field( DESC, "Seq. RAM SW enable")
     field( DTYP, "Obj Prop uint16")
-    field( OUT , "@OBJ=$(EVG), PROP=Seq 1 mask")
-    field( FLNK, "$(SYS)-$(EVG):SoftSeqMask-2-RB")
+    field( VAL , "$(SoftSeqEnable-SP\=0)")
+    field( OUT , "@OBJ=$(EVG), PROP=Seq enable")
+    field( FLNK, "$(SYS)-$(EVG):SoftSeqEnable-RB")
 }
 
-record(longin, "$(SYS)-$(EVG):SoftSeqMask-2-RB" ) {
-    field( DESC, "Seq. RAM SW mask")
+record(longin, "$(SYS)-$(EVG):SoftSeqEnable-RB" ) {
+    field( DESC, "Seq. RAM SW enable")
     field( DTYP, "Obj Prop uint16")
-    field( INP , "@OBJ=$(EVG), PROP=Seq 1 mask")
+    field( INP , "@OBJ=$(EVG), PROP=Seq enable")
 }
 
 # Delay compensation

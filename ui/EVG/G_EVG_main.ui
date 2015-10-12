@@ -783,7 +783,7 @@
         <x>0</x>
         <y>0</y>
         <width>661</width>
-        <height>441</height>
+        <height>471</height>
        </rect>
       </property>
       <property name="widgetResizable">
@@ -795,7 +795,7 @@
          <x>0</x>
          <y>0</y>
          <width>659</width>
-         <height>439</height>
+         <height>469</height>
         </rect>
        </property>
        <property name="minimumSize">
@@ -808,9 +808,9 @@
         <property name="geometry">
          <rect>
           <x>20</x>
-          <y>20</y>
+          <y>10</y>
           <width>301</width>
-          <height>411</height>
+          <height>371</height>
          </rect>
         </property>
         <property name="macro">
@@ -824,9 +824,9 @@
         <property name="geometry">
          <rect>
           <x>330</x>
-          <y>20</y>
+          <y>10</y>
           <width>301</width>
-          <height>411</height>
+          <height>371</height>
          </rect>
         </property>
         <property name="macro">
@@ -834,6 +834,22 @@
         </property>
         <property name="filename" stdset="0">
          <string notr="true">G_EVG_softSeq.ui</string>
+        </property>
+       </widget>
+       <widget class="caInclude" name="cainclude_5">
+        <property name="geometry">
+         <rect>
+          <x>20</x>
+          <y>380</y>
+          <width>611</width>
+          <height>71</height>
+         </rect>
+        </property>
+        <property name="macro">
+         <string notr="true">SEQNUM=$(SEQNUM), EVG=$(EVG)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVG_$(FF)_softSeq_swMask.ui</string>
         </property>
        </widget>
       </widget>
