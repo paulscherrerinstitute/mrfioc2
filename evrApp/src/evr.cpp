@@ -132,6 +132,7 @@ OBJECT_BEGIN(EVR) {
     OBJECT_PROP1("dc id", &EVR::delayCompensationIntValue);
     OBJECT_PROP1("dc s", &EVR::delayCompensationStatus);
 
+    OBJECT_PROP1("CG Lock Status", &EVR::cgLocked);
     OBJECT_PROP1("PLL Lock Status", &EVR::pllLocked);
     OBJECT_PROP2("PLL Bandwidth", &EVR::pllBandwidthRaw, &EVR::setPllBandwidthRaw);
 

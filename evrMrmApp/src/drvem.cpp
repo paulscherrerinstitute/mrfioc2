@@ -766,9 +766,15 @@ EVRMRM::setExtInhib(bool v)
 }
 
 bool
-EVRMRM::pllLocked() const
+EVRMRM::cgLocked() const
 {
     return (READ32(base, ClkCtrl) & ClkCtrl_cglock) != 0;
+}
+
+bool
+EVRMRM::pllLocked() const
+{
+    return (READ32(base, ClkCtrl) & ClkCtrl_plllock) != 0;
 }
 
 void

@@ -143,6 +143,7 @@ public:
   virtual void clockSet(double clk)=0;
 
   //! Internal PLL Status and bandwidth
+  virtual bool cgLocked() const=0;
   virtual bool pllLocked() const=0;
   virtual void setPllBandwidth(PLLBandwidth pllBandwidth) = 0;
   virtual PLLBandwidth pllBandwidth() const = 0;

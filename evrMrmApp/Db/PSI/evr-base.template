@@ -220,6 +220,17 @@ record(calc, "$(SYS)-$(EVR):FIFOCap-I") {
   info(autosaveFields_pass0, "HIHI HIGH LOW")
 }
 
+record(bi, "$(SYS)-$(EVR):CG-Sts") {
+  field(DTYP, "Obj Prop bool")
+  field(INP , "@OBJ=$(EVR), PROP=CG Lock Status")
+  field(SCAN, "1 second")
+  field(PINI, "YES")
+  field(DESC, "Fractional synthesizer locked")
+  field(ZNAM, "Error")
+  field(ONAM, "OK")
+  field(ZSV , "MAJOR")
+}
+
 record(bi, "$(SYS)-$(EVR):Pll-Sts") {
   field(DTYP, "Obj Prop bool")
   field(INP , "@OBJ=$(EVR), PROP=PLL Lock Status")
