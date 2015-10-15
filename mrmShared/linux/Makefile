@@ -28,7 +28,7 @@ KERNELDIR_ifc = /opt/eldk-5.2/kernel/gfa-linux-3.6.11.5-rt37
 
 ARCH_ppmac = powerpc
 CROSS_COMPILE_ppmac = /opt/eldk-4.2/usr/bin/ppc_4xxFP-
-KERNELDIR_ppmac = /opt/eldk-4.2/PPMAC_kernels/linux-2.6.30.3-xeno-2.5.6
+KERNELDIR_ppmac = /opt/eldk-4.2/PPMAC_kernels/linux-3.2.21-serengeti-smp
 
 ifc ppmac: myclean
 	$(MAKE) ARCH=$(ARCH_$@) CROSS_COMPILE=$(CROSS_COMPILE_$@) KERNELDIR=$(KERNELDIR_$@) modules
