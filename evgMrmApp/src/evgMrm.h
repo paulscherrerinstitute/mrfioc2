@@ -36,7 +36,6 @@
 #include "evgOutput.h"
 #include "evgSequencer/evgSeqRamManager.h"    
 #include "evgSequencer/evgSoftSeqManager.h"
-#include "mrmDataBufTx.h"
 
 #include "configurationInfo.h"
 #include "sfp.h"
@@ -151,8 +150,6 @@ public:
     IOSCANPVT                     ioScanTimestamp;
     bool                          m_syncTimestamp;
     ALARM_TS                      m_alarmTimestamp;
-
-    mrmDataBufTx                  m_buftx;
 
     void show(int lvl);
 

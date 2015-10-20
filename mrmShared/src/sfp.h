@@ -18,6 +18,8 @@
 #include <epicsMutex.h>
 #include <epicsTypes.h>
 
+#include "mrf/object.h"
+
 class epicsShareClass SFP : public mrf::ObjectInst<SFP> {
     volatile unsigned char* base;
     typedef std::vector<epicsUInt8> buffer_t;

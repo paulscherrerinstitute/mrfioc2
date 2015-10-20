@@ -35,7 +35,6 @@ evgMrm::evgMrm(const std::string& id, bus_configuration& busConfig, volatile epi
     irqStart1_queued(0),
     irqExtInp_queued(0),
     m_syncTimestamp(false),
-    m_buftx(id+":BUFTX",pReg+U32_DataBufferControl, pReg+U8_DataBuffer_base),
     m_pciDevice(pciDevice),
     m_id(id),
     m_pReg(pReg),

@@ -27,7 +27,6 @@
  * Theese have to be included before epicsExport, thus they are declared in cpp and h file.
  * epicsExport flips the flag from library importing to exporting. Remote flash, sfp, ... have to be imported from dll here
  */
-#include "mrmDataBufTx.h"
 #include "sfp.h"
 #include "mrmremoteflash.h"
 
@@ -118,8 +117,6 @@ EVRMRM::EVRMRM(const std::string& n,
   ,id(n)
   ,base(b)
   ,baselen(bl)
-  ,buftx(n+":BUFTX", b+U32_DataTxCtrl, b+U32_DataTx_base)
-  ,bufrx(n+":BUFRX", b, 10) // Sets depth of Rx queue
   ,count_recv_error(0)
   ,count_hardware_irq(0)
   ,count_heartbeat(0)
@@ -166,7 +163,6 @@ try{
     scanIoInit(&IRQfifofull);
     scanIoInit(&timestampValidChange);
 
-    CBINIT(&data_rx_cb     , priorityHigh, &mrmBufRx::drainbuf, &this->bufrx);
     CBINIT(&drain_log_cb   , priorityMedium, &EVRMRM::drain_log , this);
     CBINIT(&poll_link_cb   , priorityMedium, &EVRMRM::poll_link , this);
 

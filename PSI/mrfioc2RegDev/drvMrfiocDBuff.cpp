@@ -87,7 +87,6 @@
 #include <epicsExport.h>
 #include <epicsEndian.h>
 #include <regDev.h>
-#include <devMrmBuf.h>
 #include <dataBuffer/mrmDataBufferUser.h>
 #include <errlog.h>
 
@@ -118,7 +117,6 @@ epicsExportAddress(int, drvMrfiocDBuffDebug);
  */
 struct regDevice{
     char*                   name;            //regDevName of device
-    mrmBufferInfo_t*        bufferHandle;
     mrmDataBufferUser*      dataBuffer;
     IOSCANPVT               ioscanpvt;
     epicsUInt8*             rxBuffer;        //pointer to 2k rx buffer

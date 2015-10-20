@@ -14,7 +14,6 @@
 #include <errlog.h>
 
 #include "mrf/object.h"
-#include "mrf/databuf.h"
 
 #include <devcsr.h>
 /* DZ: Does Win32 have a problem with devCSRTestSlot()? */

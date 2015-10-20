@@ -25,8 +25,6 @@ SOURCES+=../mrfCommon/src/mrfFracSynth.c
 
 
 SOURCES+=../mrmShared/src/sfp.cpp
-SOURCES+=../mrmShared/src/mrmDataBufTx.cpp
-SOURCES+=../mrmShared/src/devMrfBufTx.cpp
 SOURCES+=../mrmShared/src/spi_flash.c
 SOURCES+=../mrmShared/src/mrmremoteflash.cpp
 
@@ -41,14 +39,10 @@ SOURCES+=../evrApp/src/evr.cpp
 #SOURCES+=../evrApp/src/ntpShmNull.cpp
 #SOURCES+=../evrApp/src/evrMain.cpp
 SOURCES+=../evrApp/src/devEvrMapping.cpp
-SOURCES+=../evrMrmApp/src/devMrmBuf.cpp
 SOURCES+=../evrMrmApp/src/drvemPulser.cpp
 SOURCES+=../evrMrmApp/src/drvemIocsh.cpp
-SOURCES+=../evrMrmApp/src/bufrxmgr.cpp
-SOURCES+=../evrMrmApp/src/devMrmBufRx.cpp
 SOURCES+=../evrMrmApp/src/drvem.cpp
 SOURCES+=../evrMrmApp/src/drvemInput.cpp
-SOURCES+=../evrMrmApp/src/drvemRxBuf.cpp
 SOURCES+=../evrMrmApp/src/os/default/irqHack.cpp
 #SOURCES+=../evrMrmApp/src/os/RTEMS/irqHack.cpp
 #SOURCES+=../evrMrmApp/src/evrmrmMain.cpp
@@ -83,7 +77,6 @@ SOURCES+=../mrfCommon/src/devObjLong.cpp
 SOURCES+=../mrfCommon/src/object.cpp
 SOURCES+=../mrfCommon/src/devObjAnalog.cpp
 SOURCES+=../mrfCommon/src/devObjString.cpp
-SOURCES+=../mrfCommon/src/databuf.cpp
 SOURCES+=../mrfCommon/src/devObjBinary.cpp
 SOURCES+=../mrfCommon/src/objectTest.cpp
 SOURCES+=../mrfCommon/src/devObjMBB.cpp

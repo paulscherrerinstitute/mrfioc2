@@ -33,11 +33,9 @@
 #include "drvemPulser.h"
 #include "drvemCML.h"
 #include "delayModule.h"
-#include "drvemRxBuf.h"
 
 #include "mrmGpio.h"
 
-#include "mrmDataBufTx.h"
 #include "sfp.h"
 #include "configurationInfo.h"
 
@@ -224,8 +222,6 @@ public:
     const std::string id;
     volatile unsigned char * const base;
     epicsUInt32 baselen;
-    mrmDataBufTx buftx;
-    mrmBufRx bufrx;
     std::auto_ptr<SFP> sfp;
 
     virtual epicsUInt32 dbuff_IRQ() const;
