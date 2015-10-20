@@ -237,8 +237,8 @@ record(bi, "$(SYS)-$(EVR):Pll-Sts") {
   field(SCAN, "1 second")
   field(PINI, "YES")
   field(DESC, "Status of PLL")
-  field(ZNAM, "Error")
-  field(ONAM, "OK")
+  field(ZNAM, "Unlock")
+  field(ONAM, "Lock")
   field(ZSV , "MAJOR")
 }
 

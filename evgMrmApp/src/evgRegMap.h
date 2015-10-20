@@ -280,7 +280,7 @@
 #define  EVG_INP_SEQ_MASK         0xF0000000
 #define  EVG_INP_SEQ_MASK_shift   28
 #define  EVG_INP_SEQ_ENABLE       0x0E000000
-#define  EVG_INP_SEQ_ENABLE_shift 25
+#define  EVG_INP_SEQ_ENABLE_shift 24
 
 
 /**************************************************************************************************/

@@ -22,6 +22,16 @@ m_pInReg(pInReg) {
 evgInput::~evgInput() {
 }
 
+void evgInput::lock() const
+{
+    m_lock.lock();
+}
+
+void evgInput::unlock() const
+{
+    m_lock.unlock();
+}
+
 epicsUInt32
 evgInput::getNum() const {
     return m_num;
@@ -54,7 +64,7 @@ evgInput::setSeqMask(epicsUInt16 mask) {
     temp &= ~EVG_INP_SEQ_MASK;
     temp |= ((epicsUInt32)mask << EVG_INP_SEQ_MASK_shift);
 
-    nat_iowrite32(m_pInReg,temp);
+    nat_iowrite32(m_pInReg, temp);
 }
 
 epicsUInt16
@@ -64,14 +74,17 @@ evgInput::getSeqMask() const {
 
 void
 evgInput::setSeqEnable(epicsUInt16 enable) {
+    epicsUInt32 en = enable;
+
+    en <<= EVG_INP_SEQ_ENABLE_shift;
+    en &= EVG_INP_SEQ_ENABLE;   // last bit should be ignored (because it belongs to external IRQ bit). Also a sanity check...
+
     epicsUInt32 temp = nat_ioread32(m_pInReg);
 
-    enable >>= 1;   // last bit should be ignored
-
     temp &= ~EVG_INP_SEQ_ENABLE;
-    temp |= ((epicsUInt32)enable << EVG_INP_SEQ_ENABLE_shift);
+    temp |= en;
 
-    nat_iowrite32(m_pInReg,temp);
+    nat_iowrite32(m_pInReg, temp);
 }
 
 epicsUInt16
@@ -80,7 +93,6 @@ evgInput::getSeqEnable() const {
 
     val = (nat_ioread32(m_pInReg) & EVG_INP_SEQ_ENABLE);
     val >>= EVG_INP_SEQ_ENABLE_shift;
-    val <<= 1;  // shift since we ignored LSB bit when setting the value
 
     return (epicsUInt16)val;
 }
@@ -141,6 +153,7 @@ evgInput::setTrigEvtMap(epicsUInt16 trigEvt, bool ena) {
         throw std::runtime_error("Trig Event num out of range. Max: 7");
 
     epicsUInt32    mask = 1 << trigEvt;
+
     //Read-Modify-Write
     epicsUInt32 map = nat_ioread32(m_pInReg);
 
