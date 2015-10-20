@@ -318,9 +318,9 @@ try{
 
     // TODO: use define for version number
     if(ver < 200) {
-        m_dataBuffer = new mrmNonSegmentedDataBuffer(base, U32_DataTxCtrl, U32_DataBufCtrl, U32_DataTx_base, U32_DataRx_base);
+        m_dataBuffer = new mrmNonSegmentedDataBuffer(base, U32_DataTxCtrlEvr, U32_DataRxCtrlEvr, U32_DataTxBaseEvr, U32_DataRxBaseEvr);
     } else {
-        m_dataBuffer = new mrmDataBuffer(base, U32_DataTxCtrl, U32_DataBufCtrl, U32_DataTx_base, U32_DataRx_base);
+        m_dataBuffer = new mrmDataBuffer(base, U32_DataTxCtrlEvr, U32_DataRxCtrlEvr, U32_DataTxBaseEvr, U32_DataRxBaseEvr);
     }
     CBINIT(&dataBufferRx_cb, priorityHigh, &mrmDataBuffer::handleDataBufferRxIRQ, &*m_dataBuffer);
 
@@ -1113,38 +1113,6 @@ mrmDataBuffer *EVRMRM::getDataBuffer()
 {
     return m_dataBuffer;
 }
-#define U32_DataBuffer_SegmentIRQ  0x780   //32 bit
-#define U32_DataBufferFlags_cheksum 0x7A0   //32 bit, each bit for one segment. 0 = Checksum OK
-#define U32_DataBufferFlags_overflow    0x7C0   //32 bit, each bit for one segment.
-#define U32_DataBufferFlags_rx  0x7E0   //32 bit
-epicsUInt32 EVRMRM::dbuff_IRQ() const
-{
-    epicsUInt32 reg = READ32(base, IRQEnable);
-    reg = reg | IRQ_BufFull;
-    WRITE32(base, IRQEnable, reg);
-    return READ32(base, IRQEnable);
-}
-
-epicsUInt32 EVRMRM::dbuff_IRQd() const
-{
-    epicsUInt32 reg = READ32(base, IRQEnable);
-    reg &= ~IRQ_BufFull;
-    WRITE32(base, IRQEnable, reg);
-    return READ32(base, IRQEnable);
-}
-
-epicsUInt32 EVRMRM::dbuff_segment() const
-{
-    WRITE32(base, DataBuffer_SegmentIRQ, 0xFFFFFFFF);
-    return READ32(base, DataBuffer_SegmentIRQ);
-}
-
-epicsUInt32 EVRMRM::dbuff_rx() const
-{
-    WRITE32(base, DataBufferFlags_rx, 0xFFFFFFFF);
-    return READ32(base, DataBufferFlags_rx);
-}
-
 
 void
 EVRMRM::enableIRQ(void)
@@ -1184,7 +1152,6 @@ EVRMRM::isr_vme(void *arg) {
     evr->isr(arg);
 }
 
-
 // A place to write to which will keep the read
 // at the end of the ISR from being optimized out.
 // This value should never be used anywhere else.
@@ -1211,10 +1178,8 @@ EVRMRM::isr(void *arg)
     }
     if(active&IRQ_BufFull){
         // Silence interrupt
-        BITSET(NAT,32,evr->base, DataBufCtrl, DataBufCtrl_stop);
+        BITSET(NAT,32,evr->base, DataRxCtrlEvr, DataRxCtrl_stop);
 
-        //FIXME: Support 300 series EVR (ask Jukka for reg map update)
-//        callbackRequest(&evr->data_rx_cb);
         callbackRequest(&evr->dataBufferRx_cb);
     }
     if(active&IRQ_HWMapped){

@@ -14,7 +14,7 @@
 #include "evr/cml.h"
 
 #include "evrRegMap.h"
-#include "configurationInfo.h"
+#include "mrmShared.h"
 
 class EVRMRM;
 

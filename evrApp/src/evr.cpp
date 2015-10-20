@@ -153,11 +153,6 @@ OBJECT_BEGIN(EVR) {
     OBJECT_PROP2("DBus Pulser Map 6", &EVR::dbusToPulserMapping6, &EVR::setDbusToPulserMapping6);
     OBJECT_PROP2("DBus Pulser Map 7", &EVR::dbusToPulserMapping7, &EVR::setDbusToPulserMapping7);
 
-    OBJECT_PROP1("DBUFF IRQ", &EVR::dbuff_IRQ);
-    OBJECT_PROP1("DBUFF IRQd", &EVR::dbuff_IRQd);
-    OBJECT_PROP1("DBUFF SEGMENT", &EVR::dbuff_segment);
-    OBJECT_PROP1("DBUFF RX", &EVR::dbuff_rx);
-
 } OBJECT_END(EVR)
 
 

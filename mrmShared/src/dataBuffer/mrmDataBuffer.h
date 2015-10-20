@@ -7,11 +7,7 @@
 #include <epicsMutex.h>
 #include <callback.h>
 
-#define DataTxCtrl_segment_bytes 16
-
-#define DataTxCtrl_len_mask 0x0007fc
-#define DataTxCtrl_len_max  DataTxCtrl_len_mask
-
+#include "mrmShared.h"
 
 
 class mrmDataBufferUser;

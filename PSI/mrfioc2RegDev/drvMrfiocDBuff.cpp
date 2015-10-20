@@ -168,7 +168,7 @@ void mrmEvrDataRxCB(size_t updated_offset, void* pvt) {
         if (device->proto != receivedProtocolID) return;
     }
     dbgPrintf("Received new DATA at %d\n", updated_offset);
-    device->dataBuffer->get(updated_offset, DataTxCtrl_segment_bytes, &device->rxBuffer[updated_offset]);
+    device->dataBuffer->get(updated_offset, DataBuffer_segment_bytes, &device->rxBuffer[updated_offset]);
 
     scanIoRequest(device->ioscanpvt);
 }
@@ -180,7 +180,7 @@ void mrmEvrDataRxCB(size_t updated_offset, void* pvt) {
 
 void mrfiocDBuff_report(regDevice* device, int _unused(level))
 {
-    printf("%s dataBuffer max length %u\n", device->name, DataTxCtrl_len_max - DataTxCtrl_segment_bytes);
+    printf("%s dataBuffer max length %u\n", device->name, DataBuffer_len_max - DataBuffer_segment_bytes);
 }
 
 /*
@@ -225,7 +225,7 @@ int mrfiocDBuff_write(
      * We use offset <= 4 (that is illegal for normal use since it is occupied by protoID and delay compensation data)
      * to flush the output buffer. This eliminates the need for extra record.
      */
-    if (offset < DataTxCtrl_segment_bytes-1) {
+    if (offset < DataBuffer_segment_bytes-1) {
         mrfiocDBuff_flush(device);
         return 0;
     }
@@ -307,7 +307,7 @@ void mrfiocDBuffConfigure(const char* regDevName, const char* mrfName, int proto
         return;
     }
 
-    epicsUInt32 maxLength = DataTxCtrl_len_max - DataTxCtrl_segment_bytes;
+    epicsUInt32 maxLength = DataBuffer_len_max - DataBuffer_segment_bytes;
 
     device->proto = (epicsUInt32) protocol; //protocol ID
     epicsPrintf("mrfiocDBuffConfigure %s: registering to protocol %d\n", regDevName, device->proto);
@@ -333,7 +333,7 @@ void mrfiocDBuffConfigure(const char* regDevName, const char* mrfName, int proto
             errlogPrintf("mrfiocDBuffConfigure %s: FATAL ERROR! Could not allocate RX buffer!", regDevName);
             return;
         }
-        device->dataBuffer->registerInterest(DataTxCtrl_segment_bytes, maxLength, mrmEvrDataRxCB, device);
+        device->dataBuffer->registerInterest(DataBuffer_segment_bytes, maxLength, mrmEvrDataRxCB, device);
         scanIoInit(&device->ioscanpvt);
     }
 

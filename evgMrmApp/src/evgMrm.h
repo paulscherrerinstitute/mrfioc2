@@ -37,7 +37,7 @@
 #include "evgSequencer/evgSeqRamManager.h"    
 #include "evgSequencer/evgSoftSeqManager.h"
 
-#include "configurationInfo.h"
+#include "mrmShared.h"
 #include "sfp.h"
 #include "evgFct.h"
 #include "mrmremoteflash.h"
@@ -193,58 +193,22 @@ private:
 
     mrmDataBuffer*                m_dataBuffer;
 };
-#define evgAllowedTsGitter 0.5f
+
+
 /*Creating a timer thread bcz epicsTimer uses epicsGeneralTime and when
   generalTime stops working even the timer stop working*/
 class wdTimer : public epicsThreadRunable {
 public:
-    wdTimer(const char *name, evgMrm* evg):
-    m_lock(),
-    m_thread(*this,name,epicsThreadGetStackSize(epicsThreadStackSmall),50),
-    m_evg(evg),
-    m_pilotCount(4) {
-        m_thread.start();
-    }
+    wdTimer(const char *name, evgMrm* evg);
 
-    virtual void run() {
-        struct epicsTimeStamp ts;
-        bool timeout;
-        //const epicsFloat32 evgAllowedTsGitter = 0.5f;
+    virtual void run();
 
-         while(1) {
-             m_lock.lock();
-             m_pilotCount = 4;
-             m_lock.unlock();
-             timeout = false;
-             m_evg->getTimerEvent()->wait();
+    void decrPilotCount();
 
-             /*Start of timer. If timeout == true then the timer expired. 
-              If timeout == false then received the signal before the timeout period*/
-             while(!timeout)
-                 timeout = !m_evg->getTimerEvent()->wait(1 + evgAllowedTsGitter);
-    
-             if(epicsTimeOK == generalTimeGetExceptPriority(&ts, 0, 50)) {
-                 printf("Timestamping timeout\n");
-                 ((epicsTime)ts).show(1);
-             }
-
-             m_evg->m_alarmTimestamp = TS_ALARM_MAJOR;
-             scanIoRequest(m_evg->ioScanTimestamp);
-         }     
-    }
-
-    void decrPilotCount() {
-        SCOPED_LOCK(m_lock);
-        m_pilotCount--;
-        return;
-    }
-
-    bool getPilotCount() {
-        SCOPED_LOCK(m_lock);
-        return m_pilotCount != 0;
-    }
+    bool getPilotCount();
 
     epicsMutex  m_lock;
+
 private:
     epicsThread m_thread;
     evgMrm*     m_evg;

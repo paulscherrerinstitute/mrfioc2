@@ -37,7 +37,7 @@
 #include "mrmGpio.h"
 
 #include "sfp.h"
-#include "configurationInfo.h"
+#include "mrmShared.h"
 
 #include "mrmremoteflash.h"
 #include "dataBuffer/mrmDataBuffer.h"
@@ -223,11 +223,6 @@ public:
     volatile unsigned char * const base;
     epicsUInt32 baselen;
     std::auto_ptr<SFP> sfp;
-
-    virtual epicsUInt32 dbuff_IRQ() const;
-    virtual epicsUInt32 dbuff_IRQd() const;
-    virtual epicsUInt32 dbuff_segment() const;
-    virtual epicsUInt32 dbuff_rx() const;
 
 private:
 

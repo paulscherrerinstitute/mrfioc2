@@ -9,31 +9,11 @@
 #include <epicsMMIO.h>
 #include <errlog.h>
 
-
-
 #include "mrmDataBuffer.h"
 #include "mrmDataBufferUser.h"
 
 
-#define DataTxCtrl_done 0x100000
-#define DataTxCtrl_run  0x080000
-#define DataTxCtrl_trig 0x040000
-#define DataTxCtrl_ena  0x020000
-#define DataTxCtrl_mode 0x010000
 
-
-#define DataTxCtrl_saddr_mask 0xFF000000
-#define DataTxCtrl_saddr_shift 24
-
-#define DataBuffer_SegmentIRQ  0x780   //4x32 bit
-#define DataBufferFlags_cheksum 0x7A0   //4x32 bit, each bit for one segment. 0 = Checksum OK
-#define DataBufferFlags_overflow    0x7C0   //4x32 bit, each bit for one segment.
-#define DataBufferFlags_rx  0x7E0   //4x32 bit
-
-
-
-#include "evrRegMap.h"
-//#include "evgRegMap.h"
 
 int drvMrfiocDataBufferDebug = 0;
 epicsExportAddress(int, drvMrfiocDataBufferDebug);
@@ -84,10 +64,10 @@ void mrmDataBuffer::enableRx(bool en)
         //epicsGuard<epicsMutex> g(m_rx_lock);
         reg = nat_ioread32(base+ctrlRegRx);
         if(en) {
-            reg |= DataBufCtrl_mode|DataBufCtrl_rx; // Set mode to DBUS+data buffer and set up buffer for reception
+            reg |= DataRxCtrl_mode|DataRxCtrl_rx; // Set mode to DBUS+data buffer and set up buffer for reception
         } else {
-            reg |= DataBufCtrl_stop;    // stop reception
-            reg &= ~DataBufCtrl_mode;   // set mode to DBUS only (no effect on firmware 200+)
+            reg |= DataRxCtrl_stop;    // stop reception
+            reg &= ~DataRxCtrl_mode;   // set mode to DBUS only (no effect on firmware 200+)
         }
         nat_iowrite32(base+ctrlRegRx, reg);
 
@@ -97,7 +77,7 @@ void mrmDataBuffer::enableRx(bool en)
 
 bool mrmDataBuffer::enabledRx()
 {
-    if(supportsRx()) return (nat_ioread32(base + ctrlRegRx) & DataBufCtrl_mode) != 0;    // check if in DBUS+data buffer mode
+    if(supportsRx()) return (nat_ioread32(base + ctrlRegRx) & DataRxCtrl_mode) != 0;    // check if in DBUS+data buffer mode
     return 0;
 }
 
@@ -167,15 +147,15 @@ void mrmDataBuffer::send(epicsUInt8 startSegment, epicsUInt16 length, epicsUInt8
     }
 
     /* Check input arguments */
-    offset = startSegment*DataTxCtrl_segment_bytes;
-    if (offset >= DataTxCtrl_len_max) {
-        errlogPrintf("Trying to send on offset %d, which is out of range (max offset: %d). Sending aborted!\n", offset, DataTxCtrl_len_max-1);
+    offset = startSegment*DataBuffer_segment_bytes;
+    if (offset >= DataBuffer_len_max) {
+        errlogPrintf("Trying to send on offset %d, which is out of range (max offset: %d). Sending aborted!\n", offset, DataBuffer_len_max-1);
         return;
     }
 
-    if (length + offset > DataTxCtrl_len_max) {
+    if (length + offset > DataBuffer_len_max) {
         dbgPrintf("Too much data to send from offset %d (%d bytes). ", offset, length);
-        length = DataTxCtrl_len_max - offset;
+        length = DataBuffer_len_max - offset;
         dbgPrintf("Sending only %d bytes!\n", length);
     }
 
@@ -293,31 +273,31 @@ void mrmDataBuffer::handleDataBufferRxIRQ(CALLBACK *cb) {
     mrmDataBuffer& self=*static_cast<mrmDataBuffer*>(vptr);
 
     epicsUInt32 sts=nat_ioread32(self.base+self.ctrlRegRx);
-    if((sts & DataBufCtrl_len_mask) > 8)self.printBinary("Control", sts);
+    if((sts & DataRxCtrl_len_mask) > 8)self.printBinary("Control", sts);
 
     // Is reception enabled?
-    if (!(sts & DataBufCtrl_mode)){
+    if (!(sts & DataRxCtrl_mode)){
         errlogPrintf("RX: Reception not enabled!\n");
         return;
     }
 
     // Still receiving?
-    if (sts&DataBufCtrl_rx) {
+    if (sts&DataRxCtrl_rx) {
         dbgPrintf("RX: Still receiving...\n");
         return;
     }
 
-    if (sts&DataBufCtrl_sumerr) {
+    if (sts&DataRxCtrl_sumerr) {
         errlogPrintf("RX: Checksum error\n"); // TODO when is global / segment checksum error bit set?? Should be moved to checksumError()
 
-    } else if((sts & DataBufCtrl_len_mask) > 8){    // TODO: only temporary. Do not receive if only delay compensation is sent.
+    } else if((sts & DataRxCtrl_len_mask) > 8){    // TODO: only temporary. Do not receive if only delay compensation is sent.
 
         /*self.printFlags("Segment", self.base+DataBuffer_SegmentIRQ);
         self.printFlags("Checksum", self.base+DataBufferFlags_cheksum);
         self.printFlags("Overflow", self.base+DataBufferFlags_overflow);
         self.printFlags("Rx", self.base+DataBufferFlags_rx);*/
 
-        epicsUInt16 length=sts & DataBufCtrl_len_mask;
+        epicsUInt16 length=sts & DataRxCtrl_len_mask;
 
 
         /* keep buffer in big endian mode (as sent by EVM/EVR) */
@@ -341,7 +321,7 @@ void mrmDataBuffer::handleDataBufferRxIRQ(CALLBACK *cb) {
                 return;
             }
             else {
-                for(i=segment*DataTxCtrl_segment_bytes; i<length+segment*DataTxCtrl_segment_bytes; i+=4) {
+                for(i=segment*DataBuffer_segment_bytes; i<length+segment*DataBuffer_segment_bytes; i+=4) {
                     *(epicsUInt32*)(self.m_rx_buff+i) = nat_ioread32(self.base + self.dataRegRx + i);
 
                     /*printf("%d ", self.m_rx_buff[i]);
@@ -363,7 +343,7 @@ void mrmDataBuffer::handleDataBufferRxIRQ(CALLBACK *cb) {
     }
 
     self.clearFlags(self.base+DataBufferFlags_rx);
-    nat_iowrite32(self.base+self.ctrlRegRx, sts|DataBufCtrl_rx);    // enable for next reception
+    nat_iowrite32(self.base+self.ctrlRegRx, sts|DataRxCtrl_rx);    // enable for next reception
 }
 
 void mrmDataBuffer::printBinary(const char *preface, epicsUInt32 n) {

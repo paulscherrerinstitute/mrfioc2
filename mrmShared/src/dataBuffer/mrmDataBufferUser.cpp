@@ -110,25 +110,25 @@ void mrmDataBufferUser::registerInterest(size_t offset, size_t length, dataBuffe
 
     /* Check input arguments */
     if(length <= 0) {
-        errlogPrintf("Invalid length %d provided. Offset + length should be in interval [0, %d].\n", length, DataTxCtrl_len_max-1);
+        errlogPrintf("Invalid length %d provided. Offset + length should be in interval [0, %d].\n", length, DataBuffer_len_max-1);
         return;
     }
 
-    if (offset >= DataTxCtrl_len_max) {
-        errlogPrintf("Trying to register on offset %d, which is out of range (max offset: %d).\n", offset, DataTxCtrl_len_max-1);
+    if (offset >= DataBuffer_len_max) {
+        errlogPrintf("Trying to register on offset %d, which is out of range (max offset: %d).\n", offset, DataBuffer_len_max-1);
         return;
     }
 
-    if(offset + length > DataTxCtrl_len_max) {
-        dbgPrintf("Trying to register %d bytes on offset %d, which is longer than buffer size (%d). ", length, offset, DataTxCtrl_len_max);
-        length = DataTxCtrl_len_max - offset;
+    if(offset + length > DataBuffer_len_max) {
+        dbgPrintf("Trying to register %d bytes on offset %d, which is longer than buffer size (%d). ", length, offset, DataBuffer_len_max);
+        length = DataBuffer_len_max - offset;
         dbgPrintf("Cropped length to %d\n", length);
     }
 
-    segment = offset / DataTxCtrl_segment_bytes;
-    segmentOffset = offset - segment * DataTxCtrl_segment_bytes;
+    segment = offset / DataBuffer_segment_bytes;
+    segmentOffset = offset - segment * DataBuffer_segment_bytes;
     length += segmentOffset;
-    noOfSegmentsUpdated = ((length - 1) / DataTxCtrl_segment_bytes) + 1 - (1 / DataTxCtrl_segment_bytes);
+    noOfSegmentsUpdated = ((length - 1) / DataBuffer_segment_bytes) + 1 - (1 / DataBuffer_segment_bytes);
 
 
     epicsGuard<epicsMutex> g(m_segment_interest_lock);
@@ -167,25 +167,25 @@ void mrmDataBufferUser::deRegisterInterest(size_t offset, size_t length, dataBuf
 
     /* Check input arguments */
     if(length <= 0) {
-        errlogPrintf("Invalid length %d provided. Offset + length should be in interval [0, %d].\n", length, DataTxCtrl_len_max-1);
+        errlogPrintf("Invalid length %d provided. Offset + length should be in interval [0, %d].\n", length, DataBuffer_len_max-1);
         return;
     }
 
-    if (offset >= DataTxCtrl_len_max) {
-        errlogPrintf("Trying to de-register on offset %d, which is out of range (max offset: %d).\n", offset, DataTxCtrl_len_max-1);
+    if (offset >= DataBuffer_len_max) {
+        errlogPrintf("Trying to de-register on offset %d, which is out of range (max offset: %d).\n", offset, DataBuffer_len_max-1);
         return;
     }
 
-    if(offset + length > DataTxCtrl_len_max) {
-        dbgPrintf("Trying to de-register %d bytes on offset %d, which is longer than buffer size (%d). ", length, offset, DataTxCtrl_len_max);
-        length = DataTxCtrl_len_max - offset;
+    if(offset + length > DataBuffer_len_max) {
+        dbgPrintf("Trying to de-register %d bytes on offset %d, which is longer than buffer size (%d). ", length, offset, DataBuffer_len_max);
+        length = DataBuffer_len_max - offset;
         dbgPrintf("Cropped length to %d\n", length);
     }
 
-    segment = offset / DataTxCtrl_segment_bytes;
-    segmentOffset = offset - segment * DataTxCtrl_segment_bytes;
+    segment = offset / DataBuffer_segment_bytes;
+    segmentOffset = offset - segment * DataBuffer_segment_bytes;
     length += segmentOffset;
-    noOfSegmentsUpdated = ((length - 1) / DataTxCtrl_segment_bytes) + 1 - (1 / DataTxCtrl_segment_bytes);
+    noOfSegmentsUpdated = ((length - 1) / DataBuffer_segment_bytes) + 1 - (1 / DataBuffer_segment_bytes);
 
     epicsGuard<epicsMutex> g(m_segment_interest_lock);
     for (i=0; i<m_rx_callbacks.size(); i++) {   // find the callback with the specified registered function
@@ -216,24 +216,24 @@ void mrmDataBufferUser::put(size_t offset, size_t length, void *buffer) {
 
     /* Check input arguments */
     if(length <= 0) {
-        errlogPrintf("Invalid length %d provided. Offset + length should be in interval [0, %d].\n", length, DataTxCtrl_len_max-1);
+        errlogPrintf("Invalid length %d provided. Offset + length should be in interval [0, %d].\n", length, DataBuffer_len_max-1);
         return;
     }
 
-    if (offset >= DataTxCtrl_len_max) {
-        errlogPrintf("Trying to send on offset %d, which is out of range (max offset: %d).\n", offset, DataTxCtrl_len_max-1);
+    if (offset >= DataBuffer_len_max) {
+        errlogPrintf("Trying to send on offset %d, which is out of range (max offset: %d).\n", offset, DataBuffer_len_max-1);
         return;
     }
 
-    if(offset + length > DataTxCtrl_len_max) {
+    if(offset + length > DataBuffer_len_max) {
         dbgPrintf("Too much data to send from offset %d (%d bytes). ", offset, length);
-        length = DataTxCtrl_len_max - offset;
+        length = DataBuffer_len_max - offset;
         dbgPrintf("Cropped length to %d\n", length);
     }
 
-    segment = offset / DataTxCtrl_segment_bytes;
-    segmentOffset = offset - segment * DataTxCtrl_segment_bytes;
-    noOfSegmentsUpdated = ((length - 1 + segmentOffset) / DataTxCtrl_segment_bytes) + 1 - (1 / DataTxCtrl_segment_bytes);
+    segment = offset / DataBuffer_segment_bytes;
+    segmentOffset = offset - segment * DataBuffer_segment_bytes;
+    noOfSegmentsUpdated = ((length - 1 + segmentOffset) / DataBuffer_segment_bytes) + 1 - (1 / DataBuffer_segment_bytes);
 
 
     epicsEventWait(m_lock);
@@ -257,24 +257,24 @@ void mrmDataBufferUser::get(size_t offset, size_t length, void *buffer) {
 
     /* Check input arguments */
     if(length <= 0) {
-        errlogPrintf("Invalid length %d provided. Offset + length should be in interval [0, %d].\n", length, DataTxCtrl_len_max-1);
+        errlogPrintf("Invalid length %d provided. Offset + length should be in interval [0, %d].\n", length, DataBuffer_len_max-1);
         return;
     }
 
-    if (offset >= DataTxCtrl_len_max) {
-        errlogPrintf("Trying to receive from offset %d, which is out of range (max offset: %d).\n", offset, DataTxCtrl_len_max-1);
+    if (offset >= DataBuffer_len_max) {
+        errlogPrintf("Trying to receive from offset %d, which is out of range (max offset: %d).\n", offset, DataBuffer_len_max-1);
         return;
     }
 
-    if(offset + length > DataTxCtrl_len_max) {
+    if(offset + length > DataBuffer_len_max) {
         dbgPrintf("Too much data to receive from offset %d (%d bytes). ", offset, length);
-        length = DataTxCtrl_len_max - offset;
+        length = DataBuffer_len_max - offset;
         dbgPrintf("Cropped length to %d\n", length);
     }
 
-    segment = offset / DataTxCtrl_segment_bytes;
-    segmentOffset = offset - segment * DataTxCtrl_segment_bytes;
-    noOfSegmentsUpdated = ((length - 1 + segmentOffset) / DataTxCtrl_segment_bytes) + 1 - (1 / DataTxCtrl_segment_bytes);
+    segment = offset / DataBuffer_segment_bytes;
+    segmentOffset = offset - segment * DataBuffer_segment_bytes;
+    noOfSegmentsUpdated = ((length - 1 + segmentOffset) / DataBuffer_segment_bytes) + 1 - (1 / DataBuffer_segment_bytes);
 
 
     epicsEventWait(m_lock);
@@ -329,19 +329,19 @@ void mrmDataBufferUser::updateSegment(epicsUInt16 *segment, epicsUInt8 *data, ep
     if (epicsEventWaitWithTimeout(m_lock, 1e-6) == epicsEventWaitOK) {
 
         // Copy received segment(s) to local buffer. If the epicsEventWaitWithTimeout expires the buffer is out of sync...
-        for(i=*segment*DataTxCtrl_segment_bytes; i<*length+*segment*DataTxCtrl_segment_bytes; i+=4) {
+        for(i=*segment*DataBuffer_segment_bytes; i<*length+*segment*DataBuffer_segment_bytes; i+=4) {
             *(epicsUInt32*)(m_buff + i) = *(epicsUInt32*)(data + i);
         }
 
         // This destroys data inserted by put() and not yet sent.
         // Copy entire buffer, because we might have mised and update because of m_lock time out.
         // could be (allmost) solved with a boolean...
-        /*for(i=0; i<DataTxCtrl_len_max; i+=4) {
+        /*for(i=0; i<DataBuffer_len_max; i+=4) {
             *(epicsUInt32*)(m_buff + i) = *(epicsUInt32*)(data + i);
         }*/
 
         // Set segment received flags
-        noOfSegmentsUpdated = ((*length - 1) / DataTxCtrl_segment_bytes) + 1 - (1 / DataTxCtrl_segment_bytes);
+        noOfSegmentsUpdated = ((*length - 1) / DataBuffer_segment_bytes) + 1 - (1 / DataBuffer_segment_bytes);
 
         for(i=*segment; i<*segment+noOfSegmentsUpdated; i++){
             segmentMask = (0x80000000 >> i % 32);
@@ -395,7 +395,7 @@ void mrmDataBufferUser::userUpdateThread(void* args) {
                 while(bits){
                     if (segments & 0x80000000) {    // user is interested in this segment
                         segmentNumber = 32 * i + 32 - bits;
-                        userCallback->fptr(segmentNumber * DataTxCtrl_segment_bytes, userCallback->pvt);
+                        userCallback->fptr(segmentNumber * DataBuffer_segment_bytes, userCallback->pvt);
                     }
                     segments <<= 1;
                     bits--;
@@ -428,7 +428,7 @@ void mrmDataBufferUser::sendDataBuffer()
 
             } else {    // this segment will not be sent
                 if (length > 0) {   // previous segment was last consecutive segment to send.
-                    m_data_buffer->send(startSegment, length, &m_buff[startSegment*DataTxCtrl_segment_bytes]);
+                    m_data_buffer->send(startSegment, length, &m_buff[startSegment*DataBuffer_segment_bytes]);
                 }
                 length = 0;
             }
@@ -438,6 +438,6 @@ void mrmDataBufferUser::sendDataBuffer()
     }
 
     if (length > 0) {   // segment(s) at the end of the buffer were changed. Send them.
-        m_data_buffer->send(startSegment, length, &m_buff[startSegment*DataTxCtrl_segment_bytes]);
+        m_data_buffer->send(startSegment, length, &m_buff[startSegment*DataBuffer_segment_bytes]);
     }
 }

@@ -7,7 +7,7 @@
 void mrmNonSegmentedDataBuffer::setTxLength(epicsUInt8 *startSegment, epicsUInt16 *length)
 {
     // We will receive the buffer from the start, so increase the length that will be sent down the wire.
-    *length += (epicsUInt16)*startSegment * DataTxCtrl_segment_bytes;
+    *length += (epicsUInt16)*startSegment * DataBuffer_segment_bytes;
 }
 
 epicsUInt16 mrmNonSegmentedDataBuffer::getFirstReceivedSegment()
