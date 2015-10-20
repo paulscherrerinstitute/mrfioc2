@@ -138,7 +138,7 @@ void callback(size_t updated_offset, void* pvt){
     epicsUInt8 buffer[20];
 
     printf("Got update on offset %d\n", updated_offset);
-    rx->get(offset, 20, (void *)&buffer);
+    rx->get(offset, 16, (void *)&buffer);
     for(int i=0; i<20; i++){
         printf("%d, ", buffer[i]);
     }
@@ -147,12 +147,17 @@ void callback(size_t updated_offset, void* pvt){
 }
 
 static void mrmDataBufferFunc_user(const iocshArgBuf *args) {
-    mrmDataBufferUser *rx = new mrmDataBufferUser("EVR0");
-    mrmDataBufferUser *tx = new mrmDataBufferUser("EVG0");
+    mrmDataBufferUser *rx = new mrmDataBufferUser();
+    mrmDataBufferUser *tx = new mrmDataBufferUser();
     struct timespec t;
     t.tv_nsec = 0000;
     t.tv_sec = 2;
     size_t offset = args[0].ival;
+
+    if (rx->init("EVR0") || tx->init("EVG0")) {
+        printf("Failed to initialize data buffer\n");
+        return;
+    }
 
     epicsUInt8 data[20] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 };
     //done = false;
@@ -161,7 +166,7 @@ static void mrmDataBufferFunc_user(const iocshArgBuf *args) {
     cb_pvt.rx = rx;
     rx->registerInterest(offset, 2, callback, &cb_pvt);
 
-    tx->put(offset, 20, (void *)data);
+    tx->put(offset, 16, (void *)data);
     tx->send(true);
     printf("sleeping...");
     nanosleep(&t,&t);

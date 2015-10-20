@@ -294,25 +294,23 @@ void mrfiocDBuffConfigure(const char* regDevName, const char* mrfName, int proto
     strcpy(device->name, regDevName);
 
     /*
-     * Query mrfioc2 device support for device
+     * Create new data buffer user.
      */
-    //device->bufferHandle = mrmBufInit(mrfName);
-    device->dataBuffer = new mrmDataBufferUser(mrfName);    // TODO where to put destructor??
+    device->dataBuffer = new mrmDataBufferUser();    // TODO where to put destructor??
 
     if (!device->dataBuffer) {
         errlogPrintf("mrfiocDBuffConfigure %s: FAILED! Can not connect to mrf data buffer on device: %s\n", regDevName, mrfName);
         return;
     }
 
-    epicsUInt32 maxLength = DataTxCtrl_len_max - DataTxCtrl_segment_bytes;
-    /*if (mrmBufMaxLen(device->bufferHandle, &maxLength) != 0) {
-        // don't know how much to allocate
-        printf ("mrfiocDBuffConfigure %s: mrmBufMaxLen() failed", regDevName);
+    if (device->dataBuffer->init(mrfName) != 0) {
+        errlogPrintf("mrfiocDBuffConfigure %s: FAILED to initialize data buffer on device %s\n", regDevName, mrfName);
+        delete device->dataBuffer;
         return;
     }
-    dbgPrintf("mrfiocDBuffConfigure %s: %s buffer size is %u bytes\n",
-        regDevName, mrfName, maxLength);
-*/
+
+    epicsUInt32 maxLength = DataTxCtrl_len_max - DataTxCtrl_segment_bytes;
+
     device->proto = (epicsUInt32) protocol; //protocol ID
     epicsPrintf("mrfiocDBuffConfigure %s: registering to protocol %d\n", regDevName, device->proto);
 
