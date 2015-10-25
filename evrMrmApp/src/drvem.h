@@ -42,6 +42,7 @@
 #include "mrmremoteflash.h"
 #include "dataBuffer/mrmDataBuffer.h"
 #include "dataBuffer/mrmNonSegmentedDataBuffer.h"
+#include "dataBuffer/mrmDataBufferDevSup.h"
 
 //! @brief Helper to allow one class to have several runable methods
 template<class C,void (C::*Method)()>
@@ -314,6 +315,7 @@ private:
     mrmRemoteFlash m_remoteFlash;
 
     mrmDataBuffer* m_dataBuffer;
+    mrmDataBufferDevSup* m_dbuff;
 }; // class EVRMRM
 
 #endif // EVRMRML_H_INC

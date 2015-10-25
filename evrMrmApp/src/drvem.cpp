@@ -29,6 +29,7 @@
  */
 #include "sfp.h"
 #include "mrmremoteflash.h"
+#include "dataBuffer/mrmDataBufferDevSup.h"
 
 #include "evrRegMap.h"
 
@@ -321,6 +322,10 @@ try{
         m_dataBuffer = new mrmNonSegmentedDataBuffer(base, U32_DataTxCtrlEvr, U32_DataRxCtrlEvr, U32_DataTxBaseEvr, U32_DataRxBaseEvr);
     } else {
         m_dataBuffer = new mrmDataBuffer(base, U32_DataTxCtrlEvr, U32_DataRxCtrlEvr, U32_DataTxBaseEvr, U32_DataRxBaseEvr);
+    }
+    if(m_dataBuffer != NULL) {
+        m_dbuff = new mrmDataBufferDevSup(name<<id<<":DBUFF", m_dataBuffer);
+        printf("created DBUFF\n");
     }
     CBINIT(&dataBufferRx_cb, priorityHigh, &mrmDataBuffer::handleDataBufferRxIRQ, &*m_dataBuffer);
 
@@ -1179,6 +1184,13 @@ EVRMRM::isr(void *arg)
     if(active&IRQ_BufFull){
         // Silence interrupt
         BITSET(NAT,32,evr->base, DataRxCtrlEvr, DataRxCtrl_stop);
+
+        // Check if the data buffer engine is initialized. This bit should not be set, since we have just stopped reception.
+        // This is needed becaust 201 series firmware keeps triggering the interrupt with bogous data, and we do not wish
+        // to schedule callback requests for this. It prevents cbHigh queue to fill up when starting the driver.
+        if (READ32(evr->base, DataRxCtrlEvr) & DataRxCtrl_rdy) {
+            return;
+        }
 
         callbackRequest(&evr->dataBufferRx_cb);
     }

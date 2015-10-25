@@ -20,6 +20,7 @@ class mrmDataBufferUser;
  */
 class mrmDataBuffer {
 public:
+
     mrmDataBuffer(volatile epicsUInt8 *parentBaseAddress,
                   epicsUInt32 controlRegisterTx,
                   epicsUInt32 controlRegisterRx,
@@ -107,7 +108,11 @@ private:
 
     epicsUInt8 m_rx_buff[2048];         // Always up-to-date copy of buffer
     epicsMutex m_tx_lock;               // This lock must be held while send is in progress
-    //epicsMutex m_rx_lock;             // The lock is held during access to Rx data buffer registry (and when reading Rx, overflow and checksum flags)
+    epicsMutex m_rx_lock;               // The lock is held during access to Rx data buffer registry (and when reading Rx, overflow and checksum flags)
+
+    epicsUInt32 m_checksums[4];         // stores the received checksum error register
+    epicsUInt32 m_overflows[4];         // stores the received overflow flag register
+    epicsUInt32 m_rx_flags[4];          // stores the received segment flags register
 
     std::vector<mrmDataBufferUser*> m_users;    // a list of users who are accessing the data buffer
 

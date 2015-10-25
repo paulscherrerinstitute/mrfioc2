@@ -10,7 +10,7 @@
 #include "mrmDataBuffer.h"
 
 
-typedef void(*dataBufferRXCallback_t)(size_t updated_offset, void* pvt);
+typedef void(*dataBufferRXCallback_t)(size_t updated_offset, size_t length, void* pvt);
 
 
 /**
@@ -25,17 +25,8 @@ typedef void(*dataBufferRXCallback_t)(size_t updated_offset, void* pvt);
  * Note that if users callbacks (registerd via registerInterest function) are slow (slower than updates), data will be lost!
  *
  */
-class mrmDataBufferUser
-{
+class mrmDataBufferUser {
 public:
-    struct {
-        bool update;
-        epicsThreadId id;
-        bool running;
-        bool stop;
-        epicsMutexId lock;
-    } m_user_thread;
-
     mrmDataBufferUser();
     ~mrmDataBufferUser();
 
@@ -52,16 +43,15 @@ public:
      * @param len is the length to register to
      * @param fptr is the callback function to invoke when data buffer on registered addresses is updated
      * @param pvt is pointer to the callback function private structure
+     * @return the ID of the registered interest
      */
-    void registerInterest(size_t offset, size_t length, dataBufferRXCallback_t fptr, void* pvt);
+    epicsUInt16 registerInterest(size_t offset, size_t length, dataBufferRXCallback_t fptr, void* pvt);
 
     /**
-     * @brief deRegisterInterest Remove the callback for part (or whole) data buffer
-     * @param offset is the starting offset to de-register from
-     * @param length is the length from the offset to de-register from
-     * @param fptr is the callback function that was previously registered
+     * @brief removeInterest Remove previously registred interest
+     * @param id is the ID of the previously registered interest
      */
-    void deRegisterInterest(size_t offset, size_t length, dataBufferRXCallback_t fptr);
+    void removeInterest(epicsUInt16 id);
 
     /**
      * @brief put data to buffer, but do not send it yet
@@ -116,7 +106,7 @@ public:
      * @param data is the updated data
      * @param length is the length of the updated data from the segment offset
      */
-    void updateSegment(epicsUInt16 *segment, epicsUInt8* data, epicsUInt16 *length);
+    void updateSegment(epicsUInt16 segment, epicsUInt8* data, epicsUInt16 length);
 
     /**
      * @brief supportsRx Checks if the underlying data buffer supports reception
@@ -142,19 +132,25 @@ public:
 
 
 private:
-    epicsEventId m_lock;        // Protects race condition between level 1 callback and consumer
-    epicsUInt8 m_buff[2048];    // Always up-to-date copy of buffer
+    epicsUInt8 m_rx_buff[2048];    // Always up-to-date copy of buffer
+    epicsUInt8 m_tx_buff[2048];    // Always up-to-date copy of buffer
 
-    epicsUInt32 m_tx_segments[4];                   // Semgent mask for updated segments,  e.g. segments that are updated in a local buffer but were not sent out yet
-    epicsUInt32 m_rx_segments[4];                   // Semgent mask for updates that were received but not yet dispatched
-    epicsUInt32 m_global_segment_interest_mask[4];  // Stores interests from all registered callbacks, which helps to determine if SW overflow occured
-    epicsMutex m_segment_interest_lock;             // Protects registering and de-registering segment interests
+    epicsUInt32 m_tx_segments[4];  // Semgent mask for updated segments,  e.g. segments that are updated in a local buffer but were not sent out yet
+    epicsUInt32 m_rx_segments[4];  // Semgent mask for updates that were received but not yet dispatched
+    epicsMutex m_tx_lock;          // Protects race condition put and send
+    epicsMutexId m_rx_lock;        // Protects race condition between level 1 callback and consumer
 
-    mrmDataBuffer *m_data_buffer;                   // Reference to the underlying data buffer
+    mrmDataBuffer *m_data_buffer;  // Reference to the underlying data buffer
+
+    epicsThreadId m_thread_id;
+    bool m_thread_stop;             // used to signal the user update thread that it should exit
+    epicsEventId m_thread_stopped;  // used to signal when the user update thread exited
+    epicsEventId m_thread_sync;     // used for synchronisation between updateSegment and updateUserThread
+
 
     //Registered callbacks
     struct RxCallback{
-        epicsUInt32 segment_interest_mask[4];   // 4*32 = 128 == number of segments. each set bit indicates registered interest
+        epicsUInt32 offset;
         epicsUInt32 length;
         dataBufferRXCallback_t fptr;         //callback function pointer
         void* pvt;                              //callback private

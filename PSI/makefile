@@ -84,6 +84,7 @@ SOURCES+=../mrfCommon/src/devObjMBB.cpp
 SOURCES+=../mrmShared/src/dataBuffer/mrmDataBuffer.cpp
 SOURCES+=../mrmShared/src/dataBuffer/mrmNonSegmentedDataBuffer.cpp
 SOURCES+=../mrmShared/src/dataBuffer/mrmDataBufferUser.cpp
+SOURCES+=../mrmShared/src/dataBuffer/mrmDataBufferDevSup.cpp
 
 SOURCES+=../evrMrmApp/src/mrmGpio.cpp
 SOURCES+=../evrMrmApp/src/delayModule.cpp
@@ -94,6 +95,7 @@ DBDS+=../evrMrmApp/src/drvemSupport.dbd
 DBDS+=../evgMrmApp/src/evgInit.dbd
 #DBDS+=../mrfCommon/src/aSubRecord.dbd # aSubRecord is part of epics base!
 DBDS+=../mrfCommon/src/mrfCommon.dbd
+DBDS+=../mrmShared/src/dataBuffer/mrmDataBuffer.dbd
 
 # regDev Support
 SOURCES+=mrfioc2RegDev/drvMrfiocDBuff.cpp

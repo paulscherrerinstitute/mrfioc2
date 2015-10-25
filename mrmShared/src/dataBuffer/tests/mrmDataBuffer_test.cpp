@@ -41,6 +41,7 @@ static void mrmDataBufferSendFunc(const iocshArgBuf *args) {
    mrmDataBuffer *dataBuffer = getDataBufferFromDevice(args[0].sval);
    if(dataBuffer == NULL) {
        printf("Data buffer for %s not found.\n", args[0].sval);
+       return;
    }
 
    if(segment<0){ // reset entire buffer
@@ -76,6 +77,7 @@ static void mrmDataBufferEnableFunc(const iocshArgBuf *args) {
     mrmDataBuffer *dataBuffer = getDataBufferFromDevice(args[0].sval);
     if(dataBuffer == NULL) {
        printf("Data buffer for %s not found.\n", args[0].sval);
+       return;
     }
 
     if(direction == 0) { // Rx
@@ -131,15 +133,15 @@ struct cbpvt{
     size_t offset;
 } cb_pvt;
 
-void callback(size_t updated_offset, void* pvt){
+void callback(size_t updated_offset, size_t length, void* pvt){
     cbpvt *str = (cbpvt *)pvt;
     mrmDataBufferUser *rx = (*str).rx;
     size_t offset = (*str).offset;
-    epicsUInt8 buffer[20];
+    epicsUInt8 buffer[3000];
 
-    printf("Got update on offset %d\n", updated_offset);
-    rx->get(offset, 16, (void *)&buffer);
-    for(int i=0; i<20; i++){
+    printf("Got update on offset %d+%d\n", updated_offset, length);
+    rx->get(offset, length, (void *)&buffer);
+    for(unsigned int i=0; i<length; i++){
         printf("%d, ", buffer[i]);
     }
     printf("\n");
@@ -153,6 +155,7 @@ static void mrmDataBufferFunc_user(const iocshArgBuf *args) {
     t.tv_nsec = 0000;
     t.tv_sec = 2;
     size_t offset = args[0].ival;
+    int idx;
 
     if (rx->init("EVR0") || tx->init("EVG0")) {
         printf("Failed to initialize data buffer\n");
@@ -164,19 +167,24 @@ static void mrmDataBufferFunc_user(const iocshArgBuf *args) {
 
     cb_pvt.offset = offset;
     cb_pvt.rx = rx;
-    rx->registerInterest(offset, 2, callback, &cb_pvt);
+    idx = rx->registerInterest(offset, 20, callback, &cb_pvt);
 
-    tx->put(offset, 16, (void *)data);
+    tx->put(offset, 3044, (void *)data);
     tx->send(true);
     printf("sleeping...");
     nanosleep(&t,&t);
     printf("DONE!\n");
 
-    rx->deRegisterInterest(offset, 2, callback);
+    rx->removeInterest(idx);
 
 
-    delete rx;
+    printf("interest removed\n");
+
     delete tx;
+    printf("Deleted tx\n");
+    delete rx;
+
+    printf("Deleted rx tx\n");
 }
 
 /******************/

@@ -100,14 +100,15 @@ enum PLLBandwidth {
 
 
 // Rx control register offsets
-#  define DataRxCtrl_rx       0x8000    // Write 1 to start, read for run status (RX/ENA)
+#  define DataRxCtrl_rx       0x8000    // Write 1 to set up for reception, read for run status (RX/ENA)
 #  define DataRxCtrl_stop     0x4000    // Write 1 to stop, read for complete status (RDY/DIS)
+#  define DataRxCtrl_rdy      DataRxCtrl_stop    // Data buffer Rx complete status (RDY)
 #  define DataRxCtrl_sumerr   0x2000    // Checksum error (CS)
 #  define DataRxCtrl_mode     0x1000    // Data buffer and/or DBus mode selection (EN)
 #  define DataRxCtrl_len_mask 0x0fff
 
 // misc
-#define DataBuffer_segment_bytes 16
+#define DataBuffer_segment_length 16
 #define DataBuffer_len_max  DataTxCtrl_len_mask
 
 
