@@ -20,10 +20,13 @@
 #include "mrf/version.h"
 #include <mrfCommonIO.h> 
 #include <mrfCommon.h> 
+#include "evgRegMap.h"
 
 #ifdef __rtems__
 #include <rtems/bspIo.h>
 #endif //__rtems__
+
+#define evgAllowedTsGitter 0.5f
 
 
 evgMrm::evgMrm(const std::string& id, bus_configuration& busConfig, volatile epicsUInt8* const pReg, volatile epicsUInt8* const fctReg, const epicsPCIDevice *pciDevice):
@@ -34,7 +37,6 @@ evgMrm::evgMrm(const std::string& id, bus_configuration& busConfig, volatile epi
     irqStart1_queued(0),
     irqExtInp_queued(0),
     m_syncTimestamp(false),
-    m_buftx(id+":BUFTX",pReg+U32_DataBufferControl, pReg+U8_DataBuffer_base),
     m_pciDevice(pciDevice),
     m_id(id),
     m_pReg(pReg),
@@ -141,6 +143,12 @@ evgMrm::evgMrm(const std::string& id, bus_configuration& busConfig, volatile epi
             m_fct = 0;
         }
 
+        // TODO: use define?
+        if(version < 200){
+            m_dataBuffer = new mrmNonSegmentedDataBuffer(pReg, U32_DataTxCtrlEvg, 0, U8_DataTxBaseEvg, 0);
+        } else {
+            m_dataBuffer = new mrmDataBuffer(pReg, U32_DataTxCtrlEvg, 0, U8_DataTxBaseEvg, 0);
+        }
     
         /*
          * Swtiched order of creation for m_timerEvent and m_wdTimer.
@@ -831,6 +839,11 @@ evgMrm::getSFP(epicsUInt32 n){
     return sfp;
 }
 
+mrmDataBuffer *evgMrm::getDataBuffer()
+{
+    return m_dataBuffer;
+}
+
 namespace {
     struct showSoftSeq {int lvl; void operator()(evgSoftSeq* seq){seq->show(lvl);}};
 }
@@ -840,4 +853,56 @@ void evgMrm::show(int lvl)
     showSoftSeq ss;
     ss.lvl = lvl;
     m_softSeqMgr.visit(ss);
+}
+
+
+
+
+/*********************************/
+/** Start of the WD Timer class **/
+/*********************************/
+
+wdTimer::wdTimer(const char *name, evgMrm *evg):
+    m_lock(),
+    m_thread(*this,name,epicsThreadGetStackSize(epicsThreadStackSmall),50),
+    m_evg(evg),
+    m_pilotCount(4) {
+    m_thread.start();
+}
+
+void wdTimer::run() {
+    struct epicsTimeStamp ts;
+    bool timeout;
+
+     while(1) {
+         m_lock.lock();
+         m_pilotCount = 4;
+         m_lock.unlock();
+         timeout = false;
+         m_evg->getTimerEvent()->wait();
+
+         /*Start of timer. If timeout == true then the timer expired.
+          If timeout == false then received the signal before the timeout period*/
+         while(!timeout)
+             timeout = !m_evg->getTimerEvent()->wait(1 + evgAllowedTsGitter);
+
+         if(epicsTimeOK == generalTimeGetExceptPriority(&ts, 0, 50)) {
+             printf("Timestamping timeout\n");
+             ((epicsTime)ts).show(1);
+         }
+
+         m_evg->m_alarmTimestamp = TS_ALARM_MAJOR;
+         scanIoRequest(m_evg->ioScanTimestamp);
+     }
+}
+
+void wdTimer::decrPilotCount() {
+    SCOPED_LOCK(m_lock);
+    m_pilotCount--;
+    return;
+}
+
+bool wdTimer::getPilotCount() {
+    SCOPED_LOCK(m_lock);
+    return m_pilotCount != 0;
 }

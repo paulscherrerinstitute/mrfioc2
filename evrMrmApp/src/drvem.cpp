@@ -27,9 +27,9 @@
  * Theese have to be included before epicsExport, thus they are declared in cpp and h file.
  * epicsExport flips the flag from library importing to exporting. Remote flash, sfp, ... have to be imported from dll here
  */
-#include "mrmDataBufTx.h"
 #include "sfp.h"
 #include "mrmremoteflash.h"
+#include "dataBuffer/mrmDataBufferDevSup.h"
 
 #include "evrRegMap.h"
 
@@ -118,8 +118,6 @@ EVRMRM::EVRMRM(const std::string& n,
   ,id(n)
   ,base(b)
   ,baselen(bl)
-  ,buftx(n+":BUFTX", b+U32_DataTxCtrl, b+U32_DataTx_base)
-  ,bufrx(n+":BUFRX", b, 10) // Sets depth of Rx queue
   ,count_recv_error(0)
   ,count_hardware_irq(0)
   ,count_heartbeat(0)
@@ -166,9 +164,8 @@ try{
     scanIoInit(&IRQfifofull);
     scanIoInit(&timestampValidChange);
 
-    CBINIT(&data_rx_cb   , priorityHigh, &mrmBufRx::drainbuf, &this->bufrx);
-    CBINIT(&drain_log_cb , priorityMedium, &EVRMRM::drain_log , this);
-    CBINIT(&poll_link_cb , priorityMedium, &EVRMRM::poll_link , this);
+    CBINIT(&drain_log_cb   , priorityMedium, &EVRMRM::drain_log , this);
+    CBINIT(&poll_link_cb   , priorityMedium, &EVRMRM::poll_link , this);
 
     if(ver>=5) {
         std::ostringstream name;
@@ -319,6 +316,18 @@ try{
         events[i].owner=this;
         CBINIT(&events[i].done, priorityLow, &EVRMRM::sentinel_done , &events[i]);
     }
+
+    // TODO: use define for version number
+    if(ver < 200) {
+        m_dataBuffer = new mrmNonSegmentedDataBuffer(base, U32_DataTxCtrlEvr, U32_DataRxCtrlEvr, U32_DataTxBaseEvr, U32_DataRxBaseEvr);
+    } else {
+        m_dataBuffer = new mrmDataBuffer(base, U32_DataTxCtrlEvr, U32_DataRxCtrlEvr, U32_DataTxBaseEvr, U32_DataRxBaseEvr);
+    }
+    if(m_dataBuffer != NULL) {
+        m_dbuff = new mrmDataBufferDevSup(name<<id<<":DBUFF", m_dataBuffer);
+        printf("created DBUFF\n");
+    }
+    CBINIT(&dataBufferRx_cb, priorityHigh, &mrmDataBuffer::handleDataBufferRxIRQ, &*m_dataBuffer);
 
     SCOPED_LOCK(evrLock);
 
@@ -1111,6 +1120,11 @@ EVRMRM::setDbusToPulserMapping(epicsUInt8 dbus, epicsUInt32 pulsers){
     return WRITE32(base, DBusTrigger(dbus), pulsers);
 }
 
+mrmDataBuffer *EVRMRM::getDataBuffer()
+{
+    return m_dataBuffer;
+}
+
 void
 EVRMRM::enableIRQ(void)
 {
@@ -1175,10 +1189,16 @@ EVRMRM::isr(void *arg)
     }
     if(active&IRQ_BufFull){
         // Silence interrupt
-        BITSET(NAT,32,evr->base, DataBufCtrl, DataBufCtrl_stop);
+        BITSET(NAT,32,evr->base, DataRxCtrlEvr, DataRxCtrl_stop);
 
-        //FIXME: Support 300 series EVR (ask Jukka for reg map update)
-//        callbackRequest(&evr->data_rx_cb);
+        // Check if the data buffer engine is initialized. This bit should not be set, since we have just stopped reception.
+        // This is needed becaust 201 series firmware keeps triggering the interrupt with bogous data, and we do not wish
+        // to schedule callback requests for this. It prevents cbHigh queue to fill up when starting the driver.
+        if (READ32(evr->base, DataRxCtrlEvr) & DataRxCtrl_rdy) {
+            return;
+        }
+
+        callbackRequest(&evr->dataBufferRx_cb);
     }
     if(active&IRQ_HWMapped){
         evr->shadowIRQEna &= ~IRQ_HWMapped;

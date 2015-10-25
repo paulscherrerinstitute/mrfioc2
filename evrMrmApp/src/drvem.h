@@ -33,15 +33,16 @@
 #include "drvemPulser.h"
 #include "drvemCML.h"
 #include "delayModule.h"
-#include "drvemRxBuf.h"
 
 #include "mrmGpio.h"
 
-#include "mrmDataBufTx.h"
 #include "sfp.h"
-#include "configurationInfo.h"
+#include "mrmShared.h"
 
 #include "mrmremoteflash.h"
+#include "dataBuffer/mrmDataBuffer.h"
+#include "dataBuffer/mrmNonSegmentedDataBuffer.h"
+#include "dataBuffer/mrmDataBufferDevSup.h"
 
 //! @brief Helper to allow one class to have several runable methods
 template<class C,void (C::*Method)()>
@@ -218,12 +219,11 @@ public:
 #if defined(__linux__) || defined(_WIN32)
     const void *isrLinuxPvt;
 #endif
+    mrmDataBuffer* getDataBuffer();
 
     const std::string id;
     volatile unsigned char * const base;
     epicsUInt32 baselen;
-    mrmDataBufTx buftx;
-    mrmBufRx bufrx;
     std::auto_ptr<SFP> sfp;
 
 private:
@@ -283,6 +283,7 @@ private:
 
     // Buffer received
     CALLBACK data_rx_cb;
+    CALLBACK dataBufferRx_cb;
 
     // Called when the Event Log is stopped
     CALLBACK drain_log_cb;
@@ -313,6 +314,9 @@ private:
 
 
     mrmRemoteFlash m_remoteFlash;
+
+    mrmDataBuffer* m_dataBuffer;
+    mrmDataBufferDevSup* m_dbuff;
 }; // class EVRMRM
 
 #endif // EVRMRML_H_INC

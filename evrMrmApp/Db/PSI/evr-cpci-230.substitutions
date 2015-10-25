@@ -19,6 +19,11 @@ file "sfp.template"
 {SYS="$(SYS)", EVR="$(EVR)", OBJ="SFP", ID="0"}
 }
 
+file "dataBuffer.template"
+{
+{SYS="$(SYS)", EVR="$(EVR)"}
+}
+
 
 file "evr-prescaler.template"
 {pattern

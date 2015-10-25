@@ -416,17 +416,6 @@ record(stringin, "$(SYS)-$(EVR):Time-I") {
   field(TSE , "125")
 }
 
-record(bo, "$(SYS)-$(EVR):Link-RxMode-Sel") {
-  field(DESC, "Downstream data mode")
-  field(DTYP, "Obj Prop bool")
-  field(OUT , "@OBJ=$(EVR):BUFRX, PROP=Enable")
-  field(PINI, "YES")
-  field( VAL , "$(Link-RxMode-Sel\=1)")
-  field(ZNAM, "DBus only")
-  field(ONAM, "DBus+Buffer")
-  info(autosaveFields_pass0, "VAL")
-}
-
 ## Delay compensation records
 record(bo, "$(SYS)-$(EVR):DlyCompensation-Enabled-Sel") {
   field(DESC, "Enable/disable delay compensation")

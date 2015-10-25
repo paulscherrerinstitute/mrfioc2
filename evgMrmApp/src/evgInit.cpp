@@ -14,7 +14,6 @@
 #include <errlog.h>
 
 #include "mrf/object.h"
-#include "mrf/databuf.h"
 
 #include <devcsr.h>
 /* DZ: Does Win32 have a problem with devCSRTestSlot()? */
@@ -635,7 +634,7 @@ REGINFO("AcTrigControl",    AcTrigControl,    32),
 REGINFO("AcTrigEvtMap",     AcTrigEvtMap,      8),
 REGINFO("SwEventControl",   SwEventControl,    8),
 REGINFO("SwEventCode",      SwEventCode,       8),
-REGINFO("DataBufferControl",DataBufferControl,32),
+REGINFO("DataTxCtrlEvg",    DataTxCtrlEvg,    32),
 REGINFO("DBusSrc",          DBusSrc,          32),
 REGINFO("FPGAVersion",      FPGAVersion,      32),
 REGINFO("uSecDiv",          uSecDiv,          16),

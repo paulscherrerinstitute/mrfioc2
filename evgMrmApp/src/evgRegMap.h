@@ -15,15 +15,13 @@
 
 //=====================
 // Status Registers
-//
-#define  U32_Status             0x0000  // Status Register (full)
+// Main status register is defined in mrmShared.h (U32_Status)
 #define  U8_DBusRxValue         0x0000  // Distributed Data Bus Received Values
 #define  U8_DBusTxValue         0x0001  // Distributed Data Bus Transmitted Values
 
 //=====================
 // General Control Register
-//
-#define  U32_Control            0x0004  // Control Register
+// is defined in mrmShared.h (U32_Control)
 
 //=====================
 // Interrupt Control Registers
@@ -52,7 +50,7 @@
 //=====================
 // Data Buffer and Distributed Data Bus Control
 //
-#define  U32_DataBufferControl  0x0020  // Data Buffer Control Register
+#define  U32_DataTxCtrlEvg  0x0020  // Data Buffer Control Register
 #define  U32_DBusSrc            0x0024  // Distributed Data Bus Mapping Register
 
 //=====================
@@ -153,8 +151,8 @@
 //=====================
 // Data Buffer Area
 //
-#define  U8_DataBuffer_base     0x0800  // Data Buffer Array Base Offset
-#define  U8_DataBuffer(n)       (U8_DataBuffer_base + n)
+#define  U8_DataTxBaseEvg       0x0800  // Data Buffer Array Base Offset
+#define  U8_DataBuffer(n)       (U8_DataTxBaseEvg + n)
 
 //=====================
 // SFP Transceiver EEPROM and diagnostics
@@ -326,7 +324,6 @@ const epicsUInt16 evgNumFrontInp = 2;
 const epicsUInt16 evgNumUnivInp = 4;
 const epicsUInt16 evgNumRearInp = 16;*/
 const epicsUInt16 evgNumSeqRam = 2;
-const epicsFloat32 evgAllowedTsGitter = 0.5f;
 const epicsUInt16 evgEndOfSeqBuf = 5;
 const epicsUInt16 evgNumSFPModules = 8;
 

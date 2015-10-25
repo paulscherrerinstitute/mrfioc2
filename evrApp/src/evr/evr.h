@@ -19,7 +19,7 @@
 #include <epicsTime.h>
 #include <callback.h>
 
-#include "configurationInfo.h"
+#include "mrmShared.h"
 
 class epicsShareClass Pulser;
 class epicsShareClass Output;
@@ -32,22 +32,6 @@ enum TSSource {
   TSSourceInternal=0,
   TSSourceEvent=1,
   TSSourceDBus4=2
-};
-
-/* PLL Bandwidth Select (see Silicon Labs Si5317 datasheet)
- *  000 – Si5317, BW setting HM (lowest loop bandwidth)
- *  001 – Si5317, BW setting HL
- *  010 – Si5317, BW setting MH
- *  011 – Si5317, BW setting MM
- *  100 – Si5317, BW setting ML (highest loop bandwidth)
- */
-enum PLLBandwidth {
-    PLLBandwidth_HM=0,
-    PLLBandwidth_HL=1,
-    PLLBandwidth_MH=2,
-    PLLBandwidth_MM=3,
-    PLLBandwidth_ML=4,
-    PLLBandwidth_MAX=PLLBandwidth_ML
 };
 
 /**@brief Base interface for EVRs.

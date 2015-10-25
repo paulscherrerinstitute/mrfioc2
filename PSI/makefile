@@ -1,12 +1,13 @@
 include /ioc/tools/driver.makefile
 
 PROJECT=mrfioc2
+LIBVERSION=skube_dbuff
 
 BUILDCLASSES=Linux
 EXCLUDE_VERSIONS=3.13 3.14.8
 # build for IFC, PPMAC, PC
-ARCH_FILTER=eldk52-e500v2 eldk42-ppc4xxFP SL%
-#ARCH_FILTER=eldk52-e500v2
+#ARCH_FILTER=eldk52-e500v2 eldk42-ppc4xxFP SL%
+ARCH_FILTER=eldk52-e500v2
 
 
 SOURCES+=../evrApp/src/asub.c
@@ -24,8 +25,6 @@ SOURCES+=../mrfCommon/src/mrfFracSynth.c
 
 
 SOURCES+=../mrmShared/src/sfp.cpp
-SOURCES+=../mrmShared/src/mrmDataBufTx.cpp
-SOURCES+=../mrmShared/src/devMrfBufTx.cpp
 SOURCES+=../mrmShared/src/spi_flash.c
 SOURCES+=../mrmShared/src/mrmremoteflash.cpp
 
@@ -40,14 +39,10 @@ SOURCES+=../evrApp/src/evr.cpp
 #SOURCES+=../evrApp/src/ntpShmNull.cpp
 #SOURCES+=../evrApp/src/evrMain.cpp
 SOURCES+=../evrApp/src/devEvrMapping.cpp
-SOURCES+=../evrMrmApp/src/devMrmBuf.cpp
 SOURCES+=../evrMrmApp/src/drvemPulser.cpp
 SOURCES+=../evrMrmApp/src/drvemIocsh.cpp
-SOURCES+=../evrMrmApp/src/bufrxmgr.cpp
-SOURCES+=../evrMrmApp/src/devMrmBufRx.cpp
 SOURCES+=../evrMrmApp/src/drvem.cpp
 SOURCES+=../evrMrmApp/src/drvemInput.cpp
-SOURCES+=../evrMrmApp/src/drvemRxBuf.cpp
 SOURCES+=../evrMrmApp/src/os/default/irqHack.cpp
 #SOURCES+=../evrMrmApp/src/os/RTEMS/irqHack.cpp
 #SOURCES+=../evrMrmApp/src/evrmrmMain.cpp
@@ -82,11 +77,14 @@ SOURCES+=../mrfCommon/src/devObjLong.cpp
 SOURCES+=../mrfCommon/src/object.cpp
 SOURCES+=../mrfCommon/src/devObjAnalog.cpp
 SOURCES+=../mrfCommon/src/devObjString.cpp
-SOURCES+=../mrfCommon/src/databuf.cpp
 SOURCES+=../mrfCommon/src/devObjBinary.cpp
 SOURCES+=../mrfCommon/src/objectTest.cpp
 SOURCES+=../mrfCommon/src/devObjMBB.cpp
 #SOURCES+=../mrmtestApp/src/mrfMain.cpp
+SOURCES+=../mrmShared/src/dataBuffer/mrmDataBuffer.cpp
+SOURCES+=../mrmShared/src/dataBuffer/mrmNonSegmentedDataBuffer.cpp
+SOURCES+=../mrmShared/src/dataBuffer/mrmDataBufferUser.cpp
+SOURCES+=../mrmShared/src/dataBuffer/mrmDataBufferDevSup.cpp
 
 SOURCES+=../evrMrmApp/src/mrmGpio.cpp
 SOURCES+=../evrMrmApp/src/delayModule.cpp
@@ -97,9 +95,14 @@ DBDS+=../evrMrmApp/src/drvemSupport.dbd
 DBDS+=../evgMrmApp/src/evgInit.dbd
 #DBDS+=../mrfCommon/src/aSubRecord.dbd # aSubRecord is part of epics base!
 DBDS+=../mrfCommon/src/mrfCommon.dbd
+DBDS+=../mrmShared/src/dataBuffer/mrmDataBuffer.dbd
 
 # regDev Support
 SOURCES+=mrfioc2RegDev/drvMrfiocDBuff.cpp
 DBDS+=mrfioc2RegDev/mrfregdev.dbd
  
 HEADERS+=../evrMrmApp/src/devMrmBuf.h
+
+# TESTS
+SOURCES+=../mrmShared/src/dataBuffer/tests/mrmDataBuffer_test.cpp
+DBDS+=../mrmShared/src/dataBuffer/tests/dataBufferTests.dbd

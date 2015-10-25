@@ -41,7 +41,7 @@
  * access.
  */
 
-#define U32_Status      0x000
+// Main status register is defined in mrmShared.h (U32_Status)
 #  define Status_dbus_mask  0xff000000
 #  define Status_dbus_shift 24
 #  define Status_legvio     0x00010000
@@ -49,7 +49,7 @@
 #  define Status_linksts    0x00000040
 #  define Status_fifostop   0x00000020
 
-#define U32_Control     0x004
+// General control register is defined in mrmShared.h (U32_Control)
 #  define Control_enable            0x80000000
 #  define Control_dlyComp_disable   0x00100000
 #  define Control_evtfwd            0x40000000
@@ -97,22 +97,14 @@
 
 #define U32_IRQPulseMap 0x010
 
-#define U32_DataBufCtrl 0x020
-/* Write 1 to start, read for run status */
-#  define DataBufCtrl_rx     0x8000
-/* Write 1 to stop, read for complete status */
-#  define DataBufCtrl_stop   0x4000
-#  define DataBufCtrl_sumerr 0x2000
-#  define DataBufCtrl_mode   0x1000
-#  define DataBufCtrl_len_mask 0x0fff
-
-#define U32_DataTxCtrl  0x024
-#  define DataTxCtrl_done 0x100000
-#  define DataTxCtrl_run  0x080000
-#  define DataTxCtrl_trig 0x040000
-#  define DataTxCtrl_ena  0x020000
-#  define DataTxCtrl_mode 0x010000
-#  define DataTxCtrl_len_mask 0x0007fc
+// Data buffer
+#define U32_DataRxCtrlEvr  0x020
+#define U32_DataTxCtrlEvr  0x024
+#define U32_DataRxBaseEvr  0x0800
+#define U32_DataTxBaseEvr  0x1800
+/* 0 <= N <= 0x7ff */
+#define U32_DataRx(N)      (U32_DataRxBaseEvr + (N))
+#define U32_DataTx(N)      (U32_DataTxBaseEvr + (N))
 
 #define U32_FWVersion   0x02c
 #  define FWVersion_type_mask 0xf0000000
@@ -305,13 +297,7 @@
 #define U32_OutputCMLCount(N) (U32_OutputCMLNCount +(0x20*(N)))
 #define U32_OutputCMLPatLength(N) (U32_OutputCMLNPatLength +(0x20*(N)))
 
-#define U32_DataRx_base     0x0800
-#define U32_DataTx_base     0x1800
 #define U32_EventLog_base   0x2000
-
-/* 0 <= N <= 0x7ff */
-#define U32_DataRx(N)      (U32_DataRx_base + (N))
-#define U32_DataTx(N)      (U32_DataTx_base + (N))
 
 /* 0 <= N <= 0xfff */
 #define U32_EventLog(N)    (U32_EventLog_base
