@@ -51,6 +51,8 @@ public:
     void setFracSynFreq(epicsFloat64);
     epicsFloat64 getFracSynFreq() const;
 
+    bool getPllLocked() const;
+
     void setPLLBandwidth(PLLBandwidth pllBandwidth);
     PLLBandwidth getPLLBandwidth() const;
 

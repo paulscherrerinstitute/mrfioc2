@@ -158,6 +158,7 @@ public:
         {SCOPED_LOCK(evrLock);return eventClock;}
     virtual void clockSet(double);
 
+    virtual bool cgLocked() const;
     virtual bool pllLocked() const;
     virtual void setPllBandwidth(PLLBandwidth pllBandwidth);
     virtual PLLBandwidth pllBandwidth() const;

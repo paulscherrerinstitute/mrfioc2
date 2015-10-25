@@ -24,6 +24,11 @@ MRMInput::MRMInput(const std::string& n, volatile unsigned char *b, size_t i)
 {
 }
 
+bool MRMInput::state() const
+{
+    return (READ32(base, InputMapFP(idx)) & InputMapFP_state) != 0;
+}
+
 void
 MRMInput::dbusSet(epicsUInt16 v)
 {

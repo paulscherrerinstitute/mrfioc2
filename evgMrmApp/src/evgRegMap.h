@@ -84,9 +84,6 @@
 #define  U32_SeqControl_base    0x0070  // Sequencer Control Register Array Base
 #define  U32_SeqControl(n)      (U32_SeqControl_base + (4*(n)))
 
-#define  U8_SeqSWMask_base      0x0072  // Sequence RAM SW mask register. TODO currently implemented in main EVG class. Maybe this is not the right place...
-#define  U8_SeqSWMask(n)        (U8_SeqSWMask_base + (4*(n)))
-
 #define  U8_SeqTrigSrc_base     0x0073
 #define  U8_SeqTrigSrc(n)       (U8_SeqTrigSrc_base + (4*(n)))
 
@@ -230,6 +227,9 @@
 #define  EVG_CLK_SRC_PXIE100   2
 #define  EVG_CLK_SRC_RECOVERED 4
 #define  EVG_CLK_SRC_PXIE10    6
+#define  EVG_CLK_PLLLOCK        0x80
+#define  EVG_CLK_BW             0x70        /* PLL Bandwidth Select (see Silicon Labs Si5317 datasheet) */
+#define  EVG_CLK_BW_shift       4
 
 /**************************************************************************************************/
 /*    Sequence RAM Control Register (0x0070, 0x0074) Bit Assignments                              */
@@ -242,6 +242,11 @@
 #define  EVG_SEQ_RAM_RESET      0x00040000  // Sequence RAM Reset
 #define  EVG_SEQ_RAM_DISABLE    0x00020000  // Sequence RAM Disable
 #define  EVG_SEQ_RAM_ARM        0x00010000  // Sequence RAM Enable/Arm
+
+#define  EVG_SEQ_RAM_SWMASK     0x0000F000  // Sequence RAM Software mask
+#define  EVG_SEQ_RAM_SWMASK_shift   12
+#define  EVG_SEQ_RAM_SWENABLE   0x00000F00  // Sequence RAM Software enable
+#define  EVG_SEQ_RAM_SWENABLE_shift 8
 
 #define  EVG_SEQ_RAM_REPEAT_MASK 0x00180000 // Sequence RAM Repeat Mode Mask
 #define  EVG_SEQ_RAM_NORMAL     0x00000000  // Normal Mode: Repeat every trigger
@@ -266,16 +271,16 @@
 #define  EVG_MXC_RESET          0x01000000
 #define  EVG_BCGEN              0x00800000  // Delay compensation beacon generator enable
 #define  EVG_DCMST              0x00400000  // Delay compensation master enable
-#define  EVG_CLK_BW             0x70        /* PLL Bandwidth Select (see Silicon Labs Si5317 datasheet) */
-#define  EVG_CLK_BW_shift       4
 
 /**************************************************************************************************/
 /* Input                                                                                          */
 /**************************************************************************************************/
 
-#define  EVG_EXT_INP_IRQ_ENA    0x01000000
-#define  EVG_INP_SEQ_MASK       0x01FFFFFF
-#define  EVG_INP_SEQ_MASK_shift 25
+#define  EVG_EXT_INP_IRQ_ENA      0x01000000
+#define  EVG_INP_SEQ_MASK         0xF0000000
+#define  EVG_INP_SEQ_MASK_shift   28
+#define  EVG_INP_SEQ_ENABLE       0x0E000000
+#define  EVG_INP_SEQ_ENABLE_shift 24
 
 
 /**************************************************************************************************/

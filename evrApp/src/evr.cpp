@@ -132,6 +132,7 @@ OBJECT_BEGIN(EVR) {
     OBJECT_PROP1("dc id", &EVR::delayCompensationIntValue);
     OBJECT_PROP1("dc s", &EVR::delayCompensationStatus);
 
+    OBJECT_PROP1("CG Lock Status", &EVR::cgLocked);
     OBJECT_PROP1("PLL Lock Status", &EVR::pllLocked);
     OBJECT_PROP2("PLL Bandwidth", &EVR::pllBandwidthRaw, &EVR::setPllBandwidthRaw);
 
@@ -157,6 +158,8 @@ OBJECT_BEGIN(EVR) {
 
 
 OBJECT_BEGIN(Input) {
+
+    OBJECT_PROP1("State", &Input::state);
 
     OBJECT_PROP2("Active Level", &Input::levelHigh, &Input::levelHighSet);
 

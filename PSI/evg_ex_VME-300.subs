@@ -36,6 +36,10 @@ file "db/evg-vme-300.template"
          Dbus6-Map-Sel=0, #0 = Off, 1 = Front input, 2= Mxc 6, 3 = From upstream EVG : EVG DBUS Source
          Dbus7-Map-Sel=0, #0 = Off, 1 = Front input, 2= Mxc 7, 3 = From upstream EVG : EVG DBUS Source
 
+         ## Soft sequence masking / enable
+         SoftSeqMask-SP=0,    # Masks soft sequence events (software)
+         SoftSeqEnable-SP=0,  # Enables soft sequence events (software)
+
          ## Input configuration
          # Front Inputs      
          FrontInp0-EnaIrq-Sel=0,   #0 = Disabled, 1 = Enabled : Enable External Input IRQ (1PPS input)
@@ -55,6 +59,8 @@ file "db/evg-vme-300.template"
          FrontInp0-DbusSrc5-SP=0,  #0 = Disable, 1 = Enable: Map to DBus bit
          FrontInp0-DbusSrc6-SP=0,  #0 = Disable, 1 = Enable: Map to DBus bit
          FrontInp0-DbusSrc7-SP=0,  #0 = Disable, 1 = Enable: Map to DBus bit
+         FrontInp0-SeqMask-SP=0,   # Masks soft sequence events
+         FrontInp0-SeqEnable-SP=0, # Enables soft sequence events
 
          FrontInp1-EnaIrq-Sel=0, #0 = Disabled, 1 = Enabled : Enable External Input IRQ (1PPS input)
          FrontInp1-TrigSrc0-SP=0,  #0 = Disable, 1 = Enable: Map to event trigger
@@ -73,6 +79,8 @@ file "db/evg-vme-300.template"
          FrontInp1-DbusSrc5-SP=0,  #0 = Disable, 1 = Enable: Map to DBus bit
          FrontInp1-DbusSrc6-SP=0,  #0 = Disable, 1 = Enable: Map to DBus bit
          FrontInp1-DbusSrc7-SP=0,  #0 = Disable, 1 = Enable: Map to DBus bit
+         FrontInp1-SeqMask-SP=0,   # Masks soft sequence events
+         FrontInp1-SeqEnable-SP=0, # Enables soft sequence events
 
          FrontInp2-EnaIrq-Sel=0, #0 = Disabled, 1 = Enabled : Enable External Input IRQ (1PPS input)
          FrontInp2-TrigSrc0-SP=0,  #0 = Disable, 1 = Enable: Map to event trigger
@@ -91,6 +99,8 @@ file "db/evg-vme-300.template"
          FrontInp2-DbusSrc5-SP=0,  #0 = Disable, 1 = Enable: Map to DBus bit
          FrontInp2-DbusSrc6-SP=0,  #0 = Disable, 1 = Enable: Map to DBus bit
          FrontInp2-DbusSrc7-SP=0,  #0 = Disable, 1 = Enable: Map to DBus bit
+         FrontInp2-SeqMask-SP=0,   # Masks soft sequence events
+         FrontInp2-SeqEnable-SP=0, # Enables soft sequence events
 
          # Rear Inputs
          RearInp0-EnaIrq-Sel=0,  #0 = Disabled, 1 = Enabled : Enable External Input IRQ (1PPS input)
@@ -110,6 +120,8 @@ file "db/evg-vme-300.template"
          RearInp0-DbusSrc5-SP=0,  #0 = Disable, 1 = Enable: Map to DBus bit
          RearInp0-DbusSrc6-SP=0,  #0 = Disable, 1 = Enable: Map to DBus bit
          RearInp0-DbusSrc7-SP=0,  #0 = Disable, 1 = Enable: Map to DBus bit
+         RearInp0-SeqMask-SP=0,   # Masks soft sequence events
+         RearInp0-SeqEnable-SP=0, # Enables soft sequence events
 
          RearInp1-EnaIrq-Sel=0,  #0 = Disabled, 1 = Enabled : Enable External Input IRQ (1PPS input)
          RearInp1-TrigSrc0-SP=0,  #0 = Disable, 1 = Enable: Map to event trigger
@@ -128,6 +140,8 @@ file "db/evg-vme-300.template"
          RearInp1-DbusSrc5-SP=0,  #0 = Disable, 1 = Enable: Map to DBus bit
          RearInp1-DbusSrc6-SP=0,  #0 = Disable, 1 = Enable: Map to DBus bit
          RearInp1-DbusSrc7-SP=0,  #0 = Disable, 1 = Enable: Map to DBus bit
+         RearInp1-SeqMask-SP=0,   # Masks soft sequence events
+         RearInp1-SeqEnable-SP=0, # Enables soft sequence events
          
          RearInp2-EnaIrq-Sel=0,  #0 = Disabled, 1 = Enabled : Enable External Input IRQ (1PPS input)
          RearInp2-TrigSrc0-SP=0,  #0 = Disable, 1 = Enable: Map to event trigger
@@ -146,6 +160,8 @@ file "db/evg-vme-300.template"
          RearInp2-DbusSrc5-SP=0,  #0 = Disable, 1 = Enable: Map to DBus bit
          RearInp2-DbusSrc6-SP=0,  #0 = Disable, 1 = Enable: Map to DBus bit
          RearInp2-DbusSrc7-SP=0,  #0 = Disable, 1 = Enable: Map to DBus bit
+         RearInp2-SeqMask-SP=0,   # Masks soft sequence events
+         RearInp2-SeqEnable-SP=0, # Enables soft sequence events
 
          RearInp3-EnaIrq-Sel=0,  #0 = Disabled, 1 = Enabled : Enable External Input IRQ (1PPS input)
          RearInp3-TrigSrc0-SP=0,  #0 = Disable, 1 = Enable: Map to event trigger
@@ -164,6 +180,8 @@ file "db/evg-vme-300.template"
          RearInp3-DbusSrc5-SP=0,  #0 = Disable, 1 = Enable: Map to DBus bit
          RearInp3-DbusSrc6-SP=0,  #0 = Disable, 1 = Enable: Map to DBus bit
          RearInp3-DbusSrc7-SP=0,  #0 = Disable, 1 = Enable: Map to DBus bit
+         RearInp3-SeqMask-SP=0,   # Masks soft sequence events
+         RearInp3-SeqEnable-SP=0, # Enables soft sequence events
 
          RearInp4-EnaIrq-Sel=0,  #0 = Disabled, 1 = Enabled : Enable External Input IRQ (1PPS input)
          RearInp4-TrigSrc0-SP=0,  #0 = Disable, 1 = Enable: Map to event trigger
@@ -182,6 +200,8 @@ file "db/evg-vme-300.template"
          RearInp4-DbusSrc5-SP=0,  #0 = Disable, 1 = Enable: Map to DBus bit
          RearInp4-DbusSrc6-SP=0,  #0 = Disable, 1 = Enable: Map to DBus bit
          RearInp4-DbusSrc7-SP=0,  #0 = Disable, 1 = Enable: Map to DBus bit
+         RearInp4-SeqMask-SP=0,   # Masks soft sequence events
+         RearInp4-SeqEnable-SP=0, # Enables soft sequence events
 
          RearInp5-EnaIrq-Sel=0,  #0 = Disabled, 1 = Enabled : Enable External Input IRQ (1PPS input)
          RearInp5-TrigSrc0-SP=0,  #0 = Disable, 1 = Enable: Map to event trigger
@@ -200,6 +220,8 @@ file "db/evg-vme-300.template"
          RearInp5-DbusSrc5-SP=0,  #0 = Disable, 1 = Enable: Map to DBus bit
          RearInp5-DbusSrc6-SP=0,  #0 = Disable, 1 = Enable: Map to DBus bit
          RearInp5-DbusSrc7-SP=0,  #0 = Disable, 1 = Enable: Map to DBus bit
+         RearInp5-SeqMask-SP=0,   # Masks soft sequence events
+         RearInp5-SeqEnable-SP=0, # Enables soft sequence events
 
          RearInp6-EnaIrq-Sel=0,  #0 = Disabled, 1 = Enabled : Enable External Input IRQ (1PPS input)
          RearInp6-TrigSrc0-SP=0,  #0 = Disable, 1 = Enable: Map to event trigger
@@ -218,6 +240,8 @@ file "db/evg-vme-300.template"
          RearInp6-DbusSrc5-SP=0,  #0 = Disable, 1 = Enable: Map to DBus bit
          RearInp6-DbusSrc6-SP=0,  #0 = Disable, 1 = Enable: Map to DBus bit
          RearInp6-DbusSrc7-SP=0,  #0 = Disable, 1 = Enable: Map to DBus bit
+         RearInp6-SeqMask-SP=0,   # Masks soft sequence events
+         RearInp6-SeqEnable-SP=0, # Enables soft sequence events
 
          RearInp7-EnaIrq-Sel=0,  #0 = Disabled, 1 = Enabled : Enable External Input IRQ (1PPS input)
          RearInp7-TrigSrc0-SP=0,  #0 = Disable, 1 = Enable: Map to event trigger
@@ -236,6 +260,8 @@ file "db/evg-vme-300.template"
          RearInp7-DbusSrc5-SP=0,  #0 = Disable, 1 = Enable: Map to DBus bit
          RearInp7-DbusSrc6-SP=0,  #0 = Disable, 1 = Enable: Map to DBus bit
          RearInp7-DbusSrc7-SP=0,  #0 = Disable, 1 = Enable: Map to DBus bit
+         RearInp7-SeqMask-SP=0,   # Masks soft sequence events
+         RearInp7-SeqEnable-SP=0, # Enables soft sequence events
 
          RearInp8-EnaIrq-Sel=0,  #0 = Disabled, 1 = Enabled : Enable External Input IRQ (1PPS input)
          RearInp8-TrigSrc0-SP=0,  #0 = Disable, 1 = Enable: Map to event trigger
@@ -254,6 +280,8 @@ file "db/evg-vme-300.template"
          RearInp8-DbusSrc5-SP=0,  #0 = Disable, 1 = Enable: Map to DBus bit
          RearInp8-DbusSrc6-SP=0,  #0 = Disable, 1 = Enable: Map to DBus bit
          RearInp8-DbusSrc7-SP=0,  #0 = Disable, 1 = Enable: Map to DBus bit
+         RearInp8-SeqMask-SP=0,   # Masks soft sequence events
+         RearInp8-SeqEnable-SP=0, # Enables soft sequence events
 
          RearInp9-EnaIrq-Sel=0,  #0 = Disabled, 1 = Enabled : Enable External Input IRQ (1PPS input)
          RearInp9-TrigSrc0-SP=0,  #0 = Disable, 1 = Enable: Map to event trigger
@@ -272,6 +300,8 @@ file "db/evg-vme-300.template"
          RearInp9-DbusSrc5-SP=0,  #0 = Disable, 1 = Enable: Map to DBus bit
          RearInp9-DbusSrc6-SP=0,  #0 = Disable, 1 = Enable: Map to DBus bit
          RearInp9-DbusSrc7-SP=0,  #0 = Disable, 1 = Enable: Map to DBus bit
+         RearInp9-SeqMask-SP=0,   # Masks soft sequence events
+         RearInp9-SeqEnable-SP=0, # Enables soft sequence events
 
          RearInp10-EnaIrq-Sel=0,  #0 = Disabled, 1 = Enabled : Enable External Input IRQ (1PPS input)
          RearInp10-TrigSrc0-SP=0,  #0 = Disable, 1 = Enable: Map to event trigger
@@ -290,6 +320,8 @@ file "db/evg-vme-300.template"
          RearInp10-DbusSrc5-SP=0,  #0 = Disable, 1 = Enable: Map to DBus bit
          RearInp10-DbusSrc6-SP=0,  #0 = Disable, 1 = Enable: Map to DBus bit
          RearInp10-DbusSrc7-SP=0,  #0 = Disable, 1 = Enable: Map to DBus bit
+         RearInp10-SeqMask-SP=0,   # Masks soft sequence events
+         RearInp10-SeqEnable-SP=0, # Enables soft sequence events
 
          RearInp11-EnaIrq-Sel=0,  #0 = Disabled, 1 = Enabled : Enable External Input IRQ (1PPS input)
          RearInp11-TrigSrc0-SP=0,  #0 = Disable, 1 = Enable: Map to event trigger
@@ -308,6 +340,8 @@ file "db/evg-vme-300.template"
          RearInp11-DbusSrc5-SP=0,  #0 = Disable, 1 = Enable: Map to DBus bit
          RearInp11-DbusSrc6-SP=0,  #0 = Disable, 1 = Enable: Map to DBus bit
          RearInp11-DbusSrc7-SP=0,  #0 = Disable, 1 = Enable: Map to DBus bit
+         RearInp11-SeqMask-SP=0,   # Masks soft sequence events
+         RearInp11-SeqEnable-SP=0, # Enables soft sequence events
 
          RearInp12-EnaIrq-Sel=0,  #0 = Disabled, 1 = Enabled : Enable External Input IRQ (1PPS input)
          RearInp12-TrigSrc0-SP=0,  #0 = Disable, 1 = Enable: Map to event trigger
@@ -326,6 +360,8 @@ file "db/evg-vme-300.template"
          RearInp12-DbusSrc5-SP=0,  #0 = Disable, 1 = Enable: Map to DBus bit
          RearInp12-DbusSrc6-SP=0,  #0 = Disable, 1 = Enable: Map to DBus bit
          RearInp12-DbusSrc7-SP=0,  #0 = Disable, 1 = Enable: Map to DBus bit
+         RearInp12-SeqMask-SP=0,   # Masks soft sequence events
+         RearInp12-SeqEnable-SP=0, # Enables soft sequence events
 
          RearInp13-EnaIrq-Sel=0,  #0 = Disabled, 1 = Enabled : Enable External Input IRQ (1PPS input)
          RearInp13-TrigSrc0-SP=0,  #0 = Disable, 1 = Enable: Map to event trigger
@@ -344,6 +380,8 @@ file "db/evg-vme-300.template"
          RearInp13-DbusSrc5-SP=0,  #0 = Disable, 1 = Enable: Map to DBus bit
          RearInp13-DbusSrc6-SP=0,  #0 = Disable, 1 = Enable: Map to DBus bit
          RearInp13-DbusSrc7-SP=0,  #0 = Disable, 1 = Enable: Map to DBus bit
+         RearInp13-SeqMask-SP=0,   # Masks soft sequence events
+         RearInp13-SeqEnable-SP=0, # Enables soft sequence events
 
          RearInp14-EnaIrq-Sel=0,  #0 = Disabled, 1 = Enabled : Enable External Input IRQ (1PPS input)
          RearInp14-TrigSrc0-SP=0,  #0 = Disable, 1 = Enable: Map to event trigger
@@ -362,6 +400,8 @@ file "db/evg-vme-300.template"
          RearInp14-DbusSrc5-SP=0,  #0 = Disable, 1 = Enable: Map to DBus bit
          RearInp14-DbusSrc6-SP=0,  #0 = Disable, 1 = Enable: Map to DBus bit
          RearInp14-DbusSrc7-SP=0,  #0 = Disable, 1 = Enable: Map to DBus bit
+         RearInp14-SeqMask-SP=0,   # Masks soft sequence events
+         RearInp14-SeqEnable-SP=0, # Enables soft sequence events
 
          RearInp15-EnaIrq-Sel=0,  #0 = Disabled, 1 = Enabled : Enable External Input IRQ (1PPS input)
          RearInp15-TrigSrc0-SP=0,  #0 = Disable, 1 = Enable: Map to event trigger
@@ -380,6 +420,8 @@ file "db/evg-vme-300.template"
          RearInp15-DbusSrc5-SP=0,  #0 = Disable, 1 = Enable: Map to DBus bit
          RearInp15-DbusSrc6-SP=0,  #0 = Disable, 1 = Enable: Map to DBus bit
          RearInp15-DbusSrc7-SP=0,  #0 = Disable, 1 = Enable: Map to DBus bit
+         RearInp15-SeqMask-SP=0,   # Masks soft sequence events
+         RearInp15-SeqEnable-SP=0, # Enables soft sequence events
          
          ## Event trigger configuration
          TrigEvt0-Enable-Sel=1, #0 = Disabled, 1 = Enabled :  EVG Trigger Event Enable
