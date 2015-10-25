@@ -3,7 +3,7 @@
 #include "epicsExport.h"
 
 #include "evgMrm.h"
-#include "drvem.h"
+#include "evrMrm.h"
 
 #include "time.h"
 

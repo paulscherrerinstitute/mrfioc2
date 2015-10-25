@@ -1,2 +1,9 @@
-*.html
-*.png
+*.aux
+*.bbl
+*.blg
+*.log
+*.out
+*.synctex.gz
+*.toc
+img/*.pdf
+doxy/*

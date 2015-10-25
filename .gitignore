@@ -22,3 +22,5 @@ rtf
 *.autosave
 
 configure/
+evgMrmApp/Db/*.db
+evrMrmApp/Db/*.db

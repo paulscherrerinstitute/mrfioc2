@@ -72,7 +72,6 @@ mrfCommon_SRCS += mrfCommon.cpp
 mrfCommon_LIBS += $(EPICS_BASE_IOC_LIBS)
 
 #OBJS_IOC += $(mrfCommon_SRCS)
-mrfCommon_LIBS += $(EPICS_BASE_IOC_LIBS)
 
 #---------------------
 # Build the host-side utilities for creating and analyzing
