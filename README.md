@@ -29,17 +29,12 @@ For building the documentation (for more information inspect readme in `document
 * LaTeX environment (pdflatex, bibtex) to build the documentation from latex source to pdf format.
 * [doxygen](http://www.stack.nl/~dimitri/doxygen/) for generating documentation from source code
 
-Data buffer interface using regDev:
-
-* [mrfioc2_regDev](https://github.psi.ch/projects/COS/repos/mrfioc2_regdev/branches)
-
-
 
 ## Building from scratch
 
 The mrfioc2 driver is structured as an ordinary EPICS application. In order to build it from source:
 
-* clone the sources from git repository by running command `git clone https://skube_s@github.psi.ch/scm/ed/regdev.git`, which creates a top folder called `mrfioc2`.
+* clone the sources from git repository by running command `git clone https://skube_s@github.psi.ch/scm/ed/mrfioc2.git`, which creates a top folder called `mrfioc2`.
 * update files in `mrfioc2/configure` folder to match your system, and to include additional libraries to be build together with the driver (eg. set paths in `configure/RELEASE`).
 * run `make -f Makefile` in the `mrfioc2` folder.
 

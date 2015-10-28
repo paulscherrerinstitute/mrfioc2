@@ -34,15 +34,15 @@
 #include "evgDbus.h"
 #include "evgInput.h"
 #include "evgOutput.h"
-#include "evgSequencer/evgSeqRamManager.h"    
+#include "evgSequencer/evgSeqRamManager.h"
 #include "evgSequencer/evgSoftSeqManager.h"
 
 #include "mrmShared.h"
 #include "sfp.h"
 #include "evgFct.h"
 #include "mrmremoteflash.h"
-#include "dataBuffer/mrmDataBuffer.h"
-#include "dataBuffer/mrmNonSegmentedDataBuffer.h"
+
+class mrmDataBuffer;
 
 /*********
  * Each EVG will be represented by the instance of class 'evgMrm'. Each evg 

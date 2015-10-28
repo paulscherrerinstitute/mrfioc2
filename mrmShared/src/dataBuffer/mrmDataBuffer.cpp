@@ -49,7 +49,7 @@ mrmDataBuffer::mrmDataBuffer(volatile epicsUInt8 *parentBaseAddress,
         nat_iowrite32(base+DataBuffer_SegmentIRQ+8, 0xFFFFFFFF);
         nat_iowrite32(base+DataBuffer_SegmentIRQ+12, 0xFFFFFFFF);
 
-        clearRxFlags();
+        clearFlags(base+DataBufferFlags_rx);
 
     }*/
 }

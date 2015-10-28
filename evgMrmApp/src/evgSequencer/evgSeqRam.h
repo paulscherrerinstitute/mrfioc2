@@ -8,8 +8,7 @@
 #include <mrfCommon.h>
 #include "evgSoftSeq.h"
 
-#include <evgInput.h>
-
+class evgInput;
 class evgMrm;
 class evgSeqRam {
 

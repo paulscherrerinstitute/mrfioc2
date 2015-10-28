@@ -1176,7 +1176,7 @@ EVRMRM::isr(void *arg)
         if ( !(READ32(evr->base, DataRxCtrlEvr) & DataRxCtrl_rdy) ) {
             callbackRequest(&evr->dataBufferRx_cb);
         } else {
-            //errlogPrintf("Could not acknowledge data buffer IRQ. Data buffer engine not yet initalized? Not issuing callbacks...\n"); // TODO printing in isr is ugly....but this should never be printed (except at startup on 201 firmware)
+            errlogPrintf("Could not acknowledge data buffer IRQ. Data buffer engine not yet initalized? Not issuing callbacks...\n"); // TODO printing in isr is ugly....but this should never be printed (except at startup on 201 firmware)
         }
     }
     if(active&IRQ_HWMapped){

@@ -1,7 +1,7 @@
 include /ioc/tools/driver.makefile
 
 MODULE=mrfioc2
-LIBVERSION=fw201
+#LIBVERSION=test
 
 
 BUILDCLASSES=Linux

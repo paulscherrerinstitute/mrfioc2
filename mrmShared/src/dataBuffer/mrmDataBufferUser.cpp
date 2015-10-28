@@ -109,7 +109,7 @@ epicsUInt32 mrmDataBufferUser::registerInterest(size_t offset, size_t length, da
 
     /* Check input arguments */
     if(length <= 0) {
-        errlogPrintf("Invalid length %d provided. Offset + length should be in interval [0, %d].\n", length, DataBuffer_len_max-1);
+        errlogPrintf("Invalid length %zu provided. Offset + length should be in interval [0, %d].\n", length, DataBuffer_len_max-1);
         return -1;
     }
 
@@ -119,14 +119,14 @@ epicsUInt32 mrmDataBufferUser::registerInterest(size_t offset, size_t length, da
     }
 
     if (offset >= DataBuffer_len_max) {
-        errlogPrintf("Trying to register on offset %d, which is out of range (max offset: %d).\n", offset, DataBuffer_len_max-1);
+        errlogPrintf("Trying to register on offset %zu, which is out of range (max offset: %d).\n", offset, DataBuffer_len_max-1);
         return -1;
     }
 
     if(offset + length > DataBuffer_len_max) {
-        dbgPrintf("Trying to register %d bytes on offset %d, which is longer than buffer size (%d). ", length, offset, DataBuffer_len_max);
+        dbgPrintf("Trying to register %zu bytes on offset %zu, which is longer than buffer size (%d). ", length, offset, DataBuffer_len_max);
         length = DataBuffer_len_max - offset;
-        dbgPrintf("Cropped length to %d\n", length);
+        dbgPrintf("Cropped length to %zu\n", length);
     }  
 
 
@@ -163,19 +163,19 @@ void mrmDataBufferUser::put(size_t offset, size_t length, void *buffer) {
 
     /* Check input arguments */
     if(length <= 0) {
-        errlogPrintf("Invalid length %d provided. Offset + length should be in interval [0, %d].\n", length, DataBuffer_len_max-1);
+        errlogPrintf("Invalid length %zu provided. Offset + length should be in interval [0, %d].\n", length, DataBuffer_len_max-1);
         return;
     }
 
     if (offset >= DataBuffer_len_max) {
-        errlogPrintf("Trying to send on offset %d, which is out of range (max offset: %d).\n", offset, DataBuffer_len_max-1);
+        errlogPrintf("Trying to send on offset %zu, which is out of range (max offset: %d).\n", offset, DataBuffer_len_max-1);
         return;
     }
 
     if(offset + length > DataBuffer_len_max) {
-        dbgPrintf("Too much data to send from offset %d (%d bytes). ", offset, length);
+        dbgPrintf("Too much data to send from offset %zu (%zu bytes). ", offset, length);
         length = DataBuffer_len_max - offset;
-        dbgPrintf("Cropped length to %d\n", length);
+        dbgPrintf("Cropped length to %zu\n", length);
     }
 
     segment = offset / DataBuffer_segment_length;
@@ -196,19 +196,19 @@ void mrmDataBufferUser::get(size_t offset, size_t length, void *buffer) {
 
     /* Check input arguments */
     if(length <= 0) {
-        errlogPrintf("Invalid length %d provided. Offset + length should be in interval [0, %d].\n", length, DataBuffer_len_max-1);
+        errlogPrintf("Invalid length %zu provided. Offset + length should be in interval [0, %d].\n", length, DataBuffer_len_max-1);
         return;
     }
 
     if (offset >= DataBuffer_len_max) {
-        errlogPrintf("Trying to receive from offset %d, which is out of range (max offset: %d).\n", offset, DataBuffer_len_max-1);
+        errlogPrintf("Trying to receive from offset %zu, which is out of range (max offset: %d).\n", offset, DataBuffer_len_max-1);
         return;
     }
 
     if(offset + length > DataBuffer_len_max) {
-        dbgPrintf("Too much data to receive from offset %d (%d bytes). ", offset, length);
+        dbgPrintf("Too much data to receive from offset %zu (%zu bytes). ", offset, length);
         length = DataBuffer_len_max - offset;
-        dbgPrintf("Cropped length to %d\n", length);
+        dbgPrintf("Cropped length to %zu\n", length);
     }
 
 
@@ -219,7 +219,7 @@ void mrmDataBufferUser::get(size_t offset, size_t length, void *buffer) {
 void mrmDataBufferUser::send(bool wait)
 {
     epicsUInt32 segments;
-    epicsUInt8 i, bits, startSegment;
+    epicsUInt8 i, bits, startSegment=0;
     epicsUInt16 length = 0;
 
     if (m_data_buffer != NULL) {
@@ -294,7 +294,7 @@ void mrmDataBufferUser::userUpdateThread(void* args) {
     epicsUInt8 i, bits;
     mrmDataBufferUser* parent = static_cast<mrmDataBufferUser*>(args);
     RxCallback *userCallback;
-    epicsUInt16 startOffset, maxOffset, minLength, length=0;
+    epicsUInt16 startOffset=0, maxOffset, minLength, length=0;
 
     epicsEventWait(parent->m_thread_sync);
     while (!parent->m_thread_stop) {

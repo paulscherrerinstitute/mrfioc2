@@ -2,19 +2,21 @@
 TOP=../..
 include $(TOP)/configure/CONFIG
 
-INC += mrmDataBufTx.h
+LIBRARY_IOC += mrmShared
 INC += sfp.h
-INC += configurationInfo.h
+INC += mrmShared.h
 INC += mrmremoteflash.h
+INC += dataBuffer/mrmDataBuffer.h
+INC += dataBuffer/mrmNonSegmentedDataBuffer.h
+INC += dataBuffer/mrmDataBufferUser.h
 
 #DBD += mrmShared.dbd
 
-LIBRARY_IOC += mrmShared
+SRC_DIRS += ../dataBuffer
 
-# to avoid creating an mrfMrmCommon library
-# when no non-MRM boards are supported yet
-mrmShared_SRCS += mrmDataBufTx.cpp
-mrmShared_SRCS += devMrfBufTx.cpp
+mrmShared_SRCS += mrmDataBuffer.cpp
+mrmShared_SRCS += mrmNonSegmentedDataBuffer.cpp
+mrmShared_SRCS += mrmDataBufferUser.cpp
 mrmShared_SRCS += sfp.cpp
 mrmShared_SRCS += spi_flash.c
 mrmShared_SRCS += mrmremoteflash.cpp
