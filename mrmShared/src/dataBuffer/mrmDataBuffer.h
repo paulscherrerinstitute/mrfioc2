@@ -20,7 +20,6 @@ class mrmDataBufferUser;
  */
 class mrmDataBuffer {
 public:
-
     mrmDataBuffer(volatile epicsUInt8 *parentBaseAddress,
                   epicsUInt32 controlRegisterTx,
                   epicsUInt32 controlRegisterRx,
@@ -64,9 +63,6 @@ public:
      */
     bool supportsTx();
 
-    //Return pointer to HW memory
-    //epicsUInt8* getDataBufferReg();
-
     /**
     * @brief waitForTxComplete busy waits until data buffer transmission is complete (pools the TXCPT bit).
     */
@@ -106,9 +102,9 @@ private:
     epicsUInt32 const dataRegTx;        // Tx data register offset
     epicsUInt32 const dataRegRx;        // Rx data register offset
 
-    epicsUInt8 m_rx_buff[2048];         // Always up-to-date copy of buffer
+    epicsUInt8 m_rx_buff[2048];         // Always up-to-date copy of rx buffer
     epicsMutex m_tx_lock;               // This lock must be held while send is in progress
-    epicsMutex m_rx_lock;               // The lock is held during access to Rx data buffer registry (and when reading Rx, overflow and checksum flags)
+    epicsMutex m_rx_lock;               // The lock prevents adding/removing users while data is being dispatched to users.
 
     epicsUInt32 m_checksums[4];         // stores the received checksum error register
     epicsUInt32 m_overflows[4];         // stores the received overflow flag register

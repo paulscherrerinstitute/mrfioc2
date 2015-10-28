@@ -48,6 +48,17 @@ record(bi, "$(SYS)-$(EVR):Link-Sts") {
   field(FLNK, "$(SYS)-$(EVR):Cnt-RxErr-I")
 }
 
+#record(bo, "$(SYS)-$(EVR):Link-DBufMode-Sel") {
+#  field(DESC, "Downstream data mode")
+#  field(DTYP, "Obj Prop bool")
+#  field(OUT , "@OBJ=$(EVR):DBUF, PROP=Enable")
+#  field(PINI, "YES")
+#  field(VAL , "$(Link-DBufMode-Sel\=1)")
+#  field(ZNAM, "DBus only")
+#  field(ONAM, "DBus+Buffer")
+#  info(autosaveFields_pass0, "VAL")
+#}
+
 record(longin, "$(SYS)-$(EVR):Cnt-RxErr-I") {
   field(DTYP, "Obj Prop uint32")
   field(DESC, "Receive Error Count")

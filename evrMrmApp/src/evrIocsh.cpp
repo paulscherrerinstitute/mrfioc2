@@ -311,11 +311,11 @@ try {
     const epicsPCIDevice *cur=0;
 
     if( devPCIFindDBDF(mrmevrs,o,b,d,f,&cur,0) ){
-        printf("PCI Device not found on %d:%d.%d\n", b, d, f);
+        printf("PCI Device not found on %x:%x.%x\n", b, d, f);
         return;
     }
 
-    printf("Device %s  %u:%u.%u\n",id,cur->bus,cur->device,cur->function);
+    printf("Device %s  %x:%x.%x\n", id, cur->bus, cur->device, cur->function);
     printf("Using IRQ %u\n",cur->irq);
 
     volatile epicsUInt8 *plx = 0, *evr = 0;

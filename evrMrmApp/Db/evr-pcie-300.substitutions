@@ -17,11 +17,6 @@ file "sfp.template"
 {SYS="$(SYS)", EVR="$(EVR)", ID="0"}
 }
 
-file "dataBuffer.template"
-{
-{SYS="$(SYS)", EVR="$(EVR)"}
-}
-
 file "evr-prescaler.template"
 {pattern
 { SYS,      EVR,     ID, MAX}

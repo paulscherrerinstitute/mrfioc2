@@ -31,19 +31,35 @@ record(calc, "$(SYS)-$(EVR):PS$(ID)-Rate-I") {
 }
 
 
-record(mbboDirect, "$(SYS)-$(EVR):PS$(ID)-PulserMap-SP") {
-  field(DTYP, "Obj Prop uint32")
-  field(OUT , "@OBJ=$(EVR):PS$(ID), PROP=Pulser mapping")
+# Map prescaler to a pulser
+record(mbboDirect, "$(SYS)-$(EVR):PS$(ID)-PulserMap-L-SP") {
+  field(DTYP, "Obj Prop uint16")
+  field(OUT , "@OBJ=$(EVR):PS$(ID), PROP=Pulser mapping L")
   field(PINI, "YES")
+  field(NOBT, 16)
   field(DESC, "Pulser mapping")
-  field(VAL , "$(PS$(ID)-PulserMap-SP\=0)")
-  field(NOBT, "16")
-  field(MASK, "0xFFFFFFFF")
-  field(FLNK, "$(SYS)-$(EVR):PS$(ID)-PulserMap-RB")
+  field(VAL , "$(PS$(ID)-PulserMap-L-SP\=0)")
+  field(FLNK, "$(SYS)-$(EVR):PS$(ID)-PulserMap-L-RB")
 }
 
 
-record(ai, "$(SYS)-$(EVR):PS$(ID)-PulserMap-RB") {
-  field(DTYP, "Obj Prop uint32")
-  field(INP , "@OBJ=$(EVR):PS$(ID), PROP=Pulser mapping")
+record(mbbiDirect, "$(SYS)-$(EVR):PS$(ID)-PulserMap-L-RB") {
+  field(DTYP, "Obj Prop uint16")
+  field(INP , "@OBJ=$(EVR):PS$(ID), PROP=Pulser mapping L")
+}
+
+record(mbboDirect, "$(SYS)-$(EVR):PS$(ID)-PulserMap-H-SP") {
+  field(DTYP, "Obj Prop uint16")
+  field(OUT , "@OBJ=$(EVR):PS$(ID), PROP=Pulser mapping H")
+  field(PINI, "YES")
+  field(NOBT, 16)
+  field(DESC, "Pulser mapping")
+  field(VAL , "$(PS$(ID)-PulserMap-H-SP\=0)")
+  field(FLNK, "$(SYS)-$(EVR):PS$(ID)-PulserMap-H-RB")
+}
+
+
+record(mbbiDirect, "$(SYS)-$(EVR):PS$(ID)-PulserMap-H-RB") {
+  field(DTYP, "Obj Prop uint16")
+  field(INP , "@OBJ=$(EVR):PS$(ID), PROP=Pulser mapping H")
 }

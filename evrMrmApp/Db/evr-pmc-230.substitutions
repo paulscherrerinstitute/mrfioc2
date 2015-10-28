@@ -18,11 +18,6 @@ file "sfp.db"
 {P="$(SYS)-$(EVR):SFP-", OBJ="$(EVR):SFP"}
 }
 
-file "dataBuffer.template"
-{
-{SYS="$(SYS)", EVR="$(EVR)"}
-}
-
 file "evrScale.db"
 {pattern
 {IDX, P, SN, OBJ, MAX}

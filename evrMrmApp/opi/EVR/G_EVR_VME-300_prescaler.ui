@@ -29,15 +29,15 @@
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>-160</y>
-      <width>651</width>
-      <height>1700</height>
+      <y>-1941</y>
+      <width>654</width>
+      <height>2350</height>
      </rect>
     </property>
     <property name="minimumSize">
      <size>
       <width>0</width>
-      <height>1700</height>
+      <height>2350</height>
      </size>
     </property>
     <widget class="caInclude" name="cainclude_10">
@@ -46,7 +46,7 @@
        <x>10</x>
        <y>10</y>
        <width>631</width>
-       <height>191</height>
+       <height>285</height>
       </rect>
      </property>
      <property name="macro">
@@ -66,9 +66,9 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>210</y>
+       <y>300</y>
        <width>631</width>
-       <height>191</height>
+       <height>285</height>
       </rect>
      </property>
      <property name="macro">
@@ -88,9 +88,9 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>410</y>
+       <y>590</y>
        <width>631</width>
-       <height>191</height>
+       <height>285</height>
       </rect>
      </property>
      <property name="macro">
@@ -110,9 +110,9 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>610</y>
+       <y>880</y>
        <width>631</width>
-       <height>191</height>
+       <height>285</height>
       </rect>
      </property>
      <property name="macro">
@@ -132,9 +132,9 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>810</y>
+       <y>1170</y>
        <width>631</width>
-       <height>191</height>
+       <height>285</height>
       </rect>
      </property>
      <property name="macro">
@@ -154,9 +154,9 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>1010</y>
+       <y>1460</y>
        <width>631</width>
-       <height>191</height>
+       <height>285</height>
       </rect>
      </property>
      <property name="macro">
@@ -176,9 +176,9 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>1210</y>
+       <y>2040</y>
        <width>631</width>
-       <height>191</height>
+       <height>285</height>
       </rect>
      </property>
      <property name="macro">
@@ -198,9 +198,9 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>1410</y>
+       <y>1750</y>
        <width>631</width>
-       <height>191</height>
+       <height>285</height>
       </rect>
      </property>
      <property name="macro">

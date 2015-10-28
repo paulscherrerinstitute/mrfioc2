@@ -16,21 +16,27 @@
 
 #include "support/util.h"
 
-class EvrPrescaler : public mrf::ObjectInst<EvrPrescaler>, public IOStatus
+class EvrPrescaler : public mrf::ObjectInst<EvrPrescaler>
 {
 public:
     EvrPrescaler(const std::string& n, volatile epicsUInt8 * b, size_t i);
     ~EvrPrescaler(){};
 
     /* no locking needed */
-    void lock() const{};
-    void unlock() const{};
+    void lock() const{}
+    void unlock() const{}
 
     epicsUInt32 prescaler() const;
     void setPrescaler(epicsUInt32);
 
-    epicsUInt32 pulserMapping() const;
-    void setPulserMapping(epicsUInt32 pulsers);
+    // Mapping a prescaler to pulser
+    // Pulsers 0-15
+    epicsUInt16 pulserMappingL() const;
+    void setPulserMappingL(epicsUInt16 pulsers);
+
+    // Pulsers 16-32
+    epicsUInt16 pulserMappingH() const;
+    void setPulserMappingH(epicsUInt16 pulsers);
 
 private:
     volatile epicsUInt8* const base;

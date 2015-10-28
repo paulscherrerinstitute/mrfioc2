@@ -14,6 +14,8 @@
 #include <stdexcept>
 #include "evrPrescaler.h"
 
+#define BIT_MASK_16 0x0000FFFF
+#define BIT_MASK_16_shift 16
 
 EvrPrescaler::EvrPrescaler(const std::string& n, volatile epicsUInt8 * b, size_t i)
     :mrf::ObjectInst<EvrPrescaler>(n)
@@ -36,13 +38,32 @@ EvrPrescaler::setPrescaler(epicsUInt32 v)
 }
 
 
-epicsUInt32
-EvrPrescaler::pulserMapping() const{
-    return READ32(base, PrescalerTrigger(id));
+epicsUInt16
+EvrPrescaler::pulserMappingL() const{
+    return READ32(base, PrescalerTrigger(id)) & BIT_MASK_16;
 }
 
 void
-EvrPrescaler::setPulserMapping(epicsUInt32 pulsers){
+EvrPrescaler::setPulserMappingL(epicsUInt16 pulsers){
     //TODO check out of range
-    return WRITE32(base, PrescalerTrigger(id), pulsers);
+    epicsUInt32 reg = READ32(base, PrescalerTrigger(id));
+    reg &= ~BIT_MASK_16;
+    reg |= pulsers;
+
+    WRITE32(base, PrescalerTrigger(id), reg);
+}
+
+epicsUInt16
+EvrPrescaler::pulserMappingH() const{
+    return READ32(base, PrescalerTrigger(id)) >> BIT_MASK_16_shift;
+}
+
+void
+EvrPrescaler::setPulserMappingH(epicsUInt16 pulsers){
+    //TODO check out of range
+    epicsUInt32 reg = READ32(base, PrescalerTrigger(id));
+    reg &= BIT_MASK_16;
+    reg |= ((epicsUInt32)pulsers) << BIT_MASK_16_shift;
+
+    WRITE32(base, PrescalerTrigger(id), reg);
 }

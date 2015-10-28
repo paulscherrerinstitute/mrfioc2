@@ -1,7 +1,6 @@
 #include <vector>
 #include <stdio.h>
-#include <algorithm>
-//#include <stdexcept>
+#include <algorithm>  // for remove()
 #include <string.h>     // for memcpy
 
 #include <epicsGuard.h>
@@ -15,7 +14,6 @@
 
 
 
-
 int drvMrfiocDataBufferDebug = 0;
 epicsExportAddress(int, drvMrfiocDataBufferDebug);
 
@@ -25,12 +23,16 @@ epicsExportAddress(int, drvMrfiocDataBufferDebug);
 #define dbgPrintf(...)  if(drvMrfiocDataBufferDebug) printf(__VA_ARGS__);
 #endif
 
+#define MAX_LOOP_ITERATIONS 1000
 
+
+//mrmDataBuffer::mrmDataBuffer(const std::string &name,
 mrmDataBuffer::mrmDataBuffer(volatile epicsUInt8 *parentBaseAddress,
                              epicsUInt32 controlRegisterTx,
                              epicsUInt32 controlRegisterRx,
                              epicsUInt32 dataRegisterTx,
                              epicsUInt32 dataRegisterRx)
+    //:mrf::ObjectInst<mrmDataBuffer>(name)
     :base(parentBaseAddress)
     ,ctrlRegTx(controlRegisterTx)
     ,ctrlRegRx(controlRegisterRx)
@@ -117,17 +119,26 @@ bool mrmDataBuffer::supportsTx()
 }
 
 void mrmDataBuffer::waitForTxComplete(){
+    epicsUInt32 i=0;
+
     // Actual sending is so fast that we can use busy wait here
-    while (!(nat_ioread32(base+ctrlRegTx)&DataTxCtrl_done)) {}
+    while (!(nat_ioread32(base+ctrlRegTx)&DataTxCtrl_done) && i < MAX_LOOP_ITERATIONS) {
+        i++;
+    }
+    if (i >= MAX_LOOP_ITERATIONS) errlogPrintf("Waiting for Tx complete takes too long. Forced exit...\n");
 }
 
 void mrmDataBuffer::waitWhileTxRunning(){
+    epicsUInt32 i=0;
+
     // Actual sending is so fast that we can use busy wait here
-    while ((nat_ioread32(base+ctrlRegTx)&DataTxCtrl_run)) {}
+    while ((nat_ioread32(base+ctrlRegTx)&DataTxCtrl_run)  && i < MAX_LOOP_ITERATIONS) {
+        i++;
+    }
+    if (i >= MAX_LOOP_ITERATIONS) errlogPrintf("Waiting while Tx running takes too long. Forced exit...\n");
 }
 
 void mrmDataBuffer::send(epicsUInt8 startSegment, epicsUInt16 length, epicsUInt8 *data){
-    epicsUInt32 i;
     epicsUInt32 offset, reg;
 
     epicsGuard<epicsMutex> g(m_tx_lock);
@@ -136,7 +147,6 @@ void mrmDataBuffer::send(epicsUInt8 startSegment, epicsUInt16 length, epicsUInt8
         errlogPrintf("Sending is not enabled, aborting...\n");
         return;
     }
-
 
     /* Check input arguments */
     offset = startSegment*DataBuffer_segment_length;
@@ -157,14 +167,11 @@ void mrmDataBuffer::send(epicsUInt8 startSegment, epicsUInt16 length, epicsUInt8
         dbgPrintf(" %d\n", length);
     }
 
-    /* TODO: Check if delay compensation is active? */
+    /* TODO: Check if delay compensation is active? Does it affect length? Will see when data buffer HW is fixed...*/
 
     /* Send data */
     waitWhileTxRunning();
-    for(i = 0; i < length; i+=4){
-        nat_iowrite32(dataRegTx+base+i+offset, *(epicsUInt32*)(data+i) );
-    }
-
+    memcpy((epicsUInt8 *)(dataRegTx+base+offset), data, length);
 
     setTxLength(&startSegment, &length);    // This function can be overriden to calculate different length (used for non-segmented implementation)
     dbgPrintf("Triggering transmision: 0x%x => ", (epicsUInt32)length|DataTxCtrl_trig|((epicsUInt32)startSegment << DataTxCtrl_saddr_shift));
@@ -217,7 +224,9 @@ void mrmDataBuffer::printFlags(const char *preface, volatile epicsUInt8* flagReg
 epicsUInt16 mrmDataBuffer::getFirstReceivedSegment() {
     epicsUInt16 firstSegment=0;
     epicsUInt8 i;
-// TODO because v300 hardware does not work correctly yet
+
+    return 0;// TODO because v300 hardware does not work correctly yet
+
     for(i=0; i<4; i++){
         if(m_rx_flags[i] != 0){  // do we have Rx flag in this 32 segment bits?
             while(!(m_rx_flags[i] & 0x80000000)) {   // do a bit search for the Rx flag, since we know at least one bit is set
@@ -268,23 +277,17 @@ void mrmDataBuffer::handleDataBufferRxIRQ(CALLBACK *cb) {
     epicsUInt32 sts = nat_ioread32(parent->base+parent->ctrlRegRx);
 
     epicsGuard<epicsMutex> g(parent->m_rx_lock);
-    // does not compute?
-    /*memcpy(parent->m_overflows, (epicsUInt8 *)(parent->base+DataBufferFlags_overflow), 128);
-    memcpy(parent->m_checksums, (epicsUInt8 *)(parent->base+DataBufferFlags_cheksum),  128);
-    memcpy(parent->m_rx_flags,  const_cast<epicsUInt8*>(parent->base+DataBufferFlags_rx),       128);*/
 
-    for(i=0; i<4; i++) {
-        parent->m_checksums[i] = nat_ioread32(parent->base+DataBufferFlags_cheksum + 4 * i);
-    }
-    for(i=0; i<4; i++) {
-        parent->m_overflows[i] = nat_ioread32(parent->base+DataBufferFlags_overflow + 4 * i);
-    }
-    for(i=0; i<4; i++) {
-        parent->m_rx_flags[i]  = nat_ioread32(parent->base+DataBufferFlags_rx + 4 * i);
+    if (sts & DataRxCtrl_rx) {
+        errlogPrintf("Interrupt triggered but Rx not completed. Should never happen, fatal error!\n  Control register status: 0x%x\n", sts);
+        return;
     }
 
+    memcpy(parent->m_overflows, (epicsUInt8 *)(parent->base+DataBufferFlags_overflow), 16);
+    memcpy(parent->m_checksums, (epicsUInt8 *)(parent->base+DataBufferFlags_cheksum),  16);
+    memcpy(parent->m_rx_flags,  (epicsUInt8 *)(parent->base+DataBufferFlags_rx),       16);
 
-    //if((sts & DataRxCtrl_len_mask) > 8)parent->printBinary("Control", sts); // applies to fw201. If len=8 is dly.comp. If we send some actual data len > 8.
+    //if((sts & DataRxCtrl_len_mask) > 8)parent->printBinary("Control", sts); // applies to fw201. If len=8 we are (likely) only receiving dly.comp. If we send some actual data len > 8.
 
     if (sts&DataRxCtrl_sumerr) {
         errlogPrintf("RX: Checksum error\n"); // TODO when is global / segment checksum error bit set?? Should be moved to checksumError()
@@ -296,50 +299,43 @@ void mrmDataBuffer::handleDataBufferRxIRQ(CALLBACK *cb) {
         parent->printFlags("Overflow", (epicsUInt8 *)parent->m_overflows);
         parent->printFlags("Rx", (epicsUInt8 *)parent->m_rx_flags);*/
 
-        length=sts & DataRxCtrl_len_mask;
-
-
-        //epicsGuard<epicsMutex> g(parent->m_rx_lock); // prevent getDataBufferReg user from accessing the buffer while it is updated
-
+        length = sts & DataRxCtrl_len_mask;
         segment = parent->getFirstReceivedSegment();
 
-        if(parent->checksumError(segment) == 0) {   // This segment does not have a checksum error, continue...
-            if(parent->overflowOccured(segment) !=0) dbgPrintf("HW overflow occured for segment %d\n", segment);
-
-            /*TODO: Temporary hack for testing */
-            //printf("Rx segment+len: %d + %d\n", segment, length);
-            //segment = 0;
-            //length += 8;
-            /*---------------------------*/
-
-            // Dispatch the buffer to users
-            if(parent->m_users.size() <= 0) {
-                return;
-            }
-            else {
-                for(i=segment*DataBuffer_segment_length; i<length+segment*DataBuffer_segment_length; i+=4) {
-                    *(epicsUInt32*)(parent->m_rx_buff+i) = nat_ioread32(parent->base + parent->dataRegRx + i);
-
-                    /*printf("%d ", parent->m_rx_buff[i]);
-                    printf("%d ", parent->m_rx_buff[i+1]);
-                    printf("%d ", parent->m_rx_buff[i+2]);
-                    printf("%d,  ", parent->m_rx_buff[i+3]);*/
-                }
-                //printf("\n");
-
-                // clear Rx flags for the data we have just received
-                memcpy((epicsUInt8 *)(parent->base+DataBufferFlags_rx), parent->m_rx_flags, 128);
-
-                for(i=0; i<parent->m_users.size(); i++) {
-                    //printf("IRQ dispatch\n");
-                    parent->m_users[i]->updateSegment(segment, parent->m_rx_buff, length);
-                }
-            }
-        } else {
+        if (parent->checksumError(segment) != 0) {
             errlogPrintf("Checksum error occured for segment %d.\n", segment);
             return;
         }
 
+        if(parent->overflowOccured(segment) != 0) errlogPrintf("HW overflow occured for segment %d\n", segment);
+
+        dbgPrintf("Rx segment+len: %d + %d\n", segment, length);
+
+        // Dispatch the buffer to users
+        if(parent->m_users.size() <= 0) {
+            return;
+        }
+        else {
+            // copy the data to local buffer
+            memcpy(&parent->m_rx_buff[segment*DataBuffer_segment_length], (epicsUInt8 *)(parent->base + parent->dataRegRx + segment*DataBuffer_segment_length), length);
+
+            if(drvMrfiocDataBufferDebug){
+                for(i=segment*DataBuffer_segment_length; i<length+segment*DataBuffer_segment_length; i++) {
+                    if(!(i%16)) printf(" | ");
+                    else if(!(i%4)) printf(", ");
+                    printf("%d ", parent->m_rx_buff[i]);
+                }
+                printf("\n");
+            }
+
+
+            // clear Rx flags for the data we have just received
+            memcpy((epicsUInt8 *)(parent->base+DataBufferFlags_rx), parent->m_rx_flags, 16);
+
+            for(i=0; i<parent->m_users.size(); i++) {
+                parent->m_users[i]->updateSegment(segment, parent->m_rx_buff, length);
+            }
+        }
     }
 
     nat_iowrite32(parent->base+parent->ctrlRegRx, sts|DataRxCtrl_rx);    // enable for next reception

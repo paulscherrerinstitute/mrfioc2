@@ -1,7 +1,7 @@
 include /ioc/tools/driver.makefile
 
 MODULE=mrfioc2
-#LIBVERSION=test
+LIBVERSION=fw201
 
 
 BUILDCLASSES=Linux
@@ -34,7 +34,6 @@ SOURCES+=mrmShared/src/mrmremoteflash.cpp
 SOURCES+=mrmShared/src/dataBuffer/mrmDataBuffer.cpp
 SOURCES+=mrmShared/src/dataBuffer/mrmNonSegmentedDataBuffer.cpp
 SOURCES+=mrmShared/src/dataBuffer/mrmDataBufferUser.cpp
-SOURCES+=mrmShared/src/dataBuffer/mrmDataBufferDevSup.cpp
 
 SOURCES+=evrMrmApp/src/devSupport/devEvrStringIO.cpp
 SOURCES+=evrMrmApp/src/devSupport/devEvrPulserMapping.cpp
@@ -91,7 +90,6 @@ SOURCES+=mrfCommon/src/devObjMBB.cpp
 SOURCES+=evrMrmApp/src/evrGpio.cpp
 SOURCES+=evrMrmApp/src/evrDelayModule.cpp
 
-DBDS+=mrmShared/src/mrmShared.dbd
 DBDS+=evrMrmApp/src/evrSupport.dbd
 DBDS+=evgMrmApp/src/evgInit.dbd
 #DBDS+=../mrfCommon/src/aSubRecord.dbd # aSubRecord is part of epics base!

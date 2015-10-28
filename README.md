@@ -13,6 +13,8 @@ The documentation is available in the `documentation` folder:
 * `oldDocs` folder contains the old documentation from the original mrfioc2 driver.
 * `doxy` folder contains the generated doxygen documentation. For information on how to generate it, inspect readme in `documentation` folder.
 
+Note that the documentation is not yet updated with the latest features from firmware 200+.
+
 ## Prerequisites
 
 - [EPICS base](http://www.aps.anl.gov/epics/base/R3-14/index.php) >= 3.14.8.2
@@ -57,6 +59,7 @@ Building the driver on the PSI infrastructure is a bit different, since it lever
 
 * clone the sources from git repository by running command `git clone https://skube_s@github.psi.ch/scm/ed/regdev.git`, which creates a top folder called `mrfioc2`.
 * run `make` in the `mrfioc2` folder on the build server.
+* run 'make db' to create database files
 * to install the driver run `make install` in the `mrfioc2` folder on the build server.
 
 The driver builds as a single library, which can be loaded using `require` to your IOC. Installation process also copies all the necessary support files (eg. templates) to the appropriate module folder. For more options inspect driver.makefile and require documentation available at the PSI wiki.
@@ -64,6 +67,13 @@ The driver builds as a single library, which can be loaded using `require` to yo
 
 ## Using the application
 As with any EPICS application, build procedure produces all the necessary database files and an IOC for each architecture built. An example application for the `linux-x86_64` architecture is available in `iocBoot` folder. For more details inspect the `evr_manual.pdf` available in the `documentation` folder.
+
+GUIs are available:
+
+* `evgMrmApp/opi/EVG/` contains the caQtDm GUI for event generator (event master)
+* `evrMrmApp/opi/EVR/` contains the caQtDm GUI for event receiver and health monitor for EVR.
+
+Each folder contains a readme file which explains how to run the GUIs.
 
 ### PSI
 Example substitution files and startup scripts are available in the `PSI/example` folder. For more details inspect the `evr_manual.pdf` and `tutorial.pdf` available in the `documentation` folder.
@@ -80,9 +90,15 @@ mrfioc2 driver uses a special kernel module for communication with hardware. Sou
 * EVR VME-230: VME-230 form factor event receiver.
 * EVR VME-300: VME-300 form factor event receiver.
 * EVR PCIe-300: PCIe-300 form factor event receiver.
-* EVR cPCI-230: cPCI-230 form factor event receiver.
+* EVR cPCI-230: cPCI-230 form factor event receiver (except GUI)
 
 mrfioc2 driver supports hardware firmware versions up to and including 201.
+Minimal supported version for :
+
+* EVG is 3,
+* PCIe form factor EVR is 3,
+* VME form factor EVR 4.
+
 
 ## Authors
 

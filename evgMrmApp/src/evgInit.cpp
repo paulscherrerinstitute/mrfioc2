@@ -388,12 +388,11 @@ mrmEvgSetupPCI (
 		/* Find PCI device from devLib2 */
 		const epicsPCIDevice *cur = 0;
 		if (devPCIFindBDF(mrmevgs, b, d, f, &cur, 0)) {
-			printf("PCI Device not found\n");
+            printf("PCI Device not found on %x:%x.%x\n", b, d, f);
 			return -1;
 		}
 
-		printf("Device %s  %u:%u.%u\n", id, cur->bus, cur->device,
-				cur->function);
+        printf("Device %s  %x:%x.%x\n", id, cur->bus, cur->device, cur->function);
 		printf("Using IRQ %u\n", cur->irq);
 
 		/* MMap BAR0(plx) and BAR2(EVG)*/

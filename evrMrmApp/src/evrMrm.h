@@ -44,7 +44,6 @@
 #include "mrmremoteflash.h"
 #include "dataBuffer/mrmDataBuffer.h"
 #include "dataBuffer/mrmNonSegmentedDataBuffer.h"
-#include "dataBuffer/mrmDataBufferDevSup.h"
 
 enum TSSource {
   TSSourceInternal=0,
@@ -402,7 +401,6 @@ private:
 
     mrmRemoteFlash m_remoteFlash;
     mrmDataBuffer* m_dataBuffer;
-    mrmDataBufferDevSup* m_dbuff;
 
 }; // class EVRMRM
 

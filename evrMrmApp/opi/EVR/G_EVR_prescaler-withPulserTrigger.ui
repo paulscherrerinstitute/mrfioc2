@@ -19,7 +19,7 @@
      <x>0</x>
      <y>0</y>
      <width>621</width>
-     <height>181</height>
+     <height>281</height>
     </rect>
    </property>
    <property name="frameShape">
@@ -173,7 +173,7 @@
      </rect>
     </property>
     <property name="macro">
-     <string notr="true">CHAN=$(EVR):PS$(ID)-PulserMap-,SP=SP,RB=RB</string>
+     <string notr="true">CHAN=$(EVR):PS$(ID)-PulserMap-L-,SP=SP,RB=RB</string>
     </property>
     <property name="filename" stdset="0">
      <string notr="true">G_EVR_mbbDirectControl.ui</string>
@@ -211,270 +211,102 @@
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
-  </widget>
-  <widget class="caToggleButton" name="catogglebutton_8">
-   <property name="geometry">
-    <rect>
-     <x>390</x>
-     <y>360</y>
-     <width>51</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>6</string>
-   </property>
-   <property name="channel" stdset="0">
-    <string notr="true">$(EVR):PS$(ID)-PulserMap-SP.B6</string>
-   </property>
-  </widget>
-  <widget class="caToggleButton" name="catogglebutton_16">
-   <property name="geometry">
-    <rect>
-     <x>390</x>
-     <y>380</y>
-     <width>51</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>14</string>
-   </property>
-   <property name="channel" stdset="0">
-    <string notr="true">$(EVR):PS$(ID)-PulserMap-SP.BE</string>
-   </property>
-  </widget>
-  <widget class="caToggleButton" name="catogglebutton_14">
-   <property name="geometry">
-    <rect>
-     <x>290</x>
-     <y>380</y>
-     <width>51</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>12</string>
-   </property>
-   <property name="channel" stdset="0">
-    <string notr="true">$(EVR):PS$(ID)-PulserMap-SP.BC</string>
-   </property>
-  </widget>
-  <widget class="caToggleButton" name="catogglebutton_7">
-   <property name="geometry">
-    <rect>
-     <x>340</x>
-     <y>360</y>
-     <width>51</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>5</string>
-   </property>
-   <property name="channel" stdset="0">
-    <string notr="true">$(EVR):PS$(ID)-PulserMap-SP.B5</string>
-   </property>
-  </widget>
-  <widget class="caToggleButton" name="catogglebutton_13">
-   <property name="geometry">
-    <rect>
-     <x>240</x>
-     <y>380</y>
-     <width>51</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>11</string>
-   </property>
-   <property name="channel" stdset="0">
-    <string notr="true">$(EVR):PS$(ID)-PulserMap-SP.BB</string>
-   </property>
-  </widget>
-  <widget class="caToggleButton" name="catogglebutton_2">
-   <property name="geometry">
-    <rect>
-     <x>90</x>
-     <y>360</y>
-     <width>51</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>0</string>
-   </property>
-   <property name="channel" stdset="0">
-    <string notr="true">$(EVR):PS$(ID)-PulserMap-SP.B0</string>
-   </property>
-  </widget>
-  <widget class="caToggleButton" name="catogglebutton_3">
-   <property name="geometry">
-    <rect>
-     <x>140</x>
-     <y>360</y>
-     <width>51</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>1</string>
-   </property>
-   <property name="channel" stdset="0">
-    <string notr="true">$(EVR):PS$(ID)-PulserMap-SP.B1</string>
-   </property>
-  </widget>
-  <widget class="caToggleButton" name="catogglebutton_9">
-   <property name="geometry">
-    <rect>
-     <x>440</x>
-     <y>360</y>
-     <width>51</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>7</string>
-   </property>
-   <property name="channel" stdset="0">
-    <string notr="true">$(EVR):PS$(ID)-PulserMap-SP.B7</string>
-   </property>
-  </widget>
-  <widget class="caToggleButton" name="catogglebutton_17">
-   <property name="geometry">
-    <rect>
-     <x>440</x>
-     <y>380</y>
-     <width>51</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>15</string>
-   </property>
-   <property name="channel" stdset="0">
-    <string notr="true">$(EVR):PS$(ID)-PulserMap-SP.BF</string>
-   </property>
-  </widget>
-  <widget class="caToggleButton" name="catogglebutton_12">
-   <property name="geometry">
-    <rect>
-     <x>190</x>
-     <y>380</y>
-     <width>51</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>10</string>
-   </property>
-   <property name="channel" stdset="0">
-    <string notr="true">$(EVR):PS$(ID)-PulserMap-SP.BA</string>
-   </property>
-  </widget>
-  <widget class="caToggleButton" name="catogglebutton_4">
-   <property name="geometry">
-    <rect>
-     <x>190</x>
-     <y>360</y>
-     <width>51</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>2</string>
-   </property>
-   <property name="channel" stdset="0">
-    <string notr="true">$(EVR):PS$(ID)-PulserMap-SP.B2</string>
-   </property>
-  </widget>
-  <widget class="caToggleButton" name="catogglebutton_15">
-   <property name="geometry">
-    <rect>
-     <x>340</x>
-     <y>380</y>
-     <width>51</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>13</string>
-   </property>
-   <property name="channel" stdset="0">
-    <string notr="true">$(EVR):PS$(ID)-PulserMap-SP.BD</string>
-   </property>
-  </widget>
-  <widget class="caToggleButton" name="catogglebutton_6">
-   <property name="geometry">
-    <rect>
-     <x>290</x>
-     <y>360</y>
-     <width>51</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>4</string>
-   </property>
-   <property name="channel" stdset="0">
-    <string notr="true">$(EVR):PS$(ID)-PulserMap-SP.B4</string>
-   </property>
-  </widget>
-  <widget class="caToggleButton" name="catogglebutton_10">
-   <property name="geometry">
-    <rect>
-     <x>90</x>
-     <y>380</y>
-     <width>51</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>8</string>
-   </property>
-   <property name="channel" stdset="0">
-    <string notr="true">$(EVR):PS$(ID)-PulserMap-SP.B8</string>
-   </property>
-  </widget>
-  <widget class="caToggleButton" name="catogglebutton_5">
-   <property name="geometry">
-    <rect>
-     <x>240</x>
-     <y>360</y>
-     <width>51</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>3</string>
-   </property>
-   <property name="channel" stdset="0">
-    <string notr="true">$(EVR):PS$(ID)-PulserMap-SP.B3</string>
-   </property>
-  </widget>
-  <widget class="caToggleButton" name="catogglebutton_11">
-   <property name="geometry">
-    <rect>
-     <x>140</x>
-     <y>380</y>
-     <width>51</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>9</string>
-   </property>
-   <property name="channel" stdset="0">
-    <string notr="true">$(EVR):PS$(ID)-PulserMap-SP.B9</string>
-   </property>
+   <widget class="QLabel" name="label_8">
+    <property name="geometry">
+     <rect>
+      <x>109</x>
+      <y>180</y>
+      <width>91</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Pulser 31-28</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_9">
+    <property name="geometry">
+     <rect>
+      <x>508</x>
+      <y>180</y>
+      <width>91</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Pulser 19-16</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_10">
+    <property name="geometry">
+     <rect>
+      <x>248</x>
+      <y>180</y>
+      <width>91</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Pulser 27-24</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_11">
+    <property name="geometry">
+     <rect>
+      <x>378</x>
+      <y>180</y>
+      <width>91</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Pulser 23-20</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="caInclude" name="cainclude_2">
+    <property name="geometry">
+     <rect>
+      <x>98</x>
+      <y>200</y>
+      <width>511</width>
+      <height>71</height>
+     </rect>
+    </property>
+    <property name="macro">
+     <string notr="true">CHAN=$(EVR):PS$(ID)-PulserMap-H-,SP=SP,RB=RB</string>
+    </property>
+    <property name="filename" stdset="0">
+     <string notr="true">G_EVR_mbbDirectControl.ui</string>
+    </property>
+   </widget>
+   <widget class="QFrame" name="frame_2">
+    <property name="geometry">
+     <rect>
+      <x>94</x>
+      <y>181</y>
+      <width>257</width>
+      <height>91</height>
+     </rect>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::NoFrame</enum>
+    </property>
+   </widget>
   </widget>
  </widget>
  <customwidgets>
-  <customwidget>
-   <class>caToggleButton</class>
-   <extends>QCheckBox</extends>
-   <header>caToggleButton</header>
-  </customwidget>
   <customwidget>
    <class>caSpinbox</class>
    <extends>QFrame</extends>

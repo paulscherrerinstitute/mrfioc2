@@ -7,7 +7,7 @@ INC += sfp.h
 INC += configurationInfo.h
 INC += mrmremoteflash.h
 
-DBD += mrmShared.dbd
+#DBD += mrmShared.dbd
 
 LIBRARY_IOC += mrmShared
 

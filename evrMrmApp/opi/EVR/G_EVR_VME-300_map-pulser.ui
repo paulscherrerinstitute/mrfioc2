@@ -29,15 +29,15 @@
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>-291</y>
-      <width>651</width>
-      <height>700</height>
+      <y>-241</y>
+      <width>654</width>
+      <height>650</height>
      </rect>
     </property>
     <property name="minimumSize">
      <size>
       <width>0</width>
-      <height>700</height>
+      <height>650</height>
      </size>
     </property>
     <widget class="caInclude" name="cainclude_25">
@@ -424,75 +424,11 @@
       <string notr="true">G_EVR_map-pulser.ui</string>
      </property>
     </widget>
-    <widget class="caInclude" name="cainclude_299">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>490</y>
-       <width>635</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="macro">
-      <string notr="true">PULSER=24, EVR=$(EVR)</string>
-     </property>
-     <property name="filename" stdset="0">
-      <string notr="true">G_EVR_map-pulser.ui</string>
-     </property>
-    </widget>
-    <widget class="caInclude" name="cainclude_300">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>510</y>
-       <width>635</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="macro">
-      <string notr="true">PULSER=25, EVR=$(EVR)</string>
-     </property>
-     <property name="filename" stdset="0">
-      <string notr="true">G_EVR_map-pulser.ui</string>
-     </property>
-    </widget>
-    <widget class="caInclude" name="cainclude_301">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>530</y>
-       <width>635</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="macro">
-      <string notr="true">PULSER=26, EVR=$(EVR)</string>
-     </property>
-     <property name="filename" stdset="0">
-      <string notr="true">G_EVR_map-pulser.ui</string>
-     </property>
-    </widget>
-    <widget class="caInclude" name="cainclude_302">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>550</y>
-       <width>635</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="macro">
-      <string notr="true">PULSER=27, EVR=$(EVR)</string>
-     </property>
-     <property name="filename" stdset="0">
-      <string notr="true">G_EVR_map-pulser.ui</string>
-     </property>
-    </widget>
     <widget class="caInclude" name="cainclude_303">
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>570</y>
+       <y>510</y>
        <width>635</width>
        <height>20</height>
       </rect>
@@ -508,7 +444,7 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>590</y>
+       <y>530</y>
        <width>635</width>
        <height>20</height>
       </rect>
@@ -524,7 +460,7 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>610</y>
+       <y>550</y>
        <width>635</width>
        <height>20</height>
       </rect>
@@ -540,7 +476,7 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>630</y>
+       <y>570</y>
        <width>635</width>
        <height>20</height>
       </rect>

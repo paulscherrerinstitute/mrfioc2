@@ -139,7 +139,8 @@ OBJECT_BEGIN(EvrPulser) {
 OBJECT_BEGIN(EvrPrescaler) {
 
     OBJECT_PROP2("Divide", &EvrPrescaler::prescaler, &EvrPrescaler::setPrescaler);
-    OBJECT_PROP2("Pulser mapping", &EvrPrescaler::pulserMapping, &EvrPrescaler::setPulserMapping);
+    OBJECT_PROP2("Pulser mapping L", &EvrPrescaler::pulserMappingL, &EvrPrescaler::setPulserMappingL);
+    OBJECT_PROP2("Pulser mapping H", &EvrPrescaler::pulserMappingH, &EvrPrescaler::setPulserMappingH);
 
 } OBJECT_END(EvrPrescaler)
 

@@ -22,16 +22,6 @@ m_pInReg(pInReg) {
 evgInput::~evgInput() {
 }
 
-void evgInput::lock() const
-{
-    m_lock.lock();
-}
-
-void evgInput::unlock() const
-{
-    m_lock.unlock();
-}
-
 epicsUInt32
 evgInput::getNum() const {
     return m_num;
@@ -61,6 +51,7 @@ void
 evgInput::setSeqMask(epicsUInt16 mask) {
     epicsUInt32 temp = nat_ioread32(m_pInReg);
 
+    mask &= 0xF;    // mask is a 4 bit value
     temp &= ~EVG_INP_SEQ_MASK;
     temp |= ((epicsUInt32)mask << EVG_INP_SEQ_MASK_shift);
 
@@ -76,6 +67,7 @@ void
 evgInput::setSeqEnable(epicsUInt16 enable) {
     epicsUInt32 en = enable;
 
+    enable &= 0xF;    // enable is a 4 bit value
     en <<= EVG_INP_SEQ_ENABLE_shift;
     en &= EVG_INP_SEQ_ENABLE;   // last bit should be ignored (because it belongs to external IRQ bit). Also a sanity check...
 

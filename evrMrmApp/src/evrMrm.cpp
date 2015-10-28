@@ -324,11 +324,6 @@ try{
     } else {
         m_dataBuffer = new mrmDataBuffer(base, U32_DataTxCtrlEvr, U32_DataRxCtrlEvr, U32_DataTxBaseEvr, U32_DataRxBaseEvr);
     }
-    if(m_dataBuffer != NULL) {
-        std::ostringstream name;
-        name<<id<<":DBUFF";
-        m_dbuff = new mrmDataBufferDevSup(name.str(), m_dataBuffer);
-    }
     CBINIT(&dataBufferRx_cb, priorityHigh, &mrmDataBuffer::handleDataBufferRxIRQ, &*m_dataBuffer);
 
     SCOPED_LOCK(evrLock);
@@ -404,7 +399,6 @@ EVRMRM::cleanup()
     outputs.clear();
 
     delete m_dataBuffer;
-    delete m_dbuff;
 
 #define CLEANVEC(TYPE, VAR) \
     for(TYPE::iterator it=VAR.begin(); it!=VAR.end(); ++it) \
@@ -1173,17 +1167,17 @@ EVRMRM::isr(void *arg)
         callbackRequest(&evr->poll_link_cb);
     }
     if(active&IRQ_BufFull){
-        // Silence interrupt
+        // Silence interrupt. DataRxCtrl_stop is actually an interrupt flag, so we need to write to it in order to clear it.
         BITSET(NAT,32,evr->base, DataRxCtrlEvr, DataRxCtrl_stop);
 
-        // Check if the data buffer engine is initialized. This bit should not be set, since we have just stopped reception.
-        // This is needed becaust 201 series firmware keeps triggering the interrupt with bogous data, and we do not wish
-        // to schedule callback requests for this. It prevents cbHigh queue to fill up when starting the driver.
-        if (READ32(evr->base, DataRxCtrlEvr) & DataRxCtrl_rdy) {
-            return;
+        // Check if the data buffer engine is initialized. This bit should not be set, since we have just acknowledged the interrupt.
+        // This is needed because 201 series firmware keeps triggering the interrupt with bogous data, and we do not wish
+        // to schedule callback requests for this. It prevents cbHigh queue to fill up when starting the driver. This only happens at start-up.
+        if ( !(READ32(evr->base, DataRxCtrlEvr) & DataRxCtrl_rdy) ) {
+            callbackRequest(&evr->dataBufferRx_cb);
+        } else {
+            //errlogPrintf("Could not acknowledge data buffer IRQ. Data buffer engine not yet initalized? Not issuing callbacks...\n"); // TODO printing in isr is ugly....but this should never be printed (except at startup on 201 firmware)
         }
-
-        callbackRequest(&evr->dataBufferRx_cb);
     }
     if(active&IRQ_HWMapped){
         evr->shadowIRQEna &= ~IRQ_HWMapped;

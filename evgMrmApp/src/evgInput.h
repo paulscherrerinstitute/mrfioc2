@@ -6,8 +6,6 @@
 #include <map>
 
 #include <epicsTypes.h>
-#include <epicsMutex.h>
-#include <epicsGuard.h>
 #include "mrf/object.h"
 
 #include "stdio.h"
@@ -25,9 +23,9 @@ public:
              volatile epicsUInt8* const);
     ~evgInput();
 
-    /* locking done internally */
-    virtual void lock() const;
-    virtual void unlock() const;
+    /* no locking. There is only database access to theese functions. */
+    virtual void lock() const{}
+    virtual void unlock() const{}
 
     epicsUInt32 getNum() const;
     InputType getType() const;
@@ -54,7 +52,5 @@ private:
     const epicsUInt32          m_num;
     const InputType            m_type;
     volatile epicsUInt8* const m_pInReg;
-
-    mutable epicsMutex                 m_lock; // used to lock mutual access (write) to m_pInReg
 };
 #endif //EVG_INPUT_H

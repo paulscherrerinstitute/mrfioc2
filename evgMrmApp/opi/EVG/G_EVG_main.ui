@@ -146,6 +146,9 @@
     <property name="channel" stdset="0">
      <string notr="true">$(EVG):DbusStatus-RB</string>
     </property>
+    <property name="formatType">
+     <enum>caLineEdit::hexadecimal</enum>
+    </property>
    </widget>
    <widget class="QLabel" name="label_7">
     <property name="geometry">
@@ -212,7 +215,7 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>641</width>
+         <width>644</width>
          <height>600</height>
         </rect>
        </property>
@@ -416,7 +419,7 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>641</width>
+         <width>644</width>
          <height>1100</height>
         </rect>
        </property>
@@ -584,7 +587,7 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>641</width>
+         <width>644</width>
          <height>1100</height>
         </rect>
        </property>

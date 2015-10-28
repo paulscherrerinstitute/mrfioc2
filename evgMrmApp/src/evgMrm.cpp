@@ -312,6 +312,7 @@ void
 evgMrm::setSWSequenceMask(epicsUInt16 mask){
     epicsUInt32 val = READ32(m_pReg, SeqControl_base);
 
+    mask &= 0xF;   // mask is a 4 bit value
     val &= ~EVG_SEQ_RAM_SWMASK;
     val |= mask << EVG_SEQ_RAM_SWMASK_shift;
 
@@ -332,6 +333,7 @@ void
 evgMrm::setSWSequenceEnable(epicsUInt16 enable){
     epicsUInt32 val = READ32(m_pReg, SeqControl_base);
 
+    enable &= 0xF;    // enable is a 4 bit value
     val &= ~EVG_SEQ_RAM_SWENABLE;
     val |= enable << EVG_SEQ_RAM_SWENABLE_shift;
 

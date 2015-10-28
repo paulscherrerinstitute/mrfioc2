@@ -1,9 +1,5 @@
 #include "mrmNonSegmentedDataBuffer.h"
 
-/*mrmNonSegmentedDataBuffer::mrmNonSegmentedDataBuffer()
-{
-}*/
-
 void mrmNonSegmentedDataBuffer::setTxLength(epicsUInt8 *startSegment, epicsUInt16 *length)
 {
     // We will receive the buffer from the start, so increase the length that will be sent down the wire.

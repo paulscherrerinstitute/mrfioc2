@@ -169,7 +169,7 @@ static void mrmDataBufferFunc_user(const iocshArgBuf *args) {
     cb_pvt.rx = rx;
     idx = rx->registerInterest(offset, 20, callback, &cb_pvt);
 
-    tx->put(offset, 3044, (void *)data);
+    tx->put(offset, 20, (void *)data);
     tx->send(true);
     printf("sleeping...");
     nanosleep(&t,&t);

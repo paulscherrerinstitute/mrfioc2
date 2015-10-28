@@ -7,7 +7,6 @@ file "$($(MODULE)_TEMPLATES=db)/evr-vme-300.db"
 		Link-Clk-SP=142.876,	#50-150 : Event Link speed (MHz)
 		Time-Src-Sel=0, 		#0 = Event clk, 1 = Mapped codes, 2 = DBus4 : Source for timestamping clock.
 		Time-Clock-SP=0.0,		#50-150 : Timestamp tick rate (MHz)
-		Link-RxMode-Sel=1,		#0 = DBus only, 1 = DBus + DBuff: Downstream data mode"
 		PLL-Bandwidth-Sel=4,	#0 = HM, 1 = HL, 2 = MH, 3 = MM, 4 = ML: PLL Bandwidth Select (see Silicon Labs Si5317 datasheet)
 
 		## Delay compensation
@@ -16,31 +15,39 @@ file "$($(MODULE)_TEMPLATES=db)/evr-vme-300.db"
 
 		## Prescalers
 		PS0-Div-SP=2, 			#2-65535 :Integer divisor between the Event Clock and the sub-unit output.
-		PS0-PulserMap-SP=0,		# trigger a pulser on prescaler rising edge
+		PS0-PulserMap-L-SP=0,	#0-65535 :Trigger a pulser on prescaler rising edge. Pulsers 0-15 are bit-wise selectable
+		PS0-PulserMap-H-SP=0,	#0-255   :Trigger a pulser on prescaler rising edge. Pulsers 16-23 are bit-wise selectable
 		PS1-Div-SP=2, 			#2-65535 :Integer divisor between the Event Clock and the sub-unit output.
-		PS1-PulserMap-SP=0,		# trigger a pulser on prescaler rising edge
+		PS0-PulserMap-L-SP=0,	#0-65535 :Trigger a pulser on prescaler rising edge. Pulsers 0-15 are bit-wise selectable
+		PS0-PulserMap-H-SP=0,	#0-255   :Trigger a pulser on prescaler rising edge. Pulsers 16-23 are bit-wise selectable
 		PS2-Div-SP=2, 			#2-65535 :Integer divisor between the Event Clock and the sub-unit output.
-		PS2-PulserMap-SP=0,		# trigger a pulser on prescaler rising edge
+		PS0-PulserMap-L-SP=0,	#0-65535 :Trigger a pulser on prescaler rising edge. Pulsers 0-15 are bit-wise selectable
+		PS0-PulserMap-H-SP=0,	#0-255   :Trigger a pulser on prescaler rising edge. Pulsers 16-23 are bit-wise selectable
 		PS3-Div-SP=2, 			#2-65535 :Integer divisor between the Event Clock and the sub-unit output.
-		PS3-PulserMap-SP=0,		# trigger a pulser on prescaler rising edge
+		PS0-PulserMap-L-SP=0,	#0-65535 :Trigger a pulser on prescaler rising edge. Pulsers 0-15 are bit-wise selectable
+		PS0-PulserMap-H-SP=0,	#0-255   :Trigger a pulser on prescaler rising edge. Pulsers 16-23 are bit-wise selectable
 		PS4-Div-SP=2, 			#2-65535 :Integer divisor between the Event Clock and the sub-unit output.
-		PS4-PulserMap-SP=0,		# trigger a pulser on prescaler rising edge
+		PS0-PulserMap-L-SP=0,	#0-65535 :Trigger a pulser on prescaler rising edge. Pulsers 0-15 are bit-wise selectable
+		PS0-PulserMap-H-SP=0,	#0-255   :Trigger a pulser on prescaler rising edge. Pulsers 16-23 are bit-wise selectable
 		PS5-Div-SP=2, 			#2-65535 :Integer divisor between the Event Clock and the sub-unit output.
-		PS5-PulserMap-SP=0,		# trigger a pulser on prescaler rising edge
+		PS0-PulserMap-L-SP=0,	#0-65535 :Trigger a pulser on prescaler rising edge. Pulsers 0-15 are bit-wise selectable
+		PS0-PulserMap-H-SP=0,	#0-255   :Trigger a pulser on prescaler rising edge. Pulsers 16-23 are bit-wise selectable
 		PS6-Div-SP=2, 			#2-65535 :Integer divisor between the Event Clock and the sub-unit output.
-		PS6-PulserMap-SP=0,		# trigger a pulser on prescaler rising edge
+		PS0-PulserMap-L-SP=0,	#0-65535 :Trigger a pulser on prescaler rising edge. Pulsers 0-15 are bit-wise selectable
+		PS0-PulserMap-H-SP=0,	#0-255   :Trigger a pulser on prescaler rising edge. Pulsers 16-23 are bit-wise selectable
 		PS7-Div-SP=2, 			#2-65535 :Integer divisor between the Event Clock and the sub-unit output.
-		PS7-PulserMap-SP=0,		# trigger a pulser on prescaler rising edge
+		PS0-PulserMap-L-SP=0,	#0-65535 :Trigger a pulser on prescaler rising edge. Pulsers 0-15 are bit-wise selectable
+		PS0-PulserMap-H-SP=0,	#0-255   :Trigger a pulser on prescaler rising edge. Pulsers 16-23 are bit-wise selectable
 			
 		## Distributed bus
-		PulserMap-Dbus0-SP=0,	# trigger a pulser on DBus bit rising edge
-		PulserMap-Dbus1-SP=0,	# trigger a pulser on DBus bit rising edge
-		PulserMap-Dbus2-SP=0,	# trigger a pulser on DBus bit rising edge
-		PulserMap-Dbus3-SP=0,	# trigger a pulser on DBus bit rising edge
-		PulserMap-Dbus4-SP=0,	# trigger a pulser on DBus bit rising edge
-		PulserMap-Dbus5-SP=0,	# trigger a pulser on DBus bit rising edge
-		PulserMap-Dbus6-SP=0,	# trigger a pulser on DBus bit rising edge
-		PulserMap-Dbus7-SP=0,	# trigger a pulser on DBus bit rising edge
+		PulserMap-Dbus0-SP=0,	#0-16777215 :Trigger a pulser on DBus bit rising edge. Pulsers 0-23 are bit-wise selectable
+		PulserMap-Dbus1-SP=0,	#0-16777215 :Trigger a pulser on DBus bit rising edge. Pulsers 0-23 are bit-wise selectable
+		PulserMap-Dbus2-SP=0,	#0-16777215 :Trigger a pulser on DBus bit rising edge. Pulsers 0-23 are bit-wise selectable
+		PulserMap-Dbus3-SP=0,	#0-16777215 :Trigger a pulser on DBus bit rising edge. Pulsers 0-23 are bit-wise selectable
+		PulserMap-Dbus4-SP=0,	#0-16777215 :Trigger a pulser on DBus bit rising edge. Pulsers 0-23 are bit-wise selectable
+		PulserMap-Dbus5-SP=0,	#0-16777215 :Trigger a pulser on DBus bit rising edge. Pulsers 0-23 are bit-wise selectable
+		PulserMap-Dbus6-SP=0,	#0-16777215 :Trigger a pulser on DBus bit rising edge. Pulsers 0-23 are bit-wise selectable
+		PulserMap-Dbus7-SP=0,	#0-16777215 :Trigger a pulser on DBus bit rising edge. Pulsers 0-23 are bit-wise selectable
 
 		## Pulsers
 		Pul0-Ena-Sel=1,			#0 = Disabled, 1 = Enabled

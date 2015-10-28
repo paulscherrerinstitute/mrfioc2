@@ -12,16 +12,12 @@
 #         1 = Pulser 1
 #
 record(mbboDirect, "$(SYS)-$(EVR):PulserMap-Dbus$(ID)-L-SP") {
-  field(PINI, "YES")
   field(DESC, "Pulsers 0-15 mapping")
-  field(VAL , "$(PulserMap-DbusL$(ID)-SP\=0)")
   field(FLNK, "$(SYS)-$(EVR):PulserMap-Dbus$(ID)_")
 }
 
 record(mbboDirect, "$(SYS)-$(EVR):PulserMap-Dbus$(ID)-H-SP") {
-  field(PINI, "YES")
   field(DESC, "Pulsers 16-31 mapping")
-  field(VAL , "$(PulserMap-DbusH$(ID)-SP\=0)")
   field(FLNK, "$(SYS)-$(EVR):PulserMap-Dbus$(ID)_")
 }
 
@@ -35,6 +31,8 @@ record(calcout, "$(SYS)-$(EVR):PulserMap-Dbus$(ID)_") {
 
 record(ao, "$(SYS)-$(EVR):PulserMap-Dbus$(ID)-SP") {
   field(DTYP, "Obj Prop uint32")
+  field(PINI, "YES")
+  field(VAL , "$(PulserMap-Dbus$(ID)-SP\=0)")
   field(OUT , "@OBJ=$(EVR), PROP=DBus Pulser Map $(ID)")
   field(FLNK, "$(SYS)-$(EVR):PulserMap-Dbus$(ID)-RB")
 }
