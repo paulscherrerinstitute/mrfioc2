@@ -142,7 +142,7 @@ evgMrm::evgMrm(const std::string& id, bus_configuration& busConfig, volatile epi
         m_sfp.push_back(new SFP(sfpName.str(), pReg + U32_SFP_transceiver));    // there is always a main transceiver module present (upstream)
 
         if(version >= EVG_FCT_MIN_FIRMWARE && m_fctReg > 0){
-            m_fct = new evgFct(id, m_fctReg, m_sfp); // fanout SFP modules are initialized here
+            m_fct = new evgFct(id, m_fctReg, &m_sfp); // fanout SFP modules are initialized here
         } else{
             m_fct = 0;
         }
@@ -829,20 +829,8 @@ bus_configuration *evgMrm::getBusConfiguration()
     return &busConfiguration;
 }
 
-SFP*
-evgMrm::getSFP(epicsUInt32 n){
-    SFP* sfp;
-
-    if(n >= m_sfp.size()){
-        throw std::out_of_range("Not that many SFP modules present. Does your form factor support that many?");
-    }
-
-    sfp = m_sfp[n];
-    if(!sfp){
-        throw std::runtime_error("SFP module not initialized");
-    }
-
-    return sfp;
+std::vector<SFP *>* evgMrm::getSFP(){
+    return &m_sfp;
 }
 
 mrmDataBuffer *evgMrm::getDataBuffer()

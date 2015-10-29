@@ -99,6 +99,21 @@ evgShutdown(void*)
     mrf::Object::visitObjects(&disableIRQ,0);
 }
 
+static bool
+startSFPUpdate(mrf::Object* obj, void*)
+{
+    evgMrm *evg=dynamic_cast<evgMrm*>(obj);
+    if(!evg)
+        return true;
+
+    std::vector<SFP*>* sfp = evg->getSFP();
+    for (size_t i=0; i<sfp->size(); i++) {
+        sfp->at(i)->startUpdate();
+    }
+
+    return true;
+}
+
 static void 
 inithooks(initHookState state) {
     epicsUInt8 lvl;
@@ -127,6 +142,13 @@ inithooks(initHookState state) {
 		epicsAtExit(&evgShutdown, NULL);
 		mrf::Object::visitObjects(&enableIRQ, 0);
 		break;
+
+    /*
+     * callback for updating SFP info gets called here for the first time.
+     */
+    case initHookAfterCallbackInit:
+        mrf::Object::visitObjects(&startSFPUpdate, 0);
+        break;
 
 	default:
 		break;
