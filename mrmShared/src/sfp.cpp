@@ -21,7 +21,7 @@ epicsInt16 SFP::read16(unsigned int offset) const
 {
     epicsUInt16 val = buffer[offset];
     val<<=8;
-    val |= buffer[offset+1];    //TODO use shadow buffer here
+    val |= buffer[offset+1];
     return val;
 }
 
