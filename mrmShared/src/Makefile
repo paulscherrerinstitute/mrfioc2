@@ -10,7 +10,7 @@ INC += dataBuffer/mrmDataBuffer.h
 INC += dataBuffer/mrmNonSegmentedDataBuffer.h
 INC += dataBuffer/mrmDataBufferUser.h
 
-#DBD += mrmShared.dbd
+DBD += dataBuffer/mrmDataBuffer.dbd
 
 SRC_DIRS += ../dataBuffer
 

@@ -23,16 +23,14 @@ epicsExportAddress(int, drvMrfiocDataBufferDebug);
 #define dbgPrintf(...)  if(drvMrfiocDataBufferDebug) printf(__VA_ARGS__);
 #endif
 
-#define MAX_LOOP_ITERATIONS 1000
+#define TX_WAIT_MAX_ITERATIONS 1000     // guard against infinite loop when waiting for Tx to complete / waiting while Tx is running.
 
 
-//mrmDataBuffer::mrmDataBuffer(const std::string &name,
 mrmDataBuffer::mrmDataBuffer(volatile epicsUInt8 *parentBaseAddress,
                              epicsUInt32 controlRegisterTx,
                              epicsUInt32 controlRegisterRx,
                              epicsUInt32 dataRegisterTx,
                              epicsUInt32 dataRegisterRx)
-    //:mrf::ObjectInst<mrmDataBuffer>(name)
     :base(parentBaseAddress)
     ,ctrlRegTx(controlRegisterTx)
     ,ctrlRegRx(controlRegisterRx)
@@ -118,41 +116,50 @@ bool mrmDataBuffer::supportsTx()
     return (ctrlRegTx > 0) && (dataRegTx > 0);
 }
 
-void mrmDataBuffer::waitForTxComplete(){
+bool mrmDataBuffer::waitForTxComplete(){
     epicsUInt32 i=0;
 
     // Actual sending is so fast that we can use busy wait here
-    while (!(nat_ioread32(base+ctrlRegTx)&DataTxCtrl_done) && i < MAX_LOOP_ITERATIONS) {
+    while (!(nat_ioread32(base+ctrlRegTx)&DataTxCtrl_done) && i < TX_WAIT_MAX_ITERATIONS) {
         i++;
     }
-    if (i >= MAX_LOOP_ITERATIONS) errlogPrintf("Waiting for Tx complete takes too long. Forced exit...\n");
+    dbgPrintf("Waiting for TX to complete took %d iterations (waiting for maximum of %d iterations)\n", i, TX_WAIT_MAX_ITERATIONS);
+    if (i >= TX_WAIT_MAX_ITERATIONS) {
+        return false;
+    }
+    return true;
 }
 
-void mrmDataBuffer::waitWhileTxRunning(){
+bool mrmDataBuffer::waitWhileTxRunning(){
     epicsUInt32 i=0;
 
     // Actual sending is so fast that we can use busy wait here
-    while ((nat_ioread32(base+ctrlRegTx)&DataTxCtrl_run)  && i < MAX_LOOP_ITERATIONS) {
+    while ((nat_ioread32(base+ctrlRegTx)&DataTxCtrl_run)  && i < TX_WAIT_MAX_ITERATIONS) {
         i++;
     }
-    if (i >= MAX_LOOP_ITERATIONS) errlogPrintf("Waiting while Tx running takes too long. Forced exit...\n");
+    dbgPrintf("Waiting while TX is running took %d iterations (waiting for maximum of %d iterations)\n", i, TX_WAIT_MAX_ITERATIONS);
+    if (i >= TX_WAIT_MAX_ITERATIONS) {
+        errlogPrintf("Waiting while Tx running takes too long. Forced exit...\n");
+        return false;
+    }
+    return true;
 }
 
-void mrmDataBuffer::send(epicsUInt8 startSegment, epicsUInt16 length, epicsUInt8 *data){
+bool mrmDataBuffer::send(epicsUInt8 startSegment, epicsUInt16 length, epicsUInt8 *data){
     epicsUInt32 offset, reg;
 
     epicsGuard<epicsMutex> g(m_tx_lock);
 
     if (!enabledTx()) {
         errlogPrintf("Sending is not enabled, aborting...\n");
-        return;
+        return false;
     }
 
     /* Check input arguments */
     offset = startSegment*DataBuffer_segment_length;
     if (offset >= DataBuffer_len_max) {
         errlogPrintf("Trying to send on offset %d, which is out of range (max offset: %d). Sending aborted!\n", offset, DataBuffer_len_max-1);
-        return;
+        return false;
     }
 
     if (length + offset > DataBuffer_len_max) {
@@ -170,7 +177,8 @@ void mrmDataBuffer::send(epicsUInt8 startSegment, epicsUInt16 length, epicsUInt8
     /* TODO: Check if delay compensation is active? Does it affect length? Will see when data buffer HW is fixed...*/
 
     /* Send data */
-    waitWhileTxRunning();
+    if (!waitWhileTxRunning()) return false;
+
     memcpy((epicsUInt8 *)(dataRegTx+base+offset), data, length);
 
     setTxLength(&startSegment, &length);    // This function can be overriden to calculate different length (used for non-segmented implementation)
@@ -183,6 +191,8 @@ void mrmDataBuffer::send(epicsUInt8 startSegment, epicsUInt16 length, epicsUInt8
     nat_iowrite32(base+ctrlRegTx, reg);
 
     dbgPrintf("0x%x\n", nat_ioread32(base+ctrlRegTx));
+
+    return true;
 }
 
 void mrmDataBuffer::setTxLength(epicsUInt8 *startSegment, epicsUInt16 *length)
@@ -200,6 +210,31 @@ void mrmDataBuffer::removeUser(mrmDataBufferUser *user)
     epicsGuard<epicsMutex> g(m_rx_lock);
     m_users.erase(std::remove(m_users.begin(), m_users.end(), user), m_users.end());
 }
+
+/*void mrmDataBuffer::setSegmentIRQ(epicsUInt8 i, epicsUInt32 mask)
+{
+    printFlags("Segment a", base+DataBuffer_SegmentIRQ);
+    nat_iowrite32(base+DataBuffer_SegmentIRQ + 4*i, mask);
+    printFlags("Segment b", base+DataBuffer_SegmentIRQ);
+}
+
+void mrmDataBuffer::receive()
+{
+    epicsUInt32 reg = nat_ioread32(base+ctrlRegRx);
+    printf("Ctrl: %x\n", reg);
+    nat_iowrite32(base+ctrlRegRx, reg|DataRxCtrl_rx);
+    printf("Ctrl: %x\n", nat_ioread32(base+ctrlRegRx));
+    printf("\n");
+}
+
+void mrmDataBuffer::stop()
+{
+    epicsUInt32 reg = nat_ioread32(base+ctrlRegRx);
+    printf("Ctrl: %x\n", reg);
+    nat_iowrite32(base+ctrlRegRx, reg|DataRxCtrl_stop);
+    printf("Ctrl: %x\n", nat_ioread32(base+ctrlRegRx));
+    printf("\n");
+}*/
 
 void mrmDataBuffer::clearFlags(volatile epicsUInt8 *flagRegister) {
     int i;

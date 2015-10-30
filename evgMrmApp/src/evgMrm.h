@@ -77,7 +77,7 @@ public:
     bool enabled() const;
 
     void resetMxc(bool reset);
-    epicsUInt32 getDbusStatus() const;
+    epicsUInt16 getDbusStatus() const;
 
     /* From sequence ram control register */
     void setSWSequenceMask(epicsUInt16 mask);

@@ -40,18 +40,18 @@ public:
     /**
      * @brief registerInterest Register callback for part (or whole) data buffer.
      * @param offset is the starting offset to register to
-     * @param length is the length fron the offset to register to
+     * @param length is the length from the offset to register to
      * @param fptr is the callback function to invoke when data buffer on registered addresses is updated
      * @param pvt is pointer to the callback function private structure
-     * @return the ID of the registered interest
+     * @return the ID of the registered interest or 0 on error
      */
-    epicsUInt32 registerInterest(size_t offset, size_t length, dataBufferRXCallback_t fptr, void* pvt);
+    size_t registerInterest(size_t offset, size_t length, dataBufferRXCallback_t fptr, void* pvt);
 
     /**
      * @brief removeInterest Remove previously registred interest
      * @param id is the ID of the previously registered interest
      */
-    void removeInterest(epicsUInt32 id);
+    void removeInterest(size_t id);
 
     /**
      * @brief put data to buffer, but do not send it yet
@@ -74,8 +74,9 @@ public:
      * @brief send the updated segments of data buffer that were set via put();
      * If the send operation is already in progress the function will block untill data can be sent.
      * If wait is true the function will block until the segment was actually sent by MRF HW.
+     * @return true on success, false otherwise
      */
-    void send(bool wait);
+    bool send(bool wait);
 
     /**
      * @brief updateSegment is called from the underlying data buffer class when data is received.
@@ -117,8 +118,8 @@ private:
 
     //Registered callbacks
     struct RxCallback{
-        epicsUInt32 offset;
-        epicsUInt32 length;
+        size_t id;                              // the id of the registered callback. Used for deletion.
+        epicsUInt32 segments[4];
         dataBufferRXCallback_t fptr;            //callback function pointer
         void* pvt;                              //callback private
     };

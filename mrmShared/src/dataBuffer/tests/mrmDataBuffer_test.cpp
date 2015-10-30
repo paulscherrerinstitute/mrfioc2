@@ -91,32 +91,66 @@ static void mrmDataBufferEnableFunc(const iocshArgBuf *args) {
 
 /******************/
 
-/********** Enable / disable evr IRQ  *******/
+/********** Enable / disable Rx IRQ  *******/
 static const iocshArg mrmDataBufferArg0_IRQ = { "Device", iocshArgString };
-static const iocshArg mrmDataBufferArg1_IRQ = { "Enable", iocshArgInt }; // 0 = Disable, neg = status, pos = enable
+static const iocshArg mrmDataBufferArg1_IRQ = { "seg", iocshArgInt }; // 0 - 4
+static const iocshArg mrmDataBufferArg2_IRQ = { "mask", iocshArgInt }; // mask to apply
 
-static const iocshArg * const mrmDataBufferArgs_IRQ[2] = { &mrmDataBufferArg0_IRQ, &mrmDataBufferArg1_IRQ};
-static const iocshFuncDef mrmDataBufferDef_IRQ = { "mrmDataBufferIRQ", 2, mrmDataBufferArgs_IRQ };
+static const iocshArg * const mrmDataBufferArgs_IRQ[3] = { &mrmDataBufferArg0_IRQ, &mrmDataBufferArg1_IRQ, &mrmDataBufferArg2_IRQ};
+static const iocshFuncDef mrmDataBufferDef_IRQ = { "mrmDataBufferIRQ", 3, mrmDataBufferArgs_IRQ };
 
 
 static void mrmDataBufferFunc_IRQ(const iocshArgBuf *args) {
-    //epicsUInt32 enable = args[1].ival;
+    epicsUInt32 i = args[1].ival;
+    epicsUInt32 mask = args[2].ival;
 
-    /*evgMrm* evg = dynamic_cast<evgMrm*>(mrf::Object::getObject(device));
-    if(evg){
-        return evg->getDataBuffer();
-    } else {
-        EVRMRM* evr = dynamic_cast<EVRMRM*>(mrf::Object::getObject(device));
-        if(evr){
-            evr->enableIRQ();
-        }
-    }*/
-
-    EVRMRM* evr = dynamic_cast<EVRMRM*>(mrf::Object::getObject(args[0].sval));
-    if(evr){
-        evr->enableIRQ();
-        printf("Enabler EVR IRQ\n");
+    mrmDataBuffer *dataBuffer = getDataBufferFromDevice(args[0].sval);
+    if(dataBuffer == NULL) {
+       printf("Data buffer for %s not found.\n", args[0].sval);
+       return;
     }
+
+    //dataBuffer->setSegmentIRQ(i, mask);
+}
+
+/******************/
+
+/********** Enable / disable Rx stop  *******/
+static const iocshArg mrmDataBufferArg0_stop = { "Device", iocshArgString };
+
+static const iocshArg * const mrmDataBufferArgs_stop[1] = { &mrmDataBufferArg0_stop};
+static const iocshFuncDef mrmDataBufferDef_stop = { "mrmDataBufferstop", 1, mrmDataBufferArgs_stop };
+
+
+static void mrmDataBufferFunc_stop(const iocshArgBuf *args) {
+
+    mrmDataBuffer *dataBuffer = getDataBufferFromDevice(args[0].sval);
+    if(dataBuffer == NULL) {
+       printf("Data buffer for %s not found.\n", args[0].sval);
+       return;
+    }
+
+    //dataBuffer->stop();
+}
+
+/******************/
+
+/********** Enable / disable Rx receive  *******/
+static const iocshArg mrmDataBufferArg0_receive = { "Device", iocshArgString };
+
+static const iocshArg * const mrmDataBufferArgs_receive[1] = { &mrmDataBufferArg0_receive};
+static const iocshFuncDef mrmDataBufferDef_receive = { "mrmDataBufferreceive", 1, mrmDataBufferArgs_receive };
+
+
+static void mrmDataBufferFunc_receive(const iocshArgBuf *args) {
+
+    mrmDataBuffer *dataBuffer = getDataBufferFromDevice(args[0].sval);
+    if(dataBuffer == NULL) {
+       printf("Data buffer for %s not found.\n", args[0].sval);
+       return;
+    }
+
+    //dataBuffer->receive();
 }
 
 /******************/
@@ -195,6 +229,8 @@ extern "C" {
         iocshRegister(&mrmDataBufferEnableDef, mrmDataBufferEnableFunc);
         iocshRegister(&mrmDataBufferDef_IRQ, mrmDataBufferFunc_IRQ);
         iocshRegister(&mrmDataBufferDef_user, mrmDataBufferFunc_user);
+        iocshRegister(&mrmDataBufferDef_stop, mrmDataBufferFunc_stop);
+        iocshRegister(&mrmDataBufferDef_receive, mrmDataBufferFunc_receive);
     }
 
     epicsExportRegistrar(mrmDataBufferRegistrar);

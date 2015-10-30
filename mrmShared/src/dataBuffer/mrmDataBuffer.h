@@ -65,16 +65,18 @@ public:
 
     /**
     * @brief waitForTxComplete busy waits until data buffer transmission is complete (pools the TXCPT bit).
+    * @return true on success, false otherwise
     */
-    void waitForTxComplete(); // inline?
+    bool waitForTxComplete(); // inline?
 
     /**
      * @brief send starts the transmission of the data buffer
      * @param startSegment is the starting segment to be sent out
      * @param length is the length from the starting segment to be sent out
      * @param data is the payload to be sent out
+     * @return true on success, false otherwise
      */
-    void send(epicsUInt8 startSegment, epicsUInt16 length, epicsUInt8 *data);
+    bool send(epicsUInt8 startSegment, epicsUInt16 length, epicsUInt8 *data);
 
     /**
      * @brief registerUser will register a data buffer user, which will receive data buffer updates
@@ -93,6 +95,11 @@ public:
      * @brief handleDataBufferRxIRQ is called from the ISR when the data buffer IRQ arrives (through a CB High scheduled callback)
      */
     static void handleDataBufferRxIRQ(CALLBACK*);
+
+    // TODO test functions
+    /*void setSegmentIRQ(epicsUInt8 i, epicsUInt32 mask);
+    void receive();
+    void stop();*/
 
 
 private:
@@ -148,8 +155,9 @@ private:
 
     /**
      * @brief waitWhileTxRunning is busy waiting while data buffer transmission is running (pools the TXRUN bit)
+     * @return true on success, false otherwise
      */
-    void waitWhileTxRunning();
+    bool waitWhileTxRunning();
 
     // TODO: remove theese
     void printBinary(const char *preface, epicsUInt32 n);

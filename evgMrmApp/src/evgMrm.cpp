@@ -305,9 +305,9 @@ evgMrm::getSwVersion() const {
     return MRF_VERSION;
 }
 
-epicsUInt32
+epicsUInt16
 evgMrm::getDbusStatus() const {
-    return READ32(m_pReg, Status);
+    return READ32(m_pReg, Status) >> 16;
 }
 
 /* From sequence ram control register */

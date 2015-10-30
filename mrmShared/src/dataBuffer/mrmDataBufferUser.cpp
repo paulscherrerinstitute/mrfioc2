@@ -25,10 +25,10 @@ mrmDataBufferUser::mrmDataBufferUser() {
         m_rx_segments[i] = 0;
         m_tx_segments[i] = 0;
     }
-    for (i=0; i<2048; i++) {    // TODO make define here
-        m_rx_buff[i] = 0;
-        m_tx_buff[i] = 0;
-    }
+
+    memset(m_rx_buff, 0, 2048);// TODO make define here
+    memset(m_tx_buff, 0, 2048);// TODO make define here
+
     m_data_buffer = NULL;
 }
 
@@ -48,7 +48,7 @@ epicsUInt8 mrmDataBufferUser::init(const char* deviceName) {
         }
         m_thread_stop = false;
         m_thread_id = epicsThreadCreate("MRF DBUFF UPDATE"
-                                        ,epicsThreadPriorityLow
+                                        ,epicsThreadPriorityLow    // TODO expose to user
                                         ,epicsThreadGetStackSize(epicsThreadStackMedium)
                                         ,&mrmDataBufferUser::userUpdateThread
                                         ,this);
@@ -101,26 +101,27 @@ mrmDataBufferUser::~mrmDataBufferUser()
     }
 }
 
-epicsUInt32 mrmDataBufferUser::registerInterest(size_t offset, size_t length, dataBufferRXCallback_t fptr, void *pvt) {
+size_t mrmDataBufferUser::registerInterest(size_t offset, size_t length, dataBufferRXCallback_t fptr, void *pvt) {
     RxCallback *cb = NULL;
-    epicsUInt32 id;
+    size_t id;
+    epicsUInt16 segment, i, segmentOffset, noOfSegmentsUpdated;
 
     epicsGuard<epicsMutex> g(m_rx_lock);
 
     /* Check input arguments */
     if(length <= 0) {
         errlogPrintf("Invalid length %zu provided. Offset + length should be in interval [0, %d].\n", length, DataBuffer_len_max-1);
-        return -1;
+        return 0;
     }
 
     if(!supportsRx()) {
         errlogPrintf("This data buffer does not support reception of data, or reception thread could not be run. Cannot register interest.\n");
-        return -1;
+        return 0;
     }
 
     if (offset >= DataBuffer_len_max) {
         errlogPrintf("Trying to register on offset %zu, which is out of range (max offset: %d).\n", offset, DataBuffer_len_max-1);
-        return -1;
+        return 0;
     }
 
     if(offset + length > DataBuffer_len_max) {
@@ -130,34 +131,56 @@ epicsUInt32 mrmDataBufferUser::registerInterest(size_t offset, size_t length, da
     }  
 
 
+    if (m_rx_callbacks.size() > 0) {
+        cb = m_rx_callbacks.back();
+        id = cb->id + 1;
+        if(id <= 0) {   // id overflowed
+            errlogPrintf("Maximum number of registered interests reached. Canceled operation.\n");
+            return 0;
+        }
+    } else id = 1;  // this is the first ID. We start with 1...
+
+
     cb = new RxCallback;
     cb->fptr = fptr;
     cb->pvt = pvt;
-    cb->offset = offset;
-    cb->length = length;
+    cb->id = id;
+
+    segment = offset / DataBuffer_segment_length;
+    segmentOffset = offset - segment * DataBuffer_segment_length;
+    noOfSegmentsUpdated = ((length - 1 + segmentOffset) / DataBuffer_segment_length) + 1;
+
+    // Mark which segments were updated
+    for(i=segment; i<segment+noOfSegmentsUpdated; i++){
+        cb->segments[i / 32] |= 0x80000000 >> i % 32;
+    }
 
     m_rx_callbacks.push_back(cb);
-    id = m_rx_callbacks.size()-1;
 
     return id;
 }
 
-void mrmDataBufferUser::removeInterest(epicsUInt32 id) {
-    epicsUInt32 size;
+void mrmDataBufferUser::removeInterest(size_t id) {
+    size_t size, i;
 
     epicsGuard<epicsMutex> g(m_rx_lock);
 
     size = m_rx_callbacks.size();
-    if(id < size) {
-        m_rx_callbacks.erase(m_rx_callbacks.begin() + id);
+    if(id < size && id > 0) {   // are we in range?
+        for (i=0; i<size; i++){
+            if (m_rx_callbacks[i]->id == id) {   // found a callback with specified ID
+                m_rx_callbacks.erase(m_rx_callbacks.begin() + i);
+                break;
+            }
+        }
+
     } else {
-        errlogPrintf("Invalid registered interest ID (%d). Valid IDs are in range [0, %d]\n", id, size-1);
+        errlogPrintf("Invalid registered interest ID (%zu). Valid IDs are in range [1, %zu]\n", id, size-1);
     }
 }
 
 void mrmDataBufferUser::put(size_t offset, size_t length, void *buffer) {
-    epicsUInt16 segment, i;
-    epicsUInt8 noOfSegmentsUpdated, segmentOffset;
+    epicsUInt16 segment, i, noOfSegmentsUpdated, segmentOffset;;
 
     epicsGuard<epicsMutex> g(m_tx_lock);
 
@@ -180,7 +203,7 @@ void mrmDataBufferUser::put(size_t offset, size_t length, void *buffer) {
 
     segment = offset / DataBuffer_segment_length;
     segmentOffset = offset - segment * DataBuffer_segment_length;
-    noOfSegmentsUpdated = ((length - 1 + segmentOffset) / DataBuffer_segment_length) + 1 - (1 / DataBuffer_segment_length);
+    noOfSegmentsUpdated = ((length - 1 + segmentOffset) / DataBuffer_segment_length) + 1;
 
     // Update buffer at the offset segment
     memcpy(&m_tx_buff[offset], buffer, length);
@@ -216,14 +239,14 @@ void mrmDataBufferUser::get(size_t offset, size_t length, void *buffer) {
     memcpy(buffer, &m_rx_buff[offset], length);
 }
 
-void mrmDataBufferUser::send(bool wait)
+bool mrmDataBufferUser::send(bool wait)
 {
     epicsUInt32 segments;
     epicsUInt8 i, bits, startSegment=0;
     epicsUInt16 length = 0;
 
     if (m_data_buffer != NULL) {
-        { // { here to enforce m_tx_lock scope
+        { // brackets here to enforce m_tx_lock scope
             epicsGuard<epicsMutex> g(m_tx_lock);
 
             for(i=0; i<4; i++){
@@ -232,7 +255,7 @@ void mrmDataBufferUser::send(bool wait)
                 while(bits){
                     if (segments & 0x80000000) {    // we found segment that needs sending
                         if (length == 0) startSegment = 32 * i + 32 - bits;
-                        length += 16;
+                        length += DataBuffer_segment_length;;
 
                     } else {    // this segment will not be sent
                         if (length > 0) {   // previous segment was last consecutive segment to send.
@@ -251,32 +274,44 @@ void mrmDataBufferUser::send(bool wait)
             }
         }
 
-        if(wait) m_data_buffer->waitForTxComplete();
+        if(wait) {
+            if (!m_data_buffer->waitForTxComplete()) {
+                errlogPrintf("Data sent, but waiting for Tx complete takes too long. Exiting prematurely...\n");
+                return false;
+            }
+        }
     } else {
         errlogPrintf("Cannot send since data buffer is not available!\n");
     }
+
+    return true;
 }
 
 void mrmDataBufferUser::updateSegment(epicsUInt16 segment, epicsUInt8 *data, epicsUInt16 length) {
-    epicsUInt32 segmentMask;
+    epicsUInt32 segmentMask, segmentsReceived[4]={0, 0, 0, 0};
     epicsUInt32 i;
     epicsUInt8 noOfSegmentsUpdated;
 
-    if (m_rx_lock.tryLock()) {  //TODO can throw exception
+    // TODO give user option to use lock/try lock here
+    if (m_rx_lock.tryLock()) {  // can throw exception, user should decide how to handle it...
+
+        noOfSegmentsUpdated = ((length - 1) / DataBuffer_segment_length) + 1;
+        for(i=segment; i<segment+noOfSegmentsUpdated; i++){ // detect overflow
+            segmentMask = (0x80000000 >> (i % 32));
+            if (m_rx_segments[i / 32] & segmentMask) {
+                errlogPrintf("SW overflow occured for segment %d. Discarding data buffer update\n", i);
+                m_rx_lock.unlock();
+                return;
+            }
+            segmentsReceived[i / 32] |= segmentMask;   // Mark segment as received
+        }
+
+        for (i=0; i<4; i++) {
+            m_rx_segments[i] |= segmentsReceived[i];   // Set segment received flags
+        }
+
         // Copy received segment(s) to local buffer. If the the tryLock fails, the buffer is out of sync...
         memcpy(&m_rx_buff[segment*DataBuffer_segment_length], &data[segment*DataBuffer_segment_length], length);
-
-        // Set segment received flags
-        noOfSegmentsUpdated = ((length - 1) / DataBuffer_segment_length) + 1 - (1 / DataBuffer_segment_length);
-
-        for(i=segment; i<segment+noOfSegmentsUpdated; i++){
-            segmentMask = (0x80000000 >> i % 32);
-            if (m_rx_segments[i / 32] & segmentMask) {
-                errlogPrintf("SW overflow occured for segment %d\n", i);
-                m_rx_segments[i / 32] &= ~segmentMask;
-            }
-            m_rx_segments[i / 32] |= segmentMask;
-        }
 
         m_rx_lock.unlock();
 
@@ -290,89 +325,51 @@ void mrmDataBufferUser::updateSegment(epicsUInt16 segment, epicsUInt8 *data, epi
 }
 
 void mrmDataBufferUser::userUpdateThread(void* args) {
-    epicsUInt32 j, segments, segmentsReceived[4]={0, 0, 0, 0};
-    epicsUInt8 i, bits;
+    epicsUInt32 segments;
+    size_t i;
+    epicsUInt8 j, bits;
     mrmDataBufferUser* parent = static_cast<mrmDataBufferUser*>(args);
     RxCallback *userCallback;
-    epicsUInt16 startOffset=0, maxOffset, minLength, length=0;
+    epicsUInt16 startOffset=0, length=0;
 
     epicsEventWait(parent->m_thread_sync);
     while (!parent->m_thread_stop) {
 
         parent->m_rx_lock.lock();
 
-        for (i=0; i<4; i++) {
-            segments = parent->m_rx_segments[i];
-            bits = 32;
+        for (i=0; i<parent->m_rx_callbacks.size(); i++) {
+            userCallback = parent->m_rx_callbacks[i];
 
-            while(bits){
-                if (segments & 0x80000000) {    // we found a received segment
-                    if (length == 0) startOffset = (32 * i + 32 - bits) * DataBuffer_segment_length;
-                    length += DataBuffer_segment_length;
-                    segmentsReceived[i] |= 0x80000000 >> (32 - bits);
-                } else {    // this segment was not received
-                    if (length > 0) {   // we have received data on startSegment + length.
-                        for (j=0; j<parent->m_rx_callbacks.size(); j++) {
-                            userCallback = parent->m_rx_callbacks[j];
-                            // Check if anyone is interested in what we received
-                            if ((userCallback->offset >= startOffset && userCallback->offset <= startOffset+length) ||
-                                (userCallback->offset + userCallback->length >= startOffset && userCallback->offset + userCallback->length <= startOffset+length)) {
+            for (j=0; j<4; j++) {
+                // check if there is any data this user is interested in
+                segments = parent->m_rx_segments[j] & userCallback->segments[j];
+                bits = 32;
 
-                                // Calculate the offset and length that is sent out to each interested user, based on what was received and what he is interested in.
-                                if(userCallback->offset >= startOffset) {
-                                    maxOffset = userCallback->offset;
-                                } else {
-                                    maxOffset = startOffset;
-                                }
-                                if(userCallback->length <= length) {
-                                    minLength = userCallback->length;
-                                } else {
-                                    minLength = length;
-                                }
-
-                                userCallback->fptr(maxOffset, minLength, userCallback->pvt); // call the function that the user registered
-                            }
-                        }
-
-                        // iterate through segments and clear received segment flag. This is used to check SW overflow when receiving.
-                        for(j=0; j<=i; j++) {
-                            //printf("clear segments 0x%x\n", segmentsReceived[j]);
-                            parent->m_rx_segments[j] &= ~segmentsReceived[j];  // mark the segments as handled
-                            segmentsReceived[j] = 0;
-                        }
-
+                while (bits) {
+                    if (segments & 0x80000000) {
+                        if (length == 0) startOffset = (32 * j + 32 - bits) * DataBuffer_segment_length; // first segment found. Mark it's offset.
+                        length += DataBuffer_segment_length;    // user is interested in this segment, so increase the length
+                    }
+                    else if (length > 0) {
+                        userCallback->fptr(startOffset, length, userCallback->pvt); // call the function that the user registered
                         length = 0;
-                    } // end if (length > 0)
+                    }
+                    segments <<= 1;
+                    bits--;
                 }
-                segments <<= 1;
-                bits--;
             }
+
+            if (length > 0) {   // user is interested in data on startOffset + length.
+                userCallback->fptr(startOffset, length, userCallback->pvt); // call the function that the user registered
+            }
+
+            length = 0;
         }
 
-        if (length > 0) {   // we have received data at the end of the buffer. Check if anyone is interested in it
-            for (j=0; j<parent->m_rx_callbacks.size(); j++) {
-                userCallback = parent->m_rx_callbacks[j];
-                if ((userCallback->offset >= startOffset && userCallback->offset <= startOffset+length) ||
-                    (userCallback->offset + userCallback->length >= startOffset && userCallback->offset + userCallback->length <= startOffset+length)) {
-
-                    if(userCallback->offset >= startOffset) {
-                        maxOffset = userCallback->offset;
-                    } else {
-                        maxOffset = startOffset;
-                    }
-                    if(userCallback->length <= length) {
-                        minLength = userCallback->length;
-                    } else {
-                        minLength = length;
-                    }
-                    userCallback->fptr(maxOffset, minLength, userCallback->pvt);
-                }
-            }
-            for(j=0; j<4; j++) {
-                //printf("clear segments 0x%x\n", segmentsReceived[j]);
-                parent->m_rx_segments[j] &= ~segmentsReceived[j];  // mark the segments as handled
-                segmentsReceived[j] = 0;
-            }
+        // iterate through segments and clear received segment flag. This is used to check SW overflow when receiving.
+        // note that only when all users handle all the data, the overflow flags are cleared. Since we are holding a lock here, new reception can't start anyway...
+        for(j=0; j<4; j++) {
+            parent->m_rx_segments[j] = 0;  // mark the segments as handled
         }
 
         parent->m_rx_lock.unlock();

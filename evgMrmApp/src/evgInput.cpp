@@ -67,7 +67,6 @@ void
 evgInput::setSeqEnable(epicsUInt16 enable) {
     epicsUInt32 en = enable;
 
-    enable &= 0xF;    // enable is a 4 bit value
     en <<= EVG_INP_SEQ_ENABLE_shift;
     en &= EVG_INP_SEQ_ENABLE;   // last bit should be ignored (because it belongs to external IRQ bit). Also a sanity check...
 
