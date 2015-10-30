@@ -29,17 +29,19 @@ OBJECT_BEGIN(evgDbus) {
 } OBJECT_END(evgDbus)
 
 OBJECT_BEGIN(evgEvtClk) {
-    OBJECT_PROP2("Source",        &evgEvtClk::getSource, &evgEvtClk::setSource);
-    OBJECT_PROP2("RFFreq",        &evgEvtClk::getRFFreq, &evgEvtClk::setRFFreq);
-    OBJECT_PROP2("RFDiv",         &evgEvtClk::getRFDiv,  &evgEvtClk::setRFDiv);
-    OBJECT_PROP2("PLL Bandwidth", &evgEvtClk::getPLLBandwidthRaw,  &evgEvtClk::setPLLBandwidthRaw);
-    OBJECT_PROP2("FracSynFreq",   &evgEvtClk::getFracSynFreq, &evgEvtClk::setFracSynFreq);
-    OBJECT_PROP1("Frequency",     &evgEvtClk::getFrequency);
+    OBJECT_PROP2("Source",         &evgEvtClk::getSource, &evgEvtClk::setSource);
+    OBJECT_PROP2("RFFreq",         &evgEvtClk::getRFFreq, &evgEvtClk::setRFFreq);
+    OBJECT_PROP2("RFDiv",          &evgEvtClk::getRFDiv,  &evgEvtClk::setRFDiv);
+    OBJECT_PROP1("PLL Lock Status",&evgEvtClk::getPllLocked);
+    OBJECT_PROP2("PLL Bandwidth",  &evgEvtClk::getPLLBandwidthRaw,  &evgEvtClk::setPLLBandwidthRaw);
+    OBJECT_PROP2("FracSynFreq",    &evgEvtClk::getFracSynFreq, &evgEvtClk::setFracSynFreq);
+    OBJECT_PROP1("Frequency",      &evgEvtClk::getFrequency);
 } OBJECT_END(evgEvtClk)
 
 OBJECT_BEGIN(evgInput) {
     OBJECT_PROP2("IRQ", &evgInput::getExtIrq, &evgInput::setExtIrq);
-    OBJECT_PROP2("SQMK", &evgInput::getSeqMask, &evgInput::setSeqMask);
+    OBJECT_PROP2("Sequence mask", &evgInput::getSeqMask, &evgInput::setSeqMask);
+    OBJECT_PROP2("Sequence enable", &evgInput::getSeqEnable, &evgInput::setSeqEnable);
 } OBJECT_END(evgInput)
 
 OBJECT_BEGIN(evgMxc) {
@@ -66,8 +68,8 @@ OBJECT_BEGIN(evgTrigEvt) {
 OBJECT_BEGIN(evgMrm) {
     OBJECT_PROP2("Enable",     &evgMrm::enabled,      &evgMrm::enable);
     OBJECT_PROP1("DbusStatus", &evgMrm::getDbusStatus);
-    OBJECT_PROP2("Seq 0 mask", &evgMrm::getSWMask0,   &evgMrm::setSWMask0);
-    OBJECT_PROP2("Seq 1 mask", &evgMrm::getSWMask1,   &evgMrm::setSWMask1);
+    OBJECT_PROP2("Seq mask", &evgMrm::getSWSequenceMask,   &evgMrm::setSWSequenceMask);
+    OBJECT_PROP2("Seq enable", &evgMrm::getSWSequenceEnable,   &evgMrm::setSWSequenceEnable);
     OBJECT_PROP2("DlyCompens beacon", &evgMrm::dlyCompBeaconEnabled,   &evgMrm::dlyCompBeaconEnable);
     OBJECT_PROP2("DlyCompens master", &evgMrm::dlyCompMasterEnabled,   &evgMrm::dlyCompMasterEnable);
     OBJECT_PROP1("Version",    &evgMrm::getFwVersion);

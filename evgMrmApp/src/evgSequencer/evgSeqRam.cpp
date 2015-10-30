@@ -11,6 +11,7 @@
 #include <mrfCommon.h>
 #include <epicsGuard.h>
 
+#include <evgInput.h>
 #include "evgMrm.h"
 #include "evgRegMap.h"
 

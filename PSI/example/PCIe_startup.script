@@ -1,0 +1,18 @@
+require mrfioc2
+
+epicsEnvSet SYS "MTEST-PCI-TIMINGTEST"
+
+
+##########################
+#-----! EVR Setup ------!#
+##########################
+## The following parameters are available to set up the device. They can either be set as an epics environmental variable, or passed as a macro to the 'runScript' command (as seen below with 'EVR_SUBS' macro):
+
+epicsEnvSet EVR			"EVR0" 		## is the event receiver card name. (default: EVR0)
+epicsEnvSet EVR_DOMAIN  	0x1 		## is the PCI domain where the card is inserted. (default: 0x1)
+epicsEnvSet EVR_BUS 		0x21 		## is the PCI bus where the card is inserted. (default: 0x21)
+epicsEnvSet EVR_DEVICE  	0 			## is the PCI device where the card is inserted. (default: 0)
+epicsEnvSet EVR_FUNCTION 	0 			## is the PCI function where the card is inserted. (default: 0)
+#epicsEnvSet EVR_SUBS "cfg/EVR0.subs" 	## is the path to the substitution file that should be loaded. (default: cfg/$(EVR).subs=cfg/EVR0.subs)
+
+runScript $($(MODULE)_DIR)/mrfioc2_evr-PCIe.cmd, "EVR_SUBS=$($(MODULE)_TEMPLATES)/evr_PCIe-300.subs"

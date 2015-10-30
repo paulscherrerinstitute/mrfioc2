@@ -7,7 +7,7 @@
 
 class evgFct : public mrf::ObjectInst<evgFct> {
 public:
-    evgFct(const std::string&, volatile epicsUInt8* const, std::vector<SFP*>&);
+    evgFct(const std::string&, volatile epicsUInt8* const, std::vector<SFP *> *);
     ~evgFct();
 
     /* locking done internally */
@@ -37,7 +37,7 @@ public:
 
 private:
     volatile epicsUInt8* const m_fctReg;
-    std::vector<SFP*> m_sfp;
+    std::vector<SFP*> *m_sfp;
 };
 
 

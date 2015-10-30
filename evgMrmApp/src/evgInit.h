@@ -6,7 +6,7 @@
 #include <devcsr.h>
 
 #include "evgMrm.h"
-#include "configurationInfo.h"
+#include "mrmShared.h"
 
 #define MRF_UCSR_DEFAULT 0x7fb03
 

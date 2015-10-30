@@ -20,10 +20,17 @@
 #include "mrf/version.h"
 #include <mrfCommonIO.h> 
 #include <mrfCommon.h> 
+#include "evgRegMap.h"
+
+
+#include "dataBuffer/mrmDataBuffer.h"
+#include "dataBuffer/mrmNonSegmentedDataBuffer.h"
 
 #ifdef __rtems__
 #include <rtems/bspIo.h>
 #endif //__rtems__
+
+#define evgAllowedTsGitter 0.5f
 
 
 evgMrm::evgMrm(const std::string& id, bus_configuration& busConfig, volatile epicsUInt8* const pReg, volatile epicsUInt8* const fctReg, const epicsPCIDevice *pciDevice):
@@ -34,7 +41,6 @@ evgMrm::evgMrm(const std::string& id, bus_configuration& busConfig, volatile epi
     irqStart1_queued(0),
     irqExtInp_queued(0),
     m_syncTimestamp(false),
-    m_buftx(id+":BUFTX",pReg+U32_DataBufferControl, pReg+U8_DataBuffer_base),
     m_pciDevice(pciDevice),
     m_id(id),
     m_pReg(pReg),
@@ -136,11 +142,17 @@ evgMrm::evgMrm(const std::string& id, bus_configuration& busConfig, volatile epi
         m_sfp.push_back(new SFP(sfpName.str(), pReg + U32_SFP_transceiver));    // there is always a main transceiver module present (upstream)
 
         if(version >= EVG_FCT_MIN_FIRMWARE && m_fctReg > 0){
-            m_fct = new evgFct(id, m_fctReg, m_sfp); // fanout SFP modules are initialized here
+            m_fct = new evgFct(id, m_fctReg, &m_sfp); // fanout SFP modules are initialized here
         } else{
             m_fct = 0;
         }
 
+        // TODO: use define?
+        if(version < 200){
+            m_dataBuffer = new mrmNonSegmentedDataBuffer(pReg, U32_DataTxCtrlEvg, 0, U8_DataTxBaseEvg, 0);
+        } else {
+            m_dataBuffer = new mrmDataBuffer(pReg, U32_DataTxCtrlEvg, 0, U8_DataTxBaseEvg, 0);
+        }
     
         /*
          * Swtiched order of creation for m_timerEvent and m_wdTimer.
@@ -293,35 +305,54 @@ evgMrm::getSwVersion() const {
     return MRF_VERSION;
 }
 
-epicsUInt32
+epicsUInt16
 evgMrm::getDbusStatus() const {
-    return READ32(m_pReg, Status);
+    return READ32(m_pReg, Status) >> 16;
 }
 
 /* From sequence ram control register */
+// Always reading/writing from/to sequence 1 register, since mask and enable values are common for all RAMs
 void
-evgMrm::setSWMask0(epicsUInt16 mask){
-    WRITE8(m_pReg, SeqSWMask(0), (epicsUInt8)mask);
+evgMrm::setSWSequenceMask(epicsUInt16 mask){
+    epicsUInt32 val = READ32(m_pReg, SeqControl_base);
+
+    mask &= 0xF;   // mask is a 4 bit value
+    val &= ~EVG_SEQ_RAM_SWMASK;
+    val |= mask << EVG_SEQ_RAM_SWMASK_shift;
+
+    WRITE32(m_pReg, SeqControl_base, val);
 }
 
-/* From sequence ram control register */
 epicsUInt16
-evgMrm::getSWMask0() const{
-    return (epicsUInt16)READ8(m_pReg, SeqSWMask(0));
+evgMrm::getSWSequenceMask() const{
+    epicsUInt32 val = READ32(m_pReg, SeqControl_base);
+
+    val &= EVG_SEQ_RAM_SWMASK;
+    val >>= EVG_SEQ_RAM_SWMASK_shift;
+
+    return (epicsUInt16)val;
 }
 
-/* From sequence ram control register */
 void
-evgMrm::setSWMask1(epicsUInt16 mask){
+evgMrm::setSWSequenceEnable(epicsUInt16 enable){
+    epicsUInt32 val = READ32(m_pReg, SeqControl_base);
 
-    WRITE8(m_pReg, SeqSWMask(1), (epicsUInt8)mask);
+    enable &= 0xF;    // enable is a 4 bit value
+    val &= ~EVG_SEQ_RAM_SWENABLE;
+    val |= enable << EVG_SEQ_RAM_SWENABLE_shift;
+
+    WRITE32(m_pReg, SeqControl_base, val);
 }
 
-/* From sequence ram control register */
 epicsUInt16
-evgMrm::getSWMask1() const{
-    return (epicsUInt16)READ8(m_pReg, SeqSWMask(1));
+evgMrm::getSWSequenceEnable() const{
+    epicsUInt32 val = READ32(m_pReg, SeqControl_base);
+
+    val &= EVG_SEQ_RAM_SWENABLE;
+    val >>= EVG_SEQ_RAM_SWENABLE_shift;
+    return (epicsUInt16)val;
 }
+/* --------------------------------- */
 
 void
 evgMrm::dlyCompBeaconEnable(bool ena){
@@ -798,20 +829,13 @@ bus_configuration *evgMrm::getBusConfiguration()
     return &busConfiguration;
 }
 
-SFP*
-evgMrm::getSFP(epicsUInt32 n){
-    SFP* sfp;
+std::vector<SFP *>* evgMrm::getSFP(){
+    return &m_sfp;
+}
 
-    if(n >= m_sfp.size()){
-        throw std::out_of_range("Not that many SFP modules present. Does your form factor support that many?");
-    }
-
-    sfp = m_sfp[n];
-    if(!sfp){
-        throw std::runtime_error("SFP module not initialized");
-    }
-
-    return sfp;
+mrmDataBuffer *evgMrm::getDataBuffer()
+{
+    return m_dataBuffer;
 }
 
 namespace {
@@ -823,4 +847,56 @@ void evgMrm::show(int lvl)
     showSoftSeq ss;
     ss.lvl = lvl;
     m_softSeqMgr.visit(ss);
+}
+
+
+
+
+/*********************************/
+/** Start of the WD Timer class **/
+/*********************************/
+
+wdTimer::wdTimer(const char *name, evgMrm *evg):
+    m_lock(),
+    m_thread(*this,name,epicsThreadGetStackSize(epicsThreadStackSmall),50),
+    m_evg(evg),
+    m_pilotCount(4) {
+    m_thread.start();
+}
+
+void wdTimer::run() {
+    struct epicsTimeStamp ts;
+    bool timeout;
+
+     while(1) {
+         m_lock.lock();
+         m_pilotCount = 4;
+         m_lock.unlock();
+         timeout = false;
+         m_evg->getTimerEvent()->wait();
+
+         /*Start of timer. If timeout == true then the timer expired.
+          If timeout == false then received the signal before the timeout period*/
+         while(!timeout)
+             timeout = !m_evg->getTimerEvent()->wait(1 + evgAllowedTsGitter);
+
+         if(epicsTimeOK == generalTimeGetExceptPriority(&ts, 0, 50)) {
+             printf("Timestamping timeout\n");
+             ((epicsTime)ts).show(1);
+         }
+
+         m_evg->m_alarmTimestamp = TS_ALARM_MAJOR;
+         scanIoRequest(m_evg->ioScanTimestamp);
+     }
+}
+
+void wdTimer::decrPilotCount() {
+    SCOPED_LOCK(m_lock);
+    m_pilotCount--;
+    return;
+}
+
+bool wdTimer::getPilotCount() {
+    SCOPED_LOCK(m_lock);
+    return m_pilotCount != 0;
 }

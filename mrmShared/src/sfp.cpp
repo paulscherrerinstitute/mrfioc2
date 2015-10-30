@@ -7,12 +7,15 @@
 #endif
 
 #include <epicsExport.h>
+
 #include "mrf/object.h"
 #include "sfp.h"
 
 #include "mrfCommonIO.h"
 
 #include "sfpinfo.h"
+
+#define SFP_UPDATE_DELAY 10
 
 epicsInt16 SFP::read16(unsigned int offset) const
 {
@@ -26,9 +29,14 @@ SFP::SFP(const std::string &n, volatile unsigned char *reg)
     :mrf::ObjectInst<SFP>(n)
     ,base(reg)
     ,buffer(SFPMEM_SIZE)
+    ,tempBuffer(SFPMEM_SIZE)
     ,valid(false)
 {
     updateNow();
+
+    callbackSetCallback(&SFP::updateTask, &updateCallback);
+    callbackSetPriority(priorityLow, &updateCallback);
+    callbackSetUser(this, &updateCallback);
 
     /* Check for SFP with LC connector */
     if(valid){
@@ -41,17 +49,34 @@ SFP::SFP(const std::string &n, volatile unsigned char *reg)
 
 SFP::~SFP() {}
 
+void
+SFP::updateTask(CALLBACK *pCallback) {
+    void* pVoid;
+    callbackGetUser(pVoid, pCallback);
+    SFP* sfp = (SFP*)pVoid;
+
+    sfp->updateNow();
+    callbackRequestDelayed(&sfp->updateCallback, SFP_UPDATE_DELAY);
+}
+
+void SFP::startUpdate(){
+    callbackRequest(&updateCallback);
+}
+
 void SFP::updateNow(bool)
 {
     /* read I/O 4 bytes at a time to preserve endianness
      * for both PCI and VME
      */
-    epicsUInt32* p32=(epicsUInt32*)&buffer[0];
+    epicsUInt32* p32=(epicsUInt32*)&tempBuffer[0];
 
     for(unsigned int i=0; i<SFPMEM_SIZE/4; i++)
         p32[i] = be_ioread32(base+ i*4);
 
-    valid = buffer[0]==3 && buffer[2]==7;
+    guard.lock();
+    valid = tempBuffer[0]==3 && tempBuffer[2]==7;
+    buffer.swap(tempBuffer);
+    guard.unlock();
 }
 
 double SFP::linkSpeed() const
@@ -245,8 +270,6 @@ void SFP::reportMore() const{
 }
 
 OBJECT_BEGIN(SFP) {
-
-    OBJECT_PROP2("Update", &SFP::junk, &SFP::updateNow);
 
     OBJECT_PROP1("Vendor", &SFP::vendorName);
     OBJECT_PROP1("Part", &SFP::vendorPart);

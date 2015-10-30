@@ -1,0 +1,77 @@
+file evgMrm.template {
+pattern { SYS,      EVG}
+        {"$(SYS)", "$(EVG)"}
+}
+
+file evgSoftEvt.template {
+pattern { SYS,      EVG     }
+        {"$(SYS)", "$(EVG)" }
+}
+
+file evgAcTrig.template {
+pattern { SYS,      EVG     }
+        {"$(SYS)", "$(EVG)" }
+}
+
+file evgEvtClk.template {
+pattern { SYS,      EVG     }
+        {"$(SYS)", "$(EVG)" }
+}
+
+file evgDbus.template {
+pattern { SYS,      EVG,     ID }
+        {"$(SYS)", "$(EVG)", 0  }
+        {"$(SYS)", "$(EVG)", 1  }
+        {"$(SYS)", "$(EVG)", 2  }
+        {"$(SYS)", "$(EVG)", 3  }
+        {"$(SYS)", "$(EVG)", 4  }
+        {"$(SYS)", "$(EVG)", 5  }
+        {"$(SYS)", "$(EVG)", 6  }
+        {"$(SYS)", "$(EVG)", 7  }
+
+}
+
+file evgInput.template {
+pattern { SYS,      EVG,      OBJ,       ID,  PPS,  DBUSOBJ}
+        {"$(SYS)", "$(EVG)", "UnivInp",  0,   3,    "Dbus"}
+        {"$(SYS)", "$(EVG)", "UnivInp",  1,   4,    "Dbus"}
+        {"$(SYS)", "$(EVG)", "UnivInp",  2,   5,    "Dbus"}
+        {"$(SYS)", "$(EVG)", "UnivInp",  3,   6,    "Dbus"}
+}
+
+file evgOutput.template {
+pattern { SYS,      EVG,      OBJ,        ID }
+        {"$(SYS)", "$(EVG)", "UnivOut",   0  }
+        {"$(SYS)", "$(EVG)", "UnivOut",   1  }
+        {"$(SYS)", "$(EVG)", "UnivOut",   2  }
+        {"$(SYS)", "$(EVG)", "UnivOut",   3  }
+}
+
+file evgTrigEvt.template {
+pattern { SYS,      EVG,     ID }
+        {"$(SYS)", "$(EVG)", 0  }
+        {"$(SYS)", "$(EVG)", 1  }
+        {"$(SYS)", "$(EVG)", 2  }
+        {"$(SYS)", "$(EVG)", 3  }
+        {"$(SYS)", "$(EVG)", 4  }
+        {"$(SYS)", "$(EVG)", 5  }
+        {"$(SYS)", "$(EVG)", 6  }
+        {"$(SYS)", "$(EVG)", 7  }
+}
+
+file evgMxc.template {
+pattern { SYS,      EVG,     ID }
+        {"$(SYS)", "$(EVG)", 0  }
+        {"$(SYS)", "$(EVG)", 1  }
+        {"$(SYS)", "$(EVG)", 2  }
+        {"$(SYS)", "$(EVG)", 3  }
+        {"$(SYS)", "$(EVG)", 4  }
+        {"$(SYS)", "$(EVG)", 5  }
+        {"$(SYS)", "$(EVG)", 6  }
+        {"$(SYS)", "$(EVG)", 7  }
+}
+
+file "sfp.template"{
+pattern { SYS,      EVG,     ID }
+        {"$(SYS)", "$(EVG)", 0  }
+}

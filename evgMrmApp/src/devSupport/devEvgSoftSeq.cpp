@@ -15,7 +15,6 @@
 #include <devSup.h>
 #include <dbAccess.h>
 #include <errlog.h>
-#include "mrf/databuf.h"
 #include <epicsExport.h>
 #include <errlog.h>
 

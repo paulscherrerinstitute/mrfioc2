@@ -8,6 +8,8 @@
 #include <epicsTypes.h>
 #include "mrf/object.h"
 
+#include "stdio.h"
+
 enum InputType {
     NoneInp = 0,
     FrontInp,
@@ -21,9 +23,9 @@ public:
              volatile epicsUInt8* const);
     ~evgInput();
 
-    /* locking done internally */
-    virtual void lock() const{};
-    virtual void unlock() const{};
+    /* no locking. There is only database access to theese functions. */
+    virtual void lock() const{}
+    virtual void unlock() const{}
 
     epicsUInt32 getNum() const;
     InputType getType() const;
@@ -33,6 +35,9 @@ public:
 
     void setSeqMask(epicsUInt16 mask);
     epicsUInt16 getSeqMask() const;
+
+    void setSeqEnable(epicsUInt16 enable);
+    epicsUInt16 getSeqEnable() const;
 
     void setDbusMap(epicsUInt16, bool);
     bool getDbusMap(epicsUInt16) const;

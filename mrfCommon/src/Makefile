@@ -14,7 +14,6 @@ INC += mrfFracSynth.h     # Fractional Synthesizer routines
 INC += linkoptions.h
 INC += mrfcsr.h
 
-INC += mrf/databuf.h
 INC += mrf/object.h
 
 INC += mrf/version.h
@@ -66,13 +65,14 @@ mrfCommon_SRCS += devObjMBBDirect.cpp
 mrfCommon_SRCS += devObjString.cpp
 mrfCommon_SRCS += devObjWf.cpp
 mrfCommon_SRCS += devMbboDirectSoft.c
-mrfCommon_SRCS += databuf.cpp
 mrfCommon_SRCS += mrfCommon.cpp
 
 mrfCommon_LIBS += $(EPICS_BASE_IOC_LIBS)
 
 #OBJS_IOC += $(mrfCommon_SRCS)
-mrfCommon_LIBS += $(EPICS_BASE_IOC_LIBS)
+
+
+PROD_LIBS += mrfCommon $(EPICS_BASE_IOC_LIBS)
 
 #---------------------
 # Build the host-side utilities for creating and analyzing
@@ -83,8 +83,6 @@ PROD_HOST += FracSynthControlWord
 
 FracSynthAnalyze_SRCS += FracSynthAnalyze.c
 FracSynthControlWord_SRCS += FracSynthControlWord.c
-
-PROD_LIBS += mrfCommon $(EPICS_BASE_IOC_LIBS)
 
 #---------------------
 # Generic EPICS build rules

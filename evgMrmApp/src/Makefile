@@ -5,7 +5,7 @@ include $(TOP)/configure/CONFIG
 #  ADD MACRO DEFINITIONS AFTER THIS LINE
 #=============================
 
-LIBRARY_IOC += evgmrm
+LIBRARY_IOC += evgMrm
 
 INC += evgMrm.h
 INC += evgRegMap.h
@@ -27,90 +27,48 @@ INC += evgSequencer/evgSeqRam.h
 SRC_DIRS += ../evgSequencer ../devSupport 
 
 #All the source files that are compiled and put in the library.
-evgmrm_SRCS += evgInit.cpp
+evgMrm_SRCS += evgInit.cpp
 
-evgmrm_SRCS += evg.cpp
+evgMrm_SRCS += evg.cpp
 
-evgmrm_SRCS += evgMrm.cpp
-evgmrm_SRCS += devEvgMrm.cpp
+evgMrm_SRCS += evgMrm.cpp
+evgMrm_SRCS += devEvgMrm.cpp
 
-evgmrm_SRCS += evgAcTrig.cpp
+evgMrm_SRCS += evgAcTrig.cpp
 
-evgmrm_SRCS += evgEvtClk.cpp
+evgMrm_SRCS += evgEvtClk.cpp
 
-evgmrm_SRCS += evgSoftEvt.cpp
+evgMrm_SRCS += evgSoftEvt.cpp
 
-evgmrm_SRCS += evgTrigEvt.cpp
-evgmrm_SRCS += devEvgTrigEvt.cpp
+evgMrm_SRCS += evgTrigEvt.cpp
+evgMrm_SRCS += devEvgTrigEvt.cpp
 
-evgmrm_SRCS += evgMxc.cpp
+evgMrm_SRCS += evgMxc.cpp
 
-evgmrm_SRCS += evgDbus.cpp
-evgmrm_SRCS += devEvgDbus.cpp
+evgMrm_SRCS += evgDbus.cpp
+evgMrm_SRCS += devEvgDbus.cpp
 
-evgmrm_SRCS += evgInput.cpp
+evgMrm_SRCS += evgInput.cpp
 
-evgmrm_SRCS += evgOutput.cpp
+evgMrm_SRCS += evgOutput.cpp
 
-evgmrm_SRCS += evgFct.cpp
+evgMrm_SRCS += evgFct.cpp
 
-evgmrm_SRCS += evgSoftSeq.cpp
-evgmrm_SRCS += evgSoftSeqManager.cpp
-evgmrm_SRCS += devEvgSoftSeq.cpp
+evgMrm_SRCS += evgSoftSeq.cpp
+evgMrm_SRCS += evgSoftSeqManager.cpp
+evgMrm_SRCS += devEvgSoftSeq.cpp
 
-evgmrm_SRCS += evgSeqRam.cpp
-evgmrm_SRCS += evgSeqRamManager.cpp
+evgMrm_SRCS += evgSeqRam.cpp
+evgMrm_SRCS += evgSeqRamManager.cpp
 
-evgmrm_SRCS += seqconst.c
-evgmrm_SRCS += seqnsls2.c
+evgMrm_SRCS += seqconst.c
+evgMrm_SRCS += seqnsls2.c
 
 ifeq ($(OS),Windows_NT)
-evgmrm_LIBS += mrfCommon mrmShared epicsvme epicspci $(EPICS_BASE_IOC_LIBS)
+evgMrm_LIBS += mrfCommon mrmShared epicsvme epicspci $(EPICS_BASE_IOC_LIBS)
 endif
 
 DBD += evgInit.dbd
-#=============================
-# Build the IOC application
-
-PROD_IOC = evgMrm
-# evgMrm.dbd will be created and installed
-DBD += evgMrm.dbd
-
-# evgMrm.dbd will be made up from these files:
-evgMrm_DBD += base.dbd
-evgMrm_DBD += evgInit.dbd
-
-# Add all the support libraries needed by this IOC
-evgMrm_LIBS += evgmrm epicsvme epicspci mrmShared mrfCommon 
-
-# evgMrm_registerRecordDeviceDriver.cpp derives from evgMrm.dbd
-evgMrm_SRCS += evgMrm_registerRecordDeviceDriver.cpp
-
-# Build the main IOC entry point on workstation OSs.
-evgMrm_SRCS_DEFAULT += evgMrmMain.cpp
-
-ifneq ($(DEVIOCSTATS),)
-evgMrm_DBD += devIocStats.dbd
-evgMrm_LIBS += devIocStats
-endif
-
-ifneq ($(AUTOSAVE),)
-evgMrm_DBD += asSupport.dbd
-evgMrm_LIBS += autosave
-endif
-
-ifneq ($(GENERAL_TIME),)
-evgMrm_DBD  += generalTime.dbd
-evgMrm_LIBS += generalTime
-endif
-
-ifneq ($(CAPUTLOG),)
-mrf_DBD += caPutLog.dbd
-mrf_LIBS += caPutLog
-endif
-
-# Finally link to the EPICS Base libraries
-evgMrm_LIBS += $(EPICS_BASE_IOC_LIBS)
 
 #===========================
 

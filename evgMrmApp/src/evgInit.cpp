@@ -14,7 +14,6 @@
 #include <errlog.h>
 
 #include "mrf/object.h"
-#include "mrf/databuf.h"
 
 #include <devcsr.h>
 /* DZ: Does Win32 have a problem with devCSRTestSlot()? */
@@ -100,6 +99,21 @@ evgShutdown(void*)
     mrf::Object::visitObjects(&disableIRQ,0);
 }
 
+static bool
+startSFPUpdate(mrf::Object* obj, void*)
+{
+    evgMrm *evg=dynamic_cast<evgMrm*>(obj);
+    if(!evg)
+        return true;
+
+    std::vector<SFP*>* sfp = evg->getSFP();
+    for (size_t i=0; i<sfp->size(); i++) {
+        sfp->at(i)->startUpdate();
+    }
+
+    return true;
+}
+
 static void 
 inithooks(initHookState state) {
     epicsUInt8 lvl;
@@ -128,6 +142,13 @@ inithooks(initHookState state) {
 		epicsAtExit(&evgShutdown, NULL);
 		mrf::Object::visitObjects(&enableIRQ, 0);
 		break;
+
+    /*
+     * callback for updating SFP info gets called here for the first time.
+     */
+    case initHookAfterCallbackInit:
+        mrf::Object::visitObjects(&startSFPUpdate, 0);
+        break;
 
 	default:
 		break;
@@ -389,12 +410,11 @@ mrmEvgSetupPCI (
 		/* Find PCI device from devLib2 */
 		const epicsPCIDevice *cur = 0;
 		if (devPCIFindBDF(mrmevgs, b, d, f, &cur, 0)) {
-			printf("PCI Device not found\n");
+            printf("PCI Device not found on %x:%x.%x\n", b, d, f);
 			return -1;
 		}
 
-		printf("Device %s  %u:%u.%u\n", id, cur->bus, cur->device,
-				cur->function);
+        printf("Device %s  %x:%x.%x\n", id, cur->bus, cur->device, cur->function);
 		printf("Using IRQ %u\n", cur->irq);
 
 		/* MMap BAR0(plx) and BAR2(EVG)*/
@@ -635,7 +655,7 @@ REGINFO("AcTrigControl",    AcTrigControl,    32),
 REGINFO("AcTrigEvtMap",     AcTrigEvtMap,      8),
 REGINFO("SwEventControl",   SwEventControl,    8),
 REGINFO("SwEventCode",      SwEventCode,       8),
-REGINFO("DataBufferControl",DataBufferControl,32),
+REGINFO("DataTxCtrlEvg",    DataTxCtrlEvg,    32),
 REGINFO("DBusSrc",          DBusSrc,          32),
 REGINFO("FPGAVersion",      FPGAVersion,      32),
 REGINFO("uSecDiv",          uSecDiv,          16),

@@ -18,13 +18,17 @@
 #include <epicsMutex.h>
 #include <epicsTypes.h>
 
+#include "callback.h"
+
+#include "mrf/object.h"
+
 class epicsShareClass SFP : public mrf::ObjectInst<SFP> {
     volatile unsigned char* base;
     typedef std::vector<epicsUInt8> buffer_t;
     buffer_t buffer;
+    buffer_t tempBuffer;
     bool valid;
     mutable epicsMutex guard;
-
     epicsInt16 read16(unsigned int) const;
 public:
     SFP(const std::string& n, volatile unsigned char* reg);
@@ -58,6 +62,17 @@ public:
     epicsUInt16 getLinkLength_50um() const;
     epicsUInt16 getLinkLength_62um() const;
     epicsUInt16 getLinkLength_copper() const;
+
+    /**
+     * @brief updateTask updates a buffer which other functions read from.
+     */
+    static void updateTask(CALLBACK *pCallback);
+    CALLBACK updateCallback;
+
+    /**
+     * @brief startUpdate is called from the init hook (evgInit.cpp / evrIocsh.cpp) after the callback stack has been initialized.
+     */
+    void startUpdate();
 };
 
 #endif // SFP_H
