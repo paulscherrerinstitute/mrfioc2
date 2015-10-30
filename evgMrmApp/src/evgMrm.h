@@ -125,7 +125,7 @@ public:
     evgSoftSeqMgr* getSoftSeqMgr();
     epicsEvent* getTimerEvent();
     bus_configuration* getBusConfiguration();
-    SFP* getSFP(epicsUInt32);
+    std::vector<SFP *> *getSFP();
     mrmDataBuffer* getDataBuffer();
 
     typedef std::map< std::pair<epicsUInt32, InputType>, evgInput*> Input_t;

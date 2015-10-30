@@ -519,6 +519,18 @@ evrShutdown(void*)
     mrf::Object::visitObjects(&disableIRQ,0);
 }
 
+static bool
+startSFPUpdate(mrf::Object* obj, void*)
+{
+    EVRMRM *mrm=dynamic_cast<EVRMRM*>(obj);
+    if(!mrm)
+        return true;
+
+    mrm->sfp.get()->startUpdate();
+
+    return true;
+}
+
 static
 void inithooks(initHookState state)
 {
@@ -544,6 +556,14 @@ void inithooks(initHookState state)
         }
 
         break;
+
+    /*
+     * callback for updating SFP info gets called here for the first time.
+     */
+    case initHookAfterCallbackInit:
+        mrf::Object::visitObjects(&startSFPUpdate, 0);
+        break;
+
   default:
         break;
     }

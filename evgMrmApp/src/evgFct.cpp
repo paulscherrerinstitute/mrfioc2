@@ -6,7 +6,7 @@
 #include "evgRegMap.h"
 
 
-evgFct::evgFct(const std::string& evgName, volatile epicsUInt8* const fctReg, std::vector<SFP *> &sfp):
+evgFct::evgFct(const std::string& evgName, volatile epicsUInt8* const fctReg, std::vector<SFP *> *sfp):
 mrf::ObjectInst<evgFct>(evgName+":FCT"),
 m_fctReg(fctReg),
 m_sfp(sfp)
@@ -14,11 +14,17 @@ m_sfp(sfp)
     for(int i = 1; i <= evgNumSFPModules; i++) {
         std::ostringstream name;
         name<<evgName<<":SFP"<<i;
-        m_sfp.push_back(new SFP(name.str(), fctReg + U32_SFP(i-1)));
+        m_sfp->push_back(new SFP(name.str(), fctReg + U32_SFP(i-1)));
     }
 }
 
 evgFct::~evgFct() {
+    size_t i;
+
+    for(i=0; i<m_sfp->size(); i++){
+        delete &m_sfp[i];
+    }
+
 }
 
 
