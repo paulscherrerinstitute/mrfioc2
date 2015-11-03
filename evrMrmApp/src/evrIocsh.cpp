@@ -526,7 +526,9 @@ startSFPUpdate(mrf::Object* obj, void*)
     if(!mrm)
         return true;
 
-    mrm->sfp.get()->startUpdate();
+    SFP * sfp = mrm->sfp.get();
+    if(sfp)sfp->startUpdate();
+    //mrm->sfp.get()->startUpdate();
 
     return true;
 }
