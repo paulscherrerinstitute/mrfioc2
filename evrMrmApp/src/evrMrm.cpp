@@ -156,6 +156,7 @@ try{
         throw std::runtime_error("Address does not correspond to an EVR");
 
     ver = version();
+    firmwareVersion = ver;
     if(ver<3)
         throw std::runtime_error("Firmware versions < 3 not supported");
 
@@ -319,7 +320,7 @@ try{
     }
 
     // TODO: use define for version number
-    if(ver < 200) {
+    if(ver < MIN_FW_SEGMENTED_DBUFF) {
         m_dataBuffer = new mrmNonSegmentedDataBuffer(base, U32_DataTxCtrlEvr, U32_DataRxCtrlEvr, U32_DataTxBaseEvr, U32_DataRxBaseEvr);
     } else {
         m_dataBuffer = new mrmDataBuffer(base, U32_DataTxCtrlEvr, U32_DataRxCtrlEvr, U32_DataTxBaseEvr, U32_DataRxBaseEvr);
@@ -1167,16 +1168,25 @@ EVRMRM::isr(void *arg)
         callbackRequest(&evr->poll_link_cb);
     }
     if(active&IRQ_BufFull){
-        // Silence interrupt. DataRxCtrl_stop is actually an interrupt flag, so we need to write to it in order to clear it.
-        BITSET(NAT,32,evr->base, DataRxCtrlEvr, DataRxCtrl_stop);
+        if (evr->m_dataBuffer->m_rx_irq_handled) {
+            if (evr->firmwareVersion < MIN_FW_SEGMENTED_DBUFF) {
+                // Silence interrupt. DataRxCtrl_stop is actually an interrupt flag, so we need to write to it in order to clear it.
+                BITSET(NAT,32,evr->base, DataRxCtrlEvr, DataRxCtrl_stop);
 
-        // Check if the data buffer engine is initialized. This bit should not be set, since we have just acknowledged the interrupt.
-        // This is needed because 201 series firmware keeps triggering the interrupt with bogous data, and we do not wish
-        // to schedule callback requests for this. It prevents cbHigh queue to fill up when starting the driver. This only happens at start-up.
-        if ( !(READ32(evr->base, DataRxCtrlEvr) & DataRxCtrl_rdy) ) {
-            callbackRequest(&evr->dataBufferRx_cb);
-        } else {
-            errlogPrintf("Could not acknowledge data buffer IRQ. Data buffer engine not yet initalized? Not issuing callbacks...\n"); // TODO printing in isr is ugly....but this should never be printed (except at startup on 201 firmware)
+                // Check if the data buffer engine is initialized. This bit should not be set, since we have just acknowledged the interrupt.
+                // This is needed because 201 series firmware keeps triggering the interrupt with bogous data, and we do not wish
+                // to schedule callback requests for this. It prevents cbHigh queue to fill up when starting the driver. This only happens at start-up.
+                if ( !(READ32(evr->base, DataRxCtrlEvr) & DataRxCtrl_rdy) ) {
+                    evr->m_dataBuffer->m_rx_irq_handled = false;
+                    callbackRequest(&evr->dataBufferRx_cb);
+                } else {
+                    errlogPrintf("Could not acknowledge data buffer IRQ. Data buffer engine not yet initalized? Not issuing callbacks...\n"); // TODO printing in isr is ugly....but this should never be printed (except at startup on 201 firmware)
+                }
+            } else {
+                memset((epicsUInt8 *)(evr->base+DataBuffer_SegmentIRQ), 0, 16); // clear segment IRQ flags
+                evr->m_dataBuffer->m_rx_irq_handled = false;
+                callbackRequest(&evr->dataBufferRx_cb);
+            }
         }
     }
     if(active&IRQ_HWMapped){

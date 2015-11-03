@@ -21,11 +21,12 @@ public:
 
 private:
     void setTxLength(epicsUInt8 *startSegment, epicsUInt16 *length);
+    void setRxLength(epicsUInt16 *startSegment, epicsUInt16 *length);
 
     epicsUInt16 getFirstReceivedSegment();
 
-    //bool overflowOccured(epicsUInt16 segment);
-    //bool checksumError(epicsUInt16 segment);
+    bool overflowOccured();
+    bool checksumError();
 
     void clearFlags(volatile epicsUInt8* flagRegister);
 };

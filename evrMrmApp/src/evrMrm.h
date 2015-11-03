@@ -312,6 +312,7 @@ public:
 
 private:
 
+    epicsUInt32 firmwareVersion;
     // Set by ISR
     volatile epicsUInt32 count_recv_error;
     volatile epicsUInt32 count_hardware_irq;

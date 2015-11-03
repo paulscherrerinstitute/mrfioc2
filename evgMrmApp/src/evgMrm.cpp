@@ -148,7 +148,7 @@ evgMrm::evgMrm(const std::string& id, bus_configuration& busConfig, volatile epi
         }
 
         // TODO: use define?
-        if(version < 200){
+        if(version < MIN_FW_SEGMENTED_DBUFF){
             m_dataBuffer = new mrmNonSegmentedDataBuffer(pReg, U32_DataTxCtrlEvg, 0, U8_DataTxBaseEvg, 0);
         } else {
             m_dataBuffer = new mrmDataBuffer(pReg, U32_DataTxCtrlEvg, 0, U8_DataTxBaseEvg, 0);

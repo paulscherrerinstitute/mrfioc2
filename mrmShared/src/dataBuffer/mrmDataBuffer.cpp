@@ -9,6 +9,7 @@
 #include <epicsMMIO.h>
 #include <errlog.h>
 
+#include "mrmShared.h"
 #include "mrmDataBuffer.h"
 #include "mrmDataBufferUser.h"
 
@@ -37,8 +38,17 @@ mrmDataBuffer::mrmDataBuffer(volatile epicsUInt8 *parentBaseAddress,
     ,dataRegTx(dataRegisterTx)
     ,dataRegRx(dataRegisterRx)
 {
+    epicsUInt16 i;
+
     enableRx(1);
     enableTx(1);
+
+    for (i=0; i<4; i++) {
+        m_irq_flags[i] = 0; // TODO currently segment IRQ flags cannot be read from HW, so init them to 0.
+    }
+
+    m_rx_irq_handled = true;
+
     /*if(ctrlRegRx != 0 && dataRegRx != 0){
 
         // Enable segment Rx IRQ
@@ -53,8 +63,14 @@ mrmDataBuffer::mrmDataBuffer(volatile epicsUInt8 *parentBaseAddress,
 }
 
 mrmDataBuffer::~mrmDataBuffer() {
+    size_t i;
+
     enableRx(0);
     enableTx(0);
+
+    for (i=0; i<m_users.size(); i++) {
+        delete m_users[i];
+    }
 }
 
 void mrmDataBuffer::enableRx(bool en)
@@ -200,22 +216,93 @@ void mrmDataBuffer::setTxLength(epicsUInt8 *startSegment, epicsUInt16 *length)
     // Length is ok. Non segmented implementation uses different length...
 }
 
+void mrmDataBuffer::setRxLength(epicsUInt16 *startSegment, epicsUInt16 *length)
+{
+    *length = DataBuffer_len_max;
+}
+
 void mrmDataBuffer::registerUser(mrmDataBufferUser *user){
+    epicsUInt16 i;
+
     epicsGuard<epicsMutex> g(m_rx_lock);
-    m_users.push_back(user);
+
+    Users *newUser = new Users;
+    newUser->user = user;
+    for (i=0; i<4; i++) {
+        newUser->segments[i] = 0;
+    }
+    m_users.push_back(newUser);
 }
 
 void mrmDataBuffer::removeUser(mrmDataBufferUser *user)
 {
+    size_t size, i;
+    epicsUInt16 j;
+
     epicsGuard<epicsMutex> g(m_rx_lock);
-    m_users.erase(std::remove(m_users.begin(), m_users.end(), user), m_users.end());
+    //m_users.erase(std::remove(m_users.begin(), m_users.end(), user), m_users.end());
+
+    for (j=0; j<4; j++) {
+        m_irq_flags[j] = 0;
+    }
+
+    size = m_users.size();
+    for (i=0; i<size; i++){
+        if (m_users[i]->user == user) {   // found a user to remove
+            m_users.erase(m_users.begin() + i);
+
+        } else {
+            for (j=0; j<4; j++) {
+                m_irq_flags[j] |= m_users[i]->segments[j];
+            }
+        }
+
+    }
+    memcpy((epicsUInt8 *)(base+DataBuffer_SegmentIRQ), m_irq_flags, 16);    // set which segments will trigger interrupt when data is received
 }
 
-/*void mrmDataBuffer::setSegmentIRQ(epicsUInt8 i, epicsUInt32 mask)
+void mrmDataBuffer::setInterest(mrmDataBufferUser *user, epicsUInt32 *interest)
 {
-    printFlags("Segment a", base+DataBuffer_SegmentIRQ);
+    size_t size, i;
+    epicsUInt16 j;
+
+    epicsGuard<epicsMutex> g(m_rx_lock);
+
+    for (j=0; j<4; j++) {
+        m_irq_flags[j] = 0;
+    }
+
+    size = m_users.size();
+    for (i=0; i<size; i++){
+        if (m_users[i]->user == user) {   // found a user to set segment interest for
+            for (j=0; j<4; j++) {
+                m_users[i]->segments[j] = interest[j];  // we trust the length of interest is OK
+                m_irq_flags[j] |= interest[j];
+            }
+        } else {
+            for (j=0; j<4; j++) {
+                m_irq_flags[j] |= m_users[i]->segments[j];
+            }
+        }
+    }
+    //printFlags("set interest IRQ", (epicsUInt8 *)m_irq_flags);
+    memcpy((epicsUInt8 *)(base+DataBuffer_SegmentIRQ), m_irq_flags, 16);    // set which segments will trigger interrupt when data is received
+}
+
+
+
+void mrmDataBuffer::setSegmentIRQ(epicsUInt8 i, epicsUInt32 mask)
+{
+    //printFlags("Segment a", base+DataBuffer_SegmentIRQ);
     nat_iowrite32(base+DataBuffer_SegmentIRQ + 4*i, mask);
-    printFlags("Segment b", base+DataBuffer_SegmentIRQ);
+    //printFlags("Segment b", base+DataBuffer_SegmentIRQ);
+}
+
+void mrmDataBuffer::setRx(epicsUInt8 i, epicsUInt32 mask)
+{
+    printFlags("Rx a", base+DataBufferFlags_rx);
+    nat_iowrite32(base+DataBufferFlags_rx + 4*i, mask);
+    printFlags("Rx b", base+DataBufferFlags_rx);
 }
 
 void mrmDataBuffer::receive()
@@ -234,7 +321,15 @@ void mrmDataBuffer::stop()
     nat_iowrite32(base+ctrlRegRx, reg|DataRxCtrl_stop);
     printf("Ctrl: %x\n", nat_ioread32(base+ctrlRegRx));
     printf("\n");
-}*/
+}
+
+void mrmDataBuffer::printRegs()
+{
+    printFlags("Segment", base+DataBuffer_SegmentIRQ);
+    printFlags("Checksum", base + DataBufferFlags_cheksum);
+    printFlags("Overflow", base + DataBufferFlags_overflow);
+    printFlags("Rx", base + DataBufferFlags_rx);
+}
 
 void mrmDataBuffer::clearFlags(volatile epicsUInt8 *flagRegister) {
     int i;
@@ -259,15 +354,17 @@ void mrmDataBuffer::printFlags(const char *preface, volatile epicsUInt8* flagReg
 epicsUInt16 mrmDataBuffer::getFirstReceivedSegment() {
     epicsUInt16 firstSegment=0;
     epicsUInt8 i;
-
-    return 0;// TODO because v300 hardware does not work correctly yet
+    epicsUInt32 mask;
 
     for(i=0; i<4; i++){
+        mask = 0x80000000;
         if(m_rx_flags[i] != 0){  // do we have Rx flag in this 32 segment bits?
-            while(!(m_rx_flags[i] & 0x80000000)) {   // do a bit search for the Rx flag, since we know at least one bit is set
-                m_rx_flags[i] <<= 1;
+            while(!(m_rx_flags[i] & mask)) {   // do a bit search for the Rx flag, since we know at least one bit is set
+                mask >>= 1;
                 firstSegment++;
             }
+            //firstSegmentMask[i] = mask;
+            break;
         } else {    // read next 32 bits and check for Rx flag there.
             firstSegment += 32;
         }
@@ -280,26 +377,50 @@ epicsUInt16 mrmDataBuffer::getFirstReceivedSegment() {
     return firstSegment;
 }
 
-bool mrmDataBuffer::overflowOccured(epicsUInt16 segment) {
-    epicsUInt8 registerOffset, segmentOffset;
+bool mrmDataBuffer::overflowOccured() {
+    /*epicsUInt8 registerOffset, segmentOffset;
 
-    return 0;   // TODO because v300 hardware does not work correctly yet
     registerOffset = segment / 32;
     segmentOffset  = segment % 32; // the bit number of the segment in the register
 
-    return (m_overflows[registerOffset] & (0x80000000 >> segmentOffset)) != 0;
+    return (m_overflows[registerOffset] & (0x80000000 >> segmentOffset)) != 0;*/
+
+    bool overflow = false;
+    epicsUInt16 i, segment;
+
+    m_overflows[0] &= 0x7FFFFFFF;  // we don't care about segment 0 == delay compensation
+    for (i=0; i<4; i++) {
+        segment = 0;
+        while (m_overflows[i] !=0 ) {   // overflow occured.
+            overflow = true;
+            if (m_overflows[i] & 0x80000000) errlogPrintf("HW overflow occured for segment %d\n", segment);
+            m_overflows[i] <<= 1;
+            segment ++;
+        }
+    }
+
+    return overflow;
 }
 
-bool mrmDataBuffer::checksumError(epicsUInt16 segment) {
-    epicsUInt8 registerOffset, segmentOffset;
+bool mrmDataBuffer::checksumError() {
+    bool checksum = false;
+    epicsUInt16 i, segment;
 
-    return 0;   // TODO because v300 hardware does not work correctly yet
-    registerOffset = segment / 32;
-    segmentOffset  = segment % 32; // the bit number of the segment in the register
+    m_checksums[0] &= 0x7FFFFFFF;  // we don't care about segment 0 == delay compensation
+    for (i=0; i<4; i++) {
+        segment = 0;
+        while (m_checksums[i] !=0 ) {   // checksum occured.
+            checksum = true;
+            if (m_checksums[i] & 0x80000000) errlogPrintf("Checksum error occured for segment %d.\n", segment);
+            m_checksums[i] <<= 1;
+            segment ++;
+        }
+    }
 
-    return (m_checksums[registerOffset] & (0x80000000 >> segmentOffset)) != 0;
+    return checksum;
 }
 
+// TODO: the way non-segmented implementation overrides stuff is not clean
 /**
  * No need to lock in this function, since we enable the reception at the end.
  * Thus, another reception cannot occur before this function is finished
@@ -309,12 +430,15 @@ void mrmDataBuffer::handleDataBufferRxIRQ(CALLBACK *cb) {
     callbackGetUser(vptr,cb);
     mrmDataBuffer* parent = static_cast<mrmDataBuffer*>(vptr);
     epicsUInt16 i, segment, length;
+    //epicsUInt32 firstSegmentMask[4] = {0, 0, 0, 0};
     epicsUInt32 sts = nat_ioread32(parent->base+parent->ctrlRegRx);
 
     epicsGuard<epicsMutex> g(parent->m_rx_lock);
 
     if (sts & DataRxCtrl_rx) {
         errlogPrintf("Interrupt triggered but Rx not completed. Should never happen, fatal error!\n  Control register status: 0x%x\n", sts);
+        memcpy((epicsUInt8 *)(parent->base+DataBuffer_SegmentIRQ), parent->m_irq_flags, 16);    // set which segments will trigger interrupt when data is received
+        parent->m_rx_irq_handled = true;
         return;
     }
 
@@ -327,30 +451,45 @@ void mrmDataBuffer::handleDataBufferRxIRQ(CALLBACK *cb) {
     if (sts&DataRxCtrl_sumerr) {
         errlogPrintf("RX: Checksum error\n"); // TODO when is global / segment checksum error bit set?? Should be moved to checksumError()
 
-    } else if((sts & DataRxCtrl_len_mask) > 8){    // TODO: only temporary. Do not receive if only delay compensation is sent.
+    } else {
 
         /*parent->printFlags("Segment", parent->base+DataBuffer_SegmentIRQ);
         parent->printFlags("Checksum", (epicsUInt8 *)parent->m_checksums);
         parent->printFlags("Overflow", (epicsUInt8 *)parent->m_overflows);
         parent->printFlags("Rx", (epicsUInt8 *)parent->m_rx_flags);*/
 
-        length = sts & DataRxCtrl_len_mask;
-        segment = parent->getFirstReceivedSegment();
 
-        if (parent->checksumError(segment) != 0) {
-            errlogPrintf("Checksum error occured for segment %d.\n", segment);
+        length = sts & DataRxCtrl_len_mask;
+        //segment = parent->getFirstReceivedSegment(firstSegmentMask);
+        /*segment = parent->getFirstReceivedSegment();
+        length -= segment*DataBuffer_segment_length;    // length is always reported from the start of the buffer
+        */
+
+        /**
+         * length is not reported correctly in 200+ series FW.
+         * Example:
+         * - send data on segment 6
+         * - send data on segment 2
+         * - enable IRQ
+         * - length reported will be for last received segment == segment 2. We do not know the length of data that was previously received on segment 6
+         * For this reason we always read entire buffer.
+         **/
+        segment = 0;
+        parent->setRxLength(&segment, &length);
+
+        if (parent->checksumError() != 0) {
+            memcpy((epicsUInt8 *)(parent->base+DataBufferFlags_rx), parent->m_rx_flags, 16);        // clear Rx flags for the data we have just received
+            memcpy((epicsUInt8 *)(parent->base+DataBuffer_SegmentIRQ), parent->m_irq_flags, 16);    // set which segments will trigger interrupt when data is received
+            parent->m_rx_irq_handled = true;
             return;
         }
 
-        if(parent->overflowOccured(segment) != 0) errlogPrintf("HW overflow occured for segment %d\n", segment);
+        parent->overflowOccured();
 
         dbgPrintf("Rx segment+len: %d + %d\n", segment, length);
 
         // Dispatch the buffer to users
-        if(parent->m_users.size() <= 0) {
-            return;
-        }
-        else {
+        if(parent->m_users.size() > 0) {
             // copy the data to local buffer
             memcpy(&parent->m_rx_buff[segment*DataBuffer_segment_length], (epicsUInt8 *)(parent->base + parent->dataRegRx + segment*DataBuffer_segment_length), length);
 
@@ -363,17 +502,17 @@ void mrmDataBuffer::handleDataBufferRxIRQ(CALLBACK *cb) {
                 printf("\n");
             }
 
-
             // clear Rx flags for the data we have just received
             memcpy((epicsUInt8 *)(parent->base+DataBufferFlags_rx), parent->m_rx_flags, 16);
 
             for(i=0; i<parent->m_users.size(); i++) {
-                parent->m_users[i]->updateSegment(segment, parent->m_rx_buff, length);
+                parent->m_users[i]->user->updateSegment(segment, parent->m_rx_buff, length);
             }
         }
     }
-
-    nat_iowrite32(parent->base+parent->ctrlRegRx, sts|DataRxCtrl_rx);    // enable for next reception
+    //parent->printFlags("IRQ", (epicsUInt8 *)parent->m_irq_flags);
+    memcpy((epicsUInt8 *)(parent->base+DataBuffer_SegmentIRQ), parent->m_irq_flags, 16);    // set which segments will trigger interrupt when data is received
+    parent->m_rx_irq_handled = true;
 }
 
 void mrmDataBuffer::printBinary(const char *preface, epicsUInt32 n) {
