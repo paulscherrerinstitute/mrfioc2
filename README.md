@@ -89,7 +89,7 @@ mrfioc2 driver uses a special kernel module for communication with hardware. Sou
 * EVR PCIe-300: PCIe-300 form factor event receiver.
 * EVR cPCI-230: cPCI-230 form factor event receiver (except GUI)
 
-mrfioc2 driver supports hardware firmware versions up to and including 201.
+mrfioc2 driver supports hardware firmware versions up to and including 202.
 Minimal supported version for :
 
 * EVG is 3,
