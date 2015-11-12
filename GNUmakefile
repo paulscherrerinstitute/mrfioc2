@@ -102,8 +102,8 @@ HEADERS+=mrmShared/src/dataBuffer/mrmDataBuffer.h
 HEADERS+=mrmShared/src/dataBuffer/mrmDataBufferUser.h
 
 # TESTS
-#SOURCES+=mrmShared/src/dataBuffer/tests/mrmDataBuffer_test.cpp
-#DBDS+=mrmShared/src/dataBuffer/tests/dataBufferTests.dbd
+SOURCES+=mrmShared/src/dataBuffer/tests/mrmDataBuffer_test.cpp
+DBDS+=mrmShared/src/dataBuffer/tests/dataBufferTests.dbd
 
 
 

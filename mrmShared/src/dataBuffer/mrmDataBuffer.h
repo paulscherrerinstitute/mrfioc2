@@ -7,9 +7,6 @@
 #include <epicsMutex.h>
 #include <callback.h>
 
-#include "mrmShared.h"
-
-
 class mrmDataBufferUser;
 
 
@@ -20,6 +17,8 @@ class mrmDataBufferUser;
  */
 class mrmDataBuffer {
 public:
+    bool m_rx_irq_handled;  // guards against running multiple Rx callbacks from main ISR at the same time.
+
     mrmDataBuffer(volatile epicsUInt8 *parentBaseAddress,
                   epicsUInt32 controlRegisterTx,
                   epicsUInt32 controlRegisterRx,
@@ -90,6 +89,7 @@ public:
      */
     void removeUser(mrmDataBufferUser* user);
 
+    void setInterest(mrmDataBufferUser* user, epicsUInt32 *interest);
 
     /**
      * @brief handleDataBufferRxIRQ is called from the ISR when the data buffer IRQ arrives (through a CB High scheduled callback)
@@ -97,10 +97,11 @@ public:
     static void handleDataBufferRxIRQ(CALLBACK*);
 
     // TODO test functions
-    /*void setSegmentIRQ(epicsUInt8 i, epicsUInt32 mask);
+    void setSegmentIRQ(epicsUInt8 i, epicsUInt32 mask);
     void receive();
-    void stop();*/
-
+    void stop();
+    void printRegs();
+    void setRx(epicsUInt8 i, epicsUInt32 mask);
 
 private:
     volatile epicsUInt8 * const base;   // Base address of the EVR/EVG card
@@ -116,9 +117,15 @@ private:
     epicsUInt32 m_checksums[4];         // stores the received checksum error register
     epicsUInt32 m_overflows[4];         // stores the received overflow flag register
     epicsUInt32 m_rx_flags[4];          // stores the received segment flags register
+    epicsUInt32 m_irq_flags[4];         // used to set the segment IRQ flags register
 
-    std::vector<mrmDataBufferUser*> m_users;    // a list of users who are accessing the data buffer
-
+    //std::vector<mrmDataBufferUser*> m_users;    // a list of users who are accessing the data buffer
+    //Registered users
+    struct Users{
+        mrmDataBufferUser *user;
+        epicsUInt32 segments[4];                // segment mask in which the user is interested
+    };
+    std::vector<Users*> m_users;    // a list of users who are accessing the data buffer
 
     /**
      * @brief setTxLength calculates the length of the data package to send. It is dependant on the hardware implementation of the data buffer (thus it can be overriden).
@@ -128,24 +135,29 @@ private:
     virtual void setTxLength(epicsUInt8 *startSegment, epicsUInt16 *length);
 
     /**
+     * @brief setRxLength calculates the length of the received data package. It is dependant on the hardware implementation of the data buffer (thus it can be overriden).
+     * @param startSegment is the number of the received segment
+     * @param length is the length of the received data
+     */
+    virtual void setRxLength(epicsUInt16 *startSegment, epicsUInt16 *length);
+
+    /**
      * @brief getFirstReceivedSegment will check the Rx flag register and return the first received segment number.
      * @return First received segment number. If no Rx flags are set, returns zero.
      */
     virtual epicsUInt16 getFirstReceivedSegment();
 
     /**
-     * @brief overflowOccured checks if the overflow flag is set for the specified segment
-     * @param segment is the segment to check for overflow
+     * @brief overflowOccured checks if the overflow flag is set for any segment
      * @return True if overflow occured, false otherwise
      */
-    virtual bool overflowOccured(epicsUInt16 segment);
+    virtual bool overflowOccured();
 
     /**
-     * @brief checksumError checks if the checksum error flag is set for the specified segment
-     * @param segment is the segment to check for checksum error
+     * @brief checksumError checks if the checksum error flag is set for any segment
      * @return True if checksum error is detected, false otherwise
      */
-    virtual bool checksumError(epicsUInt16 segment);
+    virtual bool checksumError();
 
     /**
      * @brief clearFlags clears all the flags for the specified flag register, by writing '1' to each flag bit

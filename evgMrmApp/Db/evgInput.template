@@ -24,6 +24,7 @@ record(longout, "$(SYS)-$(EVG):$(OBJ)$(ID)-SeqMask-SP") {
     field( DTYP, "Obj Prop uint16")
     field( OUT , "@OBJ=$(EVG):$(OBJ)$(ID), PROP=Sequence mask")
     field( VAL, "$($(OBJ)$(ID)-SeqMask-SP\=0)")
+    field( PINI, "YES")
     field( FLNK, "$(SYS)-$(EVG):$(OBJ)$(ID)-SeqMask-RB")
 }
 
@@ -38,6 +39,7 @@ record(longout, "$(SYS)-$(EVG):$(OBJ)$(ID)-SeqEnable-SP") {
     field( DTYP, "Obj Prop uint16")
     field( OUT , "@OBJ=$(EVG):$(OBJ)$(ID), PROP=Sequence enable")
     field( VAL, "$($(OBJ)$(ID)-SeqEnable-SP\=0)")
+    field( PINI, "YES")
     field( FLNK, "$(SYS)-$(EVG):$(OBJ)$(ID)-SeqEnable-RB")
 }
 

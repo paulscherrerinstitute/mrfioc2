@@ -111,5 +111,7 @@ enum PLLBandwidth {
 #define DataBuffer_segment_length 16
 #define DataBuffer_len_max  DataTxCtrl_len_mask
 
+#define MIN_FW_SEGMENTED_DBUFF  202
+
 
 #endif // MRMSHARED_H

@@ -1,9 +1,11 @@
 #include <errlog.h>
 #include <epicsExport.h>
+#include <epicsGuard.h>
 
 #include "../../evgMrmApp/src/evgMrm.h"
 #include "../../evrMrmApp/src/evrMrm.h"
 
+#include "mrmShared.h"
 #include "mrmDataBufferUser.h"
 
 int drvMrfiocDataBufferUserDebug = 1;
@@ -24,6 +26,7 @@ mrmDataBufferUser::mrmDataBufferUser() {
     for (i=0; i<4; i++){
         m_rx_segments[i] = 0;
         m_tx_segments[i] = 0;
+        m_segments_interested[i] = 0;
     }
 
     memset(m_rx_buff, 0, 2048);// TODO make define here
@@ -110,7 +113,7 @@ size_t mrmDataBufferUser::registerInterest(size_t offset, size_t length, dataBuf
 
     /* Check input arguments */
     if(length <= 0) {
-        errlogPrintf("Invalid length %zu provided. Offset + length should be in interval [0, %d].\n", length, DataBuffer_len_max-1);
+        errlogPrintf("Invalid length %zu provided. Offset + length should be in interval [1, %d].\n", length, DataBuffer_len_max-1);
         return 0;
     }
 
@@ -153,29 +156,43 @@ size_t mrmDataBufferUser::registerInterest(size_t offset, size_t length, dataBuf
     // Mark which segments were updated
     for(i=segment; i<segment+noOfSegmentsUpdated; i++){
         cb->segments[i / 32] |= 0x80000000 >> i % 32;
+        m_segments_interested[i / 32] |= cb->segments[i / 32];  // mark segment interest in global segment mask
     }
 
     m_rx_callbacks.push_back(cb);
+
+    m_data_buffer->setInterest(this, m_segments_interested);    // TODO check if (m_data_buffer != NULL) at the start
 
     return id;
 }
 
 void mrmDataBufferUser::removeInterest(size_t id) {
-    size_t size, i;
+    size_t i;
+    epicsUInt16 j;
 
     epicsGuard<epicsMutex> g(m_rx_lock);
 
-    size = m_rx_callbacks.size();
-    if(id < size && id > 0) {   // are we in range?
-        for (i=0; i<size; i++){
-            if (m_rx_callbacks[i]->id == id) {   // found a callback with specified ID
-                m_rx_callbacks.erase(m_rx_callbacks.begin() + i);
-                break;
-            }
+    if(id > 0) {   // are we in range?
+        for (j=0; j<4; j++) {
+            m_segments_interested[j] = 0;
         }
 
+        for (i=0; i<m_rx_callbacks.size(); i++){
+            if (m_rx_callbacks[i]->id == id) {   // found a callback with specified ID
+                m_rx_callbacks.erase(m_rx_callbacks.begin() + i);
+
+            } else {
+                for (j=0; j<4; j++) {
+                    m_segments_interested[j] |= m_rx_callbacks[i]->segments[j];
+                }
+            }
+
+        }
+        m_data_buffer->setInterest(this, m_segments_interested);    // TODO check if (m_data_buffer != NULL) at the start
     } else {
-        errlogPrintf("Invalid registered interest ID (%zu). Valid IDs are in range [1, %zu]\n", id, size-1);
+        RxCallback * cb = m_rx_callbacks.back();
+        if(cb == NULL) errlogPrintf("No registered callbacks exist. Cannot remove...\n");
+        else errlogPrintf("Invalid registered interest ID (%zu). Valid IDs are in range [1, %zu]\n", id, cb->id);
     }
 }
 
@@ -186,7 +203,7 @@ void mrmDataBufferUser::put(size_t offset, size_t length, void *buffer) {
 
     /* Check input arguments */
     if(length <= 0) {
-        errlogPrintf("Invalid length %zu provided. Offset + length should be in interval [0, %d].\n", length, DataBuffer_len_max-1);
+        errlogPrintf("Invalid length %zu provided. Offset + length should be in interval [1, %d].\n", length, DataBuffer_len_max-1);
         return;
     }
 
@@ -219,7 +236,7 @@ void mrmDataBufferUser::get(size_t offset, size_t length, void *buffer) {
 
     /* Check input arguments */
     if(length <= 0) {
-        errlogPrintf("Invalid length %zu provided. Offset + length should be in interval [0, %d].\n", length, DataBuffer_len_max-1);
+        errlogPrintf("Invalid length %zu provided. Offset + length should be in interval [1, %d].\n", length, DataBuffer_len_max-1);
         return;
     }
 
@@ -359,7 +376,11 @@ void mrmDataBufferUser::userUpdateThread(void* args) {
                 }
             }
 
+            // there is data spanning to the end of the buffer. Send it.
             if (length > 0) {   // user is interested in data on startOffset + length.
+                if (startOffset * DataBuffer_segment_length + length > DataBuffer_len_max) {
+                    length = (length - 1) & DataBuffer_len_max; // Length of the entire buffer is greater than max length that can be send (because of the 4 byte increment). This means that the last segment is actually smaller than 16 bytes. Trim the length...
+                }
                 userCallback->fptr(startOffset, length, userCallback->pvt); // call the function that the user registered
             }
 

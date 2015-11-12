@@ -68,6 +68,7 @@ record(longout, "$(SYS)-$(EVG):SoftSeqMask-SP" ) {
     field( DESC, "Seq. RAM SW mask")
     field( DTYP, "Obj Prop uint16")
     field( VAL , "$(SoftSeqMask-SP\=0)")
+    field( PINI, "YES")
     field( OUT , "@OBJ=$(EVG), PROP=Seq mask")
     field( FLNK, "$(SYS)-$(EVG):SoftSeqMask-RB")
 }
@@ -83,6 +84,7 @@ record(longout, "$(SYS)-$(EVG):SoftSeqEnable-SP" ) {
     field( DESC, "Seq. RAM SW enable")
     field( DTYP, "Obj Prop uint16")
     field( VAL , "$(SoftSeqEnable-SP\=0)")
+    field( PINI, "YES")
     field( OUT , "@OBJ=$(EVG), PROP=Seq enable")
     field( FLNK, "$(SYS)-$(EVG):SoftSeqEnable-RB")
 }

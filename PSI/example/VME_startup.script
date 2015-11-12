@@ -15,7 +15,7 @@ epicsEnvSet  EVG_MEMOFFSET	0x0			## is the base A24 address (default: 0x0)
 #epicsEnvSet  EVG_IRQVECT 	0x1			## is the interrupt vector (default: 0x1)
 #epicsEnvSet EVG_SUBS "cfg/EVG0.subs" 	## is the path to the substitution file that should be loaded. (default: cfg/$(EVG).subs=cfg/EVG0.subs)
 
-runScript $($(MODULE)_DIR)/mrfioc2_evg-VME.cmd, "EVG_SUBS=$($(MODULE)_TEMPLATES)/evg_VME-300.subs"
+runScript $(mrfioc2_DIR)/mrfioc2_evg-VME.cmd, "EVG_SUBS=$(mrfioc2_TEMPLATES)/evg_VME-300.subs"
 
 
 
@@ -31,4 +31,4 @@ epicsEnvSet  EVR_MEMOFFSET	0x3000000	## is the base A24 address (default: 0x3000
 #epicsEnvSet  EVR_IRQVECT	0x26		## is the interrupt vector (default: 0x26)
 #epicsEnvSet EVR_SUBS is the path to the substitution file that should be loaded. (default: cfg/$(EVR).subs=cfg/EVR0.subs)
 
-runScript $($(MODULE)_DIR)/mrfioc2_evr-VME.cmd, "EVR_SUBS=$($(MODULE)_TEMPLATES)/evr_VME-300.subs"
+runScript $(mrfioc2_DIR)/mrfioc2_evr-VME.cmd, "EVR_SUBS=$(mrfioc2_TEMPLATES)/evr_VME-300.subs"

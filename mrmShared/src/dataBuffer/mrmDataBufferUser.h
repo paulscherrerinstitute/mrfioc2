@@ -119,11 +119,12 @@ private:
     //Registered callbacks
     struct RxCallback{
         size_t id;                              // the id of the registered callback. Used for deletion.
-        epicsUInt32 segments[4];
-        dataBufferRXCallback_t fptr;            //callback function pointer
-        void* pvt;                              //callback private
+        epicsUInt32 segments[4];                // segment mask in which the user is interested
+        dataBufferRXCallback_t fptr;            // callback function pointer
+        void* pvt;                              // callback private
     };
     std::vector<RxCallback*> m_rx_callbacks;    // a list of registered users and their segments of interest (offset + length)
+    epicsUInt32 m_segments_interested[4];          // global segment mask in which users are interested in
 
 
     /**

@@ -1,4 +1,4 @@
-file "$($(MODULE)_TEMPLATES=db)/evr-pcie-300.db"
+file "$(mrfioc2_TEMPLATES=db)/evr-pcie-300.db"
 {
     {
     
@@ -203,7 +203,7 @@ file "$($(MODULE)_TEMPLATES=db)/evr-pcie-300.db"
 #  EVT = Event code (hardware). Set EVT=0 to disable.
 #  CODE = EPICS database event number (software)
 #
-file "$($(MODULE)_TEMPLATES=db)/evr-softEvent.template"{
+file "$(mrfioc2_TEMPLATES=db)/evr-softEvent.template"{
 pattern { EVT,	CODE }
 		{ "1",    "1"}
 		{ "2",    "2"}
@@ -236,7 +236,7 @@ pattern { EVT,	CODE }
 #                 "Stop Log", "Log", "Heartbeat", "Reset PS",
 #                 "TS reset", "TS tick", "Shift 1", "Shift 0",
 #
-file "$($(MODULE)_TEMPLATES=db)/evr-specialFunctionMap.template"{
+file "$(mrfioc2_TEMPLATES=db)/evr-specialFunctionMap.template"{
 pattern { EVT,   FUNC }
         {"1",   "Blink"}
 }
@@ -262,7 +262,7 @@ pattern { EVT,   FUNC }
 #  ID = Mappings must have unique ID for each PID-F combination.
 #    Only mappings with ID=0 are displayed in the GUI
 #    
-file "$($(MODULE)_TEMPLATES=db)/evr-pulserMap.template"{
+file "$(mrfioc2_TEMPLATES=db)/evr-pulserMap.template"{
 pattern {PID   F,      EVT, ID}
         {0,    Trig,   1,   0 }
         {1,    Trig,   0,   0 }
