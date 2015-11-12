@@ -31,6 +31,7 @@
 #include <epicsExport.h>
 #include "evgRegMap.h"
 
+#include "mrmShared.h"
 #include "evgInit.h"
 
 /* Bit mask used to communicate which VME interrupt levels

@@ -32,6 +32,7 @@
 
 #include "evrIocsh.h"
 #include "evrMrm.h"
+#include "mrmShared.h"
 
 #include "support/util.h"
 #include "mrf/version.h"

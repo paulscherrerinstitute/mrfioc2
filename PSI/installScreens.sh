@@ -39,5 +39,5 @@ sh_dir=${INSTBASE}/bin
 chmod 666 "$1"/*.ui
 chmod 777 "$1"/*.sh
 
-cp -vf --preserve=mode "$1"/*.ui "$qt_dir"
-cp -vf --preserve=mode "$1"/*.sh "$sh_dir"
+cp -vf "$1"/*.ui "$qt_dir"
+cp -vf "$1"/*.sh "$sh_dir"

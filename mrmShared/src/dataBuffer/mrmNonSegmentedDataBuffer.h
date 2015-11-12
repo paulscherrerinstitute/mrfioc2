@@ -20,15 +20,11 @@ public:
                               dataRegisterRx) {}
 
 private:
-    void setTxLength(epicsUInt8 *startSegment, epicsUInt16 *length);
-    void setRxLength(epicsUInt16 *startSegment, epicsUInt16 *length);
+    //void setTxLength(epicsUInt8 *startSegment, epicsUInt16 *length);
 
-    epicsUInt16 getFirstReceivedSegment();
+    void receive();
 
-    bool overflowOccured();
-    bool checksumError();
-
-    void clearFlags(volatile epicsUInt8* flagRegister);
+    //void clearFlags(volatile epicsUInt8* flagRegister);
 };
 
 #endif // MRMNONSEGMENTEDDATABUFFER_H

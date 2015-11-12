@@ -22,10 +22,6 @@
 #include <mrfCommon.h> 
 #include "evgRegMap.h"
 
-
-#include "dataBuffer/mrmDataBuffer.h"
-#include "dataBuffer/mrmNonSegmentedDataBuffer.h"
-
 #ifdef __rtems__
 #include <rtems/bspIo.h>
 #endif //__rtems__

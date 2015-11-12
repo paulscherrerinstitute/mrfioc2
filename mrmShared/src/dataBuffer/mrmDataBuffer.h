@@ -7,8 +7,14 @@
 #include <epicsMutex.h>
 #include <callback.h>
 
-class mrmDataBufferUser;
+#include "mrmDataBufferUser.h"
 
+
+/**
+ * @brief drvMrfiocDataBufferDebug Defines debug level (verbosity of debug printout)
+ */
+extern int drvMrfiocDataBufferDebug;
+#define dataBuffer_debug(level,M, ...) if(drvMrfiocDataBufferDebug >= level) fprintf(stderr, "DataBuffer_DEBUG: (%s:%d) " M "\n", __FILE__, __LINE__, ##__VA_ARGS__)
 
 /**
  * @brief The mrmDataBuffer class part that resides directly in evm/evg/evr driver.
@@ -96,14 +102,16 @@ public:
      */
     static void handleDataBufferRxIRQ(CALLBACK*);
 
+    static mrmDataBuffer* getDataBufferFromDevice(const char *device);
+
     // TODO test functions
     void setSegmentIRQ(epicsUInt8 i, epicsUInt32 mask);
-    void receive();
+    void ctrlReceive();
     void stop();
     void printRegs();
     void setRx(epicsUInt8 i, epicsUInt32 mask);
 
-private:
+protected:
     volatile epicsUInt8 * const base;   // Base address of the EVR/EVG card
     epicsUInt32 const ctrlRegTx;        // Tx control register offset
     epicsUInt32 const ctrlRegRx;        // Rx control register offset
@@ -111,6 +119,15 @@ private:
     epicsUInt32 const dataRegRx;        // Rx data register offset
 
     epicsUInt8 m_rx_buff[2048];         // Always up-to-date copy of rx buffer
+
+    //Registered users
+    struct Users{
+        mrmDataBufferUser *user;
+        epicsUInt32 segments[4];                // segment mask in which the user is interested
+    };
+    std::vector<Users*> m_users;    // a list of users who are accessing the data buffer
+
+private:
     epicsMutex m_tx_lock;               // This lock must be held while send is in progress
     epicsMutex m_rx_lock;               // The lock prevents adding/removing users while data is being dispatched to users.
 
@@ -120,50 +137,45 @@ private:
     epicsUInt32 m_irq_flags[4];         // used to set the segment IRQ flags register
 
     //std::vector<mrmDataBufferUser*> m_users;    // a list of users who are accessing the data buffer
-    //Registered users
-    struct Users{
-        mrmDataBufferUser *user;
-        epicsUInt32 segments[4];                // segment mask in which the user is interested
-    };
-    std::vector<Users*> m_users;    // a list of users who are accessing the data buffer
+
 
     /**
      * @brief setTxLength calculates the length of the data package to send. It is dependant on the hardware implementation of the data buffer (thus it can be overriden).
      * @param startSegment is the number of the segment where data is to be written
      * @param length is the length of the data to write
      */
-    virtual void setTxLength(epicsUInt8 *startSegment, epicsUInt16 *length);
+    //virtual void setTxLength(epicsUInt8 *startSegment, epicsUInt16 *length);
 
     /**
      * @brief setRxLength calculates the length of the received data package. It is dependant on the hardware implementation of the data buffer (thus it can be overriden).
      * @param startSegment is the number of the received segment
      * @param length is the length of the received data
      */
-    virtual void setRxLength(epicsUInt16 *startSegment, epicsUInt16 *length);
+    //void setRxLength(epicsUInt16 *startSegment, epicsUInt16 *length);
 
     /**
      * @brief getFirstReceivedSegment will check the Rx flag register and return the first received segment number.
      * @return First received segment number. If no Rx flags are set, returns zero.
      */
-    virtual epicsUInt16 getFirstReceivedSegment();
+    epicsUInt16 getFirstReceivedSegment();
 
     /**
      * @brief overflowOccured checks if the overflow flag is set for any segment
      * @return True if overflow occured, false otherwise
      */
-    virtual bool overflowOccured();
+    bool overflowOccured();
 
     /**
      * @brief checksumError checks if the checksum error flag is set for any segment
      * @return True if checksum error is detected, false otherwise
      */
-    virtual bool checksumError();
+    bool checksumError();
 
     /**
      * @brief clearFlags clears all the flags for the specified flag register, by writing '1' to each flag bit
      * @param flagRegister is the starting address of a 4x32 bit flag register to clear.
      */
-    virtual void clearFlags(volatile epicsUInt8* flagRegister);
+    void clearFlags(volatile epicsUInt8* flagRegister);
 
     /**
      * @brief waitWhileTxRunning is busy waiting while data buffer transmission is running (pools the TXRUN bit)
@@ -174,6 +186,7 @@ private:
     // TODO: remove theese
     void printBinary(const char *preface, epicsUInt32 n);
     void printFlags(const char *preface, volatile epicsUInt8* flagRegister);
+    virtual void receive();
 };
 
 #endif // MRMDATABUFFER_H

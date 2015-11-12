@@ -7,7 +7,8 @@
 #include <epicsEvent.h>
 #include <epicsThread.h>
 
-#include "mrmDataBuffer.h"
+//#include "mrmDataBuffer.h"
+class mrmDataBuffer;
 
 
 typedef void(*dataBufferRXCallback_t)(size_t updated_offset, size_t length, void* pvt);
@@ -33,9 +34,12 @@ public:
     /**
      * @brief init will connect to the data buffer based on device name
      * @param deviceName is the name of the device which holds the data buffer (eg. EVR0, EVG0, ...)
+     * @param userOffset sets m_user_offset. When not provided it defaults to 0.
+     * @param strictMode sets m_strict_mode. When not provided it defaults to false.
+     * @param userUpdateThreadPriority sets the priority at which the user update thread will run. Defaults to epicsThreadPriorityLow.
      * @return returns 0 on success
      */
-    epicsUInt8 init(const char *deviceName);
+    epicsUInt8 init(const char* deviceName, size_t userOffset = 0, bool strictMode = false, unsigned int userUpdateThreadPriority = epicsThreadPriorityLow);
 
     /**
      * @brief registerInterest Register callback for part (or whole) data buffer.
@@ -98,6 +102,12 @@ public:
      */
     bool supportsTx();
 
+    /**
+     * @brief getMaxLength Returns the maximum length of the buffer based on user offset.
+     * @return the capacity of the data buffer
+     */
+    size_t getMaxLength();
+
 
 private:
     epicsUInt8 m_rx_buff[2048];    // A copy of the received data
@@ -124,8 +134,10 @@ private:
         void* pvt;                              // callback private
     };
     std::vector<RxCallback*> m_rx_callbacks;    // a list of registered users and their segments of interest (offset + length)
-    epicsUInt32 m_segments_interested[4];          // global segment mask in which users are interested in
+    epicsUInt32 m_segments_interested[4];       // global segment mask in which users are interested in
 
+    size_t m_user_offset;                       // user offset + offset of the calling function determine the actuall data buffer offset.
+    bool m_strict_mode;                         // When in strict mode, updateSegment function uses 'lock' instead of 'tryLock'. When using strict mode, sser must ensure that the buffer operations are fast and non-blocking, sice they affect all users.
 
     /**
      * @brief userUpdateThread is the thread responsible for informing users (m_rx_callbacks) of new data received based on their registered interest
@@ -138,7 +150,7 @@ private:
      * @param device is the device name to search for
      * @return A pointer to the underlying data buffer class, or NULL if not found
      */
-    mrmDataBuffer *getDataBufferFromDevice(const char *device);
+    //mrmDataBuffer *getDataBufferFromDevice(const char *device);
 };
 
 #endif // MRMm_data_bufferUSER_H

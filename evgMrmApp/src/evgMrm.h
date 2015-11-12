@@ -41,8 +41,8 @@
 #include "sfp.h"
 #include "evgFct.h"
 #include "mrmremoteflash.h"
-
-class mrmDataBuffer;
+#include "dataBuffer/mrmDataBuffer.h"
+#include "dataBuffer/mrmNonSegmentedDataBuffer.h"
 
 /*********
  * Each EVG will be represented by the instance of class 'evgMrm'. Each evg 

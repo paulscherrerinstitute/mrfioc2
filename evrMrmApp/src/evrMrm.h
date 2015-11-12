@@ -39,7 +39,6 @@
 #include "evrGpio.h"
 
 #include "sfp.h"
-#include "mrmShared.h"
 
 #include "mrmremoteflash.h"
 #include "dataBuffer/mrmDataBuffer.h"
