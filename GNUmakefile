@@ -32,7 +32,8 @@ SOURCES+=mrmShared/src/sfp.cpp
 SOURCES+=mrmShared/src/spi_flash.c
 SOURCES+=mrmShared/src/mrmremoteflash.cpp
 SOURCES+=mrmShared/src/dataBuffer/mrmDataBuffer.cpp
-SOURCES+=mrmShared/src/dataBuffer/mrmNonSegmentedDataBuffer.cpp
+SOURCES+=mrmShared/src/dataBuffer/mrmDataBuffer_300.cpp
+SOURCES+=mrmShared/src/dataBuffer/mrmDataBuffer_230.cpp
 SOURCES+=mrmShared/src/dataBuffer/mrmDataBufferUser.cpp
 
 SOURCES+=evrMrmApp/src/devSupport/devEvrStringIO.cpp
@@ -96,9 +97,9 @@ DBDS+=evgMrmApp/src/evgInit.dbd
 DBDS+=mrfCommon/src/mrfCommon.dbd
 DBDS+=mrmShared/src/dataBuffer/mrmDataBuffer.dbd
 
-# regDev Support
-HEADERS+=mrmShared/src/mrmShared.h
-HEADERS+=mrmShared/src/dataBuffer/mrmDataBuffer.h
+# external data buffer support (eg. regDev)
+#HEADERS+=mrmShared/src/mrmShared.h
+#HEADERS+=mrmShared/src/dataBuffer/mrmDataBuffer.h
 HEADERS+=mrmShared/src/dataBuffer/mrmDataBufferUser.h
 
 # TESTS
