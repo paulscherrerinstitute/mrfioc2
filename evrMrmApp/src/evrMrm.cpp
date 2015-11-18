@@ -320,11 +320,10 @@ try{
         CBINIT(&events[i].done, priorityLow, &EVRMRM::sentinel_done , &events[i]);
     }
 
-    // TODO: use define for version number
     if(ver < MIN_FW_SEGMENTED_DBUFF) {
-        m_dataBuffer = new mrmNonSegmentedDataBuffer(base, U32_DataTxCtrlEvr, U32_DataRxCtrlEvr, U32_DataTxBaseEvr, U32_DataRxBaseEvr);
+        m_dataBuffer = new mrmDataBuffer_230(n.c_str(), base, U32_DataTxCtrlEvr, U32_DataRxCtrlEvr, U32_DataTxBaseEvr, U32_DataRxBaseEvr);
     } else {
-        m_dataBuffer = new mrmDataBuffer(base, U32_DataTxCtrlEvr, U32_DataRxCtrlEvr, U32_DataTxBaseEvr, U32_DataRxBaseEvr);
+        m_dataBuffer = new mrmDataBuffer_300(n.c_str(), base, U32_DataTxCtrlEvr, U32_DataRxCtrlEvr, U32_DataTxBaseEvr, U32_DataRxBaseEvr);
     }
     CBINIT(&dataBufferRx_cb, priorityHigh, &mrmDataBuffer::handleDataBufferRxIRQ, &*m_dataBuffer);
 

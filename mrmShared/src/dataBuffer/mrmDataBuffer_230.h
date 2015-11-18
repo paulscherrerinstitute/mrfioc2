@@ -1,30 +1,28 @@
-#ifndef MRMNONSEGMENTEDDATABUFFER_H
-#define MRMNONSEGMENTEDDATABUFFER_H
-
+#ifndef MRMDATABUFFER_230_H
+#define MRMDATABUFFER_230_H
 
 #include "mrmDataBuffer.h"
 
 
-class mrmNonSegmentedDataBuffer : public mrmDataBuffer
+class epicsShareClass mrmDataBuffer_230 : public mrmDataBuffer
 {
 public:
-    mrmNonSegmentedDataBuffer(volatile epicsUInt8 *parentBaseAddress,
+    mrmDataBuffer_230(const char *parentName,
+                              volatile epicsUInt8 *parentBaseAddress,
                               epicsUInt32 controlRegisterTx,
                               epicsUInt32 controlRegisterRx,
                               epicsUInt32 dataRegisterTx,
                               epicsUInt32 dataRegisterRx):
-                mrmDataBuffer(parentBaseAddress,
+                mrmDataBuffer(parentName,
+                              parentBaseAddress,
                               controlRegisterTx,
                               controlRegisterRx,
                               dataRegisterTx,
                               dataRegisterRx) {}
 
 private:
-    //void setTxLength(epicsUInt8 *startSegment, epicsUInt16 *length);
-
+    bool send(epicsUInt8 startSegment, epicsUInt16 length, epicsUInt8 *data);
     void receive();
-
-    //void clearFlags(volatile epicsUInt8* flagRegister);
 };
 
-#endif // MRMNONSEGMENTEDDATABUFFER_H
+#endif // MRMDATABUFFER_230_H

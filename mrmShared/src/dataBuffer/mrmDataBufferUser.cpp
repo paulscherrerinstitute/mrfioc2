@@ -2,11 +2,12 @@
 #include <stdio.h>
 
 #include <errlog.h>
-#include <epicsExport.h>
 #include <epicsGuard.h>
 
 #include "mrmShared.h"
 #include "mrmDataBuffer.h"
+
+#include <epicsExport.h>
 #include "mrmDataBufferUser.h"
 
 
@@ -149,9 +150,9 @@ size_t mrmDataBufferUser::registerInterest(size_t offset, size_t length, dataBuf
     cb->pvt = pvt;
     cb->id = id;
 
-    segment = offset / DataBuffer_segment_length;
-    segmentOffset = offset - segment * DataBuffer_segment_length;
-    noOfSegmentsUpdated = ((length - 1 + segmentOffset) / DataBuffer_segment_length) + 1;
+    segment = (epicsUInt16)(offset / DataBuffer_segment_length);
+    segmentOffset = (epicsUInt16)(offset - segment * DataBuffer_segment_length);
+    noOfSegmentsUpdated = (epicsUInt16)(((length - 1 + segmentOffset) / DataBuffer_segment_length) + 1);
 
     // Mark which segments were updated
     for(i=segment; i<segment+noOfSegmentsUpdated; i++){
@@ -219,9 +220,9 @@ void mrmDataBufferUser::put(size_t offset, size_t length, void *buffer) {
         dataBuffer_debug(1, "Cropped length to %zu\n", length);
     }
 
-    segment = offset / DataBuffer_segment_length;
-    segmentOffset = offset - segment * DataBuffer_segment_length;
-    noOfSegmentsUpdated = ((length - 1 + segmentOffset) / DataBuffer_segment_length) + 1;
+    segment = (epicsUInt16)(offset / DataBuffer_segment_length);
+    segmentOffset = (epicsUInt16)(offset - segment * DataBuffer_segment_length);
+    noOfSegmentsUpdated = (epicsUInt16)(((length - 1 + segmentOffset) / DataBuffer_segment_length) + 1);
 
     // Update buffer at the offset segment
     memcpy(&m_tx_buff[offset], buffer, length);
@@ -309,7 +310,7 @@ bool mrmDataBufferUser::send(bool wait)
 void mrmDataBufferUser::updateSegment(epicsUInt16 segment, epicsUInt8 *data, epicsUInt16 length) {
     epicsUInt32 segmentMask, segmentsReceived[4]={0, 0, 0, 0};
     epicsUInt32 i;
-    epicsUInt8 noOfSegmentsUpdated;
+    epicsUInt16 noOfSegmentsUpdated;
 
     if(m_strict_mode) {
         m_rx_lock.lock();
@@ -319,7 +320,7 @@ void mrmDataBufferUser::updateSegment(epicsUInt16 segment, epicsUInt8 *data, epi
     }
 
     noOfSegmentsUpdated = ((length - 1) / DataBuffer_segment_length) + 1;
-    for(i=segment; i<segment+noOfSegmentsUpdated; i++){ // detect overflow
+    for(i=segment; i<(epicsUInt32)(segment+noOfSegmentsUpdated); i++){ // detect overflow
         segmentMask = (0x80000000 >> (i % 32));
         if (m_rx_segments[i / 32] & segmentMask) {
             errlogPrintf("SW overflow occured for segment %d. Discarding data buffer update\n", i);

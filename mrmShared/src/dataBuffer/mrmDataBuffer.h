@@ -2,12 +2,21 @@
 #define MRMDATABUFFER_H
 
 #include <vector>
+#include <map>
 
 #include <epicsTypes.h>
 #include <epicsMutex.h>
 #include <callback.h>
 
-#include "mrmDataBufferUser.h"
+class mrmDataBufferUser;    // Windows: use forward decleration to avoid export problems for mrmDataBufferUser class
+
+#ifdef _WIN32
+/**
+ * Removes warning on windows for m_users: needs to have dll-interface to be used by clients of class 'mrmDataBuffer'
+ * This is safe, because m_users is not used outside the boundary of the DLL file.
+ */
+#pragma warning( disable: 4251 )
+#endif
 
 
 /**
@@ -21,11 +30,12 @@ extern int drvMrfiocDataBufferDebug;
  * This class deals directly with the HW, thus it can be extended for different HW data buffer implementations.
  * The class accepts users which will receive updates on the data buffer.
  */
-class mrmDataBuffer {
+class epicsShareClass mrmDataBuffer {
 public:
     bool m_rx_irq_handled;  // guards against running multiple Rx callbacks from main ISR at the same time.
 
-    mrmDataBuffer(volatile epicsUInt8 *parentBaseAddress,
+    mrmDataBuffer(const char *parentName,
+                  volatile epicsUInt8 *parentBaseAddress,
                   epicsUInt32 controlRegisterTx,
                   epicsUInt32 controlRegisterRx,
                   epicsUInt32 dataRegisterTx,
@@ -81,7 +91,7 @@ public:
      * @param data is the payload to be sent out
      * @return true on success, false otherwise
      */
-    bool send(epicsUInt8 startSegment, epicsUInt16 length, epicsUInt8 *data);
+    virtual bool send(epicsUInt8 startSegment, epicsUInt16 length, epicsUInt8 *data) = 0;
 
     /**
      * @brief registerUser will register a data buffer user, which will receive data buffer updates
@@ -118,7 +128,14 @@ protected:
     epicsUInt32 const dataRegTx;        // Tx data register offset
     epicsUInt32 const dataRegRx;        // Rx data register offset
 
+    epicsMutex m_tx_lock;               // This lock must be held while send is in progress
+
     epicsUInt8 m_rx_buff[2048];         // Always up-to-date copy of rx buffer
+
+    epicsUInt32 m_checksums[4];         // stores the received checksum error register
+    epicsUInt32 m_overflows[4];         // stores the received overflow flag register
+    epicsUInt32 m_rx_flags[4];          // stores the received segment flags register
+    epicsUInt32 m_irq_flags[4];         // used to set the segment IRQ flags register
 
     //Registered users
     struct Users{
@@ -127,31 +144,11 @@ protected:
     };
     std::vector<Users*> m_users;    // a list of users who are accessing the data buffer
 
-private:
-    epicsMutex m_tx_lock;               // This lock must be held while send is in progress
-    epicsMutex m_rx_lock;               // The lock prevents adding/removing users while data is being dispatched to users.
-
-    epicsUInt32 m_checksums[4];         // stores the received checksum error register
-    epicsUInt32 m_overflows[4];         // stores the received overflow flag register
-    epicsUInt32 m_rx_flags[4];          // stores the received segment flags register
-    epicsUInt32 m_irq_flags[4];         // used to set the segment IRQ flags register
-
-    //std::vector<mrmDataBufferUser*> m_users;    // a list of users who are accessing the data buffer
-
-
     /**
-     * @brief setTxLength calculates the length of the data package to send. It is dependant on the hardware implementation of the data buffer (thus it can be overriden).
-     * @param startSegment is the number of the segment where data is to be written
-     * @param length is the length of the data to write
+     * @brief waitWhileTxRunning is busy waiting while data buffer transmission is running (pools the TXRUN bit)
+     * @return true on success, false otherwise
      */
-    //virtual void setTxLength(epicsUInt8 *startSegment, epicsUInt16 *length);
-
-    /**
-     * @brief setRxLength calculates the length of the received data package. It is dependant on the hardware implementation of the data buffer (thus it can be overriden).
-     * @param startSegment is the number of the received segment
-     * @param length is the length of the received data
-     */
-    //void setRxLength(epicsUInt16 *startSegment, epicsUInt16 *length);
+    bool waitWhileTxRunning();
 
     /**
      * @brief getFirstReceivedSegment will check the Rx flag register and return the first received segment number.
@@ -171,22 +168,35 @@ private:
      */
     bool checksumError();
 
+    // TODO: remove theese
+    void printBinary(const char *preface, epicsUInt32 n);
+    void printFlags(const char *preface, volatile epicsUInt8* flagRegister);
+
+private:
+    epicsMutex m_rx_lock;               // The lock prevents adding/removing users while data is being dispatched to users.
+
+
+    /**
+     * @brief setTxLength calculates the length of the data package to send. It is dependant on the hardware implementation of the data buffer (thus it can be overriden).
+     * @param startSegment is the number of the segment where data is to be written
+     * @param length is the length of the data to write
+     */
+    //virtual void setTxLength(epicsUInt8 *startSegment, epicsUInt16 *length);
+
+    /**
+     * @brief setRxLength calculates the length of the received data package. It is dependant on the hardware implementation of the data buffer (thus it can be overriden).
+     * @param startSegment is the number of the received segment
+     * @param length is the length of the received data
+     */
+    //void setRxLength(epicsUInt16 *startSegment, epicsUInt16 *length);
+
     /**
      * @brief clearFlags clears all the flags for the specified flag register, by writing '1' to each flag bit
      * @param flagRegister is the starting address of a 4x32 bit flag register to clear.
      */
     void clearFlags(volatile epicsUInt8* flagRegister);
 
-    /**
-     * @brief waitWhileTxRunning is busy waiting while data buffer transmission is running (pools the TXRUN bit)
-     * @return true on success, false otherwise
-     */
-    bool waitWhileTxRunning();
-
-    // TODO: remove theese
-    void printBinary(const char *preface, epicsUInt32 n);
-    void printFlags(const char *preface, volatile epicsUInt8* flagRegister);
-    virtual void receive();
+    virtual void receive() = 0;
 };
 
 #endif // MRMDATABUFFER_H

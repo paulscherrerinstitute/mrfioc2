@@ -1,5 +1,5 @@
-#ifndef MRMm_data_bufferUSER_H
-#define MRMm_data_bufferUSER_H
+#ifndef MRMDATABUFFERUSER_H
+#define MRMDATABUFFERUSER_H
 
 #include <vector>
 #include <epicsTypes.h>
@@ -7,8 +7,18 @@
 #include <epicsEvent.h>
 #include <epicsThread.h>
 
-//#include "mrmDataBuffer.h"
-class mrmDataBuffer;
+
+#ifdef _WIN32
+/**
+ * Removes warning on windows for m_rx_callbacks: needs to have dll-interface to be used by clients of class 'mrmDataBuffer'
+ * This is safe, because m_rx_callbacks is not used outside the boundary of the DLL file.
+ */
+#pragma warning( disable: 4251 )
+#endif
+
+
+
+class mrmDataBuffer;    // forward decleration in order to avoid dependancy on mrmDataBuffer.h file when using this class
 
 
 typedef void(*dataBufferRXCallback_t)(size_t updated_offset, size_t length, void* pvt);
@@ -26,7 +36,7 @@ typedef void(*dataBufferRXCallback_t)(size_t updated_offset, size_t length, void
  * Note that if users callbacks (registerd via registerInterest function) are slow (slower than updates), data will be lost!
  *
  */
-class mrmDataBufferUser {
+class epicsShareClass mrmDataBufferUser {
 public:
     mrmDataBufferUser();
     ~mrmDataBufferUser();
@@ -153,4 +163,4 @@ private:
     //mrmDataBuffer *getDataBufferFromDevice(const char *device);
 };
 
-#endif // MRMm_data_bufferUSER_H
+#endif // MRMDATABUFFERUSER_H
