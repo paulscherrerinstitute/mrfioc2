@@ -44,12 +44,12 @@ public:
     /**
      * @brief init will connect to the data buffer based on device name
      * @param deviceName is the name of the device which holds the data buffer (eg. EVR0, EVG0, ...)
-     * @param userOffset sets m_user_offset. When not provided it defaults to 0.
+     * @param userOffset sets m_user_offset. When not provided it defaults to 16 (size of the first segment in segmented data buffer).
      * @param strictMode sets m_strict_mode. When not provided it defaults to false.
      * @param userUpdateThreadPriority sets the priority at which the user update thread will run. Defaults to epicsThreadPriorityLow.
      * @return returns 0 on success
      */
-    epicsUInt8 init(const char* deviceName, size_t userOffset = 0, bool strictMode = false, unsigned int userUpdateThreadPriority = epicsThreadPriorityLow);
+    epicsUInt8 init(const char* deviceName, size_t userOffset = 16, bool strictMode = false, unsigned int userUpdateThreadPriority = epicsThreadPriorityLow);
 
     /**
      * @brief registerInterest Register callback for part (or whole) data buffer.

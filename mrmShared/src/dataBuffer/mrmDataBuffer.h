@@ -22,8 +22,8 @@ class mrmDataBufferUser;    // Windows: use forward decleration to avoid export 
 /**
  * @brief drvMrfiocDataBufferDebug Defines debug level (verbosity of debug printout)
  */
-extern int drvMrfiocDataBufferDebug;
-#define dataBuffer_debug(level,M, ...) if(drvMrfiocDataBufferDebug >= level) fprintf(stderr, "DataBuffer_DEBUG: (%s:%d) " M "\n", __FILE__, __LINE__, ##__VA_ARGS__)
+extern int mrfioc2_dataBufferDebug;
+#define dbgPrintf(level,M, ...) if(mrfioc2_dataBufferDebug >= level) fprintf(stderr, "DataBuffer_DEBUG: (%s:%d) " M "\n", __FILE__, __LINE__, ##__VA_ARGS__)
 
 /**
  * @brief The mrmDataBuffer class part that resides directly in evm/evg/evr driver.

@@ -15,13 +15,13 @@
 #include <epicsExport.h>
 #include "mrmDataBuffer.h"
 
-int drvMrfiocDataBufferDebug = 0;
-epicsExportAddress(int, drvMrfiocDataBufferDebug);
+int mrfioc2_dataBufferDebug = 0;
+epicsExportAddress(int, mrfioc2_dataBufferDebug);
 
 #define TX_WAIT_MAX_ITERATIONS 1000     // guard against infinite loop when waiting for Tx to complete / waiting while Tx is running.
 
 
-static std::map<const char*, mrmDataBuffer*> *data_buffers;
+static std::map<std::string, mrmDataBuffer*> data_buffers;
 
 mrmDataBuffer::mrmDataBuffer(const char * parentName,
                              volatile epicsUInt8 *parentBaseAddress,
@@ -46,7 +46,7 @@ mrmDataBuffer::mrmDataBuffer(const char * parentName,
 
     m_rx_irq_handled = true;
 
-    (*data_buffers)[parentName] = this;
+    data_buffers[parentName] = this;
 }
 
 mrmDataBuffer::~mrmDataBuffer() {
@@ -58,6 +58,8 @@ mrmDataBuffer::~mrmDataBuffer() {
     for (i=0; i<m_users.size(); i++) {
         delete m_users[i];
     }
+
+    // data_buffers are destroyed when the app is destroyed...
 }
 
 void mrmDataBuffer::enableRx(bool en)
@@ -126,7 +128,7 @@ bool mrmDataBuffer::waitForTxComplete(){
     while (!(nat_ioread32(base+ctrlRegTx)&DataTxCtrl_done) && i < TX_WAIT_MAX_ITERATIONS) {
         i++;
     }
-    dataBuffer_debug(1, "Waiting for TX to complete took %d iterations (waiting for maximum of %d iterations)\n", i, TX_WAIT_MAX_ITERATIONS);
+    dbgPrintf(1, "Waiting for TX to complete took %d iterations (waiting for maximum of %d iterations)\n", i, TX_WAIT_MAX_ITERATIONS);
     if (i >= TX_WAIT_MAX_ITERATIONS) {
         return false;
     }
@@ -140,7 +142,7 @@ bool mrmDataBuffer::waitWhileTxRunning(){
     while ((nat_ioread32(base+ctrlRegTx)&DataTxCtrl_run)  && i < TX_WAIT_MAX_ITERATIONS) {
         i++;
     }
-    dataBuffer_debug(1, "Waiting while TX is running took %d iterations (waiting for maximum of %d iterations)\n", i, TX_WAIT_MAX_ITERATIONS);
+    dbgPrintf(1, "Waiting while TX is running took %d iterations (waiting for maximum of %d iterations)\n", i, TX_WAIT_MAX_ITERATIONS);
     if (i >= TX_WAIT_MAX_ITERATIONS) {
         errlogPrintf("Waiting while Tx running takes too long. Forced exit...\n");
         return false;
@@ -359,10 +361,12 @@ void mrmDataBuffer::handleDataBufferRxIRQ(CALLBACK *cb) {
 
 mrmDataBuffer* mrmDataBuffer::getDataBufferFromDevice(const char *device) {
     // locking not needed because all data buffer instances are created before someone can use them
-    std::map<const char*, mrmDataBuffer*>::const_iterator it=data_buffers->find(device);
-    if(it==data_buffers->end())
-        return NULL;
-    return it->second;
+
+    if(data_buffers.count(device)){
+        return data_buffers[device];
+    }
+
+    return NULL;
 }
 
 void mrmDataBuffer::printBinary(const char *preface, epicsUInt32 n) {

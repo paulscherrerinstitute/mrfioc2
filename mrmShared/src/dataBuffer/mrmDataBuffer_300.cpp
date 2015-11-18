@@ -30,15 +30,15 @@ bool mrmDataBuffer_300::send(epicsUInt8 startSegment, epicsUInt16 length, epicsU
     }
 
     if (length + offset > DataBuffer_len_max) {
-        dataBuffer_debug(1, "Too much data to send from offset %d (%d bytes). ", offset, length);
+        dbgPrintf(1, "Too much data to send from offset %d (%d bytes). ", offset, length);
         length = DataBuffer_len_max - offset;
-        dataBuffer_debug(1, "Sending only %d bytes!\n", length);
+        dbgPrintf(1, "Sending only %d bytes!\n", length);
     }
 
     if (length % 4 != 0) {
-        dataBuffer_debug(1, "Data length (%d) is not a multiple of 4, cropping to", length);
+        dbgPrintf(1, "Data length (%d) is not a multiple of 4, cropping to", length);
         length &= DataTxCtrl_len_mask;
-        dataBuffer_debug(1, " %d\n", length);
+        dbgPrintf(1, " %d\n", length);
     }
 
     /* TODO: Check if delay compensation is active? Does it affect length? Will see when data buffer HW is fixed...*/
@@ -51,7 +51,7 @@ bool mrmDataBuffer_300::send(epicsUInt8 startSegment, epicsUInt16 length, epicsU
 
     length += startSegment * DataBuffer_segment_length;   // This is for 230 series. Segmented data buffer doesn't use length anyway...
     //setTxLength(&startSegment, &length);    // This function can be overriden to calculate different length (used for non-segmented implementation)
-    dataBuffer_debug(1, "Triggering transmision: 0x%x => ", (epicsUInt32)length|DataTxCtrl_trig|((epicsUInt32)startSegment << DataTxCtrl_saddr_shift));
+    dbgPrintf(1, "Triggering transmision: 0x%x => ", (epicsUInt32)length|DataTxCtrl_trig|((epicsUInt32)startSegment << DataTxCtrl_saddr_shift));
 
     reg = nat_ioread32(base+ctrlRegTx);
     reg &= ~(DataTxCtrl_len_mask); //clear length
@@ -59,7 +59,7 @@ bool mrmDataBuffer_300::send(epicsUInt8 startSegment, epicsUInt16 length, epicsU
     reg |= (epicsUInt32)length|DataTxCtrl_trig|((epicsUInt32)startSegment << DataTxCtrl_saddr_shift); // set length and segment addres and trigger sending.
     nat_iowrite32(base+ctrlRegTx, reg);
 
-    dataBuffer_debug(1, "0x%x\n", nat_ioread32(base+ctrlRegTx));
+    dbgPrintf(1, "0x%x\n", nat_ioread32(base+ctrlRegTx));
 
     return true;
 
@@ -101,7 +101,7 @@ void mrmDataBuffer_300::receive()
          * For this reason we always read entire buffer.
          **/
         segment = 0;
-        length = 0;
+        length = DataBuffer_len_max;
 
         if (checksumError() != 0) { // TODO when is global / segment checksum error bit set??
             memcpy((epicsUInt8 *)(base+DataBufferFlags_rx), m_rx_flags, 16);        // clear Rx flags for the data we have just received
@@ -111,13 +111,13 @@ void mrmDataBuffer_300::receive()
 
         overflowOccured();
 
-        dataBuffer_debug(1, "Rx segment+len: %d + %d\n", segment, length);
+        dbgPrintf(1, "Rx segment+len: %d + %d\n", segment, length);
 
         // Dispatch the buffer to users
         if(m_users.size() > 0) {
             memcpy(&m_rx_buff[segment*DataBuffer_segment_length], (epicsUInt8 *)(base + dataRegRx + segment*DataBuffer_segment_length), length);    // copy the data to local buffer
 
-            if(drvMrfiocDataBufferDebug){
+            if(mrfioc2_dataBufferDebug){
                 for(i=segment*DataBuffer_segment_length; i<length+segment*DataBuffer_segment_length; i++) {
                     if(!(i%16)) printf(" | ");
                     else if(!(i%4)) printf(", ");

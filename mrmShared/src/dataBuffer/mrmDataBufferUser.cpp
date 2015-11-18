@@ -29,7 +29,7 @@ mrmDataBufferUser::mrmDataBufferUser() {
 }
 
 epicsUInt8 mrmDataBufferUser::init(const char* deviceName, size_t userOffset, bool strictMode, unsigned int userUpdateThreadPriority) {
-    if (m_data_buffer == NULL) {
+    if (m_data_buffer != NULL) {
         errlogPrintf("Data buffer for %s already initialized.\n", deviceName);
         return 1;
     }
@@ -129,9 +129,9 @@ size_t mrmDataBufferUser::registerInterest(size_t offset, size_t length, dataBuf
     }
 
     if(offset + length > DataBuffer_len_max) {
-        dataBuffer_debug(1, "Trying to register %zu bytes on offset %zu, which is longer than buffer size (%d). ", length, offset, DataBuffer_len_max);
+        dbgPrintf(1, "Trying to register %zu bytes on offset %zu, which is longer than buffer size (%d). ", length, offset, DataBuffer_len_max);
         length = DataBuffer_len_max - offset;
-        dataBuffer_debug(1, "Cropped length to %zu\n", length);
+        dbgPrintf(1, "Cropped length to %zu\n", length);
     }  
 
 
@@ -215,9 +215,9 @@ void mrmDataBufferUser::put(size_t offset, size_t length, void *buffer) {
     }
 
     if(offset + length > DataBuffer_len_max) {
-        dataBuffer_debug(1, "Too much data to send from offset %zu (%zu bytes). ", offset, length);
+        dbgPrintf(1, "Too much data to send from offset %zu (%zu bytes). ", offset, length);
         length = DataBuffer_len_max - offset;
-        dataBuffer_debug(1, "Cropped length to %zu\n", length);
+        dbgPrintf(1, "Cropped length to %zu\n", length);
     }
 
     segment = (epicsUInt16)(offset / DataBuffer_segment_length);
@@ -249,9 +249,9 @@ void mrmDataBufferUser::get(size_t offset, size_t length, void *buffer) {
     }
 
     if(offset + length > DataBuffer_len_max) {
-        dataBuffer_debug(1, "Too much data to receive from offset %zu (%zu bytes). ", offset, length);
+        dbgPrintf(1, "Too much data to receive from offset %zu (%zu bytes). ", offset, length);
         length = DataBuffer_len_max - offset;
-        dataBuffer_debug(1, "Cropped length to %zu\n", length);
+        dbgPrintf(1, "Cropped length to %zu\n", length);
     }
 
 
@@ -331,7 +331,7 @@ void mrmDataBufferUser::updateSegment(epicsUInt16 segment, epicsUInt8 *data, epi
     }
 
     for (i=0; i<4; i++) {
-        m_rx_segments[i] |= segmentsReceived[i];   // Set segment received flags
+        m_rx_segments[i] |= segmentsReceived[i] & m_segments_interested[i];   // Set segment received flags. We only care for segments someone is interested in.
     }
 
     // Copy received segment(s) to local buffer. If the the tryLock fails, the buffer is out of sync...
@@ -372,7 +372,7 @@ void mrmDataBufferUser::userUpdateThread(void* args) {
                         length += DataBuffer_segment_length;    // user is interested in this segment, so increase the length
                     }
                     else if (length > 0) {
-                        userCallback->fptr(startOffset, length, userCallback->pvt); // call the function that the user registered
+                        userCallback->fptr(startOffset-parent->m_user_offset, length, userCallback->pvt); // call the function that the user registered
                         length = 0;
                     }
                     segments <<= 1;
@@ -385,7 +385,7 @@ void mrmDataBufferUser::userUpdateThread(void* args) {
                 if (startOffset * DataBuffer_segment_length + length > DataBuffer_len_max) {
                     length = (length - 1) & DataBuffer_len_max; // Length of the entire buffer is greater than max length that can be send (because of the 4 byte increment). This means that the last segment is actually smaller than 16 bytes. Trim the length...
                 }
-                userCallback->fptr(startOffset, length, userCallback->pvt); // call the function that the user registered
+                userCallback->fptr(startOffset-parent->m_user_offset, length, userCallback->pvt); // call the function that the user registered
             }
 
             length = 0;

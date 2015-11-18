@@ -30,15 +30,15 @@ bool mrmDataBuffer_230::send(epicsUInt8 startSegment, epicsUInt16 length, epicsU
     }
 
     if (length + offset > DataBuffer_len_max) {
-        dataBuffer_debug(1, "Too much data to send from offset %d (%d bytes). ", offset, length);
+        dbgPrintf(1, "Too much data to send from offset %d (%d bytes). ", offset, length);
         length = DataBuffer_len_max - offset;
-        dataBuffer_debug(1, "Sending only %d bytes!\n", length);
+        dbgPrintf(1, "Sending only %d bytes!\n", length);
     }
 
     if (length % 4 != 0) {
-        dataBuffer_debug(1, "Data length (%d) is not a multiple of 4, cropping to", length);
+        dbgPrintf(1, "Data length (%d) is not a multiple of 4, cropping to", length);
         length &= DataTxCtrl_len_mask;
-        dataBuffer_debug(1, " %d\n", length);
+        dbgPrintf(1, " %d\n", length);
     }
 
     /* Send data */
@@ -47,14 +47,14 @@ bool mrmDataBuffer_230::send(epicsUInt8 startSegment, epicsUInt16 length, epicsU
     memcpy((epicsUInt8 *)(dataRegTx+base+offset), data, length);
 
     length += startSegment * DataBuffer_segment_length;
-    dataBuffer_debug(1, "Triggering transmision: 0x%x => ", (epicsUInt32)length|DataTxCtrl_trig);
+    dbgPrintf(1, "Triggering transmision: 0x%x => ", (epicsUInt32)length|DataTxCtrl_trig);
 
     reg = nat_ioread32(base+ctrlRegTx);
     reg &= ~(DataTxCtrl_len_mask); //clear length
     reg |= (epicsUInt32)length|DataTxCtrl_trig; // set length and trigger sending.
     nat_iowrite32(base+ctrlRegTx, reg);
 
-    dataBuffer_debug(1, "0x%x\n", nat_ioread32(base+ctrlRegTx));
+    dbgPrintf(1, "0x%x\n", nat_ioread32(base+ctrlRegTx));
 
     return true;
 }
@@ -72,13 +72,13 @@ void mrmDataBuffer_230::receive() {
     else {
         length = sts & DataRxCtrl_len_mask;
 
-        dataBuffer_debug(1, "Rx len: %d\n", length);
+        dbgPrintf(1, "Rx len: %d\n", length);
 
         // Dispatch the buffer to users
         if(m_users.size() > 0) {
             memcpy(&m_rx_buff[0], (epicsUInt8 *)(base + dataRegRx), length);    // copy the data to local buffer
 
-            if(drvMrfiocDataBufferDebug){
+            if(mrfioc2_dataBufferDebug){
                 for(i=0; i<length; i++) {
                     if(!(i%16)) printf(" | ");
                     else if(!(i%4)) printf(", ");
