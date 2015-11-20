@@ -1,23 +1,14 @@
+#include <string.h>     // for memcpy
+#include <stdio.h>
+
 #include <errlog.h>
-#include <epicsExport.h>
 #include <epicsGuard.h>
 
-#include "../../evgMrmApp/src/evgMrm.h"
-#include "../../evrMrmApp/src/evrMrm.h"
-
 #include "mrmShared.h"
+#include "mrmDataBuffer.h"
+
+#include <epicsExport.h>
 #include "mrmDataBufferUser.h"
-
-int drvMrfiocDataBufferUserDebug = 1;
-epicsExportAddress(int, drvMrfiocDataBufferUserDebug);
-
-#if defined __GNUC__ && __GNUC__ < 3
-#define dbgPrintf(args...)  if(drvMrfiocDataBufferUserDebug) printf(args);
-#else
-#define dbgPrintf(...)  if(drvMrfiocDataBufferUserDebug) printf(__VA_ARGS__);
-#endif
-
-
 
 
 mrmDataBufferUser::mrmDataBufferUser() {
@@ -33,51 +24,50 @@ mrmDataBufferUser::mrmDataBufferUser() {
     memset(m_tx_buff, 0, 2048);// TODO make define here
 
     m_data_buffer = NULL;
+    m_user_offset = 0;
+    m_strict_mode = false;
 }
 
-epicsUInt8 mrmDataBufferUser::init(const char* deviceName) {
-    m_data_buffer = getDataBufferFromDevice(deviceName);
+bool mrmDataBufferUser::init(const char* deviceName, size_t userOffset, bool strictMode, unsigned int userUpdateThreadPriority) {
+    if (m_data_buffer != NULL) {
+        errlogPrintf("Data buffer for %s already initialized.\n", deviceName);
+        return false;
+    }
+    m_data_buffer = mrmDataBuffer::getDataBufferFromDevice(deviceName);
     if(m_data_buffer == NULL) {
         errlogPrintf("Data buffer for %s not found.\n", deviceName);
-        return 1;
+        return false;
     }
+
+    if (userOffset > DataBuffer_len_max) {
+        userOffset = DataBuffer_len_max;
+        epicsPrintf("User offset too big. Setting to max value: %d", DataBuffer_len_max);
+    }
+    m_user_offset = userOffset;
+    m_strict_mode = strictMode;
 
     if (m_data_buffer->supportsRx()) {
         m_thread_sync = epicsEventCreate(epicsEventEmpty);
         m_thread_stopped = epicsEventCreate(epicsEventEmpty);
         if (!m_thread_sync | !m_thread_stopped) {
             errlogPrintf("Unable to create semaphore for %s.\n", deviceName);
-            return 2;
+            return false;
         }
         m_thread_stop = false;
         m_thread_id = epicsThreadCreate("MRF DBUFF UPDATE"
-                                        ,epicsThreadPriorityLow    // TODO expose to user
+                                        ,userUpdateThreadPriority
                                         ,epicsThreadGetStackSize(epicsThreadStackMedium)
                                         ,&mrmDataBufferUser::userUpdateThread
                                         ,this);
         if(!m_thread_id) {
             errlogPrintf("Unable to create data buffer Rx update thread for %s.\n", deviceName);
-            return 3;
+            return false;
         }
 
         m_data_buffer->registerUser(this);
     }
 
-    return 0;
-}
-
-mrmDataBuffer* mrmDataBufferUser::getDataBufferFromDevice(const char *device) {
-    evgMrm* evg = dynamic_cast<evgMrm*>(mrf::Object::getObject(device));
-    if(evg){
-        return evg->getDataBuffer();
-    } else {
-        EVRMRM* evr = dynamic_cast<EVRMRM*>(mrf::Object::getObject(device));
-        if(evr){
-            return evr->getDataBuffer();
-        }
-    }
-
-    return NULL;
+    return true;
 }
 
 mrmDataBufferUser::~mrmDataBufferUser()
@@ -111,6 +101,11 @@ size_t mrmDataBufferUser::registerInterest(size_t offset, size_t length, dataBuf
 
     epicsGuard<epicsMutex> g(m_rx_lock);
 
+    if (m_data_buffer == NULL) {
+        errlogPrintf("Data buffer not initialized. Did you call init() function?\n");
+        return 0;
+    }
+
     /* Check input arguments */
     if(length <= 0) {
         errlogPrintf("Invalid length %zu provided. Offset + length should be in interval [1, %d].\n", length, DataBuffer_len_max-1);
@@ -122,15 +117,16 @@ size_t mrmDataBufferUser::registerInterest(size_t offset, size_t length, dataBuf
         return 0;
     }
 
+    offset += m_user_offset;
     if (offset >= DataBuffer_len_max) {
         errlogPrintf("Trying to register on offset %zu, which is out of range (max offset: %d).\n", offset, DataBuffer_len_max-1);
         return 0;
     }
 
     if(offset + length > DataBuffer_len_max) {
-        dbgPrintf("Trying to register %zu bytes on offset %zu, which is longer than buffer size (%d). ", length, offset, DataBuffer_len_max);
+        dbgPrintf(1, "Trying to register %zu bytes on offset %zu, which is longer than buffer size (%d). ", length, offset, DataBuffer_len_max);
         length = DataBuffer_len_max - offset;
-        dbgPrintf("Cropped length to %zu\n", length);
+        dbgPrintf(1, "Cropped length to %zu\n", length);
     }  
 
 
@@ -149,28 +145,37 @@ size_t mrmDataBufferUser::registerInterest(size_t offset, size_t length, dataBuf
     cb->pvt = pvt;
     cb->id = id;
 
-    segment = offset / DataBuffer_segment_length;
-    segmentOffset = offset - segment * DataBuffer_segment_length;
-    noOfSegmentsUpdated = ((length - 1 + segmentOffset) / DataBuffer_segment_length) + 1;
+    for (i=0; i<4; i++) {
+        cb->segments[i] = 0;
+    }
+
+    segment = (epicsUInt16)(offset / DataBuffer_segment_length);
+    segmentOffset = (epicsUInt16)(offset - segment * DataBuffer_segment_length);
+    noOfSegmentsUpdated = (epicsUInt16)(((length - 1 + segmentOffset) / DataBuffer_segment_length) + 1);
 
     // Mark which segments were updated
     for(i=segment; i<segment+noOfSegmentsUpdated; i++){
-        cb->segments[i / 32] |= 0x80000000 >> i % 32;
+        cb->segments[i / 32] |= 0x80000000 >> (i % 32);
         m_segments_interested[i / 32] |= cb->segments[i / 32];  // mark segment interest in global segment mask
     }
 
     m_rx_callbacks.push_back(cb);
 
-    m_data_buffer->setInterest(this, m_segments_interested);    // TODO check if (m_data_buffer != NULL) at the start
+    m_data_buffer->setInterest(this, m_segments_interested);
 
     return id;
 }
 
-void mrmDataBufferUser::removeInterest(size_t id) {
+bool mrmDataBufferUser::removeInterest(size_t id) {
     size_t i;
     epicsUInt16 j;
 
     epicsGuard<epicsMutex> g(m_rx_lock);
+
+    if (m_data_buffer != NULL) {
+        errlogPrintf("Data buffer not initialized. Did you call init() function?\n");
+        return false;
+    }
 
     if(id > 0) {   // are we in range?
         for (j=0; j<4; j++) {
@@ -188,47 +193,76 @@ void mrmDataBufferUser::removeInterest(size_t id) {
             }
 
         }
-        m_data_buffer->setInterest(this, m_segments_interested);    // TODO check if (m_data_buffer != NULL) at the start
+        m_data_buffer->setInterest(this, m_segments_interested);
     } else {
         RxCallback * cb = m_rx_callbacks.back();
         if(cb == NULL) errlogPrintf("No registered callbacks exist. Cannot remove...\n");
         else errlogPrintf("Invalid registered interest ID (%zu). Valid IDs are in range [1, %zu]\n", id, cb->id);
+        return false;
     }
+
+    return true;
+}
+
+epicsUInt8 *mrmDataBufferUser::requestTxBuffer() {
+    m_tx_lock.lock();
+
+    return &m_tx_buff[m_user_offset];
+}
+
+void mrmDataBufferUser::releaseTxBuffer(size_t offset, size_t length) {
+    epicsUInt16 segment, i, noOfSegmentsUpdated, segmentOffset;
+
+    offset += m_user_offset;
+    segment = (epicsUInt16)(offset / DataBuffer_segment_length);
+    segmentOffset = (epicsUInt16)(offset - segment * DataBuffer_segment_length);
+    noOfSegmentsUpdated = (epicsUInt16)(((length - 1 + segmentOffset) / DataBuffer_segment_length) + 1);
+
+    // Mark which segments were updated
+    for(i=segment; i<segment+noOfSegmentsUpdated; i++){
+        m_tx_segments[i / 32] |= 0x80000000 >> i % 32;
+    }
+
+    m_tx_lock.unlock();
 }
 
 void mrmDataBufferUser::put(size_t offset, size_t length, void *buffer) {
-    epicsUInt16 segment, i, noOfSegmentsUpdated, segmentOffset;;
-
-    epicsGuard<epicsMutex> g(m_tx_lock);
-
     /* Check input arguments */
     if(length <= 0) {
         errlogPrintf("Invalid length %zu provided. Offset + length should be in interval [1, %d].\n", length, DataBuffer_len_max-1);
         return;
     }
 
+    offset += m_user_offset;
     if (offset >= DataBuffer_len_max) {
-        errlogPrintf("Trying to send on offset %zu, which is out of range (max offset: %d).\n", offset, DataBuffer_len_max-1);
+        errlogPrintf("Trying to transfer on offset %zu, which is out of range (max offset: %d).\n", offset, DataBuffer_len_max-1);
         return;
     }
 
     if(offset + length > DataBuffer_len_max) {
-        dbgPrintf("Too much data to send from offset %zu (%zu bytes). ", offset, length);
+        dbgPrintf(1, "Too much data to transfer on offset %zu (%zu bytes). ", offset, length);
         length = DataBuffer_len_max - offset;
-        dbgPrintf("Cropped length to %zu\n", length);
+        dbgPrintf(1, "Cropped length to %zu\n", length);
     }
 
-    segment = offset / DataBuffer_segment_length;
-    segmentOffset = offset - segment * DataBuffer_segment_length;
-    noOfSegmentsUpdated = ((length - 1 + segmentOffset) / DataBuffer_segment_length) + 1;
+    m_tx_lock.lock();
 
     // Update buffer at the offset segment
     memcpy(&m_tx_buff[offset], buffer, length);
 
-    // Mark which segments were updated
-    for(i=segment; i<segment+noOfSegmentsUpdated; i++){
-        m_tx_segments[i / 32] |= 0x80000000 >> i % 32;
-    }
+    releaseTxBuffer(offset-m_user_offset, length);
+}
+
+
+epicsUInt8 *mrmDataBufferUser::requestRxBuffer() {
+    m_rx_lock.lock();
+
+    return &m_rx_buff[m_user_offset];
+}
+
+void mrmDataBufferUser::releaseRxBuffer()
+{
+    m_rx_lock.unlock();
 }
 
 void mrmDataBufferUser::get(size_t offset, size_t length, void *buffer) {
@@ -240,17 +274,17 @@ void mrmDataBufferUser::get(size_t offset, size_t length, void *buffer) {
         return;
     }
 
+    offset += m_user_offset;
     if (offset >= DataBuffer_len_max) {
         errlogPrintf("Trying to receive from offset %zu, which is out of range (max offset: %d).\n", offset, DataBuffer_len_max-1);
         return;
     }
 
     if(offset + length > DataBuffer_len_max) {
-        dbgPrintf("Too much data to receive from offset %zu (%zu bytes). ", offset, length);
+        dbgPrintf(1, "Too much data to receive from offset %zu (%zu bytes). ", offset, length);
         length = DataBuffer_len_max - offset;
-        dbgPrintf("Cropped length to %zu\n", length);
+        dbgPrintf(1, "Cropped length to %zu\n", length);
     }
-
 
     // Copy from offset to user buffer
     memcpy(buffer, &m_rx_buff[offset], length);
@@ -307,37 +341,38 @@ bool mrmDataBufferUser::send(bool wait)
 void mrmDataBufferUser::updateSegment(epicsUInt16 segment, epicsUInt8 *data, epicsUInt16 length) {
     epicsUInt32 segmentMask, segmentsReceived[4]={0, 0, 0, 0};
     epicsUInt32 i;
-    epicsUInt8 noOfSegmentsUpdated;
+    epicsUInt16 noOfSegmentsUpdated;
 
-    // TODO give user option to use lock/try lock here
-    if (m_rx_lock.tryLock()) {  // can throw exception, user should decide how to handle it...
-
-        noOfSegmentsUpdated = ((length - 1) / DataBuffer_segment_length) + 1;
-        for(i=segment; i<segment+noOfSegmentsUpdated; i++){ // detect overflow
-            segmentMask = (0x80000000 >> (i % 32));
-            if (m_rx_segments[i / 32] & segmentMask) {
-                errlogPrintf("SW overflow occured for segment %d. Discarding data buffer update\n", i);
-                m_rx_lock.unlock();
-                return;
-            }
-            segmentsReceived[i / 32] |= segmentMask;   // Mark segment as received
-        }
-
-        for (i=0; i<4; i++) {
-            m_rx_segments[i] |= segmentsReceived[i];   // Set segment received flags
-        }
-
-        // Copy received segment(s) to local buffer. If the the tryLock fails, the buffer is out of sync...
-        memcpy(&m_rx_buff[segment*DataBuffer_segment_length], &data[segment*DataBuffer_segment_length], length);
-
-        m_rx_lock.unlock();
-
-        // Wake up thread for updating user data, if semaphore is valid.
-        if (m_thread_sync) {
-            epicsEventSignal(m_thread_sync);
-        }
-    } else {
+    if(m_strict_mode) {
+        m_rx_lock.lock();
+    } else if (!m_rx_lock.tryLock()) {  // can throw exception, user should decide how to handle it...
         errlogPrintf("Loosing data: Could not acquire exclusive access to the buffer. User operations on the buffer take too long?\n");
+        return;
+    }
+
+    noOfSegmentsUpdated = ((length - 1) / DataBuffer_segment_length) + 1;
+    for(i=segment; i<(epicsUInt32)(segment+noOfSegmentsUpdated); i++){ // detect overflow
+        segmentMask = (0x80000000 >> (i % 32));
+        if (m_rx_segments[i / 32] & segmentMask) {
+            errlogPrintf("SW overflow occured for segment %d. Discarding data buffer update\n", i);
+            m_rx_lock.unlock();
+            return;
+        }
+        segmentsReceived[i / 32] |= segmentMask;   // Mark segment as received
+    }
+
+    for (i=0; i<4; i++) {
+        m_rx_segments[i] |= segmentsReceived[i] & m_segments_interested[i];   // Set segment received flags. We only care for segments someone is interested in.
+    }
+
+    // Copy received segment(s) to local buffer. If the the tryLock fails, the buffer is out of sync...
+    memcpy(&m_rx_buff[segment*DataBuffer_segment_length], &data[segment*DataBuffer_segment_length], length);
+
+    m_rx_lock.unlock();
+
+    // Wake up thread for updating user data, if semaphore is valid.
+    if (m_thread_sync) {
+        epicsEventSignal(m_thread_sync);
     }
 }
 
@@ -368,7 +403,7 @@ void mrmDataBufferUser::userUpdateThread(void* args) {
                         length += DataBuffer_segment_length;    // user is interested in this segment, so increase the length
                     }
                     else if (length > 0) {
-                        userCallback->fptr(startOffset, length, userCallback->pvt); // call the function that the user registered
+                        userCallback->fptr(startOffset-parent->m_user_offset, length, userCallback->pvt); // call the function that the user registered
                         length = 0;
                     }
                     segments <<= 1;
@@ -381,7 +416,7 @@ void mrmDataBufferUser::userUpdateThread(void* args) {
                 if (startOffset * DataBuffer_segment_length + length > DataBuffer_len_max) {
                     length = (length - 1) & DataBuffer_len_max; // Length of the entire buffer is greater than max length that can be send (because of the 4 byte increment). This means that the last segment is actually smaller than 16 bytes. Trim the length...
                 }
-                userCallback->fptr(startOffset, length, userCallback->pvt); // call the function that the user registered
+                userCallback->fptr(startOffset-parent->m_user_offset, length, userCallback->pvt); // call the function that the user registered
             }
 
             length = 0;
@@ -407,4 +442,9 @@ bool mrmDataBufferUser::supportsRx() {
 bool mrmDataBufferUser::supportsTx() {
     if(m_data_buffer != NULL) return m_data_buffer->supportsTx();
     return false;
+}
+
+size_t mrmDataBufferUser::getMaxLength()
+{
+    return DataBuffer_len_max - m_user_offset;
 }

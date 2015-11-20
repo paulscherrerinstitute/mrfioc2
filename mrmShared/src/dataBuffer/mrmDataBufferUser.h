@@ -1,5 +1,5 @@
-#ifndef MRMm_data_bufferUSER_H
-#define MRMm_data_bufferUSER_H
+#ifndef MRMDATABUFFERUSER_H
+#define MRMDATABUFFERUSER_H
 
 #include <vector>
 #include <epicsTypes.h>
@@ -7,7 +7,18 @@
 #include <epicsEvent.h>
 #include <epicsThread.h>
 
-#include "mrmDataBuffer.h"
+
+#ifdef _WIN32
+/**
+ * Removes warning on windows for m_rx_callbacks: needs to have dll-interface to be used by clients of class 'mrmDataBuffer'
+ * This is safe, because m_rx_callbacks is not used outside the boundary of the DLL file.
+ */
+#pragma warning( disable: 4251 )
+#endif
+
+
+
+class mrmDataBuffer;    // forward decleration in order to avoid dependancy on mrmDataBuffer.h file when using this class
 
 
 typedef void(*dataBufferRXCallback_t)(size_t updated_offset, size_t length, void* pvt);
@@ -25,17 +36,20 @@ typedef void(*dataBufferRXCallback_t)(size_t updated_offset, size_t length, void
  * Note that if users callbacks (registerd via registerInterest function) are slow (slower than updates), data will be lost!
  *
  */
-class mrmDataBufferUser {
+class epicsShareClass mrmDataBufferUser {
 public:
     mrmDataBufferUser();
     ~mrmDataBufferUser();
 
     /**
-     * @brief init will connect to the data buffer based on device name
+     * @brief init will connect to the data buffer based on device name. Throws exception if it does not succeed.
      * @param deviceName is the name of the device which holds the data buffer (eg. EVR0, EVG0, ...)
-     * @return returns 0 on success
+     * @param userOffset sets m_user_offset. When not provided it defaults to 16 (size of the first segment in segmented data buffer).
+     * @param strictMode sets m_strict_mode. When not provided it defaults to false.
+     * @param userUpdateThreadPriority sets the priority at which the user update thread will run. Defaults to epicsThreadPriorityLow.
+     * @return true on success, false otherwise
      */
-    epicsUInt8 init(const char *deviceName);
+    bool init(const char* deviceName, size_t userOffset = 16, bool strictMode = false, unsigned int userUpdateThreadPriority = epicsThreadPriorityLow);
 
     /**
      * @brief registerInterest Register callback for part (or whole) data buffer.
@@ -50,8 +64,9 @@ public:
     /**
      * @brief removeInterest Remove previously registred interest
      * @param id is the ID of the previously registered interest
+     * @return true on success, false otherwise
      */
-    void removeInterest(size_t id);
+    bool removeInterest(size_t id);
 
     /**
      * @brief put data to buffer, but do not send it yet
@@ -98,7 +113,35 @@ public:
      */
     bool supportsTx();
 
+    /**
+     * @brief getMaxLength Returns the maximum length of the buffer based on user offset.
+     * @return the capacity of the data buffer
+     */
+    size_t getMaxLength();
 
+    /**
+     * @brief requestTxBuffer opens direct access to the underlying transmit buffer. Great care must be taken when using this function, since it locks the buffer transmission until releaseTxBuffer() is called. User must also make sure that the offset and length to be written to are inside the allowed buffer boundaries.
+     * @return a pointer to the start + user offset of the underlying transmit buffer.
+     */
+    epicsUInt8* requestTxBuffer();
+
+    /**
+     * @brief releaseTxBuffer closes the access to the underlying transmit buffer, thus releasing it to other users. It also marks the data to be send out based on the provided offset and length.
+     * @param offset is the starting offset where the data was written.
+     * @param length is the length of the written data.
+     */
+    void releaseTxBuffer(size_t offset, size_t length);
+
+    /**
+     * @brief requestRxBuffer opens direct access to the inderlying receive buffer. Great care must be taken when using this function, since it locks the buffer reception until releaseRxBuffer() is called. User must also make sure that the offset and length to be read from are inside the allowed buffer boundaries.
+     * @return a pointer to the start + user offset of the underlying receive buffer.
+     */
+    epicsUInt8* requestRxBuffer();
+
+    /**
+     * @brief releaseRxBuffer closes the access to the underlying receive buffer, thus releasing it to other users and to data buffer reception.
+     */
+    void releaseRxBuffer();
 private:
     epicsUInt8 m_rx_buff[2048];    // A copy of the received data
     epicsUInt8 m_tx_buff[2048];    // A copy of the data to be send out
@@ -124,7 +167,10 @@ private:
         void* pvt;                              // callback private
     };
     std::vector<RxCallback*> m_rx_callbacks;    // a list of registered users and their segments of interest (offset + length)
-    epicsUInt32 m_segments_interested[4];          // global segment mask in which users are interested in
+    epicsUInt32 m_segments_interested[4];       // global segment mask in which users are interested in
+
+    size_t m_user_offset;                       // user offset + offset of the calling function determine the actuall data buffer offset.
+    bool m_strict_mode;                         // When in strict mode, updateSegment function uses 'lock' instead of 'tryLock'. When using strict mode, sser must ensure that the buffer operations are fast and non-blocking, sice they affect all users.
 
 
     /**
@@ -132,13 +178,6 @@ private:
      * @param args are the arguments passed to the thread
      */
     static void userUpdateThread(void *args);
-
-    /**
-     * @brief getDataBufferFromDevice searches for the data buffer instance in a specified device instance (eg. EVR0, EVG0, ...)
-     * @param device is the device name to search for
-     * @return A pointer to the underlying data buffer class, or NULL if not found
-     */
-    mrmDataBuffer *getDataBufferFromDevice(const char *device);
 };
 
-#endif // MRMm_data_bufferUSER_H
+#endif // MRMDATABUFFERUSER_H

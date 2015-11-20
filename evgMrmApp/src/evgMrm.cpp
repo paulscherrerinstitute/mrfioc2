@@ -1,4 +1,3 @@
-#include "evgMrm.h"
 
 #include <iostream>
 #include <sstream>
@@ -22,13 +21,12 @@
 #include <mrfCommon.h> 
 #include "evgRegMap.h"
 
-
-#include "dataBuffer/mrmDataBuffer.h"
-#include "dataBuffer/mrmNonSegmentedDataBuffer.h"
-
 #ifdef __rtems__
 #include <rtems/bspIo.h>
 #endif //__rtems__
+
+#include "evgMrm.h"
+
 
 #define evgAllowedTsGitter 0.5f
 
@@ -147,11 +145,10 @@ evgMrm::evgMrm(const std::string& id, bus_configuration& busConfig, volatile epi
             m_fct = 0;
         }
 
-        // TODO: use define?
         if(version < MIN_FW_SEGMENTED_DBUFF){
-            m_dataBuffer = new mrmNonSegmentedDataBuffer(pReg, U32_DataTxCtrlEvg, 0, U8_DataTxBaseEvg, 0);
+            m_dataBuffer = new mrmDataBuffer_230(id.c_str(), pReg, U32_DataTxCtrlEvg, 0, U8_DataTxBaseEvg, 0);
         } else {
-            m_dataBuffer = new mrmDataBuffer(pReg, U32_DataTxCtrlEvg, 0, U8_DataTxBaseEvg, 0);
+            m_dataBuffer = new mrmDataBuffer_300(id.c_str(), pReg, U32_DataTxCtrlEvg, 0, U8_DataTxBaseEvg, 0);
         }
     
         /*
