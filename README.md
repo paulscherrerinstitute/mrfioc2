@@ -38,7 +38,6 @@ The mrfioc2 driver is structured as an ordinary EPICS application. In order to b
 * update files in `mrfioc2/configure` folder to match your system, and to include additional libraries to be build together with the driver (eg. set paths in `configure/RELEASE`).
 * run `make -f Makefile` in the `mrfioc2` folder.
 
-Note, that current version does not build on Windows system, due to unresolved external dependancy issue.
 
 Outputs of the build command are:
 
