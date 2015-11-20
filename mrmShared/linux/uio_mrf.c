@@ -228,11 +228,19 @@ mrf_handler_plx(int irq, struct uio_info *info)
         }
 
         // Clear interrupts on FPGA
+//        if(end) {
+//            iowrite32be(val & (~IRQ_PCIee), plx + IRQEnable);
+//        } else {
+//            iowrite32(val & (~IRQ_PCIee), plx + IRQEnable);
+//        }
+
+        //Disable IRQ
         if(end) {
-            iowrite32be(val & (~IRQ_PCIee), plx + IRQEnable);
+            iowrite8(0,plx+0x0c);
         } else {
-            iowrite32(val & (~IRQ_PCIee), plx + IRQEnable);
+            iowrite8(0,plx+0x0f);
         }
+
 
         // Check if clear succeded
         wmb();
@@ -298,7 +306,6 @@ int mrf_irqcontrol(struct uio_info *info, s32 onoff)
 
         iowrite32(val, plx + INTCSR);
 
-        priv->irqmode = 1;
         break;
 
     case PCI_DEVICE_ID_PLX_9056:
@@ -343,10 +350,16 @@ int mrf_irqcontrol(struct uio_info *info, s32 onoff)
         }
 
         // Write the register back
+//        if(end) {
+//            iowrite32be(val, plx + IRQEnable);
+//        } else {
+//            iowrite32(val, plx + IRQEnable);
+//        }
+
         if(end) {
-            iowrite32be(val, plx + IRQEnable);
+            iowrite8(0xff,plx+0x0c);
         } else {
-            iowrite32(val, plx + IRQEnable);
+            iowrite8(0xff,plx+0x0f);
         }
 
         break;
