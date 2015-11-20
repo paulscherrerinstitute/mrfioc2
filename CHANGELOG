@@ -1,3 +1,6 @@
+2.7.3 Fri 20 Nov 2015 14:34:42 CETL
+	- Fixed the race condition present in PCIe form factors
+
 
 2.7.2 Fri 20 Nov 2015 08:44:00 CET: 
 
