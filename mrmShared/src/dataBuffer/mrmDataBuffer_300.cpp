@@ -98,10 +98,11 @@ void mrmDataBuffer_300::receive()
          * - send data on segment 2
          * - enable IRQ
          * - length reported will be for last received segment == segment 2. We do not know the length of data that was previously received on segment 6
-         * For this reason we always read entire buffer.
+         * For this reason we should always read entire buffer.
+         * To improve preformance we instead calculate the max length based on the registered interest. The rest is rubbish to us anyway.
          **/
         segment = 0;
-        length = DataBuffer_len_max;
+        length = m_max_length;
 
         if (checksumError() != 0) { // TODO when is global / segment checksum error bit set??
             memcpy((epicsUInt8 *)(base+DataBufferFlags_rx), m_rx_flags, 16);        // clear Rx flags for the data we have just received
@@ -121,7 +122,7 @@ void mrmDataBuffer_300::receive()
                 for(i=segment*DataBuffer_segment_length; i<length+segment*DataBuffer_segment_length; i++) {
                     if(!(i%16)) printf(" | ");
                     else if(!(i%4)) printf(", ");
-                    printf("%d ", m_rx_buff[i]);
+                    epicsPrintf("%d ", m_rx_buff[i]);
                 }
                 printf("\n");
             }

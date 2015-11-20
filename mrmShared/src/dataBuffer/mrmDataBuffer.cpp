@@ -187,6 +187,9 @@ void mrmDataBuffer::removeUser(mrmDataBufferUser *user)
         }
 
     }
+
+    calcMaxInterestedLength();
+
     memcpy((epicsUInt8 *)(base+DataBuffer_SegmentIRQ), m_irq_flags, 16);    // set which segments will trigger interrupt when data is received
 }
 
@@ -214,7 +217,9 @@ void mrmDataBuffer::setInterest(mrmDataBufferUser *user, epicsUInt32 *interest)
             }
         }
     }
-    //printFlags("set interest IRQ", (epicsUInt8 *)m_irq_flags);
+
+    calcMaxInterestedLength();
+
     memcpy((epicsUInt8 *)(base+DataBuffer_SegmentIRQ), m_irq_flags, 16);    // set which segments will trigger interrupt when data is received
 }
 
@@ -278,6 +283,31 @@ void mrmDataBuffer::printFlags(const char *preface, volatile epicsUInt8* flagReg
     printf("\n");
 }
 
+void mrmDataBuffer::calcMaxInterestedLength()
+{
+    epicsInt16 j, bits;
+    epicsUInt32 irqFlags;
+
+    for (j=3; j>=0; j--) {  // search from the end
+        irqFlags = m_irq_flags[j];
+        bits = 32;
+        while(bits && irqFlags) {   // skip if irqFlags are all 0
+            if (irqFlags & 0x1) {   // we found an irq flag == this is the furthest segment we are interested in
+                m_max_length = j * 32 * DataBuffer_segment_length + bits * DataBuffer_segment_length;
+                j = -1;   // end the for loop
+                bits = 0;  // end the while loop
+            }
+            else {  // no flag yet
+                irqFlags >>= 1;
+                bits--;
+            }
+        }
+    }
+    if (m_max_length > DataBuffer_len_max) m_max_length = DataBuffer_len_max;
+
+    dbgPrintf(1, "Fetching max %d bytes from the data buffer\n", m_max_length);
+}
+
 epicsUInt16 mrmDataBuffer::getFirstReceivedSegment() {
     epicsUInt16 firstSegment=0;
     epicsUInt8 i;
@@ -290,7 +320,6 @@ epicsUInt16 mrmDataBuffer::getFirstReceivedSegment() {
                 mask >>= 1;
                 firstSegment++;
             }
-            //firstSegmentMask[i] = mask;
             break;
         } else {    // read next 32 bits and check for Rx flag there.
             firstSegment += 32;
@@ -301,13 +330,6 @@ epicsUInt16 mrmDataBuffer::getFirstReceivedSegment() {
 }
 
 bool mrmDataBuffer::overflowOccured() {
-    /*epicsUInt8 registerOffset, segmentOffset;
-
-    registerOffset = segment / 32;
-    segmentOffset  = segment % 32; // the bit number of the segment in the register
-
-    return (m_overflows[registerOffset] & (0x80000000 >> segmentOffset)) != 0;*/
-
     bool overflow = false;
     epicsUInt16 i, segment;
 

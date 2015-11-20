@@ -42,14 +42,14 @@ public:
     ~mrmDataBufferUser();
 
     /**
-     * @brief init will connect to the data buffer based on device name
+     * @brief init will connect to the data buffer based on device name. Throws exception if it does not succeed.
      * @param deviceName is the name of the device which holds the data buffer (eg. EVR0, EVG0, ...)
      * @param userOffset sets m_user_offset. When not provided it defaults to 16 (size of the first segment in segmented data buffer).
      * @param strictMode sets m_strict_mode. When not provided it defaults to false.
      * @param userUpdateThreadPriority sets the priority at which the user update thread will run. Defaults to epicsThreadPriorityLow.
-     * @return returns 0 on success
+     * @return true on success, false otherwise
      */
-    epicsUInt8 init(const char* deviceName, size_t userOffset = 16, bool strictMode = false, unsigned int userUpdateThreadPriority = epicsThreadPriorityLow);
+    bool init(const char* deviceName, size_t userOffset = 16, bool strictMode = false, unsigned int userUpdateThreadPriority = epicsThreadPriorityLow);
 
     /**
      * @brief registerInterest Register callback for part (or whole) data buffer.
@@ -64,8 +64,9 @@ public:
     /**
      * @brief removeInterest Remove previously registred interest
      * @param id is the ID of the previously registered interest
+     * @return true on success, false otherwise
      */
-    void removeInterest(size_t id);
+    bool removeInterest(size_t id);
 
     /**
      * @brief put data to buffer, but do not send it yet
@@ -118,7 +119,29 @@ public:
      */
     size_t getMaxLength();
 
+    /**
+     * @brief requestTxBuffer opens direct access to the underlying transmit buffer. Great care must be taken when using this function, since it locks the buffer transmission until releaseTxBuffer() is called. User must also make sure that the offset and length to be written to are inside the allowed buffer boundaries.
+     * @return a pointer to the start + user offset of the underlying transmit buffer.
+     */
+    epicsUInt8* requestTxBuffer();
 
+    /**
+     * @brief releaseTxBuffer closes the access to the underlying transmit buffer, thus releasing it to other users. It also marks the data to be send out based on the provided offset and length.
+     * @param offset is the starting offset where the data was written.
+     * @param length is the length of the written data.
+     */
+    void releaseTxBuffer(size_t offset, size_t length);
+
+    /**
+     * @brief requestRxBuffer opens direct access to the inderlying receive buffer. Great care must be taken when using this function, since it locks the buffer reception until releaseRxBuffer() is called. User must also make sure that the offset and length to be read from are inside the allowed buffer boundaries.
+     * @return a pointer to the start + user offset of the underlying receive buffer.
+     */
+    epicsUInt8* requestRxBuffer();
+
+    /**
+     * @brief releaseRxBuffer closes the access to the underlying receive buffer, thus releasing it to other users and to data buffer reception.
+     */
+    void releaseRxBuffer();
 private:
     epicsUInt8 m_rx_buff[2048];    // A copy of the received data
     epicsUInt8 m_tx_buff[2048];    // A copy of the data to be send out
@@ -149,18 +172,12 @@ private:
     size_t m_user_offset;                       // user offset + offset of the calling function determine the actuall data buffer offset.
     bool m_strict_mode;                         // When in strict mode, updateSegment function uses 'lock' instead of 'tryLock'. When using strict mode, sser must ensure that the buffer operations are fast and non-blocking, sice they affect all users.
 
+
     /**
      * @brief userUpdateThread is the thread responsible for informing users (m_rx_callbacks) of new data received based on their registered interest
      * @param args are the arguments passed to the thread
      */
     static void userUpdateThread(void *args);
-
-    /**
-     * @brief getDataBufferFromDevice searches for the data buffer instance in a specified device instance (eg. EVR0, EVG0, ...)
-     * @param device is the device name to search for
-     * @return A pointer to the underlying data buffer class, or NULL if not found
-     */
-    //mrmDataBuffer *getDataBufferFromDevice(const char *device);
 };
 
 #endif // MRMDATABUFFERUSER_H

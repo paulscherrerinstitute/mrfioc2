@@ -28,17 +28,21 @@ mrmDataBufferUser::mrmDataBufferUser() {
     m_strict_mode = false;
 }
 
-epicsUInt8 mrmDataBufferUser::init(const char* deviceName, size_t userOffset, bool strictMode, unsigned int userUpdateThreadPriority) {
+bool mrmDataBufferUser::init(const char* deviceName, size_t userOffset, bool strictMode, unsigned int userUpdateThreadPriority) {
     if (m_data_buffer != NULL) {
         errlogPrintf("Data buffer for %s already initialized.\n", deviceName);
-        return 1;
+        return false;
     }
     m_data_buffer = mrmDataBuffer::getDataBufferFromDevice(deviceName);
     if(m_data_buffer == NULL) {
         errlogPrintf("Data buffer for %s not found.\n", deviceName);
-        return 1;
+        return false;
     }
 
+    if (userOffset > DataBuffer_len_max) {
+        userOffset = DataBuffer_len_max;
+        epicsPrintf("User offset too big. Setting to max value: %d", DataBuffer_len_max);
+    }
     m_user_offset = userOffset;
     m_strict_mode = strictMode;
 
@@ -47,38 +51,24 @@ epicsUInt8 mrmDataBufferUser::init(const char* deviceName, size_t userOffset, bo
         m_thread_stopped = epicsEventCreate(epicsEventEmpty);
         if (!m_thread_sync | !m_thread_stopped) {
             errlogPrintf("Unable to create semaphore for %s.\n", deviceName);
-            return 2;
+            return false;
         }
         m_thread_stop = false;
         m_thread_id = epicsThreadCreate("MRF DBUFF UPDATE"
-                                        ,userUpdateThreadPriority    // TODO expose to user
+                                        ,userUpdateThreadPriority
                                         ,epicsThreadGetStackSize(epicsThreadStackMedium)
                                         ,&mrmDataBufferUser::userUpdateThread
                                         ,this);
         if(!m_thread_id) {
             errlogPrintf("Unable to create data buffer Rx update thread for %s.\n", deviceName);
-            return 3;
+            return false;
         }
 
         m_data_buffer->registerUser(this);
     }
 
-    return 0;
+    return true;
 }
-
-/*mrmDataBuffer* mrmDataBufferUser::getDataBufferFromDevice(const char *device) {
-    evgMrm* evg = dynamic_cast<evgMrm*>(mrf::Object::getObject(device));
-    if(evg){
-        return evg->getDataBuffer();
-    } else {
-        EVRMRM* evr = dynamic_cast<EVRMRM*>(mrf::Object::getObject(device));
-        if(evr){
-            return evr->getDataBuffer();
-        }
-    }
-
-    return NULL;
-}*/
 
 mrmDataBufferUser::~mrmDataBufferUser()
 {
@@ -110,6 +100,11 @@ size_t mrmDataBufferUser::registerInterest(size_t offset, size_t length, dataBuf
     epicsUInt16 segment, i, segmentOffset, noOfSegmentsUpdated;
 
     epicsGuard<epicsMutex> g(m_rx_lock);
+
+    if (m_data_buffer == NULL) {
+        errlogPrintf("Data buffer not initialized. Did you call init() function?\n");
+        return 0;
+    }
 
     /* Check input arguments */
     if(length <= 0) {
@@ -150,28 +145,37 @@ size_t mrmDataBufferUser::registerInterest(size_t offset, size_t length, dataBuf
     cb->pvt = pvt;
     cb->id = id;
 
+    for (i=0; i<4; i++) {
+        cb->segments[i] = 0;
+    }
+
     segment = (epicsUInt16)(offset / DataBuffer_segment_length);
     segmentOffset = (epicsUInt16)(offset - segment * DataBuffer_segment_length);
     noOfSegmentsUpdated = (epicsUInt16)(((length - 1 + segmentOffset) / DataBuffer_segment_length) + 1);
 
     // Mark which segments were updated
     for(i=segment; i<segment+noOfSegmentsUpdated; i++){
-        cb->segments[i / 32] |= 0x80000000 >> i % 32;
+        cb->segments[i / 32] |= 0x80000000 >> (i % 32);
         m_segments_interested[i / 32] |= cb->segments[i / 32];  // mark segment interest in global segment mask
     }
 
     m_rx_callbacks.push_back(cb);
 
-    m_data_buffer->setInterest(this, m_segments_interested);    // TODO check if (m_data_buffer != NULL) at the start
+    m_data_buffer->setInterest(this, m_segments_interested);
 
     return id;
 }
 
-void mrmDataBufferUser::removeInterest(size_t id) {
+bool mrmDataBufferUser::removeInterest(size_t id) {
     size_t i;
     epicsUInt16 j;
 
     epicsGuard<epicsMutex> g(m_rx_lock);
+
+    if (m_data_buffer != NULL) {
+        errlogPrintf("Data buffer not initialized. Did you call init() function?\n");
+        return false;
+    }
 
     if(id > 0) {   // are we in range?
         for (j=0; j<4; j++) {
@@ -189,19 +193,40 @@ void mrmDataBufferUser::removeInterest(size_t id) {
             }
 
         }
-        m_data_buffer->setInterest(this, m_segments_interested);    // TODO check if (m_data_buffer != NULL) at the start
+        m_data_buffer->setInterest(this, m_segments_interested);
     } else {
         RxCallback * cb = m_rx_callbacks.back();
         if(cb == NULL) errlogPrintf("No registered callbacks exist. Cannot remove...\n");
         else errlogPrintf("Invalid registered interest ID (%zu). Valid IDs are in range [1, %zu]\n", id, cb->id);
+        return false;
     }
+
+    return true;
+}
+
+epicsUInt8 *mrmDataBufferUser::requestTxBuffer() {
+    m_tx_lock.lock();
+
+    return &m_tx_buff[m_user_offset];
+}
+
+void mrmDataBufferUser::releaseTxBuffer(size_t offset, size_t length) {
+    epicsUInt16 segment, i, noOfSegmentsUpdated, segmentOffset;
+
+    offset += m_user_offset;
+    segment = (epicsUInt16)(offset / DataBuffer_segment_length);
+    segmentOffset = (epicsUInt16)(offset - segment * DataBuffer_segment_length);
+    noOfSegmentsUpdated = (epicsUInt16)(((length - 1 + segmentOffset) / DataBuffer_segment_length) + 1);
+
+    // Mark which segments were updated
+    for(i=segment; i<segment+noOfSegmentsUpdated; i++){
+        m_tx_segments[i / 32] |= 0x80000000 >> i % 32;
+    }
+
+    m_tx_lock.unlock();
 }
 
 void mrmDataBufferUser::put(size_t offset, size_t length, void *buffer) {
-    epicsUInt16 segment, i, noOfSegmentsUpdated, segmentOffset;;
-
-    epicsGuard<epicsMutex> g(m_tx_lock);
-
     /* Check input arguments */
     if(length <= 0) {
         errlogPrintf("Invalid length %zu provided. Offset + length should be in interval [1, %d].\n", length, DataBuffer_len_max-1);
@@ -210,27 +235,34 @@ void mrmDataBufferUser::put(size_t offset, size_t length, void *buffer) {
 
     offset += m_user_offset;
     if (offset >= DataBuffer_len_max) {
-        errlogPrintf("Trying to send on offset %zu, which is out of range (max offset: %d).\n", offset, DataBuffer_len_max-1);
+        errlogPrintf("Trying to transfer on offset %zu, which is out of range (max offset: %d).\n", offset, DataBuffer_len_max-1);
         return;
     }
 
     if(offset + length > DataBuffer_len_max) {
-        dbgPrintf(1, "Too much data to send from offset %zu (%zu bytes). ", offset, length);
+        dbgPrintf(1, "Too much data to transfer on offset %zu (%zu bytes). ", offset, length);
         length = DataBuffer_len_max - offset;
         dbgPrintf(1, "Cropped length to %zu\n", length);
     }
 
-    segment = (epicsUInt16)(offset / DataBuffer_segment_length);
-    segmentOffset = (epicsUInt16)(offset - segment * DataBuffer_segment_length);
-    noOfSegmentsUpdated = (epicsUInt16)(((length - 1 + segmentOffset) / DataBuffer_segment_length) + 1);
+    m_tx_lock.lock();
 
     // Update buffer at the offset segment
     memcpy(&m_tx_buff[offset], buffer, length);
 
-    // Mark which segments were updated
-    for(i=segment; i<segment+noOfSegmentsUpdated; i++){
-        m_tx_segments[i / 32] |= 0x80000000 >> i % 32;
-    }
+    releaseTxBuffer(offset-m_user_offset, length);
+}
+
+
+epicsUInt8 *mrmDataBufferUser::requestRxBuffer() {
+    m_rx_lock.lock();
+
+    return &m_rx_buff[m_user_offset];
+}
+
+void mrmDataBufferUser::releaseRxBuffer()
+{
+    m_rx_lock.unlock();
 }
 
 void mrmDataBufferUser::get(size_t offset, size_t length, void *buffer) {
@@ -253,7 +285,6 @@ void mrmDataBufferUser::get(size_t offset, size_t length, void *buffer) {
         length = DataBuffer_len_max - offset;
         dbgPrintf(1, "Cropped length to %zu\n", length);
     }
-
 
     // Copy from offset to user buffer
     memcpy(buffer, &m_rx_buff[offset], length);

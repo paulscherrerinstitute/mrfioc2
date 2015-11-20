@@ -23,7 +23,7 @@ class mrmDataBufferUser;    // Windows: use forward decleration to avoid export 
  * @brief drvMrfiocDataBufferDebug Defines debug level (verbosity of debug printout)
  */
 extern int mrfioc2_dataBufferDebug;
-#define dbgPrintf(level,M, ...) if(mrfioc2_dataBufferDebug >= level) fprintf(stderr, "DataBuffer_DEBUG: (%s:%d) " M "\n", __FILE__, __LINE__, ##__VA_ARGS__)
+#define dbgPrintf(level,M, ...) if(mrfioc2_dataBufferDebug >= level) fprintf(stderr, "mrfioc2_dataBufferDebug: (%s:%d) " M "\n", __FILE__, __LINE__, ##__VA_ARGS__)
 
 /**
  * @brief The mrmDataBuffer class part that resides directly in evm/evg/evr driver.
@@ -105,6 +105,11 @@ public:
      */
     void removeUser(mrmDataBufferUser* user);
 
+    /**
+     * @brief setInterest will set the interrupt flags for hardware segments based on the segments users are interested in
+     * @param user A registered user who wishes to set interest
+     * @param interest mask of segments the user is interested in. Must be array: interest[4]
+     */
     void setInterest(mrmDataBufferUser* user, epicsUInt32 *interest);
 
     /**
@@ -136,6 +141,7 @@ protected:
     epicsUInt32 m_overflows[4];         // stores the received overflow flag register
     epicsUInt32 m_rx_flags[4];          // stores the received segment flags register
     epicsUInt32 m_irq_flags[4];         // used to set the segment IRQ flags register
+    epicsUInt16 m_max_length;           // maximum buffer length that we are interested in (based on m_irq_flags)
 
     //Registered users
     struct Users{
@@ -175,20 +181,10 @@ protected:
 private:
     epicsMutex m_rx_lock;               // The lock prevents adding/removing users while data is being dispatched to users.
 
-
     /**
-     * @brief setTxLength calculates the length of the data package to send. It is dependant on the hardware implementation of the data buffer (thus it can be overriden).
-     * @param startSegment is the number of the segment where data is to be written
-     * @param length is the length of the data to write
+     * @brief calcMaxInterestedLength Uses m_irq_flags to set new value for m_max_length
      */
-    //virtual void setTxLength(epicsUInt8 *startSegment, epicsUInt16 *length);
-
-    /**
-     * @brief setRxLength calculates the length of the received data package. It is dependant on the hardware implementation of the data buffer (thus it can be overriden).
-     * @param startSegment is the number of the received segment
-     * @param length is the length of the received data
-     */
-    //void setRxLength(epicsUInt16 *startSegment, epicsUInt16 *length);
+    void calcMaxInterestedLength();
 
     /**
      * @brief clearFlags clears all the flags for the specified flag register, by writing '1' to each flag bit
