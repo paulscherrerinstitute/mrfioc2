@@ -123,6 +123,7 @@ TEMPLATES += evrMrmApp/Db/evr-vme-230.db
 
 ## Fixed EVR templates
 TEMPLATES += evrMrmApp/Db/evr-softEvent.template
+TEMPLATES += evrMrmApp/Db/evr-softEvent-measure.template
 TEMPLATES += evrMrmApp/Db/evr-specialFunctionMap.template
 TEMPLATES += evrMrmApp/Db/evr-pulserMap.template
 TEMPLATES += evrMrmApp/Db/evr-pulserMap-dbus.template

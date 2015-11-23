@@ -1,0 +1,80 @@
+# Mapping between hardware event code and a software (EPICS) database event
+#
+# Macros:
+#  SYS = System name
+#  EVR = EVR devObj name
+#  EVT = Event code (hardware). Set EVT=0 to disable.
+#  CODE = EPICS database event number (software)
+#  HIST_LEN = number of histogram bins created from frequency measurements
+#
+
+record(event, "$(SYS)-$(EVR):Event-$(EVT)-SP") {
+  field(DTYP, "EVR Event")
+  field(SCAN, "I/O Intr")
+  field(INP , "@OBJ=$(EVR),Code=$(EVT)")
+  field(TSE , "-2") # from device support
+  field(VAL , "$(CODE)")
+  field(FLNK, "$(SYS)-$(EVR):Event-$(EVT)-Cnt-I")
+}
+
+record(calc, "$(SYS)-$(EVR):Event-$(EVT)-Cnt-I") {
+  field(SDIS, "$(SYS)-$(EVR):Event-$(EVT)-SP")
+  field(DISV, "0")
+  field(CALC, "A+1")
+  field(INPA, "$(SYS)-$(EVR):Event-$(EVT)-Cnt-I NPP")
+  field(TSEL, "$(SYS)-$(EVR):Event-$(EVT)-SP.TIME")
+  field(LOLO, "0")
+  field(LLSV, "MINOR")
+  field(FLNK, "$(SYS)-$(EVR):Event-$(EVT)-JITT_CURR_")
+}
+
+
+##Performance measurments
+record(ai, "$(SYS)-$(EVR):Event-$(EVT)-JITT_CURR_"){
+  field(DESC,"Performance meas current time")
+  field(DTYP,"Soft Timestamp")
+  field(PREC,"9" )
+  field(FLNK,"$(SYS)-$(EVR):Event-$(EVT)-JITT-I")
+}
+
+##Time from previous in us
+record(calc,"$(SYS)-$(EVR):Event-$(EVT)-JITT-I"){
+  field(INPA,"$(SYS)-$(EVR):Event-$(EVT)-JITT_CURR_ NPP")
+  field(INPB,"$(SYS)-$(EVR):Event-$(EVT)-JITT_PREV_ NPP")
+  field(CALC,"(A-B)*1000")
+  field(PREC,"9")
+  field(FLNK,"$(SYS)-$(EVR):Event-$(EVT)-JITT_PREV_")
+}
+
+record(ai, "$(SYS)-$(EVR):Event-$(EVT)-JITT_PREV_"){
+  field(DESC,"Performance meas previous time")
+  field(INP, "$(SYS)-$(EVR):Event-$(EVT)-JITT_CURR_ NPP")
+  field(PREC,"9" )
+  field(FLNK,"$(SYS)-$(EVR):Event-$(EVT)-HIST-I")
+}
+
+
+#record(calc,"$(SYS)-$(EVR):Event-$(EVT)-JITT-MAX-I"){
+#  field(INPA,"$(SYS)-$(EVR):Event-$(EVT)-JITT-I NPP")
+#  field(INPB,"$(SYS)-$(EVR):Event-$(EVT)-JITT-MAX-I NPP")
+#  field(CALC,"A > B ? A : B")
+#  field(PREC,"9")
+#  field(EGU,"ms")
+#  field(FLNK,"$(SYS)-$(EVR):Event-$(EVT)-JITT-MIN-I")
+#  field(VAL, "0")
+#}
+#
+#record(calc,"$(SYS)-$(EVR):Event-$(EVT)-JITT-MIN-I"){
+#  field(INPA,"$(SYS)-$(EVR):Event-$(EVT)-JITT-I NPP")
+#  field(INPB,"$(SYS)-$(EVR):Event-$(EVT)-JITT-MAX-I NPP")
+#  field(CALC,"A > B ? B : A")
+#  field(PREC,"9")
+#  field(EGU,"ms")
+#  field(FLNK,"$(SYS)-$(EVR):Event-$(EVT)-HIST-I")
+#}
+
+record(histogram, "$(SYS)-$(EVR):Event-$(EVT)-HIST-I"){
+  field(DESC, "Histogram of jitter")
+  field(SVL,  "$(SYS)-$(EVR):Event-$(EVT)-JITT-I")
+  field(NELM, "$(HIST_LEN=200)")
+}

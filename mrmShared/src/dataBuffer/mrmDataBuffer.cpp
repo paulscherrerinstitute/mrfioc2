@@ -15,8 +15,10 @@
 #include <epicsExport.h>
 #include "mrmDataBuffer.h"
 
-int mrfioc2_dataBufferDebug = 0;
-epicsExportAddress(int, mrfioc2_dataBufferDebug);
+extern "C" {
+    int mrfioc2_dataBufferDebug = 0;
+    epicsExportAddress(int, mrfioc2_dataBufferDebug);
+}
 
 #define TX_WAIT_MAX_ITERATIONS 1000     // guard against infinite loop when waiting for Tx to complete / waiting while Tx is running.
 

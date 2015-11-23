@@ -323,7 +323,13 @@ pattern { EVT,	CODE }
 		{ "2",    "2"}
 		{ "3",    "3"}
 }
-
+#If you want to enable measuring the jitter on received events comment out the previous substitution and use this one instead
+#file "$(mrfioc2_TEMPLATES=db)/evr-softEvent-measure.template"{
+#pattern { EVT,	CODE }
+#		{ "1",    "1"}
+#		{ "2",    "2"}
+#		{ "3",    "3"}
+#}
 
 ## Mapping between hardware event code and a special function of the EVR
 ## Each event can be mapped only to one function!
