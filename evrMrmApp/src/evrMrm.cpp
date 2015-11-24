@@ -1187,24 +1187,12 @@ EVRMRM::isr(void *arg)
     }
     if(active&IRQ_BufFull){
         if (evr->m_dataBuffer->m_rx_irq_handled) {
-            if (evr->firmwareVersion < MIN_FW_SEGMENTED_DBUFF) {
-                // Silence interrupt. DataRxCtrl_stop is actually an interrupt flag, so we need to write to it in order to clear it.
-                BITSET(NAT,32,evr->base, DataRxCtrlEvr, DataRxCtrl_stop);
+            // Silence interrupt. DataRxCtrl_stop is actually Rx acknowledge, so we need to write to it in order to clear it.
+            BITSET(NAT,32,evr->base, DataRxCtrlEvr, DataRxCtrl_stop);
 
-                // Check if the data buffer engine is initialized. This bit should not be set, since we have just acknowledged the interrupt.
-                // This is needed because 201 series firmware keeps triggering the interrupt with bogous data, and we do not wish
-                // to schedule callback requests for this. It prevents cbHigh queue to fill up when starting the driver. This only happens at start-up.
-                if ( !(READ32(evr->base, DataRxCtrlEvr) & DataRxCtrl_rdy) ) {
-                    evr->m_dataBuffer->m_rx_irq_handled = false;
-                    callbackRequest(&evr->dataBufferRx_cb);
-                } else {
-                    errlogPrintf("Could not acknowledge data buffer IRQ. Data buffer engine not yet initalized? Not issuing callbacks...\n"); // TODO printing in isr is ugly....but this should never be printed (except at startup on 201 firmware)
-                }
-            } else {
-                memset((epicsUInt8 *)(evr->base+DataBuffer_SegmentIRQ), 0, 16); // clear segment IRQ flags
-                evr->m_dataBuffer->m_rx_irq_handled = false;
-                callbackRequest(&evr->dataBufferRx_cb);
-            }
+            evr->m_dataBuffer->m_rx_irq_handled = false;
+            callbackRequest(&evr->dataBufferRx_cb);
+            // at the end of the callback we set DBENA bit
         }
     }
     if(active&IRQ_HWMapped){

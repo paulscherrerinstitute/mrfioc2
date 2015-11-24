@@ -70,46 +70,38 @@ void mrmDataBuffer_300::receive()
     epicsUInt16 i, segment, length;
     epicsUInt32 sts = nat_ioread32(base+ctrlRegRx);
 
-    //if((sts & DataRxCtrl_len_mask) > 8)printBinary("Control", sts); // applies to fw201+. If len=8 we are (likely) only receiving dly.comp. If we send some actual data len > 8.
 
-    if (sts & DataRxCtrl_rx) {
-        errlogPrintf("Interrupt triggered but Rx not completed. Should never happen, fatal error!\n  Control register status: 0x%x\n", sts);
-    }
-    else {
-        memcpy(m_overflows, (epicsUInt8 *)(base+DataBufferFlags_overflow), 16);
-        memcpy(m_checksums, (epicsUInt8 *)(base+DataBufferFlags_cheksum),  16);
-        memcpy(m_rx_flags,  (epicsUInt8 *)(base+DataBufferFlags_rx),       16);
+    memcpy(m_overflows, (epicsUInt8 *)(base+DataBufferFlags_overflow), 16);
+    memcpy(m_checksums, (epicsUInt8 *)(base+DataBufferFlags_cheksum),  16);
+    memcpy(m_rx_flags,  (epicsUInt8 *)(base+DataBufferFlags_rx),       16);
 
-        /*printFlags("Segment", base+DataBuffer_SegmentIRQ);
-        printFlags("Checksum", (epicsUInt8 *)m_checksums);
-        printFlags("Overflow", (epicsUInt8 *)m_overflows);
-        printFlags("Rx", (epicsUInt8 *)m_rx_flags);*/
+    /*printFlags("Segment", base+DataBuffer_SegmentIRQ);
+    printFlags("Checksum", (epicsUInt8 *)m_checksums);
+    printFlags("Overflow", (epicsUInt8 *)m_overflows);
+    printFlags("Rx", (epicsUInt8 *)m_rx_flags);*/
 
 
-        /*length = sts & DataRxCtrl_len_mask;
-        segment = getFirstReceivedSegment();
-        length -= segment*DataBuffer_segment_length;    // length is always reported from the start of the buffer
-        */
+    /*length = sts & DataRxCtrl_len_mask;
+    segment = getFirstReceivedSegment();
+    length -= segment*DataBuffer_segment_length;    // length is always reported from the start of the buffer
+    */
 
-        /**
-         * length is not reported correctly in 200+ series FW.
-         * Example:
-         * - send data on segment 6
-         * - send data on segment 2
-         * - enable IRQ
-         * - length reported will be for last received segment == segment 2. We do not know the length of data that was previously received on segment 6
-         * For this reason we should always read entire buffer.
-         * To improve preformance we instead calculate the max length based on the registered interest. The rest is rubbish to us anyway.
-         **/
-        segment = 0;
-        length = m_max_length;
+    /**
+     * length is not reported correctly in 200+ series FW.
+     * Example:
+     * - send data on segment 6
+     * - send data on segment 2
+     * - enable IRQ
+     * - length reported will be for last received segment == segment 2. We do not know the length of data that was previously received on segment 6
+     * For this reason we should always read entire buffer.
+     * To improve preformance we instead calculate the max length based on the registered interest. The rest is rubbish to us anyway.
+     **/
+    segment = 0;
+    length = m_max_length;
 
-        if (checksumError() != 0) { // TODO when is global / segment checksum error bit set??
-            memcpy((epicsUInt8 *)(base+DataBufferFlags_rx), m_rx_flags, 16);        // clear Rx flags for the data we have just received
-            memcpy((epicsUInt8 *)(base+DataBuffer_SegmentIRQ), m_irq_flags, 16);    // set which segments will trigger interrupt when data is received
-            return;
-        }
-
+    if(checksumError()) {   // TODO when is global / segment checksum error bit set??
+        memcpy((epicsUInt8 *)(base+DataBufferFlags_rx), m_rx_flags, 16);        // clear Rx flags for the data we have just received. We are skipping reception because of checksum.
+    } else {
         overflowOccured();
 
         dbgPrintf(1, "Rx segment+len: %d + %d\n", segment, length);
@@ -135,6 +127,10 @@ void mrmDataBuffer_300::receive()
             }
         }
     }
+
     //printFlags("IRQ", (epicsUInt8 *)m_irq_flags);
     memcpy((epicsUInt8 *)(base+DataBuffer_SegmentIRQ), m_irq_flags, 16);    // set which segments will trigger interrupt when data is received
+    sts = nat_ioread32(base+ctrlRegRx);
+    sts |= DataTxCtrl_run;
+    nat_iowrite32(base+ctrlRegRx, sts);
 }

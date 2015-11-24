@@ -67,7 +67,7 @@ void mrmDataBuffer_230::receive() {
         errlogPrintf("Interrupt triggered but Rx not completed. Should never happen, fatal error!\n  Control register status: 0x%x\n", sts);
     }
     else if (sts&DataRxCtrl_sumerr) {
-        errlogPrintf("RX: Checksum error\n");
+        errlogPrintf("RX: Checksum error. Skipping reception.\n");
     }
     else {
         length = sts & DataRxCtrl_len_mask;
@@ -92,4 +92,7 @@ void mrmDataBuffer_230::receive() {
             }
         }
     }
+    sts = nat_ioread32(base+ctrlRegRx);
+    sts |= DataTxCtrl_run;
+    nat_iowrite32(base+ctrlRegRx, sts);
 }
