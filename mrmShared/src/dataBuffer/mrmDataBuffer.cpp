@@ -265,6 +265,20 @@ void mrmDataBuffer::printRegs()
     printFlags("Rx", base + DataBufferFlags_rx);
 }
 
+void mrmDataBuffer::read(size_t offset, size_t length) {
+    epicsUInt8 buff[2048];
+    size_t i;
+
+    memcpy(&buff[offset], (epicsUInt8 *)(base + dataRegRx + offset), length);    // copy the data to local buffer
+
+    for(i=offset; i<offset+length; i++) {
+        if(!(i%16)) printf(" | ");
+        else if(!(i%4)) printf(", ");
+        printf("%x ", buff[i]);
+    }
+    printf("\n");
+}
+
 void mrmDataBuffer::clearFlags(volatile epicsUInt8 *flagRegister) {
     int i;
 

@@ -199,6 +199,28 @@ static void mrmDataBufferFunc_print(const iocshArgBuf *args) {
 
 /******************/
 
+/********** Print Rx registers  *******/
+static const iocshArg mrmDataBufferArg0_read = { "Device", iocshArgString };
+static const iocshArg mrmDataBufferArg1_read = { "offset", iocshArgInt };
+static const iocshArg mrmDataBufferArg2_read = { "length", iocshArgInt };
+
+static const iocshArg * const mrmDataBufferArgs_read[3] = { &mrmDataBufferArg0_read, &mrmDataBufferArg1_read, &mrmDataBufferArg2_read};
+static const iocshFuncDef mrmDataBufferDef_read = { "mrmDataBufferRead", 3, mrmDataBufferArgs_read };
+
+
+static void mrmDataBufferFunc_read(const iocshArgBuf *args) {
+
+    mrmDataBuffer *dataBuffer = getDataBufferFromDevice(args[0].sval);
+    if(dataBuffer == NULL) {
+       printf("Data buffer for %s not found.\n", args[0].sval);
+       return;
+    }
+
+    dataBuffer->read(args[1].ival, args[2].ival);
+}
+
+/******************/
+
 /********** Send and receive on an offset  *******/
 static const iocshArg mrmDataBufferArg0_user = { "Offset", iocshArgInt };
 
@@ -324,6 +346,7 @@ extern "C" {
         iocshRegister(&mrmDataBufferDef_initInterest, mrmDataBufferFunc_initInterest);
         iocshRegister(&mrmDataBufferDef_addInterest, mrmDataBufferFunc_addInterest);
         iocshRegister(&mrmDataBufferDef_removeInterest, mrmDataBufferFunc_removeInterest);
+        iocshRegister(&mrmDataBufferDef_read, mrmDataBufferFunc_read);
     }
 
     epicsExportRegistrar(mrmDataBufferRegistrar);

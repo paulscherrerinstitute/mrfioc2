@@ -127,6 +127,7 @@ public:
     void stop();
     void printRegs();
     void setRx(epicsUInt8 i, epicsUInt32 mask);
+    void read(size_t offset, size_t length);
 
 protected:
     volatile epicsUInt8 * const base;   // Base address of the EVR/EVG card
