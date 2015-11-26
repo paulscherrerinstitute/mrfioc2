@@ -74,7 +74,7 @@ void SFP::updateNow(bool)
         p32[i] = be_ioread32(base+ i*4);
 
     guard.lock();
-    valid = tempBuffer[0]==3 && tempBuffer[2]==7;
+    valid = true; //tempBuffer[0]==3 && tempBuffer[2]==7;
     buffer.swap(tempBuffer);
     guard.unlock();
 }
