@@ -25,12 +25,13 @@ epicsInt16 SFP::read16(unsigned int offset) const
     return val;
 }
 
+// TODO refractore validity checking
 SFP::SFP(const std::string &n, volatile unsigned char *reg)
     :mrf::ObjectInst<SFP>(n)
     ,base(reg)
     ,buffer(SFPMEM_SIZE)
     ,tempBuffer(SFPMEM_SIZE)
-    ,valid(false)
+    ,valid(true)
 {
     updateNow();
 
@@ -39,7 +40,7 @@ SFP::SFP(const std::string &n, volatile unsigned char *reg)
     callbackSetUser(this, &updateCallback);
 
     /* Check for SFP with LC connector */
-    if(valid){
+    if(buffer[0]==3 && buffer[2]==7){
         fprintf(stderr, "Found %s EEPROM\n", n.c_str());
     }else{
         fprintf(stderr, "Could not read %s EEPROM. Read: %02x %02x %02x %02x\n",
@@ -74,7 +75,6 @@ void SFP::updateNow(bool)
         p32[i] = be_ioread32(base+ i*4);
 
     guard.lock();
-    valid = tempBuffer[0]==3 && tempBuffer[2]==7;
     buffer.swap(tempBuffer);
     guard.unlock();
 }
