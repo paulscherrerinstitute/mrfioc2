@@ -5,6 +5,7 @@
 #  EVR = EVR devObj name
 #  EVT = Event code (hardware). Set EVT=0 to disable.
 #  CODE = EPICS database event number (software)
+#  FLNK = If provided, forward links to the record after all records from this template are processed
 #
 #
 record(event, "$(SYS)-$(EVR):Event-$(EVT)-SP") {
@@ -25,4 +26,5 @@ record(calc, "$(SYS)-$(EVR):Event-$(EVT)-Cnt-I") {
   field(TSEL, "$(SYS)-$(EVR):Event-$(EVT)-SP.TIME")
   field(LOLO, "0")
   field(LLSV, "MINOR")
+  field(FLNK,"$(FLNK=)")
 }

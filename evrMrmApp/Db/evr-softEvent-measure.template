@@ -5,6 +5,7 @@
 #  EVR = EVR devObj name
 #  EVT = Event code (hardware). Set EVT=0 to disable.
 #  CODE = EPICS database event number (software)
+#  FLNK = If provided, forward links to the record after all records from this template are processed
 #  HIST_LEN = number of histogram bins created from frequency measurements
 #  HIST_ULIM = histogram upper limit
 #  HIST_LLIM = histogram lower limit
@@ -72,6 +73,7 @@ record(calc,"$(SYS)-$(EVR):Event-$(EVT)-PERF-MIN-I"){
   field(PREC,"9")
   field(EGU,"ms")
   field(VAL, "999999999")
+  field(FLNK,"$(FLNK=)")
   #field(FLNK,"$(SYS)-$(EVR):Event-$(EVT)-HIST-I")
 }
 

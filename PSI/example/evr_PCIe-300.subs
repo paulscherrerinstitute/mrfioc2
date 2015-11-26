@@ -18,14 +18,14 @@ file "$(mrfioc2_TEMPLATES=db)/evr-pcie-300.db"
 		## Pulsers
 		Pul0-Ena-Sel=1,			#0 = Disabled, 1 = Enabled
 		Pul0-Polarity-Sel=0,   	#0 = Active High, 1 = Active Low
-		Pul0-Delay-SP=100,		#0-4294967295 : Delay in us 
-		Pul0-Width-SP=10,		#0-4294967295 : Width in us
+		Pul0-Delay-SP=0,		#0-4294967295 : Delay in us 
+		Pul0-Width-SP=0,		#0-4294967295 : Width in us
 		Pul0-Prescaler-SP=1,   	#0-65535 : Pulser prescaler
 
 		Pul1-Ena-Sel=1,			#0 = Disabled, 1 = Enabled
 		Pul1-Polarity-Sel=0,   	#0 = Active High, 1 = Active Low
 		Pul1-Delay-SP=0,		#0-4294967295 : Delay in us 
-		Pul1-Width-SP=10,		#0-4294967295 : Width in us
+		Pul1-Width-SP=0,		#0-4294967295 : Width in us
 		Pul1-Prescaler-SP=1,   	#0-65535 : Pulser prescaler
 
 		Pul2-Ena-Sel=1,			#0 = Disabled, 1 = Enabled
@@ -137,10 +137,10 @@ file "$(mrfioc2_TEMPLATES=db)/evr-pcie-300.db"
 		# Universal outputs
 		#  Slot 0
 		FrontUnivOut0-Ena-SP=1, 	# Default to enabled
-		FrontUnivOut0-Src-SP=0,  	# Use pulser 0
+		FrontUnivOut0-Src-SP=63,  	# Defaults to Force low (if enabled -> Ena-SP)
 
 		FrontUnivOut1-Ena-SP=1, 	# Default to enabled
-		FrontUnivOut1-Src-SP=1,  	# Use pulser 1
+		FrontUnivOut1-Src-SP=63,  	# Defaults to Force low (if enabled -> Ena-SP)
 
 		#  Slot 1
 		FrontUnivOut2-Ena-SP=1, 	# Default to enabled
@@ -202,19 +202,21 @@ file "$(mrfioc2_TEMPLATES=db)/evr-pcie-300.db"
 #  EVR = EVR devObj name (auto expanded by parent)
 #  EVT = Event code (hardware). Set EVT=0 to disable.
 #  CODE = EPICS database event number (software)
+#  FLNK = If provided, forward links to the record after all records from this template are processed
 #
 file "$(mrfioc2_TEMPLATES=db)/evr-softEvent.template"{
-pattern { EVT,	CODE }
-		{ "1",    "1"}
-		{ "2",    "2"}
-		{ "3",    "3"}
+pattern { EVT,	CODE,    FLNK }
+		{ "1",    "1",   "" }
+		{ "2",    "2",   "" }
+		{ "3",    "3",   "" }
 }
-#If you want to enable measuring the jitter on received events comment out the previous substitution and use this one instead
+# If you want to enable measuring the jitter on received events comment out the previous substitution and use this one instead
+# 
 #file "$(mrfioc2_TEMPLATES=db)/evr-softEvent-measure.template"{
-#pattern { EVT,	CODE }
-#		{ "1",    "1"}
-#		{ "2",    "2"}
-#		{ "3",    "3"}
+#pattern { EVT,	CODE,    FLNK }
+#		{ "1",    "1",   "" }
+#		{ "2",    "2",   "" }
+#		{ "3",    "3",   "" }
 #}
 
 ## Mapping between hardware event code and a special function of the EVR
@@ -270,7 +272,7 @@ pattern { EVT,   FUNC }
 #    
 file "$(mrfioc2_TEMPLATES=db)/evr-pulserMap.template"{
 pattern {PID   F,      EVT, ID}
-        {0,    Trig,   1,   0 }
+        {0,    Trig,   0,   0 }
         {1,    Trig,   0,   0 }
         {2,    Trig,   0,   0 }
         {3,    Trig,   0,   0 }
@@ -288,7 +290,7 @@ pattern {PID   F,      EVT, ID}
         {15,   Trig,   0,   0 }
 
 
-        {0,    Set,   2,   0 }
+        {0,    Set,   0,   0 }
         {1,    Set,   0,   0 }
         {2,    Set,   0,   0 }
         {3,    Set,   0,   0 }
@@ -306,7 +308,7 @@ pattern {PID   F,      EVT, ID}
         {15,   Set,   0,   0 }
 
 
-        {0,    Reset,   3,   0 }
+        {0,    Reset,   0,   0 }
         {1,    Reset,   0,   0 }
         {2,    Reset,   0,   0 }
         {3,    Reset,   0,   0 }

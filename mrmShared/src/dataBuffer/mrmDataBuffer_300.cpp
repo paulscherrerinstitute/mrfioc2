@@ -131,6 +131,6 @@ void mrmDataBuffer_300::receive()
     //printFlags("IRQ", (epicsUInt8 *)m_irq_flags);
     memcpy((epicsUInt8 *)(base+DataBuffer_SegmentIRQ), m_irq_flags, 16);    // set which segments will trigger interrupt when data is received
     sts = nat_ioread32(base+ctrlRegRx);
-    sts |= DataTxCtrl_run;
+    sts |= DataRxCtrl_rx;
     nat_iowrite32(base+ctrlRegRx, sts);
 }

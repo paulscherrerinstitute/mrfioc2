@@ -93,6 +93,6 @@ void mrmDataBuffer_230::receive() {
         }
     }
     sts = nat_ioread32(base+ctrlRegRx);
-    sts |= DataTxCtrl_run;
+    sts |= DataRxCtrl_rx;
     nat_iowrite32(base+ctrlRegRx, sts);
 }

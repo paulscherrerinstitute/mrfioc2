@@ -450,36 +450,21 @@ file "$(mrfioc2_TEMPLATES=db)/evr-vme-300.db"
 #  EVR = EVR devObj name (auto expanded by parent)
 #  EVT = Event code (hardware). Set EVT=0 to disable.
 #  CODE = EPICS database event number (software)
+#  FLNK = If provided, forward links to the record after all records from this template are processed
 #
 file "$(mrfioc2_TEMPLATES=db)/evr-softEvent.template"{
-pattern { EVT,	CODE }
-		{ "1",    "1"}
-		{ "2",    "2"}
-		{ "3",    "3"}
+pattern { EVT,	CODE,    FLNK }
+		{ "1",    "1",   "" }
+		{ "2",    "2",   "" }
+		{ "3",    "3",   "" }
 }
-
-## Mapping between hardware event code and a software (EPICS) database event
-## In addition to firing an EPICS database event on each occurance of hardware event, a counter for the specific EVT is increased.
-#
-# Macros:
-#  SYS = System name (auto expanded by parent)
-#  EVR = EVR devObj name (auto expanded by parent)
-#  EVT = Event code (hardware). Set EVT=0 to disable.
-#  CODE = EPICS database event number (software)
-#
-file "$(mrfioc2_TEMPLATES=db)/evr-softEvent.template"{
-pattern { EVT,	CODE }
-		{ "1",    "1"}
-		{ "2",    "2"}
-		{ "3",    "3"}
-}
-
-#If you want to enable measuring the jitter on received events comment out the previous substitution and use this one instead
+# If you want to enable measuring the jitter on received events comment out the previous substitution and use this one instead
+# 
 #file "$(mrfioc2_TEMPLATES=db)/evr-softEvent-measure.template"{
-#pattern { EVT,	CODE }
-#		{ "1",    "1"}
-#		{ "2",    "2"}
-#		{ "3",    "3"}
+#pattern { EVT,	CODE,    FLNK }
+#		{ "1",    "1",   "" }
+#		{ "2",    "2",   "" }
+#		{ "3",    "3",   "" }
 #}
 
 ## Mapping between hardware event code and a special function of the EVR
