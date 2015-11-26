@@ -28,15 +28,18 @@ mrmDataBuffer* getDataBufferFromDevice(char *device) {
 }
 
 /********** Send data buffer  *******/
+
 static const iocshArg mrmDataBufferSendArg0 = { "Device", iocshArgString };
-static const iocshArg mrmDataBufferSendArg1 = { "Segment", iocshArgInt };
+static const iocshArg mrmDataBufferSendArg1 = { "Offset", iocshArgInt };
+static const iocshArg mrmDataBufferSendArg2 = { "Value", iocshArgInt };
 
-static const iocshArg * const mrmDataBufferSendArgs[2] = { &mrmDataBufferSendArg0, &mrmDataBufferSendArg1};
-static const iocshFuncDef mrmDataBufferSendDef = { "mrmDataBufferSend", 2, mrmDataBufferSendArgs };
+static const iocshArg * const mrmDataBufferSendArgs[3] = { &mrmDataBufferSendArg0, &mrmDataBufferSendArg1, &mrmDataBufferSendArg2};
+static const iocshFuncDef mrmDataBufferSendDef = { "mrmDataBufferSend", 3, mrmDataBufferSendArgs };
 
+epicsUInt8 data[2048] = { 0 };
 
 static void mrmDataBufferSendFunc(const iocshArgBuf *args) {
-   epicsInt32 segment = args[1].ival;
+   epicsInt32 offset = args[1].ival;
 
    mrmDataBuffer *dataBuffer = getDataBufferFromDevice(args[0].sval);
    if(dataBuffer == NULL) {
@@ -44,13 +47,16 @@ static void mrmDataBufferSendFunc(const iocshArgBuf *args) {
        return;
    }
 
-   if(segment<0){ // reset entire buffer
-       epicsUInt8 data[0x0007ff] = { 0 };
-       dataBuffer->send(0, 0x0007fc, data);
+   if(offset<0){ // reset entire buffer
+       epicsUInt8 d[2048] = { 0 };
+       dataBuffer->send(0, 0x0007fc, d);
    } else {
-       printf("Sending using segment %d\n", segment);
-       epicsUInt8 data[20] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 };
-       dataBuffer->send((epicsUInt8)segment, 20, data);
+       printf("Sending using segment %d\n", offset / 16);
+       data[offset] = args[2].ival;
+       dataBuffer->send(offset / 16, 4, &data[(offset / 16) * 16]);
+
+       /*epicsUInt8 data[20] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 };
+       dataBuffer->send((epicsUInt8)segment, 20, data);*/
    }
 
    /*printf("Waiting for TX complete...\n");
