@@ -47,14 +47,14 @@ bool mrmDataBuffer_230::send(epicsUInt8 startSegment, epicsUInt16 length, epicsU
     memcpy((epicsUInt8 *)(dataRegTx+base+offset), data, length);
 
     length += startSegment * DataBuffer_segment_length;
-    dbgPrintf(1, "Triggering transmision: 0x%x => ", (epicsUInt32)length|DataTxCtrl_trig);
+    dbgPrintf(3, "Triggering transmision: 0x%x => ", (epicsUInt32)length|DataTxCtrl_trig);
 
     reg = nat_ioread32(base+ctrlRegTx);
     reg &= ~(DataTxCtrl_len_mask); //clear length
     reg |= (epicsUInt32)length|DataTxCtrl_trig; // set length and trigger sending.
     nat_iowrite32(base+ctrlRegTx, reg);
 
-    dbgPrintf(1, "0x%x\n", nat_ioread32(base+ctrlRegTx));
+    dbgPrintf(3, "0x%x\n", nat_ioread32(base+ctrlRegTx));
 
     return true;
 }
@@ -64,7 +64,10 @@ void mrmDataBuffer_230::receive() {
     epicsUInt32 sts = nat_ioread32(base+ctrlRegRx);
 
     if (sts & DataRxCtrl_rx) {
-        errlogPrintf("Interrupt triggered but Rx not completed. Should never happen, fatal error!\n  Control register status: 0x%x\n", sts);
+        // Interrupt triggered and we are still receiving. This means that another reception is in progress, thus overflow will occur.
+        // When reception is complete another interrupt should fire, thus we only need to exit this function and process next interrupt.
+        errlogPrintf("HW overflow occured\n\tControl register status: 0x%x\n", sts);
+        return;
     }
     else if (sts&DataRxCtrl_sumerr) {
         errlogPrintf("RX: Checksum error. Skipping reception.\n");
@@ -72,13 +75,13 @@ void mrmDataBuffer_230::receive() {
     else {
         length = sts & DataRxCtrl_len_mask;
 
-        dbgPrintf(1, "Rx len: %d\n", length);
+        dbgPrintf(2, "Rx len: %d\n", length);
 
         // Dispatch the buffer to users
         if(m_users.size() > 0) {
             memcpy(&m_rx_buff[0], (epicsUInt8 *)(base + dataRegRx), length);    // copy the data to local buffer
 
-            if(mrfioc2_dataBufferDebug){
+            if(mrfioc2_dataBufferDebug >= 2){
                 for(i=0; i<length; i++) {
                     if(!(i%16)) printf(" | ");
                     else if(!(i%4)) printf(", ");

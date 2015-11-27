@@ -130,7 +130,7 @@ bool mrmDataBuffer::waitForTxComplete(){
     while (!(nat_ioread32(base+ctrlRegTx)&DataTxCtrl_done) && i < TX_WAIT_MAX_ITERATIONS) {
         i++;
     }
-    dbgPrintf(1, "Waiting for TX to complete took %d iterations (waiting for maximum of %d iterations)\n", i, TX_WAIT_MAX_ITERATIONS);
+    dbgPrintf(4, "Waiting for TX to complete took %d iterations (waiting for maximum of %d iterations)\n", i, TX_WAIT_MAX_ITERATIONS);
     if (i >= TX_WAIT_MAX_ITERATIONS) {
         return false;
     }
@@ -144,7 +144,7 @@ bool mrmDataBuffer::waitWhileTxRunning(){
     while ((nat_ioread32(base+ctrlRegTx)&DataTxCtrl_run)  && i < TX_WAIT_MAX_ITERATIONS) {
         i++;
     }
-    dbgPrintf(1, "Waiting while TX is running took %d iterations (waiting for maximum of %d iterations)\n", i, TX_WAIT_MAX_ITERATIONS);
+    dbgPrintf(4, "Waiting while TX is running took %d iterations (waiting for maximum of %d iterations)\n", i, TX_WAIT_MAX_ITERATIONS);
     if (i >= TX_WAIT_MAX_ITERATIONS) {
         errlogPrintf("Waiting while Tx running takes too long. Forced exit...\n");
         return false;
@@ -363,7 +363,7 @@ bool mrmDataBuffer::overflowOccured() {
     return overflow;
 }
 
-bool mrmDataBuffer::checksumError() {
+bool mrmDataBuffer::checksumError() {   // DBCS bit is not checked, since segmented data buffer uses its own checksum error registers
     bool checksum = false;
     epicsUInt16 i, segment;
 
