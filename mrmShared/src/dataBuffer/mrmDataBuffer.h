@@ -121,7 +121,7 @@ public:
 
     static mrmDataBuffer* getDataBufferFromDevice(const char *device);
 
-    // TODO test functions
+    // test functions (used from mrmDataBuffer_test.cpp)
     void setSegmentIRQ(epicsUInt8 i, epicsUInt32 mask);
     void ctrlReceive();
     void stop();
@@ -159,25 +159,7 @@ protected:
      */
     bool waitWhileTxRunning();
 
-    /**
-     * @brief getFirstReceivedSegment will check the Rx flag register and return the first received segment number.
-     * @return First received segment number. If no Rx flags are set, returns zero.
-     */
-    epicsUInt16 getFirstReceivedSegment();
-
-    /**
-     * @brief overflowOccured checks if the overflow flag is set for any segment
-     * @return True if overflow occured, false otherwise
-     */
-    bool overflowOccured();
-
-    /**
-     * @brief checksumError checks if the checksum error flag is set for any segment
-     * @return True if checksum error is detected, false otherwise
-     */
-    bool checksumError();
-
-    // TODO: remove theese
+    // helper functions
     void printBinary(const char *preface, epicsUInt32 n);
     void printFlags(const char *preface, volatile epicsUInt8* flagRegister);
 

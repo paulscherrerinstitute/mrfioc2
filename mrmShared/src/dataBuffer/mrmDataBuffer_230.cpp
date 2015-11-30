@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <string.h>     // for memcpy
 
 #include <epicsMMIO.h>
 #include <epicsGuard.h>
@@ -14,6 +13,7 @@
 
 bool mrmDataBuffer_230::send(epicsUInt8 startSegment, epicsUInt16 length, epicsUInt8 *data){
     epicsUInt32 offset, reg;
+    epicsUInt16 i;
 
     epicsGuard<epicsMutex> g(m_tx_lock);
 
@@ -44,7 +44,12 @@ bool mrmDataBuffer_230::send(epicsUInt8 startSegment, epicsUInt16 length, epicsU
     /* Send data */
     if (!waitWhileTxRunning()) return false;
 
-    memcpy((epicsUInt8 *)(dataRegTx+base+offset), data, length);
+    // Using big endian write (instead of memcopy for example), because the data is always in big endian on the network. Thus we always
+    // need to write using big endian.
+    // Length cannot be less than 4, and it must be dividable by 4. Thus we can use 32 bit access.
+    for(i = 0; i < length; i+=4){
+        be_iowrite32(dataRegTx+base+i+offset, *(epicsUInt32*)(data+i) );
+    }
 
     length += startSegment * DataBuffer_segment_length;
     dbgPrintf(3, "Triggering transmision: 0x%x => ", (epicsUInt32)length|DataTxCtrl_trig);
@@ -64,9 +69,7 @@ void mrmDataBuffer_230::receive() {
     epicsUInt32 sts = nat_ioread32(base+ctrlRegRx);
 
     if (sts & DataRxCtrl_rx) {
-        // Interrupt triggered and we are still receiving. This means that another reception is in progress, thus overflow will occur.
-        // When reception is complete another interrupt should fire, thus we only need to exit this function and process next interrupt.
-        errlogPrintf("HW overflow occured\n\tControl register status: 0x%x\n", sts);
+        errlogPrintf("DBRX bit active (data buffer receiving). Skipping reception.\n\tControl register status: 0x%x\n", sts);
         return;
     }
     else if (sts&DataRxCtrl_sumerr) {
@@ -79,7 +82,11 @@ void mrmDataBuffer_230::receive() {
 
         // Dispatch the buffer to users
         if(m_users.size() > 0) {
-            memcpy(&m_rx_buff[0], (epicsUInt8 *)(base + dataRegRx), length);    // copy the data to local buffer
+            // Using big endian read (instead of memcopy for example), because the data is always in big endian on the network. Thus we always
+            // need to read using big endian.
+            for(i=0; i<length; i+=4) {
+                *(epicsUInt32*)(m_rx_buff+i) = be_ioread32(base + dataRegRx + i);
+            }
 
             if(mrfioc2_dataBufferDebug >= 2){
                 for(i=0; i<length; i++) {

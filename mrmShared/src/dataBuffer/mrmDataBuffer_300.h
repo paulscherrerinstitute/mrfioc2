@@ -21,6 +21,18 @@ public:
 private:
     bool send(epicsUInt8 startSegment, epicsUInt16 length, epicsUInt8 *data);
     void receive();
+
+    /**
+     * @brief overflowOccured checks if the overflow flag is set for any segment
+     * @return True if overflow occured, false otherwise
+     */
+    bool overflowOccured();
+
+    /**
+     * @brief checksumError checks if the checksum error flag is set for any segment
+     * @return True if checksum error is detected, false otherwise
+     */
+    bool checksumError();
 };
 
 

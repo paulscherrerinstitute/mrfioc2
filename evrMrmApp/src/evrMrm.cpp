@@ -1192,7 +1192,6 @@ EVRMRM::isr(void *arg)
 
             evr->m_dataBuffer->m_rx_irq_handled = false;
             callbackRequest(&evr->dataBufferRx_cb);
-            // at the end of the callback we set DBENA bit
         }
     }
     if(active&IRQ_HWMapped){

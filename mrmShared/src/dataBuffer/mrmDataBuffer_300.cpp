@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <string.h>     // for memcpy
 
 #include <epicsMMIO.h>
 #include <epicsGuard.h>
@@ -14,6 +13,7 @@
 
 bool mrmDataBuffer_300::send(epicsUInt8 startSegment, epicsUInt16 length, epicsUInt8 *data){
     epicsUInt32 offset, reg;
+    epicsUInt16 i;
 
     epicsGuard<epicsMutex> g(m_tx_lock);
 
@@ -44,7 +44,12 @@ bool mrmDataBuffer_300::send(epicsUInt8 startSegment, epicsUInt16 length, epicsU
     /* Send data */
     if (!waitWhileTxRunning()) return false;
 
-    memcpy((epicsUInt8 *)(dataRegTx+base+offset), data, length);
+    // Using big endian write (instead of memcopy for example), because the data is always in big endian on the network. Thus we always
+    // need to write using big endian.
+    // Length cannot be less than 4, and it must be dividable by 4. Thus we can use 32 bit access.
+    for(i = 0; i < length; i+=4){
+        be_iowrite32(dataRegTx+base+i+offset, *(epicsUInt32*)(data+i) );
+    }
 
     dbgPrintf(3, "Triggering transmision: 0x%x => ", (epicsUInt32)length|DataTxCtrl_trig|((epicsUInt32)startSegment << DataTxCtrl_saddr_shift));
 
@@ -63,12 +68,16 @@ bool mrmDataBuffer_300::send(epicsUInt8 startSegment, epicsUInt16 length, epicsU
 void mrmDataBuffer_300::receive()
 {
     epicsUInt16 i, segment, length;
-    //epicsUInt32 sts = nat_ioread32(base+ctrlRegRx);
 
-
-    memcpy(m_overflows, (epicsUInt8 *)(base+DataBufferFlags_overflow), 16);
-    memcpy(m_checksums, (epicsUInt8 *)(base+DataBufferFlags_cheksum),  16);
-    memcpy(m_rx_flags,  (epicsUInt8 *)(base+DataBufferFlags_rx),       16);
+    for(i=0; i<4; i++) {
+        m_checksums[i] = nat_ioread32(base+DataBufferFlags_cheksum + 4 * i);
+    }
+    for(i=0; i<4; i++) {
+        m_overflows[i] = nat_ioread32(base+DataBufferFlags_overflow + 4 * i);
+    }
+    for(i=0; i<4; i++) {
+        m_rx_flags[i]  = nat_ioread32(base+DataBufferFlags_rx + 4 * i);
+    }
 
     if(mrfioc2_dataBufferDebug >= 5){
         printFlags("Segment", base+DataBuffer_SegmentIRQ);
@@ -97,7 +106,9 @@ void mrmDataBuffer_300::receive()
     length = m_max_length;
 
     if(checksumError()) {
-        memcpy((epicsUInt8 *)(base+DataBufferFlags_rx), m_rx_flags, 16);        // clear Rx flags for the data we have just received. We are skipping reception because of checksum.
+        for(i=0; i<4; i++) {        // clear Rx flags for the data we have just received. We are skipping reception because of checksum.
+            nat_iowrite32(base+DataBufferFlags_rx + 4 * i, m_rx_flags[i]);
+        }
     } else {
         overflowOccured();
 
@@ -105,7 +116,11 @@ void mrmDataBuffer_300::receive()
 
         // Dispatch the buffer to users
         if(m_users.size() > 0) {
-            memcpy(&m_rx_buff[segment*DataBuffer_segment_length], (epicsUInt8 *)(base + dataRegRx + segment*DataBuffer_segment_length), length);    // copy the data to local buffer
+            // Using big endian read (instead of memcopy for example), because the data is always in big endian on the network. Thus we always
+            // need to read using big endian.
+            for(i=segment*DataBuffer_segment_length; i<length+segment*DataBuffer_segment_length; i+=4) {
+                *(epicsUInt32*)(m_rx_buff+i) = be_ioread32(base + dataRegRx + i);
+            }
 
             if(mrfioc2_dataBufferDebug >= 2){
                 for(i=segment*DataBuffer_segment_length; i<length+segment*DataBuffer_segment_length; i++) {
@@ -117,7 +132,9 @@ void mrmDataBuffer_300::receive()
             }
 
             // clear Rx flags for the data we have just received
-            memcpy((epicsUInt8 *)(base+DataBufferFlags_rx), m_rx_flags, 16);
+            for(i=0; i<4; i++) {
+                nat_iowrite32(base+DataBufferFlags_rx + 4 * i, m_rx_flags[i]);
+            }
 
             for(i=0; i<m_users.size(); i++) {
                 m_users[i]->user->updateSegment(segment, m_rx_buff, length);
@@ -126,5 +143,43 @@ void mrmDataBuffer_300::receive()
     }
 
     //printFlags("IRQ", (epicsUInt8 *)m_irq_flags);
-    memcpy((epicsUInt8 *)(base+DataBuffer_SegmentIRQ), m_irq_flags, 16);    // set which segments will trigger interrupt when data is received
+    for(i=0; i<4; i++) {        // set which segments will trigger interrupt when data is received
+        nat_iowrite32(base+DataBuffer_SegmentIRQ + 4 * i, m_irq_flags[i]);
+    }
+}
+
+bool mrmDataBuffer_300::overflowOccured() {
+    bool overflow = false;
+    epicsUInt16 i, segment;
+
+    m_overflows[0] &= 0x7FFFFFFF;  // we don't care about segment 0 == delay compensation
+    for (i=0; i<4; i++) {
+        segment = 0;
+        while (m_overflows[i] !=0 ) {   // overflow occured.
+            overflow = true;
+            if (m_overflows[i] & 0x80000000) errlogPrintf("HW overflow occured for segment %d\n", i*32 + segment);
+            m_overflows[i] <<= 1;
+            segment ++;
+        }
+    }
+
+    return overflow;
+}
+
+bool mrmDataBuffer_300::checksumError() {   // DBCS bit is not checked, since segmented data buffer uses its own checksum error registers
+    bool checksum = false;
+    epicsUInt16 i, segment;
+
+    m_checksums[0] &= 0x7FFFFFFF;  // we don't care about segment 0 == delay compensation
+    for (i=0; i<4; i++) {
+        segment = 0;
+        while (m_checksums[i] !=0 ) {   // checksum occured.
+            checksum = true;
+            if (m_checksums[i] & 0x80000000) errlogPrintf("Checksum error occured for segment %d.\n", i*32 + segment);
+            m_checksums[i] <<= 1;
+            segment ++;
+        }
+    }
+
+    return checksum;
 }

@@ -1,7 +1,6 @@
 #include <vector>
 #include <stdio.h>
 #include <algorithm>  // for remove()
-#include <string.h>     // for memcpy
 
 #include <epicsGuard.h>
 #include <callback.h>
@@ -14,6 +13,7 @@
 
 #include <epicsExport.h>
 #include "mrmDataBuffer.h"
+
 
 extern "C" {
     int mrfioc2_dataBufferDebug = 0;
@@ -192,7 +192,9 @@ void mrmDataBuffer::removeUser(mrmDataBufferUser *user)
 
     calcMaxInterestedLength();
 
-    memcpy((epicsUInt8 *)(base+DataBuffer_SegmentIRQ), m_irq_flags, 16);    // set which segments will trigger interrupt when data is received
+    for(i=0; i<4; i++) {        // set which segments will trigger interrupt when data is received
+        nat_iowrite32(base+DataBuffer_SegmentIRQ + 4 * i, m_irq_flags[i]);
+    }
 }
 
 void mrmDataBuffer::setInterest(mrmDataBufferUser *user, epicsUInt32 *interest)
@@ -221,9 +223,112 @@ void mrmDataBuffer::setInterest(mrmDataBufferUser *user, epicsUInt32 *interest)
     }
 
     calcMaxInterestedLength();
-
-    memcpy((epicsUInt8 *)(base+DataBuffer_SegmentIRQ), m_irq_flags, 16);    // set which segments will trigger interrupt when data is received
+    for(i=0; i<4; i++) {        // set which segments will trigger interrupt when data is received
+        nat_iowrite32(base+DataBuffer_SegmentIRQ + 4 * i, m_irq_flags[i]);
+    }
 }
+
+
+
+void mrmDataBuffer::clearFlags(volatile epicsUInt8 *flagRegister) {
+    int i;
+
+    for(i=0; i<=12; i+=4) {
+        nat_iowrite32(flagRegister+i, 0xFFFFFFFF);
+    }
+}
+
+void mrmDataBuffer::calcMaxInterestedLength()
+{
+    epicsInt16 j, bits;
+    epicsUInt32 irqFlags;
+
+    for (j=3; j>=0; j--) {  // search from the end
+        irqFlags = m_irq_flags[j];
+        bits = 32;
+        while(bits && irqFlags) {   // skip if irqFlags are all 0
+            if (irqFlags & 0x1) {   // we found an irq flag == this is the furthest segment we are interested in
+                m_max_length = j * 32 * DataBuffer_segment_length + bits * DataBuffer_segment_length;
+                j = -1;   // end the for loop
+                bits = 0;  // end the while loop
+            }
+            else {  // no flag yet
+                irqFlags >>= 1;
+                bits--;
+            }
+        }
+    }
+    if (m_max_length > DataBuffer_len_max) m_max_length = DataBuffer_len_max;
+
+    dbgPrintf(1, "Fetching max %d bytes from the data buffer\n", m_max_length);
+}
+
+void mrmDataBuffer::handleDataBufferRxIRQ(CALLBACK *cb) {
+    void *vptr;
+    callbackGetUser(vptr,cb);
+    mrmDataBuffer* parent = static_cast<mrmDataBuffer*>(vptr);
+
+
+    epicsGuard<epicsMutex> g(parent->m_rx_lock);
+
+    parent->receive();
+    parent->m_rx_irq_handled = true;
+}
+
+mrmDataBuffer* mrmDataBuffer::getDataBufferFromDevice(const char *device) {
+    // locking not needed because all data buffer instances are created before someone can use them
+
+    if(data_buffers.count(device)){
+        return data_buffers[device];
+    }
+
+    return NULL;
+}
+
+
+// ///////////////////
+// Helper functions
+// ///////////////////
+
+void mrmDataBuffer::printFlags(const char *preface, volatile epicsUInt8* flagRegister) {
+    int i;
+    epicsUInt32 segmentIrq;
+
+    printf("\n");
+    for(i=0; i<=12; i+=4) {
+        segmentIrq = nat_ioread32(flagRegister+i);
+        printBinary(preface, segmentIrq);
+    }
+    printf("\n");
+}
+
+
+void mrmDataBuffer::printBinary(const char *preface, epicsUInt32 n) {
+    printf("%s: 0x%x =", preface, n);
+    int i = 32;
+
+    while (i) {
+        if(i%4 == 0) printf(" ");
+        if (n & 0x80000000)
+            printf("1");
+        else
+            printf("0");
+
+        n <<= 1;
+        i--;
+    }
+    printf("\n");
+}
+
+
+
+
+// ///////////////////////////////////////////////////////
+//
+// The following helper functions are invoked from the
+// mrmDataBuffer_test.cpp (iocsh test functions)
+//
+// ///////////////////////////////////////////////////////
 
 void mrmDataBuffer::setSegmentIRQ(epicsUInt8 i, epicsUInt32 mask)
 {
@@ -269,157 +374,14 @@ void mrmDataBuffer::read(size_t offset, size_t length) {
     epicsUInt8 buff[2048];
     size_t i;
 
-    memcpy(&buff[offset], (epicsUInt8 *)(base + dataRegRx + offset), length);    // copy the data to local buffer
+    for(i = 0; i < length; i+=4){
+        *(epicsUInt32*)(buff+i + offset) = be_ioread32(base + dataRegRx + i + offset);
+    }
 
     for(i=offset; i<offset+length; i++) {
         if(!(i%16)) printf(" | ");
         else if(!(i%4)) printf(", ");
         printf("%x ", buff[i]);
-    }
-    printf("\n");
-}
-
-void mrmDataBuffer::clearFlags(volatile epicsUInt8 *flagRegister) {
-    int i;
-
-    for(i=0; i<=12; i+=4) {
-        nat_iowrite32(flagRegister+i, 0xFFFFFFFF);
-    }
-}
-
-void mrmDataBuffer::printFlags(const char *preface, volatile epicsUInt8* flagRegister) {
-    int i;
-    epicsUInt32 segmentIrq;
-
-    printf("\n");
-    for(i=0; i<=12; i+=4) {
-        segmentIrq = nat_ioread32(flagRegister+i);
-        printBinary(preface, segmentIrq);
-    }
-    printf("\n");
-}
-
-void mrmDataBuffer::calcMaxInterestedLength()
-{
-    epicsInt16 j, bits;
-    epicsUInt32 irqFlags;
-
-    for (j=3; j>=0; j--) {  // search from the end
-        irqFlags = m_irq_flags[j];
-        bits = 32;
-        while(bits && irqFlags) {   // skip if irqFlags are all 0
-            if (irqFlags & 0x1) {   // we found an irq flag == this is the furthest segment we are interested in
-                m_max_length = j * 32 * DataBuffer_segment_length + bits * DataBuffer_segment_length;
-                j = -1;   // end the for loop
-                bits = 0;  // end the while loop
-            }
-            else {  // no flag yet
-                irqFlags >>= 1;
-                bits--;
-            }
-        }
-    }
-    if (m_max_length > DataBuffer_len_max) m_max_length = DataBuffer_len_max;
-
-    dbgPrintf(1, "Fetching max %d bytes from the data buffer\n", m_max_length);
-}
-
-epicsUInt16 mrmDataBuffer::getFirstReceivedSegment() {
-    epicsUInt16 firstSegment=0;
-    epicsUInt8 i;
-    epicsUInt32 mask;
-
-    for(i=0; i<4; i++){
-        mask = 0x80000000;
-        if(m_rx_flags[i] != 0){  // do we have Rx flag in this 32 segment bits?
-            while(!(m_rx_flags[i] & mask)) {   // do a bit search for the Rx flag, since we know at least one bit is set
-                mask >>= 1;
-                firstSegment++;
-            }
-            break;
-        } else {    // read next 32 bits and check for Rx flag there.
-            firstSegment += 32;
-        }
-    }
-
-    return firstSegment;
-}
-
-bool mrmDataBuffer::overflowOccured() {
-    bool overflow = false;
-    epicsUInt16 i, segment;
-
-    m_overflows[0] &= 0x7FFFFFFF;  // we don't care about segment 0 == delay compensation
-    for (i=0; i<4; i++) {
-        segment = 0;
-        while (m_overflows[i] !=0 ) {   // overflow occured.
-            overflow = true;
-            if (m_overflows[i] & 0x80000000) errlogPrintf("HW overflow occured for segment %d\n", i*32 + segment);
-            m_overflows[i] <<= 1;
-            segment ++;
-        }
-    }
-
-    return overflow;
-}
-
-bool mrmDataBuffer::checksumError() {   // DBCS bit is not checked, since segmented data buffer uses its own checksum error registers
-    bool checksum = false;
-    epicsUInt16 i, segment;
-
-    m_checksums[0] &= 0x7FFFFFFF;  // we don't care about segment 0 == delay compensation
-    for (i=0; i<4; i++) {
-        segment = 0;
-        while (m_checksums[i] !=0 ) {   // checksum occured.
-            checksum = true;
-            if (m_checksums[i] & 0x80000000) errlogPrintf("Checksum error occured for segment %d.\n", i*32 + segment);
-            m_checksums[i] <<= 1;
-            segment ++;
-        }
-    }
-
-    return checksum;
-}
-
-/**
- * No need to lock in this function, since we enable the reception at the end.
- * Thus, another reception cannot occur before this function is finished
- */
-void mrmDataBuffer::handleDataBufferRxIRQ(CALLBACK *cb) {
-    void *vptr;
-    callbackGetUser(vptr,cb);
-    mrmDataBuffer* parent = static_cast<mrmDataBuffer*>(vptr);
-
-
-    epicsGuard<epicsMutex> g(parent->m_rx_lock);
-
-    parent->receive();
-    parent->m_rx_irq_handled = true;
-}
-
-mrmDataBuffer* mrmDataBuffer::getDataBufferFromDevice(const char *device) {
-    // locking not needed because all data buffer instances are created before someone can use them
-
-    if(data_buffers.count(device)){
-        return data_buffers[device];
-    }
-
-    return NULL;
-}
-
-void mrmDataBuffer::printBinary(const char *preface, epicsUInt32 n) {
-    printf("%s: 0x%x =", preface, n);
-    int i = 32;
-
-    while (i) {
-        if(i%4 == 0) printf(" ");
-        if (n & 0x80000000)
-            printf("1");
-        else
-            printf("0");
-
-        n <<= 1;
-        i--;
     }
     printf("\n");
 }
