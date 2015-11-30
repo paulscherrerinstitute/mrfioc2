@@ -212,6 +212,13 @@ pattern { EVT,	CODE,    FLNK }
 }
 # If you want to enable measuring the jitter on received events comment out the previous substitution and use this one instead
 # 
+# Additinal macros:
+#  HIST_LEN = number of histogram bins created from frequency measurements. Default 200.
+#  HIST_ULIM = histogram upper limit. Default 11.
+#  HIST_LLIM = histogram lower limit. Default 9.
+# 
+# NOTE: make sure your system supports the 'histogram' record before using this template!
+#  
 #file "$(mrfioc2_TEMPLATES=db)/evr-softEvent-measure.template"{
 #pattern { EVT,	CODE,    FLNK }
 #		{ "1",    "1",   "" }
