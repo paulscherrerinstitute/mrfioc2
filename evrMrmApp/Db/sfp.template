@@ -1,4 +1,14 @@
 
+record(bi, "$(SYS)-$(EVR):SFP$(ID)-Valid-I") {
+  field(DTYP, "Obj Prop bool")
+  field(INP , "@OBJ=$(EVR):SFP$(ID), PROP=Valid")
+  field(DESC, "Are readouts valid?")
+  field(SCAN, "10 second")
+  field(ZNAM, "Invalid")
+  field(ONAM, "Valid")
+  field(ZSV , "MINOR")
+}
+
 record(ai, "$(SYS)-$(EVR):SFP$(ID)-T-I") {
   field(SCAN, "10 second")
   field(DTYP, "Obj Prop double")

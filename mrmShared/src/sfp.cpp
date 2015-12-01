@@ -17,6 +17,8 @@
 
 #define SFP_UPDATE_DELAY 10
 
+static const char nomod[] = "<No Module>";
+
 epicsInt16 SFP::read16(unsigned int offset) const
 {
     epicsUInt16 val = buffer[offset];
@@ -30,8 +32,8 @@ SFP::SFP(const std::string &n, volatile unsigned char *reg)
     :mrf::ObjectInst<SFP>(n)
     ,base(reg)
     ,buffer(SFPMEM_SIZE)
-    ,tempBuffer(SFPMEM_SIZE)
-    ,valid(true)
+    ,temp_buffer(SFPMEM_SIZE)
+    ,readout_valid(false)
 {
     updateNow();
 
@@ -39,11 +41,11 @@ SFP::SFP(const std::string &n, volatile unsigned char *reg)
     callbackSetPriority(priorityLow, &updateCallback);
     callbackSetUser(this, &updateCallback);
 
-    /* Check for SFP with LC connector */
-    if(buffer[0]==3 && buffer[2]==7){
-        fprintf(stderr, "Found %s EEPROM\n", n.c_str());
+    /* Check if type of serial transceiver is SFP */
+    if(readout_valid){
+        printf("Found %s SFP transceiver\n", n.c_str());
     }else{
-        fprintf(stderr, "Could not read %s EEPROM. Read: %02x %02x %02x %02x\n",
+        fprintf(stderr, "Could not read SFP transceiver type. %s readouts INVALID!\n\tFirst 4 bytes of SFP EEPROM: %02x %02x %02x %02x\n",
                 n.c_str(), buffer[0],buffer[1],buffer[2],buffer[3]);
     }
 }
@@ -69,20 +71,26 @@ void SFP::updateNow(bool)
     /* read I/O 4 bytes at a time to preserve endianness
      * for both PCI and VME
      */
-    epicsUInt32* p32=(epicsUInt32*)&tempBuffer[0];
+    epicsUInt32* p32=(epicsUInt32*)&temp_buffer[0];
 
     for(unsigned int i=0; i<SFPMEM_SIZE/4; i++)
         p32[i] = be_ioread32(base+ i*4);
 
     guard.lock();
-    buffer.swap(tempBuffer);
+    buffer.swap(temp_buffer);
+    readout_valid = buffer[SFP_type_offset]==SFP_type;  // we consider readout as valid if type 'SFP transceiver' can be read from the SFP EEPROM
     guard.unlock();
+}
+
+
+bool SFP::valid() const
+{
+    return readout_valid;
 }
 
 double SFP::linkSpeed() const
 {
-    if(!valid){
-        fprintf(stderr, "SFP readout not valid in linkSpeed()\n");
+    if(!readout_valid){
         return -1;
     }
     return buffer[SFP_linkrate] * 100.0; // Gives MBits/s
@@ -90,8 +98,7 @@ double SFP::linkSpeed() const
 
 double SFP::temperature() const
 {
-    if(!valid){
-        fprintf(stderr, "SFP readout not valid in temperature()\n");
+    if(!readout_valid){
         return -40;
     }
     return read16(SFP_temp) / 256.0; // Gives degrees C
@@ -99,8 +106,7 @@ double SFP::temperature() const
 
 double SFP::powerTX() const
 {
-    if(!valid){
-        fprintf(stderr, "SFP readout not valid in powerTX()\n");
+    if(!readout_valid){
         return -1e-6;
     }
     return read16(SFP_tx_pwr) * 0.1e-6; // Gives Watts
@@ -108,51 +114,54 @@ double SFP::powerTX() const
 
 double SFP::powerRX() const
 {
-    if(!valid){
+    if(!readout_valid){
         fprintf(stderr, "SFP readout not valid in powerRX()\n");
         return -1e-6;
     }
     return read16(SFP_rx_pwr) * 0.1e-6; // Gives Watts
 }
 
-static const char nomod[] = "<No Module>";
-
 std::string SFP::vendorName() const
 {
-    if(!valid)
+    if(!readout_valid) {
         return std::string(nomod);
+    }
     buffer_t::const_iterator it=buffer.begin()+SFP_vendor_name;
     return std::string(it, it+16);
 }
 
 std::string SFP::vendorPart() const
 {
-    if(!valid)
+    if(!readout_valid) {
         return std::string(nomod);
+    }
     buffer_t::const_iterator it=buffer.begin()+SFP_part_num;
     return std::string(it, it+16);
 }
 
 std::string SFP::vendorRev() const
 {
-    if(!valid)
+    if(!readout_valid) {
         return std::string(nomod);
+    }
     buffer_t::const_iterator it=buffer.begin()+SFP_part_rev;
     return std::string(it, it+4);
 }
 
 std::string SFP::serial() const
 {
-    if(!valid)
+    if(!readout_valid) {
         return std::string(nomod);
+    }
     buffer_t::const_iterator it=buffer.begin()+SFP_serial;
     return std::string(it, it+16);
 }
 
 std::string SFP::manuDate() const
 {
-    if(!valid)
+    if(!readout_valid) {
         return std::string(nomod);
+    }
     std::string ret("20XX/XX");
     ret[2]=buffer[SFP_man_date];
     ret[3]=buffer[SFP_man_date+1];
@@ -162,32 +171,28 @@ std::string SFP::manuDate() const
 }
 
 epicsUInt16 SFP::getStatus() const{
-    if(!valid){
-        fprintf(stderr, "SFP readout not valid in getStatus()\n");
+    if(!readout_valid){
         return 0xFFFF;
     }
     return (epicsUInt16)buffer[SFP_status];
 }
 
 double SFP::getVCCPower() const{
-    if(!valid){
-        fprintf(stderr, "SFP readout not valid in getVCCPower()\n");
+    if(!readout_valid){
         return -1e-6;
     }
     return (epicsUInt16)read16(SFP_vccPower) * 100e-6; // Gives Volts
 }
 
 epicsUInt16 SFP::getBitRateUpper() const{
-    if(!valid){
-        fprintf(stderr, "SFP readout not valid in getBitRateUpper()\n");
+    if(!readout_valid){
         return -1;
     }
     return (epicsUInt16)buffer[SFP_bitRateMargin_upper];    // in %
 }
 
 epicsUInt16 SFP::getBitRateLower() const{
-    if(!valid){
-        fprintf(stderr, "SFP readout not valid in getBitRateLower()\n");
+    if(!readout_valid){
         return -1;
     }
     return (epicsUInt16)buffer[SFP_bitRateMargin_lower];    // in %
@@ -196,10 +201,6 @@ epicsUInt16 SFP::getBitRateLower() const{
 epicsUInt32 SFP::getLinkLength_9um() const{
     epicsUInt32 length;
 
-    if(!valid){
-        fprintf(stderr, "SFP readout not valid in getLinkLength_9um()\n");
-        return 0xFFFFFFFF;
-    }
     length = (epicsUInt32)buffer[SFP_linkLength_9uminkm] * 1000;    // km
     length += (epicsUInt32)buffer[SFP_linkLength_9umin100m] * 100;  // m
 
@@ -207,24 +208,21 @@ epicsUInt32 SFP::getLinkLength_9um() const{
 }
 
 epicsUInt16 SFP::getLinkLength_50um() const{
-    if(!valid){
-        fprintf(stderr, "SFP readout not valid in getLinkLength_50um()\n");
+    if(!readout_valid){
         return 0xFFFF;
     }
     return (epicsUInt16)buffer[SFP_linkLength_50umin10m] * 10;    // in m
 }
 
 epicsUInt16 SFP::getLinkLength_62um() const{
-    if(!valid){
-        fprintf(stderr, "SFP readout not valid in getLinkLength_62um()\n");
+    if(!readout_valid){
         return 0xFFFF;
     }
     return (epicsUInt16)buffer[SFP_linkLength_62umin10m] * 10;    // in m
 }
 
 epicsUInt16 SFP::getLinkLength_copper() const{
-    if(!valid){
-        fprintf(stderr, "SFP readout not valid in getLinkLength_copper()\n");
+    if(!readout_valid){
         return 0xFFFF;
     }
     return (epicsUInt16)buffer[SFP_linkLength_copper];    // in m
@@ -232,16 +230,18 @@ epicsUInt16 SFP::getLinkLength_copper() const{
 
 void SFP::report() const
 {
-    printf("SFP tranceiver information\n"
-            " Temp: %.1f C\n"
-            " Link: %.1f MBits/s\n"
-            " Tx Power: %.1f uW\n"
-            " Rx Power: %.1f uW\n",
+    printf("SFP tranceiver information is ");
+    if(readout_valid) printf("valid\n");
+    else printf("invalid\n");
+    printf( "\tTemp: %.1f C\n"
+            "\tLink: %.1f MBits/s\n"
+            "\tTx Power: %.1f uW\n"
+            "\tRx Power: %.1f uW\n",
             temperature(),
             linkSpeed(),
             powerTX()*1e6,
             powerRX()*1e6);
-    printf(" Vendor:%s\n Model: %s\n Rev: %s\n Manufacture date: %s\n Serial: %s\n",
+    printf("\tVendor:%s\n Model: %s\n Rev: %s\n Manufacture date: %s\n Serial: %s\n",
            vendorName().c_str(),
            vendorPart().c_str(),
            vendorRev().c_str(),
@@ -251,14 +251,14 @@ void SFP::report() const
 
 void SFP::reportMore() const{
     report();
-    printf( " Status: 0x%X \n"
-            " Supply VCC: %.1f uV/s\n"
-            " Upper bit rate margin: %d %%\n"
-            " Lower bit rate margin: %d %%\n"
-            " Link length for 9/125 um fiber: %d m\n"
-            " Link length for 50/125 um fiber: %d m\n"
-            " Link length for 62.5/125 um fiber: %d m\n"
-            " Link length for copper: %d m\n",
+    printf( "\tStatus: 0x%X \n"
+            "\tSupply VCC: %.1f uV/s\n"
+            "\tUpper bit rate margin: %d %%\n"
+            "\tLower bit rate margin: %d %%\n"
+            "\tLink length for 9/125 um fiber: %d m\n"
+            "\tLink length for 50/125 um fiber: %d m\n"
+            "\tLink length for 62.5/125 um fiber: %d m\n"
+            "\tLink length for copper: %d m\n",
             getStatus(),
             getVCCPower()*1e6,
             getBitRateUpper(),
@@ -271,6 +271,7 @@ void SFP::reportMore() const{
 
 OBJECT_BEGIN(SFP) {
 
+    OBJECT_PROP1("Valid", &SFP::valid);
     OBJECT_PROP1("Vendor", &SFP::vendorName);
     OBJECT_PROP1("Part", &SFP::vendorPart);
     OBJECT_PROP1("Rev", &SFP::vendorRev);

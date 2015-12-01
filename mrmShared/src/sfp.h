@@ -26,8 +26,7 @@ class epicsShareClass SFP : public mrf::ObjectInst<SFP> {
     volatile unsigned char* base;
     typedef std::vector<epicsUInt8> buffer_t;
     buffer_t buffer;
-    buffer_t tempBuffer;
-    bool valid;
+    buffer_t temp_buffer;
     mutable epicsMutex guard;
     epicsInt16 read16(unsigned int) const;
 public:
@@ -37,8 +36,9 @@ public:
     virtual void lock() const{guard.lock();};
     virtual void unlock() const{guard.unlock();};
 
-    bool junk() const{return 0;}
     void updateNow(bool=true);
+
+    bool valid() const;
 
     double linkSpeed() const;
     double temperature() const;
@@ -73,6 +73,9 @@ public:
      * @brief startUpdate is called from the init hook (evgInit.cpp / evrIocsh.cpp) after the callback stack has been initialized.
      */
     void startUpdate();
+
+private:
+    bool readout_valid;
 };
 
 #endif // SFP_H
