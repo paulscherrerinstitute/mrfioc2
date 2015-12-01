@@ -98,185 +98,6 @@
       <set>Qt::AlignCenter</set>
      </property>
     </widget>
-    <widget class="QWidget" name="formLayoutWidget">
-     <property name="geometry">
-      <rect>
-       <x>2</x>
-       <y>20</y>
-       <width>131</width>
-       <height>111</height>
-      </rect>
-     </property>
-     <layout class="QFormLayout" name="formLayout">
-      <property name="fieldGrowthPolicy">
-       <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
-      </property>
-      <item row="0" column="0">
-       <widget class="caLed" name="caled">
-        <property name="toolTip">
-         <string>Master enable for the EVR. If not set then very little will happen.</string>
-        </property>
-        <property name="rectangular">
-         <bool>false</bool>
-        </property>
-        <property name="channel" stdset="0">
-         <string notr="true">$(EVR):Ena-Sel</string>
-        </property>
-        <property name="falseColor">
-         <color>
-          <red>255</red>
-          <green>0</green>
-          <blue>0</blue>
-         </color>
-        </property>
-        <property name="trueColor">
-         <color>
-          <red>0</red>
-          <green>205</green>
-          <blue>0</blue>
-         </color>
-        </property>
-        <property name="undefinedColor">
-         <color>
-          <red>255</red>
-          <green>255</green>
-          <blue>255</blue>
-         </color>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1">
-       <widget class="QLabel" name="label">
-        <property name="text">
-         <string>EVR enabled</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0">
-       <widget class="caLed" name="caled_4">
-        <property name="toolTip">
-         <string>Indicates if the EVR has a current, valid timestamp.</string>
-        </property>
-        <property name="rectangular">
-         <bool>false</bool>
-        </property>
-        <property name="channel" stdset="0">
-         <string notr="true">$(EVR):Time-Valid-Sts</string>
-        </property>
-        <property name="falseColor">
-         <color>
-          <red>255</red>
-          <green>0</green>
-          <blue>0</blue>
-         </color>
-        </property>
-        <property name="trueColor">
-         <color>
-          <red>0</red>
-          <green>205</green>
-          <blue>0</blue>
-         </color>
-        </property>
-        <property name="undefinedColor">
-         <color>
-          <red>255</red>
-          <green>255</green>
-          <blue>255</blue>
-         </color>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1">
-       <widget class="QLabel" name="label_19">
-        <property name="text">
-         <string>Time valid</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="0">
-       <widget class="caLed" name="caled_2">
-        <property name="toolTip">
-         <string>Is the EVR's local oscilator phase locked with the phase of the EVG's oscilator.</string>
-        </property>
-        <property name="rectangular">
-         <bool>false</bool>
-        </property>
-        <property name="channel" stdset="0">
-         <string notr="true">$(EVR):Pll-Sts</string>
-        </property>
-        <property name="falseColor">
-         <color>
-          <red>255</red>
-          <green>0</green>
-          <blue>0</blue>
-         </color>
-        </property>
-        <property name="trueColor">
-         <color>
-          <red>0</red>
-          <green>205</green>
-          <blue>0</blue>
-         </color>
-        </property>
-        <property name="undefinedColor">
-         <color>
-          <red>255</red>
-          <green>255</green>
-          <blue>255</blue>
-         </color>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="1">
-       <widget class="QLabel" name="label_3">
-        <property name="text">
-         <string>PLL lock</string>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="0">
-       <widget class="caLed" name="caled_3">
-        <property name="toolTip">
-         <string>Is the EVR's local oscilator phase locked with the phase of the EVG's oscilator.</string>
-        </property>
-        <property name="rectangular">
-         <bool>false</bool>
-        </property>
-        <property name="channel" stdset="0">
-         <string notr="true">$(EVR):CG-Sts</string>
-        </property>
-        <property name="falseColor">
-         <color>
-          <red>255</red>
-          <green>0</green>
-          <blue>0</blue>
-         </color>
-        </property>
-        <property name="trueColor">
-         <color>
-          <red>0</red>
-          <green>205</green>
-          <blue>0</blue>
-         </color>
-        </property>
-        <property name="undefinedColor">
-         <color>
-          <red>255</red>
-          <green>255</green>
-          <blue>255</blue>
-         </color>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="1">
-       <widget class="QLabel" name="label_4">
-        <property name="text">
-         <string>Fract synth OK</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
     <widget class="caLineEdit" name="calineedit_3">
      <property name="geometry">
       <rect>
@@ -341,6 +162,30 @@
       <string notr="true">G_EVR_info.ui</string>
      </property>
     </widget>
+    <widget class="caInclude" name="cainclude_17">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>20</y>
+       <width>131</width>
+       <height>111</height>
+      </rect>
+     </property>
+     <property name="macro">
+      <string notr="true">EVR=$(EVR)</string>
+     </property>
+     <property name="filename" stdset="0">
+      <string notr="true">G_EVR_$(FF)_main-status.ui</string>
+     </property>
+    </widget>
+    <zorder>cainclude_6</zorder>
+    <zorder>label_11</zorder>
+    <zorder>calineedit_3</zorder>
+    <zorder>line</zorder>
+    <zorder>cainclude_15</zorder>
+    <zorder>cainclude_16</zorder>
+    <zorder>cainclude_17</zorder>
+    <zorder>line</zorder>
    </widget>
    <widget class="QTabWidget" name="tabWidget">
     <property name="geometry">
@@ -543,7 +388,7 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>651</width>
+         <width>654</width>
          <height>1900</height>
         </rect>
        </property>
@@ -3183,7 +3028,7 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>651</width>
+         <width>654</width>
          <height>1900</height>
         </rect>
        </property>
@@ -5805,11 +5650,6 @@
    <class>caInclude</class>
    <extends>QWidget</extends>
    <header>caInclude</header>
-  </customwidget>
-  <customwidget>
-   <class>caLed</class>
-   <extends>QWidget</extends>
-   <header>caLed</header>
   </customwidget>
   <customwidget>
    <class>caLineEdit</class>

@@ -104,6 +104,9 @@
     <property name="channel" stdset="0">
      <string notr="true">$(EVG):FwVer-I</string>
     </property>
+    <property name="formatType">
+     <enum>caLineEdit::hexadecimal</enum>
+    </property>
    </widget>
    <widget class="caLineEdit" name="calineedit_3">
     <property name="geometry">

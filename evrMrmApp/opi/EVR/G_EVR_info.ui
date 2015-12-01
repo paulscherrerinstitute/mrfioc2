@@ -42,7 +42,7 @@
        <string notr="true">$(EVR):HwType-I</string>
       </property>
       <property name="formatType">
-       <enum>caLineEdit::string</enum>
+       <enum>caLineEdit::hexadecimal</enum>
       </property>
      </widget>
     </item>
@@ -62,7 +62,7 @@
        <string notr="true">$(EVR):FwVer-I</string>
       </property>
       <property name="formatType">
-       <enum>caLineEdit::string</enum>
+       <enum>caLineEdit::hexadecimal</enum>
       </property>
      </widget>
     </item>
