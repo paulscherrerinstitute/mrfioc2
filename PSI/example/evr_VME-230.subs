@@ -328,8 +328,8 @@ pattern { EVT,	CODE,    FLNK }
 # 
 # Additinal macros:
 #  HIST_LEN = number of histogram bins created from frequency measurements. Default 200.
-#  HIST_ULIM = histogram upper limit. Default 11.
-#  HIST_LLIM = histogram lower limit. Default 9.
+#  HIST_ULIM = histogram upper limit. Default 12.
+#  HIST_LLIM = histogram lower limit. Default 8.
 # 
 # NOTE: make sure your system supports the 'histogram' record before using this template!
 #  

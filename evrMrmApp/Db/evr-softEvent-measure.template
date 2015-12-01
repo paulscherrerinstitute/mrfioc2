@@ -7,8 +7,8 @@
 #  CODE = EPICS database event number (software)
 #  FLNK = If provided, forward links to the record after all records from this template are processed
 #  HIST_LEN = number of histogram bins created from frequency measurements. Default 200.
-#  HIST_ULIM = histogram upper limit. Default 11.
-#  HIST_LLIM = histogram lower limit. Default 9.
+#  HIST_ULIM = histogram upper limit. Default 12.
+#  HIST_LLIM = histogram lower limit. Default 8.
 #
 
 record(event, "$(SYS)-$(EVR):Event-$(EVT)-SP") {
@@ -80,7 +80,7 @@ record(histogram, "$(SYS)-$(EVR):Event-$(EVT)-HIST-I"){
   field(DESC, "Histogram of jitter")
   field(SVL,  "$(SYS)-$(EVR):Event-$(EVT)-PERF-I")
   field(NELM, "$(HIST_LEN=200)")
-  field(ULIM, "$(HIST_ULIM=11)")
-  field(LLIM, "$(HIST_LLIM=9)")
+  field(ULIM, "$(HIST_ULIM=12)")
+  field(LLIM, "$(HIST_LLIM=8)")
   field(FLNK,"$(FLNK=)")
 }
