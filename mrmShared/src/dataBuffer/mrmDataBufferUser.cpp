@@ -11,6 +11,7 @@
 #include "mrmDataBufferUser.h"
 
 
+
 mrmDataBufferUser::mrmDataBufferUser() {
     epicsUInt32 i;
 
@@ -20,8 +21,8 @@ mrmDataBufferUser::mrmDataBufferUser() {
         m_segments_interested[i] = 0;
     }
 
-    memset(m_rx_buff, 0, 2048);// TODO make define here
-    memset(m_tx_buff, 0, 2048);// TODO make define here
+    memset(m_rx_buff, 0, 2048);
+    memset(m_tx_buff, 0, 2048);
 
     m_data_buffer = NULL;
     m_user_offset = 0;
@@ -33,16 +34,18 @@ bool mrmDataBufferUser::init(const char* deviceName, size_t userOffset, bool str
         errlogPrintf("Data buffer for %s already initialized.\n", deviceName);
         return false;
     }
+
+    if (userOffset > DataBuffer_len_max) {
+        epicsPrintf("User offset too big. Should be [0, %d]. Init aborted.\n", DataBuffer_len_max);
+        return false;
+    }
+
     m_data_buffer = mrmDataBuffer::getDataBufferFromDevice(deviceName);
     if(m_data_buffer == NULL) {
         errlogPrintf("Data buffer for %s not found.\n", deviceName);
         return false;
     }
 
-    if (userOffset > DataBuffer_len_max) {
-        userOffset = DataBuffer_len_max;
-        epicsPrintf("User offset too big. Setting to max value: %d", DataBuffer_len_max);
-    }
     m_user_offset = userOffset;
     m_strict_mode = strictMode;
 
@@ -172,7 +175,7 @@ bool mrmDataBufferUser::removeInterest(size_t id) {
 
     epicsGuard<epicsMutex> g(m_rx_lock);
 
-    if (m_data_buffer != NULL) {
+    if (m_data_buffer == NULL) {
         errlogPrintf("Data buffer not initialized. Did you call init() function?\n");
         return false;
     }

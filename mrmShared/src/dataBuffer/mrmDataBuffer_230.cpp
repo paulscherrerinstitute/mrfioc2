@@ -55,7 +55,7 @@ bool mrmDataBuffer_230::send(epicsUInt8 startSegment, epicsUInt16 length, epicsU
     dbgPrintf(3, "Triggering transmision: 0x%x => ", (epicsUInt32)length|DataTxCtrl_trig);
 
     reg = nat_ioread32(base+ctrlRegTx);
-    reg &= ~(DataTxCtrl_len_mask); //clear length
+    reg &= ~(DataTxCtrl_len_mask);              //clear length
     reg |= (epicsUInt32)length|DataTxCtrl_trig; // set length and trigger sending.
     nat_iowrite32(base+ctrlRegTx, reg);
 
@@ -72,7 +72,7 @@ void mrmDataBuffer_230::receive() {
         errlogPrintf("DBRX bit active (data buffer receiving). Skipping reception.\n\tControl register status: 0x%x\n", sts);
         return;
     }
-    else if (sts&DataRxCtrl_sumerr) {
+    else if (sts&DataRxCtrl_sumerr) {   // acknowledged by setting DataRxCtrl_rx (at the end of the function)
         errlogPrintf("RX: Checksum error. Skipping reception.\n");
     }
     else {
@@ -82,8 +82,8 @@ void mrmDataBuffer_230::receive() {
 
         // Dispatch the buffer to users
         if(m_users.size() > 0) {
-            // Using big endian read (instead of memcopy for example), because the data is always in big endian on the network. Thus we always
-            // need to read using big endian.
+            // Using big endian read (instead of memcopy for example), because the data is always in big endian on the network.
+            // Thus we always need to read using big endian.
             for(i=0; i<length; i+=4) {
                 *(epicsUInt32*)(m_rx_buff+i) = be_ioread32(base + dataRegRx + i);
             }
@@ -102,6 +102,7 @@ void mrmDataBuffer_230::receive() {
             }
         }
     }
+    // Enable reception for the next data buffer
     sts = nat_ioread32(base+ctrlRegRx);
     sts |= DataRxCtrl_rx;
     nat_iowrite32(base+ctrlRegRx, sts);

@@ -171,7 +171,6 @@ void mrmDataBuffer::removeUser(mrmDataBufferUser *user)
     epicsUInt16 j;
 
     epicsGuard<epicsMutex> g(m_rx_lock);
-    //m_users.erase(std::remove(m_users.begin(), m_users.end(), user), m_users.end());
 
     for (j=0; j<4; j++) {
         m_irq_flags[j] = 0;
@@ -227,8 +226,6 @@ void mrmDataBuffer::setInterest(mrmDataBufferUser *user, epicsUInt32 *interest)
         nat_iowrite32(base+DataBuffer_SegmentIRQ + 4 * i, m_irq_flags[i]);
     }
 }
-
-
 
 void mrmDataBuffer::clearFlags(volatile epicsUInt8 *flagRegister) {
     int i;

@@ -87,7 +87,7 @@ public:
     bool waitForTxComplete(); // inline?
 
     /**
-     * @brief send starts the transmission of the data buffer
+     * @brief send starts the transmission of the data buffer. Function implementations are in separate classes.
      * @param startSegment is the starting segment to be sent out
      * @param length is the length from the starting segment to be sent out
      * @param data is the payload to be sent out
@@ -177,6 +177,9 @@ private:
      */
     void clearFlags(volatile epicsUInt8* flagRegister);
 
+    /**
+     * @brief receive is invoked by handleDataBufferRxIRQ. Function implementations are in separate classes.
+     */
     virtual void receive() = 0;
 };
 

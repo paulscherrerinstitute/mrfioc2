@@ -54,8 +54,8 @@ bool mrmDataBuffer_300::send(epicsUInt8 startSegment, epicsUInt16 length, epicsU
     dbgPrintf(3, "Triggering transmision: 0x%x => ", (epicsUInt32)length|DataTxCtrl_trig|((epicsUInt32)startSegment << DataTxCtrl_saddr_shift));
 
     reg = nat_ioread32(base+ctrlRegTx);
-    reg &= ~(DataTxCtrl_len_mask); //clear length
-    reg &= ~(DataTxCtrl_saddr_mask); // clear segment address
+    reg &= ~(DataTxCtrl_len_mask);      // clear length
+    reg &= ~(DataTxCtrl_saddr_mask);    // clear segment address
     reg |= (epicsUInt32)length|DataTxCtrl_trig|((epicsUInt32)startSegment << DataTxCtrl_saddr_shift); // set length and segment addres and trigger sending.
     nat_iowrite32(base+ctrlRegTx, reg);
 
@@ -142,7 +142,6 @@ void mrmDataBuffer_300::receive()
         }
     }
 
-    //printFlags("IRQ", (epicsUInt8 *)m_irq_flags);
     for(i=0; i<4; i++) {        // set which segments will trigger interrupt when data is received
         nat_iowrite32(base+DataBuffer_SegmentIRQ + 4 * i, m_irq_flags[i]);
     }
