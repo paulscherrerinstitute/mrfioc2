@@ -543,4 +543,7 @@ record(aSub, "$(SYS)-$(EVR):CML$(ID)-BunchTrain:ASub_") {
   field(OUTA, "$(SYS)-$(EVR):CML$(ID)-Pat:Wf-SP PP")
   field(FTVA, "UCHAR")
   field(NOVA, "$(MAX=40940)") # 20*2047 or 40*2047
+  field(FTB,  "LONG")
+  field(NOB,  "1")
+  field(INPB, "$(NBIT=20)")
 }

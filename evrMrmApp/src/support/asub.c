@@ -231,12 +231,26 @@ long gen_bitarraygen(aSubRecord *prec)
     return 0;
 }
 
+/**@brief Bunch train
+ * Builds a bunch train
+ *
+ * Creates bunches that consist of (nbit/2) high bits
+ * and (nbit/2) low bits.
+ * A bunch train consists of bunchPerTrain number of
+ * bunches, followed by nbit low bits.
+ *
+ *@param A Number of bunches per train: bunchPerTrain
+ *@param B Number of bits per event clock (20 or 40): nbit
+ *
+ *@param OUTA The output sequence
+ */
 long gun_bunchTrain(aSubRecord *prec)
 {
 	int bunchPerTrain;
 	unsigned char *result;
 	epicsUInt32 count;
 	int i, j;
+    int nbit;
 
 
     if (prec->fta != menuFtypeULONG) {
@@ -254,6 +268,9 @@ long gun_bunchTrain(aSubRecord *prec)
     bunchPerTrain = *(int*)prec->a;
     result = prec->vala;
 
+
+    nbit  = *(int *)prec->b;
+
     if(bunchPerTrain<1 || bunchPerTrain>150) {
         errlogPrintf("%s : invalid number of bunches per train %d.\n",prec->name,bunchPerTrain);
         return -1;
@@ -262,15 +279,15 @@ long gun_bunchTrain(aSubRecord *prec)
     count = 0;
 
     for(i = 0; i < bunchPerTrain; i++) {
-        for(j = 0; j < 10; j++) {
+        for(j = 0; j < nbit; j++) {
             count++;
-            if(j < 5)
+            if(j < nbit/2)
                 result[i*10 + j] = 1;
             else
                 result[i*10 + j] = 0;
         }
     }
-    for(i = 0; i <10; i++, count++) {
+    for(i = 0; i <nbit; i++, count++) {
         result[count] = 0;
     }
 
