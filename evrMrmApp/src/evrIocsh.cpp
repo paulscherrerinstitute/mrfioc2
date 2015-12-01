@@ -184,8 +184,8 @@ bool reportCard(mrf::Object* obj, void* raw)
             printf("\tVME configured slot: %d\n", bus->vme.slot);
             printf("\tVME configured A24 address 0x%08x\n", bus->vme.address);
             printf("\tVME ADER: base address=0x%x\taddress modifier=0x%x\n", ader>>8, (ader&0xFF)>>2);
-            printf("\tVME IRQ Level %d (configured to %d)\n", CSRRead8(csrAddr + user_offset + UCSR_IRQ_LEVEL), bus->vme.irqLevel);
-            printf("\tVME IRQ Vector %d (configured to %d)\n", CSRRead8(csrAddr + user_offset + UCSR_IRQ_VECTOR), bus->vme.irqVector);
+            printf("\tVME IRQ Level %x (configured to %x)\n", CSRRead8(csrAddr + user_offset + UCSR_IRQ_LEVEL), bus->vme.irqLevel);
+            printf("\tVME IRQ Vector %x (configured to %x)\n", CSRRead8(csrAddr + user_offset + UCSR_IRQ_VECTOR), bus->vme.irqVector);
             if(*level>1) printf("\tVME card vendor: 0x%08x\n", vmeDev.vendor);
             if(*level>1) printf("\tVME card board: 0x%08x\n", vmeDev.board);
             if(*level>1) printf("\tVME card revision: 0x%08x\n", vmeDev.revision);
@@ -235,7 +235,7 @@ int checkVersion(volatile epicsUInt8 *base, unsigned int required)
 {
     epicsUInt32 v = READ32(base, FWVersion),evr,ver;
 
-    errlogPrintf("FWVersion 0x%08x\n", v);
+    errlogPrintf("FPGA version 0x%08x\n", v);
 
     evr=v&FWVersion_type_mask;
     evr>>=FWVersion_type_shift;
@@ -246,10 +246,10 @@ int checkVersion(volatile epicsUInt8 *base, unsigned int required)
     ver=v&FWVersion_ver_mask;
     ver>>=FWVersion_ver_shift;
 
-    errlogPrintf("Found version %u\n", ver);
+    errlogPrintf("Firmware version %x\n", ver);
 
     if(ver<required) {
-        errlogPrintf("Firmware version >=%u is required\n", required);
+        errlogPrintf("Firmware version >=%x is required\n", required);
         throw std::runtime_error("Firmware version not supported");
 
     }
@@ -311,7 +311,7 @@ try {
     const epicsPCIDevice *cur=0;
 
     if( devPCIFindDBDF(mrmevrs,o,b,d,f,&cur,0) ){
-        printf("PCI Device not found on %x:%x.%x\n", b, d, f);
+        printf("PCI Device not found on %x:%x:%x.%x\n", o, b, d, f);
         return;
     }
 
