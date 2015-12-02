@@ -34,7 +34,7 @@ For building the documentation (for more information inspect readme in `document
 
 The mrfioc2 driver is structured as an ordinary EPICS application. In order to build it from source:
 
-* clone the sources from git repository by running command `git clone https://skube_s@github.psi.ch/scm/ed/mrfioc2.git`, which creates a top folder called `mrfioc2`.
+* clone the sources from git repository by running command `git clone https://github.psi.ch/scm/ed/mrfioc2.git`, which creates a top folder called `mrfioc2`.
 * update files in `mrfioc2/configure` folder to match your system, and to include additional libraries to be build together with the driver (eg. set paths in `configure/RELEASE`).
 * run `make -f Makefile` in the `mrfioc2` folder.
 
@@ -53,7 +53,7 @@ Outputs of the build command are:
 ### PSI
 Building the driver on the PSI infrastructure is a bit different, since it leverages the driver.makefile. In order to build it:
 
-* clone the sources from git repository by running command `git clone https://skube_s@github.psi.ch/scm/ed/regdev.git`, which creates a top folder called `mrfioc2`.
+* clone the sources from git repository by running command `git clone https://github.psi.ch/scm/ed/regdev.git`, which creates a top folder called `mrfioc2`.
 * run `make` in the `mrfioc2` folder on the build server.
 * run 'make db' to create database files
 * to install the driver run `make install` in the `mrfioc2` folder on the build server.
@@ -112,7 +112,7 @@ Please send an e-mail to saso.skube@cosylab.com if anyone is missing!
 
 
 ## Todo
-* Known issues (missing interrupts on PCIe due to a race condition between kernel and user space - interrupt enable flag ends up disabled)
+* Known issues 
 
 
 
