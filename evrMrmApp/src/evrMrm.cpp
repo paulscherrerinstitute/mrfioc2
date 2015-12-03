@@ -1188,7 +1188,7 @@ EVRMRM::isr(void *arg)
     if(active&IRQ_BufFull){
         if (evr->m_dataBuffer->m_rx_irq_handled) {
             // Silence interrupt. DataRxCtrl_stop is actually Rx acknowledge, so we need to write to it in order to clear it.
-            BITSET(NAT,32,evr->base, DataRxCtrlEvr, DataRxCtrl_stop);
+            if (evr->firmwareVersion < MIN_FW_SEGMENTED_DBUFF) BITSET(NAT,32,evr->base, DataRxCtrlEvr, DataRxCtrl_stop);
 
             evr->m_dataBuffer->m_rx_irq_handled = false;
             callbackRequest(&evr->dataBufferRx_cb);
