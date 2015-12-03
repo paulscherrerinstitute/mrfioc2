@@ -8,7 +8,7 @@ record(mbbo, "$(SYS)-$(EVG):EvtClk-Source-Sel") {
     field( ONST, "External")
     field( TWST, "PXIe 100 MHz")
     field( THST, "Recovered RX clock")
-    field( FRST, "PXIe 10MHz")
+    field( FRST, "PXIe 10 MHz")
     field( ZRVL, "0")
     field( ONVL, "1")
     field( TWVL, "2")

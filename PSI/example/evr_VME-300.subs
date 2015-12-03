@@ -175,6 +175,12 @@ file "$(mrfioc2_TEMPLATES=db)/evr-vme-300.db"
 		Pul23-Polarity-Sel=0,  	#0 = Active High, 1 = Active Low
 		Pul23-Delay-SP=0,		#0-4294967295 : Delay in us 
 		Pul23-Width-SP=0,		#0-65535 : Width in us
+
+		# Gates 0-3
+		Pul28-Ena-Sel=1,		#0 = Disabled, 1 = Enabled
+		Pul29-Ena-Sel=1,		#0 = Disabled, 1 = Enabled
+		Pul30-Ena-Sel=1,		#0 = Disabled, 1 = Enabled
+		Pul31-Ena-Sel=1,		#0 = Disabled, 1 = Enabled
 		
 
 		## Front panel inputs
@@ -280,8 +286,6 @@ file "$(mrfioc2_TEMPLATES=db)/evr-vme-300.db"
 		CML0-WfCalc:Ena-SP=0, 		# For waveform mode: 0 = Square wave pattern calculator disabled, 1 = Square pattern calculator enabled
 		CML0-WfCalc:Delay-SP=16, 	# For waveform mode: Delay of the square wave pattern in ns
 		CML0-WfCalc:Width-SP=50, 	# For waveform mode: Width of the square wave pattern in ns
-		CML0-BunchTrain:Ena-SP=0, 	# For waveform mode: 0 = Bunch train calculator disabled, 1 = Bunch train calculator enabled
-		CML0-BunchTrain:Size-SP=1, 	# For waveform mode: Number of bunches in the bunch train
 
 		FrontUnivOut7-Ena-SP=1, 		# Default to enabled
 		FrontUnivOut7-Src-SP=63,  		# Defaults to Force low (if enabled -> Ena-SP)
@@ -310,8 +314,6 @@ file "$(mrfioc2_TEMPLATES=db)/evr-vme-300.db"
 		CML1-WfCalc:Ena-SP=0, 		# For waveform mode: 0 = Square wave pattern calculator disabled, 1 = Square pattern calculator enabled
 		CML1-WfCalc:Delay-SP=16, 	# For waveform mode: Delay of the square wave pattern in ns
 		CML1-WfCalc:Width-SP=50, 	# For waveform mode: Width of the square wave pattern in ns
-		CML1-BunchTrain:Ena-SP=0, 	# For waveform mode: 0 = Bunch train calculator disabled, 1 = Bunch train calculator enabled
-		CML1-BunchTrain:Size-SP=1, 	# For waveform mode: Number of bunches in the bunch train
 
 		FrontUnivOut8-Ena-SP=1, 		# Default to enabled
 		FrontUnivOut8-Src-SP=63,  		# Defaults to Force low (if enabled -> Ena-SP)
@@ -340,8 +342,6 @@ file "$(mrfioc2_TEMPLATES=db)/evr-vme-300.db"
 		CML2-WfCalc:Ena-SP=0, 		# For waveform mode: 0 = Square wave pattern calculator disabled, 1 = Square pattern calculator enabled
 		CML2-WfCalc:Delay-SP=16, 	# For waveform mode: Delay of the square wave pattern in ns
 		CML2-WfCalc:Width-SP=50, 	# For waveform mode: Width of the square wave pattern in ns
-		CML2-BunchTrain:Ena-SP=0, 	# For waveform mode: 0 = Bunch train calculator disabled, 1 = Bunch train calculator enabled
-		CML2-BunchTrain:Size-SP=1, 	# For waveform mode: Number of bunches in the bunch train
 
 		FrontUnivOut9-Ena-SP=1, 		# Default to enabled
 		FrontUnivOut9-Src-SP=63,  		# Defaults to Force low (if enabled -> Ena-SP)
@@ -370,8 +370,6 @@ file "$(mrfioc2_TEMPLATES=db)/evr-vme-300.db"
 		CML3-WfCalc:Ena-SP=0, 		# For waveform mode: 0 = Square wave pattern calculator disabled, 1 = Square pattern calculator enabled
 		CML3-WfCalc:Delay-SP=16, 	# For waveform mode: Delay of the square wave pattern in ns
 		CML3-WfCalc:Width-SP=50, 	# For waveform mode: Width of the square wave pattern in ns
-		CML3-BunchTrain:Ena-SP=0, 	# For waveform mode: 0 = Bunch train calculator disabled, 1 = Bunch train calculator enabled
-		CML3-BunchTrain:Size-SP=1, 	# For waveform mode: Number of bunches in the bunch train
 
 
 		# Transition board outputs

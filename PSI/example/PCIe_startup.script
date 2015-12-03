@@ -16,4 +16,4 @@ epicsEnvSet SYS "MTEST-PCI-TIMINGTEST"
 #epicsEnvSet EVR_FUNCTION 	0 			## is the PCI function where the card is inserted. (default: 0)
 #epicsEnvSet EVR_SUBS "cfg/EVR0.subs" 	## is the path to the substitution file that should be loaded. (default: cfg/$(EVR).subs = cfg/EVR0.subs)
 
-runScript $(mrfioc2_DIR)/mrfioc2_evr-PCIe.cmd, "EVR=EVR0, EVR_DOMAIN=0x1, EVR_BUS=0x21, EVR_DEVICE=0, EVR_FUNCTION=0, EVR_SUBS=$(mrfioc2_TEMPLATES)/evr_PCIe-300.subs"
+runScript $(mrfioc2_DIR)/mrfioc2_evr-PCIe.cmd, "EVR=EVR0, EVR_DOMAIN=0x1, EVR_BUS=0x21, EVR_DEVICE=0, EVR_FUNCTION=0, EVR_SUBS=cfg/evr_PCIe-300.subs"

@@ -16,8 +16,8 @@ file "$(mrfioc2_TEMPLATES=db)/evg-vme-230.db"
          AcTrig-TrigSrc5-SP=0,  #0 = Disable, 1 = Enable: Map to event trigger
          AcTrig-TrigSrc6-SP=0,  #0 = Disable, 1 = Enable: Map to event trigger
          AcTrig-TrigSrc7-SP=0,  #0 = Disable, 1 = Enable: Map to event trigger
-         
-         EvtClk-Source-Sel=0,   #0 = FracSynth, 1 = RF : EVG Evt Clk Source
+
+         EvtClk-Source-Sel=0,   #0 = FracSynth, 1 = External : EVG Evt Clk Source
          EvtClk-RFFreq-SP=500,  #50-1600 : EVG RF Frequency [MHz]
          EvtClk-RFDiv-SP=4,     #0-32 : RF Divider 
          EvtClk-FracSynFreq-SP=124.920, #50-125 : Fractional Synthesizer Freq [MHz]

@@ -1,0 +1,20 @@
+require mrfioc2
+
+# define the system name. This is prefixed to all record names
+epicsEnvSet SYS "MTEST-VME-TIMINGTEST"
+
+
+##########################
+#-----! EVG Setup ------!#
+##########################
+## The following parameters are available to set up the device. They can either be set as an epics environmental variable, or passed as a macro to the 'runScript' command:
+
+# Command 'runScript' also accepts the SYS macro, which is used as a prefix for all records.
+#epicsEnvSet  EVG		"EVG0"		## is the event generator card name. (default: EVG0)
+#epicsEnvSet  EVG_SLOT		2			## is the VME crate slot where the card is inserted. (default: 2)
+#epicsEnvSet  EVG_MEMOFFSET	0x0			## is the base A24 address (default: 0x0)
+#epicsEnvSet  EVG_IRQLINE 	0x2			## is the interrupt level. (default: 0x2)
+#epicsEnvSet  EVG_IRQVECT 	0x1			## is the interrupt vector (default: 0x1)
+#epicsEnvSet EVG_SUBS "cfg/EVG0.subs" 	## is the path to the substitution file that should be loaded. (default: cfg/$(EVG).subs=cfg/EVG0.subs)
+
+runScript $(mrfioc2_DIR)/mrfioc2_evg-VME.cmd, "EVG=EVG0, EVG_SLOT=2, EVG_MEMOFFSET=0x000000, EVG_IRQLINE=0x2"

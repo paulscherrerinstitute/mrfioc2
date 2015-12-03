@@ -13,8 +13,6 @@ The documentation is available in the `documentation` folder:
 * `oldDocs` folder contains the old documentation from the original mrfioc2 driver.
 * `doxy` folder contains the generated doxygen documentation. For information on how to generate it, inspect readme in `documentation` folder.
 
-Note that the documentation is not yet updated with the latest features from firmware 200+.
-
 ## Prerequisites
 
 - [EPICS base](http://www.aps.anl.gov/epics/base/R3-14/index.php) >= 3.14.8.2
@@ -95,6 +93,13 @@ Minimal supported version for :
 * PCIe form factor EVR is 3,
 * VME form factor EVR 4.
 
+## Known issues
+* With firmware version 200+ (support for 300-series hardware)
+    * EVR-PCIe-300 devices with firmware version 200+ might not run reliably at event clock speed greater than 125 MHz.
+    * mapping two output sources to one output was not tested on EVR-PCIe-300 devices
+    * data buffer interrupts are triggered by the control logic used in older hardware. Awaiting firmware fix.
+    * CML: only frequency mode works, since hardware addresses which store patterns are currently not accessible.
+    * EVM-VME-300: Input registers for FrontInp0 and FrontInp2 are linked together in hardware. Avaiting firmware fix.
 
 ## Authors
 

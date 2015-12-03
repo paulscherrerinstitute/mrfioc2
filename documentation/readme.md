@@ -42,7 +42,6 @@ In order to build the documentation from source, follow theese simple steps:
 		inkscape -C -z --file=img/pulser.svg --export-pdf=img/pulser.pdf
 		inkscape -C -z --file=img/prescaler.svg --export-pdf=img/prescaler.pdf
 		inkscape -C -z --file=img/output.svg --export-pdf=img/output.pdf
-		inkscape -C -z --file=img/bunchTrain.svg --export-pdf=img/bunchTrain.pdf
 		inkscape -C -z --file=img/templates.svg --export-pdf=img/templates.pdf
 		inkscape -C -z --file=img/gen_evt_clk.svg --export-pdf=img/gen_evt_clk.pdf
 

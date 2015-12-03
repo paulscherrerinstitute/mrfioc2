@@ -64,11 +64,11 @@ file "evr-pulser.template"
 {"$(SYS)", "$(EVR)", 21, "0xffffffff", "0xffff",     "1",      1}
 {"$(SYS)", "$(EVR)", 22, "0xffffffff", "0xffff",     "1",      1}
 {"$(SYS)", "$(EVR)", 23, "0xffffffff", "0xffff",     "1",      1}
-
-{"$(SYS)", "$(EVR)", 28, "0xffffffff", "0xffff",     "1",      1}
-{"$(SYS)", "$(EVR)", 29, "0xffffffff", "0xffff",     "1",      1}
-{"$(SYS)", "$(EVR)", 30, "0xffffffff", "0xffff",     "1",      1}
-{"$(SYS)", "$(EVR)", 31, "0xffffffff", "0xffff",     "1",      1}
+# Gates
+{"$(SYS)", "$(EVR)", 28, "0",          "0",          "1",      1}
+{"$(SYS)", "$(EVR)", 29, "0",          "0",          "1",      1}
+{"$(SYS)", "$(EVR)", 30, "0",          "0",          "1",      1}
+{"$(SYS)", "$(EVR)", 31, "0",          "0",          "1",      1}
 }
 
 ## Form factor specific
