@@ -511,39 +511,3 @@ record(aSub, "$(SYS)-$(EVR):CML$(ID)-WfCalc-ASub_") {
   field(FTVA, "UCHAR")
   field(NOVA, "$(MAX=40940)") # 20*2047 or 40*2047
 }
-
-# CML waveform for Gun (Bunches Per Train)
-
-record(bo, "$(SYS)-$(EVR):CML$(ID)-BunchTrain:Ena-SP") {
-  field(DESC, "Disable calculator")
-  field(ONAM, "Enabled")
-  field(ZNAM, "Disabled")
-  field(VAL, "$(CML$(ID)-BunchTrain:Ena-SP\=0)")
-  field(UDF , "0")
-  field(FLNK, "$(SYS)-$(EVR):CML$(ID)-BunchTrain:Size-SP")
-  info(autosaveFields_pass0, "VAL")
-}
-
-record(longout, "$(SYS)-$(EVR):CML$(ID)-BunchTrain:Size-SP") {
-  field(PINI, "YES")
-  field(OUT , "$(SYS)-$(EVR):CML$(ID)-BunchTrain:ASub_.A PP")
-  field(UDF , "0")
-  field(HOPR, "150")
-  field(LOPR, "1")
-  field(VAL , "$(CML$(ID)-BunchTrain:Size-SP=\1)")
-  info(autosaveFields_pass0, "VAL")
-}
-
-record(aSub, "$(SYS)-$(EVR):CML$(ID)-BunchTrain:ASub_") {
-  field(SDIS, "$(SYS)-$(EVR):CML$(ID)-BunchTrain:Ena-SP")
-  field(DISV, "0")
-  field(SNAM, "Bunch Train")
-  field(BRSV, "INVALID")
-  field( FTA, "ULONG")
-  field(OUTA, "$(SYS)-$(EVR):CML$(ID)-Pat:Wf-SP PP")
-  field(FTVA, "UCHAR")
-  field(NOVA, "$(MAX=40940)") # 20*2047 or 40*2047
-  field(FTB,  "LONG")
-  field(NOB,  "1")
-  field(INPB, "$(NBIT=20)")
-}

@@ -231,75 +231,10 @@ long gen_bitarraygen(aSubRecord *prec)
     return 0;
 }
 
-/**@brief Bunch train
- * Builds a bunch train
- *
- * Creates bunches that consist of (nbit/2) high bits
- * and (nbit/2) low bits.
- * A bunch train consists of bunchPerTrain number of
- * bunches, followed by nbit low bits.
- *
- *@param A Number of bunches per train: bunchPerTrain
- *@param B Number of bits per event clock (20 or 40): nbit
- *
- *@param OUTA The output sequence
- */
-long gun_bunchTrain(aSubRecord *prec)
-{
-	int bunchPerTrain;
-	unsigned char *result;
-	epicsUInt32 count;
-	int i, j;
-    int nbit;
-
-
-    if (prec->fta != menuFtypeULONG) {
-        errlogPrintf("%s incorrect input type. A(ULONG)",
-                     prec->name);
-        return -1;
-    }
-
-    if (prec->ftva != menuFtypeUCHAR) {
-        errlogPrintf("%s incorrect output type. OUTA (DOUBLE)",
-                     prec->name);
-        return -1;
-    }
-
-    bunchPerTrain = *(int*)prec->a;
-    result = prec->vala;
-
-
-    nbit  = *(int *)prec->b;
-
-    if(bunchPerTrain<1 || bunchPerTrain>150) {
-        errlogPrintf("%s : invalid number of bunches per train %d.\n",prec->name,bunchPerTrain);
-        return -1;
-    }
-
-    count = 0;
-
-    for(i = 0; i < bunchPerTrain; i++) {
-        for(j = 0; j < nbit; j++) {
-            count++;
-            if(j < nbit/2)
-                result[i*10 + j] = 1;
-            else
-                result[i*10 + j] = 0;
-        }
-    }
-    for(i = 0; i <nbit; i++, count++) {
-        result[count] = 0;
-    }
-
-    prec->neva = count;
-    return 0;
-}
-
 static registryFunctionRef asub_seq[] = {
     {"Timeline", (REGISTRYFUNCTION) gen_timeline},
     {"Bit Array Gen", (REGISTRYFUNCTION) gen_bitarraygen},
-    {"Delay Gen", (REGISTRYFUNCTION) gen_delaygen},
-    {"Bunch Train", (REGISTRYFUNCTION) gun_bunchTrain}
+    {"Delay Gen", (REGISTRYFUNCTION) gen_delaygen}
 };
 
 static
