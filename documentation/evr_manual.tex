@@ -92,7 +92,7 @@ There is usually only one event receiver controlled from a single IOC applicatio
 \item
 	\textbf{SYS}=\emph{MTEST-VME-EVRTEST} : The system name. 
 \item
-	\textbf{EVR}=\emph{EVR0} : The name of the connected Event Receiver, which should be the same as defined in the startup script of the IOC application. 
+	\textbf{DEVICE}=\emph{EVR0} : The name of the connected Event Receiver / timing card, which should be the same as defined in the startup script of the IOC application. 
 \end{itemize}
 
 %For EVR form factors that support GTX outputs (more about these is available in~\cite{mrm_evr}), there is additional configuration option:
@@ -399,7 +399,7 @@ mapped to multiple events.
 \item
 	\textbf{SYS}=\emph{MTEST-VME-EVRTEST} : The system name. 
 \item
-	\textbf{EVR}=\emph{EVR0} : The name of the connected event receiver, which should be the same as defined in the startup script.
+	\textbf{DEVICE}=\emph{EVR0} : The name of the connected Event Receiver / timing card, which should be the same as defined in the startup script.
 \item
   \textbf{PID} represents the pulser number
 \item
@@ -416,7 +416,7 @@ reset on event 4. The configuration applies to EVR0 in the MTEST-VME-EVRTEST sys
 
 \begin{verbatim}
 file "evr-pulserMap.template"{
-pattern { SYS,                   EVR,    PID   F,      EVT, ID }
+pattern { SYS,                  DEVICE,  PID   F,      EVT, ID }
         {"MTEST-VME-EVRTEST",   "EVR0",  0,    Trig,    2,   0 }
         {"MTEST-VME-EVRTEST",   "EVR0",  0,    Trig,    3,   1 }
         {"MTEST-VME-EVRTEST",   "EVR0",  0,    Reset,   4,   0 }
@@ -432,7 +432,7 @@ Provides us with the ability to map between EPICS event (software) and an event 
 	\item
 		\textbf{SYS}=\emph{MTEST-VME-EVRTEST} : The system name.
 	\item
-		\textbf{EVR}=\emph{EVR0} : The name of the connected Event Receiver, which should be the same as defined in the startup script. 
+		\textbf{DEVICE}=\emph{EVR0} : The name of the connected Event Receiver / timing card, which should be the same as defined in the startup script. 
 	\item
 	  \textbf{EVT} represents the event from the timing system. Set EVT=0 to disable.
 	\item
@@ -445,9 +445,9 @@ Provides us with the ability to map between EPICS event (software) and an event 
 
 \begin{verbatim}
 file "evr-softEvent.template"{
-pattern { SYS,                   EVR,    EVT,    CODE}
-        {"MTEST-VME-EVRTEST",   "EVR0",  "1",    "1"}
-        {"MTEST-VME-EVRTEST",   "EVR0",  "2",    "2"}
+pattern { SYS,                   DEVICE,   EVT,    CODE}
+        {"MTEST-VME-EVRTEST",   "EVR0",    "1",    "1"}
+        {"MTEST-VME-EVRTEST",   "EVR0",    "2",    "2"}
 }
 \end{verbatim}
 
@@ -455,9 +455,9 @@ pattern { SYS,                   EVR,    EVT,    CODE}
 
 \begin{verbatim}
 file "evr-softEvent.template"{
-pattern { SYS,                   EVR,    EVT,    CODE,  FLNK}
-        {"MTEST-VME-EVRTEST",   "EVR0",  "1",    "1",   ""}
-        {"MTEST-VME-EVRTEST",   "EVR0",  "2",    "2",   "LINKED_RECORD"}
+pattern { SYS,                   DEVICE,  EVT,    CODE,  FLNK}
+        {"MTEST-VME-EVRTEST",   "EVR0",   "1",    "1",   ""}
+        {"MTEST-VME-EVRTEST",   "EVR0",   "2",    "2",   "LINKED_RECORD"}
 }
 \end{verbatim}
 
@@ -489,9 +489,9 @@ The template exposes the following records:
 \paragraph{Example 3:} The same as example 1, except that performance measurements are preformed for events 1 and 2. Histogram record is set to use 200 bins that store times between two event receptions in the range of 8~ms to 12~ms.
 \begin{verbatim}
 file "evr-softEvent-measure.template"{
-pattern { SYS,                   EVR,    EVT,    CODE}
-        {"MTEST-VME-EVRTEST",   "EVR0",  "1",    "1"}
-        {"MTEST-VME-EVRTEST",   "EVR0",  "2",    "2"}
+pattern { SYS,                   DEVICE,  EVT,    CODE}
+        {"MTEST-VME-EVRTEST",   "EVR0",   "1",    "1"}
+        {"MTEST-VME-EVRTEST",   "EVR0",   "2",    "2"}
 }
 \end{verbatim}
 
@@ -534,7 +534,7 @@ exist some default events, that always trigger specific function.
 \item
 	\textbf{SYS}=\emph{MTEST-VME-EVRTEST} : The system name. 
 \item
-	\textbf{EVR}=\emph{EVR0} : The name of the connected event receiver, which should be the same as defined in the startup script. 
+	\textbf{DEVICE}=\emph{EVR0} : The name of the connected Event Receiver / timing card, which should be the same as defined in the startup script. 
 \item
   \textbf{EVT} represents an event from the timing system.
 \item
@@ -545,9 +545,9 @@ exist some default events, that always trigger specific function.
 
 \begin{verbatim}
 file "evr-specialFunctionMap.template"{
-pattern { SYS,                   EVR,    EVT,   FUNC }
-        {"MTEST-VME-EVRTEST",   "EVR0",  "1",   "Blink"}
-        {"MTEST-VME-EVRTEST",   "EVR0",  "6",   "Blink"}
+pattern { SYS,                   DEVICE,   EVT,   FUNC }
+        {"MTEST-VME-EVRTEST",   "EVR0",    "1",   "Blink"}
+        {"MTEST-VME-EVRTEST",   "EVR0",    "6",   "Blink"}
 }
 \end{verbatim}
 
@@ -606,7 +606,7 @@ EVR has universal I/O slots, described in Section~\ref{sec:Front Panel Universal
 \item
 	\textbf{SYS}=\emph{MTEST-VME-EVRTEST} : The system name.
 \item
-	\textbf{EVR}=\emph{EVR0} : The name of the event receiver, where the module is inserted.
+	\textbf{DEVICE}=\emph{EVR0} : The name of the Event Receiver / timing card, where the module is inserted.
 \item
   \textbf{SLOT} : The universal slot of the EVR, where the module is inserted. FrontUnivOut0 is the first and FrontUnivOut1 is the second output of slot \texttt{0}, where FrontUnivOut2 is the first and FrontUnivOut3 is the second output of slot \texttt{1}.
 \item
@@ -630,7 +630,7 @@ delays set to 5ns. The EVR belongs to the MTEST-VME-EVRTEST system.
 file "evr-delayModule.template"
 {
     { SYS     = MTEST-VME-EVRTEST,
-      EVR     = EVR0,
+      DEVICE  = EVR0,
       SLOT    = 0,
 
       Enabled = 1,
@@ -638,7 +638,7 @@ file "evr-delayModule.template"
       Delay1  = 12.43,
     }
     { SYS     = MTEST-VME-EVRTEST,
-      EVR     = EVR0,
+      DEVICE  = EVR0,
       SLOT    = 1,
 
       Enabled = 0,
@@ -1086,7 +1086,7 @@ There is a caQtDM~\cite{caqtdm} GUI for the Event Generator and Event Receiver a
 
 \paragraph{EVR GUI script options:}
 \begin{verbatim}
-	-e <EVR name> ......... set the event receiver name 
+	-d <EVR name> ......... set the event receiver / timing card name 
 	                        (default:EVR0)
 	-f <form factor> ...... choose the event receiver form factor 
 	                        (default: VME)

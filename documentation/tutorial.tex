@@ -101,14 +101,14 @@ The following steps demonstrate how to prepare a SWIT compatible IOC application
 	
 	# Command 'runScript' also accepts the SYS macro, which is used 
 	#  as a prefix for all records.
-	#epicsEnvSet  EVR		         "EVR0"		
+	#epicsEnvSet  DEVICE        "EVR0"		
 	#epicsEnvSet  EVR_SLOT		     3			
 	#epicsEnvSet  EVR_MEMOFFSET	0x3000000
 	#epicsEnvSet  EVR_IRQLINE 	 0x5		
 	#epicsEnvSet  EVR_IRQVECT	  0x26
 	#epicsEnvSet  EVR_SUBS      cfg/evr_VME-300.subs
 	
-	runScript $(mrfioc2_DIR)/mrfioc2_evr-VME.cmd, "EVR=EVR0, 
+	runScript $(mrfioc2_DIR)/mrfioc2_evr-VME.cmd, "DEVICE=EVR0, 
 	EVR_SLOT=3, EVR_MEMOFFSET=0x3000000, EVR_IRQLINE=0x5"
 \end{verbatim}
 Startup script overview:
@@ -126,7 +126,7 @@ The configurable variables in the startup script are:
 	\item
 		\texttt{SYS} is the system name. \textbf{This variable is mandatory.}
 	\item 
-		\texttt{EVR} is the event receiver name. If the variable is not defined in the startup script, it defaults to \texttt{EVR0}.
+		\texttt{DEVICE} is the event receiver / timing card name. If the variable is not defined in the startup script, it defaults to \texttt{EVR0}.
 	\item 
 		\texttt{EVR\_SLOT} is the VME crate slot where EVR is inserted. If the variable is not defined in the startup script, it defaults to \texttt{3}.
 	\item 
@@ -466,7 +466,7 @@ There is a caQtDM~\cite{caqtdm} GUI for the Event Receiver available. It can be 
 \end{verbatim}
 where the \texttt{<system name>} represents a \textbf{mandatory} system name, and \texttt{[options]} are as follows:
 \begin{verbatim}
-	-e <EVR name> ......... set the event receiver name 
+	-d <EVR name> ......... set the event receiver / timing card name 
 	                        (default:EVR0)
 	-f <form factor> ...... choose the event receiver form factor 
 	                        (default: VME)
@@ -482,7 +482,7 @@ where the \texttt{<system name>} represents a \textbf{mandatory} system name, an
 
 \paragraph{Example 2:} Open the GUI for the EVR-VME-230RF event receiver named \texttt{EVR3}, using system name \texttt{MTEST-VME-TIMINGTEST}.
 \begin{verbatim}
-	start_EVR.sh -s MTEST-VME-TIMINGTEST -e EVR3
+	start_EVR.sh -s MTEST-VME-TIMINGTEST -d EVR3
 \end{verbatim}
 
 \paragraph{Example 2:} Open the GUI for the EVR-PCIe-300 event receiver named \texttt{EVR0}, using system name \texttt{MTEST-VME-TIMINGTEST}.
