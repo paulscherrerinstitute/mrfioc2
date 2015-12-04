@@ -36,7 +36,7 @@ bool mrmDataBufferUser::init(const char* deviceName, size_t userOffset, bool str
     }
 
     if (userOffset > DataBuffer_len_max) {
-        epicsPrintf("User offset too big. Should be [0, %d]. Init aborted.\n", DataBuffer_len_max);
+        errlogPrintf("User offset too big. Should be [0, %d]. Init aborted.\n", DataBuffer_len_max);
         return false;
     }
 
