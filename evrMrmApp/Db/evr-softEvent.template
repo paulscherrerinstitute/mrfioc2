@@ -2,28 +2,28 @@
 #
 # Macros:
 #  SYS = System name
-#  EVR = EVR devObj name
+#  DEVICE = Event receiver / timing card name (same as mrmEvrSetupVME()) Eg. EVR0
 #  EVT = Event code (hardware). Set EVT=0 to disable.
 #  CODE = EPICS database event number (software)
 #  FLNK = If provided, forward links to the record after all records from this template are processed
 #
 #
-record(event, "$(SYS)-$(EVR):Event-$(EVT)-SP") {
+record(event, "$(SYS)-$(DEVICE):Event-$(EVT)-SP") {
   field(DTYP, "EVR Event")
   field(SCAN, "I/O Intr")
-  field(INP , "@OBJ=$(EVR),Code=$(EVT)")
+  field(INP , "@OBJ=$(DEVICE),Code=$(EVT)")
   field(TSE , "-2") # from device support
   field(VAL , "$(CODE)")
-  field(FLNK, "$(SYS)-$(EVR):Event-$(EVT)-Cnt-I")
+  field(FLNK, "$(SYS)-$(DEVICE):Event-$(EVT)-Cnt-I")
   info(autosaveFields_pass0, "INP VAL")
 }
 
-record(calc, "$(SYS)-$(EVR):Event-$(EVT)-Cnt-I") {
-  field(SDIS, "$(SYS)-$(EVR):Event-$(EVT)-SP")
+record(calc, "$(SYS)-$(DEVICE):Event-$(EVT)-Cnt-I") {
+  field(SDIS, "$(SYS)-$(DEVICE):Event-$(EVT)-SP")
   field(DISV, "0")
   field(CALC, "A+1")
-  field(INPA, "$(SYS)-$(EVR):Event-$(EVT)-Cnt-I NPP")
-  field(TSEL, "$(SYS)-$(EVR):Event-$(EVT)-SP.TIME")
+  field(INPA, "$(SYS)-$(DEVICE):Event-$(EVT)-Cnt-I NPP")
+  field(TSEL, "$(SYS)-$(DEVICE):Event-$(EVT)-SP.TIME")
   field(LOLO, "0")
   field(LLSV, "MINOR")
   field(FLNK,"$(FLNK=)")

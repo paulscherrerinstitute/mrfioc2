@@ -51,7 +51,7 @@
     </rect>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(EVR):Evtmap-$(EVT)-DNC.DESC</string>
+    <string notr="true">$(SYS)-$(DEVICE):Evtmap-$(EVT)-DNC.DESC</string>
    </property>
   </widget>
   <widget class="caLabel" name="calabel_4">
@@ -76,7 +76,7 @@
     <enum>caLabel::IfZero</enum>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(EVR):Evtmap-$(EVT)-DNC</string>
+    <string notr="true">$(SYS)-$(DEVICE):Evtmap-$(EVT)-DNC</string>
    </property>
   </widget>
  </widget>

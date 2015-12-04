@@ -102,7 +102,7 @@
      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVR):DlyCompensation-Target-RB</string>
+     <string notr="true">$(SYS)-$(DEVICE):DlyCompensation-Target-RB</string>
     </property>
     <property name="unitsEnabled">
      <bool>true</bool>
@@ -118,7 +118,7 @@
      </rect>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVR):DlyCompensation-Target-SP</string>
+     <string notr="true">$(SYS)-$(DEVICE):DlyCompensation-Target-SP</string>
     </property>
     <property name="background">
      <color>
@@ -144,7 +144,7 @@
      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVR):DlyCompensation-Path-RB</string>
+     <string notr="true">$(SYS)-$(DEVICE):DlyCompensation-Path-RB</string>
     </property>
     <property name="unitsEnabled">
      <bool>true</bool>
@@ -163,7 +163,7 @@
      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVR):DlyCompensation-Internal-RB</string>
+     <string notr="true">$(SYS)-$(DEVICE):DlyCompensation-Internal-RB</string>
     </property>
     <property name="unitsEnabled">
      <bool>true</bool>
@@ -182,7 +182,7 @@
      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVR):DlyCompensation-Status-RB</string>
+     <string notr="true">$(SYS)-$(DEVICE):DlyCompensation-Status-RB</string>
     </property>
     <property name="unitsEnabled">
      <bool>true</bool>
@@ -204,7 +204,7 @@
      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVR):DlyCompensation-Enabled-RB</string>
+     <string notr="true">$(SYS)-$(DEVICE):DlyCompensation-Enabled-RB</string>
     </property>
     <property name="unitsEnabled">
      <bool>true</bool>
@@ -223,7 +223,7 @@
      <string notr="true">background-color: rgb(212, 219, 157);</string>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVR):DlyCompensation-Enabled-Sel</string>
+     <string notr="true">$(SYS)-$(DEVICE):DlyCompensation-Enabled-Sel</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_6">
@@ -269,7 +269,7 @@
     <string notr="true">background-color: rgb(212, 219, 157);</string>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(EVR):PLL-Bandwidth-Sel</string>
+    <string notr="true">$(SYS)-$(DEVICE):PLL-Bandwidth-Sel</string>
    </property>
   </widget>
   <widget class="caLineEdit" name="calineedit_20">
@@ -285,7 +285,7 @@
     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(EVR):PLL-Bandwidth-RB</string>
+    <string notr="true">$(SYS)-$(DEVICE):PLL-Bandwidth-RB</string>
    </property>
    <property name="unitsEnabled">
     <bool>true</bool>
@@ -313,7 +313,7 @@
      </rect>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVR):DBus-Status-I</string>
+     <string notr="true">$(SYS)-$(DEVICE):DBus-Status-I</string>
     </property>
     <property name="direction">
      <enum>caByte::Left</enum>

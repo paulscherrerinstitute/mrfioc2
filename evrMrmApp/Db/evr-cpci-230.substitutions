@@ -1,61 +1,60 @@
-# Record set for a cPCI-EVR-230
+# Record set for a EVR-cPCI-230
 #
 # Macros:
-#  EVR = Card name (same as mrmEvrSetupPCI())
+#  DEVICE = Event receiver / timing card name (same as mrmEvrSetupVME()) Eg. EVR0
 #  SYS = System name (ie SR-TM)
 #
 # Record names have the general forms:
-#  $(SYS)-$(EVR):Signal-SD
+#  $(SYS)-$(DEVICE):Signal-SD
 
 file "evr-base.template"
 {pattern
-{ SYS,      EVR,     EVNT1HZ}
-{"$(SYS)", "$(EVR)", 125}
+{ SYS,      DEVICE,     EVNT1HZ}
+{"$(SYS)", "$(DEVICE)", 125}
 }
 
 
 file "sfp.template"
 {
-{SYS="$(SYS)", EVR="$(EVR)", ID="0"}
+{SYS="$(SYS)", DEVICE="$(DEVICE)", ID="0"}
 }
 
 file "evr-prescaler.template"
 {pattern
-{ SYS,      EVR,     ID, MAX}
-{"$(SYS)", "$(EVR)", 0, "0xffffffff"}
-{"$(SYS)", "$(EVR)", 1, "0xffffffff"}
-{"$(SYS)", "$(EVR)", 2, "0xffffffff"}
+{ SYS,      DEVICE,     ID, MAX}
+{"$(SYS)", "$(DEVICE)", 0, "0xffffffff"}
+{"$(SYS)", "$(DEVICE)", 1, "0xffffffff"}
+{"$(SYS)", "$(DEVICE)", 2, "0xffffffff"}
 }
 
 # Pulse generators w/o a prescaler set NOPS=1
 file "evr-pulser.template"
 {pattern
-{ SYS,      EVR,     ID,  DMAX,       WMAX,          PMAX,    NOPS}
-{"$(SYS)", "$(EVR)", 0,  "0xffffffff", "0xffffffff", "0xffff", 0}
-{"$(SYS)", "$(EVR)", 1,  "0xffffffff", "0xffffffff", "0xffff", 0}
-{"$(SYS)", "$(EVR)", 2,  "0xffffffff", "0xffffffff", "0xffff", 0}
-{"$(SYS)", "$(EVR)", 3,  "0xffffffff", "0xffffffff", "0xffff", 0}
-{"$(SYS)", "$(EVR)", 4,  "0xffffffff", "0xffff",     "1",      1}
-{"$(SYS)", "$(EVR)", 5,  "0xffffffff", "0xffff",     "1",      1}
-{"$(SYS)", "$(EVR)", 6,  "0xffffffff", "0xffff",     "1",      1}
-{"$(SYS)", "$(EVR)", 7,  "0xffffffff", "0xffff",     "1",      1}
-{"$(SYS)", "$(EVR)", 8,  "0xffffffff", "0xffff",     "1",      1}
-{"$(SYS)", "$(EVR)", 9,  "0xffffffff", "0xffff",     "1",      1}
+{ SYS,      DEVICE,     ID,  DMAX,       WMAX,          PMAX,    NOPS}
+{"$(SYS)", "$(DEVICE)", 0,  "0xffffffff", "0xffffffff", "0xffff", 0}
+{"$(SYS)", "$(DEVICE)", 1,  "0xffffffff", "0xffffffff", "0xffff", 0}
+{"$(SYS)", "$(DEVICE)", 2,  "0xffffffff", "0xffffffff", "0xffff", 0}
+{"$(SYS)", "$(DEVICE)", 3,  "0xffffffff", "0xffffffff", "0xffff", 0}
+{"$(SYS)", "$(DEVICE)", 4,  "0xffffffff", "0xffff",     "1",      1}
+{"$(SYS)", "$(DEVICE)", 5,  "0xffffffff", "0xffff",     "1",      1}
+{"$(SYS)", "$(DEVICE)", 6,  "0xffffffff", "0xffff",     "1",      1}
+{"$(SYS)", "$(DEVICE)", 7,  "0xffffffff", "0xffff",     "1",      1}
+{"$(SYS)", "$(DEVICE)", 8,  "0xffffffff", "0xffff",     "1",      1}
+{"$(SYS)", "$(DEVICE)", 9,  "0xffffffff", "0xffff",     "1",      1}
 }
 
 file "evr-in.template"
 {pattern
-{ SYS,      EVR,     ID,  DESC}
-{"$(SYS)", "$(EVR)", 0,  "IN0 (TTL)"}
-{"$(SYS)", "$(EVR)", 1,  "IN1 (TTL)"}
+{ SYS,      DEVICE,     ID,  DESC}
+{"$(SYS)", "$(DEVICE)", 0,  "IN0 (TTL)"}
+{"$(SYS)", "$(DEVICE)", 1,  "IN1 (TTL)"}
 }
 
 file "evr-out.template"
 {pattern
-{ SYS,      EVR,      OBJ,    		 	ID,   DESC}
-
-{"$(SYS)", "$(EVR)", "FrontUnivOut", 	0,   "UNIV0"}
-{"$(SYS)", "$(EVR)", "FrontUnivOut", 	1,   "UNIV1"}
-{"$(SYS)", "$(EVR)", "FrontUnivOut", 	2,   "UNIV2"}
-{"$(SYS)", "$(EVR)", "FrontUnivOut", 	3,   "UNIV3"}
+{ SYS,      DEVICE,      OBJ,    		 	ID,   DESC}
+{"$(SYS)", "$(DEVICE)", "FrontUnivOut", 	0,   "UNIV0"}
+{"$(SYS)", "$(DEVICE)", "FrontUnivOut", 	1,   "UNIV1"}
+{"$(SYS)", "$(DEVICE)", "FrontUnivOut", 	2,   "UNIV2"}
+{"$(SYS)", "$(DEVICE)", "FrontUnivOut", 	3,   "UNIV3"}
 }

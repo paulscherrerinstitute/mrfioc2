@@ -42,7 +42,7 @@
        <string>Number of times the hardware heartbeat timer has expired. This indicates that the EVG is not sending event code 122.</string>
       </property>
       <property name="channel" stdset="0">
-       <string notr="true">$(EVR):Cnt-LinkTimo-I</string>
+       <string notr="true">$(SYS)-$(DEVICE):Cnt-LinkTimo-I</string>
       </property>
      </widget>
     </item>
@@ -59,7 +59,7 @@
     <item row="1" column="1">
      <widget class="caLineEdit" name="calineedit_7">
       <property name="channel" stdset="0">
-       <string notr="true">$(EVR):Cnt-RxErr-I</string>
+       <string notr="true">$(SYS)-$(DEVICE):Cnt-RxErr-I</string>
       </property>
      </widget>
     </item>
@@ -79,7 +79,7 @@
        <string>The number of hardware event buffer overflows.</string>
       </property>
       <property name="channel" stdset="0">
-       <string notr="true">$(EVR):Cnt-HwOflw-I</string>
+       <string notr="true">$(SYS)-$(DEVICE):Cnt-HwOflw-I</string>
       </property>
      </widget>
     </item>
@@ -99,7 +99,7 @@
        <string>Overflows in all of the per-event software buffers. This indicates that the period between successive events is shorter then the runtime of the code that it causes.</string>
       </property>
       <property name="channel" stdset="0">
-       <string notr="true">$(EVR):Cnt-SwOflw-I</string>
+       <string notr="true">$(SYS)-$(DEVICE):Cnt-SwOflw-I</string>
       </property>
      </widget>
     </item>
@@ -119,7 +119,7 @@
     <item row="5" column="1">
      <widget class="caLineEdit" name="calineedit_10">
       <property name="channel" stdset="0">
-       <string notr="true">$(EVR):Link-Init-FO_</string>
+       <string notr="true">$(SYS)-$(DEVICE):Link-Init-FO_</string>
       </property>
      </widget>
     </item>
@@ -146,7 +146,7 @@
     <item row="2" column="1">
      <widget class="caLineEdit" name="calineedit_11">
       <property name="channel" stdset="0">
-       <string notr="true">$(EVR):Cnt-RxErr-Rate-I</string>
+       <string notr="true">$(SYS)-$(DEVICE):Cnt-RxErr-Rate-I</string>
       </property>
       <property name="colorMode">
        <enum>caLineEdit::Alarm_Default</enum>
@@ -171,7 +171,7 @@
     <bool>false</bool>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(EVR):Link-Sts</string>
+    <string notr="true">$(SYS)-$(DEVICE):Link-Sts</string>
    </property>
    <property name="falseColor">
     <color>

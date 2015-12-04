@@ -2,14 +2,14 @@
 set -o errexit
 
 SYS=""
-EVR="EVR0"
+DEVICE="EVR0"
 
 usage()
 {
     echo "Usage: $0 [options]"
     echo "Options:"
     echo "    -s <system name>     The system/project name"
-    echo "    -e <EVR name>        Event Receiver name (default: $EVR)"
+    echo "    -d <EVR name>        Event Receiver / timing card name (default: $EVR)"
     echo "    -h                   This help"
 }
 
@@ -18,8 +18,8 @@ while getopts ":s:e:f:h" o; do
         s)
             SYS=${OPTARG}
             ;;
-        e)
-            EVR=${OPTARG}
+        d)
+            DEVICE=${OPTARG}
             ;;
         h)
             usage
@@ -42,6 +42,6 @@ if [ -z $SYS ]; then
     exit 1
 fi
 
-macro="SYS=$SYS,EVR=$EVR"
+macro="SYS=$SYS,DEVICE=$DEVICE"
 caqtdm -attach -macro "$macro" G_EVR-health.ui &
 #echo caqtdm -attach -macro "$macro" G_EVR-health.ui

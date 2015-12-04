@@ -29,7 +29,7 @@
     <bool>false</bool>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(EVR):CG-Sts</string>
+    <string notr="true">$(SYS)-$(DEVICE):CG-Sts</string>
    </property>
    <property name="falseColor">
     <color>
@@ -82,7 +82,7 @@
     <bool>false</bool>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(EVR):Time-Valid-Sts</string>
+    <string notr="true">$(SYS)-$(DEVICE):Time-Valid-Sts</string>
    </property>
    <property name="falseColor">
     <color>
@@ -135,7 +135,7 @@
     <bool>false</bool>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(EVR):Ena-Sel</string>
+    <string notr="true">$(SYS)-$(DEVICE):Ena-Sel</string>
    </property>
    <property name="falseColor">
     <color>
@@ -201,7 +201,7 @@
     <bool>false</bool>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(EVR):Pll-Sts</string>
+    <string notr="true">$(SYS)-$(DEVICE):Pll-Sts</string>
    </property>
    <property name="falseColor">
     <color>

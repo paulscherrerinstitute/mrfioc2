@@ -1,94 +1,59 @@
-# Record set for a PMC-EVR-230
+# Record set for a EVR-PMC-230
 #
 # Macros:
-#  EVR = Card name (same as mrmEvrSetupPCI())
+#  DEVICE = Event receiver / timing card name (same as mrmEvrSetupVME()) Eg. EVR0
 #  SYS = System name (ie SR-TM)
 #
 # Record names have the general forms:
-#  $(SYS)-$(EVR):Signal-SD
+#  $(SYS)-$(DEVICE):Signal-SD
 
-file "evrBase.db"
+file "evr-base.template"
 {pattern
-{P, OBJ, EVNT1HZ}
-{"$(SYS)-$(EVR):", $(EVR), 125}
+{ SYS,      DEVICE,     EVNT1HZ}
+{"$(SYS)", "$(DEVICE)", 125}
 }
 
-file "sfp.db"
+file "sfp.template"
 {
-{P="$(SYS)-$(EVR):SFP-", OBJ="$(EVR):SFP"}
+{SYS="$(SYS)", DEVICE="$(DEVICE)", ID="0"}
 }
 
-file "evrScale.db"
+
+file "evr-prescaler.template"
 {pattern
-{IDX, P, SN, OBJ, MAX}
-{0, "$(SYS)-$(EVR):", "$(SYS)-$(EVR):PS-$(IDX)-", "$(EVR):PS$(IDX)", "0xffff"}
-{1, "$(SYS)-$(EVR):", "$(SYS)-$(EVR):PS-$(IDX)-", "$(EVR):PS$(IDX)", "0xffff"}
-{2, "$(SYS)-$(EVR):", "$(SYS)-$(EVR):PS-$(IDX)-", "$(EVR):PS$(IDX)", "0xffff"}
+{ SYS,      DEVICE,     ID, MAX}
+{"$(SYS)", "$(DEVICE)", 0, "0xffff"}
+{"$(SYS)", "$(DEVICE)", 1, "0xffff"}
+{"$(SYS)", "$(DEVICE)", 2, "0xffff"}
 }
 
 # Pulse generators w/o a prescaler set NOPS=1
-file "evrPulser.db"
+file "evr-pulser.template"
 {pattern
-{PID, P, PN, OBJ, DMAX, WMAX, PMAX, NOPS}
-{0, "$(SYS)-$(EVR):", "$(SYS)-$(EVR):DlyGen-$(PID)-", "$(EVR):Pul$(PID)", "0xffffff", "0xffff", "0xff", 0}
-{1, "$(SYS)-$(EVR):", "$(SYS)-$(EVR):DlyGen-$(PID)-", "$(EVR):Pul$(PID)", "0xffffff", "0xffff", "0xff", 0}
-{2, "$(SYS)-$(EVR):", "$(SYS)-$(EVR):DlyGen-$(PID)-", "$(EVR):Pul$(PID)", "0xffffff", "0xffff", "0xff", 0}
-{3, "$(SYS)-$(EVR):", "$(SYS)-$(EVR):DlyGen-$(PID)-", "$(EVR):Pul$(PID)", "0xffffff", "0xffff", "0xff", 0}
-{4, "$(SYS)-$(EVR):", "$(SYS)-$(EVR):DlyGen-$(PID)-", "$(EVR):Pul$(PID)", "0xffffff", "0xffff", "1", 1}
-{5, "$(SYS)-$(EVR):", "$(SYS)-$(EVR):DlyGen-$(PID)-", "$(EVR):Pul$(PID)", "0xffffff", "0xffff", "1", 1}
-{6, "$(SYS)-$(EVR):", "$(SYS)-$(EVR):DlyGen-$(PID)-", "$(EVR):Pul$(PID)", "0xffffff", "0xffff", "1", 1}
-{7, "$(SYS)-$(EVR):", "$(SYS)-$(EVR):DlyGen-$(PID)-", "$(EVR):Pul$(PID)", "0xffffff", "0xffff", "1", 1}
-{8, "$(SYS)-$(EVR):", "$(SYS)-$(EVR):DlyGen-$(PID)-", "$(EVR):Pul$(PID)", "0xffffff", "0xffff", "1", 1}
-{9, "$(SYS)-$(EVR):", "$(SYS)-$(EVR):DlyGen-$(PID)-", "$(EVR):Pul$(PID)", "0xffffff", "0xffff", "1", 1}
-}
-
-# Default to 3 possible trigger mappings per pulser
-file "evrPulsermap.db"
-{pattern
-{PID, NAME, OBJ, F, EVT}
-{0, "$(SYS)-$(EVR):DlyGen-$(PID)-Evt-Trig0-SP", "$(EVR):Pul$(PID)", Trig, 0}
-{0, "$(SYS)-$(EVR):DlyGen-$(PID)-Evt-Trig1-SP", "$(EVR):Pul$(PID)", Trig, 0}
-{0, "$(SYS)-$(EVR):DlyGen-$(PID)-Evt-Trig2-SP", "$(EVR):Pul$(PID)", Trig, 0}
-{1, "$(SYS)-$(EVR):DlyGen-$(PID)-Evt-Trig0-SP", "$(EVR):Pul$(PID)", Trig, 0}
-{1, "$(SYS)-$(EVR):DlyGen-$(PID)-Evt-Trig1-SP", "$(EVR):Pul$(PID)", Trig, 0}
-{1, "$(SYS)-$(EVR):DlyGen-$(PID)-Evt-Trig2-SP", "$(EVR):Pul$(PID)", Trig, 0}
-{2, "$(SYS)-$(EVR):DlyGen-$(PID)-Evt-Trig0-SP", "$(EVR):Pul$(PID)", Trig, 0}
-{2, "$(SYS)-$(EVR):DlyGen-$(PID)-Evt-Trig1-SP", "$(EVR):Pul$(PID)", Trig, 0}
-{2, "$(SYS)-$(EVR):DlyGen-$(PID)-Evt-Trig2-SP", "$(EVR):Pul$(PID)", Trig, 0}
-{3, "$(SYS)-$(EVR):DlyGen-$(PID)-Evt-Trig0-SP", "$(EVR):Pul$(PID)", Trig, 0}
-{3, "$(SYS)-$(EVR):DlyGen-$(PID)-Evt-Trig1-SP", "$(EVR):Pul$(PID)", Trig, 0}
-{3, "$(SYS)-$(EVR):DlyGen-$(PID)-Evt-Trig2-SP", "$(EVR):Pul$(PID)", Trig, 0}
-{4, "$(SYS)-$(EVR):DlyGen-$(PID)-Evt-Trig0-SP", "$(EVR):Pul$(PID)", Trig, 0}
-{4, "$(SYS)-$(EVR):DlyGen-$(PID)-Evt-Trig1-SP", "$(EVR):Pul$(PID)", Trig, 0}
-{4, "$(SYS)-$(EVR):DlyGen-$(PID)-Evt-Trig2-SP", "$(EVR):Pul$(PID)", Trig, 0}
-{5, "$(SYS)-$(EVR):DlyGen-$(PID)-Evt-Trig0-SP", "$(EVR):Pul$(PID)", Trig, 0}
-{5, "$(SYS)-$(EVR):DlyGen-$(PID)-Evt-Trig1-SP", "$(EVR):Pul$(PID)", Trig, 0}
-{5, "$(SYS)-$(EVR):DlyGen-$(PID)-Evt-Trig2-SP", "$(EVR):Pul$(PID)", Trig, 0}
-{6, "$(SYS)-$(EVR):DlyGen-$(PID)-Evt-Trig0-SP", "$(EVR):Pul$(PID)", Trig, 0}
-{6, "$(SYS)-$(EVR):DlyGen-$(PID)-Evt-Trig1-SP", "$(EVR):Pul$(PID)", Trig, 0}
-{6, "$(SYS)-$(EVR):DlyGen-$(PID)-Evt-Trig2-SP", "$(EVR):Pul$(PID)", Trig, 0}
-{7, "$(SYS)-$(EVR):DlyGen-$(PID)-Evt-Trig0-SP", "$(EVR):Pul$(PID)", Trig, 0}
-{7, "$(SYS)-$(EVR):DlyGen-$(PID)-Evt-Trig1-SP", "$(EVR):Pul$(PID)", Trig, 0}
-{7, "$(SYS)-$(EVR):DlyGen-$(PID)-Evt-Trig2-SP", "$(EVR):Pul$(PID)", Trig, 0}
-{8, "$(SYS)-$(EVR):DlyGen-$(PID)-Evt-Trig0-SP", "$(EVR):Pul$(PID)", Trig, 0}
-{8, "$(SYS)-$(EVR):DlyGen-$(PID)-Evt-Trig1-SP", "$(EVR):Pul$(PID)", Trig, 0}
-{8, "$(SYS)-$(EVR):DlyGen-$(PID)-Evt-Trig2-SP", "$(EVR):Pul$(PID)", Trig, 0}
-{9, "$(SYS)-$(EVR):DlyGen-$(PID)-Evt-Trig0-SP", "$(EVR):Pul$(PID)", Trig, 0}
-{9, "$(SYS)-$(EVR):DlyGen-$(PID)-Evt-Trig1-SP", "$(EVR):Pul$(PID)", Trig, 0}
-{9, "$(SYS)-$(EVR):DlyGen-$(PID)-Evt-Trig2-SP", "$(EVR):Pul$(PID)", Trig, 0}
+{ SYS,      DEVICE,     ID,  DMAX,       WMAX,         PMAX,  NOPS}
+{"$(SYS)", "$(DEVICE)", 0,  "0xffffff", "0xffff",     "0xff", 0}
+{"$(SYS)", "$(DEVICE)", 1,  "0xffffff", "0xffff",     "0xff", 0}
+{"$(SYS)", "$(DEVICE)", 2,  "0xffffff", "0xffff",     "0xff", 0}
+{"$(SYS)", "$(DEVICE)", 3,  "0xffffff", "0xffff",     "0xff", 0}
+{"$(SYS)", "$(DEVICE)", 4,  "0xffffff", "0xffff",     "1",    1}
+{"$(SYS)", "$(DEVICE)", 5,  "0xffffff", "0xffff",     "1",    1}
+{"$(SYS)", "$(DEVICE)", 6,  "0xffffff", "0xffff",     "1",    1}
+{"$(SYS)", "$(DEVICE)", 7,  "0xffffff", "0xffff",     "1",    1}
+{"$(SYS)", "$(DEVICE)", 8,  "0xffffff", "0xffff",     "1",    1}
+{"$(SYS)", "$(DEVICE)", 9,  "0xffffff", "0xffff",     "1",    1}
 }
 
 
-file "evrIn.db"
+file "evr-in.template"
 {pattern
-{IN, OBJ, DESC}
-{"$(SYS)-$(EVR):In-0-", "$(EVR):FPIn0", "EXT IN (TTL)"}
+{ SYS,      DEVICE,     ID,  DESC}
+{"$(SYS)", "$(DEVICE)", 0,  "EXT IN (TTL)"}
 }
 
-file "evrOut.db"
+file "evr-out.template"
 {pattern
-{ON, OBJ, DESC}
-{"$(SYS)-$(EVR):Out-FP0-", "$(EVR):FrontOut0", "OUT0 (TTL)"}
-{"$(SYS)-$(EVR):Out-FP1-", "$(EVR):FrontOut1", "OUT1 (TTL)"}
-{"$(SYS)-$(EVR):Out-FP2-", "$(EVR):FrontOut2", "OUT2 (TTL)"}
+{ SYS,      DEVICE,      OBJ,    		ID,   DESC}
+{"$(SYS)", "$(DEVICE)", "FrontOut0", 	0,   "OUT0 (TTL)"}
+{"$(SYS)", "$(DEVICE)", "FrontOut1", 	1,   "OUT1 (TTL)"}
+{"$(SYS)", "$(DEVICE)", "FrontOut2", 	2,   "OUT2 (TTL)"}
 }

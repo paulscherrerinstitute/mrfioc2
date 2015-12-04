@@ -1,7 +1,7 @@
 
-record(bi, "$(SYS)-$(EVG):SFP$(ID)-Valid-I") {
+record(bi, "$(SYS)-$(DEVICE):SFP$(ID)-Valid-I") {
   field(DTYP, "Obj Prop bool")
-  field(INP , "@OBJ=$(EVG):SFP$(ID), PROP=Valid")
+  field(INP , "@OBJ=$(DEVICE):SFP$(ID), PROP=Valid")
   field(DESC, "Are readouts valid?")
   field(SCAN, "10 second")
   field(ZNAM, "Invalid")
@@ -9,10 +9,10 @@ record(bi, "$(SYS)-$(EVG):SFP$(ID)-Valid-I") {
   field(ZSV , "MINOR")
 }
 
-record(ai, "$(SYS)-$(EVG):SFP$(ID)-T-I") {
+record(ai, "$(SYS)-$(DEVICE):SFP$(ID)-T-I") {
   field(SCAN, "10 second")
   field(DTYP, "Obj Prop double")
-  field(INP , "@OBJ=$(EVG):SFP$(ID), PROP=Temperature")
+  field(INP , "@OBJ=$(DEVICE):SFP$(ID), PROP=Temperature")
   field(DESC, "Tranceiver Temperature")
   field(ADEL, "0.5")
   field(HIGH, "40")
@@ -25,10 +25,10 @@ record(ai, "$(SYS)-$(EVG):SFP$(ID)-T-I") {
   field(PREC, "1")
 }
 
-record(ai, "$(SYS)-$(EVG):SFP$(ID)-Pwr-TX-I") {
+record(ai, "$(SYS)-$(DEVICE):SFP$(ID)-Pwr-TX-I") {
   field(SCAN, "10 second")
   field(DTYP, "Obj Prop double")
-  field(INP , "@OBJ=$(EVG):SFP$(ID), PROP=Power TX")
+  field(INP , "@OBJ=$(DEVICE):SFP$(ID), PROP=Power TX")
   field(DESC, "Tranceiver Output Power")
   field(ADEL, "5")
   field(HIGH, "400")
@@ -44,10 +44,10 @@ record(ai, "$(SYS)-$(EVG):SFP$(ID)-Pwr-TX-I") {
   info(autosaveFields_pass0, "LOW")
 }
 
-record(ai, "$(SYS)-$(EVG):SFP$(ID)-Pwr-RX-I") {
+record(ai, "$(SYS)-$(DEVICE):SFP$(ID)-Pwr-RX-I") {
   field(SCAN, "10 second")
   field(DTYP, "Obj Prop double")
-  field(INP , "@OBJ=$(EVG):SFP$(ID), PROP=Power RX")
+  field(INP , "@OBJ=$(DEVICE):SFP$(ID), PROP=Power RX")
   field(DESC, "Tranceiver Input Power")
   field(ADEL, "5")
   field(HIGH, "600")
@@ -63,10 +63,10 @@ record(ai, "$(SYS)-$(EVG):SFP$(ID)-Pwr-RX-I") {
   info(autosaveFields_pass0, "LOW")
 }
 
-record(ai, "$(SYS)-$(EVG):SFP$(ID)-Speed-Link-I") {
+record(ai, "$(SYS)-$(DEVICE):SFP$(ID)-Speed-Link-I") {
   field(SCAN, "10 second")
   field(DTYP, "Obj Prop double")
-  field(INP , "@OBJ=$(EVG):SFP$(ID), PROP=Link Speed")
+  field(INP , "@OBJ=$(DEVICE):SFP$(ID), PROP=Link Speed")
   field(DESC, "Tranceiver Line Rate")
   field(HIGH, "5000")
   field(HSV , "MAJOR")
@@ -78,101 +78,101 @@ record(ai, "$(SYS)-$(EVG):SFP$(ID)-Speed-Link-I") {
   field(PREC, "0")
 }
 
-record(stringin, "$(SYS)-$(EVG):SFP$(ID)-Vendor-I") {
+record(stringin, "$(SYS)-$(DEVICE):SFP$(ID)-Vendor-I") {
   field(SCAN, "10 second")
   field(DTYP, "Obj Prop string")
   field(DESC, "Vendor name")
-  field(INP , "@OBJ=$(EVG):SFP$(ID), PROP=Vendor")
+  field(INP , "@OBJ=$(DEVICE):SFP$(ID), PROP=Vendor")
 }
 
-record(stringin, "$(SYS)-$(EVG):SFP$(ID)-Part-I") {
+record(stringin, "$(SYS)-$(DEVICE):SFP$(ID)-Part-I") {
   field(SCAN, "10 second")
   field(DTYP, "Obj Prop string")
   field(DESC, "Vendor part number")
-  field(INP , "@OBJ=$(EVG):SFP$(ID), PROP=Part")
+  field(INP , "@OBJ=$(DEVICE):SFP$(ID), PROP=Part")
 }
 
-record(stringin, "$(SYS)-$(EVG):SFP$(ID)-Rev-I") {
+record(stringin, "$(SYS)-$(DEVICE):SFP$(ID)-Rev-I") {
   field(SCAN, "10 second")
   field(DTYP, "Obj Prop string")
   field(DESC, "Vendor part revision")
-  field(INP , "@OBJ=$(EVG):SFP$(ID), PROP=Rev")
+  field(INP , "@OBJ=$(DEVICE):SFP$(ID), PROP=Rev")
 }
 
-record(stringin, "$(SYS)-$(EVG):SFP$(ID)-Serial-I") {
+record(stringin, "$(SYS)-$(DEVICE):SFP$(ID)-Serial-I") {
   field(SCAN, "10 second")
   field(DTYP, "Obj Prop string")
   field(DESC, "SFP serial number")
-  field(INP , "@OBJ=$(EVG):SFP$(ID), PROP=Serial")
+  field(INP , "@OBJ=$(DEVICE):SFP$(ID), PROP=Serial")
 }
 
-record(stringin, "$(SYS)-$(EVG):SFP$(ID)-Date-Manu-I") {
+record(stringin, "$(SYS)-$(DEVICE):SFP$(ID)-Date-Manu-I") {
   field(SCAN, "10 second")
   field(DTYP, "Obj Prop string")
   field(DESC, "Manufactored date")
-  field(INP , "@OBJ=$(EVG):SFP$(ID), PROP=Date")
+  field(INP , "@OBJ=$(DEVICE):SFP$(ID), PROP=Date")
 }
 
-record(longin, "$(SYS)-$(EVG):SFP$(ID)-Status-I") {
+record(longin, "$(SYS)-$(DEVICE):SFP$(ID)-Status-I") {
   field(SCAN, "10 second")
   field(DTYP, "Obj Prop uint16")
   field(DESC, "Status/control register")
-  field(INP , "@OBJ=$(EVG):SFP$(ID), PROP=Status")
+  field(INP , "@OBJ=$(DEVICE):SFP$(ID), PROP=Status")
 }
 
-record(ai, "$(SYS)-$(EVG):SFP$(ID)-PowerVCC-I") {
+record(ai, "$(SYS)-$(DEVICE):SFP$(ID)-PowerVCC-I") {
   field(SCAN, "10 second")
   field(DTYP, "Obj Prop double")
   field(DESC, "Supply VCC Power")
   field(EGU , "V")
   field(PREC, "4")
-  field(INP , "@OBJ=$(EVG):SFP$(ID), PROP=Power VCC")
+  field(INP , "@OBJ=$(DEVICE):SFP$(ID), PROP=Power VCC")
 }
 
-record(longin, "$(SYS)-$(EVG):SFP$(ID)-BitRate-upper-I") {
+record(longin, "$(SYS)-$(DEVICE):SFP$(ID)-BitRate-upper-I") {
   field(SCAN, "10 second")
   field(DTYP, "Obj Prop uint16")
   field(DESC, "Upper bit rate margin")
   field(EGU , "%")
-  field(INP , "@OBJ=$(EVG):SFP$(ID), PROP=BitRate Upper")
+  field(INP , "@OBJ=$(DEVICE):SFP$(ID), PROP=BitRate Upper")
 }
 
-record(longin, "$(SYS)-$(EVG):SFP$(ID)-BitRate-lower-I") {
+record(longin, "$(SYS)-$(DEVICE):SFP$(ID)-BitRate-lower-I") {
   field(SCAN, "10 second")
   field(DTYP, "Obj Prop uint16")
   field(DESC, "Lower bit rate margin")
   field(EGU , "%")
-  field(INP , "@OBJ=$(EVG):SFP$(ID), PROP=BitRate Lower")
+  field(INP , "@OBJ=$(DEVICE):SFP$(ID), PROP=BitRate Lower")
 }
 
-record(longin, "$(SYS)-$(EVG):SFP$(ID)-LinkLength-9fiber-I") {
+record(longin, "$(SYS)-$(DEVICE):SFP$(ID)-LinkLength-9fiber-I") {
   field(SCAN, "10 second")
   field(DTYP, "Obj Prop uint32")
   field(DESC, "Link length: 9/125 um fiber")
   field(EGU , "m")
-  field(INP , "@OBJ=$(EVG):SFP$(ID), PROP=LinkLength 9um")
+  field(INP , "@OBJ=$(DEVICE):SFP$(ID), PROP=LinkLength 9um")
 }
 
-record(longin, "$(SYS)-$(EVG):SFP$(ID)-LinkLength-50fiber-I") {
+record(longin, "$(SYS)-$(DEVICE):SFP$(ID)-LinkLength-50fiber-I") {
   field(SCAN, "10 second")
   field(DTYP, "Obj Prop uint16")
   field(DESC, "Link length: 50/125 um fiber")
   field(EGU , "m")
-  field(INP , "@OBJ=$(EVG):SFP$(ID), PROP=LinkLength 50um")
+  field(INP , "@OBJ=$(DEVICE):SFP$(ID), PROP=LinkLength 50um")
 }
 
-record(longin, "$(SYS)-$(EVG):SFP$(ID)-LinkLength-62fiber-I") {
+record(longin, "$(SYS)-$(DEVICE):SFP$(ID)-LinkLength-62fiber-I") {
   field(SCAN, "10 second")
   field(DTYP, "Obj Prop uint16")
   field(DESC, "Link length: 62.5/125 um fiber")
   field(EGU , "m")
-  field(INP , "@OBJ=$(EVG):SFP$(ID), PROP=LinkLength 62um")
+  field(INP , "@OBJ=$(DEVICE):SFP$(ID), PROP=LinkLength 62um")
 }
 
-record(longin, "$(SYS)-$(EVG):SFP$(ID)-LinkLength-copper-I") {
+record(longin, "$(SYS)-$(DEVICE):SFP$(ID)-LinkLength-copper-I") {
   field(SCAN, "10 second")
   field(DTYP, "Obj Prop uint16")
   field(DESC, "Link length: copper")
   field(EGU , "m")
-  field(INP , "@OBJ=$(EVG):SFP$(ID), PROP=LinkLength copper")
+  field(INP , "@OBJ=$(DEVICE):SFP$(ID), PROP=LinkLength copper")
 }

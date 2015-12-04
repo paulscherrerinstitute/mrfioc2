@@ -3,7 +3,7 @@
 #
 # Macros:
 #  SYS = System name
-#  EVR = EVR devObj name
+#  DEVICE = Event receiver / timing card name (same as mrmEvrSetupVME()) Eg. EVR0
 #  EVT = Event code (hardware). Set EVNT=0 to disable.
 #  FUNC = Function to be mapped
 #    Choices are: "FIFO", "Latch TS", "Blink", "Forward",
@@ -11,9 +11,9 @@
 #                 "TS reset", "TS tick", "Shift 1", "Shift 0",
 #
 
-record(longout, "$(SYS)-$(EVR):Evtmap-$(EVT)-DNC") {
+record(longout, "$(SYS)-$(DEVICE):Evtmap-$(EVT)-DNC") {
   field( DTYP, "EVR Mapping" )
-  field( OUT , "@OBJ=$(EVR), Func=$(FUNC)")
+  field( OUT , "@OBJ=$(DEVICE), Func=$(FUNC)")
   field( PINI, "YES")
   field( DESC, "$(FUNC)")
   field( VAL , $(EVT))

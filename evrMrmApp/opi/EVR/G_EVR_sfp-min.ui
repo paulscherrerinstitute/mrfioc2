@@ -61,7 +61,7 @@
        <string>Transceiver temperature in Celsius</string>
       </property>
       <property name="channel" stdset="0">
-       <string notr="true">$(EVR):SFP$(ID)-T-I</string>
+       <string notr="true">$(SYS)-$(DEVICE):SFP$(ID)-T-I</string>
       </property>
       <property name="unitsEnabled">
        <bool>true</bool>
@@ -84,7 +84,7 @@
        <string>Transceiver optical output power</string>
       </property>
       <property name="channel" stdset="0">
-       <string notr="true">$(EVR):SFP$(ID)-Pwr-TX-I</string>
+       <string notr="true">$(SYS)-$(DEVICE):SFP$(ID)-Pwr-TX-I</string>
       </property>
       <property name="unitsEnabled">
        <bool>true</bool>
@@ -107,7 +107,7 @@
        <string>Transceiver optical input power</string>
       </property>
       <property name="channel" stdset="0">
-       <string notr="true">$(EVR):SFP$(ID)-Pwr-RX-I</string>
+       <string notr="true">$(SYS)-$(DEVICE):SFP$(ID)-Pwr-RX-I</string>
       </property>
       <property name="unitsEnabled">
        <bool>true</bool>
@@ -142,7 +142,7 @@
     <string notr="true">G_EVR_sfp.ui</string>
    </property>
    <property name="args">
-    <string notr="true">ID=$(ID),EVR=$(EVR)</string>
+    <string notr="true">ID=$(ID),SYS=$(SYS),DEVICE=$(DEVICE)</string>
    </property>
   </widget>
   <widget class="caLabel" name="calabel_2">
@@ -177,7 +177,7 @@
     <bool>true</bool>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(EVR):SFP$(ID)-Valid-I</string>
+    <string notr="true">$(SYS)-$(DEVICE):SFP$(ID)-Valid-I</string>
    </property>
    <property name="falseColor">
     <color>

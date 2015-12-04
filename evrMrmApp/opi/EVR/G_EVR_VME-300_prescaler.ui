@@ -50,7 +50,7 @@
       </rect>
      </property>
      <property name="macro">
-      <string notr="true">ID=0, EVR=$(EVR)</string>
+      <string notr="true">ID=0, SYS=$(SYS),DEVICE=$(DEVICE)</string>
      </property>
      <property name="filename" stdset="0">
       <string notr="true">G_EVR_prescaler-withPulserTrigger.ui</string>
@@ -72,7 +72,7 @@
       </rect>
      </property>
      <property name="macro">
-      <string notr="true">ID=1, EVR=$(EVR)</string>
+      <string notr="true">ID=1, SYS=$(SYS),DEVICE=$(DEVICE)</string>
      </property>
      <property name="filename" stdset="0">
       <string notr="true">G_EVR_prescaler-withPulserTrigger.ui</string>
@@ -94,7 +94,7 @@
       </rect>
      </property>
      <property name="macro">
-      <string notr="true">ID=2, EVR=$(EVR)</string>
+      <string notr="true">ID=2, SYS=$(SYS),DEVICE=$(DEVICE)</string>
      </property>
      <property name="filename" stdset="0">
       <string notr="true">G_EVR_prescaler-withPulserTrigger.ui</string>
@@ -116,7 +116,7 @@
       </rect>
      </property>
      <property name="macro">
-      <string notr="true">ID=3, EVR=$(EVR)</string>
+      <string notr="true">ID=3, SYS=$(SYS),DEVICE=$(DEVICE)</string>
      </property>
      <property name="filename" stdset="0">
       <string notr="true">G_EVR_prescaler-withPulserTrigger.ui</string>
@@ -138,7 +138,7 @@
       </rect>
      </property>
      <property name="macro">
-      <string notr="true">ID=4, EVR=$(EVR)</string>
+      <string notr="true">ID=4, SYS=$(SYS),DEVICE=$(DEVICE)</string>
      </property>
      <property name="filename" stdset="0">
       <string notr="true">G_EVR_prescaler-withPulserTrigger.ui</string>
@@ -160,7 +160,7 @@
       </rect>
      </property>
      <property name="macro">
-      <string notr="true">ID=5, EVR=$(EVR)</string>
+      <string notr="true">ID=5, SYS=$(SYS),DEVICE=$(DEVICE)</string>
      </property>
      <property name="filename" stdset="0">
       <string notr="true">G_EVR_prescaler-withPulserTrigger.ui</string>
@@ -182,7 +182,7 @@
       </rect>
      </property>
      <property name="macro">
-      <string notr="true">ID=6, EVR=$(EVR)</string>
+      <string notr="true">ID=6, SYS=$(SYS),DEVICE=$(DEVICE)</string>
      </property>
      <property name="filename" stdset="0">
       <string notr="true">G_EVR_prescaler-withPulserTrigger.ui</string>
@@ -204,7 +204,7 @@
       </rect>
      </property>
      <property name="macro">
-      <string notr="true">ID=7, EVR=$(EVR)</string>
+      <string notr="true">ID=7, SYS=$(SYS),DEVICE=$(DEVICE)</string>
      </property>
      <property name="filename" stdset="0">
       <string notr="true">G_EVR_prescaler-withPulserTrigger.ui</string>

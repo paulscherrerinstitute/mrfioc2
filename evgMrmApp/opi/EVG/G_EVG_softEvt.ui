@@ -38,7 +38,7 @@
      </rect>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVG):SoftEvt-EvtCode-SP</string>
+     <string notr="true">$(SYS)-$(DEVICE):SoftEvt-EvtCode-SP</string>
     </property>
     <property name="background">
      <color>
@@ -86,7 +86,7 @@
      <bool>false</bool>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVG):SoftEvt-Enable-RB</string>
+     <string notr="true">$(SYS)-$(DEVICE):SoftEvt-Enable-RB</string>
     </property>
     <property name="falseColor">
      <color>
@@ -139,7 +139,7 @@
      <string>Enable</string>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVG):SoftEvt-Enable-Sel</string>
+     <string notr="true">$(SYS)-$(DEVICE):SoftEvt-Enable-Sel</string>
     </property>
    </widget>
    <widget class="caLineEdit" name="calineedit_8">
@@ -155,7 +155,7 @@
      <set>Qt::AlignCenter</set>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVG):SoftEvt-EvtCode-RB</string>
+     <string notr="true">$(SYS)-$(DEVICE):SoftEvt-EvtCode-RB</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_30">

@@ -8,7 +8,7 @@ from this folder.
 Script options:
 
  - -s <system name>     The system/project name
- - -e <EVR name>        Event Receiver name (default: EVR0)
+ - -d <EVR name>        Event Receiver / timing card name (default: EVR0)
  - -h                   This help
 
 
@@ -21,11 +21,11 @@ from this folder.
 Script options:
 
  - -s <system name>     The system/project name
- - -e <EVR name>        Event Receiver name (default: EVR0)
+ - -d <EVR name>        Event Receiver /timing card name (default: EVR0)
  - -h                   This help
 
 
 The database can be included in the following way (startup script commands, change macros to correct values): 
 
-		dbLoadRecords "evr-health.template" "SYS=CSL-IFC1,EVR=EVR0"
+		dbLoadRecords "evr-health.template" "SYS=CSL-IFC1,DEVICE=EVR0"
 

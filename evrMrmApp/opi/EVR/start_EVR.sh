@@ -2,7 +2,7 @@
 set -o errexit
 
 SYS=""
-EVR="EVR0"
+DEVICE="EVR0"
 FF="VME"
 
 usage()
@@ -10,7 +10,7 @@ usage()
     echo "Usage: $0 [options]"
     echo "Options:"
     echo "    -s <system name>     The system/project name"
-    echo "    -e <EVR name>        Event Receiver name (default: $EVR)"
+    echo "    -d <EVR name>        Event Receiver / timing card name (default: $EVR)"
     echo "    -f <form factor>     EVR form factor (default: $FF)"
     echo "                         Choices: VME, PCIe, VME-300"
     echo "    -h                   This help"
@@ -21,8 +21,8 @@ while getopts ":s:e:f:h" o; do
         s)
             SYS=${OPTARG}
             ;;
-        e)
-            EVR=${OPTARG}
+        d)
+            DEVICE=${OPTARG}
             ;;
         f)
             FF=${OPTARG}
@@ -54,6 +54,6 @@ if [ $FF != "VME" ] && [ $FF != "PCIe" ] && [ $FF != "VME-300" ]; then
     exit 1
 fi
 
-macro="EVR=$SYS-$EVR,FF=$FF"
+macro="SYS=$SYS,DEVICE=$DEVICE,FF=$FF"
 caqtdm -attach -macro "$macro" G_EVR_main.ui &
 #echo caqtdm -attach -macro "$macro" G_EVR_main.ui &

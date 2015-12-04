@@ -26,7 +26,7 @@
     <string notr="true">background-color: rgb(212, 219, 157);</string>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(EVG):EvtClk-PLL-Bandwidth-Sel</string>
+    <string notr="true">$(SYS)-$(DEVICE):EvtClk-PLL-Bandwidth-Sel</string>
    </property>
   </widget>
   <widget class="caLineEdit" name="calineedit_13">
@@ -42,7 +42,7 @@
     <set>Qt::AlignCenter</set>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(EVG):EvtClk-PLL-Bandwidth-RB</string>
+    <string notr="true">$(SYS)-$(DEVICE):EvtClk-PLL-Bandwidth-RB</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_6">
@@ -87,7 +87,7 @@
     </rect>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(EVG):EvtClk-PLL-Sts</string>
+    <string notr="true">$(SYS)-$(DEVICE):EvtClk-PLL-Sts</string>
    </property>
    <property name="falseColor">
     <color>

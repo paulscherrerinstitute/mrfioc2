@@ -23,7 +23,7 @@
     </rect>
    </property>
    <property name="macro">
-    <string notr="true">ID=$(ID),EVG=$(EVG)</string>
+    <string notr="true">ID=$(ID),SYS=$(SYS),DEVICE=$(DEVICE)</string>
    </property>
    <property name="filename" stdset="0">
     <string notr="true">G_EVG_sfp-min.ui</string>
@@ -124,7 +124,7 @@
      <set>Qt::AlignCenter</set>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVG):FCT-Port$(ID)DC-I</string>
+     <string notr="true">$(SYS)-$(DEVICE):FCT-Port$(ID)DC-I</string>
     </property>
     <property name="colorMode">
      <enum>caLineEdit::Alarm_Default</enum>
@@ -146,7 +146,7 @@
      <bool>false</bool>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVG):FCT-status-I.B$(STATUS_ID)</string>
+     <string notr="true">$(SYS)-$(DEVICE):FCT-status-I.B$(STATUS_ID)</string>
     </property>
     <property name="falseColor">
      <color>
@@ -183,7 +183,7 @@
      <bool>false</bool>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVG):FCT-Violation-I.B$(STATUS_ID)</string>
+     <string notr="true">$(SYS)-$(DEVICE):FCT-Violation-I.B$(STATUS_ID)</string>
     </property>
     <property name="falseColor">
      <color>
@@ -217,7 +217,7 @@
      </rect>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVG):FCT-ClearViolation-SP</string>
+     <string notr="true">$(SYS)-$(DEVICE):FCT-ClearViolation-SP</string>
     </property>
     <property name="label">
      <string notr="true">Clear violation</string>

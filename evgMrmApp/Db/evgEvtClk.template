@@ -1,7 +1,7 @@
-record(mbbo, "$(SYS)-$(EVG):EvtClk-Source-Sel") {
+record(mbbo, "$(SYS)-$(DEVICE):EvtClk-Source-Sel") {
     field( DESC, "EVG Evt Clk Source")
     field( DTYP, "Obj Prop uint16")
-    field( OUT,  "@OBJ=$(EVG):EvtClk, PROP=Source")
+    field( OUT,  "@OBJ=$(DEVICE):EvtClk, PROP=Source")
     field( PINI, "YES")
     field( VAL,  "$(EvtClk-Source-Sel\=0)")
     field( ZRST, "Fractional Synthesizer")
@@ -26,14 +26,14 @@ record(mbbo, "$(SYS)-$(EVG):EvtClk-Source-Sel") {
     field( FTSV, "INVALID")
     field( FFSV, "INVALID")
     field( UNSV, "INVALID")
-    field( FLNK, "$(SYS)-$(EVG):EvtClk-Source-RB")
+    field( FLNK, "$(SYS)-$(DEVICE):EvtClk-Source-RB")
     info( autosaveFields_pass0, "VAL")
 }
 
-record(mbbi, "$(SYS)-$(EVG):EvtClk-Source-RB") {
+record(mbbi, "$(SYS)-$(DEVICE):EvtClk-Source-RB") {
     field( DESC, "EVG Evt Clk Source")
     field( DTYP, "Obj Prop uint16")
-    field( INP,  "@OBJ=$(EVG):EvtClk, PROP=Source")
+    field( INP,  "@OBJ=$(DEVICE):EvtClk, PROP=Source")
     field( ZRST, "Fractional Synthesizer")
     field( ONST, "External")
     field( TWST, "PXIe 100 MHz")
@@ -46,9 +46,9 @@ record(mbbi, "$(SYS)-$(EVG):EvtClk-Source-RB") {
     field( FRVL, "4")
 }
 
-record(bi, "$(SYS)-$(EVG):EvtClk-PLL-Sts") {
+record(bi, "$(SYS)-$(DEVICE):EvtClk-PLL-Sts") {
   field(DTYP, "Obj Prop bool")
-  field(INP , "@OBJ=$(EVG):EvtClk, PROP=PLL Lock Status")
+  field(INP , "@OBJ=$(DEVICE):EvtClk, PROP=PLL Lock Status")
   field(SCAN, "1 second")
   field(PINI, "YES")
   field(DESC, "Status of PLL")
@@ -57,10 +57,10 @@ record(bi, "$(SYS)-$(EVG):EvtClk-PLL-Sts") {
   field(ZSV , "MAJOR")
 }
 
-record(mbbo, "$(SYS)-$(EVG):EvtClk-PLL-Bandwidth-Sel") {
+record(mbbo, "$(SYS)-$(DEVICE):EvtClk-PLL-Bandwidth-Sel") {
     field( DESC, "EVG Evt Clk Source")
     field( DTYP, "Obj Prop uint16")
-    field( OUT,  "@OBJ=$(EVG):EvtClk, PROP=PLL Bandwidth")
+    field( OUT,  "@OBJ=$(DEVICE):EvtClk, PROP=PLL Bandwidth")
     field( PINI, "YES")
     field( VAL,  "$(EvtClk-PLL-Bandwidth-Sel\=4)")
     field( ZRST, "HM")
@@ -85,14 +85,14 @@ record(mbbo, "$(SYS)-$(EVG):EvtClk-PLL-Bandwidth-Sel") {
     field( FTSV, "INVALID")
     field( FFSV, "INVALID")
     field( UNSV, "INVALID")
-    field( FLNK, "$(SYS)-$(EVG):EvtClk-PLL-Bandwidth-RB")
+    field( FLNK, "$(SYS)-$(DEVICE):EvtClk-PLL-Bandwidth-RB")
     info( autosaveFields_pass0, "VAL")
 }
 
-record(mbbi, "$(SYS)-$(EVG):EvtClk-PLL-Bandwidth-RB") {
+record(mbbi, "$(SYS)-$(DEVICE):EvtClk-PLL-Bandwidth-RB") {
     field( DESC, "EVG Evt Clk Source")
     field( DTYP, "Obj Prop uint16")
-    field( INP,  "@OBJ=$(EVG):EvtClk, PROP=PLL Bandwidth")
+    field( INP,  "@OBJ=$(DEVICE):EvtClk, PROP=PLL Bandwidth")
     field( ZRST, "HM")
     field( ONST, "HL")
     field( TWST, "MH")
@@ -105,10 +105,10 @@ record(mbbi, "$(SYS)-$(EVG):EvtClk-PLL-Bandwidth-RB") {
     field( FRVL, "4")
 }
 
-record(ao, "$(SYS)-$(EVG):EvtClk-RFFreq-SP") {
+record(ao, "$(SYS)-$(DEVICE):EvtClk-RFFreq-SP") {
     field( DESC, "EVG RF Frequency")
     field( DTYP, "Obj Prop double")
-    field( OUT,  "@OBJ=$(EVG):EvtClk, PROP=RFFreq")
+    field( OUT,  "@OBJ=$(DEVICE):EvtClk, PROP=RFFreq")
     field( PINI, "YES")
     field( VAL,  "$(EvtClk-RFFreq-SP\=500)")
     field( UDF,  "0")
@@ -122,14 +122,14 @@ record(ao, "$(SYS)-$(EVG):EvtClk-RFFreq-SP") {
     field( DRVH, "1600")
     field( DRVL, "50")
     field( PREC, "3")
-    field( FLNK, "$(SYS)-$(EVG):EvtClk-RFFreq-RB")
+    field( FLNK, "$(SYS)-$(DEVICE):EvtClk-RFFreq-RB")
     info( autosaveFields_pass0, "VAL")
 }
 
-record(ai, "$(SYS)-$(EVG):EvtClk-RFFreq-RB") {
+record(ai, "$(SYS)-$(DEVICE):EvtClk-RFFreq-RB") {
     field( DESC, "EVG RF Frequency")
     field( DTYP, "Obj Prop double")
-    field( INP,  "@OBJ=$(EVG):EvtClk, PROP=RFFreq")
+    field( INP,  "@OBJ=$(DEVICE):EvtClk, PROP=RFFreq")
     field( HIHI, "1600")
     field( LOLO, "50")
     field( HHSV, "MAJOR")
@@ -138,13 +138,13 @@ record(ai, "$(SYS)-$(EVG):EvtClk-RFFreq-RB") {
     field( HOPR, "1600")
     field( LOPR, "50")
     field( PREC, "3")
-    field( FLNK, "$(SYS)-$(EVG):EvtClk-Frequency-RB")
+    field( FLNK, "$(SYS)-$(DEVICE):EvtClk-Frequency-RB")
 }
 
-record(longout, "$(SYS)-$(EVG):EvtClk-RFDiv-SP") {
+record(longout, "$(SYS)-$(DEVICE):EvtClk-RFDiv-SP") {
     field( DESC, "RF Divider")
     field( DTYP, "Obj Prop uint32")
-    field( OUT,  "@OBJ=$(EVG):EvtClk, PROP=RFDiv")
+    field( OUT,  "@OBJ=$(DEVICE):EvtClk, PROP=RFDiv")
     field( PINI, "YES")
     field( VAL,  "$(EvtClk-RFDiv-SP\=4)")
     field( UDF,  "0")
@@ -152,25 +152,25 @@ record(longout, "$(SYS)-$(EVG):EvtClk-RFDiv-SP") {
     field( LOLO, "0")
     field( HHSV, "MAJOR")
     field( LLSV, "MAJOR")
-    field( FLNK, "$(SYS)-$(EVG):EvtClk-RFDiv-RB")
+    field( FLNK, "$(SYS)-$(DEVICE):EvtClk-RFDiv-RB")
     info( autosaveFields_pass0, "VAL")
 }
 
-record(longin, "$(SYS)-$(EVG):EvtClk-RFDiv-RB") {
+record(longin, "$(SYS)-$(DEVICE):EvtClk-RFDiv-RB") {
     field( DESC, "RF Divider")
     field( DTYP, "Obj Prop uint32")
-    field( INP,  "@OBJ=$(EVG):EvtClk, PROP=RFDiv")
+    field( INP,  "@OBJ=$(DEVICE):EvtClk, PROP=RFDiv")
     field( HIHI, "33")
     field( LOLO, "0")
     field( HHSV, "MAJOR")
     field( LLSV, "MAJOR")
-    field( FLNK, "$(SYS)-$(EVG):EvtClk-Frequency-RB")
+    field( FLNK, "$(SYS)-$(DEVICE):EvtClk-Frequency-RB")
 }
 
-record(ao, "$(SYS)-$(EVG):EvtClk-FracSynFreq-SP") {
+record(ao, "$(SYS)-$(DEVICE):EvtClk-FracSynFreq-SP") {
     field( DESC, "Fractional Synthesizer Freq")
     field( DTYP, "Obj Prop double")
-    field( OUT,  "@OBJ=$(EVG):EvtClk, PROP=FracSynFreq")
+    field( OUT,  "@OBJ=$(DEVICE):EvtClk, PROP=FracSynFreq")
     field( EGU,  "MHz")
     field( PINI, "YES")
     field( VAL,  "$(EvtClk-FracSynFreq-SP\=124.920)")
@@ -184,27 +184,27 @@ record(ao, "$(SYS)-$(EVG):EvtClk-FracSynFreq-SP") {
     field( DRVH, "150")
     field( DRVL, "50")
     field( PREC, "3")
-    field( FLNK, "$(SYS)-$(EVG):EvtClk-FracSynFreq-RB")
+    field( FLNK, "$(SYS)-$(DEVICE):EvtClk-FracSynFreq-RB")
     info( autosaveFields_pass0, "VAL")
 }
 
-record(ai, "$(SYS)-$(EVG):EvtClk-FracSynFreq-RB") {
+record(ai, "$(SYS)-$(DEVICE):EvtClk-FracSynFreq-RB") {
     field( DESC, "Fractional Synthesizer Freq")
     field( DTYP, "Obj Prop double")
-    field( INP,  "@OBJ=$(EVG):EvtClk, PROP=FracSynFreq")
+    field( INP,  "@OBJ=$(DEVICE):EvtClk, PROP=FracSynFreq")
     field( EGU,  "MHz")
     field( HIHI, "150.5")
     field( LOLO, "49.5")
     field( HHSV, "MAJOR")
     field( LLSV, "MAJOR")
     field( PREC, "3")
-    field( FLNK, "$(SYS)-$(EVG):EvtClk-Frequency-RB")
+    field( FLNK, "$(SYS)-$(DEVICE):EvtClk-Frequency-RB")
 }
 
-record(ai, "$(SYS)-$(EVG):EvtClk-Frequency-RB") {
+record(ai, "$(SYS)-$(DEVICE):EvtClk-Frequency-RB") {
     field( DESC, "EVG Event Clock Frequecny")
     field( DTYP, "Obj Prop double")
-    field( INP,  "@OBJ=$(EVG):EvtClk, PROP=Frequency")
+    field( INP,  "@OBJ=$(DEVICE):EvtClk, PROP=Frequency")
     field( EGU,  "MHz")
     field( PREC, "3")
 }

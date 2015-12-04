@@ -47,7 +47,7 @@
      <string>Enabled</string>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVR):Pul$(ID)-Ena-Sel</string>
+     <string notr="true">$(SYS)-$(DEVICE):Pul$(ID)-Ena-Sel</string>
     </property>
    </widget>
    <widget class="caLabel" name="calabel">
@@ -112,7 +112,7 @@
       <string>How long does a pulse state stay active</string>
      </property>
      <property name="channel" stdset="0">
-      <string notr="true">$(EVR):Pul$(ID)-Width-SP</string>
+      <string notr="true">$(SYS)-$(DEVICE):Pul$(ID)-Width-SP</string>
      </property>
      <property name="background">
       <color>
@@ -176,7 +176,7 @@
       </rect>
      </property>
      <property name="channel" stdset="0">
-      <string notr="true">$(EVR):Pul$(ID)-Width-RB</string>
+      <string notr="true">$(SYS)-$(DEVICE):Pul$(ID)-Width-RB</string>
      </property>
      <property name="unitsEnabled">
       <bool>true</bool>
@@ -192,7 +192,7 @@
       </rect>
      </property>
      <property name="channel" stdset="0">
-      <string notr="true">$(EVR):Pul$(ID)-Width-Raw-RB</string>
+      <string notr="true">$(SYS)-$(DEVICE):Pul$(ID)-Width-Raw-RB</string>
      </property>
     </widget>
     <widget class="caLineEdit" name="calineedit_15">
@@ -205,7 +205,7 @@
       </rect>
      </property>
      <property name="channel" stdset="0">
-      <string notr="true">$(EVR):Pul$(ID)-Delay-SP.EGU</string>
+      <string notr="true">$(SYS)-$(DEVICE):Pul$(ID)-Delay-SP.EGU</string>
      </property>
     </widget>
    </widget>
@@ -250,7 +250,7 @@
       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
      </property>
      <property name="channel" stdset="0">
-      <string notr="true">$(EVR):Pul$(ID)-Delay-RB</string>
+      <string notr="true">$(SYS)-$(DEVICE):Pul$(ID)-Delay-RB</string>
      </property>
      <property name="unitsEnabled">
       <bool>true</bool>
@@ -269,7 +269,7 @@
       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
      </property>
      <property name="channel" stdset="0">
-      <string notr="true">$(EVR):Pul$(ID)-Delay-Raw-RB</string>
+      <string notr="true">$(SYS)-$(DEVICE):Pul$(ID)-Delay-Raw-RB</string>
      </property>
     </widget>
     <widget class="QLabel" name="label_30">
@@ -301,7 +301,7 @@
       <string/>
      </property>
      <property name="channel" stdset="0">
-      <string notr="true">$(EVR):Pul$(ID)-Delay-SP</string>
+      <string notr="true">$(SYS)-$(DEVICE):Pul$(ID)-Delay-SP</string>
      </property>
      <property name="background">
       <color>
@@ -333,7 +333,7 @@
       </rect>
      </property>
      <property name="channel" stdset="0">
-      <string notr="true">$(EVR):Pul$(ID)-Delay-SP.EGU</string>
+      <string notr="true">$(SYS)-$(DEVICE):Pul$(ID)-Delay-SP.EGU</string>
      </property>
     </widget>
    </widget>
@@ -350,7 +350,7 @@
      <enum>caFrame::IfZero</enum>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVR):Pul$(ID)-Prescaler-SP.DISA</string>
+     <string notr="true">$(SYS)-$(DEVICE):Pul$(ID)-Prescaler-SP.DISA</string>
     </property>
     <widget class="QGroupBox" name="groupBox_3">
      <property name="geometry">
@@ -374,7 +374,7 @@
        </rect>
       </property>
       <property name="channel" stdset="0">
-       <string notr="true">$(EVR):Pul$(ID)-Res-I</string>
+       <string notr="true">$(SYS)-$(DEVICE):Pul$(ID)-Res-I</string>
       </property>
      </widget>
      <widget class="caLineEdit" name="calineedit_10">
@@ -387,7 +387,7 @@
        </rect>
       </property>
       <property name="channel" stdset="0">
-       <string notr="true">$(EVR):Pul$(ID)-Prescaler-RB</string>
+       <string notr="true">$(SYS)-$(DEVICE):Pul$(ID)-Prescaler-RB</string>
       </property>
      </widget>
      <widget class="QLabel" name="label_24">
@@ -435,7 +435,7 @@
        <string>How long does a pulse state stay active</string>
       </property>
       <property name="channel" stdset="0">
-       <string notr="true">$(EVR):Pul$(ID)-Prescaler-SP</string>
+       <string notr="true">$(SYS)-$(DEVICE):Pul$(ID)-Prescaler-SP</string>
       </property>
       <property name="background">
        <color>
@@ -475,7 +475,7 @@
       <string>Reverses the output polarity. When set, changes the output from normally low to normally high.</string>
      </property>
      <property name="channel" stdset="0">
-      <string notr="true">$(EVR):Pul$(ID)-Polarity-Sel</string>
+      <string notr="true">$(SYS)-$(DEVICE):Pul$(ID)-Polarity-Sel</string>
      </property>
      <property name="foreground">
       <color>
@@ -554,7 +554,7 @@
      <enum>EPushButton::WidthAndHeight</enum>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVR):Pul$(ID)-Gate-Mask-SP.B1</string>
+     <string notr="true">$(SYS)-$(DEVICE):Pul$(ID)-Gate-Mask-SP.B1</string>
     </property>
     <property name="label">
      <string notr="true">OFF</string>
@@ -583,7 +583,7 @@
      <enum>EPushButton::WidthAndHeight</enum>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVR):Pul$(ID)-Gate-Mask-SP.B3</string>
+     <string notr="true">$(SYS)-$(DEVICE):Pul$(ID)-Gate-Mask-SP.B3</string>
     </property>
     <property name="label">
      <string notr="true">ON</string>
@@ -609,7 +609,7 @@
      </rect>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVR):Pul$(ID)-Gate-Mask-RB</string>
+     <string notr="true">$(SYS)-$(DEVICE):Pul$(ID)-Gate-Mask-RB</string>
     </property>
     <property name="direction">
      <enum>caByte::Left</enum>
@@ -634,7 +634,7 @@
      <enum>EPushButton::WidthAndHeight</enum>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVR):Pul$(ID)-Gate-Mask-SP.B2</string>
+     <string notr="true">$(SYS)-$(DEVICE):Pul$(ID)-Gate-Mask-SP.B2</string>
     </property>
     <property name="label">
      <string notr="true">ON</string>
@@ -663,7 +663,7 @@
      <enum>EPushButton::WidthAndHeight</enum>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVR):Pul$(ID)-Gate-Mask-SP.B3</string>
+     <string notr="true">$(SYS)-$(DEVICE):Pul$(ID)-Gate-Mask-SP.B3</string>
     </property>
     <property name="label">
      <string notr="true">OFF</string>
@@ -692,7 +692,7 @@
      <enum>EPushButton::WidthAndHeight</enum>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVR):Pul$(ID)-Gate-Mask-SP.B1</string>
+     <string notr="true">$(SYS)-$(DEVICE):Pul$(ID)-Gate-Mask-SP.B1</string>
     </property>
     <property name="label">
      <string notr="true">ON</string>
@@ -721,7 +721,7 @@
      <enum>EPushButton::WidthAndHeight</enum>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVR):Pul$(ID)-Gate-Mask-SP.B0</string>
+     <string notr="true">$(SYS)-$(DEVICE):Pul$(ID)-Gate-Mask-SP.B0</string>
     </property>
     <property name="label">
      <string notr="true">OFF</string>
@@ -750,7 +750,7 @@
      <enum>EPushButton::WidthAndHeight</enum>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVR):Pul$(ID)-Gate-Mask-SP.B0</string>
+     <string notr="true">$(SYS)-$(DEVICE):Pul$(ID)-Gate-Mask-SP.B0</string>
     </property>
     <property name="label">
      <string notr="true">ON</string>
@@ -779,7 +779,7 @@
      <enum>EPushButton::WidthAndHeight</enum>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVR):Pul$(ID)-Gate-Mask-SP.B2</string>
+     <string notr="true">$(SYS)-$(DEVICE):Pul$(ID)-Gate-Mask-SP.B2</string>
     </property>
     <property name="label">
      <string notr="true">OFF</string>
@@ -808,7 +808,7 @@
      <enum>EPushButton::WidthAndHeight</enum>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVR):Pul$(ID)-Gate-Enable-SP.B1</string>
+     <string notr="true">$(SYS)-$(DEVICE):Pul$(ID)-Gate-Enable-SP.B1</string>
     </property>
     <property name="label">
      <string notr="true">OFF</string>
@@ -837,7 +837,7 @@
      <enum>EPushButton::WidthAndHeight</enum>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVR):Pul$(ID)-Gate-Enable-SP.B0</string>
+     <string notr="true">$(SYS)-$(DEVICE):Pul$(ID)-Gate-Enable-SP.B0</string>
     </property>
     <property name="label">
      <string notr="true">ON</string>
@@ -866,7 +866,7 @@
      <enum>EPushButton::WidthAndHeight</enum>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVR):Pul$(ID)-Gate-Enable-SP.B3</string>
+     <string notr="true">$(SYS)-$(DEVICE):Pul$(ID)-Gate-Enable-SP.B3</string>
     </property>
     <property name="label">
      <string notr="true">ON</string>
@@ -895,7 +895,7 @@
      <enum>EPushButton::WidthAndHeight</enum>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVR):Pul$(ID)-Gate-Enable-SP.B0</string>
+     <string notr="true">$(SYS)-$(DEVICE):Pul$(ID)-Gate-Enable-SP.B0</string>
     </property>
     <property name="label">
      <string notr="true">OFF</string>
@@ -921,7 +921,7 @@
      </rect>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVR):Pul$(ID)-Gate-Enable-RB</string>
+     <string notr="true">$(SYS)-$(DEVICE):Pul$(ID)-Gate-Enable-RB</string>
     </property>
     <property name="direction">
      <enum>caByte::Left</enum>
@@ -946,7 +946,7 @@
      <enum>EPushButton::WidthAndHeight</enum>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVR):Pul$(ID)-Gate-Enable-SP.B2</string>
+     <string notr="true">$(SYS)-$(DEVICE):Pul$(ID)-Gate-Enable-SP.B2</string>
     </property>
     <property name="label">
      <string notr="true">ON</string>
@@ -975,7 +975,7 @@
      <enum>EPushButton::WidthAndHeight</enum>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVR):Pul$(ID)-Gate-Enable-SP.B1</string>
+     <string notr="true">$(SYS)-$(DEVICE):Pul$(ID)-Gate-Enable-SP.B1</string>
     </property>
     <property name="label">
      <string notr="true">ON</string>
@@ -1004,7 +1004,7 @@
      <enum>EPushButton::WidthAndHeight</enum>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVR):Pul$(ID)-Gate-Enable-SP.B2</string>
+     <string notr="true">$(SYS)-$(DEVICE):Pul$(ID)-Gate-Enable-SP.B2</string>
     </property>
     <property name="label">
      <string notr="true">OFF</string>
@@ -1033,7 +1033,7 @@
      <enum>EPushButton::WidthAndHeight</enum>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVR):Pul$(ID)-Gate-Enable-SP.B3</string>
+     <string notr="true">$(SYS)-$(DEVICE):Pul$(ID)-Gate-Enable-SP.B3</string>
     </property>
     <property name="label">
      <string notr="true">OFF</string>

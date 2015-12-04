@@ -57,7 +57,7 @@
      <string notr="true">background-color: rgb(212, 219, 157);</string>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVR):$(P)$(ID)-Src-Pulse-SP</string>
+     <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Src-Pulse-SP</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_16">
@@ -121,7 +121,7 @@
      <string notr="true">background-color: rgb(212, 219, 157);</string>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVR):$(P)$(ID)-Src-Scale-SP</string>
+     <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Src-Scale-SP</string>
     </property>
    </widget>
    <widget class="caMenu" name="camenu_4">
@@ -137,7 +137,7 @@
      <string notr="true">background-color: rgb(212, 219, 157);</string>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVR):$(P)$(ID)-Src-DBus-SP</string>
+     <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Src-DBus-SP</string>
     </property>
    </widget>
    <widget class="caToggleButton" name="catogglebutton">
@@ -153,7 +153,7 @@
      <string>enabled</string>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVR):$(P)$(ID)-Ena-SP</string>
+     <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Ena-SP</string>
     </property>
    </widget>
    <widget class="caLabel" name="calabel">
@@ -198,7 +198,7 @@
      </rect>
     </property>
     <property name="macro">
-     <string notr="true">CHAN=$(EVR):$(P)$(ID)-Src-DBus-RB</string>
+     <string notr="true">CHAN=$(SYS)-$(DEVICE):$(P)$(ID)-Src-DBus-RB</string>
     </property>
     <property name="visibility">
      <enum>caFrame::Calc</enum>
@@ -207,10 +207,10 @@
      <string notr="true">A=B&amp;&amp;A&lt;40&amp;&amp;A&gt;31</string>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVR):$(P)$(ID)-Src-RB</string>
+     <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Src-RB</string>
     </property>
     <property name="channelB">
-     <string notr="true">$(EVR):$(P)$(ID)-Src-DBus-RB.RVAL</string>
+     <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Src-DBus-RB.RVAL</string>
     </property>
     <widget class="KLed" name="kled">
      <property name="geometry">
@@ -233,7 +233,7 @@
      </rect>
     </property>
     <property name="macro">
-     <string notr="true">CHAN=$(EVR):$(P)$(ID)-Src-Scale-RB</string>
+     <string notr="true">CHAN=$(SYS)-$(DEVICE):$(P)$(ID)-Src-Scale-RB</string>
     </property>
     <property name="visibility">
      <enum>caFrame::Calc</enum>
@@ -242,10 +242,10 @@
      <string notr="true">A=B&amp;&amp;A&gt;39</string>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVR):$(P)$(ID)-Src-RB</string>
+     <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Src-RB</string>
     </property>
     <property name="channelB">
-     <string notr="true">$(EVR):$(P)$(ID)-Src-Scale-RB.RVAL</string>
+     <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Src-Scale-RB.RVAL</string>
     </property>
     <widget class="KLed" name="kled_2">
      <property name="geometry">
@@ -268,7 +268,7 @@
      </rect>
     </property>
     <property name="macro">
-     <string notr="true">CHAN=$(EVR):$(P)$(ID)-Src-Pulse-RB</string>
+     <string notr="true">CHAN=$(SYS)-$(DEVICE):$(P)$(ID)-Src-Pulse-RB</string>
     </property>
     <property name="visibility">
      <enum>caFrame::Calc</enum>
@@ -277,10 +277,10 @@
      <string notr="true">A=B&amp;&amp;A&lt;16</string>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVR):$(P)$(ID)-Src-RB</string>
+     <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Src-RB</string>
     </property>
     <property name="channelB">
-     <string notr="true">$(EVR):$(P)$(ID)-Src-Pulse-RB.RVAL</string>
+     <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Src-Pulse-RB.RVAL</string>
     </property>
     <widget class="KLed" name="kled_3">
      <property name="geometry">
@@ -303,7 +303,7 @@
      </rect>
     </property>
     <property name="macro">
-     <string notr="true">CHAN=$(EVR):$(P)$(ID)-Src-Pulse-RB</string>
+     <string notr="true">CHAN=$(SYS)-$(DEVICE):$(P)$(ID)-Src-Pulse-RB</string>
     </property>
     <property name="visibility">
      <enum>caFrame::Calc</enum>
@@ -312,10 +312,10 @@
      <string notr="true">A=B&amp;&amp;A&lt;16</string>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVR):$(P)$(ID)-Src-RB</string>
+     <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Src-RB</string>
     </property>
     <property name="channelB">
-     <string notr="true">$(EVR):$(P)$(ID)-Src-Pulse-RB.RVAL</string>
+     <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Src-Pulse-RB.RVAL</string>
     </property>
     <widget class="caLineEdit" name="calineedit_5">
      <property name="geometry">
@@ -341,7 +341,7 @@
      </rect>
     </property>
     <property name="macro">
-     <string notr="true">CHAN=$(EVR):$(P)$(ID)-Src-DBus-RB</string>
+     <string notr="true">CHAN=$(SYS)-$(DEVICE):$(P)$(ID)-Src-DBus-RB</string>
     </property>
     <property name="visibility">
      <enum>caFrame::Calc</enum>
@@ -350,10 +350,10 @@
      <string notr="true">A=B&amp;&amp;A&lt;40&amp;&amp;A&gt;31</string>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVR):$(P)$(ID)-Src-RB</string>
+     <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Src-RB</string>
     </property>
     <property name="channelB">
-     <string notr="true">$(EVR):$(P)$(ID)-Src-DBus-RB.RVAL</string>
+     <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Src-DBus-RB.RVAL</string>
     </property>
     <widget class="caLineEdit" name="calineedit_2">
      <property name="geometry">
@@ -379,7 +379,7 @@
      </rect>
     </property>
     <property name="macro">
-     <string notr="true">CHAN=$(EVR):$(P)$(ID)-Src-Scale-RB</string>
+     <string notr="true">CHAN=$(SYS)-$(DEVICE):$(P)$(ID)-Src-Scale-RB</string>
     </property>
     <property name="visibility">
      <enum>caFrame::Calc</enum>
@@ -388,10 +388,10 @@
      <string notr="true">A=B&amp;&amp;A&gt;39</string>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVR):$(P)$(ID)-Src-RB</string>
+     <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Src-RB</string>
     </property>
     <property name="channelB">
-     <string notr="true">$(EVR):$(P)$(ID)-Src-Scale-RB.RVAL</string>
+     <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Src-Scale-RB.RVAL</string>
     </property>
     <widget class="caLineEdit" name="calineedit_4">
      <property name="geometry">

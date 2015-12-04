@@ -1,77 +1,77 @@
 file evgMrm.template {
-pattern { SYS,      EVG}
-        {"$(SYS)", "$(EVG)"}
+pattern { SYS,      DEVICE}
+        {"$(SYS)", "$(DEVICE)"}
 }
 
 file evgSoftEvt.template {
-pattern { SYS,      EVG     }
-        {"$(SYS)", "$(EVG)" }
+pattern { SYS,      DEVICE     }
+        {"$(SYS)", "$(DEVICE)" }
 }
 
 file evgAcTrig.template {
-pattern { SYS,      EVG     }
-        {"$(SYS)", "$(EVG)" }
+pattern { SYS,      DEVICE     }
+        {"$(SYS)", "$(DEVICE)" }
 }
 
 file evgEvtClk.template {
-pattern { SYS,      EVG     }
-        {"$(SYS)", "$(EVG)" }
+pattern { SYS,      DEVICE     }
+        {"$(SYS)", "$(DEVICE)" }
 }
 
 file evgDbus.template {
-pattern { SYS,      EVG,     ID }
-        {"$(SYS)", "$(EVG)", 0  }
-        {"$(SYS)", "$(EVG)", 1  }
-        {"$(SYS)", "$(EVG)", 2  }
-        {"$(SYS)", "$(EVG)", 3  }
-        {"$(SYS)", "$(EVG)", 4  }
-        {"$(SYS)", "$(EVG)", 5  }
-        {"$(SYS)", "$(EVG)", 6  }
-        {"$(SYS)", "$(EVG)", 7  }
+pattern { SYS,      DEVICE,     ID }
+        {"$(SYS)", "$(DEVICE)", 0  }
+        {"$(SYS)", "$(DEVICE)", 1  }
+        {"$(SYS)", "$(DEVICE)", 2  }
+        {"$(SYS)", "$(DEVICE)", 3  }
+        {"$(SYS)", "$(DEVICE)", 4  }
+        {"$(SYS)", "$(DEVICE)", 5  }
+        {"$(SYS)", "$(DEVICE)", 6  }
+        {"$(SYS)", "$(DEVICE)", 7  }
 
 }
 
 file evgInput.template {
-pattern { SYS,      EVG,      OBJ,       ID,  PPS,  DBUSOBJ}
-        {"$(SYS)", "$(EVG)", "UnivInp",  0,   3,    "Dbus"}
-        {"$(SYS)", "$(EVG)", "UnivInp",  1,   4,    "Dbus"}
-        {"$(SYS)", "$(EVG)", "UnivInp",  2,   5,    "Dbus"}
-        {"$(SYS)", "$(EVG)", "UnivInp",  3,   6,    "Dbus"}
+pattern { SYS,      DEVICE,      OBJ,       ID,  PPS,  DBUSOBJ}
+        {"$(SYS)", "$(DEVICE)", "UnivInp",  0,   3,    "Dbus"}
+        {"$(SYS)", "$(DEVICE)", "UnivInp",  1,   4,    "Dbus"}
+        {"$(SYS)", "$(DEVICE)", "UnivInp",  2,   5,    "Dbus"}
+        {"$(SYS)", "$(DEVICE)", "UnivInp",  3,   6,    "Dbus"}
 }
 
 file evgOutput.template {
-pattern { SYS,      EVG,      OBJ,        ID }
-        {"$(SYS)", "$(EVG)", "UnivOut",   0  }
-        {"$(SYS)", "$(EVG)", "UnivOut",   1  }
-        {"$(SYS)", "$(EVG)", "UnivOut",   2  }
-        {"$(SYS)", "$(EVG)", "UnivOut",   3  }
+pattern { SYS,      DEVICE,      OBJ,        ID }
+        {"$(SYS)", "$(DEVICE)", "UnivOut",   0  }
+        {"$(SYS)", "$(DEVICE)", "UnivOut",   1  }
+        {"$(SYS)", "$(DEVICE)", "UnivOut",   2  }
+        {"$(SYS)", "$(DEVICE)", "UnivOut",   3  }
 }
 
 file evgTrigEvt.template {
-pattern { SYS,      EVG,     ID }
-        {"$(SYS)", "$(EVG)", 0  }
-        {"$(SYS)", "$(EVG)", 1  }
-        {"$(SYS)", "$(EVG)", 2  }
-        {"$(SYS)", "$(EVG)", 3  }
-        {"$(SYS)", "$(EVG)", 4  }
-        {"$(SYS)", "$(EVG)", 5  }
-        {"$(SYS)", "$(EVG)", 6  }
-        {"$(SYS)", "$(EVG)", 7  }
+pattern { SYS,      DEVICE,     ID }
+        {"$(SYS)", "$(DEVICE)", 0  }
+        {"$(SYS)", "$(DEVICE)", 1  }
+        {"$(SYS)", "$(DEVICE)", 2  }
+        {"$(SYS)", "$(DEVICE)", 3  }
+        {"$(SYS)", "$(DEVICE)", 4  }
+        {"$(SYS)", "$(DEVICE)", 5  }
+        {"$(SYS)", "$(DEVICE)", 6  }
+        {"$(SYS)", "$(DEVICE)", 7  }
 }
 
 file evgMxc.template {
-pattern { SYS,      EVG,     ID }
-        {"$(SYS)", "$(EVG)", 0  }
-        {"$(SYS)", "$(EVG)", 1  }
-        {"$(SYS)", "$(EVG)", 2  }
-        {"$(SYS)", "$(EVG)", 3  }
-        {"$(SYS)", "$(EVG)", 4  }
-        {"$(SYS)", "$(EVG)", 5  }
-        {"$(SYS)", "$(EVG)", 6  }
-        {"$(SYS)", "$(EVG)", 7  }
+pattern { SYS,      DEVICE,     ID }
+        {"$(SYS)", "$(DEVICE)", 0  }
+        {"$(SYS)", "$(DEVICE)", 1  }
+        {"$(SYS)", "$(DEVICE)", 2  }
+        {"$(SYS)", "$(DEVICE)", 3  }
+        {"$(SYS)", "$(DEVICE)", 4  }
+        {"$(SYS)", "$(DEVICE)", 5  }
+        {"$(SYS)", "$(DEVICE)", 6  }
+        {"$(SYS)", "$(DEVICE)", 7  }
 }
 
 file "sfp.template"{
-pattern { SYS,      EVG,     ID }
-        {"$(SYS)", "$(EVG)", 0  }
+pattern { SYS,      DEVICE,     ID }
+        {"$(SYS)", "$(DEVICE)", 0  }
 }

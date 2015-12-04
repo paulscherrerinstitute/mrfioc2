@@ -50,7 +50,7 @@
       </rect>
      </property>
      <property name="macro">
-      <string notr="true">ID=0, P=FrontUnivOut, EVR=$(EVR)</string>
+      <string notr="true">ID=0, P=FrontUnivOut, SYS=$(SYS),DEVICE=$(DEVICE)</string>
      </property>
      <property name="filename" stdset="0">
       <string notr="true">G_EVR_out-twoSources.ui</string>
@@ -66,7 +66,7 @@
       </rect>
      </property>
      <property name="macro">
-      <string notr="true">ID=1, P=FrontUnivOut, EVR=$(EVR)</string>
+      <string notr="true">ID=1, P=FrontUnivOut, SYS=$(SYS),DEVICE=$(DEVICE)</string>
      </property>
      <property name="filename" stdset="0">
       <string notr="true">G_EVR_out-twoSources.ui</string>
@@ -82,7 +82,7 @@
       </rect>
      </property>
      <property name="macro">
-      <string notr="true">ID=2, P=FrontUnivOut, EVR=$(EVR)</string>
+      <string notr="true">ID=2, P=FrontUnivOut, SYS=$(SYS),DEVICE=$(DEVICE)</string>
      </property>
      <property name="filename" stdset="0">
       <string notr="true">G_EVR_out-twoSources.ui</string>
@@ -98,7 +98,7 @@
       </rect>
      </property>
      <property name="macro">
-      <string notr="true">ID=3, P=FrontUnivOut, EVR=$(EVR)</string>
+      <string notr="true">ID=3, P=FrontUnivOut, SYS=$(SYS),DEVICE=$(DEVICE)</string>
      </property>
      <property name="filename" stdset="0">
       <string notr="true">G_EVR_out-twoSources.ui</string>
@@ -114,7 +114,7 @@
       </rect>
      </property>
      <property name="macro">
-      <string notr="true">ID=4, P=FrontUnivOut, EVR=$(EVR)</string>
+      <string notr="true">ID=4, P=FrontUnivOut, SYS=$(SYS),DEVICE=$(DEVICE)</string>
      </property>
      <property name="filename" stdset="0">
       <string notr="true">G_EVR_out-twoSources.ui</string>
@@ -130,7 +130,7 @@
       </rect>
      </property>
      <property name="macro">
-      <string notr="true">ID=5, P=FrontUnivOut, EVR=$(EVR)</string>
+      <string notr="true">ID=5, P=FrontUnivOut, SYS=$(SYS),DEVICE=$(DEVICE)</string>
      </property>
      <property name="filename" stdset="0">
       <string notr="true">G_EVR_out-twoSources.ui</string>
@@ -146,7 +146,7 @@
       </rect>
      </property>
      <property name="macro">
-      <string notr="true">ID=6, P=FrontUnivOut, EVR=$(EVR)</string>
+      <string notr="true">ID=6, P=FrontUnivOut, SYS=$(SYS),DEVICE=$(DEVICE)</string>
      </property>
      <property name="filename" stdset="0">
       <string notr="true">G_EVR_out-twoSources.ui</string>
@@ -162,7 +162,7 @@
       </rect>
      </property>
      <property name="macro">
-      <string notr="true">ID=7, P=FrontUnivOut, EVR=$(EVR)</string>
+      <string notr="true">ID=7, P=FrontUnivOut, SYS=$(SYS),DEVICE=$(DEVICE)</string>
      </property>
      <property name="filename" stdset="0">
       <string notr="true">G_EVR_out-twoSources.ui</string>
@@ -178,7 +178,7 @@
       </rect>
      </property>
      <property name="macro">
-      <string notr="true">ID=8, P=FrontUnivOut, EVR=$(EVR)</string>
+      <string notr="true">ID=8, P=FrontUnivOut, SYS=$(SYS),DEVICE=$(DEVICE)</string>
      </property>
      <property name="filename" stdset="0">
       <string notr="true">G_EVR_out-twoSources.ui</string>
@@ -194,7 +194,7 @@
       </rect>
      </property>
      <property name="macro">
-      <string notr="true">ID=9, P=FrontUnivOut, EVR=$(EVR)</string>
+      <string notr="true">ID=9, P=FrontUnivOut, SYS=$(SYS),DEVICE=$(DEVICE)</string>
      </property>
      <property name="filename" stdset="0">
       <string notr="true">G_EVR_out-twoSources.ui</string>
@@ -210,7 +210,7 @@
       </rect>
      </property>
      <property name="macro">
-      <string notr="true">ID=0, P=RearUniv, EVR=$(EVR)</string>
+      <string notr="true">ID=0, P=RearUniv, SYS=$(SYS),DEVICE=$(DEVICE)</string>
      </property>
      <property name="filename" stdset="0">
       <string notr="true">G_EVR_out-twoSources.ui</string>
@@ -226,7 +226,7 @@
       </rect>
      </property>
      <property name="macro">
-      <string notr="true">ID=1, P=RearUniv, EVR=$(EVR)</string>
+      <string notr="true">ID=1, P=RearUniv, SYS=$(SYS),DEVICE=$(DEVICE)</string>
      </property>
      <property name="filename" stdset="0">
       <string notr="true">G_EVR_out-twoSources.ui</string>
@@ -242,7 +242,7 @@
       </rect>
      </property>
      <property name="macro">
-      <string notr="true">ID=2, P=RearUniv, EVR=$(EVR)</string>
+      <string notr="true">ID=2, P=RearUniv, SYS=$(SYS),DEVICE=$(DEVICE)</string>
      </property>
      <property name="filename" stdset="0">
       <string notr="true">G_EVR_out-twoSources.ui</string>
@@ -258,7 +258,7 @@
       </rect>
      </property>
      <property name="macro">
-      <string notr="true">ID=3, P=RearUniv, EVR=$(EVR)</string>
+      <string notr="true">ID=3, P=RearUniv, SYS=$(SYS),DEVICE=$(DEVICE)</string>
      </property>
      <property name="filename" stdset="0">
       <string notr="true">G_EVR_out-twoSources.ui</string>
@@ -274,7 +274,7 @@
       </rect>
      </property>
      <property name="macro">
-      <string notr="true">ID=4, P=RearUniv, EVR=$(EVR)</string>
+      <string notr="true">ID=4, P=RearUniv, SYS=$(SYS),DEVICE=$(DEVICE)</string>
      </property>
      <property name="filename" stdset="0">
       <string notr="true">G_EVR_out-twoSources.ui</string>
@@ -290,7 +290,7 @@
       </rect>
      </property>
      <property name="macro">
-      <string notr="true">ID=5, P=RearUniv, EVR=$(EVR)</string>
+      <string notr="true">ID=5, P=RearUniv, SYS=$(SYS),DEVICE=$(DEVICE)</string>
      </property>
      <property name="filename" stdset="0">
       <string notr="true">G_EVR_out-twoSources.ui</string>
@@ -306,7 +306,7 @@
       </rect>
      </property>
      <property name="macro">
-      <string notr="true">ID=6, P=RearUniv, EVR=$(EVR)</string>
+      <string notr="true">ID=6, P=RearUniv, SYS=$(SYS),DEVICE=$(DEVICE)</string>
      </property>
      <property name="filename" stdset="0">
       <string notr="true">G_EVR_out-twoSources.ui</string>
@@ -322,7 +322,7 @@
       </rect>
      </property>
      <property name="macro">
-      <string notr="true">ID=7, P=RearUniv, EVR=$(EVR)</string>
+      <string notr="true">ID=7, P=RearUniv, SYS=$(SYS),DEVICE=$(DEVICE)</string>
      </property>
      <property name="filename" stdset="0">
       <string notr="true">G_EVR_out-twoSources.ui</string>
@@ -338,7 +338,7 @@
       </rect>
      </property>
      <property name="macro">
-      <string notr="true">ID=8, P=RearUniv, EVR=$(EVR)</string>
+      <string notr="true">ID=8, P=RearUniv, SYS=$(SYS),DEVICE=$(DEVICE)</string>
      </property>
      <property name="filename" stdset="0">
       <string notr="true">G_EVR_out-twoSources.ui</string>
@@ -354,7 +354,7 @@
       </rect>
      </property>
      <property name="macro">
-      <string notr="true">ID=9, P=RearUniv, EVR=$(EVR)</string>
+      <string notr="true">ID=9, P=RearUniv, SYS=$(SYS),DEVICE=$(DEVICE)</string>
      </property>
      <property name="filename" stdset="0">
       <string notr="true">G_EVR_out-twoSources.ui</string>
@@ -370,7 +370,7 @@
       </rect>
      </property>
      <property name="macro">
-      <string notr="true">ID=10, P=RearUniv, EVR=$(EVR)</string>
+      <string notr="true">ID=10, P=RearUniv, SYS=$(SYS),DEVICE=$(DEVICE)</string>
      </property>
      <property name="filename" stdset="0">
       <string notr="true">G_EVR_out-twoSources.ui</string>
@@ -386,7 +386,7 @@
       </rect>
      </property>
      <property name="macro">
-      <string notr="true">ID=11, P=RearUniv, EVR=$(EVR)</string>
+      <string notr="true">ID=11, P=RearUniv, SYS=$(SYS),DEVICE=$(DEVICE)</string>
      </property>
      <property name="filename" stdset="0">
       <string notr="true">G_EVR_out-twoSources.ui</string>
@@ -402,7 +402,7 @@
       </rect>
      </property>
      <property name="macro">
-      <string notr="true">ID=12, P=RearUniv, EVR=$(EVR)</string>
+      <string notr="true">ID=12, P=RearUniv, SYS=$(SYS),DEVICE=$(DEVICE)</string>
      </property>
      <property name="filename" stdset="0">
       <string notr="true">G_EVR_out-twoSources.ui</string>
@@ -418,7 +418,7 @@
       </rect>
      </property>
      <property name="macro">
-      <string notr="true">ID=13, P=RearUniv, EVR=$(EVR)</string>
+      <string notr="true">ID=13, P=RearUniv, SYS=$(SYS),DEVICE=$(DEVICE)</string>
      </property>
      <property name="filename" stdset="0">
       <string notr="true">G_EVR_out-twoSources.ui</string>
@@ -434,7 +434,7 @@
       </rect>
      </property>
      <property name="macro">
-      <string notr="true">ID=14, P=RearUniv, EVR=$(EVR)</string>
+      <string notr="true">ID=14, P=RearUniv, SYS=$(SYS),DEVICE=$(DEVICE)</string>
      </property>
      <property name="filename" stdset="0">
       <string notr="true">G_EVR_out-twoSources.ui</string>
@@ -450,7 +450,7 @@
       </rect>
      </property>
      <property name="macro">
-      <string notr="true">ID=15, P=RearUniv, EVR=$(EVR)</string>
+      <string notr="true">ID=15, P=RearUniv, SYS=$(SYS),DEVICE=$(DEVICE)</string>
      </property>
      <property name="filename" stdset="0">
       <string notr="true">G_EVR_out-twoSources.ui</string>

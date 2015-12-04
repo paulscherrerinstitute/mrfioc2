@@ -1,21 +1,21 @@
-record(bo, "$(SYS)-$(EVG):Flash-Flash-Cmd") {
+record(bo, "$(SYS)-$(DEVICE):Flash-Flash-Cmd") {
   field(DTYP, "Obj Prop bool")
-  field(OUT , "@OBJ=$(EVG):Flash, PROP=Flash")
+  field(OUT , "@OBJ=$(DEVICE):Flash, PROP=Flash")
 }
 
-record(waveform, "$(SYS)-$(EVG):Flash-Filename-SP") {
+record(waveform, "$(SYS)-$(DEVICE):Flash-Filename-SP") {
   field(DTYP, "Obj Prop waveform out")
-  field(INP , "@OBJ=$(EVG):Flash, PROP=Filename")
+  field(INP , "@OBJ=$(DEVICE):Flash, PROP=Filename")
   field(FTVL, "CHAR")
   field(NELM, 2048)
-  field(FLNK, "$(SYS)-$(EVG):Flash-Filename-RB")
+  field(FLNK, "$(SYS)-$(DEVICE):Flash-Filename-RB")
 }
 
-record(waveform, "$(SYS)-$(EVG):Flash-Filename-RB") {
+record(waveform, "$(SYS)-$(DEVICE):Flash-Filename-RB") {
   field(DTYP, "Obj Prop waveform in")
-  field(INP , "@OBJ=$(EVG):Flash, PROP=Filename")
+  field(INP , "@OBJ=$(DEVICE):Flash, PROP=Filename")
   field(FTVL, "CHAR")
   field(NELM, 2048)
-  field(FLNK, "$(SYS)-$(EVG):Flash-Filename-RB")
+  field(FLNK, "$(SYS)-$(DEVICE):Flash-Filename-RB")
 }
 

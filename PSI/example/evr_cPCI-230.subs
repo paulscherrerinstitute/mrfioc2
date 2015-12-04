@@ -143,7 +143,7 @@ file "$(mrfioc2_TEMPLATES=db)/evr-cpci-230.db"
 #
 # Macros:
 #  SYS = System name (auto expanded by parent)
-#  EVR = EVR devObj name (auto expanded by parent)
+#  DEVICE = Event receiver / timing card name (same as mrmEvrSetupVME()) Eg. EVR0. (auto expanded by parent)
 #  EVT = Event code (hardware). Set EVT=0 to disable.
 #  CODE = EPICS database event number (software)
 #  FLNK = If provided, forward links to the record after all records from this template are processed
@@ -188,7 +188,7 @@ pattern { EVT,	CODE,    FLNK }
 #
 # Macros:
 #  SYS = System name (auto expanded by parent)
-#  EVR = EVR devObj name (auto expanded by parent)
+#  DEVICE = Event receiver / timing card name (same as mrmEvrSetupVME()) Eg. EVR0. (auto expanded by parent)
 #  EVT = Event code (hardware). Set EVNT=0 to disable.
 #  FUNC = Function to be mapped
 #    Choices are: "FIFO", "Latch TS", "Blink", "Forward",
@@ -213,7 +213,7 @@ pattern { EVT,   FUNC }
 #
 # Macros:
 #  SYS = system name (auto expanded by parent)
-#  EVR = EVR devObj name (auto expanded by parent)
+#  DEVICE = Event receiver / timing card name (same as mrmEvrSetupVME()) Eg. EVR0. (auto expanded by parent)
 #  PID = Pulser ID #
 #  F = Pulse generator function
 #    Choices are: "Trig", "Set", "Reset"
@@ -264,7 +264,7 @@ pattern {PID   F,      EVT, ID}
 #
 # Macros:
 #  SYS = System name (auto expanded by parent)
-#  EVR = EVR devObj name (auto expanded by parent)
+#  DEVICE = Event receiver / timing card name (same as mrmEvrSetupVME()) Eg. EVR0. (auto expanded by parent)
 #  SLOT = Slot where module is inserted. 
 #  			FrontUnivOut0 is the first and FrontUnivOut1 is the second output of slot 0, where 
 #  			FrontUnivOut2 is the first and FrontUnivOut3 is the second output of slot 1.

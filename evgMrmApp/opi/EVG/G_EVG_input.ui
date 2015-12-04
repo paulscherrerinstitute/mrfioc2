@@ -41,7 +41,7 @@
      <string>7</string>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVG):$(ID)-DbusSrc7-SP</string>
+     <string notr="true">$(SYS)-$(DEVICE):$(ID)-DbusSrc7-SP</string>
     </property>
    </widget>
    <widget class="caToggleButton" name="catogglebutton_9">
@@ -57,7 +57,7 @@
      <string>6</string>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVG):$(ID)-TrigSrc6-SP</string>
+     <string notr="true">$(SYS)-$(DEVICE):$(ID)-TrigSrc6-SP</string>
     </property>
    </widget>
    <widget class="caToggleButton" name="catogglebutton_16">
@@ -73,7 +73,7 @@
      <string>6</string>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVG):$(ID)-DbusSrc6-SP</string>
+     <string notr="true">$(SYS)-$(DEVICE):$(ID)-DbusSrc6-SP</string>
     </property>
    </widget>
    <widget class="caLabel" name="calabel">
@@ -108,7 +108,7 @@
      <string>5</string>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVG):$(ID)-TrigSrc5-SP</string>
+     <string notr="true">$(SYS)-$(DEVICE):$(ID)-TrigSrc5-SP</string>
     </property>
    </widget>
    <widget class="caToggleButton" name="catogglebutton_4">
@@ -124,7 +124,7 @@
      <string>1</string>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVG):$(ID)-TrigSrc1-SP</string>
+     <string notr="true">$(SYS)-$(DEVICE):$(ID)-TrigSrc1-SP</string>
     </property>
    </widget>
    <widget class="caToggleButton" name="catogglebutton_5">
@@ -140,7 +140,7 @@
      <string>2</string>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVG):$(ID)-TrigSrc2-SP</string>
+     <string notr="true">$(SYS)-$(DEVICE):$(ID)-TrigSrc2-SP</string>
     </property>
    </widget>
    <widget class="caToggleButton" name="catogglebutton_6">
@@ -156,7 +156,7 @@
      <string>3</string>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVG):$(ID)-TrigSrc3-SP</string>
+     <string notr="true">$(SYS)-$(DEVICE):$(ID)-TrigSrc3-SP</string>
     </property>
    </widget>
    <widget class="caToggleButton" name="catogglebutton_12">
@@ -172,7 +172,7 @@
      <string>2</string>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVG):$(ID)-DbusSrc2-SP</string>
+     <string notr="true">$(SYS)-$(DEVICE):$(ID)-DbusSrc2-SP</string>
     </property>
    </widget>
    <widget class="caToggleButton" name="catogglebutton_3">
@@ -188,7 +188,7 @@
      <string>0</string>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVG):$(ID)-DbusSrc0-SP</string>
+     <string notr="true">$(SYS)-$(DEVICE):$(ID)-DbusSrc0-SP</string>
     </property>
    </widget>
    <widget class="caToggleButton" name="catogglebutton_14">
@@ -204,7 +204,7 @@
      <string>4</string>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVG):$(ID)-DbusSrc4-SP</string>
+     <string notr="true">$(SYS)-$(DEVICE):$(ID)-DbusSrc4-SP</string>
     </property>
    </widget>
    <widget class="caToggleButton" name="catogglebutton_2">
@@ -220,7 +220,7 @@
      <string>0</string>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVG):$(ID)-TrigSrc0-SP</string>
+     <string notr="true">$(SYS)-$(DEVICE):$(ID)-TrigSrc0-SP</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_6">
@@ -252,7 +252,7 @@
      <string>5</string>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVG):$(ID)-DbusSrc5-SP</string>
+     <string notr="true">$(SYS)-$(DEVICE):$(ID)-DbusSrc5-SP</string>
     </property>
    </widget>
    <widget class="caLed" name="caled">
@@ -268,7 +268,7 @@
      <bool>false</bool>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVG):$(ID)-EnaIrq-RB</string>
+     <string notr="true">$(SYS)-$(DEVICE):$(ID)-EnaIrq-RB</string>
     </property>
     <property name="falseColor">
      <color>
@@ -305,7 +305,7 @@
      <string>Enable 1 Pulse Per Second Input</string>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVG):$(ID)-EnaIrq-Sel</string>
+     <string notr="true">$(SYS)-$(DEVICE):$(ID)-EnaIrq-Sel</string>
     </property>
    </widget>
    <widget class="caToggleButton" name="catogglebutton_13">
@@ -321,7 +321,7 @@
      <string>3</string>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVG):$(ID)-DbusSrc3-SP</string>
+     <string notr="true">$(SYS)-$(DEVICE):$(ID)-DbusSrc3-SP</string>
     </property>
    </widget>
    <widget class="caToggleButton" name="catogglebutton_10">
@@ -337,7 +337,7 @@
      <string>7</string>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVG):$(ID)-TrigSrc7-SP</string>
+     <string notr="true">$(SYS)-$(DEVICE):$(ID)-TrigSrc7-SP</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_5">
@@ -369,7 +369,7 @@
      <string>1</string>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVG):$(ID)-DbusSrc1-SP</string>
+     <string notr="true">$(SYS)-$(DEVICE):$(ID)-DbusSrc1-SP</string>
     </property>
    </widget>
    <widget class="caToggleButton" name="catogglebutton_7">
@@ -385,7 +385,7 @@
      <string>4</string>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVG):$(ID)-TrigSrc4-SP</string>
+     <string notr="true">$(SYS)-$(DEVICE):$(ID)-TrigSrc4-SP</string>
     </property>
    </widget>
   </widget>

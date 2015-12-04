@@ -2,24 +2,24 @@
 #
 # Macros-
 #  SYS = System name
-#  EVR = EVR devObj
+#  DEVICE = Event receiver / timing card name (same as mrmEvrSetupVME()) Eg. EVR0
 #  OBJ = devObj name prefix
 #  ID  = input ID #
 #  DESC = Physical label found on output jack
 
-record(bi, "$(SYS)-$(EVR):FPIn$(ID)-State-I") {
+record(bi, "$(SYS)-$(DEVICE):FPIn$(ID)-State-I") {
   field( DTYP, "Obj Prop bool")
   field( DESC, "Input state")
-  field( INP , "@OBJ=$(EVR):FPIn$(ID), PROP=State")
+  field( INP , "@OBJ=$(DEVICE):FPIn$(ID), PROP=State")
   field( SCAN, "1 second")
   field( ZNAM, "Low")
   field( ONAM, "High")
 }
 
-record(bo, "$(SYS)-$(EVR):FPIn$(ID)-Lvl-Sel") {
+record(bo, "$(SYS)-$(DEVICE):FPIn$(ID)-Lvl-Sel") {
   field( DTYP, "Obj Prop bool")
   field( DESC, "Input $(DESC)")
-  field( OUT , "@OBJ=$(EVR):FPIn$(ID), PROP=Active Level")
+  field( OUT , "@OBJ=$(DEVICE):FPIn$(ID), PROP=Active Level")
   field( PINI, "YES")
   field( VAL , "$(FPIn$(ID)-Lvl-Sel\=1)")
   field( ZNAM, "Active Low")
@@ -27,9 +27,9 @@ record(bo, "$(SYS)-$(EVR):FPIn$(ID)-Lvl-Sel") {
   info(autosaveFields_pass0, "VAL")
 }
 
-record(bo, "$(SYS)-$(EVR):FPIn$(ID)-Edge-Sel") {
+record(bo, "$(SYS)-$(DEVICE):FPIn$(ID)-Edge-Sel") {
   field( DTYP, "Obj Prop bool")
-  field( OUT , "@OBJ=$(EVR):FPIn$(ID), PROP=Active Edge")
+  field( OUT , "@OBJ=$(DEVICE):FPIn$(ID), PROP=Active Edge")
   field( PINI, "YES")
   field( VAL , "$(FPIn$(ID)-Edge-Sel\=1)")
   field( ZNAM, "Active Falling")
@@ -37,9 +37,9 @@ record(bo, "$(SYS)-$(EVR):FPIn$(ID)-Edge-Sel") {
   info(autosaveFields_pass0, "VAL")
 }
 
-record(mbbo, "$(SYS)-$(EVR):FPIn$(ID)-Trig-Ext-Sel") {
+record(mbbo, "$(SYS)-$(DEVICE):FPIn$(ID)-Trig-Ext-Sel") {
   field( DTYP, "Obj Prop uint16")
-  field( OUT , "@OBJ=$(EVR):FPIn$(ID), PROP=External Mode")
+  field( OUT , "@OBJ=$(DEVICE):FPIn$(ID), PROP=External Mode")
   field( PINI, "YES")
   field( VAL , "$(FPIn$(ID)-Trig-Ext-Sel\=0)")
   field( ZRST, "Off")
@@ -66,9 +66,9 @@ record(mbbo, "$(SYS)-$(EVR):FPIn$(ID)-Trig-Ext-Sel") {
   info(autosaveFields_pass0, "VAL")
 }
 
-record(longout, "$(SYS)-$(EVR):FPIn$(ID)-Code-Ext-SP") {
+record(longout, "$(SYS)-$(DEVICE):FPIn$(ID)-Code-Ext-SP") {
   field( DTYP, "Obj Prop uint32")
-  field( OUT , "@OBJ=$(EVR):FPIn$(ID), PROP=External Code")
+  field( OUT , "@OBJ=$(DEVICE):FPIn$(ID), PROP=External Code")
   field( PINI, "YES")
   field( VAL , "$(FPIn$(ID)-Code-Ext-SP\=0)")
   field( LOPR, "0")
@@ -78,9 +78,9 @@ record(longout, "$(SYS)-$(EVR):FPIn$(ID)-Code-Ext-SP") {
   info(autosaveFields_pass0, "VAL")
 }
 
-record(mbbo, "$(SYS)-$(EVR):FPIn$(ID)-Trig-Back-Sel") {
+record(mbbo, "$(SYS)-$(DEVICE):FPIn$(ID)-Trig-Back-Sel") {
   field( DTYP, "Obj Prop uint16")
-  field( OUT , "@OBJ=$(EVR):FPIn$(ID), PROP=Backwards Mode")
+  field( OUT , "@OBJ=$(DEVICE):FPIn$(ID), PROP=Backwards Mode")
   field( PINI, "YES")
   field( VAL , "$(FPIn$(ID)-Trig-Back-Sel\=0)")
   field( ZRST, "Off")
@@ -107,9 +107,9 @@ record(mbbo, "$(SYS)-$(EVR):FPIn$(ID)-Trig-Back-Sel") {
   info(autosaveFields_pass0, "VAL")
 }
 
-record(longout, "$(SYS)-$(EVR):FPIn$(ID)-Code-Back-SP") {
+record(longout, "$(SYS)-$(DEVICE):FPIn$(ID)-Code-Back-SP") {
   field( DTYP, "Obj Prop uint32")
-  field( OUT , "@OBJ=$(EVR):FPIn$(ID), PROP=Backwards Code")
+  field( OUT , "@OBJ=$(DEVICE):FPIn$(ID), PROP=Backwards Code")
   field( PINI, "YES")
   field( VAL , "$(FPIn$(ID)-Code-Back-SP\=0)")
   field( LOPR, "0")
@@ -119,9 +119,9 @@ record(longout, "$(SYS)-$(EVR):FPIn$(ID)-Code-Back-SP") {
   info(autosaveFields_pass0, "VAL")
 }
 
-record(mbbo, "$(SYS)-$(EVR):FPIn$(ID)-DBus-Sel") {
+record(mbbo, "$(SYS)-$(DEVICE):FPIn$(ID)-DBus-Sel") {
   field( DTYP, "Obj Prop uint16")
-  field( OUT , "@OBJ=$(EVR):FPIn$(ID), PROP=DBus Mask")
+  field( OUT , "@OBJ=$(DEVICE):FPIn$(ID), PROP=DBus Mask")
   field( PINI, "YES")
   field( VAL , "$(FPIn$(ID)-DBus-Sel\=0)")
   field( ZRST, "Bit 0")
@@ -157,7 +157,7 @@ record(mbbo, "$(SYS)-$(EVR):FPIn$(ID)-DBus-Sel") {
 
 # Place for user provided note of what is
 # connected to this input.
-record(waveform, "$(SYS)-$(EVR):FPIn$(ID)-User-SP") {
+record(waveform, "$(SYS)-$(DEVICE):FPIn$(ID)-User-SP") {
   field( DESC, "Desc. of user or purpose")
   field( FTVL, "CHAR")
   field( NELM, "128")

@@ -57,7 +57,7 @@
      <string>Enable</string>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVG):SoftSeq-$(SEQNUM)-Enable-Cmd</string>
+     <string notr="true">$(SYS)-$(DEVICE):SoftSeq-$(SEQNUM)-Enable-Cmd</string>
     </property>
     <property name="releaseMessage">
      <string notr="true">1</string>
@@ -76,7 +76,7 @@
      <string>Commit</string>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVG):SoftSeq-$(SEQNUM)-Commit-Cmd</string>
+     <string notr="true">$(SYS)-$(DEVICE):SoftSeq-$(SEQNUM)-Commit-Cmd</string>
     </property>
     <property name="releaseMessage">
      <string notr="true">1</string>
@@ -98,7 +98,7 @@
      <bool>false</bool>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVG):SoftSeq-$(SEQNUM)-Enable-RB</string>
+     <string notr="true">$(SYS)-$(DEVICE):SoftSeq-$(SEQNUM)-Enable-RB</string>
     </property>
     <property name="falseColor">
      <color>
@@ -138,7 +138,7 @@
      <bool>false</bool>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVG):SoftSeq-$(SEQNUM)-Commit-RB</string>
+     <string notr="true">$(SYS)-$(DEVICE):SoftSeq-$(SEQNUM)-Commit-RB</string>
     </property>
     <property name="falseColor">
      <color>
@@ -175,7 +175,7 @@
      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVG):SoftSeq-$(SEQNUM)-TrigSrc-RB</string>
+     <string notr="true">$(SYS)-$(DEVICE):SoftSeq-$(SEQNUM)-TrigSrc-RB</string>
     </property>
    </widget>
    <widget class="caLed" name="caled_3">
@@ -194,7 +194,7 @@
      <bool>false</bool>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVG):SoftSeq-$(SEQNUM)-Load-RB</string>
+     <string notr="true">$(SYS)-$(DEVICE):SoftSeq-$(SEQNUM)-Load-RB</string>
     </property>
     <property name="falseColor">
      <color>
@@ -231,7 +231,7 @@
      <string>Load</string>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVG):SoftSeq-$(SEQNUM)-Load-Cmd</string>
+     <string notr="true">$(SYS)-$(DEVICE):SoftSeq-$(SEQNUM)-Load-Cmd</string>
     </property>
     <property name="releaseMessage">
      <string notr="true">1</string>
@@ -250,7 +250,7 @@
      <string>Abort</string>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVG):SoftSeq-$(SEQNUM)-Abort-Cmd</string>
+     <string notr="true">$(SYS)-$(DEVICE):SoftSeq-$(SEQNUM)-Abort-Cmd</string>
     </property>
     <property name="releaseMessage">
      <string notr="true">1</string>
@@ -269,7 +269,7 @@
      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVG):SoftSeq-$(SEQNUM)-TsResolution-RB</string>
+     <string notr="true">$(SYS)-$(DEVICE):SoftSeq-$(SEQNUM)-TsResolution-RB</string>
     </property>
    </widget>
    <widget class="caMenu" name="camenu_3">
@@ -285,7 +285,7 @@
      <string notr="true">background-color: rgb(212, 219, 157);</string>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVG):SoftSeq-$(SEQNUM)-TrigSrc-Sel</string>
+     <string notr="true">$(SYS)-$(DEVICE):SoftSeq-$(SEQNUM)-TrigSrc-Sel</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_4">
@@ -317,7 +317,7 @@
      <string notr="true">background-color: rgb(212, 219, 157);</string>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVG):SoftSeq-$(SEQNUM)-RunMode-Sel</string>
+     <string notr="true">$(SYS)-$(DEVICE):SoftSeq-$(SEQNUM)-RunMode-Sel</string>
     </property>
    </widget>
    <widget class="caMenu" name="camenu">
@@ -333,7 +333,7 @@
      <string notr="true">background-color: rgb(212, 219, 157);</string>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVG):SoftSeq-$(SEQNUM)-TsResolution-Sel</string>
+     <string notr="true">$(SYS)-$(DEVICE):SoftSeq-$(SEQNUM)-TsResolution-Sel</string>
     </property>
    </widget>
    <widget class="caMessageButton" name="camessagebutton_5">
@@ -349,7 +349,7 @@
      <string>Disable</string>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVG):SoftSeq-$(SEQNUM)-Disable-Cmd</string>
+     <string notr="true">$(SYS)-$(DEVICE):SoftSeq-$(SEQNUM)-Disable-Cmd</string>
     </property>
     <property name="releaseMessage">
      <string notr="true">1</string>
@@ -368,7 +368,7 @@
      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVG):SoftSeq-$(SEQNUM)-RunMode-RB</string>
+     <string notr="true">$(SYS)-$(DEVICE):SoftSeq-$(SEQNUM)-RunMode-RB</string>
     </property>
    </widget>
    <widget class="caMessageButton" name="camessagebutton_3">
@@ -384,7 +384,7 @@
      <string>Unload</string>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVG):SoftSeq-$(SEQNUM)-Unload-Cmd</string>
+     <string notr="true">$(SYS)-$(DEVICE):SoftSeq-$(SEQNUM)-Unload-Cmd</string>
     </property>
     <property name="releaseMessage">
      <string notr="true">1</string>
@@ -451,7 +451,7 @@
      <string>Reverses the output polarity. When set, changes the output from normally low to normally high.</string>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVG):SoftSeq-$(SEQNUM)-TsInpMode-Sel</string>
+     <string notr="true">$(SYS)-$(DEVICE):SoftSeq-$(SEQNUM)-TsInpMode-Sel</string>
     </property>
     <property name="foreground">
      <color>
@@ -500,7 +500,7 @@
      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVG):SoftSeq-$(SEQNUM)-Error-RB</string>
+     <string notr="true">$(SYS)-$(DEVICE):SoftSeq-$(SEQNUM)-Error-RB</string>
     </property>
    </widget>
    <widget class="caLineEdit" name="calineedit_11">
@@ -516,7 +516,7 @@
      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVG):SoftSeq-$(SEQNUM)-TsInpMode-RB</string>
+     <string notr="true">$(SYS)-$(DEVICE):SoftSeq-$(SEQNUM)-TsInpMode-RB</string>
     </property>
    </widget>
    <widget class="caLineEdit" name="calineedit_16">
@@ -535,7 +535,7 @@
      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVG):SoftSeq-$(SEQNUM)-NumOfRuns-I</string>
+     <string notr="true">$(SYS)-$(DEVICE):SoftSeq-$(SEQNUM)-NumOfRuns-I</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_3">
@@ -586,7 +586,7 @@
      <string>Trigger</string>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVG):SoftSeq-$(SEQNUM)-SoftTrig-Cmd</string>
+     <string notr="true">$(SYS)-$(DEVICE):SoftSeq-$(SEQNUM)-SoftTrig-Cmd</string>
     </property>
     <property name="releaseMessage">
      <string notr="true">1</string>
@@ -605,7 +605,7 @@
      <string>Pause</string>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVG):SoftSeq-$(SEQNUM)-Pause-Cmd</string>
+     <string notr="true">$(SYS)-$(DEVICE):SoftSeq-$(SEQNUM)-Pause-Cmd</string>
     </property>
     <property name="releaseMessage">
      <string notr="true">1</string>
@@ -625,7 +625,7 @@
     <set>Qt::AlignCenter</set>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(EVG):SoftSeq-$(SEQNUM)-EvtMask-RB</string>
+    <string notr="true">$(SYS)-$(DEVICE):SoftSeq-$(SEQNUM)-EvtMask-RB</string>
    </property>
    <property name="colorMode">
     <enum>caLineEdit::Alarm_Default</enum>
@@ -644,7 +644,7 @@
     </rect>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(EVG):SoftSeq-$(SEQNUM)-EvtMask-SP</string>
+    <string notr="true">$(SYS)-$(DEVICE):SoftSeq-$(SEQNUM)-EvtMask-SP</string>
    </property>
    <property name="background">
     <color>
@@ -689,7 +689,7 @@
     <string>Soft trigger</string>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(EVG):SoftSeq-$(SEQNUM)-SoftTrig-Cmd</string>
+    <string notr="true">$(SYS)-$(DEVICE):SoftSeq-$(SEQNUM)-SoftTrig-Cmd</string>
    </property>
    <property name="releaseMessage">
     <string notr="true">1</string>

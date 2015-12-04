@@ -23,7 +23,7 @@
     </rect>
    </property>
    <property name="macro">
-    <string notr="true">ID=0, EVR=$(EVR)</string>
+    <string notr="true">ID=0, SYS=$(SYS),DEVICE=$(DEVICE)</string>
    </property>
    <property name="filename" stdset="0">
     <string notr="true">G_EVR_input.ui</string>
@@ -39,7 +39,7 @@
     </rect>
    </property>
    <property name="macro">
-    <string notr="true">ID=1, EVR=$(EVR)</string>
+    <string notr="true">ID=1, SYS=$(SYS),DEVICE=$(DEVICE)</string>
    </property>
    <property name="filename" stdset="0">
     <string notr="true">G_EVR_input.ui</string>

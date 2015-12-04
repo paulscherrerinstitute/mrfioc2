@@ -35,7 +35,7 @@
      </rect>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVG):EvtClk-RFFreq-SP</string>
+     <string notr="true">$(SYS)-$(DEVICE):EvtClk-RFFreq-SP</string>
     </property>
     <property name="background">
      <color>
@@ -93,7 +93,7 @@
      <set>Qt::AlignCenter</set>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVG):EvtClk-RFFreq-RB</string>
+     <string notr="true">$(SYS)-$(DEVICE):EvtClk-RFFreq-RB</string>
     </property>
     <property name="colorMode">
      <enum>caLineEdit::Alarm_Default</enum>
@@ -144,7 +144,7 @@
      </rect>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVG):EvtClk-RFDiv-SP</string>
+     <string notr="true">$(SYS)-$(DEVICE):EvtClk-RFDiv-SP</string>
     </property>
     <property name="background">
      <color>
@@ -170,7 +170,7 @@
      <set>Qt::AlignCenter</set>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVG):EvtClk-RFDiv-RB</string>
+     <string notr="true">$(SYS)-$(DEVICE):EvtClk-RFDiv-RB</string>
     </property>
     <property name="colorMode">
      <enum>caLineEdit::Alarm_Default</enum>
@@ -205,7 +205,7 @@
      <set>Qt::AlignCenter</set>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVG):EvtClk-Source-RB</string>
+     <string notr="true">$(SYS)-$(DEVICE):EvtClk-Source-RB</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_4">
@@ -240,7 +240,7 @@
      <set>Qt::AlignCenter</set>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVG):EvtClk-FracSynFreq-RB</string>
+     <string notr="true">$(SYS)-$(DEVICE):EvtClk-FracSynFreq-RB</string>
     </property>
     <property name="colorMode">
      <enum>caLineEdit::Alarm_Default</enum>
@@ -259,7 +259,7 @@
      </rect>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVG):EvtClk-FracSynFreq-SP</string>
+     <string notr="true">$(SYS)-$(DEVICE):EvtClk-FracSynFreq-SP</string>
     </property>
     <property name="background">
      <color>
@@ -301,7 +301,7 @@
      <set>Qt::AlignCenter</set>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVG):EvtClk-Frequency-RB</string>
+     <string notr="true">$(SYS)-$(DEVICE):EvtClk-Frequency-RB</string>
     </property>
     <property name="unitsEnabled">
      <bool>true</bool>
@@ -320,7 +320,7 @@
      <set>Qt::AlignCenter</set>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVG):EvtClk-RFFreq-SP.EGU</string>
+     <string notr="true">$(SYS)-$(DEVICE):EvtClk-RFFreq-SP.EGU</string>
     </property>
     <property name="unitsEnabled">
      <bool>true</bool>
@@ -339,7 +339,7 @@
      <set>Qt::AlignCenter</set>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVG):EvtClk-FracSynFreq-SP.EGU</string>
+     <string notr="true">$(SYS)-$(DEVICE):EvtClk-FracSynFreq-SP.EGU</string>
     </property>
     <property name="unitsEnabled">
      <bool>false</bool>
@@ -358,7 +358,7 @@
      <string notr="true">background-color: rgb(212, 219, 157);</string>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVG):EvtClk-Source-Sel</string>
+     <string notr="true">$(SYS)-$(DEVICE):EvtClk-Source-Sel</string>
     </property>
    </widget>
    <widget class="caInclude" name="cainclude">
@@ -371,7 +371,7 @@
      </rect>
     </property>
     <property name="macro">
-     <string notr="true">EVG=$(EVG)</string>
+     <string notr="true">SYS=$(SYS),DEVICE=$(DEVICE)</string>
     </property>
     <property name="filename" stdset="0">
      <string notr="true">G_EVG_$(FF)_evtClk_pll.ui</string>

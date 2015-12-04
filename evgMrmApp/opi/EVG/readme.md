@@ -8,7 +8,7 @@ Usage: $0 [options]
 
 Options:
 - -s <system name>     The system/project name
-- -g <EVG name>        Event Generator name (default: EVG0)
+- -d <EVG name>        Event Generator / timing card name (default: EVG0)
 - -h                   This help
 
 ## Files description

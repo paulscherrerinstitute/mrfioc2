@@ -38,7 +38,7 @@
      <set>Qt::AlignCenter</set>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVG):SoftSeqMask-RB</string>
+     <string notr="true">$(SYS)-$(DEVICE):SoftSeqMask-RB</string>
     </property>
     <property name="colorMode">
      <enum>caLineEdit::Alarm_Default</enum>
@@ -73,7 +73,7 @@
      </rect>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVG):SoftSeqMask-SP</string>
+     <string notr="true">$(SYS)-$(DEVICE):SoftSeqMask-SP</string>
     </property>
     <property name="background">
      <color>
@@ -99,7 +99,7 @@
      </rect>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVG):SoftSeqEnable-SP</string>
+     <string notr="true">$(SYS)-$(DEVICE):SoftSeqEnable-SP</string>
     </property>
     <property name="background">
      <color>
@@ -144,7 +144,7 @@
      <set>Qt::AlignCenter</set>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVG):SoftSeqEnable-RB</string>
+     <string notr="true">$(SYS)-$(DEVICE):SoftSeqEnable-RB</string>
     </property>
     <property name="colorMode">
      <enum>caLineEdit::Alarm_Default</enum>
