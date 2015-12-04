@@ -37,6 +37,7 @@ SFP::SFP(const std::string &n, volatile unsigned char *reg)
 {
     updateNow();
 
+    updateCallback.timer = 0;
     callbackSetCallback(&SFP::updateTask, &updateCallback);
     callbackSetPriority(priorityLow, &updateCallback);
     callbackSetUser(this, &updateCallback);
