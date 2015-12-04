@@ -1,3 +1,8 @@
+// for htons() et al.
+#ifdef _WIN32
+ #include <Winsock2.h>
+#endif
+
 #include <stdio.h>
 
 #include <epicsMMIO.h>
