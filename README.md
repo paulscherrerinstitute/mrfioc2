@@ -13,6 +13,88 @@ The documentation is available in the `documentation` folder:
 * `oldDocs` folder contains the old documentation from the original mrfioc2 driver.
 * `doxy` folder contains the generated doxygen documentation. For information on how to generate it, inspect readme in `documentation` folder.
 
+## Quick start (PSI)
+To set up an IOC application for EVR we need to set up a startup script and a substitution file matching the timing card form factor. Suitable ones are available in the `PSI/example` folder:
+
+* EVG
+    * example startup script (`EVG-VME_startup.script`)
+    * example substitution files (`evg_VME-230.subs`, `evg_VME-300.subs`)
+* EVR
+    * example startup scripts (`EVR-VME_startup.script`, `PCIe_startup.script`)
+    * example substitution files (`evr_cPCI-230.subs`, `evr_PCIe-300.subs`, `evr_VME-230.subs`, `evr_VME-300.subs`)
+
+For example, to set up a basic IOC for use with EVR-VME-300 timing card, user should:
+
+* prepare a switable IOC structure in a `TOP` folder
+* copy `PSI/example/evr_VME-300.subs` to `TOP/cfg/EVR0.subs`
+* configure parameters of the EVR by setting macros in `TOP/cfg/EVR0.subs`. Individual parameters are described in `documentation/evr_manual.pdf`, and tutorials for various scenarios are available in `documentation/tutorial.pdf`.
+* copy `PSI/example/EVR-VME_startup.script` to `TOP/startup.script`
+* adjust the parameters in the startup script to fit your setup, eg.:
+    
+        require mrfioc2
+    
+        # define the system name. This is prefixed to all record names
+        epicsEnvSet SYS "MTEST-VME-TIMINGTEST"
+    
+        ##########################
+        #-----! EVR Setup ------!#
+        ##########################    
+    
+        ## The following parameters are available to set up the device. They can either be set as an epics environmental variable, or passed as a macro to the 'runScript' command:
+        # The following macros are available to set up the mrfioc2:
+        # SYS 			is used as a prefix for all records. In this example it is set at the beginning using 'epicsEnvSet'
+        # DEVICE		"EVR0"		## is the event receiver / timing card name. (default: EVR0)
+        # EVR_SLOT		3			## is the VME crate slot where EVR is inserted. (default: 3)
+        # EVR_MEMOFFSET	0x3000000	## is the base A32 address (default: 0x3000000)
+        # EVR_IRQLINE 	0x5			## is the interrupt level. (default: 0x5)
+        # EVR_IRQVECT	0x26		## is the interrupt vector (default: 0x26)
+        # EVR_SUBS is the path to the substitution file that should be loaded. (default: cfg/$(DEVICE).subs=cfg/EVR0.subs)
+    
+        runScript $(mrfioc2_DIR)/mrfioc2_evr-VME.cmd, "DEVICE=EVR0, EVR_SLOT=3, EVR_MEMOFFSET=0x3000000, EVR_IRQLINE=0x5"
+
+* use `swit -V` to deploy the IOC
+
+## Using the application
+As with any EPICS application, build procedure produces all the necessary database files and an IOC for each architecture built. An example application for the `linux-x86_64` architecture is available in `iocBoot` folder. For more details inspect the `evr_manual.pdf` available in the `documentation` folder.
+
+GUIs are available:
+
+* `evgMrmApp/opi/EVG/` contains the caQtDm GUI for event generator (event master)
+* `evrMrmApp/opi/EVR/` contains the caQtDm GUI for event receiver and health monitor for EVR.
+
+Each folder contains a readme file which explains how to run the GUIs.
+
+### PSI
+Example substitution files and startup scripts are available in the `PSI/example` folder. For more details inspect the `evr_manual.pdf` and `tutorial.pdf` available in the `documentation` folder.
+
+
+## Supported hardware
+
+* EVG VME-230: VME-230 form factor event generator.
+* EVG VME-300: VME-300 form factor event master (event generator).
+* EVG cPCI-230: cPCI-230 form factor event generator (except GUI)
+* EVR VME-230: VME-230 form factor event receiver.
+* EVR VME-300: VME-300 form factor event receiver.
+* EVR PCIe-300: PCIe-300 form factor event receiver.
+* EVR cPCI-230: cPCI-230 form factor event receiver (except GUI)
+
+mrfioc2 driver supports hardware firmware versions up to and including 202.
+Minimal supported firmware version for :
+
+* EVG is 3,
+* PCIe form factor EVR is 3,
+* VME form factor EVR 4.
+
+## Known issues
+* With firmware version 200+ (support for 300-series hardware)
+    * some EVR-PCIe-300 devices with firmware version 200+ do not work at 142.876 MHz event clock. They were tested, and were working, at 125 MHz event clock.
+    * mapping two output sources to one output was not tested on EVR-PCIe-300 devices.
+    * sending does not work if delay compensation is disabled.
+    * in addition to the segmented data buffer operation, data buffer interrupt also gets triggered by the control logic that was used in older hardware. This in turn means reduced performance, since data buffer handling is triggered when there is no data buffer update. Awaiting firmware fix.
+    * sending the data buffer upstream does not work on EVR-VME-300 and was not tested on other cards.
+    * CML: only frequency mode works, since hardware addresses which store patterns are currently not accessible.
+    * EVM-VME-300: Input registers for FrontInp0 and FrontInp2 are linked together in hardware. Awaiting firmware fix.
+
 ## Prerequisites
 
 - [EPICS base](http://www.aps.anl.gov/epics/base/R3-14/index.php) >= 3.14.8.2
@@ -58,48 +140,8 @@ Building the driver on the PSI infrastructure is a bit different, since it lever
 
 The driver builds as a single library, which can be loaded using `require` to your IOC. Installation process also copies all the necessary support files (eg. templates) to the appropriate module folder. For more options inspect driver.makefile and require documentation available at the PSI wiki.
 
-
-## Using the application
-As with any EPICS application, build procedure produces all the necessary database files and an IOC for each architecture built. An example application for the `linux-x86_64` architecture is available in `iocBoot` folder. For more details inspect the `evr_manual.pdf` available in the `documentation` folder.
-
-GUIs are available:
-
-* `evgMrmApp/opi/EVG/` contains the caQtDm GUI for event generator (event master)
-* `evrMrmApp/opi/EVR/` contains the caQtDm GUI for event receiver and health monitor for EVR.
-
-Each folder contains a readme file which explains how to run the GUIs.
-
-### PSI
-Example substitution files and startup scripts are available in the `PSI/example` folder. For more details inspect the `evr_manual.pdf` and `tutorial.pdf` available in the `documentation` folder.
-
-
-
 ## Kernel sources
 mrfioc2 driver uses a special kernel module for communication with hardware. Sources of the `mrf.ko` kernel module are available in `mrmShared/linux`.
-
-## Supported hardware
-
-* EVG VME-230: VME-230 form factor event generator.
-* EVG VME-300: VME-300 form factor event master (event generator).
-* EVR VME-230: VME-230 form factor event receiver.
-* EVR VME-300: VME-300 form factor event receiver.
-* EVR PCIe-300: PCIe-300 form factor event receiver.
-* EVR cPCI-230: cPCI-230 form factor event receiver (except GUI)
-
-mrfioc2 driver supports hardware firmware versions up to and including 202.
-Minimal supported version for :
-
-* EVG is 3,
-* PCIe form factor EVR is 3,
-* VME form factor EVR 4.
-
-## Known issues
-* With firmware version 200+ (support for 300-series hardware)
-    * EVR-PCIe-300 devices with firmware version 200+ might not run reliably at event clock speed greater than 125 MHz.
-    * mapping two output sources to one output was not tested on EVR-PCIe-300 devices
-    * data buffer interrupts are triggered by the control logic used in older hardware. Awaiting firmware fix.
-    * CML: only frequency mode works, since hardware addresses which store patterns are currently not accessible.
-    * EVM-VME-300: Input registers for FrontInp0 and FrontInp2 are linked together in hardware. Avaiting firmware fix.
 
 ## Authors
 
@@ -114,10 +156,3 @@ Original driver developers:
 * Eric Bjorklund (bjorklund@lanl.gov)
 
 Please send an e-mail to saso.skube@cosylab.com if anyone is missing!
-
-
-## Todo
-* Known issues 
-
-
-

@@ -182,7 +182,7 @@ bool reportCard(mrf::Object* obj, void* raw)
                          (( user_offset & 0x000000ff ) << 16 );
 
             printf("\tVME configured slot: %d\n", bus->vme.slot);
-            printf("\tVME configured A24 address 0x%08x\n", bus->vme.address);
+            printf("\tVME configured A32 address 0x%08x\n", bus->vme.address);
             printf("\tVME ADER: base address=0x%x\taddress modifier=0x%x\n", ader>>8, (ader&0xFF)>>2);
             printf("\tVME IRQ Level %x (configured to %x)\n", CSRRead8(csrAddr + user_offset + UCSR_IRQ_LEVEL), bus->vme.irqLevel);
             printf("\tVME IRQ Vector %x (configured to %x)\n", CSRRead8(csrAddr + user_offset + UCSR_IRQ_VECTOR), bus->vme.irqVector);

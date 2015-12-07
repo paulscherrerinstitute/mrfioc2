@@ -120,26 +120,26 @@ public:
     size_t getMaxLength();
 
     /**
-     * @brief requestTxBuffer opens direct access to the underlying transmit buffer. Great care must be taken when using this function, since it locks the buffer transmission until releaseTxBuffer() is called. User must also make sure that the offset and length to be written to are inside the allowed buffer boundaries.
+     * @brief requestTxBuffer opens direct access to the user transmit buffer. Great care must be taken when using this function, since it locks the buffer transmission until releaseTxBuffer() is called. User must also make sure that the offset and length to be written to are inside the allowed buffer length (can be checked using getMaxLength()).
      * @return a pointer to the start + user offset of the underlying transmit buffer.
      */
     epicsUInt8* requestTxBuffer();
 
     /**
-     * @brief releaseTxBuffer closes the access to the underlying transmit buffer, thus releasing it to other users. It also marks the data to be send out based on the provided offset and length.
+     * @brief releaseTxBuffer closes the access to the user transmit buffer, thus releasing it to other users. It also marks the data to be send out based on the provided offset and length.
      * @param offset is the starting offset where the data was written.
      * @param length is the length of the written data.
      */
     void releaseTxBuffer(size_t offset, size_t length);
 
     /**
-     * @brief requestRxBuffer opens direct access to the inderlying receive buffer. Great care must be taken when using this function, since it locks the buffer reception until releaseRxBuffer() is called. User must also make sure that the offset and length to be read from are inside the allowed buffer boundaries.
+     * @brief requestRxBuffer opens direct access to the user receive buffer. Great care must be taken when using this function, since it locks the buffer reception until releaseRxBuffer() is called. User must also make sure that the offset and length to be read from are inside the allowed buffer length (can be checked using getMaxLength()).
      * @return a pointer to the start + user offset of the underlying receive buffer.
      */
     epicsUInt8* requestRxBuffer();
 
     /**
-     * @brief releaseRxBuffer closes the access to the underlying receive buffer, thus releasing it to other users and to data buffer reception.
+     * @brief releaseRxBuffer closes the access to the user receive buffer, thus releasing it to other users and to data buffer reception.
      */
     void releaseRxBuffer();
 private:

@@ -213,6 +213,7 @@ epicsUInt8 *mrmDataBufferUser::requestTxBuffer() {
     return &m_tx_buff[m_user_offset];
 }
 
+// TODO separate marking of updated segments. This would allow user to write multiple non-consecutive areas of the buffer without the need to reacquire locks for each area.
 void mrmDataBufferUser::releaseTxBuffer(size_t offset, size_t length) {
     epicsUInt16 segment, i, noOfSegmentsUpdated, segmentOffset;
 

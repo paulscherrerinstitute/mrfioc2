@@ -9,12 +9,13 @@ epicsEnvSet SYS "MTEST-VME-TIMINGTEST"
 ##########################
 ## The following parameters are available to set up the device. They can either be set as an epics environmental variable, or passed as a macro to the 'runScript' command:
 
-# Command 'runScript' also accepts the SYS macro, which is used as a prefix for all records.
-#epicsEnvSet  DEVICE		"EVG0"		## is the event generator / timing card name. (default: EVG0)
-#epicsEnvSet  EVG_SLOT		2			## is the VME crate slot where the card is inserted. (default: 2)
-#epicsEnvSet  EVG_MEMOFFSET	0x0			## is the base A24 address (default: 0x0)
-#epicsEnvSet  EVG_IRQLINE 	0x2			## is the interrupt level. (default: 0x2)
-#epicsEnvSet  EVG_IRQVECT 	0x1			## is the interrupt vector (default: 0x1)
-#epicsEnvSet EVG_SUBS "cfg/EVG0.subs" 	## is the path to the substitution file that should be loaded. (default: cfg/$(DEVICE).subs=cfg/EVG0.subs)
+# The following macros are available to set up the mrfioc2:
+# SYS 			is used as a prefix for all records. In this example it is set at the beginning using 'epicsEnvSet'
+# DEVICE		"EVG0"		## is the event generator / timing card name. (default: EVG0)
+# EVG_SLOT		2			## is the VME crate slot where the card is inserted. (default: 2)
+# EVG_MEMOFFSET	0x0			## is the base A24 address (default: 0x0)
+# EVG_IRQLINE 	0x2			## is the interrupt level. (default: 0x2)
+# EVG_IRQVECT 	0x1			## is the interrupt vector (default: 0x1)
+# EVG_SUBS "cfg/EVG0.subs" 	## is the path to the substitution file that should be loaded. (default: cfg/$(DEVICE).subs=cfg/EVG0.subs)
 
 runScript $(mrfioc2_DIR)/mrfioc2_evg-VME.cmd, "DEVICE=EVG0, EVG_SLOT=2, EVG_MEMOFFSET=0x000000, EVG_IRQLINE=0x2"

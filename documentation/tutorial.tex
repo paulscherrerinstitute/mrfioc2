@@ -73,7 +73,7 @@ The following steps demonstrate how to prepare a SWIT compatible IOC application
 			touch EVR0.subs
 			cd ..
 		\end{verbatim}
-	\item Copy the content of the substitution file  at \texttt{https://github.psi.ch/projects/} \texttt{ED/repos/mrfioc2/browse/PSI/example/evr\_VME-230.subs?at=\latestDriverVersion} to newly created \texttt{cfg/EVR0.subs}. This substitution file can always be used as a starting point for new applications.
+	\item Copy the content of the substitution file  at \texttt{https://github.psi.ch/projects/} \texttt{ED/repos/mrfioc2/browse/PSI/example/evr\_VME-230.subs?at=\latestDriverVersion} to newly created \texttt{cfg/EVR0.subs}. This substitution file can always be used as a starting point for new applications. Substitution files for other form factors are available at the same location (mrfioc2 repository in folder \texttt{PSI/example}).
 	
 	The macro definitions in the substitution file are used to configure the EVR. All the available macros are already present in the substitution file and set to their default values, so the user can simply change the desired values. Detailed description of the substitution file is available in the EVR manual~\cite{evr_manual}.
 
@@ -83,7 +83,7 @@ The following steps demonstrate how to prepare a SWIT compatible IOC application
 			touch startup.script
 		\end{verbatim}
 	\item 
-		Copy the content of the startup script at \texttt{https://github.psi.ch/projects/} \texttt{ED/repos/mrfioc2/browse/PSI/example/VME\_startup.script?at=\latestDriverVersion} to newly created \texttt{startup.script}.
+		Copy the content of the startup script at \texttt{https://github.psi.ch/projects/} \texttt{ED/repos/mrfioc2/browse/PSI/example/VME\_startup.script?at=\latestDriverVersion} to newly created \texttt{startup.script}. Startup scripts for other form factors are available at the same location (mrfioc2 repository in folder \texttt{PSI/example}).
 
 	The startup script should look similar to:
 \begin{verbatim}
@@ -99,14 +99,15 @@ The following steps demonstrate how to prepare a SWIT compatible IOC application
 	## They can either be set as an epics environmental variable, 
 	## or passed as a macro to the 'runScript' command:
 	
-	# Command 'runScript' also accepts the SYS macro, which is used 
-	#  as a prefix for all records.
-	#epicsEnvSet  DEVICE        "EVR0"		
-	#epicsEnvSet  EVR_SLOT		     3			
-	#epicsEnvSet  EVR_MEMOFFSET	0x3000000
-	#epicsEnvSet  EVR_IRQLINE 	 0x5		
-	#epicsEnvSet  EVR_IRQVECT	  0x26
-	#epicsEnvSet  EVR_SUBS      cfg/evr_VME-300.subs
+	# The following macros are available to set up the mrfioc2:
+	# SYS 	is used as a prefix for all records. In this example 
+	       it is set at the beginning using 'epicsEnvSet'
+	# DEVICE        "EVR0"		
+	# EVR_SLOT		     3			
+	# EVR_MEMOFFSET	0x3000000
+	# EVR_IRQLINE 	 0x5		
+	# EVR_IRQVECT	  0x26
+	# EVR_SUBS      cfg/evr_VME-300.subs
 	
 	runScript $(mrfioc2_DIR)/mrfioc2_evr-VME.cmd, "DEVICE=EVR0, 
 	EVR_SLOT=3, EVR_MEMOFFSET=0x3000000, EVR_IRQLINE=0x5"
@@ -130,7 +131,7 @@ The configurable variables in the startup script are:
 	\item 
 		\texttt{EVR\_SLOT} is the VME crate slot where EVR is inserted. If the variable is not defined in the startup script, it defaults to \texttt{3}.
 	\item 
-		The the base A24 address (\texttt{EVR\_MEMOFFSET}), interrupt level (\texttt{EVR\_IRQLINE}) and interrupt vector (\texttt{EVR\_IRQVECT}) variables configure the interaction between the SBC and the EVR. The details are out of scope of this document. If a variable is not defined in the startup script, it gets set to its default value. Default values are:
+		The base A32 address (\texttt{EVR\_MEMOFFSET}), interrupt level (\texttt{EVR\_IRQLINE}) and interrupt vector (\texttt{EVR\_IRQVECT}) variables configure the interaction between the SBC and the EVR. The details are out of scope of this document. If a variable is not defined in the startup script, it gets set to its default value. Default values are:
 		\begin{itemize}
 		\item \texttt{EVR\_MEMOFFSET} = 0x3000000
 		\item \texttt{EVR\_IRQLINE} = 0x5
@@ -139,7 +140,7 @@ The configurable variables in the startup script are:
 	\item 
 		\texttt{EVR\_SUBS} is the substitution file that we are using for our application. If not specified, a substitution file in \texttt{cfg/\$(EVR).subs} (where \$(EVR) is the event receiver name) will be loaded.
 \end{itemize}
-Using the above startup script, the system name is set to \textit{MTEST-VME-TIMINGTEST}, and the event receiver named \textit{EVR0} is placed in the physical slot 3 of the VME crate. It uses default A24 address and interrupt configuration. Substitution file \texttt{cfg/EVR0.subs} will be loaded.
+Using the above startup script, the system name is set to \textit{MTEST-VME-TIMINGTEST}, and the event receiver named \textit{EVR0} is placed in the physical slot 3 of the VME crate. It uses default A32 address and interrupt configuration. Substitution file \texttt{cfg/EVR0.subs} will be loaded.
 \end{enumerate}
 
 
