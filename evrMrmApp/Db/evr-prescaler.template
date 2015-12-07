@@ -27,7 +27,7 @@ record(calc, "$(SYS)-$(DEVICE):PS$(ID)-Rate-I") {
   field(INPB, "$(SYS)-$(DEVICE):Link-Clk-I CP")
   field(CALC, "B/A")
   field(EGU, "MHz")
-  field(PREC, "2")
+  field(PREC, "7")
 }
 
 
