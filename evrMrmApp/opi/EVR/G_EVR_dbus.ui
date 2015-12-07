@@ -70,7 +70,7 @@
      </rect>
     </property>
     <property name="macro">
-     <string notr="true">CHAN=$(EVR):PulserMap-Dbus$(ID)-,SP=L-SP,RB=RB</string>
+     <string notr="true">CHAN=$(SYS)-$(DEVICE):PulserMap-Dbus$(ID)-,SP=L-SP,RB=RB</string>
     </property>
     <property name="filename" stdset="0">
      <string notr="true">G_EVR_mbbDirectControl.ui</string>
@@ -137,7 +137,7 @@
      </rect>
     </property>
     <property name="macro">
-     <string notr="true">CHAN=$(EVR):PulserMap-Dbus$(ID)-H-,SP=SP,RB=RB</string>
+     <string notr="true">CHAN=$(SYS)-$(DEVICE):PulserMap-Dbus$(ID)-H-,SP=SP,RB=RB</string>
     </property>
     <property name="filename" stdset="0">
      <string notr="true">G_EVR_mbbDirectControl.ui</string>

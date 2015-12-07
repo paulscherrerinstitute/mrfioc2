@@ -50,7 +50,7 @@
       </rect>
      </property>
      <property name="macro">
-      <string notr="true">ID=FrontInp0, EVG=$(EVG)</string>
+      <string notr="true">ID=FrontInp0, SYS=$(SYS),DEVICE=$(DEVICE)</string>
      </property>
      <property name="filename" stdset="0">
       <string notr="true">G_EVG_input_sequenceMask.ui</string>
@@ -66,7 +66,7 @@
       </rect>
      </property>
      <property name="macro">
-      <string notr="true">ID=FrontInp1, EVG=$(EVG)</string>
+      <string notr="true">ID=FrontInp1, SYS=$(SYS),DEVICE=$(DEVICE)</string>
      </property>
      <property name="filename" stdset="0">
       <string notr="true">G_EVG_input_sequenceMask.ui</string>
@@ -82,7 +82,7 @@
       </rect>
      </property>
      <property name="macro">
-      <string notr="true">ID=FrontInp2, EVG=$(EVG)</string>
+      <string notr="true">ID=FrontInp2, SYS=$(SYS),DEVICE=$(DEVICE)</string>
      </property>
      <property name="filename" stdset="0">
       <string notr="true">G_EVG_input_sequenceMask.ui</string>
@@ -98,7 +98,7 @@
       </rect>
      </property>
      <property name="macro">
-      <string notr="true">ID=RearInp0, EVG=$(EVG)</string>
+      <string notr="true">ID=RearInp0, SYS=$(SYS),DEVICE=$(DEVICE)</string>
      </property>
      <property name="filename" stdset="0">
       <string notr="true">G_EVG_input_sequenceMask.ui</string>
@@ -114,7 +114,7 @@
       </rect>
      </property>
      <property name="macro">
-      <string notr="true">ID=RearInp1, EVG=$(EVG)</string>
+      <string notr="true">ID=RearInp1, SYS=$(SYS),DEVICE=$(DEVICE)</string>
      </property>
      <property name="filename" stdset="0">
       <string notr="true">G_EVG_input_sequenceMask.ui</string>
@@ -130,7 +130,7 @@
       </rect>
      </property>
      <property name="macro">
-      <string notr="true">ID=RearInp2, EVG=$(EVG)</string>
+      <string notr="true">ID=RearInp2, SYS=$(SYS),DEVICE=$(DEVICE)</string>
      </property>
      <property name="filename" stdset="0">
       <string notr="true">G_EVG_input_sequenceMask.ui</string>
@@ -146,7 +146,7 @@
       </rect>
      </property>
      <property name="macro">
-      <string notr="true">ID=RearInp3, EVG=$(EVG)</string>
+      <string notr="true">ID=RearInp3, SYS=$(SYS),DEVICE=$(DEVICE)</string>
      </property>
      <property name="filename" stdset="0">
       <string notr="true">G_EVG_input_sequenceMask.ui</string>
@@ -162,7 +162,7 @@
       </rect>
      </property>
      <property name="macro">
-      <string notr="true">ID=RearInp4, EVG=$(EVG)</string>
+      <string notr="true">ID=RearInp4, SYS=$(SYS),DEVICE=$(DEVICE)</string>
      </property>
      <property name="filename" stdset="0">
       <string notr="true">G_EVG_input_sequenceMask.ui</string>
@@ -178,7 +178,7 @@
       </rect>
      </property>
      <property name="macro">
-      <string notr="true">ID=RearInp5, EVG=$(EVG)</string>
+      <string notr="true">ID=RearInp5, SYS=$(SYS),DEVICE=$(DEVICE)</string>
      </property>
      <property name="filename" stdset="0">
       <string notr="true">G_EVG_input_sequenceMask.ui</string>
@@ -194,7 +194,7 @@
       </rect>
      </property>
      <property name="macro">
-      <string notr="true">ID=RearInp6, EVG=$(EVG)</string>
+      <string notr="true">ID=RearInp6, SYS=$(SYS),DEVICE=$(DEVICE)</string>
      </property>
      <property name="filename" stdset="0">
       <string notr="true">G_EVG_input_sequenceMask.ui</string>
@@ -210,7 +210,7 @@
       </rect>
      </property>
      <property name="macro">
-      <string notr="true">ID=RearInp7, EVG=$(EVG)</string>
+      <string notr="true">ID=RearInp7, SYS=$(SYS),DEVICE=$(DEVICE)</string>
      </property>
      <property name="filename" stdset="0">
       <string notr="true">G_EVG_input_sequenceMask.ui</string>
@@ -226,7 +226,7 @@
       </rect>
      </property>
      <property name="macro">
-      <string notr="true">ID=RearInp8, EVG=$(EVG)</string>
+      <string notr="true">ID=RearInp8, SYS=$(SYS),DEVICE=$(DEVICE)</string>
      </property>
      <property name="filename" stdset="0">
       <string notr="true">G_EVG_input_sequenceMask.ui</string>
@@ -242,7 +242,7 @@
       </rect>
      </property>
      <property name="macro">
-      <string notr="true">ID=RearInp9, EVG=$(EVG)</string>
+      <string notr="true">ID=RearInp9, SYS=$(SYS),DEVICE=$(DEVICE)</string>
      </property>
      <property name="filename" stdset="0">
       <string notr="true">G_EVG_input_sequenceMask.ui</string>
@@ -258,7 +258,7 @@
       </rect>
      </property>
      <property name="macro">
-      <string notr="true">ID=RearInp10, EVG=$(EVG)</string>
+      <string notr="true">ID=RearInp10, SYS=$(SYS),DEVICE=$(DEVICE)</string>
      </property>
      <property name="filename" stdset="0">
       <string notr="true">G_EVG_input_sequenceMask.ui</string>
@@ -274,7 +274,7 @@
       </rect>
      </property>
      <property name="macro">
-      <string notr="true">ID=RearInp11, EVG=$(EVG)</string>
+      <string notr="true">ID=RearInp11, SYS=$(SYS),DEVICE=$(DEVICE)</string>
      </property>
      <property name="filename" stdset="0">
       <string notr="true">G_EVG_input_sequenceMask.ui</string>
@@ -290,7 +290,7 @@
       </rect>
      </property>
      <property name="macro">
-      <string notr="true">ID=RearInp12, EVG=$(EVG)</string>
+      <string notr="true">ID=RearInp12, SYS=$(SYS),DEVICE=$(DEVICE)</string>
      </property>
      <property name="filename" stdset="0">
       <string notr="true">G_EVG_input_sequenceMask.ui</string>
@@ -306,7 +306,7 @@
       </rect>
      </property>
      <property name="macro">
-      <string notr="true">ID=RearInp13, EVG=$(EVG)</string>
+      <string notr="true">ID=RearInp13, SYS=$(SYS),DEVICE=$(DEVICE)</string>
      </property>
      <property name="filename" stdset="0">
       <string notr="true">G_EVG_input_sequenceMask.ui</string>
@@ -322,7 +322,7 @@
       </rect>
      </property>
      <property name="macro">
-      <string notr="true">ID=RearInp14, EVG=$(EVG)</string>
+      <string notr="true">ID=RearInp14, SYS=$(SYS),DEVICE=$(DEVICE)</string>
      </property>
      <property name="filename" stdset="0">
       <string notr="true">G_EVG_input_sequenceMask.ui</string>
@@ -338,7 +338,7 @@
       </rect>
      </property>
      <property name="macro">
-      <string notr="true">ID=RearInp15, EVG=$(EVG)</string>
+      <string notr="true">ID=RearInp15, SYS=$(SYS),DEVICE=$(DEVICE)</string>
      </property>
      <property name="filename" stdset="0">
       <string notr="true">G_EVG_input_sequenceMask.ui</string>

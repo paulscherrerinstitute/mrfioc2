@@ -19,10 +19,12 @@ DB += evr-vme-230.db
 
 ## Install non form factor specific tempalates
 DB += evr-softEvent.template
+DB += evr-softEvent-measure.template
 DB += evr-specialFunctionMap.template
 DB += evr-pulserMap.template
 DB += evr-pulserMap-dbus.template
 DB += evr-health.template
+DB += evr-delayModule.template
 
 
 # If <anyname>.db template is not named <anyname>*.template add

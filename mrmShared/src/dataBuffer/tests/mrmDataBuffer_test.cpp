@@ -1,4 +1,3 @@
-//#include "mrmDataBuffer_test.h"
 #include "iocsh.h"
 #include "epicsExport.h"
 
@@ -9,9 +8,6 @@
 
 #include "mrmDataBufferUser.h"
 
-/*mrmDataBuffer_test::mrmDataBuffer_test()
-{
-}*/
 
 mrmDataBuffer* getDataBufferFromDevice(char *device) {
     evgMrm* evg = dynamic_cast<evgMrm*>(mrf::Object::getObject(device));
@@ -27,16 +23,24 @@ mrmDataBuffer* getDataBufferFromDevice(char *device) {
     return NULL;
 }
 
-/********** Send data buffer  *******/
-static const iocshArg mrmDataBufferSendArg0 = { "Device", iocshArgString };
-static const iocshArg mrmDataBufferSendArg1 = { "Segment", iocshArgInt };
+/********** Put to data buffer  *******/
+// Puts the data to internal buffer, but does not send it.
+// Use mrmDataBufferSend to flush the buffer.
 
-static const iocshArg * const mrmDataBufferSendArgs[2] = { &mrmDataBufferSendArg0, &mrmDataBufferSendArg1};
-static const iocshFuncDef mrmDataBufferSendDef = { "mrmDataBufferSend", 2, mrmDataBufferSendArgs };
+static const iocshArg mrmDataBufferPutArg0 = { "Device", iocshArgString };
+static const iocshArg mrmDataBufferPutArg1 = { "Offset", iocshArgInt };
+static const iocshArg mrmDataBufferPutArg2 = { "Length", iocshArgInt };
+static const iocshArg mrmDataBufferPutArg3 = { "Value", iocshArgInt };
 
+static const iocshArg * const mrmDataBufferPutArgs[4] = { &mrmDataBufferPutArg0, &mrmDataBufferPutArg1, &mrmDataBufferPutArg2, &mrmDataBufferPutArg3};
+static const iocshFuncDef mrmDataBufferDef_put = { "mrmDataBufferPut", 4, mrmDataBufferPutArgs };
 
-static void mrmDataBufferSendFunc(const iocshArgBuf *args) {
-   epicsInt32 segment = args[1].ival;
+epicsUInt8 data[0x0007ff] = { 0 };
+static void mrmDataBufferFunc_put(const iocshArgBuf *args) {
+   epicsInt32 offset = args[1].ival;
+   epicsInt32 length = args[2].ival;
+   epicsInt32 value = args[3].ival;
+   epicsInt32 i;
 
    mrmDataBuffer *dataBuffer = getDataBufferFromDevice(args[0].sval);
    if(dataBuffer == NULL) {
@@ -44,35 +48,63 @@ static void mrmDataBufferSendFunc(const iocshArgBuf *args) {
        return;
    }
 
-   if(segment<0){ // reset entire buffer
-       epicsUInt8 data[0x0007ff] = { 0 };
-       dataBuffer->send(0, 0x0007fc, data);
+   if(offset < 0) { // reset entire buffer
+       for(i=0; i<0x0007ff; i++) {
+           data[i] = 0;
+       }
    } else {
-       printf("Sending using segment %d\n", segment);
-       epicsUInt8 data[20] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 };
-       dataBuffer->send((epicsUInt8)segment, 20, data);
+       for(i=offset; i<offset + length; i++) {
+           data[i] = value;
+       }
    }
-
-   /*printf("Waiting for TX complete...\n");
-   dataBuffer->waitForTxComplete();
-   printf("TX complete!\n");*/
 }
 
 /******************/
 
+/********** Send data buffer  *******/
+// Sends out the buffer that was previously filled with mrmDataBufferPut
 
-/********** Enable / disable data buffer  *******/
-static const iocshArg mrmDataBufferEnableArg0 = { "Device", iocshArgString };
-static const iocshArg mrmDataBufferEnableArg1 = { "Direction", iocshArgInt }; // 0 = Rx, other = Tx
-static const iocshArg mrmDataBufferEnableArg2 = { "Enable", iocshArgInt };  // 0 = Disable, other = Enable
+static const iocshArg mrmDataBufferSendArg0 = { "Device", iocshArgString };
+static const iocshArg mrmDataBufferSendArg1 = { "Offset", iocshArgInt };
+static const iocshArg mrmDataBufferSendArg2 = { "Length", iocshArgInt };
 
-static const iocshArg * const mrmDataBufferEnableArgs[3] = { &mrmDataBufferEnableArg0, &mrmDataBufferEnableArg1, &mrmDataBufferEnableArg2};
-static const iocshFuncDef mrmDataBufferEnableDef = { "mrmDataBufferEnable", 3, mrmDataBufferEnableArgs };
+static const iocshArg * const mrmDataBufferSendArgs[3] = { &mrmDataBufferSendArg0, &mrmDataBufferSendArg1, &mrmDataBufferSendArg2};
+static const iocshFuncDef mrmDataBufferDef_send = { "mrmDataBufferSend", 3, mrmDataBufferSendArgs };
+
+static void mrmDataBufferFunc_send(const iocshArgBuf *args) {
+   epicsInt32 offset = args[1].ival;
+   epicsInt32 length = args[2].ival;
+
+   mrmDataBuffer *dataBuffer = getDataBufferFromDevice(args[0].sval);
+   if(dataBuffer == NULL) {
+       printf("Data buffer for %s not found.\n", args[0].sval);
+       return;
+   }
+
+   if(offset<0){ // send all zeroes
+       epicsUInt8 zeroData[0x0007ff] = { 0 };
+       dataBuffer->send(0, 0x0007fc, zeroData);
+   } else {
+       length += offset - ((offset / 16) * 16);
+       printf("Sending using segment %d and length %d\n", offset / 16, length);
+       dataBuffer->send((epicsUInt8)offset / 16, (epicsUInt16)length, &data[(offset / 16) * 16]);
+   }
+}
+
+/******************/
+
+/********** Read data buffer  *******/
+// Reads the latest received data buffer
+
+static const iocshArg mrmDataBufferArg0_read = { "Device", iocshArgString };
+static const iocshArg mrmDataBufferArg1_read = { "offset", iocshArgInt };
+static const iocshArg mrmDataBufferArg2_read = { "length", iocshArgInt };
+
+static const iocshArg * const mrmDataBufferArgs_read[3] = { &mrmDataBufferArg0_read, &mrmDataBufferArg1_read, &mrmDataBufferArg2_read};
+static const iocshFuncDef mrmDataBufferDef_read = { "mrmDataBufferRead", 3, mrmDataBufferArgs_read };
 
 
-static void mrmDataBufferEnableFunc(const iocshArgBuf *args) {
-    epicsUInt32 direction = args[1].ival;
-    epicsUInt32 enable = args[2].ival;
+static void mrmDataBufferFunc_read(const iocshArgBuf *args) {
 
     mrmDataBuffer *dataBuffer = getDataBufferFromDevice(args[0].sval);
     if(dataBuffer == NULL) {
@@ -80,20 +112,16 @@ static void mrmDataBufferEnableFunc(const iocshArgBuf *args) {
        return;
     }
 
-    if(direction == 0) { // Rx
-        dataBuffer->enableRx(enable);
-        printf("Enabled Rx data buffer. Status: %d\n", dataBuffer->enabledRx());
-    } else { // Tx
-        dataBuffer->enableTx(enable);
-        printf("Enabled Tx data buffer. Status: %d\n", dataBuffer->enabledTx());
-    }
+    dataBuffer->read(args[1].ival, args[2].ival);
 }
 
 /******************/
 
 /********** Enable / disable Rx IRQ  *******/
+// Sets first, second, third or forth 32bits of the segment IRQ register
+
 static const iocshArg mrmDataBufferArg0_IRQ = { "Device", iocshArgString };
-static const iocshArg mrmDataBufferArg1_IRQ = { "seg", iocshArgInt }; // 0 - 4
+static const iocshArg mrmDataBufferArg1_IRQ = { "segments", iocshArgInt }; // 0 - 4
 static const iocshArg mrmDataBufferArg2_IRQ = { "mask", iocshArgInt }; // mask to apply
 
 static const iocshArg * const mrmDataBufferArgs_IRQ[3] = { &mrmDataBufferArg0_IRQ, &mrmDataBufferArg1_IRQ, &mrmDataBufferArg2_IRQ};
@@ -116,8 +144,10 @@ static void mrmDataBufferFunc_IRQ(const iocshArgBuf *args) {
 /******************/
 
 /********** Enable / disable Rx flags  *******/
+// Sets first, second, third or forth 32bits of the segment Rx register
+
 static const iocshArg mrmDataBufferArg0_Rx = { "Device", iocshArgString };
-static const iocshArg mrmDataBufferArg1_Rx = { "seg", iocshArgInt }; // 0 - 4
+static const iocshArg mrmDataBufferArg1_Rx = { "segmens", iocshArgInt }; // 0 - 4
 static const iocshArg mrmDataBufferArg2_Rx = { "mask", iocshArgInt }; // mask to apply
 
 static const iocshArg * const mrmDataBufferArgs_Rx[3] = { &mrmDataBufferArg0_Rx, &mrmDataBufferArg1_Rx, &mrmDataBufferArg2_Rx};
@@ -139,7 +169,9 @@ static void mrmDataBufferFunc_Rx(const iocshArgBuf *args) {
 
 /******************/
 
-/********** Enable / disable Rx stop  *******/
+/********** Rx stop  *******/
+// Writes the DBDIS bit to 1
+
 static const iocshArg mrmDataBufferArg0_stop = { "Device", iocshArgString };
 
 static const iocshArg * const mrmDataBufferArgs_stop[1] = { &mrmDataBufferArg0_stop};
@@ -159,27 +191,7 @@ static void mrmDataBufferFunc_stop(const iocshArgBuf *args) {
 
 /******************/
 
-/********** Enable / disable Rx receive  *******/
-static const iocshArg mrmDataBufferArg0_receive = { "Device", iocshArgString };
-
-static const iocshArg * const mrmDataBufferArgs_receive[1] = { &mrmDataBufferArg0_receive};
-static const iocshFuncDef mrmDataBufferDef_receive = { "mrmDataBufferReceive", 1, mrmDataBufferArgs_receive };
-
-
-static void mrmDataBufferFunc_receive(const iocshArgBuf *args) {
-
-    mrmDataBuffer *dataBuffer = getDataBufferFromDevice(args[0].sval);
-    if(dataBuffer == NULL) {
-       printf("Data buffer for %s not found.\n", args[0].sval);
-       return;
-    }
-
-    dataBuffer->printRegs();
-}
-
-/******************/
-
-/********** Print Rx registers  *******/
+/********** Print IRQ, checksum, overflow and Rx registers  *******/
 static const iocshArg mrmDataBufferArg0_print = { "Device", iocshArgString };
 
 static const iocshArg * const mrmDataBufferArgs_print[1] = { &mrmDataBufferArg0_print};
@@ -217,7 +229,7 @@ void callback(size_t updated_offset, size_t length, void* pvt){
     size_t offset = (*str).offset;
     epicsUInt8 buffer[3000];
 
-    printf("Got update on offset %d+%d\n", updated_offset, length);
+    printf("Got update on offset %zu+%zu\n", updated_offset, length);
     rx->get(offset, length, (void *)&buffer);
     for(unsigned int i=0; i<length; i++){
         printf("%d, ", buffer[i]);
@@ -235,10 +247,18 @@ static void mrmDataBufferFunc_user(const iocshArgBuf *args) {
     size_t offset = args[0].ival;
     int idx;
 
-    if (rx->init("EVR0") || tx->init("EVG0")) {
-        printf("Failed to initialize data buffer\n");
+    if (!rx->init("EVR0")) {
+        printf("Failed to initialize EVR0 data buffer\n");
+        delete rx;
         return;
     }
+
+    if (!tx->init("EVG0")) {
+        printf("Failed to initialize EVG0 data buffer\n");
+        delete tx;
+        return;
+    }
+
 
     epicsUInt8 data[20] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 };
     //done = false;
@@ -313,13 +333,13 @@ static void mrmDataBufferFunc_removeInterest(const iocshArgBuf *args) {
 
 extern "C" {
     static void mrmDataBufferRegistrar() {
-        iocshRegister(&mrmDataBufferSendDef, mrmDataBufferSendFunc);
-        iocshRegister(&mrmDataBufferEnableDef, mrmDataBufferEnableFunc);
+        iocshRegister(&mrmDataBufferDef_send, mrmDataBufferFunc_send);
+        iocshRegister(&mrmDataBufferDef_put, mrmDataBufferFunc_put);
+        iocshRegister(&mrmDataBufferDef_read, mrmDataBufferFunc_read);
         iocshRegister(&mrmDataBufferDef_IRQ, mrmDataBufferFunc_IRQ);
         iocshRegister(&mrmDataBufferDef_Rx, mrmDataBufferFunc_Rx);
         iocshRegister(&mrmDataBufferDef_user, mrmDataBufferFunc_user);
         iocshRegister(&mrmDataBufferDef_stop, mrmDataBufferFunc_stop);
-        iocshRegister(&mrmDataBufferDef_receive, mrmDataBufferFunc_receive);
         iocshRegister(&mrmDataBufferDef_print, mrmDataBufferFunc_print);
         iocshRegister(&mrmDataBufferDef_initInterest, mrmDataBufferFunc_initInterest);
         iocshRegister(&mrmDataBufferDef_addInterest, mrmDataBufferFunc_addInterest);

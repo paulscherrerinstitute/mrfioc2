@@ -567,7 +567,7 @@ int spi_program_flash(void* preg, const char *bitfile)
 
 
   do {
-    size = fread(buf, 1, FLASH_DATA_ALLOC_SIZE, fd);
+    size = (int)fread(buf, 1, FLASH_DATA_ALLOC_SIZE, fd);
     flash_pageprogram(pEvr, buf, addr, size);
     if ((addr & 0x0000ffff) == 0)
       printf("\r%08x", addr);

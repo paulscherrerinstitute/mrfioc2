@@ -2,7 +2,7 @@
 #
 # Macros:
 #  SYS = system name
-#  EVR = EVR devObj name
+#  DEVICE = Event receiver / timing card name (same as mrmEvrSetupVME()) Eg. EVR0
 #  PID = Pulser ID #
 #  F = Pulse generator action
 #    Choices are: "Trig", "Set", "Reset"
@@ -11,9 +11,9 @@
 #    Only mappings with ID=0 are displayed in the GUI
 #
 
-record(longout, "$(SYS)-$(EVR):Pul$(PID)-Evt-$(F)$(ID)-SP") {
+record(longout, "$(SYS)-$(DEVICE):Pul$(PID)-Evt-$(F)$(ID)-SP") {
   field( DTYP, "EVR Pulser Mapping" )
-  field( OUT , "@OBJ=$(EVR):Pul$(PID), Func=$(F=Trig)")
+  field( OUT , "@OBJ=$(DEVICE):Pul$(PID), Func=$(F=Trig)")
   field( PINI, "YES")
   field( DESC, "Mapping for Pulser $(PID)")
   field( VAL , "$(EVT)")

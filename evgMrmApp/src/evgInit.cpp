@@ -31,6 +31,7 @@
 #include <epicsExport.h>
 #include "evgRegMap.h"
 
+#include "mrmShared.h"
 #include "evgInit.h"
 
 /* Bit mask used to communicate which VME interrupt levels
@@ -176,7 +177,7 @@ int checkVersion(volatile epicsUInt8 *base, unsigned int required) {
     ver = v & FPGAVersion_VER_MASK;
 
     if(ver < required) {
-        printf("Firmware version >= %u is required got %u\n", required,ver);
+        printf("Firmware version >= %x is required got %x\n", required,ver);
         throw std::runtime_error("Firmware version not supported");
 
     }
@@ -772,8 +773,8 @@ reportCard(mrf::Object* obj, void* arg) {
             printf("\tVME configured slot: %d\n", bus->vme.slot);
             printf("\tVME configured A24 address 0x%08x\n", bus->vme.address);
             printf("\tVME ADER: base address=0x%x\taddress modifier=0x%x\n", ader>>8, (ader&0xFF)>>2);
-            printf("\tVME IRQ Level %d (configured to %d)\n", CSRRead8(csrAddr + MRF_UCSR_DEFAULT + UCSR_IRQ_LEVEL), bus->vme.irqLevel);
-            printf("\tVME IRQ Vector %d (configured to %d)\n", CSRRead8(csrAddr + MRF_UCSR_DEFAULT + UCSR_IRQ_VECTOR), bus->vme.irqVector);
+            printf("\tVME IRQ Level %x (configured to %x)\n", CSRRead8(csrAddr + MRF_UCSR_DEFAULT + UCSR_IRQ_LEVEL), bus->vme.irqLevel);
+            printf("\tVME IRQ Vector %x (configured to %x)\n", CSRRead8(csrAddr + MRF_UCSR_DEFAULT + UCSR_IRQ_VECTOR), bus->vme.irqVector);
             if(*level>1) printf("\tVME card vendor: 0x%08x\n", vmeDev.vendor);
             if(*level>1) printf("\tVME card board: 0x%08x\n", vmeDev.board);
             if(*level>1) printf("\tVME card revision: 0x%08x\n", vmeDev.revision);

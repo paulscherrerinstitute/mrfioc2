@@ -187,8 +187,6 @@ file "$(mrfioc2_TEMPLATES=db)/evr-vme-230.db"
 		CML0-WfCalc:Ena-SP=0, 		# For waveform mode: 0 = Square wave pattern calculator disabled, 1 = Square pattern calculator enabled
 		CML0-WfCalc:Delay-SP=16, 	# For waveform mode: Delay of the square wave pattern in ns
 		CML0-WfCalc:Width-SP=50, 	# For waveform mode: Width of the square wave pattern in ns
-		CML0-BunchTrain:Ena-SP=0, 	# For waveform mode: 0 = Bunch train calculator disabled, 1 = Bunch train calculator enabled
-		CML0-BunchTrain:Size-SP=1, 	# For waveform mode: Number of bunches in the bunch train
 
 		FrontOut5-Ena-SP=1, 		# Default to enabled
 		FrontOut5-Src-SP=63, 		# Defaults to Force low (if enabled -> Ena-SP)
@@ -212,8 +210,6 @@ file "$(mrfioc2_TEMPLATES=db)/evr-vme-230.db"
 		CML1-WfCalc:Ena-SP=0, 		# For waveform mode: 0 = Square wave pattern calculator disabled, 1 = Square wave pattern calculator enabled
 		CML1-WfCalc:Delay-SP=16, 	# For waveform mode: Delay of the square wave pattern in ns
 		CML1-WfCalc:Width-SP=50, 	# For waveform mode: Width of the square wave pattern in ns
-		CML1-BunchTrain:Ena-SP=0, 	# For waveform mode: 0 = Bunch train calculator disabled, 1 = Bunch train calculator enabled
-		CML1-BunchTrain:Size-SP=1, 	# For waveform mode: Number of bunches in the bunch train
 
 
 		FrontOut6-Ena-SP=1, 		# Default to enabled
@@ -238,8 +234,6 @@ file "$(mrfioc2_TEMPLATES=db)/evr-vme-230.db"
 		CML2-WfCalc:Ena-SP=0, 		# For waveform mode: 0 = Square wave pattern calculator disabled, 1 = Square pattern calculat2r enabled
 		CML2-WfCalc:Delay-SP=16, 	# For waveform mode: Delay of the square wave pattern in ns
 		CML2-WfCalc:Width-SP=50, 	# For waveform mode: Width of the square wave pattern in ns
-		CML2-BunchTrain:Ena-SP=0, 	# For waveform mode: 0 = Bunch train calculator disabled, 1 = Bunch train calculator enabled
-		CML2-BunchTrain:Size-SP=1, 	# For waveform mode: Number of bunches in the bunch train
 
 
 		# Universal outputs, Slot 0
@@ -313,17 +307,32 @@ file "$(mrfioc2_TEMPLATES=db)/evr-vme-230.db"
 #
 # Macros:
 #  SYS = System name (auto expanded by parent)
-#  EVR = EVR devObj name (auto expanded by parent)
+#  DEVICE = Event receiver / timing card name (same as mrmEvrSetupVME()) Eg. EVR0. (auto expanded by parent)
 #  EVT = Event code (hardware). Set EVT=0 to disable.
 #  CODE = EPICS database event number (software)
+#  FLNK = If provided, forward links to the record after all records from this template are processed
 #
 file "$(mrfioc2_TEMPLATES=db)/evr-softEvent.template"{
-pattern { EVT,	CODE }
-		{ "1",    "1"}
-		{ "2",    "2"}
-		{ "3",    "3"}
+pattern { EVT,	CODE,    FLNK }
+		{ "1",    "1",   "" }
+		{ "2",    "2",   "" }
+		{ "3",    "3",   "" }
 }
-
+# If you want to enable measuring the jitter on received events comment out the previous substitution and use this one instead
+# 
+# Additinal macros:
+#  HIST_LEN = number of histogram bins created from frequency measurements. Default 200.
+#  HIST_ULIM = histogram upper limit. Default 12.
+#  HIST_LLIM = histogram lower limit. Default 8.
+# 
+# NOTE: make sure your system supports the 'histogram' record before using this template!
+#  
+#file "$(mrfioc2_TEMPLATES=db)/evr-softEvent-measure.template"{
+#pattern { EVT,	CODE,    FLNK }
+#		{ "1",    "1",   "" }
+#		{ "2",    "2",   "" }
+#		{ "3",    "3",   "" }
+#}
 
 ## Mapping between hardware event code and a special function of the EVR
 ## Each event can be mapped only to one function!
@@ -343,7 +352,7 @@ pattern { EVT,	CODE }
 #
 # Macros:
 #  SYS = System name (auto expanded by parent)
-#  EVR = EVR devObj name (auto expanded by parent)
+#  DEVICE = Event receiver / timing card name (same as mrmEvrSetupVME()) Eg. EVR0. (auto expanded by parent)
 #  EVT = Event code (hardware). Set EVNT=0 to disable.
 #  FUNC = Function to be mapped
 #    Choices are: "FIFO", "Latch TS", "Blink", "Forward",
@@ -368,7 +377,7 @@ pattern { EVT,   FUNC }
 #
 # Macros:
 #  SYS = system name (auto expanded by parent)
-#  EVR = EVR devObj name (auto expanded by parent)
+#  DEVICE = Event receiver / timing card name (same as mrmEvrSetupVME()) Eg. EVR0. (auto expanded by parent)
 #  PID = Pulser ID #
 #  F = Pulse generator function
 #    Choices are: "Trig", "Set", "Reset"
@@ -439,7 +448,7 @@ pattern {PID   F,      EVT, ID}
 #
 # Macros:
 #  SYS = System name (auto expanded by parent)
-#  EVR = EVR devObj name (auto expanded by parent)
+#  DEVICE = Event receiver / timing card name (same as mrmEvrSetupVME()) Eg. EVR0. (auto expanded by parent)
 #  SLOT = Slot where module is inserted. 
 #  			FrontUnivOut0 is the first and FrontUnivOut1 is the second output of slot 0, where 
 #  			FrontUnivOut2 is the first and FrontUnivOut3 is the second output of slot 1.

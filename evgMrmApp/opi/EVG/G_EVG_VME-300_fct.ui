@@ -107,7 +107,7 @@
        <set>Qt::AlignCenter</set>
       </property>
       <property name="channel" stdset="0">
-       <string notr="true">$(EVG):FCT-upstreamDC-I</string>
+       <string notr="true">$(SYS)-$(DEVICE):FCT-upstreamDC-I</string>
       </property>
       <property name="colorMode">
        <enum>caLineEdit::Alarm_Default</enum>
@@ -129,7 +129,7 @@
        <set>Qt::AlignCenter</set>
       </property>
       <property name="channel" stdset="0">
-       <string notr="true">$(EVG):FCT-fifoDC-I</string>
+       <string notr="true">$(SYS)-$(DEVICE):FCT-fifoDC-I</string>
       </property>
       <property name="colorMode">
        <enum>caLineEdit::Alarm_Default</enum>
@@ -151,7 +151,7 @@
        <set>Qt::AlignCenter</set>
       </property>
       <property name="channel" stdset="0">
-       <string notr="true">$(EVG):FCT-internalDC-I</string>
+       <string notr="true">$(SYS)-$(DEVICE):FCT-internalDC-I</string>
       </property>
       <property name="colorMode">
        <enum>caLineEdit::Alarm_Default</enum>
@@ -171,7 +171,7 @@
       </rect>
      </property>
      <property name="macro">
-      <string notr="true">ID=0,EVG=$(EVG)</string>
+      <string notr="true">ID=0,SYS=$(SYS),DEVICE=$(DEVICE)</string>
      </property>
      <property name="filename" stdset="0">
       <string notr="true">G_EVG_sfp-min.ui</string>
@@ -187,7 +187,7 @@
       </rect>
      </property>
      <property name="macro">
-      <string notr="true">ID=1,EVG=$(EVG)</string>
+      <string notr="true">ID=1,SYS=$(SYS),DEVICE=$(DEVICE)</string>
      </property>
      <property name="filename" stdset="0">
       <string notr="true">G_EVG_sfp-min.ui</string>
@@ -203,7 +203,7 @@
       </rect>
      </property>
      <property name="macro">
-      <string notr="true">ID=2,EVG=$(EVG)</string>
+      <string notr="true">ID=2,SYS=$(SYS),DEVICE=$(DEVICE)</string>
      </property>
      <property name="filename" stdset="0">
       <string notr="true">G_EVG_sfp-min.ui</string>
@@ -219,7 +219,7 @@
       </rect>
      </property>
      <property name="macro">
-      <string notr="true">ID=3,EVG=$(EVG)</string>
+      <string notr="true">ID=3,SYS=$(SYS),DEVICE=$(DEVICE)</string>
      </property>
      <property name="filename" stdset="0">
       <string notr="true">G_EVG_sfp-min.ui</string>
@@ -235,7 +235,7 @@
       </rect>
      </property>
      <property name="macro">
-      <string notr="true">ID=4,EVG=$(EVG)</string>
+      <string notr="true">ID=4,SYS=$(SYS),DEVICE=$(DEVICE)</string>
      </property>
      <property name="filename" stdset="0">
       <string notr="true">G_EVG_sfp-min.ui</string>
@@ -251,7 +251,7 @@
       </rect>
      </property>
      <property name="macro">
-      <string notr="true">ID=5,EVG=$(EVG)</string>
+      <string notr="true">ID=5,SYS=$(SYS),DEVICE=$(DEVICE)</string>
      </property>
      <property name="filename" stdset="0">
       <string notr="true">G_EVG_sfp-min.ui</string>
@@ -267,7 +267,7 @@
       </rect>
      </property>
      <property name="macro">
-      <string notr="true">ID=6,EVG=$(EVG)</string>
+      <string notr="true">ID=6,SYS=$(SYS),DEVICE=$(DEVICE)</string>
      </property>
      <property name="filename" stdset="0">
       <string notr="true">G_EVG_sfp-min.ui</string>
@@ -283,7 +283,7 @@
       </rect>
      </property>
      <property name="macro">
-      <string notr="true">ID=7,EVG=$(EVG)</string>
+      <string notr="true">ID=7,SYS=$(SYS),DEVICE=$(DEVICE)</string>
      </property>
      <property name="filename" stdset="0">
       <string notr="true">G_EVG_sfp-min.ui</string>
@@ -299,7 +299,7 @@
       </rect>
      </property>
      <property name="macro">
-      <string notr="true">ID=8,EVG=$(EVG)</string>
+      <string notr="true">ID=8,SYS=$(SYS),DEVICE=$(DEVICE)</string>
      </property>
      <property name="filename" stdset="0">
       <string notr="true">G_EVG_sfp-min.ui</string>
@@ -518,7 +518,7 @@
       <set>Qt::AlignCenter</set>
      </property>
      <property name="channel" stdset="0">
-      <string notr="true">$(EVG):FCT-Port1DC-I</string>
+      <string notr="true">$(SYS)-$(DEVICE):FCT-Port1DC-I</string>
      </property>
      <property name="colorMode">
       <enum>caLineEdit::Alarm_Default</enum>
@@ -540,7 +540,7 @@
       <set>Qt::AlignCenter</set>
      </property>
      <property name="channel" stdset="0">
-      <string notr="true">$(EVG):FCT-Port2DC-I</string>
+      <string notr="true">$(SYS)-$(DEVICE):FCT-Port2DC-I</string>
      </property>
      <property name="colorMode">
       <enum>caLineEdit::Alarm_Default</enum>
@@ -562,7 +562,7 @@
       <set>Qt::AlignCenter</set>
      </property>
      <property name="channel" stdset="0">
-      <string notr="true">$(EVG):FCT-Port3DC-I</string>
+      <string notr="true">$(SYS)-$(DEVICE):FCT-Port3DC-I</string>
      </property>
      <property name="colorMode">
       <enum>caLineEdit::Alarm_Default</enum>
@@ -584,7 +584,7 @@
       <set>Qt::AlignCenter</set>
      </property>
      <property name="channel" stdset="0">
-      <string notr="true">$(EVG):FCT-Port4DC-I</string>
+      <string notr="true">$(SYS)-$(DEVICE):FCT-Port4DC-I</string>
      </property>
      <property name="colorMode">
       <enum>caLineEdit::Alarm_Default</enum>
@@ -606,7 +606,7 @@
       <set>Qt::AlignCenter</set>
      </property>
      <property name="channel" stdset="0">
-      <string notr="true">$(EVG):FCT-Port5DC-I</string>
+      <string notr="true">$(SYS)-$(DEVICE):FCT-Port5DC-I</string>
      </property>
      <property name="colorMode">
       <enum>caLineEdit::Alarm_Default</enum>
@@ -628,7 +628,7 @@
       <set>Qt::AlignCenter</set>
      </property>
      <property name="channel" stdset="0">
-      <string notr="true">$(EVG):FCT-Port6DC-I</string>
+      <string notr="true">$(SYS)-$(DEVICE):FCT-Port6DC-I</string>
      </property>
      <property name="colorMode">
       <enum>caLineEdit::Alarm_Default</enum>
@@ -650,7 +650,7 @@
       <set>Qt::AlignCenter</set>
      </property>
      <property name="channel" stdset="0">
-      <string notr="true">$(EVG):FCT-Port7DC-I</string>
+      <string notr="true">$(SYS)-$(DEVICE):FCT-Port7DC-I</string>
      </property>
      <property name="colorMode">
       <enum>caLineEdit::Alarm_Default</enum>
@@ -672,7 +672,7 @@
       <set>Qt::AlignCenter</set>
      </property>
      <property name="channel" stdset="0">
-      <string notr="true">$(EVG):FCT-Port8DC-I</string>
+      <string notr="true">$(SYS)-$(DEVICE):FCT-Port8DC-I</string>
      </property>
      <property name="colorMode">
       <enum>caLineEdit::Alarm_Default</enum>
@@ -691,7 +691,7 @@
       </rect>
      </property>
      <property name="channel" stdset="0">
-      <string notr="true">$(EVG):FCT-status-I</string>
+      <string notr="true">$(SYS)-$(DEVICE):FCT-status-I</string>
      </property>
      <property name="direction">
       <enum>caByte::Down</enum>
@@ -720,7 +720,7 @@
       </rect>
      </property>
      <property name="channel" stdset="0">
-      <string notr="true">$(EVG):FCT-Violation-I</string>
+      <string notr="true">$(SYS)-$(DEVICE):FCT-Violation-I</string>
      </property>
      <property name="direction">
       <enum>caByte::Down</enum>
@@ -756,7 +756,7 @@
       </rect>
      </property>
      <property name="channel" stdset="0">
-      <string notr="true">$(EVG):FCT-ClearViolation-SP</string>
+      <string notr="true">$(SYS)-$(DEVICE):FCT-ClearViolation-SP</string>
      </property>
      <property name="label">
       <string notr="true">Clear violation on port 1</string>
@@ -782,7 +782,7 @@
       </rect>
      </property>
      <property name="channel" stdset="0">
-      <string notr="true">$(EVG):FCT-ClearViolation-SP</string>
+      <string notr="true">$(SYS)-$(DEVICE):FCT-ClearViolation-SP</string>
      </property>
      <property name="label">
       <string notr="true">Clear violation on port 2</string>
@@ -808,7 +808,7 @@
       </rect>
      </property>
      <property name="channel" stdset="0">
-      <string notr="true">$(EVG):FCT-ClearViolation-SP</string>
+      <string notr="true">$(SYS)-$(DEVICE):FCT-ClearViolation-SP</string>
      </property>
      <property name="label">
       <string notr="true">Clear violation on port 3</string>
@@ -834,7 +834,7 @@
       </rect>
      </property>
      <property name="channel" stdset="0">
-      <string notr="true">$(EVG):FCT-ClearViolation-SP</string>
+      <string notr="true">$(SYS)-$(DEVICE):FCT-ClearViolation-SP</string>
      </property>
      <property name="label">
       <string notr="true">Clear violation on port 4</string>
@@ -860,7 +860,7 @@
       </rect>
      </property>
      <property name="channel" stdset="0">
-      <string notr="true">$(EVG):FCT-ClearViolation-SP</string>
+      <string notr="true">$(SYS)-$(DEVICE):FCT-ClearViolation-SP</string>
      </property>
      <property name="label">
       <string notr="true">Clear violation on port 5</string>
@@ -886,7 +886,7 @@
       </rect>
      </property>
      <property name="channel" stdset="0">
-      <string notr="true">$(EVG):FCT-ClearViolation-SP</string>
+      <string notr="true">$(SYS)-$(DEVICE):FCT-ClearViolation-SP</string>
      </property>
      <property name="label">
       <string notr="true">Clear violation on port 6</string>
@@ -912,7 +912,7 @@
       </rect>
      </property>
      <property name="channel" stdset="0">
-      <string notr="true">$(EVG):FCT-ClearViolation-SP</string>
+      <string notr="true">$(SYS)-$(DEVICE):FCT-ClearViolation-SP</string>
      </property>
      <property name="label">
       <string notr="true">Clear violation on port  7</string>
@@ -938,7 +938,7 @@
       </rect>
      </property>
      <property name="channel" stdset="0">
-      <string notr="true">$(EVG):FCT-ClearViolation-SP</string>
+      <string notr="true">$(SYS)-$(DEVICE):FCT-ClearViolation-SP</string>
      </property>
      <property name="label">
       <string notr="true">Clear violation on port 8</string>

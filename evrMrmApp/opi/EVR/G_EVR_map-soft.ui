@@ -51,7 +51,7 @@
     </rect>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(EVR):Event-$(EVT)-Cnt-I</string>
+    <string notr="true">$(SYS)-$(DEVICE):Event-$(EVT)-Cnt-I</string>
    </property>
   </widget>
   <widget class="caLabel" name="calabel_notUsed">
@@ -79,7 +79,7 @@
     <string notr="true">A&lt;=0</string>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(EVR):Event-$(EVT)-Cnt-I</string>
+    <string notr="true">$(SYS)-$(DEVICE):Event-$(EVT)-Cnt-I</string>
    </property>
   </widget>
  </widget>

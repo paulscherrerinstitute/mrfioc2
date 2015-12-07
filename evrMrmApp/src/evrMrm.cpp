@@ -32,6 +32,7 @@
 
 #include "evrIocsh.h"
 #include "evrMrm.h"
+#include "mrmShared.h"
 
 #include "support/util.h"
 #include "mrf/version.h"
@@ -47,6 +48,17 @@ extern "C" {
  epicsExportAddress(int, evrDebug);
  epicsExportAddress(int, evrEventDebug);
 }
+
+/** Debug levels:
+ * 1: info, minor debug
+ * 2: more debug
+ * 3: periodic info [ISR]
+ * 4: periodic debug [ISR calees]
+ */
+#define EVR_DEBUG(level,M, ...) if(evrDebug >= level) fprintf(stderr, "[EVR DEBUG]: (%s:%d) : " M "\n", __FILE__, __LINE__, ##__VA_ARGS__)
+#define EVR_INFO(level,M, ...) if(evrDebug >= level)  fprintf(stderr, "[EVR INFO ]: " M "\n",##__VA_ARGS__)
+#define EVR_EVENT_INFO(level,M, ...) if(evrEventDebug >= level)  fprintf(stderr, "[EVR EVT INFO ]: " M "\n",##__VA_ARGS__)
+
 
 using namespace std;
 
@@ -319,11 +331,10 @@ try{
         CBINIT(&events[i].done, priorityLow, &EVRMRM::sentinel_done , &events[i]);
     }
 
-    // TODO: use define for version number
     if(ver < MIN_FW_SEGMENTED_DBUFF) {
-        m_dataBuffer = new mrmNonSegmentedDataBuffer(base, U32_DataTxCtrlEvr, U32_DataRxCtrlEvr, U32_DataTxBaseEvr, U32_DataRxBaseEvr);
+        m_dataBuffer = new mrmDataBuffer_230(n.c_str(), base, U32_DataTxCtrlEvr, U32_DataRxCtrlEvr, U32_DataTxBaseEvr, U32_DataRxBaseEvr);
     } else {
-        m_dataBuffer = new mrmDataBuffer(base, U32_DataTxCtrlEvr, U32_DataRxCtrlEvr, U32_DataTxBaseEvr, U32_DataRxBaseEvr);
+        m_dataBuffer = new mrmDataBuffer_300(n.c_str(), base, U32_DataTxCtrlEvr, U32_DataRxCtrlEvr, U32_DataTxBaseEvr, U32_DataRxBaseEvr);
     }
     CBINIT(&dataBufferRx_cb, priorityHigh, &mrmDataBuffer::handleDataBufferRxIRQ, &*m_dataBuffer);
 
@@ -1110,15 +1121,19 @@ EVRMRM::enableIRQ(void)
 {
     int key=epicsInterruptLock();
 
-    shadowIRQEna =  IRQ_Enable
-                   |IRQ_RXErr    |IRQ_BufFull
-                   |IRQ_Heartbeat|IRQ_HWMapped
-                   |IRQ_Event    |IRQ_FIFOFull;
+    shadowIRQEna =   IRQ_Enable
+                    |IRQ_PCIee
+                    |IRQ_RXErr
+                    |IRQ_BufFull
+                    |IRQ_HWMapped
+                    |IRQ_Event
+                    |IRQ_Heartbeat
+                    |IRQ_FIFOFull;
 
-    // IRQ PCIe enable flag should not be changed. Possible RACER here
-    shadowIRQEna |= (IRQ_PCIee & (READ32(base, IRQEnable)));
 
     WRITE32(base, IRQEnable, shadowIRQEna);
+
+    EVR_DEBUG(2,"Enabling interrupts: 0x%x",shadowIRQEna);
 
     epicsInterruptUnlock(key);
 }
@@ -1130,6 +1145,7 @@ EVRMRM::isr_pci(void *arg) {
     // Calling the default platform-independent interrupt routine
     evr->isr(arg);
 
+    EVR_DEBUG(5,"Re-enabling IRQs");
     if(devPCIEnableInterrupt((const epicsPCIDevice*)evr->isrLinuxPvt)) {
         printf("Failed to re-enable interrupt.  Stuck...\n");
     }
@@ -1157,6 +1173,8 @@ EVRMRM::isr(void *arg)
 
     epicsUInt32 active=flags&evr->shadowIRQEna;
 
+    EVR_INFO(4,"ISR start, flags 0x%x",flags);
+
     if(!active)
         return;
 
@@ -1169,24 +1187,11 @@ EVRMRM::isr(void *arg)
     }
     if(active&IRQ_BufFull){
         if (evr->m_dataBuffer->m_rx_irq_handled) {
-            if (evr->firmwareVersion < MIN_FW_SEGMENTED_DBUFF) {
-                // Silence interrupt. DataRxCtrl_stop is actually an interrupt flag, so we need to write to it in order to clear it.
-                BITSET(NAT,32,evr->base, DataRxCtrlEvr, DataRxCtrl_stop);
+            // Silence interrupt. DataRxCtrl_stop is actually Rx acknowledge, so we need to write to it in order to clear it.
+            if (evr->firmwareVersion < MIN_FW_SEGMENTED_DBUFF) BITSET(NAT,32,evr->base, DataRxCtrlEvr, DataRxCtrl_stop);
 
-                // Check if the data buffer engine is initialized. This bit should not be set, since we have just acknowledged the interrupt.
-                // This is needed because 201 series firmware keeps triggering the interrupt with bogous data, and we do not wish
-                // to schedule callback requests for this. It prevents cbHigh queue to fill up when starting the driver. This only happens at start-up.
-                if ( !(READ32(evr->base, DataRxCtrlEvr) & DataRxCtrl_rdy) ) {
-                    evr->m_dataBuffer->m_rx_irq_handled = false;
-                    callbackRequest(&evr->dataBufferRx_cb);
-                } else {
-                    errlogPrintf("Could not acknowledge data buffer IRQ. Data buffer engine not yet initalized? Not issuing callbacks...\n"); // TODO printing in isr is ugly....but this should never be printed (except at startup on 201 firmware)
-                }
-            } else {
-                memset((epicsUInt8 *)(evr->base+DataBuffer_SegmentIRQ), 0, 16); // clear segment IRQ flags
-                evr->m_dataBuffer->m_rx_irq_handled = false;
-                callbackRequest(&evr->dataBufferRx_cb);
-            }
+            evr->m_dataBuffer->m_rx_irq_handled = false;
+            callbackRequest(&evr->dataBufferRx_cb);
         }
     }
     if(active&IRQ_HWMapped){
@@ -1213,12 +1218,19 @@ EVRMRM::isr(void *arg)
     evr->count_hardware_irq++;
 
     // IRQ PCIe enable flag should not be changed. Possible RACER here
-    evr->shadowIRQEna |= (IRQ_PCIee & (READ32(evr->base, IRQEnable)));
+//    evr->shadowIRQEna |= (READ32(evr->base, IRQEnable));
 
     WRITE32(evr->base, IRQFlag, flags);
-    WRITE32(evr->base, IRQEnable, evr->shadowIRQEna);
+
+    //Only touch the bottom half of IRQEnable register to prevent race condition
+    //with kernel space
+    WRITE8(evr->base,IRQEnableBot,(epicsUInt8)evr->shadowIRQEna);
+
     // Ensure IRQFlags is written before returning.
     evrMrmIsrFlagsTrashCan=READ32(evr->base, IRQFlag);
+
+    EVR_INFO(4,"ISR ended, IRQEnable 0x%x",evr->shadowIRQEna);
+
 }
 
 
@@ -1241,7 +1253,8 @@ void
 EVRMRM::drain_fifo()
 {
     size_t i;
-    printf("EVR FIFO task start\n");
+    EVR_INFO(1,"EVR drain FIFO thread started");
+
 
     SCOPED_LOCK2(evrLock, guard);
 
@@ -1270,7 +1283,7 @@ EVRMRM::drain_fifo()
 
         epicsUInt32 status;
 
-        if(evrEventDebug > 0) printf("Draining FIFO!\n");
+        EVR_EVENT_INFO(1,"Draining FIFO!\n");
         // Bound the number of events taken from the FIFO
         // at one time.
         for(i=0; i<512; i++) {
@@ -1290,7 +1303,7 @@ EVRMRM::drain_fifo()
                 // Fixed in firmware.  Feb 2011
                 epicsUInt32 evt2=READ32(base, EvtFIFOCode);
                 if (evt2>NELEMENTS(events)) {
-                    printf("Really weird event 0x%08x 0x%08x\n", evt, evt2);
+                    errlogPrintf("Really weird event 0x%08x 0x%08x\n", evt, evt2);
                     break;
                 } else
                     evt=evt2;
@@ -1302,7 +1315,7 @@ EVRMRM::drain_fifo()
             events[evt].last_sec=READ32(base, EvtFIFOSec);
             events[evt].last_evt=READ32(base, EvtFIFOEvt); // timestamp register
 
-            if(evrEventDebug > 0) printf("%u.%u: %s received event: %d\n", events[evt].last_sec, events[evt].last_evt, id.c_str(), evt);
+            EVR_EVENT_INFO(1,"%u.%u: %s received event: %d\n", events[evt].last_sec, events[evt].last_evt, id.c_str(), evt);
 
 
             if (events[evt].again) {
@@ -1338,10 +1351,7 @@ EVRMRM::drain_fifo()
 
         //*
         shadowIRQEna |= IRQ_Event | IRQ_FIFOFull;
-        // IRQ PCIe enable flag should not be changed. Possible RACER here
-        shadowIRQEna |= (IRQ_PCIee & (READ32(base, IRQEnable)));
-
-        WRITE32(base, IRQEnable, shadowIRQEna);
+        WRITE8(base,IRQEnableBot,(epicsUInt8)shadowIRQEna);
 
         epicsInterruptUnlock(iflags);
 
@@ -1356,7 +1366,7 @@ EVRMRM::drain_fifo()
         }
     }
 
-    printf("FIFO task exiting\n");
+    EVR_INFO(1,"FIFO task exiting\n");
 }
 
 void
@@ -1399,9 +1409,16 @@ try {
     callbackGetUser(vptr,cb);
     EVRMRM *evr=static_cast<EVRMRM*>(vptr);
 
+    static int err_msg = 0;
+
     epicsUInt32 flags=READ32(evr->base, IRQFlag);
 
     if(flags&IRQ_RXErr){
+        if(!err_msg){
+            EVR_INFO(0,"EVR link down!");
+            err_msg=1;
+        }
+
         // Still down
         callbackRequestDelayed(&evr->poll_link_cb, 0.1); // poll again in 100ms
         {
@@ -1412,12 +1429,16 @@ try {
         }
         WRITE32(evr->base, IRQFlag, IRQ_RXErr);
     }else{
+        EVR_INFO(0,"EVR link up!");
+        err_msg = 0;
+
         scanIoRequest(evr->IRQrxError);
+
         int iflags=epicsInterruptLock();
+
         evr->shadowIRQEna |= IRQ_RXErr;
-        // IRQ PCIe enable flag should not be changed. Possible RACER here
-        evr->shadowIRQEna |= (IRQ_PCIee & (READ32(evr->base, IRQEnable)));
-        WRITE32(evr->base, IRQEnable, evr->shadowIRQEna);
+        WRITE8(evr->base,IRQEnableBot,(epicsUInt8)evr->shadowIRQEna);
+
         epicsInterruptUnlock(iflags);
     }
 } catch(std::exception& e) {

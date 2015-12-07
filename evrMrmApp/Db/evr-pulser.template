@@ -2,7 +2,7 @@
 #
 # Macros:
 #  SYS = System name
-#  EVR = EVR devObj
+#  DEVICE = Event receiver / timing card name (same as mrmEvrSetupVME()) Eg. EVR0
 #  OBJ = devObj name prefix
 #  ID = Pulse gen ID number (corresponds to output mappings)
 #  DMAX = Max delay setting
@@ -10,9 +10,9 @@
 #  PMAX = Max prescaler (divider) setting
 #  NOPS = 0 - enable prescaler, 1 - disable prescaler
 
-record(bo, "$(SYS)-$(EVR):Pul$(ID)-Ena-Sel") {
+record(bo, "$(SYS)-$(DEVICE):Pul$(ID)-Ena-Sel") {
   field(DTYP, "Obj Prop bool")
-  field(OUT , "@OBJ=$(EVR):Pul$(ID), PROP=Enable")
+  field(OUT , "@OBJ=$(DEVICE):Pul$(ID), PROP=Enable")
   field(PINI, "YES")
   field(VAL , "$(Pul$(ID)-Ena-Sel\=1)")
   field(MASK, "1")
@@ -21,9 +21,9 @@ record(bo, "$(SYS)-$(EVR):Pul$(ID)-Ena-Sel") {
   info(autosaveFields_pass0, "VAL")
 }
 
-record(bo, "$(SYS)-$(EVR):Pul$(ID)-Polarity-Sel") {
+record(bo, "$(SYS)-$(DEVICE):Pul$(ID)-Polarity-Sel") {
   field(DTYP, "Obj Prop bool")
-  field(OUT , "@OBJ=$(EVR):Pul$(ID), PROP=Polarity")
+  field(OUT , "@OBJ=$(DEVICE):Pul$(ID), PROP=Polarity")
   field(PINI, "YES")
   field(VAL , "$(Pul$(ID)-Polarity-Sel\=0)")
   field(MASK, "1")
@@ -32,9 +32,9 @@ record(bo, "$(SYS)-$(EVR):Pul$(ID)-Polarity-Sel") {
   info(autosaveFields_pass0, "VAL")
 }
 
-record(ao, "$(SYS)-$(EVR):Pul$(ID)-Delay-SP") {
+record(ao, "$(SYS)-$(DEVICE):Pul$(ID)-Delay-SP") {
   field(DTYP, "Obj Prop double")
-  field(OUT , "@OBJ=$(EVR):Pul$(ID), PROP=Delay")
+  field(OUT , "@OBJ=$(DEVICE):Pul$(ID), PROP=Delay")
   field(PINI, "YES")
   field(DESC, "Pulse Generator $(ID)")
   field(VAL , "$(Pul$(ID)-Delay-SP\=0)")
@@ -43,24 +43,24 @@ record(ao, "$(SYS)-$(EVR):Pul$(ID)-Delay-SP") {
   field(ESLO, "1e6")
   field(PREC, "3")
   field(LOPR, "0")
-  field(FLNK, "$(SYS)-$(EVR):Pul$(ID)-Delay-RB")
+  field(FLNK, "$(SYS)-$(DEVICE):Pul$(ID)-Delay-RB")
   info(autosaveFields_pass0, "VAL EGU ESLO PREC HOPR LOPR DRVL DRVH")
 }
 
-record(ai, "$(SYS)-$(EVR):Pul$(ID)-Delay-RB") {
+record(ai, "$(SYS)-$(DEVICE):Pul$(ID)-Delay-RB") {
   field(DTYP, "Obj Prop double")
-  field(INP , "@OBJ=$(EVR):Pul$(ID), PROP=Delay")
+  field(INP , "@OBJ=$(DEVICE):Pul$(ID), PROP=Delay")
   field(VAL , 0)
   field(EGU , "us")
   field(LINR, "LINEAR")
   field(ESLO, "1e6")
   field(PREC, "3")
-  field(FLNK, "$(SYS)-$(EVR):Pul$(ID)-Delay-Raw-RB")
+  field(FLNK, "$(SYS)-$(DEVICE):Pul$(ID)-Delay-Raw-RB")
 }
 
-record(longin, "$(SYS)-$(EVR):Pul$(ID)-Delay-Raw-RB") {
+record(longin, "$(SYS)-$(DEVICE):Pul$(ID)-Delay-Raw-RB") {
   field(DTYP, "Obj Prop uint32")
-  field(INP , "@OBJ=$(EVR):Pul$(ID), PROP=Delay")
+  field(INP , "@OBJ=$(DEVICE):Pul$(ID), PROP=Delay")
   field(EGU , "cnts")
   field(HOPR, "$(DMAX=0xffff)")
   field(LOPR, "0")
@@ -68,9 +68,9 @@ record(longin, "$(SYS)-$(EVR):Pul$(ID)-Delay-Raw-RB") {
   field( HSV, "MAJOR")
 }
 
-record(ao, "$(SYS)-$(EVR):Pul$(ID)-Width-SP") {
+record(ao, "$(SYS)-$(DEVICE):Pul$(ID)-Width-SP") {
   field(DTYP, "Obj Prop double")
-  field(OUT , "@OBJ=$(EVR):Pul$(ID), PROP=Width")
+  field(OUT , "@OBJ=$(DEVICE):Pul$(ID), PROP=Width")
   field(PINI, "YES")
   field(DESC, "Pulser pulse width")
   field(VAL , "$(Pul$(ID)-Width-SP\=0)")
@@ -79,24 +79,24 @@ record(ao, "$(SYS)-$(EVR):Pul$(ID)-Width-SP") {
   field(ESLO, "1e6")
   field(PREC, "3")
   field(LOPR, "0")
-  field(FLNK, "$(SYS)-$(EVR):Pul$(ID)-Width-RB")
+  field(FLNK, "$(SYS)-$(DEVICE):Pul$(ID)-Width-RB")
   info(autosaveFields_pass0, "VAL EGU ESLO PREC HOPR LOPR DRVL DRVH")
 }
 
-record(ai, "$(SYS)-$(EVR):Pul$(ID)-Width-RB") {
+record(ai, "$(SYS)-$(DEVICE):Pul$(ID)-Width-RB") {
   field(DTYP, "Obj Prop double")
-  field(INP , "@OBJ=$(EVR):Pul$(ID), PROP=Width")
+  field(INP , "@OBJ=$(DEVICE):Pul$(ID), PROP=Width")
   field(VAL , 0)
   field(EGU , "us")
   field(LINR, "LINEAR")
   field(ESLO, "1e6")
   field(PREC, "3")
-  field(FLNK, "$(SYS)-$(EVR):Pul$(ID)-Width-Raw-RB")
+  field(FLNK, "$(SYS)-$(DEVICE):Pul$(ID)-Width-Raw-RB")
 }
 
-record(longin, "$(SYS)-$(EVR):Pul$(ID)-Width-Raw-RB") {
+record(longin, "$(SYS)-$(DEVICE):Pul$(ID)-Width-Raw-RB") {
   field(DTYP, "Obj Prop uint32")
-  field(INP , "@OBJ=$(EVR):Pul$(ID), PROP=Width")
+  field(INP , "@OBJ=$(DEVICE):Pul$(ID), PROP=Width")
   field(PINI, "YES")
   field(HOPR, "$(WMAX=0xffff)")
   field(LOPR, "0")
@@ -104,9 +104,9 @@ record(longin, "$(SYS)-$(EVR):Pul$(ID)-Width-Raw-RB") {
   field( HSV, "MAJOR")
 }
 
-record(longout, "$(SYS)-$(EVR):Pul$(ID)-Prescaler-SP") {
+record(longout, "$(SYS)-$(DEVICE):Pul$(ID)-Prescaler-SP") {
   field(DTYP, "Obj Prop uint32")
-  field(OUT , "@OBJ=$(EVR):Pul$(ID), PROP=Prescaler")
+  field(OUT , "@OBJ=$(DEVICE):Pul$(ID), PROP=Prescaler")
   field(DESC, "Pulser prescaler")
   field(PINI, "YES")
   field(HOPR, "$(PMAX)")
@@ -114,67 +114,67 @@ record(longout, "$(SYS)-$(EVR):Pul$(ID)-Prescaler-SP") {
   field(DRVH, "$(PMAX)")
   field(DRVL, "1")
   field(VAL , "$(Pul$(ID)-Prescaler-SP\=1)")
-  field(FLNK, "$(SYS)-$(EVR):Pul$(ID)-Prescaler-RB")
+  field(FLNK, "$(SYS)-$(DEVICE):Pul$(ID)-Prescaler-RB")
   field(DISP, "$(NOPS=0)")
   field(DISA, "$(NOPS=0)")
   info(autosaveFields_pass0, "VAL")
 }
 
-record(longin, "$(SYS)-$(EVR):Pul$(ID)-Prescaler-RB") {
+record(longin, "$(SYS)-$(DEVICE):Pul$(ID)-Prescaler-RB") {
   field(DTYP, "Obj Prop uint32")
-  field(INP , "@OBJ=$(EVR):Pul$(ID), PROP=Prescaler")
+  field(INP , "@OBJ=$(DEVICE):Pul$(ID), PROP=Prescaler")
   field(HOPR, "$(PMAX=0xffff)")
   field(LOPR, "1")
   field(HIGH, "$(PMAX=0xffff)")
   field( HSV, "MAJOR")
-  field(FLNK, "$(SYS)-$(EVR):Pul$(ID)-Res-I")
+  field(FLNK, "$(SYS)-$(DEVICE):Pul$(ID)-Res-I")
 }
 
-record(calc, "$(SYS)-$(EVR):Pul$(ID)-Res-I") {
+record(calc, "$(SYS)-$(DEVICE):Pul$(ID)-Res-I") {
   field(DESC, "Resolution")
-  field(INPA, "$(SYS)-$(EVR):Pul$(ID)-Prescaler-RB MS")
-  field(INPB, "$(SYS)-$(EVR):Link-ClkPeriod-I CP")
+  field(INPA, "$(SYS)-$(DEVICE):Pul$(ID)-Prescaler-RB MS")
+  field(INPB, "$(SYS)-$(DEVICE):Link-ClkPeriod-I CP")
   field(CALC, "1e9*(A?A:1)*B")
   field(EGU, "ns")
-  field(FLNK, "$(SYS)-$(EVR):Pul$(ID)-Res-FO_")
+  field(FLNK, "$(SYS)-$(DEVICE):Pul$(ID)-Res-FO_")
 }
 
-record(fanout, "$(SYS)-$(EVR):Pul$(ID)-Res-FO_") {
+record(fanout, "$(SYS)-$(DEVICE):Pul$(ID)-Res-FO_") {
   field(DESC, "Clock change resync")
-  field(LNK1, "$(SYS)-$(EVR):Pul$(ID)-Delay-SP")
-  field(LNK2, "$(SYS)-$(EVR):Pul$(ID)-Width-SP")
+  field(LNK1, "$(SYS)-$(DEVICE):Pul$(ID)-Delay-SP")
+  field(LNK2, "$(SYS)-$(DEVICE):Pul$(ID)-Width-SP")
 }
 
 
 # Pulse generator gates
-record(mbboDirect, "$(SYS)-$(EVR):Pul$(ID)-Gate-Mask-SP") {
+record(mbboDirect, "$(SYS)-$(DEVICE):Pul$(ID)-Gate-Mask-SP") {
   field(DTYP, "Obj Prop uint16")
-  field(OUT , "@OBJ=$(EVR):Pul$(ID), PROP=Gate mask")
+  field(OUT , "@OBJ=$(DEVICE):Pul$(ID), PROP=Gate mask")
   field(PINI, "YES")
   field(NOBT, "16")
   field(DESC, "Pulser gate mask")
   field(VAL , "$(Pul$(ID)-Gate-Mask-SP\=0)")
-  field(FLNK, "$(SYS)-$(EVR):Pul$(ID)-Gate-Mask-RB")
+  field(FLNK, "$(SYS)-$(DEVICE):Pul$(ID)-Gate-Mask-RB")
 }
 
-record(mbbiDirect, "$(SYS)-$(EVR):Pul$(ID)-Gate-Mask-RB") {
+record(mbbiDirect, "$(SYS)-$(DEVICE):Pul$(ID)-Gate-Mask-RB") {
   field(DTYP, "Obj Prop uint16")
   field(NOBT, "16")
-  field(INP , "@OBJ=$(EVR):Pul$(ID), PROP=Gate mask")
+  field(INP , "@OBJ=$(DEVICE):Pul$(ID), PROP=Gate mask")
 }
 
-record(mbboDirect, "$(SYS)-$(EVR):Pul$(ID)-Gate-Enable-SP") {
+record(mbboDirect, "$(SYS)-$(DEVICE):Pul$(ID)-Gate-Enable-SP") {
   field(DTYP, "Obj Prop uint16")
-  field(OUT , "@OBJ=$(EVR):Pul$(ID), PROP=Gate enable")
+  field(OUT , "@OBJ=$(DEVICE):Pul$(ID), PROP=Gate enable")
   field(PINI, "YES")
   field(NOBT, "16")
   field(DESC, "Pulser gate enable")
   field(VAL , "$(Pul$(ID)-Gate-Enable-SP\=0)")
-  field(FLNK, "$(SYS)-$(EVR):Pul$(ID)-Gate-Enable-RB")
+  field(FLNK, "$(SYS)-$(DEVICE):Pul$(ID)-Gate-Enable-RB")
 }
 
-record(mbbiDirect, "$(SYS)-$(EVR):Pul$(ID)-Gate-Enable-RB") {
+record(mbbiDirect, "$(SYS)-$(DEVICE):Pul$(ID)-Gate-Enable-RB") {
   field(DTYP, "Obj Prop uint16")
   field(NOBT, "16")
-  field(INP , "@OBJ=$(EVR):Pul$(ID), PROP=Gate enable")
+  field(INP , "@OBJ=$(DEVICE):Pul$(ID), PROP=Gate enable")
 }

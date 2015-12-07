@@ -99,7 +99,7 @@
      </rect>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVG):AcTrig-Phase-SP</string>
+     <string notr="true">$(SYS)-$(DEVICE):AcTrig-Phase-SP</string>
     </property>
     <property name="background">
      <color>
@@ -125,7 +125,7 @@
      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVG):AcTrig-Phase-RB</string>
+     <string notr="true">$(SYS)-$(DEVICE):AcTrig-Phase-RB</string>
     </property>
     <property name="colorMode">
      <enum>caLineEdit::Alarm_Default</enum>
@@ -147,7 +147,7 @@
      <string>Reverses the output polarity. When set, changes the output from normally low to normally high.</string>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVG):AcTrig-Bypass-Sel</string>
+     <string notr="true">$(SYS)-$(DEVICE):AcTrig-Bypass-Sel</string>
     </property>
     <property name="foreground">
      <color>
@@ -215,7 +215,7 @@
      <bool>false</bool>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVG):AcTrig-Bypass-RB</string>
+     <string notr="true">$(SYS)-$(DEVICE):AcTrig-Bypass-RB</string>
     </property>
     <property name="falseColor">
      <color>
@@ -268,7 +268,7 @@
      <string>Reverses the output polarity. When set, changes the output from normally low to normally high.</string>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVG):AcTrig-SyncSrc-Sel</string>
+     <string notr="true">$(SYS)-$(DEVICE):AcTrig-SyncSrc-Sel</string>
     </property>
     <property name="foreground">
      <color>
@@ -314,7 +314,7 @@
      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVG):AcTrig-SyncSrc-RB</string>
+     <string notr="true">$(SYS)-$(DEVICE):AcTrig-SyncSrc-RB</string>
     </property>
    </widget>
    <widget class="caLineEdit" name="calineedit_11">
@@ -330,7 +330,7 @@
      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVG):AcTrig-Phase-SP.EGU</string>
+     <string notr="true">$(SYS)-$(DEVICE):AcTrig-Phase-SP.EGU</string>
     </property>
     <property name="unitsEnabled">
      <bool>true</bool>
@@ -349,7 +349,7 @@
      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVG):AcTrig-Divider-RB</string>
+     <string notr="true">$(SYS)-$(DEVICE):AcTrig-Divider-RB</string>
     </property>
     <property name="colorMode">
      <enum>caLineEdit::Alarm_Default</enum>
@@ -365,7 +365,7 @@
      </rect>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVG):AcTrig-Divider-SP</string>
+     <string notr="true">$(SYS)-$(DEVICE):AcTrig-Divider-SP</string>
     </property>
     <property name="background">
      <color>
@@ -404,7 +404,7 @@
      <string>5</string>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVG):AcTrig-TrigSrc5-SP</string>
+     <string notr="true">$(SYS)-$(DEVICE):AcTrig-TrigSrc5-SP</string>
     </property>
    </widget>
    <widget class="caToggleButton" name="catogglebutton_10">
@@ -420,7 +420,7 @@
      <string>7</string>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVG):AcTrig-TrigSrc7-SP</string>
+     <string notr="true">$(SYS)-$(DEVICE):AcTrig-TrigSrc7-SP</string>
     </property>
    </widget>
    <widget class="caToggleButton" name="catogglebutton_4">
@@ -436,7 +436,7 @@
      <string>1</string>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVG):AcTrig-TrigSrc1-SP</string>
+     <string notr="true">$(SYS)-$(DEVICE):AcTrig-TrigSrc1-SP</string>
     </property>
    </widget>
    <widget class="caToggleButton" name="catogglebutton_9">
@@ -452,7 +452,7 @@
      <string>6</string>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVG):AcTrig-TrigSrc6-SP</string>
+     <string notr="true">$(SYS)-$(DEVICE):AcTrig-TrigSrc6-SP</string>
     </property>
    </widget>
    <widget class="caToggleButton" name="catogglebutton_2">
@@ -468,7 +468,7 @@
      <string>0</string>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVG):AcTrig-TrigSrc0-SP</string>
+     <string notr="true">$(SYS)-$(DEVICE):AcTrig-TrigSrc0-SP</string>
     </property>
    </widget>
    <widget class="caToggleButton" name="catogglebutton_7">
@@ -484,7 +484,7 @@
      <string>4</string>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVG):AcTrig-TrigSrc4-SP</string>
+     <string notr="true">$(SYS)-$(DEVICE):AcTrig-TrigSrc4-SP</string>
     </property>
    </widget>
    <widget class="caToggleButton" name="catogglebutton_5">
@@ -500,7 +500,7 @@
      <string>2</string>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVG):AcTrig-TrigSrc2-SP</string>
+     <string notr="true">$(SYS)-$(DEVICE):AcTrig-TrigSrc2-SP</string>
     </property>
    </widget>
    <widget class="caToggleButton" name="catogglebutton_6">
@@ -516,7 +516,7 @@
      <string>3</string>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVG):AcTrig-TrigSrc3-SP</string>
+     <string notr="true">$(SYS)-$(DEVICE):AcTrig-TrigSrc3-SP</string>
     </property>
    </widget>
   </widget>

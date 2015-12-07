@@ -38,7 +38,7 @@
      </rect>
     </property>
     <property name="macro">
-     <string notr="true">ID=$(ID), EVG=$(EVG)</string>
+     <string notr="true">ID=$(ID), SYS=$(SYS),DEVICE=$(DEVICE)</string>
     </property>
     <property name="filename" stdset="0">
      <string notr="true">G_EVG_input.ui</string>
@@ -54,7 +54,7 @@
      </rect>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVG):$(ID)-SeqMask-SP</string>
+     <string notr="true">$(SYS)-$(DEVICE):$(ID)-SeqMask-SP</string>
     </property>
     <property name="background">
      <color>
@@ -83,7 +83,7 @@
      <set>Qt::AlignCenter</set>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVG):$(ID)-SeqMask-RB</string>
+     <string notr="true">$(SYS)-$(DEVICE):$(ID)-SeqMask-RB</string>
     </property>
     <property name="colorMode">
      <enum>caLineEdit::Alarm_Default</enum>
@@ -134,7 +134,7 @@
      </rect>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVG):$(ID)-SeqEnable-SP</string>
+     <string notr="true">$(SYS)-$(DEVICE):$(ID)-SeqEnable-SP</string>
     </property>
     <property name="background">
      <color>
@@ -163,7 +163,7 @@
      <set>Qt::AlignCenter</set>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVG):$(ID)-SeqEnable-RB</string>
+     <string notr="true">$(SYS)-$(DEVICE):$(ID)-SeqEnable-RB</string>
     </property>
     <property name="colorMode">
      <enum>caLineEdit::Alarm_Default</enum>

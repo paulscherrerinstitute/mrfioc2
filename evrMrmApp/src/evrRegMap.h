@@ -91,6 +91,8 @@
 #  define IRQ_RXErr     0x01
 
 #define U32_IRQEnable   0x00c
+#define U8_IRQEnableBot 0x00f
+
 /* Same bits as IRQFlag plus */
 #  define IRQ_Enable    0x80000000
 #  define IRQ_PCIee     0x40000000

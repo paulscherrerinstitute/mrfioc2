@@ -51,7 +51,7 @@
        </rect>
       </property>
       <property name="macro">
-       <string notr="true">PAT=Rise, ID=$(ID), P=$(P), EVR=$(EVR)</string>
+       <string notr="true">PAT=Rise, ID=$(ID), P=$(P), SYS=$(SYS),DEVICE=$(DEVICE)</string>
       </property>
       <property name="filename" stdset="0">
        <string notr="true">G_EVR_out_cml-mode-pattern-set.ui</string>
@@ -72,7 +72,7 @@
        </rect>
       </property>
       <property name="macro">
-       <string notr="true">PAT=High, ID=$(ID), P=$(P), EVR=$(EVR)</string>
+       <string notr="true">PAT=High, ID=$(ID), P=$(P), SYS=$(SYS),DEVICE=$(DEVICE)</string>
       </property>
       <property name="filename" stdset="0">
        <string notr="true">G_EVR_out_cml-mode-pattern-set.ui</string>
@@ -93,7 +93,7 @@
        </rect>
       </property>
       <property name="macro">
-       <string notr="true">PAT=Fall, ID=$(ID), P=$(P), EVR=$(EVR)</string>
+       <string notr="true">PAT=Fall, ID=$(ID), P=$(P), SYS=$(SYS),DEVICE=$(DEVICE)</string>
       </property>
       <property name="filename" stdset="0">
        <string notr="true">G_EVR_out_cml-mode-pattern-set.ui</string>
@@ -114,7 +114,7 @@
        </rect>
       </property>
       <property name="macro">
-       <string notr="true">PAT=Low, ID=$(ID), P=$(P), EVR=$(EVR)</string>
+       <string notr="true">PAT=Low, ID=$(ID), P=$(P), SYS=$(SYS),DEVICE=$(DEVICE)</string>
       </property>
       <property name="filename" stdset="0">
        <string notr="true">G_EVR_out_cml-mode-pattern-set.ui</string>

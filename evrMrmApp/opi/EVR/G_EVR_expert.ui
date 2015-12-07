@@ -67,7 +67,7 @@
     <string notr="true">background-color: rgb(212, 219, 157);</string>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(EVR):Ena-Sel</string>
+    <string notr="true">$(SYS)-$(DEVICE):Ena-Sel</string>
    </property>
   </widget>
   <widget class="caTextEntry" name="catextentry_4">
@@ -83,7 +83,7 @@
     <string>Sets the code which will be applied to the local mapping ram whenever the External Mode condition is met.</string>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(EVR):Link-Clk-SP</string>
+    <string notr="true">$(SYS)-$(DEVICE):Link-Clk-SP</string>
    </property>
    <property name="background">
     <color>
@@ -125,7 +125,7 @@
     <string>Frequency of the EVR's local oscilator. Must be close enough to the EVG master oscilator.</string>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(EVR):Link-Clk-SP.EGU</string>
+    <string notr="true">$(SYS)-$(DEVICE):Link-Clk-SP.EGU</string>
    </property>
    <property name="unitsEnabled">
     <bool>true</bool>
@@ -147,7 +147,7 @@
     <string notr="true">background-color: rgb(212, 219, 157);</string>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(EVR):ExtInhib-Sel</string>
+    <string notr="true">$(SYS)-$(DEVICE):ExtInhib-Sel</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_17">

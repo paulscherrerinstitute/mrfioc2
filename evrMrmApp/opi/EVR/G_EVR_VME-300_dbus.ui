@@ -59,7 +59,7 @@
       </rect>
      </property>
      <property name="macro">
-      <string notr="true">EVR=$(EVR),ID=0</string>
+      <string notr="true">SYS=$(SYS),DEVICE=$(DEVICE),ID=0</string>
      </property>
      <property name="filename" stdset="0">
       <string notr="true">G_EVR_dbus.ui</string>
@@ -75,7 +75,7 @@
       </rect>
      </property>
      <property name="macro">
-      <string notr="true">EVR=$(EVR),ID=1</string>
+      <string notr="true">SYS=$(SYS),DEVICE=$(DEVICE),ID=1</string>
      </property>
      <property name="filename" stdset="0">
       <string notr="true">G_EVR_dbus.ui</string>
@@ -91,7 +91,7 @@
       </rect>
      </property>
      <property name="macro">
-      <string notr="true">EVR=$(EVR),ID=2</string>
+      <string notr="true">SYS=$(SYS),DEVICE=$(DEVICE),ID=2</string>
      </property>
      <property name="filename" stdset="0">
       <string notr="true">G_EVR_dbus.ui</string>
@@ -107,7 +107,7 @@
       </rect>
      </property>
      <property name="macro">
-      <string notr="true">EVR=$(EVR),ID=3</string>
+      <string notr="true">SYS=$(SYS),DEVICE=$(DEVICE),ID=3</string>
      </property>
      <property name="filename" stdset="0">
       <string notr="true">G_EVR_dbus.ui</string>
@@ -123,7 +123,7 @@
       </rect>
      </property>
      <property name="macro">
-      <string notr="true">EVR=$(EVR),ID=4</string>
+      <string notr="true">SYS=$(SYS),DEVICE=$(DEVICE),ID=4</string>
      </property>
      <property name="filename" stdset="0">
       <string notr="true">G_EVR_dbus.ui</string>
@@ -139,7 +139,7 @@
       </rect>
      </property>
      <property name="macro">
-      <string notr="true">EVR=$(EVR),ID=5</string>
+      <string notr="true">SYS=$(SYS),DEVICE=$(DEVICE),ID=5</string>
      </property>
      <property name="filename" stdset="0">
       <string notr="true">G_EVR_dbus.ui</string>
@@ -155,7 +155,7 @@
       </rect>
      </property>
      <property name="macro">
-      <string notr="true">EVR=$(EVR),ID=6</string>
+      <string notr="true">SYS=$(SYS),DEVICE=$(DEVICE),ID=6</string>
      </property>
      <property name="filename" stdset="0">
       <string notr="true">G_EVR_dbus.ui</string>
@@ -171,7 +171,7 @@
       </rect>
      </property>
      <property name="macro">
-      <string notr="true">EVR=$(EVR),ID=7</string>
+      <string notr="true">SYS=$(SYS),DEVICE=$(DEVICE),ID=7</string>
      </property>
      <property name="filename" stdset="0">
       <string notr="true">G_EVR_dbus.ui</string>

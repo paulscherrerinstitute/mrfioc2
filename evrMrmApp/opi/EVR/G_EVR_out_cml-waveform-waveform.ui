@@ -22,7 +22,7 @@
     </rect>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(EVR):$(P)$(ID)-Pat:Wf-SP</string>
+    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat:Wf-SP</string>
    </property>
    <property name="numberOfRows">
     <number>2048</number>

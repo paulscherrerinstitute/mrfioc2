@@ -40,9 +40,10 @@
 #include "mrmShared.h"
 #include "sfp.h"
 #include "evgFct.h"
-#include "mrmremoteflash.h"
 
-class mrmDataBuffer;
+#include "mrmremoteflash.h"
+#include "dataBuffer/mrmDataBuffer_300.h"
+#include "dataBuffer/mrmDataBuffer_230.h"
 
 /*********
  * Each EVG will be represented by the instance of class 'evgMrm'. Each evg 
@@ -51,7 +52,6 @@ class mrmDataBuffer;
  * Input, Output etc.
  */
 class wdTimer;
-class wdTimer1;
 
 enum ALARM_TS {TS_ALARM_NONE, TS_ALARM_MINOR, TS_ALARM_MAJOR};
 

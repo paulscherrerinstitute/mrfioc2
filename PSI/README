@@ -1,3 +1,9 @@
+EXAMPLE STARTUP SCRIPT AND EXAMPLE SUBSTITUTION FILES
+======================
+
+`mrfioc2/PSI/example` folder contains example startup scripts. They load default substitution files which are available in `mrfioc2/PSI/example/cfg` folder (*.subs files). Each substitution file coresponds to a specific form factor/firmware version and contains all the available macros the user needs to start using the driver. More details are available in the documentation.
+
+
 COMPILATION
 ===========
 
@@ -25,12 +31,6 @@ Databases are automatically expanded in the ./db folder but you can also change 
 
 cd mrfioc2/PSI
 ./make_databases.sh -o /home/johndoe/workspace/PSI/databases
-
-
-EXAMPLE STARTUP SCRIPT AND EXAMPLE SUBSTITUTION FILES
-======================
-
-`mrfioc2/iocBoot/PSI` folder contains example startup scripts. They load default substitution files which are installed on the PSI infrastructure, and available in this folder (*.subs files). Each substitution file coresponds to a specific form factor/firmware version and contains all the available macros the user needs to start using the driver. More details are available in the documentation.
 
 
 DOCUMENTATION

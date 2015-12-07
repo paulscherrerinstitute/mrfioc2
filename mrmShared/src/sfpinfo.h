@@ -16,7 +16,20 @@
  *
  */
 
-#define SFP_typeid 0
+/*
+Type of serial transceiver: Identifier Values
+Value      Description of Physical Device
+----------------------------------------------
+00h        Unknown or unspecified
+01h        GBIC
+02h        Module/connector soldered to motherboard
+03h        SFP transceiver
+04-7Fh     Reserved
+80-FFh     Vendor specific
+*/
+
+#define SFP_type_offset 0
+#define SFP_type 3
 #define SFP_typeid_MASK 0xff00ff00
 
 #define SFP_linkrate 12     // Nominal bit rate, units of 100 MBits/s

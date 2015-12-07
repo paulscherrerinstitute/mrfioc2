@@ -23,7 +23,7 @@
     </rect>
    </property>
    <property name="macro">
-    <string notr="true">PULSER=5, EVR=$(EVR)</string>
+    <string notr="true">PULSER=5, SYS=$(SYS),DEVICE=$(DEVICE)</string>
    </property>
    <property name="filename" stdset="0">
     <string notr="true">G_EVR_map-pulser.ui</string>
@@ -39,7 +39,7 @@
     </rect>
    </property>
    <property name="macro">
-    <string notr="true">PULSER=9, EVR=$(EVR)</string>
+    <string notr="true">PULSER=9, SYS=$(SYS),DEVICE=$(DEVICE)</string>
    </property>
    <property name="filename" stdset="0">
     <string notr="true">G_EVR_map-pulser.ui</string>
@@ -55,7 +55,7 @@
     </rect>
    </property>
    <property name="macro">
-    <string notr="true">PULSER=14, EVR=$(EVR)</string>
+    <string notr="true">PULSER=14, SYS=$(SYS),DEVICE=$(DEVICE)</string>
    </property>
    <property name="filename" stdset="0">
     <string notr="true">G_EVR_map-pulser.ui</string>
@@ -71,7 +71,7 @@
     </rect>
    </property>
    <property name="macro">
-    <string notr="true">PULSER=7, EVR=$(EVR)</string>
+    <string notr="true">PULSER=7, SYS=$(SYS),DEVICE=$(DEVICE)</string>
    </property>
    <property name="filename" stdset="0">
     <string notr="true">G_EVR_map-pulser.ui</string>
@@ -87,7 +87,7 @@
     </rect>
    </property>
    <property name="macro">
-    <string notr="true">PULSER=10, EVR=$(EVR)</string>
+    <string notr="true">PULSER=10, SYS=$(SYS),DEVICE=$(DEVICE)</string>
    </property>
    <property name="filename" stdset="0">
     <string notr="true">G_EVR_map-pulser.ui</string>
@@ -103,7 +103,7 @@
     </rect>
    </property>
    <property name="macro">
-    <string notr="true">PULSER=12, EVR=$(EVR)</string>
+    <string notr="true">PULSER=12, SYS=$(SYS),DEVICE=$(DEVICE)</string>
    </property>
    <property name="filename" stdset="0">
     <string notr="true">G_EVR_map-pulser.ui</string>
@@ -119,7 +119,7 @@
     </rect>
    </property>
    <property name="macro">
-    <string notr="true">PULSER=2, EVR=$(EVR)</string>
+    <string notr="true">PULSER=2, SYS=$(SYS),DEVICE=$(DEVICE)</string>
    </property>
    <property name="filename" stdset="0">
     <string notr="true">G_EVR_map-pulser.ui</string>
@@ -135,7 +135,7 @@
     </rect>
    </property>
    <property name="macro">
-    <string notr="true">PULSER=11, EVR=$(EVR)</string>
+    <string notr="true">PULSER=11, SYS=$(SYS),DEVICE=$(DEVICE)</string>
    </property>
    <property name="filename" stdset="0">
     <string notr="true">G_EVR_map-pulser.ui</string>
@@ -151,7 +151,7 @@
     </rect>
    </property>
    <property name="macro">
-    <string notr="true">PULSER=6, EVR=$(EVR)</string>
+    <string notr="true">PULSER=6, SYS=$(SYS),DEVICE=$(DEVICE)</string>
    </property>
    <property name="filename" stdset="0">
     <string notr="true">G_EVR_map-pulser.ui</string>
@@ -167,7 +167,7 @@
     </rect>
    </property>
    <property name="macro">
-    <string notr="true">PULSER=3, EVR=$(EVR)</string>
+    <string notr="true">PULSER=3, SYS=$(SYS),DEVICE=$(DEVICE)</string>
    </property>
    <property name="filename" stdset="0">
     <string notr="true">G_EVR_map-pulser.ui</string>
@@ -183,7 +183,7 @@
     </rect>
    </property>
    <property name="macro">
-    <string notr="true">PULSER=8, EVR=$(EVR)</string>
+    <string notr="true">PULSER=8, SYS=$(SYS),DEVICE=$(DEVICE)</string>
    </property>
    <property name="filename" stdset="0">
     <string notr="true">G_EVR_map-pulser.ui</string>
@@ -199,7 +199,7 @@
     </rect>
    </property>
    <property name="macro">
-    <string notr="true">PULSER=4, EVR=$(EVR)</string>
+    <string notr="true">PULSER=4, SYS=$(SYS),DEVICE=$(DEVICE)</string>
    </property>
    <property name="filename" stdset="0">
     <string notr="true">G_EVR_map-pulser.ui</string>
@@ -215,7 +215,7 @@
     </rect>
    </property>
    <property name="macro">
-    <string notr="true">PULSER=15, EVR=$(EVR)</string>
+    <string notr="true">PULSER=15, SYS=$(SYS),DEVICE=$(DEVICE)</string>
    </property>
    <property name="filename" stdset="0">
     <string notr="true">G_EVR_map-pulser.ui</string>
@@ -231,7 +231,7 @@
     </rect>
    </property>
    <property name="macro">
-    <string notr="true">PULSER=13, EVR=$(EVR)</string>
+    <string notr="true">PULSER=13, SYS=$(SYS),DEVICE=$(DEVICE)</string>
    </property>
    <property name="filename" stdset="0">
     <string notr="true">G_EVR_map-pulser.ui</string>
@@ -247,7 +247,7 @@
     </rect>
    </property>
    <property name="macro">
-    <string notr="true">PULSER=0, EVR=$(EVR)</string>
+    <string notr="true">PULSER=0, SYS=$(SYS),DEVICE=$(DEVICE)</string>
    </property>
    <property name="filename" stdset="0">
     <string notr="true">G_EVR_map-pulser.ui</string>
@@ -263,7 +263,7 @@
     </rect>
    </property>
    <property name="macro">
-    <string notr="true">PULSER=1, EVR=$(EVR)</string>
+    <string notr="true">PULSER=1, SYS=$(SYS),DEVICE=$(DEVICE)</string>
    </property>
    <property name="filename" stdset="0">
     <string notr="true">G_EVR_map-pulser.ui</string>

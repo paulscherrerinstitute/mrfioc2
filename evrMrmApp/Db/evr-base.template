@@ -2,13 +2,13 @@
 #
 # Macros-
 #  SYS = System name
-#  EVR = EVR devObj name
+#  DEVICE = Event receiver / timing card name (same as mrmEvrSetupVME()) Eg. EVR0
 #  EVNT1HZ = DB event number for the 1 second tick
 
 
-record(bo, "$(SYS)-$(EVR):Ena-Sel") {
+record(bo, "$(SYS)-$(DEVICE):Ena-Sel") {
   field(DTYP, "Obj Prop bool")
-  field(OUT , "@OBJ=$(EVR), PROP=Enable")
+  field(OUT , "@OBJ=$(DEVICE), PROP=Enable")
   field(DESC, "Master enable for EVR device")
   field(MASK, "1")
   field(ZNAM, "Disabled")
@@ -17,16 +17,16 @@ record(bo, "$(SYS)-$(EVR):Ena-Sel") {
   info(autosaveFields_pass0, "VAL")
 }
 
-record(longin, "$(SYS)-$(EVR):Cnt-LinkTimo-I") {
+record(longin, "$(SYS)-$(DEVICE):Cnt-LinkTimo-I") {
   field(DTYP, "Obj Prop uint32")
-  field(INP , "@OBJ=$(EVR), PROP=HB Timeout Count")
+  field(INP , "@OBJ=$(DEVICE), PROP=HB Timeout Count")
   field(SCAN, "I/O Intr")
   field(DESC, "# of heartbeat timeout")
 }
 
-record(bo, "$(SYS)-$(EVR):ExtInhib-Sel") {
+record(bo, "$(SYS)-$(DEVICE):ExtInhib-Sel") {
   field(DTYP, "Obj Prop bool")
-  field(OUT , "@OBJ=$(EVR), PROP=External Inhibit")
+  field(OUT , "@OBJ=$(DEVICE), PROP=External Inhibit")
   field(PINI, "YES")
   field(DESC, "Use HW trigger inhibit (EVRTG only)")
   field(MASK, "1")
@@ -37,21 +37,21 @@ record(bo, "$(SYS)-$(EVR):ExtInhib-Sel") {
   info(autosaveFields_pass0, "VAL")
 }
 
-record(bi, "$(SYS)-$(EVR):Link-Sts") {
+record(bi, "$(SYS)-$(DEVICE):Link-Sts") {
   field(DTYP, "Obj Prop bool")
-  field(INP , "@OBJ=$(EVR), PROP=Link Status")
+  field(INP , "@OBJ=$(DEVICE), PROP=Link Status")
   field(DESC, "Status of event link")
   field(SCAN, "1 second")
   field(ZNAM, "Fail")
   field(ONAM, "OK")
   field(ZSV , "MAJOR")
-  field(FLNK, "$(SYS)-$(EVR):Cnt-RxErr-I")
+  field(FLNK, "$(SYS)-$(DEVICE):Cnt-RxErr-I")
 }
 
-#record(bo, "$(SYS)-$(EVR):Link-DBufMode-Sel") {
+#record(bo, "$(SYS)-$(DEVICE):Link-DBufMode-Sel") {
 #  field(DESC, "Downstream data mode")
 #  field(DTYP, "Obj Prop bool")
-#  field(OUT , "@OBJ=$(EVR):DBUF, PROP=Enable")
+#  field(OUT , "@OBJ=$(DEVICE):DBUF, PROP=Enable")
 #  field(PINI, "YES")
 #  field(VAL , "$(Link-DBufMode-Sel\=1)")
 #  field(ZNAM, "DBus only")
@@ -59,15 +59,15 @@ record(bi, "$(SYS)-$(EVR):Link-Sts") {
 #  info(autosaveFields_pass0, "VAL")
 #}
 
-record(longin, "$(SYS)-$(EVR):Cnt-RxErr-I") {
+record(longin, "$(SYS)-$(DEVICE):Cnt-RxErr-I") {
   field(DTYP, "Obj Prop uint32")
   field(DESC, "Receive Error Count")
-  field(INP , "@OBJ=$(EVR), PROP=Receive Error Count")
-  field(TSEL, "$(SYS)-$(EVR):Link-Sts.TIME")
-  field(FLNK, "$(SYS)-$(EVR):Cnt-HwOflw-I")
+  field(INP , "@OBJ=$(DEVICE), PROP=Receive Error Count")
+  field(TSEL, "$(SYS)-$(DEVICE):Link-Sts.TIME")
+  field(FLNK, "$(SYS)-$(DEVICE):Cnt-HwOflw-I")
 }
 
-record(calc, "$(SYS)-$(EVR):Cnt-RxErr-Rate-I") {
+record(calc, "$(SYS)-$(DEVICE):Cnt-RxErr-Rate-I") {
   field(DESC, "Counts errors in time interval")
   field(SCAN, "10 second")
   field(CALC, "A-B")
@@ -75,48 +75,48 @@ record(calc, "$(SYS)-$(EVR):Cnt-RxErr-Rate-I") {
   field(HHSV, "MAJOR")
   field(LOLO, "-1")
   field(LLSV, "MAJOR")
-  field(INPA, "$(SYS)-$(EVR):Cnt-RxErr-I")
-  field(INPB, "$(SYS)-$(EVR):Cnt-RxErr-Last_")
-  field(FLNK, "$(SYS)-$(EVR):Cnt-RxErr-Last_")
+  field(INPA, "$(SYS)-$(DEVICE):Cnt-RxErr-I")
+  field(INPB, "$(SYS)-$(DEVICE):Cnt-RxErr-Last_")
+  field(FLNK, "$(SYS)-$(DEVICE):Cnt-RxErr-Last_")
 }
 
-record(longin, "$(SYS)-$(EVR):Cnt-RxErr-Last_"){
+record(longin, "$(SYS)-$(DEVICE):Cnt-RxErr-Last_"){
   field(DESC, "RxErr count for last period")
   field(SCAN, "Passive")
-  field(INP, "$(SYS)-$(EVR):Cnt-RxErr-I")
+  field(INP, "$(SYS)-$(DEVICE):Cnt-RxErr-I")
 }
 
-record(longin, "$(SYS)-$(EVR):Cnt-HwOflw-I") {
+record(longin, "$(SYS)-$(DEVICE):Cnt-HwOflw-I") {
   field(DTYP, "Obj Prop uint32")
   field(DESC, "FIFO Hw Overflow Count")
-  field(INP , "@OBJ=$(EVR), PROP=FIFO Overflow Count")
-  field(TSEL, "$(SYS)-$(EVR):Cnt-RxErr-I.TIME")
-  field(FLNK, "$(SYS)-$(EVR):Cnt-SwOflw-I")
+  field(INP , "@OBJ=$(DEVICE), PROP=FIFO Overflow Count")
+  field(TSEL, "$(SYS)-$(DEVICE):Cnt-RxErr-I.TIME")
+  field(FLNK, "$(SYS)-$(DEVICE):Cnt-SwOflw-I")
 }
 
-record(longin, "$(SYS)-$(EVR):Cnt-SwOflw-I") {
+record(longin, "$(SYS)-$(DEVICE):Cnt-SwOflw-I") {
   field(DTYP, "Obj Prop uint32")
   field(DESC, "FIFO Sw Overrate Count")
-  field(INP , "@OBJ=$(EVR), PROP=FIFO Over rate")
-  field(TSEL, "$(SYS)-$(EVR):Cnt-RxErr-I.TIME")
-  field(FLNK, "$(SYS)-$(EVR):Link-Init-FO_")
+  field(INP , "@OBJ=$(DEVICE), PROP=FIFO Over rate")
+  field(TSEL, "$(SYS)-$(DEVICE):Cnt-RxErr-I.TIME")
+  field(FLNK, "$(SYS)-$(DEVICE):Link-Init-FO_")
 }
 
 # Detect the first time the event link
 # is online.  Then set master enable.
-record(calcout, "$(SYS)-$(EVR):Link-Init-FO_") {
+record(calcout, "$(SYS)-$(DEVICE):Link-Init-FO_") {
   field(DESC, "Detect initial link up")
-  field(INPA, "$(SYS)-$(EVR):Link-Sts")
+  field(INPA, "$(SYS)-$(DEVICE):Link-Sts")
   field(CALC, "A")
-  field(OUT , "$(SYS)-$(EVR):Ena-Sel PP")
+  field(OUT , "$(SYS)-$(DEVICE):Ena-Sel PP")
   field(OOPT, "Transition To Non-zero")
   field(ODLY, "1.0")
-  field(TSEL, "$(SYS)-$(EVR):Link-Sts.TIME")
+  field(TSEL, "$(SYS)-$(DEVICE):Link-Sts.TIME")
 }
 
-record(ao, "$(SYS)-$(EVR):Link-Clk-SP") {
+record(ao, "$(SYS)-$(DEVICE):Link-Clk-SP") {
   field(DTYP, "Obj Prop double")
-  field(OUT , "@OBJ=$(EVR), PROP=Clock")
+  field(OUT , "@OBJ=$(DEVICE), PROP=Clock")
   field(PINI, "YES")
   field(DESC, "Event Link speed")
   field( VAL , "$(Link-Clk-SP\=124.916)")
@@ -128,13 +128,13 @@ record(ao, "$(SYS)-$(EVR):Link-Clk-SP") {
   field(DRVH, "150")
   field(DRVL, "50")
   field(PREC, "3")
-  field(FLNK, "$(SYS)-$(EVR):Link-Clk-I")
+  field(FLNK, "$(SYS)-$(DEVICE):Link-Clk-I")
   info(autosaveFields_pass0, "VAL EGU ESLO HOPR LOPR DRVH DRVL PREC")
 }
 
-record(ai, "$(SYS)-$(EVR):Link-Clk-I") {
+record(ai, "$(SYS)-$(DEVICE):Link-Clk-I") {
   field(DTYP, "Obj Prop double")
-  field(INP , "@OBJ=$(EVR), PROP=Clock")
+  field(INP , "@OBJ=$(DEVICE), PROP=Clock")
   field(DESC, "Event Link speed")
   field(PINI, "YES")
   field(UDF , "0")
@@ -142,83 +142,83 @@ record(ai, "$(SYS)-$(EVR):Link-Clk-I") {
   field(LINR, "LINEAR")
   field(ESLO, "1e-6")
   field(PREC, "3")
-  field(FLNK, "$(SYS)-$(EVR):Link-ClkErr-I")
+  field(FLNK, "$(SYS)-$(DEVICE):Link-ClkErr-I")
   info(autosaveFields_pass0, "EGU ESLO HOPR LOPR PREC")
 }
 
-record(calc, "$(SYS)-$(EVR):Link-ClkErr-I") {
+record(calc, "$(SYS)-$(DEVICE):Link-ClkErr-I") {
   field(CALC, "(A-B)*1000")
   field(EGU , "KHz")
   field(PREC, "3")
-  field(INPA, "$(SYS)-$(EVR):Link-Clk-SP")
-  field(INPB, "$(SYS)-$(EVR):Link-Clk-I")
-  field(TSEL, "$(SYS)-$(EVR):Link-Clk-I.TIME")
-  field(FLNK, "$(SYS)-$(EVR):Link-ClkPeriod-I")
+  field(INPA, "$(SYS)-$(DEVICE):Link-Clk-SP")
+  field(INPB, "$(SYS)-$(DEVICE):Link-Clk-I")
+  field(TSEL, "$(SYS)-$(DEVICE):Link-Clk-I.TIME")
+  field(FLNK, "$(SYS)-$(DEVICE):Link-ClkPeriod-I")
   info(autosaveFields_pass0, "EGU CALC PREC")
 }
 
 # Intended for use in calculations
-record(calc, "$(SYS)-$(EVR):Link-ClkPeriod-I") {
+record(calc, "$(SYS)-$(DEVICE):Link-ClkPeriod-I") {
   field(DESC, "Event period")
   field(CALC, "B/A")
   field(EGU , "s")
   field(PREC, "3")
-  field(INPA, "$(SYS)-$(EVR):Link-Clk-SP")
-  field(INPB, "$(SYS)-$(EVR):Link-Clk-SP.ESLO")
-  field(TSEL, "$(SYS)-$(EVR):Link-Clk-I.TIME")
+  field(INPA, "$(SYS)-$(DEVICE):Link-Clk-SP")
+  field(INPB, "$(SYS)-$(DEVICE):Link-Clk-SP.ESLO")
+  field(TSEL, "$(SYS)-$(DEVICE):Link-Clk-I.TIME")
 }
 
-record(longin, "$(SYS)-$(EVR):Cnt-IRQ-I") {
+record(longin, "$(SYS)-$(DEVICE):Cnt-IRQ-I") {
   field(DTYP, "Obj Prop uint32")
   field(DESC, "Interrupt Count")
   field(SCAN, "1 second")
-  field(INP , "@OBJ=$(EVR), PROP=Interrupt Count")
-  field(FLNK, "$(SYS)-$(EVR):Rate-IRQ-I")
+  field(INP , "@OBJ=$(DEVICE), PROP=Interrupt Count")
+  field(FLNK, "$(SYS)-$(DEVICE):Rate-IRQ-I")
 }
 
-record(calc, "$(SYS)-$(EVR):Rate-IRQ-I") {
+record(calc, "$(SYS)-$(DEVICE):Rate-IRQ-I") {
   field(DESC, "Interrupt rate")
-  field(INPA, "$(SYS)-$(EVR):Cnt-IRQ-I")
+  field(INPA, "$(SYS)-$(DEVICE):Cnt-IRQ-I")
   field(CALC, "C:=A-B;B:=A;C")
   field(EGU , "Hz")
 }
 
-record(longin, "$(SYS)-$(EVR):Cnt-FIFOEvt-I") {
+record(longin, "$(SYS)-$(DEVICE):Cnt-FIFOEvt-I") {
   field(DTYP, "Obj Prop uint32")
   field(DESC, "FIFO Event Count")
   field(SCAN, "1 second")
-  field(INP , "@OBJ=$(EVR), PROP=FIFO Event Count")
-  field(FLNK, "$(SYS)-$(EVR):Rate-FIFOEvt-I")
+  field(INP , "@OBJ=$(DEVICE), PROP=FIFO Event Count")
+  field(FLNK, "$(SYS)-$(DEVICE):Rate-FIFOEvt-I")
 }
 
-record(calc, "$(SYS)-$(EVR):Rate-FIFOEvt-I") {
+record(calc, "$(SYS)-$(DEVICE):Rate-FIFOEvt-I") {
   field(DESC, "FIFO reception rate")
-  field(INPA, "$(SYS)-$(EVR):Cnt-FIFOEvt-I")
+  field(INPA, "$(SYS)-$(DEVICE):Cnt-FIFOEvt-I")
   field(CALC, "C:=A-B;B:=A;C")
   field(EGU , "evt/s")
-  field(FLNK, "$(SYS)-$(EVR):Cnt-FIFOLoop-I")
+  field(FLNK, "$(SYS)-$(DEVICE):Cnt-FIFOLoop-I")
 }
 
-record(longin, "$(SYS)-$(EVR):Cnt-FIFOLoop-I") {
+record(longin, "$(SYS)-$(DEVICE):Cnt-FIFOLoop-I") {
   field(DTYP, "Obj Prop uint32")
   field(DESC, "FIFO Loop Count")
-  field(INP , "@OBJ=$(EVR), PROP=FIFO Loop Count")
-  field(FLNK, "$(SYS)-$(EVR):Rate-FIFOLoop-I")
+  field(INP , "@OBJ=$(DEVICE), PROP=FIFO Loop Count")
+  field(FLNK, "$(SYS)-$(DEVICE):Rate-FIFOLoop-I")
 }
 
-record(calc, "$(SYS)-$(EVR):Rate-FIFOLoop-I") {
+record(calc, "$(SYS)-$(DEVICE):Rate-FIFOLoop-I") {
   field(DESC, "FIFO service rate")
-  field(INPA, "$(SYS)-$(EVR):Cnt-FIFOLoop-I")
+  field(INPA, "$(SYS)-$(DEVICE):Cnt-FIFOLoop-I")
   field(CALC, "C:=A-B;B:=A;C")
   field(EGU , "Hz")
-  field(FLNK, "$(SYS)-$(EVR):FIFOCap-I")
+  field(FLNK, "$(SYS)-$(DEVICE):FIFOCap-I")
 }
 
 # average number of events taken from the FIFO during each loop
-record(calc, "$(SYS)-$(EVR):FIFOCap-I") {
+record(calc, "$(SYS)-$(DEVICE):FIFOCap-I") {
   field(DESC, "FIFO capacity utilization")
-  field(INPA, "$(SYS)-$(EVR):Rate-FIFOEvt-I")
-  field(INPB, "$(SYS)-$(EVR):Rate-FIFOLoop-I")
+  field(INPA, "$(SYS)-$(DEVICE):Rate-FIFOEvt-I")
+  field(INPB, "$(SYS)-$(DEVICE):Rate-FIFOLoop-I")
   field(INPC, "5.11")
   field(CALC, "A/B/C")
   field(EGU , "%")
@@ -231,9 +231,9 @@ record(calc, "$(SYS)-$(EVR):FIFOCap-I") {
   info(autosaveFields_pass0, "HIHI HIGH LOW")
 }
 
-record(bi, "$(SYS)-$(EVR):CG-Sts") {
+record(bi, "$(SYS)-$(DEVICE):CG-Sts") {
   field(DTYP, "Obj Prop bool")
-  field(INP , "@OBJ=$(EVR), PROP=CG Lock Status")
+  field(INP , "@OBJ=$(DEVICE), PROP=CG Lock Status")
   field(SCAN, "1 second")
   field(PINI, "YES")
   field(DESC, "Fractional synthesizer locked")
@@ -242,9 +242,9 @@ record(bi, "$(SYS)-$(EVR):CG-Sts") {
   field(ZSV , "MAJOR")
 }
 
-record(bi, "$(SYS)-$(EVR):Pll-Sts") {
+record(bi, "$(SYS)-$(DEVICE):Pll-Sts") {
   field(DTYP, "Obj Prop bool")
-  field(INP , "@OBJ=$(EVR), PROP=PLL Lock Status")
+  field(INP , "@OBJ=$(DEVICE), PROP=PLL Lock Status")
   field(SCAN, "1 second")
   field(PINI, "YES")
   field(DESC, "Status of PLL")
@@ -253,9 +253,9 @@ record(bi, "$(SYS)-$(EVR):Pll-Sts") {
   field(ZSV , "MAJOR")
 }
 
-record(mbbo, "$(SYS)-$(EVR):PLL-Bandwidth-Sel") {
+record(mbbo, "$(SYS)-$(DEVICE):PLL-Bandwidth-Sel") {
   field( DTYP, "Obj Prop uint16")
-  field( OUT , "@OBJ=$(EVR), PROP=PLL Bandwidth")
+  field( OUT , "@OBJ=$(DEVICE), PROP=PLL Bandwidth")
   field( PINI, "YES")
   field( VAL,  "$(PLL-Bandwidth-Sel\=4)")
   field( ZRST, "HM")
@@ -280,13 +280,13 @@ record(mbbo, "$(SYS)-$(EVR):PLL-Bandwidth-Sel") {
   field( FTSV, "INVALID")
   field( FFSV, "INVALID")
   field( UNSV, "INVALID")
-  field( FLNK, "$(SYS)-$(EVR):PLL-Bandwidth-RB")
+  field( FLNK, "$(SYS)-$(DEVICE):PLL-Bandwidth-RB")
   info(autosaveFields_pass0, "VAL")
 }
 
-record(mbbi, "$(SYS)-$(EVR):PLL-Bandwidth-RB") {
+record(mbbi, "$(SYS)-$(DEVICE):PLL-Bandwidth-RB") {
   field( DTYP, "Obj Prop uint16")
-  field( INP , "@OBJ=$(EVR), PROP=PLL Bandwidth")
+  field( INP , "@OBJ=$(DEVICE), PROP=PLL Bandwidth")
   field( ZRST, "HM")
   field( ONST, "HL")
   field( TWST, "MH")
@@ -300,43 +300,43 @@ record(mbbi, "$(SYS)-$(EVR):PLL-Bandwidth-RB") {
 }
 
 
-record(longin, "$(SYS)-$(EVR):HwType-I") {
+record(longin, "$(SYS)-$(DEVICE):HwType-I") {
   field(DTYP, "Obj Prop uint32")
-  field(INP , "@OBJ=$(EVR), PROP=Model")
+  field(INP , "@OBJ=$(DEVICE), PROP=Model")
   field(PINI, "YES")
   field(DESC, "Hardware type code")
 }
 
-record(longin, "$(SYS)-$(EVR):FwVer-I") {
+record(longin, "$(SYS)-$(DEVICE):FwVer-I") {
   field(DTYP, "Obj Prop uint32")
-  field(INP , "@OBJ=$(EVR), PROP=Version")
+  field(INP , "@OBJ=$(DEVICE), PROP=Version")
   field(PINI, "YES")
   field(DESC, "Firmware version")
 }
 
-record(stringin, "$(SYS)-$(EVR):SwVer-I") {
+record(stringin, "$(SYS)-$(DEVICE):SwVer-I") {
   field(DTYP, "Obj Prop string")
-  field(INP , "@OBJ=$(EVR), PROP=Sw Version")
+  field(INP , "@OBJ=$(DEVICE), PROP=Sw Version")
   field(PINI, "YES")
   field(DESC, "Software version")
 }
 
-record(stringin, "$(SYS)-$(EVR):Pos-I") {
+record(stringin, "$(SYS)-$(DEVICE):Pos-I") {
   field(DTYP, "Obj Prop string")
-  field(INP , "@OBJ=$(EVR), PROP=Position")
+  field(INP , "@OBJ=$(DEVICE), PROP=Position")
   field(PINI, "YES")
   field(DESC, "Card position in system")
 }
 
-record(fanout, "$(SYS)-$(EVR):Time-Init-FO_") {
+record(fanout, "$(SYS)-$(DEVICE):Time-Init-FO_") {
   field(PINI, "YES")
-  field(LNK1, "$(SYS)-$(EVR):Time-Clock-SP")
-  field(LNK2, "$(SYS)-$(EVR):Time-Src-Sel")
+  field(LNK1, "$(SYS)-$(DEVICE):Time-Clock-SP")
+  field(LNK2, "$(SYS)-$(DEVICE):Time-Src-Sel")
 }
 
-record(bi, "$(SYS)-$(EVR):Time-Valid-Sts") {
+record(bi, "$(SYS)-$(DEVICE):Time-Valid-Sts") {
   field(DTYP, "Obj Prop bool")
-  field(INP , "@OBJ=$(EVR), PROP=Timestamp Valid")
+  field(INP , "@OBJ=$(DEVICE), PROP=Timestamp Valid")
   field(PINI, "YES")
   field(SCAN, "I/O Intr")
   field(ZSV , "MAJOR")
@@ -344,9 +344,9 @@ record(bi, "$(SYS)-$(EVR):Time-Valid-Sts") {
   field(ONAM, "Valid")
 }
 
-record(mbbo, "$(SYS)-$(EVR):Time-Src-Sel") {
+record(mbbo, "$(SYS)-$(DEVICE):Time-Src-Sel") {
   field( DTYP, "Raw Soft Channel")
-  field( OUT , "$(SYS)-$(EVR):Time-Src-Sel_")
+  field( OUT , "$(SYS)-$(DEVICE):Time-Src-Sel_")
   field( PINI, "YES")
   field( VAL , "$(Time-Src-Sel\=0)")
   field( ZRST, "Event clock")
@@ -370,19 +370,19 @@ record(mbbo, "$(SYS)-$(EVR):Time-Src-Sel") {
   field( FFSV, "INVALID")
   field( UNSV, "INVALID")
   field( IVOA, "Don't drive outputs")
-  field(FLNK, "$(SYS)-$(EVR):Time-Src-Sel_")
+  field(FLNK, "$(SYS)-$(DEVICE):Time-Src-Sel_")
   info(autosaveFields_pass0, "VAL")
 }
 
-record(longout, "$(SYS)-$(EVR):Time-Src-Sel_") {
+record(longout, "$(SYS)-$(DEVICE):Time-Src-Sel_") {
   field(DTYP, "Obj Prop uint32")
-  field(OUT , "@OBJ=$(EVR), PROP=Timestamp Source")
-  field(FLNK, "$(SYS)-$(EVR):Time-Clock-I")
+  field(OUT , "@OBJ=$(DEVICE), PROP=Timestamp Source")
+  field(FLNK, "$(SYS)-$(DEVICE):Time-Clock-I")
 }
 
-record(ao, "$(SYS)-$(EVR):Time-Clock-SP") {
+record(ao, "$(SYS)-$(DEVICE):Time-Clock-SP") {
   field(DTYP, "Obj Prop double")
-  field(OUT , "@OBJ=$(EVR), PROP=Timestamp Clock")
+  field(OUT , "@OBJ=$(DEVICE), PROP=Timestamp Clock")
   field(DESC, "Timestamp tick rate")
   field( VAL , "$(Time-Clock-SP\=0.0)")
   field(EGU , "MHz")
@@ -393,13 +393,13 @@ record(ao, "$(SYS)-$(EVR):Time-Clock-SP") {
   field(DRVH, "150")
   field(DRVL, "0")
   field(PREC, "3")
-  field(FLNK, "$(SYS)-$(EVR):Time-Clock-I")
+  field(FLNK, "$(SYS)-$(DEVICE):Time-Clock-I")
   info(autosaveFields_pass0, "VAL EGU ESLO HOPR LOPR DRVH DRVL PREC")
 }
 
-record(ai, "$(SYS)-$(EVR):Time-Clock-I") {
+record(ai, "$(SYS)-$(DEVICE):Time-Clock-I") {
   field(DTYP, "Obj Prop double")
-  field(INP , "@OBJ=$(EVR), PROP=Timestamp Clock")
+  field(INP , "@OBJ=$(DEVICE), PROP=Timestamp Clock")
   field(SCAN, "1 second")
   field(DESC, "Timestamp tick rate")
   field(PINI, "YES")
@@ -410,136 +410,136 @@ record(ai, "$(SYS)-$(EVR):Time-Clock-I") {
   field(HOPR, "150")
   field(LOPR, "0")
   field(PREC, "3")
-  field(FLNK, "$(SYS)-$(EVR):Time-Div-I")
+  field(FLNK, "$(SYS)-$(DEVICE):Time-Div-I")
 }
 
-record(longin, "$(SYS)-$(EVR):Time-Div-I") {
+record(longin, "$(SYS)-$(DEVICE):Time-Div-I") {
   field(DTYP, "Obj Prop uint32")
-  field(INP , "@OBJ=$(EVR), PROP=Timestamp Prescaler")
+  field(INP , "@OBJ=$(DEVICE), PROP=Timestamp Prescaler")
   field(DESC, "Timestamp divider")
 }
 
-record(stringin, "$(SYS)-$(EVR):Time-I") {
+record(stringin, "$(SYS)-$(DEVICE):Time-I") {
   field(DTYP, "EVR Timestamp")
-  field(INP , "@OBJ=$(EVR)")
+  field(INP , "@OBJ=$(DEVICE)")
   field(SCAN, "Event")
   field(EVNT, "$(EVNT1HZ)")
   field(TSE , "125")
 }
 
 ## Delay compensation records
-record(bo, "$(SYS)-$(EVR):DlyCompensation-Enabled-Sel") {
+record(bo, "$(SYS)-$(DEVICE):DlyCompensation-Enabled-Sel") {
   field(DESC, "Enable/disable delay compensation")
   field(DTYP, "Obj Prop bool")
-  field(OUT , "@OBJ=$(EVR), PROP=dc enabled")
+  field(OUT , "@OBJ=$(DEVICE), PROP=dc enabled")
   field(PINI, "YES")
   field(VAL , "$(DlyCompensation-Enabled-Sel\=1)")
   field(ZNAM, "Disabled")
   field(ONAM, "Enabled")
-  field(FLNK, "$(SYS)-$(EVR):DlyCompensation-Enabled-RB")
+  field(FLNK, "$(SYS)-$(DEVICE):DlyCompensation-Enabled-RB")
   info(autosaveFields_pass0, "VAL")
 }
 
-record(bi, "$(SYS)-$(EVR):DlyCompensation-Enabled-RB") {
+record(bi, "$(SYS)-$(DEVICE):DlyCompensation-Enabled-RB") {
   field(DESC, "Enable/disable delay compensation")
   field(DTYP, "Obj Prop bool")
-  field(INP , "@OBJ=$(EVR), PROP=dc enabled")
+  field(INP , "@OBJ=$(DEVICE), PROP=dc enabled")
   field(ZNAM, "Disabled")
   field(ONAM, "Enabled")
 }
 
-record(ao, "$(SYS)-$(EVR):DlyCompensation-Target-SP") {
+record(ao, "$(SYS)-$(DEVICE):DlyCompensation-Target-SP") {
   field(VAL, "$(DlyCompensation-Target-SP\=0)")
   field(PINI, "YES")
   field(EGU, "ns")
   field(DESC, "Delay compensation target value")
-  field(FLNK, "$(SYS)-$(EVR):DlyCompensation-Target-Raw_")
+  field(FLNK, "$(SYS)-$(DEVICE):DlyCompensation-Target-Raw_")
   info(autosaveFields_pass0, "VAL")
 }
 
-record(calcout, "$(SYS)-$(EVR):DlyCompensation-Target-Raw_") {
+record(calcout, "$(SYS)-$(DEVICE):DlyCompensation-Target-Raw_") {
   field(DESC, "Delay compensation target value")
-  field(INPA, "$(SYS)-$(EVR):DlyCompensation-Target-SP")
-  field(INPB, "$(SYS)-$(EVR):Link-Clk-I CP")
+  field(INPA, "$(SYS)-$(DEVICE):DlyCompensation-Target-SP")
+  field(INPB, "$(SYS)-$(DEVICE):Link-Clk-I CP")
   field(EGU, "ns")
   field(PREC, "0")
   field(CALC, "(FLOOR(A*B/1000)<<16)+((A-(FLOOR(A*B/1000)/B*1000))/(1000/(B*65535)))")
-  field(FLNK, "$(SYS)-$(EVR):DlyCompensation-Target-Raw-SP")
-  field(OUT, "$(SYS)-$(EVR):DlyCompensation-Target-Raw-SP")
+  field(FLNK, "$(SYS)-$(DEVICE):DlyCompensation-Target-Raw-SP")
+  field(OUT, "$(SYS)-$(DEVICE):DlyCompensation-Target-Raw-SP")
 }
 
-record(longout, "$(SYS)-$(EVR):DlyCompensation-Target-Raw-SP") {
+record(longout, "$(SYS)-$(DEVICE):DlyCompensation-Target-Raw-SP") {
   field(DTYP, "Obj Prop uint32")
-  field(OUT , "@OBJ=$(EVR), PROP=dc tv")
+  field(OUT , "@OBJ=$(DEVICE), PROP=dc tv")
   field(EGU, "raw")
   field(DESC, "Delay compensation target value")
-  field(FLNK, "$(SYS)-$(EVR):DlyCompensation-Target-Raw-RB")
+  field(FLNK, "$(SYS)-$(DEVICE):DlyCompensation-Target-Raw-RB")
 }
 
-record(longin, "$(SYS)-$(EVR):DlyCompensation-Target-Raw-RB") {
+record(longin, "$(SYS)-$(DEVICE):DlyCompensation-Target-Raw-RB") {
   field(DTYP, "Obj Prop uint32")
   field(EGU, "raw")
-  field(INP , "@OBJ=$(EVR), PROP=dc tv")
+  field(INP , "@OBJ=$(DEVICE), PROP=dc tv")
   field(DESC, "Delay compensation target value")
-  field(FLNK, "$(SYS)-$(EVR):DlyCompensation-Target-RB")
+  field(FLNK, "$(SYS)-$(DEVICE):DlyCompensation-Target-RB")
 }
 
-record(calc, "$(SYS)-$(EVR):DlyCompensation-Target-RB") {
+record(calc, "$(SYS)-$(DEVICE):DlyCompensation-Target-RB") {
   field(DESC, "Delay compensation target value")
-  field(INPA, "$(SYS)-$(EVR):DlyCompensation-Target-Raw-RB")
-  field(INPB, "$(SYS)-$(EVR):Link-Clk-I CP")
+  field(INPA, "$(SYS)-$(DEVICE):DlyCompensation-Target-Raw-RB")
+  field(INPB, "$(SYS)-$(DEVICE):Link-Clk-I CP")
   field(EGU, "ns")
   field(PREC, "5")
   field(CALC, "((A>>16)/B*1000)+((A & 65535)*(1000/(B*65535)))")
 }
 
-record(longin, "$(SYS)-$(EVR):DlyCompensation-Path-Raw-RB") {
+record(longin, "$(SYS)-$(DEVICE):DlyCompensation-Path-Raw-RB") {
   field(DTYP, "Obj Prop uint32")
   field(EGU, "raw")
-  field(INP , "@OBJ=$(EVR), PROP=dc tpd")
+  field(INP , "@OBJ=$(DEVICE), PROP=dc tpd")
   field(DESC, "Delay compens trans path dly")
   field(SCAN, "1 second")
-  field(FLNK, "$(SYS)-$(EVR):DlyCompensation-Path-RB")
+  field(FLNK, "$(SYS)-$(DEVICE):DlyCompensation-Path-RB")
 }
 
-record(calc, "$(SYS)-$(EVR):DlyCompensation-Path-RB") {
+record(calc, "$(SYS)-$(DEVICE):DlyCompensation-Path-RB") {
   field(DESC, "Delay compens trans path dly")
-  field(INPA, "$(SYS)-$(EVR):DlyCompensation-Path-Raw-RB")
-  field(INPB, "$(SYS)-$(EVR):Link-Clk-I CP")
+  field(INPA, "$(SYS)-$(DEVICE):DlyCompensation-Path-Raw-RB")
+  field(INPB, "$(SYS)-$(DEVICE):Link-Clk-I CP")
   field(EGU, "ns")
   field(PREC, "5")
   field(CALC, "((A>>16)/B*1000)+((A & 65535)*(1000/(B*65535)))")
 }
 
-record(longin, "$(SYS)-$(EVR):DlyCompensation-Internal-Raw-RB") {
+record(longin, "$(SYS)-$(DEVICE):DlyCompensation-Internal-Raw-RB") {
   field(DTYP, "Obj Prop uint32")
   field(EGU, "raw")
-  field(INP , "@OBJ=$(EVR), PROP=dc id")
+  field(INP , "@OBJ=$(DEVICE), PROP=dc id")
   field(DESC, "Delay compensation internal delay")
   field(SCAN, "1 second")
-  field(FLNK, "$(SYS)-$(EVR):DlyCompensation-Internal-RB")
+  field(FLNK, "$(SYS)-$(DEVICE):DlyCompensation-Internal-RB")
 }
 
-record(calc, "$(SYS)-$(EVR):DlyCompensation-Internal-RB") {
+record(calc, "$(SYS)-$(DEVICE):DlyCompensation-Internal-RB") {
   field(DESC, "Delay compensation internal delay")
-  field(INPA, "$(SYS)-$(EVR):DlyCompensation-Internal-Raw-RB")
-  field(INPB, "$(SYS)-$(EVR):Link-Clk-I CP")
+  field(INPA, "$(SYS)-$(DEVICE):DlyCompensation-Internal-Raw-RB")
+  field(INPB, "$(SYS)-$(DEVICE):Link-Clk-I CP")
   field(EGU, "ns")
   field(PREC, "5")
   field(CALC, "((A>>16)/B*1000)+((A & 65535)*(1000/(B*65535)))")
 }
 
-record(longin, "$(SYS)-$(EVR):DlyCompensation-Status-RB") {
+record(longin, "$(SYS)-$(DEVICE):DlyCompensation-Status-RB") {
   field(DTYP, "Obj Prop uint32")
-  field(INP , "@OBJ=$(EVR), PROP=dc s")
+  field(INP , "@OBJ=$(DEVICE), PROP=dc s")
   field(DESC, "Delay compensation status")
   field(SCAN, "1 second")
 }
 
 # DBus status
-record(mbbiDirect, "$(SYS)-$(EVR):DBus-Status-I") {
+record(mbbiDirect, "$(SYS)-$(DEVICE):DBus-Status-I") {
   field(DTYP, "Obj Prop uint16")
-  field(INP , "@OBJ=$(EVR), PROP=DBus status")
+  field(INP , "@OBJ=$(DEVICE), PROP=DBus status")
   field(PINI, "YES")
   field(DESC, "DBus bits value")
   field(SCAN, ".1 second")

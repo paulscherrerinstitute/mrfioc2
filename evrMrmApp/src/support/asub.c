@@ -231,58 +231,10 @@ long gen_bitarraygen(aSubRecord *prec)
     return 0;
 }
 
-long gun_bunchTrain(aSubRecord *prec)
-{
-	int bunchPerTrain;
-	unsigned char *result;
-	epicsUInt32 count;
-	int i, j;
-
-
-    if (prec->fta != menuFtypeULONG) {
-        errlogPrintf("%s incorrect input type. A(ULONG)",
-                     prec->name);
-        return -1;
-    }
-
-    if (prec->ftva != menuFtypeUCHAR) {
-        errlogPrintf("%s incorrect output type. OUTA (DOUBLE)",
-                     prec->name);
-        return -1;
-    }
-
-    bunchPerTrain = *(int*)prec->a;
-    result = prec->vala;
-
-    if(bunchPerTrain<1 || bunchPerTrain>150) {
-        errlogPrintf("%s : invalid number of bunches per train %d.\n",prec->name,bunchPerTrain);
-        return -1;
-    }
-
-    count = 0;
-
-    for(i = 0; i < bunchPerTrain; i++) {
-        for(j = 0; j < 10; j++) {
-            count++;
-            if(j < 5)
-                result[i*10 + j] = 1;
-            else
-                result[i*10 + j] = 0;
-        }
-    }
-    for(i = 0; i <10; i++, count++) {
-        result[count] = 0;
-    }
-
-    prec->neva = count;
-    return 0;
-}
-
 static registryFunctionRef asub_seq[] = {
     {"Timeline", (REGISTRYFUNCTION) gen_timeline},
     {"Bit Array Gen", (REGISTRYFUNCTION) gen_bitarraygen},
-    {"Delay Gen", (REGISTRYFUNCTION) gen_delaygen},
-    {"Bunch Train", (REGISTRYFUNCTION) gun_bunchTrain}
+    {"Delay Gen", (REGISTRYFUNCTION) gen_delaygen}
 };
 
 static

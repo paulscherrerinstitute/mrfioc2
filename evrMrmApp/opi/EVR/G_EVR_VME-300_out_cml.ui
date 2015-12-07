@@ -50,7 +50,7 @@
       </rect>
      </property>
      <property name="macro">
-      <string notr="true">ID=0, P=CML, EVR=$(EVR)</string>
+      <string notr="true">ID=0, P=CML, SYS=$(SYS),DEVICE=$(DEVICE)</string>
      </property>
      <property name="filename" stdset="0">
       <string notr="true">G_EVR_out_cml_40.ui</string>
@@ -66,7 +66,7 @@
       </rect>
      </property>
      <property name="macro">
-      <string notr="true">ID=1, P=CML, EVR=$(EVR)</string>
+      <string notr="true">ID=1, P=CML, SYS=$(SYS),DEVICE=$(DEVICE)</string>
      </property>
      <property name="filename" stdset="0">
       <string notr="true">G_EVR_out_cml_40.ui</string>
@@ -82,7 +82,7 @@
       </rect>
      </property>
      <property name="macro">
-      <string notr="true">ID=2, P=CML, EVR=$(EVR)</string>
+      <string notr="true">ID=2, P=CML, SYS=$(SYS),DEVICE=$(DEVICE)</string>
      </property>
      <property name="filename" stdset="0">
       <string notr="true">G_EVR_out_cml_40.ui</string>
@@ -98,7 +98,7 @@
       </rect>
      </property>
      <property name="macro">
-      <string notr="true">ID=3, P=CML, EVR=$(EVR)</string>
+      <string notr="true">ID=3, P=CML, SYS=$(SYS),DEVICE=$(DEVICE)</string>
      </property>
      <property name="filename" stdset="0">
       <string notr="true">G_EVR_out_cml_40.ui</string>

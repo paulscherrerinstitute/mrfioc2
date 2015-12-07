@@ -60,7 +60,7 @@
      <string>Enable</string>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVG):TrigEvt$(TRIGEVTNUM)-Enable-Sel</string>
+     <string notr="true">$(SYS)-$(DEVICE):TrigEvt$(TRIGEVTNUM)-Enable-Sel</string>
     </property>
    </widget>
    <widget class="caLed" name="caled">
@@ -79,7 +79,7 @@
      <bool>false</bool>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVG):TrigEvt$(TRIGEVTNUM)-Enable-RB</string>
+     <string notr="true">$(SYS)-$(DEVICE):TrigEvt$(TRIGEVTNUM)-Enable-RB</string>
     </property>
     <property name="falseColor">
      <color>
@@ -128,7 +128,7 @@
       <set>Qt::AlignCenter</set>
      </property>
      <property name="channel" stdset="0">
-      <string notr="true">$(EVG):TrigEvt$(TRIGEVTNUM)-EvtCode-RB</string>
+      <string notr="true">$(SYS)-$(DEVICE):TrigEvt$(TRIGEVTNUM)-EvtCode-RB</string>
      </property>
      <property name="colorMode">
       <enum>caLineEdit::Alarm_Default</enum>
@@ -163,7 +163,7 @@
       <set>Qt::AlignCenter</set>
      </property>
      <property name="channel" stdset="0">
-      <string notr="true">$(EVG):TrigEvt$(TRIGEVTNUM)-EvtCode-SP</string>
+      <string notr="true">$(SYS)-$(DEVICE):TrigEvt$(TRIGEVTNUM)-EvtCode-SP</string>
      </property>
      <property name="background">
       <color>

@@ -1,2 +1,1 @@
-variable(drvMrfiocDataBufferDebug,int)
-variable(drvMrfiocDataBufferUserDebug,int)
+variable(mrfioc2_dataBufferDebug,int)

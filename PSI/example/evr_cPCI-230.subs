@@ -143,17 +143,32 @@ file "$(mrfioc2_TEMPLATES=db)/evr-cpci-230.db"
 #
 # Macros:
 #  SYS = System name (auto expanded by parent)
-#  EVR = EVR devObj name (auto expanded by parent)
+#  DEVICE = Event receiver / timing card name (same as mrmEvrSetupVME()) Eg. EVR0. (auto expanded by parent)
 #  EVT = Event code (hardware). Set EVT=0 to disable.
 #  CODE = EPICS database event number (software)
+#  FLNK = If provided, forward links to the record after all records from this template are processed
 #
 file "$(mrfioc2_TEMPLATES=db)/evr-softEvent.template"{
-pattern { EVT,	CODE }
-		{ "1",    "1"}
-		{ "2",    "2"}
-		{ "3",    "3"}
+pattern { EVT,	CODE,    FLNK }
+		{ "1",    "1",   "" }
+		{ "2",    "2",   "" }
+		{ "3",    "3",   "" }
 }
-
+# If you want to enable measuring the jitter on received events comment out the previous substitution and use this one instead
+# 
+# Additinal macros:
+#  HIST_LEN = number of histogram bins created from frequency measurements. Default 200.
+#  HIST_ULIM = histogram upper limit. Default 12.
+#  HIST_LLIM = histogram lower limit. Default 8.
+# 
+# NOTE: make sure your system supports the 'histogram' record before using this template!
+#  
+#file "$(mrfioc2_TEMPLATES=db)/evr-softEvent-measure.template"{
+#pattern { EVT,	CODE,    FLNK }
+#		{ "1",    "1",   "" }
+#		{ "2",    "2",   "" }
+#		{ "3",    "3",   "" }
+#}
 
 ## Mapping between hardware event code and a special function of the EVR
 ## Each event can be mapped only to one function!
@@ -173,7 +188,7 @@ pattern { EVT,	CODE }
 #
 # Macros:
 #  SYS = System name (auto expanded by parent)
-#  EVR = EVR devObj name (auto expanded by parent)
+#  DEVICE = Event receiver / timing card name (same as mrmEvrSetupVME()) Eg. EVR0. (auto expanded by parent)
 #  EVT = Event code (hardware). Set EVNT=0 to disable.
 #  FUNC = Function to be mapped
 #    Choices are: "FIFO", "Latch TS", "Blink", "Forward",
@@ -198,7 +213,7 @@ pattern { EVT,   FUNC }
 #
 # Macros:
 #  SYS = system name (auto expanded by parent)
-#  EVR = EVR devObj name (auto expanded by parent)
+#  DEVICE = Event receiver / timing card name (same as mrmEvrSetupVME()) Eg. EVR0. (auto expanded by parent)
 #  PID = Pulser ID #
 #  F = Pulse generator function
 #    Choices are: "Trig", "Set", "Reset"
@@ -249,7 +264,7 @@ pattern {PID   F,      EVT, ID}
 #
 # Macros:
 #  SYS = System name (auto expanded by parent)
-#  EVR = EVR devObj name (auto expanded by parent)
+#  DEVICE = Event receiver / timing card name (same as mrmEvrSetupVME()) Eg. EVR0. (auto expanded by parent)
 #  SLOT = Slot where module is inserted. 
 #  			FrontUnivOut0 is the first and FrontUnivOut1 is the second output of slot 0, where 
 #  			FrontUnivOut2 is the first and FrontUnivOut3 is the second output of slot 1.

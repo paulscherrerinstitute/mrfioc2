@@ -1,0 +1,86 @@
+# Mapping between hardware event code and a software (EPICS) database event
+#
+# Macros:
+#  SYS = System name
+#  DEVICE = Event receiver / timing card name (same as mrmEvrSetupVME()) Eg. EVR0
+#  EVT = Event code (hardware). Set EVT=0 to disable.
+#  CODE = EPICS database event number (software)
+#  FLNK = If provided, forward links to the record after all records from this template are processed
+#  HIST_LEN = number of histogram bins created from frequency measurements. Default 200.
+#  HIST_ULIM = histogram upper limit. Default 12.
+#  HIST_LLIM = histogram lower limit. Default 8.
+#
+
+record(event, "$(SYS)-$(DEVICE):Event-$(EVT)-SP") {
+  field(DTYP, "EVR Event")
+  field(SCAN, "I/O Intr")
+  field(INP , "@OBJ=$(DEVICE),Code=$(EVT)")
+  field(TSE , "-2") # from device support
+  field(VAL , "$(CODE)")
+  field(FLNK, "$(SYS)-$(DEVICE):Event-$(EVT)-Cnt-I")
+}
+
+record(calc, "$(SYS)-$(DEVICE):Event-$(EVT)-Cnt-I") {
+  field(SDIS, "$(SYS)-$(DEVICE):Event-$(EVT)-SP")
+  field(DISV, "0")
+  field(CALC, "A+1")
+  field(INPA, "$(SYS)-$(DEVICE):Event-$(EVT)-Cnt-I NPP")
+  field(TSEL, "$(SYS)-$(DEVICE):Event-$(EVT)-SP.TIME")
+  field(LOLO, "0")
+  field(LLSV, "MINOR")
+  field(FLNK, "$(SYS)-$(DEVICE):Event-$(EVT)-PERF_CURR_")
+}
+
+
+##Performance measurments
+record(ai, "$(SYS)-$(DEVICE):Event-$(EVT)-PERF_CURR_"){
+  field(DESC,"Performance meas current time")
+  field(DTYP,"Soft Timestamp")
+  field(PREC,"9" )
+  field(FLNK,"$(SYS)-$(DEVICE):Event-$(EVT)-PERF-I")
+}
+
+##Time from previous in us
+record(calc,"$(SYS)-$(DEVICE):Event-$(EVT)-PERF-I"){
+  field(INPA,"$(SYS)-$(DEVICE):Event-$(EVT)-PERF_CURR_ NPP")
+  field(INPB,"$(SYS)-$(DEVICE):Event-$(EVT)-PERF_PREV_ NPP")
+  field(CALC,"(A-B)*1000")
+  field(PREC,"9")
+  field(FLNK,"$(SYS)-$(DEVICE):Event-$(EVT)-PERF_PREV_")
+}
+
+record(ai, "$(SYS)-$(DEVICE):Event-$(EVT)-PERF_PREV_"){
+  field(DESC,"Performance meas previous time")
+  field(INP, "$(SYS)-$(DEVICE):Event-$(EVT)-PERF_CURR_ NPP")
+  field(PREC,"9" )
+  field(FLNK,"$(SYS)-$(DEVICE):Event-$(EVT)-PERF-MAX-I")
+}
+
+
+record(calc,"$(SYS)-$(DEVICE):Event-$(EVT)-PERF-MAX-I"){
+  field(INPA,"$(SYS)-$(DEVICE):Event-$(EVT)-PERF-I NPP")
+  field(INPB,"$(SYS)-$(DEVICE):Event-$(EVT)-PERF-MAX-I NPP")
+  field(CALC,"A > B ? A : B")
+  field(PREC,"9")
+  field(EGU,"ms")
+  field(FLNK,"$(SYS)-$(DEVICE):Event-$(EVT)-PERF-MIN-I")
+}
+
+record(calc,"$(SYS)-$(DEVICE):Event-$(EVT)-PERF-MIN-I"){
+  field(INPA,"$(SYS)-$(DEVICE):Event-$(EVT)-PERF-I NPP")
+  field(INPB,"$(SYS)-$(DEVICE):Event-$(EVT)-PERF-MIN-I NPP")
+  field(CALC,"A > B ? B : A")
+  field(PREC,"9")
+  field(EGU,"ms")
+  field(VAL, "999999999")
+  field(FLNK,"$(SYS)-$(DEVICE):Event-$(EVT)-HIST-I")
+}
+
+record(histogram, "$(SYS)-$(DEVICE):Event-$(EVT)-HIST-I"){
+  field(DESC, "Histogram of jitter")
+  field(SVL,  "$(SYS)-$(DEVICE):Event-$(EVT)-PERF-I")
+  field(NELM, "$(HIST_LEN=200)")
+  field(ULIM, "$(HIST_ULIM=12)")
+  field(LLIM, "$(HIST_LLIM=8)")
+  field(FLNK,"$(FLNK=)")
+}

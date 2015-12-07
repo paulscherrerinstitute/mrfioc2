@@ -30,7 +30,7 @@
      <string notr="true">background-color: rgb(236, 236, 236, 255);</string>
     </property>
     <property name="text">
-     <string>$(EVG)</string>
+     <string>$(SYS)-$(DEVICE)</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
@@ -52,7 +52,7 @@
      <bool>false</bool>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVG):Enable-RB</string>
+     <string notr="true">$(SYS)-$(DEVICE):Enable-RB</string>
     </property>
     <property name="falseColor">
      <color>
@@ -102,7 +102,10 @@
      </rect>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVG):FwVer-I</string>
+     <string notr="true">$(SYS)-$(DEVICE):FwVer-I</string>
+    </property>
+    <property name="formatType">
+     <enum>caLineEdit::hexadecimal</enum>
     </property>
    </widget>
    <widget class="caLineEdit" name="calineedit_3">
@@ -115,7 +118,7 @@
      </rect>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVG):Timestamp-RB</string>
+     <string notr="true">$(SYS)-$(DEVICE):Timestamp-RB</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_5">
@@ -144,7 +147,7 @@
      </rect>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVG):DbusStatus-RB</string>
+     <string notr="true">$(SYS)-$(DEVICE):DbusStatus-RB</string>
     </property>
     <property name="formatType">
      <enum>caLineEdit::hexadecimal</enum>
@@ -176,7 +179,7 @@
      </rect>
     </property>
     <property name="macro">
-     <string notr="true">EVG=$(EVG)</string>
+     <string notr="true">SYS=$(SYS),DEVICE=$(DEVICE)</string>
     </property>
     <property name="filename" stdset="0">
      <string notr="true">G_EVG_softEvt.ui</string>
@@ -235,7 +238,7 @@
          </rect>
         </property>
         <property name="macro">
-         <string notr="true">ID=0, EVG=$(EVG)</string>
+         <string notr="true">ID=0, SYS=$(SYS),DEVICE=$(DEVICE)</string>
         </property>
         <property name="filename" stdset="0">
          <string notr="true">G_EVG_dbus.ui</string>
@@ -251,7 +254,7 @@
          </rect>
         </property>
         <property name="macro">
-         <string notr="true">ID=1, EVG=$(EVG)</string>
+         <string notr="true">ID=1, SYS=$(SYS),DEVICE=$(DEVICE)</string>
         </property>
         <property name="filename" stdset="0">
          <string notr="true">G_EVG_dbus.ui</string>
@@ -267,7 +270,7 @@
          </rect>
         </property>
         <property name="macro">
-         <string notr="true">ID=2, EVG=$(EVG)</string>
+         <string notr="true">ID=2, SYS=$(SYS),DEVICE=$(DEVICE)</string>
         </property>
         <property name="filename" stdset="0">
          <string notr="true">G_EVG_dbus.ui</string>
@@ -283,7 +286,7 @@
          </rect>
         </property>
         <property name="macro">
-         <string notr="true">ID=3, EVG=$(EVG)</string>
+         <string notr="true">ID=3, SYS=$(SYS),DEVICE=$(DEVICE)</string>
         </property>
         <property name="filename" stdset="0">
          <string notr="true">G_EVG_dbus.ui</string>
@@ -299,7 +302,7 @@
          </rect>
         </property>
         <property name="macro">
-         <string notr="true">ID=4, EVG=$(EVG)</string>
+         <string notr="true">ID=4, SYS=$(SYS),DEVICE=$(DEVICE)</string>
         </property>
         <property name="filename" stdset="0">
          <string notr="true">G_EVG_dbus.ui</string>
@@ -315,7 +318,7 @@
          </rect>
         </property>
         <property name="macro">
-         <string notr="true">ID=5, EVG=$(EVG)</string>
+         <string notr="true">ID=5, SYS=$(SYS),DEVICE=$(DEVICE)</string>
         </property>
         <property name="filename" stdset="0">
          <string notr="true">G_EVG_dbus.ui</string>
@@ -331,7 +334,7 @@
          </rect>
         </property>
         <property name="macro">
-         <string notr="true">ID=6, EVG=$(EVG)</string>
+         <string notr="true">ID=6, SYS=$(SYS),DEVICE=$(DEVICE)</string>
         </property>
         <property name="filename" stdset="0">
          <string notr="true">G_EVG_dbus.ui</string>
@@ -347,7 +350,7 @@
          </rect>
         </property>
         <property name="macro">
-         <string notr="true">ID=7, EVG=$(EVG)</string>
+         <string notr="true">ID=7, SYS=$(SYS),DEVICE=$(DEVICE)</string>
         </property>
         <property name="filename" stdset="0">
          <string notr="true">G_EVG_dbus.ui</string>
@@ -370,7 +373,7 @@
        </rect>
       </property>
       <property name="macro">
-       <string notr="true">EVG=$(EVG)</string>
+       <string notr="true">SYS=$(SYS),DEVICE=$(DEVICE)</string>
       </property>
       <property name="filename" stdset="0">
        <string notr="true">G_EVG_$(FF)_input.ui</string>
@@ -391,7 +394,7 @@
        </rect>
       </property>
       <property name="macro">
-       <string notr="true">EVG=$(EVG)</string>
+       <string notr="true">SYS=$(SYS),DEVICE=$(DEVICE)</string>
       </property>
       <property name="filename" stdset="0">
        <string notr="true">G_EVG_$(FF)_output.ui</string>
@@ -439,7 +442,7 @@
          </rect>
         </property>
         <property name="macro">
-         <string notr="true">TRIGEVTNUM=0, EVG=$(EVG)</string>
+         <string notr="true">TRIGEVTNUM=0, SYS=$(SYS),DEVICE=$(DEVICE)</string>
         </property>
         <property name="filename" stdset="0">
          <string notr="true">G_EVG_trigEvt.ui</string>
@@ -455,7 +458,7 @@
          </rect>
         </property>
         <property name="macro">
-         <string notr="true">TRIGEVTNUM=1, EVG=$(EVG)</string>
+         <string notr="true">TRIGEVTNUM=1, SYS=$(SYS),DEVICE=$(DEVICE)</string>
         </property>
         <property name="filename" stdset="0">
          <string notr="true">G_EVG_trigEvt.ui</string>
@@ -471,7 +474,7 @@
          </rect>
         </property>
         <property name="macro">
-         <string notr="true">TRIGEVTNUM=2, EVG=$(EVG)</string>
+         <string notr="true">TRIGEVTNUM=2, SYS=$(SYS),DEVICE=$(DEVICE)</string>
         </property>
         <property name="filename" stdset="0">
          <string notr="true">G_EVG_trigEvt.ui</string>
@@ -487,7 +490,7 @@
          </rect>
         </property>
         <property name="macro">
-         <string notr="true">TRIGEVTNUM=3, EVG=$(EVG)</string>
+         <string notr="true">TRIGEVTNUM=3, SYS=$(SYS),DEVICE=$(DEVICE)</string>
         </property>
         <property name="filename" stdset="0">
          <string notr="true">G_EVG_trigEvt.ui</string>
@@ -503,7 +506,7 @@
          </rect>
         </property>
         <property name="macro">
-         <string notr="true">TRIGEVTNUM=4, EVG=$(EVG)</string>
+         <string notr="true">TRIGEVTNUM=4, SYS=$(SYS),DEVICE=$(DEVICE)</string>
         </property>
         <property name="filename" stdset="0">
          <string notr="true">G_EVG_trigEvt.ui</string>
@@ -519,7 +522,7 @@
          </rect>
         </property>
         <property name="macro">
-         <string notr="true">TRIGEVTNUM=5, EVG=$(EVG)</string>
+         <string notr="true">TRIGEVTNUM=5, SYS=$(SYS),DEVICE=$(DEVICE)</string>
         </property>
         <property name="filename" stdset="0">
          <string notr="true">G_EVG_trigEvt.ui</string>
@@ -535,7 +538,7 @@
          </rect>
         </property>
         <property name="macro">
-         <string notr="true">TRIGEVTNUM=6, EVG=$(EVG)</string>
+         <string notr="true">TRIGEVTNUM=6, SYS=$(SYS),DEVICE=$(DEVICE)</string>
         </property>
         <property name="filename" stdset="0">
          <string notr="true">G_EVG_trigEvt.ui</string>
@@ -551,7 +554,7 @@
          </rect>
         </property>
         <property name="macro">
-         <string notr="true">TRIGEVTNUM=7, EVG=$(EVG)</string>
+         <string notr="true">TRIGEVTNUM=7, SYS=$(SYS),DEVICE=$(DEVICE)</string>
         </property>
         <property name="filename" stdset="0">
          <string notr="true">G_EVG_trigEvt.ui</string>
@@ -607,7 +610,7 @@
          </rect>
         </property>
         <property name="macro">
-         <string notr="true">ID=0, EVG=$(EVG)</string>
+         <string notr="true">ID=0, SYS=$(SYS),DEVICE=$(DEVICE)</string>
         </property>
         <property name="filename" stdset="0">
          <string notr="true">G_EVG_mxc-v2.ui</string>
@@ -623,7 +626,7 @@
          </rect>
         </property>
         <property name="macro">
-         <string notr="true">ID=1, EVG=$(EVG)</string>
+         <string notr="true">ID=1, SYS=$(SYS),DEVICE=$(DEVICE)</string>
         </property>
         <property name="filename" stdset="0">
          <string notr="true">G_EVG_mxc-v2.ui</string>
@@ -639,7 +642,7 @@
          </rect>
         </property>
         <property name="macro">
-         <string notr="true">ID=2, EVG=$(EVG)</string>
+         <string notr="true">ID=2, SYS=$(SYS),DEVICE=$(DEVICE)</string>
         </property>
         <property name="filename" stdset="0">
          <string notr="true">G_EVG_mxc-v2.ui</string>
@@ -655,7 +658,7 @@
          </rect>
         </property>
         <property name="macro">
-         <string notr="true">ID=3, EVG=$(EVG)</string>
+         <string notr="true">ID=3, SYS=$(SYS),DEVICE=$(DEVICE)</string>
         </property>
         <property name="filename" stdset="0">
          <string notr="true">G_EVG_mxc-v2.ui</string>
@@ -671,7 +674,7 @@
          </rect>
         </property>
         <property name="macro">
-         <string notr="true">ID=4, EVG=$(EVG)</string>
+         <string notr="true">ID=4, SYS=$(SYS),DEVICE=$(DEVICE)</string>
         </property>
         <property name="filename" stdset="0">
          <string notr="true">G_EVG_mxc-v2.ui</string>
@@ -687,7 +690,7 @@
          </rect>
         </property>
         <property name="macro">
-         <string notr="true">ID=5, EVG=$(EVG)</string>
+         <string notr="true">ID=5, SYS=$(SYS),DEVICE=$(DEVICE)</string>
         </property>
         <property name="filename" stdset="0">
          <string notr="true">G_EVG_mxc-v2.ui</string>
@@ -703,7 +706,7 @@
          </rect>
         </property>
         <property name="macro">
-         <string notr="true">ID=6, EVG=$(EVG)</string>
+         <string notr="true">ID=6, SYS=$(SYS),DEVICE=$(DEVICE)</string>
         </property>
         <property name="filename" stdset="0">
          <string notr="true">G_EVG_mxc-v2.ui</string>
@@ -719,7 +722,7 @@
          </rect>
         </property>
         <property name="macro">
-         <string notr="true">ID=7, EVG=$(EVG)</string>
+         <string notr="true">ID=7, SYS=$(SYS),DEVICE=$(DEVICE)</string>
         </property>
         <property name="filename" stdset="0">
          <string notr="true">G_EVG_mxc-v2.ui</string>
@@ -742,7 +745,7 @@
        </rect>
       </property>
       <property name="macro">
-       <string notr="true">EVG=$(EVG)</string>
+       <string notr="true">SYS=$(SYS),DEVICE=$(DEVICE)</string>
       </property>
       <property name="filename" stdset="0">
        <string notr="true">G_EVG_acTrig.ui</string>
@@ -763,7 +766,7 @@
        </rect>
       </property>
       <property name="macro">
-       <string notr="true">EVG=$(EVG), FF=$(FF)</string>
+       <string notr="true">SYS=$(SYS),DEVICE=$(DEVICE), FF=$(FF)</string>
       </property>
       <property name="filename" stdset="0">
        <string notr="true">G_EVG_evtClk.ui</string>
@@ -817,7 +820,7 @@
          </rect>
         </property>
         <property name="macro">
-         <string notr="true">SEQNUM=1, EVG=$(EVG), FF=$(FF)</string>
+         <string notr="true">SEQNUM=1, SYS=$(SYS),DEVICE=$(DEVICE), FF=$(FF)</string>
         </property>
         <property name="filename" stdset="0">
          <string notr="true">G_EVG_softSeq.ui</string>
@@ -833,7 +836,7 @@
          </rect>
         </property>
         <property name="macro">
-         <string notr="true">SEQNUM=2, EVG=$(EVG), FF=$(FF)</string>
+         <string notr="true">SEQNUM=2, SYS=$(SYS),DEVICE=$(DEVICE), FF=$(FF)</string>
         </property>
         <property name="filename" stdset="0">
          <string notr="true">G_EVG_softSeq.ui</string>
@@ -849,7 +852,7 @@
          </rect>
         </property>
         <property name="macro">
-         <string notr="true">SEQNUM=$(SEQNUM), EVG=$(EVG)</string>
+         <string notr="true">SEQNUM=$(SEQNUM), SYS=$(SYS),DEVICE=$(DEVICE)</string>
         </property>
         <property name="filename" stdset="0">
          <string notr="true">G_EVG_$(FF)_softSeq_swMask.ui</string>
@@ -872,7 +875,7 @@
        </rect>
       </property>
       <property name="macro">
-       <string notr="true">EVG=$(EVG)</string>
+       <string notr="true">SYS=$(SYS),DEVICE=$(DEVICE)</string>
       </property>
       <property name="filename" stdset="0">
        <string notr="true">G_EVG_$(FF)_fct.ui</string>
@@ -909,7 +912,7 @@
      <set>Qt::AlignCenter</set>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(EVG):EvtClk-Frequency-RB</string>
+     <string notr="true">$(SYS)-$(DEVICE):EvtClk-Frequency-RB</string>
     </property>
     <property name="unitsEnabled">
      <bool>true</bool>

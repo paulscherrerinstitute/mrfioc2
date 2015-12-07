@@ -13,7 +13,6 @@
 
 #define MRMREMOTEFLASH_H_LEVEL2
 #define SFP_H_LEVEL2
-#define DATABUF_H_INC_LEVEL2
 
 #include <string>
 #include <vector>
@@ -39,11 +38,11 @@
 #include "evrGpio.h"
 
 #include "sfp.h"
-#include "mrmShared.h"
 
 #include "mrmremoteflash.h"
-#include "dataBuffer/mrmDataBuffer.h"
-#include "dataBuffer/mrmNonSegmentedDataBuffer.h"
+#include "dataBuffer/mrmDataBuffer_300.h"
+#include "dataBuffer/mrmDataBuffer_230.h"
+
 
 enum TSSource {
   TSSourceInternal=0,

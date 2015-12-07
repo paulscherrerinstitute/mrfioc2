@@ -1,0 +1,12 @@
+inkscape -C -z --file=img/CML.svg --export-pdf=img/CML.pdf 
+inkscape -C -z --file=img/dbus.svg --export-pdf=img/dbus.pdf
+inkscape -C -z --file=img/univ.svg --export-pdf=img/univ.pdf 
+inkscape -C -z --file=img/TTL.svg --export-pdf=img/TTL.pdf 
+inkscape -C -z --file=img/softEvent.svg --export-pdf=img/softEvent.pdf 
+inkscape -C -z --file=img/pulserSignal.svg --export-pdf=img/pulserSignal.pdf
+inkscape -C -z --file=img/pulserGeneric.svg --export-pdf=img/pulserGeneric.pdf
+inkscape -C -z --file=img/pulser.svg --export-pdf=img/pulser.pdf
+inkscape -C -z --file=img/prescaler.svg --export-pdf=img/prescaler.pdf
+inkscape -C -z --file=img/output.svg --export-pdf=img/output.pdf
+inkscape -C -z --file=img/templates.svg --export-pdf=img/templates.pdf
+inkscape -C -z --file=img/gen_evt_clk.svg --export-pdf=img/gen_evt_clk.pdf

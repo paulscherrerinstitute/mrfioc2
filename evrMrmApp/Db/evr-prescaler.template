@@ -2,64 +2,64 @@
 #
 # Macros:
 #  SYS = System name
-#  EVR = EVR devObj name
+#  DEVICE = Event receiver / timing card name (same as mrmEvrSetupVME()) Eg. EVR0
 #  OBJ = Prefix for devObj name
 #  IDX = ID # corresponding to output mapping codes
 #  MAX = Maximum division
 
-record(longout, "$(SYS)-$(EVR):PS$(ID)-Div-SP") {
+record(longout, "$(SYS)-$(DEVICE):PS$(ID)-Div-SP") {
   field( DTYP, "Obj Prop uint32")
   field( DESC, "Prescaler $(ID)")
-  field( OUT , "@OBJ=$(EVR):PS$(ID), PROP=Divide")
+  field( OUT , "@OBJ=$(DEVICE):PS$(ID), PROP=Divide")
   field( PINI, "YES")
   field( VAL , "$(PS$(ID)-Div-SP\=2)") #Integer divisor between the Event Clock and the sub-unit output.
   field( HOPR, "$(MAX=0xffff)")
   field( LOPR, "2")
   field( DRVH, "$(MAX=0xffff)")
   field( DRVL, "2")
-  field( FLNK, "$(SYS)-$(EVR):PS$(ID)-Rate-I")
+  field( FLNK, "$(SYS)-$(DEVICE):PS$(ID)-Rate-I")
   info(autosaveFields_pass0, "VAL")
 }
 
-record(calc, "$(SYS)-$(EVR):PS$(ID)-Rate-I") {
+record(calc, "$(SYS)-$(DEVICE):PS$(ID)-Rate-I") {
   field(DESC, "Output frequency")
-  field(INPA, "$(SYS)-$(EVR):PS$(ID)-Div-SP NPP")
-  field(INPB, "$(SYS)-$(EVR):Link-Clk-I CP")
+  field(INPA, "$(SYS)-$(DEVICE):PS$(ID)-Div-SP NPP")
+  field(INPB, "$(SYS)-$(DEVICE):Link-Clk-I CP")
   field(CALC, "B/A")
   field(EGU, "MHz")
-  field(PREC, "2")
+  field(PREC, "7")
 }
 
 
 # Map prescaler to a pulser
-record(mbboDirect, "$(SYS)-$(EVR):PS$(ID)-PulserMap-L-SP") {
+record(mbboDirect, "$(SYS)-$(DEVICE):PS$(ID)-PulserMap-L-SP") {
   field(DTYP, "Obj Prop uint16")
-  field(OUT , "@OBJ=$(EVR):PS$(ID), PROP=Pulser mapping L")
+  field(OUT , "@OBJ=$(DEVICE):PS$(ID), PROP=Pulser mapping L")
   field(PINI, "YES")
   field(NOBT, 16)
   field(DESC, "Pulser mapping")
   field(VAL , "$(PS$(ID)-PulserMap-L-SP\=0)")
-  field(FLNK, "$(SYS)-$(EVR):PS$(ID)-PulserMap-L-RB")
+  field(FLNK, "$(SYS)-$(DEVICE):PS$(ID)-PulserMap-L-RB")
 }
 
 
-record(mbbiDirect, "$(SYS)-$(EVR):PS$(ID)-PulserMap-L-RB") {
+record(mbbiDirect, "$(SYS)-$(DEVICE):PS$(ID)-PulserMap-L-RB") {
   field(DTYP, "Obj Prop uint16")
-  field(INP , "@OBJ=$(EVR):PS$(ID), PROP=Pulser mapping L")
+  field(INP , "@OBJ=$(DEVICE):PS$(ID), PROP=Pulser mapping L")
 }
 
-record(mbboDirect, "$(SYS)-$(EVR):PS$(ID)-PulserMap-H-SP") {
+record(mbboDirect, "$(SYS)-$(DEVICE):PS$(ID)-PulserMap-H-SP") {
   field(DTYP, "Obj Prop uint16")
-  field(OUT , "@OBJ=$(EVR):PS$(ID), PROP=Pulser mapping H")
+  field(OUT , "@OBJ=$(DEVICE):PS$(ID), PROP=Pulser mapping H")
   field(PINI, "YES")
   field(NOBT, 16)
   field(DESC, "Pulser mapping")
   field(VAL , "$(PS$(ID)-PulserMap-H-SP\=0)")
-  field(FLNK, "$(SYS)-$(EVR):PS$(ID)-PulserMap-H-RB")
+  field(FLNK, "$(SYS)-$(DEVICE):PS$(ID)-PulserMap-H-RB")
 }
 
 
-record(mbbiDirect, "$(SYS)-$(EVR):PS$(ID)-PulserMap-H-RB") {
+record(mbbiDirect, "$(SYS)-$(DEVICE):PS$(ID)-PulserMap-H-RB") {
   field(DTYP, "Obj Prop uint16")
-  field(INP , "@OBJ=$(EVR):PS$(ID), PROP=Pulser mapping H")
+  field(INP , "@OBJ=$(DEVICE):PS$(ID), PROP=Pulser mapping H")
 }

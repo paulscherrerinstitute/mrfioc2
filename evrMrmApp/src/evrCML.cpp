@@ -397,8 +397,9 @@ EvrCML::setPattern(pattern p, const unsigned char *buf, epicsUInt32 blen)
     // If we are given a length that is not a multiple of CML word size
     // then truncate.
     if(blen%mult){
-        printf("Given length is not a multiple of %u (CML word size). Truncating...\n", mult);
+        printf("Given length %u is not a multiple of %u (CML word size).", blen, mult);
         blen-=blen%mult;
+        printf("Truncating to %u\n", blen);
     }
 
     if(blen>lenPatternMax(p))

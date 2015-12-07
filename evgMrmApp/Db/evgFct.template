@@ -1,219 +1,219 @@
-record(longin, "$(SYS)-$(EVG):FCT-upstreamDC-Raw-I") {
+record(longin, "$(SYS)-$(DEVICE):FCT-upstreamDC-Raw-I") {
   field(DTYP, "Obj Prop uint32")
-  field(INP , "@OBJ=$(EVG):FCT, PROP=DlyCompens upstream")
+  field(INP , "@OBJ=$(DEVICE):FCT, PROP=DlyCompens upstream")
   field(EGU, "raw")
   field(DESC, "Upstream dly. compens.")
   field(SCAN, "1 second")
-  field(FLNK, "$(SYS)-$(EVG):FCT-upstreamDC-I")
+  field(FLNK, "$(SYS)-$(DEVICE):FCT-upstreamDC-I")
 }
 
-record(calc, "$(SYS)-$(EVG):FCT-upstreamDC-I") {
+record(calc, "$(SYS)-$(DEVICE):FCT-upstreamDC-I") {
   field(DESC, "Upstream dly. compens.")
-  field(INPA, "$(SYS)-$(EVG):FCT-upstreamDC-Raw-I")
-  field(INPB, "$(SYS)-$(EVG):EvtClk-Frequency-RB CP")
+  field(INPA, "$(SYS)-$(DEVICE):FCT-upstreamDC-Raw-I")
+  field(INPB, "$(SYS)-$(DEVICE):EvtClk-Frequency-RB CP")
   field(EGU, "ns")
   field(PREC, "3")
   field(CALC, "((A>>16)/B*1000)+((A & 65535)*(1000/(B*65535)))")
 }
 
-record(longin, "$(SYS)-$(EVG):FCT-fifoDC-Raw-I") {
+record(longin, "$(SYS)-$(DEVICE):FCT-fifoDC-Raw-I") {
   field(DTYP, "Obj Prop uint32")
-  field(INP , "@OBJ=$(EVG):FCT, PROP=DlyCompens fifo")
+  field(INP , "@OBJ=$(DEVICE):FCT, PROP=DlyCompens fifo")
   field(EGU, "raw")
   field(DESC, "Receive FIFO dly. compens.")
   field(SCAN, "1 second")
-  field(FLNK, "$(SYS)-$(EVG):FCT-fifoDC-I")
+  field(FLNK, "$(SYS)-$(DEVICE):FCT-fifoDC-I")
 }
 
-record(calc, "$(SYS)-$(EVG):FCT-fifoDC-I") {
+record(calc, "$(SYS)-$(DEVICE):FCT-fifoDC-I") {
   field(DESC, "Receive FIFO dly. compens.")
-  field(INPA, "$(SYS)-$(EVG):FCT-fifoDC-Raw-I")
-  field(INPB, "$(SYS)-$(EVG):EvtClk-Frequency-RB CP")
+  field(INPA, "$(SYS)-$(DEVICE):FCT-fifoDC-Raw-I")
+  field(INPB, "$(SYS)-$(DEVICE):EvtClk-Frequency-RB CP")
   field(EGU, "ns")
   field(PREC, "3")
   field(CALC, "((A>>16)/B*1000)+((A & 65535)*(1000/(B*65535)))")
 }
 
-record(longin, "$(SYS)-$(EVG):FCT-internalDC-Raw-I") {
+record(longin, "$(SYS)-$(DEVICE):FCT-internalDC-Raw-I") {
   field(DTYP, "Obj Prop uint32")
-  field(INP , "@OBJ=$(EVG):FCT, PROP=DlyCompens internal")
+  field(INP , "@OBJ=$(DEVICE):FCT, PROP=DlyCompens internal")
   field(EGU, "raw")
   field(DESC, "Internal datapath dly. compens.")
   field(SCAN, "1 second")
-  field(FLNK, "$(SYS)-$(EVG):FCT-internalDC-I")
+  field(FLNK, "$(SYS)-$(DEVICE):FCT-internalDC-I")
 }
 
-record(calc, "$(SYS)-$(EVG):FCT-internalDC-I") {
+record(calc, "$(SYS)-$(DEVICE):FCT-internalDC-I") {
   field(DESC, "Internal datapath dly. compens.")
-  field(INPA, "$(SYS)-$(EVG):FCT-internalDC-Raw-I")
-  field(INPB, "$(SYS)-$(EVG):EvtClk-Frequency-RB CP")
+  field(INPA, "$(SYS)-$(DEVICE):FCT-internalDC-Raw-I")
+  field(INPB, "$(SYS)-$(DEVICE):EvtClk-Frequency-RB CP")
   field(EGU, "ns")
   field(PREC, "3")
   field(CALC, "((A>>16)/B*1000)+((A & 65535)*(1000/(B*65535)))")
 }
 
-record(mbbiDirect, "$(SYS)-$(EVG):FCT-status-I") {
+record(mbbiDirect, "$(SYS)-$(DEVICE):FCT-status-I") {
   field(DTYP, "Obj Prop uint16")
-  field(INP , "@OBJ=$(EVG):FCT, PROP=Status")
+  field(INP , "@OBJ=$(DEVICE):FCT, PROP=Status")
   field(PINI, "YES")
   field(DESC, "Downstream link status")
   field(SCAN, "1 second")
 }
 
-record(longout, "$(SYS)-$(EVG):FCT-ClearViolation-SP") {
+record(longout, "$(SYS)-$(DEVICE):FCT-ClearViolation-SP") {
   field(DTYP, "Obj Prop uint16")
-  field(OUT , "@OBJ=$(EVG):FCT, PROP=Violation")
+  field(OUT , "@OBJ=$(DEVICE):FCT, PROP=Violation")
   field(DESC, "Clear link violation")
-  field(FLNK, "$(SYS)-$(EVG):FCT-Violation-I")
+  field(FLNK, "$(SYS)-$(DEVICE):FCT-Violation-I")
 }
 
-record(mbbiDirect, "$(SYS)-$(EVG):FCT-Violation-I") {
+record(mbbiDirect, "$(SYS)-$(DEVICE):FCT-Violation-I") {
   field(DTYP, "Obj Prop uint16")
-  field(INP , "@OBJ=$(EVG):FCT, PROP=Violation")
+  field(INP , "@OBJ=$(DEVICE):FCT, PROP=Violation")
   field(PINI, "YES")
   field(DESC, "Link violation status")
   field(SCAN, "1 second")
 }
 
-record(longin, "$(SYS)-$(EVG):FCT-Port1DC-Raw-I") {
+record(longin, "$(SYS)-$(DEVICE):FCT-Port1DC-Raw-I") {
   field(DESC, "Downstream link port 1 loop dly val")
   field(DTYP, "Obj Prop uint32")
-  field(INP , "@OBJ=$(EVG):FCT, PROP=LoopDelay port1")
+  field(INP , "@OBJ=$(DEVICE):FCT, PROP=LoopDelay port1")
   field(EGU, "raw")
   field(SCAN, "1 second")
-  field(FLNK, "$(SYS)-$(EVG):FCT-Port1DC-I")
+  field(FLNK, "$(SYS)-$(DEVICE):FCT-Port1DC-I")
 }
 
-record(calc, "$(SYS)-$(EVG):FCT-Port1DC-I") {
+record(calc, "$(SYS)-$(DEVICE):FCT-Port1DC-I") {
   field(DESC, "Port 1 loop delay value")
-  field(INPA, "$(SYS)-$(EVG):FCT-Port1DC-Raw-I")
-  field(INPB, "$(SYS)-$(EVG):EvtClk-Frequency-RB CP")
+  field(INPA, "$(SYS)-$(DEVICE):FCT-Port1DC-Raw-I")
+  field(INPB, "$(SYS)-$(DEVICE):EvtClk-Frequency-RB CP")
   field(EGU, "ns")
   field(PREC, "3")
   field(CALC, "((A>>16)/B*1000)+((A & 65535)*(1000/(B*65535)))")
 }
 
-record(longin, "$(SYS)-$(EVG):FCT-Port2DC-Raw-I") {
+record(longin, "$(SYS)-$(DEVICE):FCT-Port2DC-Raw-I") {
   field(DESC, "Downstream link port 2 loop dly val")
   field(DTYP, "Obj Prop uint32")
-  field(INP , "@OBJ=$(EVG):FCT, PROP=LoopDelay port2")
+  field(INP , "@OBJ=$(DEVICE):FCT, PROP=LoopDelay port2")
   field(EGU, "raw")
   field(SCAN, "1 second")
-  field(FLNK, "$(SYS)-$(EVG):FCT-Port2DC-I")
+  field(FLNK, "$(SYS)-$(DEVICE):FCT-Port2DC-I")
 }
 
-record(calc, "$(SYS)-$(EVG):FCT-Port2DC-I") {
+record(calc, "$(SYS)-$(DEVICE):FCT-Port2DC-I") {
   field(DESC, "Port 2 loop delay value")
-  field(INPA, "$(SYS)-$(EVG):FCT-Port2DC-Raw-I")
-  field(INPB, "$(SYS)-$(EVG):EvtClk-Frequency-RB CP")
+  field(INPA, "$(SYS)-$(DEVICE):FCT-Port2DC-Raw-I")
+  field(INPB, "$(SYS)-$(DEVICE):EvtClk-Frequency-RB CP")
   field(EGU, "ns")
   field(PREC, "3")
   field(CALC, "((A>>16)/B*1000)+((A & 65535)*(1000/(B*65535)))")
 }
 
-record(longin, "$(SYS)-$(EVG):FCT-Port3DC-Raw-I") {
+record(longin, "$(SYS)-$(DEVICE):FCT-Port3DC-Raw-I") {
   field(DESC, "Downstream link port 3 loop dly val")
   field(DTYP, "Obj Prop uint32")
-  field(INP , "@OBJ=$(EVG):FCT, PROP=LoopDelay port3")
+  field(INP , "@OBJ=$(DEVICE):FCT, PROP=LoopDelay port3")
   field(EGU, "raw")
   field(SCAN, "1 second")
-  field(FLNK, "$(SYS)-$(EVG):FCT-Port3DC-I")
+  field(FLNK, "$(SYS)-$(DEVICE):FCT-Port3DC-I")
 }
 
-record(calc, "$(SYS)-$(EVG):FCT-Port3DC-I") {
+record(calc, "$(SYS)-$(DEVICE):FCT-Port3DC-I") {
   field(DESC, "Port 3 loop delay value")
-  field(INPA, "$(SYS)-$(EVG):FCT-Port3DC-Raw-I")
-  field(INPB, "$(SYS)-$(EVG):EvtClk-Frequency-RB CP")
+  field(INPA, "$(SYS)-$(DEVICE):FCT-Port3DC-Raw-I")
+  field(INPB, "$(SYS)-$(DEVICE):EvtClk-Frequency-RB CP")
   field(EGU, "ns")
   field(PREC, "3")
   field(CALC, "((A>>16)/B*1000)+((A & 65535)*(1000/(B*65535)))")
 }
 
-record(longin, "$(SYS)-$(EVG):FCT-Port4DC-Raw-I") {
+record(longin, "$(SYS)-$(DEVICE):FCT-Port4DC-Raw-I") {
   field(DESC, "Downstream link port 4 loop dly val")
   field(DTYP, "Obj Prop uint32")
-  field(INP , "@OBJ=$(EVG):FCT, PROP=LoopDelay port4")
+  field(INP , "@OBJ=$(DEVICE):FCT, PROP=LoopDelay port4")
   field(EGU, "raw")
   field(SCAN, "1 second")
-  field(FLNK, "$(SYS)-$(EVG):FCT-Port4DC-I")
+  field(FLNK, "$(SYS)-$(DEVICE):FCT-Port4DC-I")
 }
 
-record(calc, "$(SYS)-$(EVG):FCT-Port4DC-I") {
+record(calc, "$(SYS)-$(DEVICE):FCT-Port4DC-I") {
   field(DESC, "Port 4 loop delay value")
-  field(INPA, "$(SYS)-$(EVG):FCT-Port4DC-Raw-I")
-  field(INPB, "$(SYS)-$(EVG):EvtClk-Frequency-RB CP")
+  field(INPA, "$(SYS)-$(DEVICE):FCT-Port4DC-Raw-I")
+  field(INPB, "$(SYS)-$(DEVICE):EvtClk-Frequency-RB CP")
   field(EGU, "ns")
   field(PREC, "3")
   field(CALC, "((A>>16)/B*1000)+((A & 65535)*(1000/(B*65535)))")
 }
 
-record(longin, "$(SYS)-$(EVG):FCT-Port5DC-Raw-I") {
+record(longin, "$(SYS)-$(DEVICE):FCT-Port5DC-Raw-I") {
   field(DESC, "Downstream link port 5 loop dly val")
   field(DTYP, "Obj Prop uint32")
-  field(INP , "@OBJ=$(EVG):FCT, PROP=LoopDelay port5")
+  field(INP , "@OBJ=$(DEVICE):FCT, PROP=LoopDelay port5")
   field(EGU, "raw")
   field(SCAN, "1 second")
-  field(FLNK, "$(SYS)-$(EVG):FCT-Port5DC-I")
+  field(FLNK, "$(SYS)-$(DEVICE):FCT-Port5DC-I")
 }
 
-record(calc, "$(SYS)-$(EVG):FCT-Port5DC-I") {
+record(calc, "$(SYS)-$(DEVICE):FCT-Port5DC-I") {
   field(DESC, "Port 5 loop delay value")
-  field(INPA, "$(SYS)-$(EVG):FCT-Port5DC-Raw-I")
-  field(INPB, "$(SYS)-$(EVG):EvtClk-Frequency-RB CP")
+  field(INPA, "$(SYS)-$(DEVICE):FCT-Port5DC-Raw-I")
+  field(INPB, "$(SYS)-$(DEVICE):EvtClk-Frequency-RB CP")
   field(EGU, "ns")
   field(PREC, "3")
   field(CALC, "((A>>16)/B*1000)+((A & 65535)*(1000/(B*65535)))")
 }
 
-record(longin, "$(SYS)-$(EVG):FCT-Port6DC-Raw-I") {
+record(longin, "$(SYS)-$(DEVICE):FCT-Port6DC-Raw-I") {
   field(DESC, "Downstream link port 6 loop dly val")
   field(DTYP, "Obj Prop uint32")
-  field(INP , "@OBJ=$(EVG):FCT, PROP=LoopDelay port6")
+  field(INP , "@OBJ=$(DEVICE):FCT, PROP=LoopDelay port6")
   field(EGU, "raw")
   field(SCAN, "1 second")
-  field(FLNK, "$(SYS)-$(EVG):FCT-Port6DC-I")
+  field(FLNK, "$(SYS)-$(DEVICE):FCT-Port6DC-I")
 }
 
-record(calc, "$(SYS)-$(EVG):FCT-Port6DC-I") {
+record(calc, "$(SYS)-$(DEVICE):FCT-Port6DC-I") {
   field(DESC, "Port 6 loop delay value")
-  field(INPA, "$(SYS)-$(EVG):FCT-Port6DC-Raw-I")
-  field(INPB, "$(SYS)-$(EVG):EvtClk-Frequency-RB CP")
+  field(INPA, "$(SYS)-$(DEVICE):FCT-Port6DC-Raw-I")
+  field(INPB, "$(SYS)-$(DEVICE):EvtClk-Frequency-RB CP")
   field(EGU, "ns")
   field(PREC, "3")
   field(CALC, "((A>>16)/B*1000)+((A & 65535)*(1000/(B*65535)))")
 }
 
-record(longin, "$(SYS)-$(EVG):FCT-Port7DC-Raw-I") {
+record(longin, "$(SYS)-$(DEVICE):FCT-Port7DC-Raw-I") {
   field(DESC, "Downstream link port 7 loop dly val")
   field(DTYP, "Obj Prop uint32")
-  field(INP , "@OBJ=$(EVG):FCT, PROP=LoopDelay port7")
+  field(INP , "@OBJ=$(DEVICE):FCT, PROP=LoopDelay port7")
   field(EGU, "raw")
   field(SCAN, "1 second")
-  field(FLNK, "$(SYS)-$(EVG):FCT-Port7DC-I")
+  field(FLNK, "$(SYS)-$(DEVICE):FCT-Port7DC-I")
 }
 
-record(calc, "$(SYS)-$(EVG):FCT-Port7DC-I") {
+record(calc, "$(SYS)-$(DEVICE):FCT-Port7DC-I") {
   field(DESC, "Port 7 loop delay value")
-  field(INPA, "$(SYS)-$(EVG):FCT-Port7DC-Raw-I")
-  field(INPB, "$(SYS)-$(EVG):EvtClk-Frequency-RB CP")
+  field(INPA, "$(SYS)-$(DEVICE):FCT-Port7DC-Raw-I")
+  field(INPB, "$(SYS)-$(DEVICE):EvtClk-Frequency-RB CP")
   field(EGU, "ns")
   field(PREC, "3")
   field(CALC, "((A>>16)/B*1000)+((A & 65535)*(1000/(B*65535)))")
 }
 
-record(longin, "$(SYS)-$(EVG):FCT-Port8DC-Raw-I") {
+record(longin, "$(SYS)-$(DEVICE):FCT-Port8DC-Raw-I") {
   field(DESC, "Downstream link port 8 loop dly val")
   field(DTYP, "Obj Prop uint32")
-  field(INP , "@OBJ=$(EVG):FCT, PROP=LoopDelay port8")
+  field(INP , "@OBJ=$(DEVICE):FCT, PROP=LoopDelay port8")
   field(EGU, "raw")
   field(SCAN, "1 second")
-  field(FLNK, "$(SYS)-$(EVG):FCT-Port8DC-I")
+  field(FLNK, "$(SYS)-$(DEVICE):FCT-Port8DC-I")
 }
 
-record(calc, "$(SYS)-$(EVG):FCT-Port8DC-I") {
+record(calc, "$(SYS)-$(DEVICE):FCT-Port8DC-I") {
   field(DESC, "Port 8 loop delay value")
-  field(INPA, "$(SYS)-$(EVG):FCT-Port8DC-Raw-I")
-  field(INPB, "$(SYS)-$(EVG):EvtClk-Frequency-RB CP")
+  field(INPA, "$(SYS)-$(DEVICE):FCT-Port8DC-Raw-I")
+  field(INPB, "$(SYS)-$(DEVICE):EvtClk-Frequency-RB CP")
   field(EGU, "ns")
   field(PREC, "3")
   field(CALC, "((A>>16)/B*1000)+((A & 65535)*(1000/(B*65535)))")

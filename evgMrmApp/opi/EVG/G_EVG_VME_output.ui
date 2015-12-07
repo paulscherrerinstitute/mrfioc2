@@ -23,7 +23,7 @@
     </rect>
    </property>
    <property name="macro">
-    <string notr="true">ID=UnivOut3, EVG=$(EVG)</string>
+    <string notr="true">ID=UnivOut3, SYS=$(SYS),DEVICE=$(DEVICE)</string>
    </property>
    <property name="filename" stdset="0">
     <string notr="true">G_EVG_output.ui</string>
@@ -39,7 +39,7 @@
     </rect>
    </property>
    <property name="macro">
-    <string notr="true">ID=UnivOut2, EVG=$(EVG)</string>
+    <string notr="true">ID=UnivOut2, SYS=$(SYS),DEVICE=$(DEVICE)</string>
    </property>
    <property name="filename" stdset="0">
     <string notr="true">G_EVG_output.ui</string>
@@ -55,7 +55,7 @@
     </rect>
    </property>
    <property name="macro">
-    <string notr="true">ID=FrontOut2, EVG=$(EVG)</string>
+    <string notr="true">ID=FrontOut2, SYS=$(SYS),DEVICE=$(DEVICE)</string>
    </property>
    <property name="filename" stdset="0">
     <string notr="true">G_EVG_output.ui</string>
@@ -71,7 +71,7 @@
     </rect>
    </property>
    <property name="macro">
-    <string notr="true">ID=FrontOut3, EVG=$(EVG)</string>
+    <string notr="true">ID=FrontOut3, SYS=$(SYS),DEVICE=$(DEVICE)</string>
    </property>
    <property name="filename" stdset="0">
     <string notr="true">G_EVG_output.ui</string>
@@ -87,7 +87,7 @@
     </rect>
    </property>
    <property name="macro">
-    <string notr="true">ID=FrontOut0, EVG=$(EVG)</string>
+    <string notr="true">ID=FrontOut0, SYS=$(SYS),DEVICE=$(DEVICE)</string>
    </property>
    <property name="filename" stdset="0">
     <string notr="true">G_EVG_output.ui</string>
@@ -103,7 +103,7 @@
     </rect>
    </property>
    <property name="macro">
-    <string notr="true">ID=UnivOut0, EVG=$(EVG)</string>
+    <string notr="true">ID=UnivOut0, SYS=$(SYS),DEVICE=$(DEVICE)</string>
    </property>
    <property name="filename" stdset="0">
     <string notr="true">G_EVG_output.ui</string>
@@ -119,7 +119,7 @@
     </rect>
    </property>
    <property name="macro">
-    <string notr="true">ID=UnivOut1, EVG=$(EVG)</string>
+    <string notr="true">ID=UnivOut1, SYS=$(SYS),DEVICE=$(DEVICE)</string>
    </property>
    <property name="filename" stdset="0">
     <string notr="true">G_EVG_output.ui</string>
@@ -135,7 +135,7 @@
     </rect>
    </property>
    <property name="macro">
-    <string notr="true">ID=FrontOut1, EVG=$(EVG)</string>
+    <string notr="true">ID=FrontOut1, SYS=$(SYS),DEVICE=$(DEVICE)</string>
    </property>
    <property name="filename" stdset="0">
     <string notr="true">G_EVG_output.ui</string>

@@ -18,26 +18,26 @@ file "$(mrfioc2_TEMPLATES=db)/evr-vme-300.db"
 		PS0-PulserMap-L-SP=0,	#0-65535 :Trigger a pulser on prescaler rising edge. Pulsers 0-15 are bit-wise selectable
 		PS0-PulserMap-H-SP=0,	#0-255   :Trigger a pulser on prescaler rising edge. Pulsers 16-23 are bit-wise selectable
 		PS1-Div-SP=2, 			#2-65535 :Integer divisor between the Event Clock and the sub-unit output.
-		PS0-PulserMap-L-SP=0,	#0-65535 :Trigger a pulser on prescaler rising edge. Pulsers 0-15 are bit-wise selectable
-		PS0-PulserMap-H-SP=0,	#0-255   :Trigger a pulser on prescaler rising edge. Pulsers 16-23 are bit-wise selectable
+		PS1-PulserMap-L-SP=0,	#0-65535 :Trigger a pulser on prescaler rising edge. Pulsers 0-15 are bit-wise selectable
+		PS1-PulserMap-H-SP=0,	#0-255   :Trigger a pulser on prescaler rising edge. Pulsers 16-23 are bit-wise selectable
 		PS2-Div-SP=2, 			#2-65535 :Integer divisor between the Event Clock and the sub-unit output.
-		PS0-PulserMap-L-SP=0,	#0-65535 :Trigger a pulser on prescaler rising edge. Pulsers 0-15 are bit-wise selectable
-		PS0-PulserMap-H-SP=0,	#0-255   :Trigger a pulser on prescaler rising edge. Pulsers 16-23 are bit-wise selectable
+		PS2-PulserMap-L-SP=0,	#0-65535 :Trigger a pulser on prescaler rising edge. Pulsers 0-15 are bit-wise selectable
+		PS2-PulserMap-H-SP=0,	#0-255   :Trigger a pulser on prescaler rising edge. Pulsers 16-23 are bit-wise selectable
 		PS3-Div-SP=2, 			#2-65535 :Integer divisor between the Event Clock and the sub-unit output.
-		PS0-PulserMap-L-SP=0,	#0-65535 :Trigger a pulser on prescaler rising edge. Pulsers 0-15 are bit-wise selectable
-		PS0-PulserMap-H-SP=0,	#0-255   :Trigger a pulser on prescaler rising edge. Pulsers 16-23 are bit-wise selectable
+		PS3-PulserMap-L-SP=0,	#0-65535 :Trigger a pulser on prescaler rising edge. Pulsers 0-15 are bit-wise selectable
+		PS3-PulserMap-H-SP=0,	#0-255   :Trigger a pulser on prescaler rising edge. Pulsers 16-23 are bit-wise selectable
 		PS4-Div-SP=2, 			#2-65535 :Integer divisor between the Event Clock and the sub-unit output.
-		PS0-PulserMap-L-SP=0,	#0-65535 :Trigger a pulser on prescaler rising edge. Pulsers 0-15 are bit-wise selectable
-		PS0-PulserMap-H-SP=0,	#0-255   :Trigger a pulser on prescaler rising edge. Pulsers 16-23 are bit-wise selectable
+		PS4-PulserMap-L-SP=0,	#0-65535 :Trigger a pulser on prescaler rising edge. Pulsers 0-15 are bit-wise selectable
+		PS4-PulserMap-H-SP=0,	#0-255   :Trigger a pulser on prescaler rising edge. Pulsers 16-23 are bit-wise selectable
 		PS5-Div-SP=2, 			#2-65535 :Integer divisor between the Event Clock and the sub-unit output.
-		PS0-PulserMap-L-SP=0,	#0-65535 :Trigger a pulser on prescaler rising edge. Pulsers 0-15 are bit-wise selectable
-		PS0-PulserMap-H-SP=0,	#0-255   :Trigger a pulser on prescaler rising edge. Pulsers 16-23 are bit-wise selectable
+		PS5-PulserMap-L-SP=0,	#0-65535 :Trigger a pulser on prescaler rising edge. Pulsers 0-15 are bit-wise selectable
+		PS5-PulserMap-H-SP=0,	#0-255   :Trigger a pulser on prescaler rising edge. Pulsers 16-23 are bit-wise selectable
 		PS6-Div-SP=2, 			#2-65535 :Integer divisor between the Event Clock and the sub-unit output.
-		PS0-PulserMap-L-SP=0,	#0-65535 :Trigger a pulser on prescaler rising edge. Pulsers 0-15 are bit-wise selectable
-		PS0-PulserMap-H-SP=0,	#0-255   :Trigger a pulser on prescaler rising edge. Pulsers 16-23 are bit-wise selectable
+		PS6-PulserMap-L-SP=0,	#0-65535 :Trigger a pulser on prescaler rising edge. Pulsers 0-15 are bit-wise selectable
+		PS6-PulserMap-H-SP=0,	#0-255   :Trigger a pulser on prescaler rising edge. Pulsers 16-23 are bit-wise selectable
 		PS7-Div-SP=2, 			#2-65535 :Integer divisor between the Event Clock and the sub-unit output.
-		PS0-PulserMap-L-SP=0,	#0-65535 :Trigger a pulser on prescaler rising edge. Pulsers 0-15 are bit-wise selectable
-		PS0-PulserMap-H-SP=0,	#0-255   :Trigger a pulser on prescaler rising edge. Pulsers 16-23 are bit-wise selectable
+		PS7-PulserMap-L-SP=0,	#0-65535 :Trigger a pulser on prescaler rising edge. Pulsers 0-15 are bit-wise selectable
+		PS7-PulserMap-H-SP=0,	#0-255   :Trigger a pulser on prescaler rising edge. Pulsers 16-23 are bit-wise selectable
 			
 		## Distributed bus
 		PulserMap-Dbus0-SP=0,	#0-16777215 :Trigger a pulser on DBus bit rising edge. Pulsers 0-23 are bit-wise selectable
@@ -63,118 +63,170 @@ file "$(mrfioc2_TEMPLATES=db)/evr-vme-300.db"
 		Pul1-Delay-SP=0,		#0-4294967295 : Delay in us 
 		Pul1-Width-SP=0,		#0-65535 : Width in us
 		Pul1-Prescaler-SP=1,   	#0-255 : Pulser prescaler
+		Pul1-Gate-Mask-SP=0		#0-15 : Selects which gate will mask this pulser
+		Pul1-Gate-Enable-SP=0	#0-15 : Selects which gate will enable this pulser
 
 		Pul2-Ena-Sel=1,			#0 = Disabled, 1 = Enabled
 		Pul2-Polarity-Sel=0,  	#0 = Active High, 1 = Active Low
 		Pul2-Delay-SP=0,		#0-4294967295 : Delay in us 
 		Pul2-Width-SP=0,		#0-65535 : Width in us
 		Pul2-Prescaler-SP=1, 	#0-255 : Pulser prescaler
+		Pul2-Gate-Mask-SP=0		#0-15 : Selects which gate will mask this pulser
+		Pul2-Gate-Enable-SP=0	#0-15 : Selects which gate will enable this pulser
 
 		Pul3-Ena-Sel=1,			#0 = Disabled, 1 = Enabled
 		Pul3-Polarity-Sel=0,   	#0 = Active High, 1 = Active Low
 		Pul3-Delay-SP=0,		#0-4294967295 : Delay in us 
 		Pul3-Width-SP=0,		#0-65535 : Width in us
 		Pul3-Prescaler-SP=1,   	#0-255 : Pulser prescaler
+		Pul3-Gate-Mask-SP=0		#0-15 : Selects which gate will mask this pulser
+		Pul3-Gate-Enable-SP=0	#0-15 : Selects which gate will enable this pulser
 
 		Pul4-Ena-Sel=1,			#0 = Disabled, 1 = Enabled
 		Pul4-Polarity-Sel=0,   	#0 = Active High, 1 = Active Low
 		Pul4-Delay-SP=0,		#0-4294967295 : Delay in us 
 		Pul4-Width-SP=0,		#0-65535 : Width in us
+		Pul4-Gate-Mask-SP=0		#0-15 : Selects which gate will mask this pulser
+		Pul4-Gate-Enable-SP=0	#0-15 : Selects which gate will enable this pulser
 
 		Pul5-Ena-Sel=1,			#0 = Disabled, 1 = Enabled
 		Pul5-Polarity-Sel=0,   	#0 = Active High, 1 = Active Low
 		Pul5-Delay-SP=0,		#0-4294967295 : Delay in us 
 		Pul5-Width-SP=0,		#0-65535 : Width in us
+		Pul5-Gate-Mask-SP=0		#0-15 : Selects which gate will mask this pulser
+		Pul5-Gate-Enable-SP=0	#0-15 : Selects which gate will enable this pulser
 
 		Pul6-Ena-Sel=1,			#0 = Disabled, 1 = Enabled
 		Pul6-Polarity-Sel=0,   	#0 = Active High, 1 = Active Low
 		Pul6-Delay-SP=0,		#0-4294967295 : Delay in us 
 		Pul6-Width-SP=0,		#0-65535 : Width in us
+		Pul6-Gate-Mask-SP=0		#0-15 : Selects which gate will mask this pulser
+		Pul6-Gate-Enable-SP=0	#0-15 : Selects which gate will enable this pulser
 
 		Pul7-Ena-Sel=1,			#0 = Disabled, 1 = Enabled
 		Pul7-Polarity-Sel=0,   	#0 = Active High, 1 = Active Low
 		Pul7-Delay-SP=0,		#0-4294967295 : Delay in us 
 		Pul7-Width-SP=0,		#0-65535 : Width in us
+		Pul7-Gate-Mask-SP=0		#0-15 : Selects which gate will mask this pulser
+		Pul7-Gate-Enable-SP=0	#0-15 : Selects which gate will enable this pulser
 
 		Pul8-Ena-Sel=1,			#0 = Disabled, 1 = Enabled
 		Pul8-Polarity-Sel=0,   	#0 = Active High, 1 = Active Low
 		Pul8-Delay-SP=0,		#0-4294967295 : Delay in us 
 		Pul8-Width-SP=0,		#0-65535 : Width in us
+		Pul8-Gate-Mask-SP=0		#0-15 : Selects which gate will mask this pulser
+		Pul8-Gate-Enable-SP=0	#0-15 : Selects which gate will enable this pulser
 
 		Pul9-Ena-Sel=1,			#0 = Disabled, 1 = Enabled
 		Pul9-Polarity-Sel=0,   	#0 = Active High, 1 = Active Low
 		Pul9-Delay-SP=0,		#0-4294967295 : Delay in us 
 		Pul9-Width-SP=0,		#0-65535 : Width in us
+		Pul9-Gate-Mask-SP=0		#0-15 : Selects which gate will mask this pulser
+		Pul9-Gate-Enable-SP=0	#0-15 : Selects which gate will enable this pulser
 
 		Pul10-Ena-Sel=1,		#0 = Disabled, 1 = Enabled
 		Pul10-Polarity-Sel=0,  	#0 = Active High, 1 = Active Low
 		Pul10-Delay-SP=0,		#0-4294967295 : Delay in us 
 		Pul10-Width-SP=0,		#0-65535 : Width in us
+		Pul10-Gate-Mask-SP=0		#0-15 : Selects which gate will mask this pulser
+		Pul10-Gate-Enable-SP=0	#0-15 : Selects which gate will enable this pulser
 
 		Pul11-Ena-Sel=1,		#0 = Disabled, 1 = Enabled
 		Pul11-Polarity-Sel=0,  	#0 = Active High, 1 = Active Low
 		Pul11-Delay-SP=0,		#0-4294967295 : Delay in us 
 		Pul11-Width-SP=0,		#0-65535 : Width in us
+		Pul11-Gate-Mask-SP=0		#0-15 : Selects which gate will mask this pulser
+		Pul11-Gate-Enable-SP=0	#0-15 : Selects which gate will enable this pulser
 
 		Pul12-Ena-Sel=1,		#0 = Disabled, 1 = Enabled
 		Pul12-Polarity-Sel=0,  	#0 = Active High, 1 = Active Low
 		Pul12-Delay-SP=0,		#0-4294967295 : Delay in us 
 		Pul12-Width-SP=0,		#0-65535 : Width in us
+		Pul12-Gate-Mask-SP=0		#0-15 : Selects which gate will mask this pulser
+		Pul12-Gate-Enable-SP=0	#0-15 : Selects which gate will enable this pulser
 
 		Pul13-Ena-Sel=1,		#0 = Disabled, 1 = Enabled
 		Pul13-Polarity-Sel=0,  	#0 = Active High, 1 = Active Low
 		Pul13-Delay-SP=0,		#0-4294967295 : Delay in us 
 		Pul13-Width-SP=0,		#0-65535 : Width in us
+		Pul13-Gate-Mask-SP=0		#0-15 : Selects which gate will mask this pulser
+		Pul13-Gate-Enable-SP=0	#0-15 : Selects which gate will enable this pulser
 
 		Pul14-Ena-Sel=1,		#0 = Disabled, 1 = Enabled
 		Pul14-Polarity-Sel=0,  	#0 = Active High, 1 = Active Low
 		Pul14-Delay-SP=0,		#0-4294967295 : Delay in us 
 		Pul14-Width-SP=0,		#0-65535 : Width in us
+		Pul14-Gate-Mask-SP=0		#0-15 : Selects which gate will mask this pulser
+		Pul14-Gate-Enable-SP=0	#0-15 : Selects which gate will enable this pulser
 
 		Pul15-Ena-Sel=1,		#0 = Disabled, 1 = Enabled
 		Pul15-Polarity-Sel=0,  	#0 = Active High, 1 = Active Low
 		Pul15-Delay-SP=0,		#0-4294967295 : Delay in us 
 		Pul15-Width-SP=0,		#0-65535 : Width in us
+		Pul15-Gate-Mask-SP=0		#0-15 : Selects which gate will mask this pulser
+		Pul15-Gate-Enable-SP=0	#0-15 : Selects which gate will enable this pulser
 
 		Pul16-Ena-Sel=1,		#0 = Disabled, 1 = Enabled
 		Pul16-Polarity-Sel=0,  	#0 = Active High, 1 = Active Low
 		Pul16-Delay-SP=0,		#0-4294967295 : Delay in us 
 		Pul16-Width-SP=0,		#0-65535 : Width in us
+		Pul16-Gate-Mask-SP=0		#0-15 : Selects which gate will mask this pulser
+		Pul16-Gate-Enable-SP=0	#0-15 : Selects which gate will enable this pulser
 
 		Pul17-Ena-Sel=1,		#0 = Disabled, 1 = Enabled
 		Pul17-Polarity-Sel=0,  	#0 = Active High, 1 = Active Low
 		Pul17-Delay-SP=0,		#0-4294967295 : Delay in us 
 		Pul17-Width-SP=0,		#0-65535 : Width in us
+		Pul17-Gate-Mask-SP=0		#0-15 : Selects which gate will mask this pulser
+		Pul17-Gate-Enable-SP=0	#0-15 : Selects which gate will enable this pulser
 
 		Pul18-Ena-Sel=1,		#0 = Disabled, 1 = Enabled
 		Pul18-Polarity-Sel=0,  	#0 = Active High, 1 = Active Low
 		Pul18-Delay-SP=0,		#0-4294967295 : Delay in us 
 		Pul18-Width-SP=0,		#0-65535 : Width in us
+		Pul18-Gate-Mask-SP=0		#0-15 : Selects which gate will mask this pulser
+		Pul18-Gate-Enable-SP=0	#0-15 : Selects which gate will enable this pulser
 
 		Pul19-Ena-Sel=1,		#0 = Disabled, 1 = Enabled
 		Pul19-Polarity-Sel=0,  	#0 = Active High, 1 = Active Low
 		Pul19-Delay-SP=0,		#0-4294967295 : Delay in us 
 		Pul19-Width-SP=0,		#0-65535 : Width in us
+		Pul19-Gate-Mask-SP=0		#0-15 : Selects which gate will mask this pulser
+		Pul19-Gate-Enable-SP=0	#0-15 : Selects which gate will enable this pulser
 
 		Pul20-Ena-Sel=1,		#0 = Disabled, 1 = Enabled
 		Pul20-Polarity-Sel=0,  	#0 = Active High, 1 = Active Low
 		Pul20-Delay-SP=0,		#0-4294967295 : Delay in us 
 		Pul20-Width-SP=0,		#0-65535 : Width in us
+		Pul20-Gate-Mask-SP=0		#0-15 : Selects which gate will mask this pulser
+		Pul20-Gate-Enable-SP=0	#0-15 : Selects which gate will enable this pulser
 
 		Pul21-Ena-Sel=1,		#0 = Disabled, 1 = Enabled
 		Pul21-Polarity-Sel=0,  	#0 = Active High, 1 = Active Low
 		Pul21-Delay-SP=0,		#0-4294967295 : Delay in us 
 		Pul21-Width-SP=0,		#0-65535 : Width in us
+		Pul21-Gate-Mask-SP=0		#0-15 : Selects which gate will mask this pulser
+		Pul21-Gate-Enable-SP=0	#0-15 : Selects which gate will enable this pulser
 
 		Pul22-Ena-Sel=1,		#0 = Disabled, 1 = Enabled
 		Pul22-Polarity-Sel=0,  	#0 = Active High, 1 = Active Low
 		Pul22-Delay-SP=0,		#0-4294967295 : Delay in us 
 		Pul22-Width-SP=0,		#0-65535 : Width in us
+		Pul22-Gate-Mask-SP=0		#0-15 : Selects which gate will mask this pulser
+		Pul22-Gate-Enable-SP=0	#0-15 : Selects which gate will enable this pulser
 
 		Pul23-Ena-Sel=1,		#0 = Disabled, 1 = Enabled
 		Pul23-Polarity-Sel=0,  	#0 = Active High, 1 = Active Low
 		Pul23-Delay-SP=0,		#0-4294967295 : Delay in us 
 		Pul23-Width-SP=0,		#0-65535 : Width in us
+		Pul23-Gate-Mask-SP=0		#0-15 : Selects which gate will mask this pulser
+		Pul23-Gate-Enable-SP=0	#0-15 : Selects which gate will enable this pulser
+
+		# Gates 0-3
+		Pul28-Ena-Sel=1,		#0 = Disabled, 1 = Enabled
+		Pul29-Ena-Sel=1,		#0 = Disabled, 1 = Enabled
+		Pul30-Ena-Sel=1,		#0 = Disabled, 1 = Enabled
+		Pul31-Ena-Sel=1,		#0 = Disabled, 1 = Enabled
 		
 
 		## Front panel inputs
@@ -280,8 +332,6 @@ file "$(mrfioc2_TEMPLATES=db)/evr-vme-300.db"
 		CML0-WfCalc:Ena-SP=0, 		# For waveform mode: 0 = Square wave pattern calculator disabled, 1 = Square pattern calculator enabled
 		CML0-WfCalc:Delay-SP=16, 	# For waveform mode: Delay of the square wave pattern in ns
 		CML0-WfCalc:Width-SP=50, 	# For waveform mode: Width of the square wave pattern in ns
-		CML0-BunchTrain:Ena-SP=0, 	# For waveform mode: 0 = Bunch train calculator disabled, 1 = Bunch train calculator enabled
-		CML0-BunchTrain:Size-SP=1, 	# For waveform mode: Number of bunches in the bunch train
 
 		FrontUnivOut7-Ena-SP=1, 		# Default to enabled
 		FrontUnivOut7-Src-SP=63,  		# Defaults to Force low (if enabled -> Ena-SP)
@@ -310,8 +360,6 @@ file "$(mrfioc2_TEMPLATES=db)/evr-vme-300.db"
 		CML1-WfCalc:Ena-SP=0, 		# For waveform mode: 0 = Square wave pattern calculator disabled, 1 = Square pattern calculator enabled
 		CML1-WfCalc:Delay-SP=16, 	# For waveform mode: Delay of the square wave pattern in ns
 		CML1-WfCalc:Width-SP=50, 	# For waveform mode: Width of the square wave pattern in ns
-		CML1-BunchTrain:Ena-SP=0, 	# For waveform mode: 0 = Bunch train calculator disabled, 1 = Bunch train calculator enabled
-		CML1-BunchTrain:Size-SP=1, 	# For waveform mode: Number of bunches in the bunch train
 
 		FrontUnivOut8-Ena-SP=1, 		# Default to enabled
 		FrontUnivOut8-Src-SP=63,  		# Defaults to Force low (if enabled -> Ena-SP)
@@ -340,8 +388,6 @@ file "$(mrfioc2_TEMPLATES=db)/evr-vme-300.db"
 		CML2-WfCalc:Ena-SP=0, 		# For waveform mode: 0 = Square wave pattern calculator disabled, 1 = Square pattern calculator enabled
 		CML2-WfCalc:Delay-SP=16, 	# For waveform mode: Delay of the square wave pattern in ns
 		CML2-WfCalc:Width-SP=50, 	# For waveform mode: Width of the square wave pattern in ns
-		CML2-BunchTrain:Ena-SP=0, 	# For waveform mode: 0 = Bunch train calculator disabled, 1 = Bunch train calculator enabled
-		CML2-BunchTrain:Size-SP=1, 	# For waveform mode: Number of bunches in the bunch train
 
 		FrontUnivOut9-Ena-SP=1, 		# Default to enabled
 		FrontUnivOut9-Src-SP=63,  		# Defaults to Force low (if enabled -> Ena-SP)
@@ -370,8 +416,6 @@ file "$(mrfioc2_TEMPLATES=db)/evr-vme-300.db"
 		CML3-WfCalc:Ena-SP=0, 		# For waveform mode: 0 = Square wave pattern calculator disabled, 1 = Square pattern calculator enabled
 		CML3-WfCalc:Delay-SP=16, 	# For waveform mode: Delay of the square wave pattern in ns
 		CML3-WfCalc:Width-SP=50, 	# For waveform mode: Width of the square wave pattern in ns
-		CML3-BunchTrain:Ena-SP=0, 	# For waveform mode: 0 = Bunch train calculator disabled, 1 = Bunch train calculator enabled
-		CML3-BunchTrain:Size-SP=1, 	# For waveform mode: Number of bunches in the bunch train
 
 
 		# Transition board outputs
@@ -447,17 +491,32 @@ file "$(mrfioc2_TEMPLATES=db)/evr-vme-300.db"
 #
 # Macros:
 #  SYS = System name (auto expanded by parent)
-#  EVR = EVR devObj name (auto expanded by parent)
+#  DEVICE = Event receiver / timing card name (same as mrmEvrSetupVME()) Eg. EVR0. (auto expanded by parent)
 #  EVT = Event code (hardware). Set EVT=0 to disable.
 #  CODE = EPICS database event number (software)
+#  FLNK = If provided, forward links to the record after all records from this template are processed
 #
 file "$(mrfioc2_TEMPLATES=db)/evr-softEvent.template"{
-pattern { EVT,	CODE }
-		{ "1",    "1"}
-		{ "2",    "2"}
-		{ "3",    "3"}
+pattern { EVT,	CODE,    FLNK }
+		{ "1",    "1",   "" }
+		{ "2",    "2",   "" }
+		{ "3",    "3",   "" }
 }
-
+# If you want to enable measuring the jitter on received events comment out the previous substitution and use this one instead
+# 
+# Additinal macros:
+#  HIST_LEN = number of histogram bins created from frequency measurements. Default 200.
+#  HIST_ULIM = histogram upper limit. Default 12.
+#  HIST_LLIM = histogram lower limit. Default 8.
+# 
+# NOTE: make sure your system supports the 'histogram' record before using this template!
+#  
+#file "$(mrfioc2_TEMPLATES=db)/evr-softEvent-measure.template"{
+#pattern { EVT,	CODE,    FLNK }
+#		{ "1",    "1",   "" }
+#		{ "2",    "2",   "" }
+#		{ "3",    "3",   "" }
+#}
 
 ## Mapping between hardware event code and a special function of the EVR
 ## Each event can be mapped only to one function!
@@ -477,7 +536,7 @@ pattern { EVT,	CODE }
 #
 # Macros:
 #  SYS = System name (auto expanded by parent)
-#  EVR = EVR devObj name (auto expanded by parent)
+#  DEVICE = Event receiver / timing card name (same as mrmEvrSetupVME()) Eg. EVR0. (auto expanded by parent)
 #  EVT = Event code (hardware). Set EVNT=0 to disable.
 #  FUNC = Function to be mapped
 #    Choices are: "FIFO", "Latch TS", "Blink", "Forward",
@@ -502,7 +561,7 @@ pattern { EVT,   FUNC }
 #
 # Macros:
 #  SYS = system name (auto expanded by parent)
-#  EVR = EVR devObj name (auto expanded by parent)
+#  DEVICE = Event receiver / timing card name (same as mrmEvrSetupVME()) Eg. EVR0. (auto expanded by parent)
 #  PID = Pulser ID #
 #  F = Pulse generator function
 #    Choices are: "Trig", "Set", "Reset"
@@ -609,7 +668,7 @@ pattern {PID   F,      EVT, ID}
 #
 # Macros:
 #  SYS = System name (auto expanded by parent)
-#  EVR = EVR devObj name (auto expanded by parent)
+#  DEVICE = Event receiver / timing card name (same as mrmEvrSetupVME()) Eg. EVR0. (auto expanded by parent)
 #  SLOT = Slot where module is inserted. 
 #  			FrontUnivOut0 is the first and FrontUnivOut1 is the second output of slot 0, where 
 #  			FrontUnivOut2 is the first and FrontUnivOut3 is the second output of slot 1.
