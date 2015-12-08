@@ -38,7 +38,7 @@
      </rect>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(SYS)-$(SYS)-$(DEVICE)-HEALTH:Pll-Sts</string>
+     <string notr="true">$(SYS)-$(DEVICE)-HEALTH:Pll-Sts</string>
     </property>
     <property name="falseColor">
      <color>
@@ -65,7 +65,7 @@
      </rect>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(SYS)-$(SYS)-$(DEVICE)-HEALTH:Link-Sts</string>
+     <string notr="true">$(SYS)-$(DEVICE)-HEALTH:Link-Sts</string>
     </property>
     <property name="falseColor">
      <color>
@@ -92,7 +92,7 @@
      </rect>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(SYS)-$(SYS)-$(DEVICE)-HEALTH:Cnt-RxErr-Rate-I</string>
+     <string notr="true">$(SYS)-$(DEVICE)-HEALTH:Cnt-RxErr-Rate-I</string>
     </property>
     <property name="colorMode">
      <enum>caLineEdit::Alarm_Default</enum>
@@ -108,7 +108,7 @@
      </rect>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(SYS)-$(SYS)-$(DEVICE)-HEALTH:Cnt-RxErr-Rate-I</string>
+     <string notr="true">$(SYS)-$(DEVICE)-HEALTH:Cnt-RxErr-Rate-I</string>
     </property>
     <property name="colorMode">
      <enum>caLineEdit::Alarm_Default</enum>
@@ -305,7 +305,7 @@
      </rect>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(SYS)-$(SYS)-$(DEVICE)-HEALTH:SFP-T-I</string>
+     <string notr="true">$(SYS)-$(DEVICE)-HEALTH:SFP-T-I</string>
     </property>
     <property name="colorMode">
      <enum>caLineEdit::Alarm_Default</enum>
@@ -324,7 +324,7 @@
      </rect>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(SYS)-$(SYS)-$(DEVICE)-HEALTH:SFP-Pwr-RX-I</string>
+     <string notr="true">$(SYS)-$(DEVICE)-HEALTH:SFP-Pwr-RX-I</string>
     </property>
     <property name="colorMode">
      <enum>caLineEdit::Alarm_Default</enum>
@@ -343,7 +343,7 @@
      </rect>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(SYS)-$(SYS)-$(DEVICE)-HEALTH:SFP-Pwr-TX-I</string>
+     <string notr="true">$(SYS)-$(DEVICE)-HEALTH:SFP-Pwr-TX-I</string>
     </property>
     <property name="colorMode">
      <enum>caLineEdit::Alarm_Default</enum>
@@ -363,7 +363,7 @@
     </rect>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(SYS)-$(DEVICE)-HEALTH:Sts-Reason-I</string>
+    <string notr="true">$(SYS)-$(DEVICE)-HEALTH:Sts-Reason-I</string>
    </property>
    <property name="colorMode">
     <enum>caLineEdit::Static</enum>
@@ -392,7 +392,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>$(SYS)-$(SYS)-$(DEVICE)</string>
+    <string>$(SYS)-$(DEVICE)</string>
    </property>
   </widget>
  </widget>
