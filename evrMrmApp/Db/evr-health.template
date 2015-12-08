@@ -134,8 +134,8 @@ record(bi, "$(SYS)-$(DEVICE)-HEALTH:Pll-Sts") {
 
 ##SFP records
 record(ai, "$(SYS)-$(DEVICE)-HEALTH:SFP-T-I") {
-  field(INP , "$(SYS)-$(DEVICE):SFP-T-I CP")
-  field(TSEL , "$(SYS)-$(DEVICE):SFP-T-I.TIME")
+  field(INP , "$(SYS)-$(DEVICE):SFP0-T-I CP")
+  field(TSEL , "$(SYS)-$(DEVICE):SFP0-T-I.TIME")
   
   field(DESC, "Tranceiver Temperature")  
   field(HIGH, "40")
@@ -149,8 +149,8 @@ record(ai, "$(SYS)-$(DEVICE)-HEALTH:SFP-T-I") {
 }
 
 record(ai, "$(SYS)-$(DEVICE)-HEALTH:SFP-Pwr-TX-I") {
-  field(INP , "$(SYS)-$(DEVICE):SFP-Pwr-TX-I CP")
-  field(TSEL , "$(SYS)-$(DEVICE):SFP-Pwr-TX-I.TIME")
+  field(INP , "$(SYS)-$(DEVICE):SFP0-Pwr-TX-I CP")
+  field(TSEL , "$(SYS)-$(DEVICE):SFP0-Pwr-TX-I.TIME")
   
   field(DESC, "Tranceiver Output Power")
   field(HIGH, "400")
@@ -164,8 +164,8 @@ record(ai, "$(SYS)-$(DEVICE)-HEALTH:SFP-Pwr-TX-I") {
 }
 
 record(ai, "$(SYS)-$(DEVICE)-HEALTH:SFP-Pwr-RX-I") {
-  field(INP , "$(SYS)-$(DEVICE):SFP-Pwr-RX-I CP")
-  field(TSEL , "$(SYS)-$(DEVICE):SFP-Pwr-RX-I.TIME")
+  field(INP , "$(SYS)-$(DEVICE):SFP0-Pwr-RX-I CP")
+  field(TSEL , "$(SYS)-$(DEVICE):SFP0-Pwr-RX-I.TIME")
   
   field(DESC, "Tranceiver Input Power")  
   field(HIGH, "600")
