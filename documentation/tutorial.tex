@@ -78,19 +78,16 @@ The following steps demonstrate how to prepare a SWIT compatible IOC application
 	The macro definitions in the substitution file are used to configure the EVR. All the available macros are already present in the substitution file and set to their default values, so the user can simply change the desired values. Detailed description of the substitution file is available in the EVR manual~\cite{evr_manual}.
 
 	\item 
-		Create a startup script named \texttt{startup.script} in your project folder:
+		Create a startup script named \texttt{MTEST-VME-TIMINGTEST\_startup.script} in your project folder:
 		\begin{verbatim}
-			touch startup.script
+			touch MTEST-VME-TIMINGTEST_startup.script
 		\end{verbatim}
 	\item 
-		Copy the content of the startup script at \texttt{https://github.psi.ch/projects/} \texttt{ED/repos/mrfioc2/browse/PSI/example/VME\_startup.script?at=\latestDriverVersion} to newly created \texttt{startup.script}. Startup scripts for other form factors are available at the same location (mrfioc2 repository in folder \texttt{PSI/example}).
+		Copy the content of the startup script at \texttt{https://github.psi.ch/projects/} \texttt{ED/repos/mrfioc2/browse/PSI/example/evr\_VME\_startup.script?at=\latestDriverVersion} to newly created \texttt{MTEST-VME-TIMINGTEST\_startup.script}. Startup scripts for other form factors are available at the same location (mrfioc2 repository in folder \texttt{PSI/example}).
 
 	The startup script should look similar to:
 \begin{verbatim}
 	require mrfioc2
-	
-	# define the system name. This is prefixed to all record names
-	epicsEnvSet SYS "MTEST-VME-TIMINGTEST"
 	
 	##########################
 	#-----! EVR Setup ------!#
@@ -100,8 +97,7 @@ The following steps demonstrate how to prepare a SWIT compatible IOC application
 	## or passed as a macro to the 'runScript' command:
 	
 	# The following macros are available to set up the mrfioc2:
-	# SYS 	is used as a prefix for all records. In this example 
-	       it is set at the beginning using 'epicsEnvSet'
+	# SYS           "MTEST-VME-TIMINGTEST"
 	# DEVICE        "EVR0"		
 	# EVR_SLOT		     3			
 	# EVR_MEMOFFSET	0x3000000
@@ -109,8 +105,9 @@ The following steps demonstrate how to prepare a SWIT compatible IOC application
 	# EVR_IRQVECT	  0x26
 	# EVR_SUBS      cfg/evr_VME-300.subs
 	
-	runScript $(mrfioc2_DIR)/mrfioc2_evr-VME.cmd, "DEVICE=EVR0, 
-	EVR_SLOT=3, EVR_MEMOFFSET=0x3000000, EVR_IRQLINE=0x5"
+	runScript $(mrfioc2_DIR)/mrfioc2_evr-VME.cmd, 
+	  "SYS=MTEST-VME-TIMINGTEST, DEVICE=EVR0, EVR_SLOT=3,
+	   EVR_MEMOFFSET=0x3000000, EVR_IRQLINE=0x5"
 \end{verbatim}
 Startup script overview:
 \begin{itemize}

@@ -17,24 +17,20 @@ The documentation is available in the `documentation` folder:
 To set up an IOC application for EVR we need to set up a startup script and a substitution file matching the timing card form factor. Suitable ones are available in the `PSI/example` folder:
 
 * EVG
-    * example startup script (`EVG-VME_startup.script`)
-    * example substitution files (`evg_VME-230.subs`, `evg_VME-300.subs`)
+    * example startup script ([`evg_VME_startup.script`](https://github.psi.ch/projects/ED/repos/mrfioc2/browse/PSI/example/evg_VME_startup.script?at=b284e63032f1ad4f5975ec1c66174b75ea10700b&raw))
+    * example substitution files ([`evg_VME-230.subs`](https://github.psi.ch/projects/ED/repos/mrfioc2/browse/PSI/example/evg_VME-230.subs?at=567d1746e6cbcd7e3484626383e3f720ab3dc236&raw), [`evg_VME-300.subs`](https://github.psi.ch/projects/ED/repos/mrfioc2/browse/PSI/example/evg_VME-300.subs?at=567d1746e6cbcd7e3484626383e3f720ab3dc236&raw))
 * EVR
-    * example startup scripts (`EVR-VME_startup.script`, `PCIe_startup.script`)
-    * example substitution files (`evr_cPCI-230.subs`, `evr_PCIe-300.subs`, `evr_VME-230.subs`, `evr_VME-300.subs`)
+    * example startup scripts ([`evr_VME_startup.script`](https://github.psi.ch/projects/ED/repos/mrfioc2/browse/PSI/example/evr_VME_startup.script?at=b284e63032f1ad4f5975ec1c66174b75ea10700b&raw), [`evr_PCIe_startup.script`](https://github.psi.ch/projects/ED/repos/mrfioc2/browse/PSI/example/evr_PCIe_startup.script?at=b284e63032f1ad4f5975ec1c66174b75ea10700b&raw))
+    * example substitution files ([`evr_cPCI-230.subs`](https://github.psi.ch/projects/ED/repos/mrfioc2/browse/PSI/example/evr_cPCI-230.subs?at=1cbfa97936f8e17f3f0b7bfe5be391451639ebb0&raw), [`evr_PCIe-300.subs`](https://github.psi.ch/projects/ED/repos/mrfioc2/browse/PSI/example/evr_PCIe-300.subs?at=1cbfa97936f8e17f3f0b7bfe5be391451639ebb0&raw), [`evr_VME-230.subs`](https://github.psi.ch/projects/ED/repos/mrfioc2/browse/PSI/example/evr_VME-230.subs?at=1cbfa97936f8e17f3f0b7bfe5be391451639ebb0&raw), [`evr_VME-300.subs`](https://github.psi.ch/projects/ED/repos/mrfioc2/browse/PSI/example/evr_VME-300.subs?at=ed41ffa2d7a698345e07d8dfaf5d1d9e5df2482e&raw))
 
 For example, to set up a basic IOC for use with EVR-VME-300 timing card, user should:
 
-* prepare a switable IOC structure in a `TOP` folder
+* prepare a switable IOC structure in a `TOP` folder (where `TOP` is your project folder)
 * copy `PSI/example/evr_VME-300.subs` to `TOP/cfg/EVR0.subs`
-* configure parameters of the EVR by setting macros in `TOP/cfg/EVR0.subs`. Individual parameters are described in `documentation/evr_manual.pdf`, and tutorials for various scenarios are available in `documentation/tutorial.pdf`.
-* copy `PSI/example/EVR-VME_startup.script` to `TOP/startup.script`
-* adjust the parameters in the startup script to fit your setup, eg.:
+* configure parameters of the EVR by setting macros in `TOP/cfg/EVR0.subs`. Individual parameters are described in [`documentation/evr_manual.pdf`](https://github.psi.ch/projects/ED/repos/mrfioc2/browse/documentation/evr_manual.pdf?at=74f4ab8a17ca77753e84dffeb757e54b1c6a13e6&raw), and tutorials for various scenarios are available in [`documentation/tutorial.pdf`](https://github.psi.ch/projects/ED/repos/mrfioc2/browse/documentation/tutorial.pdf?at=56647b281d987b2907ab94e3697e7f69ba328912&raw).
+* add the following to your startup script (available in [`PSI/example/evr_VME_startup.script`](https://github.psi.ch/projects/ED/repos/mrfioc2/browse/PSI/example/evr_VME_startup.script?at=b284e63032f1ad4f5975ec1c66174b75ea10700b&raw)):
     
         require mrfioc2
-    
-        # define the system name. This is prefixed to all record names
-        epicsEnvSet SYS "MTEST-VME-TIMINGTEST"
     
         ##########################
         #-----! EVR Setup ------!#
@@ -42,7 +38,7 @@ For example, to set up a basic IOC for use with EVR-VME-300 timing card, user sh
     
         ## The following parameters are available to set up the device. They can either be set as an epics environmental variable, or passed as a macro to the 'runScript' command:
         # The following macros are available to set up the mrfioc2:
-        # SYS 			is used as a prefix for all records. In this example it is set at the beginning using 'epicsEnvSet'
+        # SYS           MTEST-VME-TIMINGTEST ## is used as a prefix for all records. In this example it is set at the beginning using 'epicsEnvSet'
         # DEVICE		"EVR0"		## is the event receiver / timing card name. (default: EVR0)
         # EVR_SLOT		3			## is the VME crate slot where EVR is inserted. (default: 3)
         # EVR_MEMOFFSET	0x3000000	## is the base A32 address (default: 0x3000000)
@@ -50,9 +46,10 @@ For example, to set up a basic IOC for use with EVR-VME-300 timing card, user sh
         # EVR_IRQVECT	0x26		## is the interrupt vector (default: 0x26)
         # EVR_SUBS is the path to the substitution file that should be loaded. (default: cfg/$(DEVICE).subs=cfg/EVR0.subs)
     
-        runScript $(mrfioc2_DIR)/mrfioc2_evr-VME.cmd, "DEVICE=EVR0, EVR_SLOT=3, EVR_MEMOFFSET=0x3000000, EVR_IRQLINE=0x5"
+        runScript $(mrfioc2_DIR)/mrfioc2_evr-VME.cmd, "SYS=MTEST-VME-TIMINGTEST, DEVICE=EVR0, EVR_SLOT=3, EVR_MEMOFFSET=0x3000000, EVR_IRQLINE=0x5"
 
 * use `swit -V` to deploy the IOC
+* run the GUI by issuing the following command: `start_EVR.sh -s MTEST-VME-TIMINGTEST -f VME-300`
 
 ## Using the application
 As with any EPICS application, build procedure produces all the necessary database files and an IOC for each architecture built. An example application for the `linux-x86_64` architecture is available in `iocBoot` folder. For more details inspect the `evr_manual.pdf` available in the `documentation` folder.
@@ -70,38 +67,38 @@ Example substitution files and startup scripts are available in the `PSI/example
 
 ## Supported hardware
 
-* EVG VME-230: VME-230 form factor event generator.
-* EVG VME-300: VME-300 form factor event master (event generator).
-* EVG cPCI-230: cPCI-230 form factor event generator (except GUI)
-* EVR VME-230: VME-230 form factor event receiver.
-* EVR VME-300: VME-300 form factor event receiver.
-* EVR PCIe-300: PCIe-300 form factor event receiver.
-* EVR cPCI-230: cPCI-230 form factor event receiver (except GUI)
+* EVG VME-230: VME-230 form factor event generator. (tested and working)
+* EVG VME-300: VME-300 form factor event master / event generator.  (tested, check known issues)
+* EVG cPCI-230: cPCI-230 form factor event generator (not tested, no GUI)
+* EVR VME-230: VME-230 form factor event receiver. (tested and working)
+* EVR VME-300: VME-300 form factor event receiver.  (tested, check known issues)
+* EVR PCIe-300: PCIe-300 form factor event receiver. (tested and working with firmware version 7. Not everything works with firmware version 202 - check known issues)
+* EVR cPCI-230: cPCI-230 form factor event receiver (not tested, no GUI)
 
 mrfioc2 driver supports hardware firmware versions up to and including 202.
-Minimal supported firmware version for :
+Minimal supported firmware version for:
 
 * EVG is 3,
 * PCIe form factor EVR is 3,
 * VME form factor EVR 4.
 
 ## Known issues
-* With firmware version 200+ (support for 300-series hardware)
-    * some EVR-PCIe-300 devices with firmware version 200+ do not work at 142.876 MHz event clock. They were tested, and were working, at 125 MHz event clock.
+* 300-series hardware with firmware version 202:
+    * some EVR-PCIe-300 devices with firmware version 202 do not work at 142.876 MHz event clock. They were tested, and were working, at 125 MHz event clock.
     * mapping two output sources to one output was not tested on EVR-PCIe-300 devices.
-    * sending does not work if delay compensation is disabled.
-    * in addition to the segmented data buffer operation, data buffer interrupt also gets triggered by the control logic that was used in older hardware. This in turn means reduced performance, since data buffer handling is triggered when there is no data buffer update. Awaiting firmware fix.
-    * sending the data buffer upstream does not work on EVR-VME-300 and was not tested on other cards.
+    * data buffer sending does not work if delay compensation is disabled.
+    * in addition to the normal segmented data buffer operation, data buffer interrupt also gets triggered by the control logic that was used in older hardware. This in turn means reduced performance, since data buffer handling is triggered when there is no data buffer update. Awaiting firmware fix.
     * CML: only frequency mode works, since hardware addresses which store patterns are currently not accessible.
     * EVM-VME-300: Input registers for FrontInp0 and FrontInp2 are linked together in hardware. Awaiting firmware fix.
+* sending the data buffer upstream does not work on EVR-VME-300 and was not tested on other cards.
 
-## Prerequisites
+## Dependencies
 
 - [EPICS base](http://www.aps.anl.gov/epics/base/R3-14/index.php) >= 3.14.8.2
 - [devlib2](https://github.com/epics-modules/devlib2/) >=2.6
 - [MSI tool]( http://www.aps.anl.gov/epics/extensions/msi/index.php) to expand databases (included in EPICS base >= 3.15.1)
 
-__Optional prerequisites:__
+__Optional:__
 
 For building the documentation (for more information inspect readme in `documentation` folder):
 
