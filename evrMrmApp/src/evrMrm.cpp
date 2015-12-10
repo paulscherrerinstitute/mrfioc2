@@ -1186,10 +1186,12 @@ EVRMRM::isr(void *arg)
         callbackRequest(&evr->poll_link_cb);
     }
     if(active&IRQ_BufFull){
-        if (evr->m_dataBuffer->m_rx_irq_handled) {
-            // Silence interrupt. DataRxCtrl_stop is actually Rx acknowledge, so we need to write to it in order to clear it.
-            if (evr->firmwareVersion < MIN_FW_SEGMENTED_DBUFF) BITSET(NAT,32,evr->base, DataRxCtrlEvr, DataRxCtrl_stop);
+        /* 230 series hardware (and firmware versions < MIN_FW_SEGMENTED_DBUFF) only.
+        * Silence interrupt. DataRxCtrl_stop is actually Rx acknowledge, so we need to write to it in order to clear it.
+        */
+        if (evr->firmwareVersion < MIN_FW_SEGMENTED_DBUFF) BITSET(NAT,32,evr->base, DataRxCtrlEvr, DataRxCtrl_stop);
 
+        if (evr->m_dataBuffer->m_rx_irq_handled) {
             evr->m_dataBuffer->m_rx_irq_handled = false;
             callbackRequest(&evr->dataBufferRx_cb);
         }

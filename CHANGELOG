@@ -1,11 +1,13 @@
 For detailed changelog inspect commits at https://github.psi.ch/projects/ED/repos/mrfioc2/commits
 
+
 2.7.3 Fri 4 Dec 2015 17:00:00 CET:
 	- Updated documentation, readme files, examples, templates and substitution files
 	    - macros EVR and EVG replaced with DEVICE
 	    - GUIs updated. Also, they now accept SYS and DEVICE macros instead of EVR/EVG macro
 	- added FLNK macro to evr-softEvent.template, added similar template (evr-softEvent-measure.template) with performance measurements for received events
-	- Fixed the race condition present in PCIe form factors
+	- Fixed the race condition present in PCIe form factors (interupt enabling)
+	- Bug fix in data buffer ISR: DataRxCtrl_stop bust be set on each interrupt when dealing with 230 series HW (and/or firmware < 200)
 	- Compiles under Windows system (tested on: GNU Make 4.1, Linker Version 12.00.21005.1, Compiler Version 18.00.21005.1 for x64)
 	- Resolved a bug in SFP code, where uninitialized 'timer' could cause segmentation fault
 	- Data buffer fixes: 
