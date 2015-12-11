@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>335</width>
-    <height>114</height>
+    <width>278</width>
+    <height>117</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,8 +18,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>151</width>
-     <height>16</height>
+     <width>211</width>
+     <height>20</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -32,97 +32,13 @@
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
-  <widget class="QWidget" name="formLayoutWidget">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>15</y>
-     <width>221</width>
-     <height>65</height>
-    </rect>
-   </property>
-   <layout class="QFormLayout" name="formLayout">
-    <property name="fieldGrowthPolicy">
-     <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
-    </property>
-    <item row="0" column="0">
-     <widget class="QLabel" name="label_16">
-      <property name="text">
-       <string>Temperature</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="1">
-     <widget class="caLineEdit" name="calineedit_6">
-      <property name="toolTip">
-       <string>Transceiver temperature in Celsius</string>
-      </property>
-      <property name="channel" stdset="0">
-       <string notr="true">$(SYS)-$(DEVICE):SFP$(ID)-T-I</string>
-      </property>
-      <property name="unitsEnabled">
-       <bool>true</bool>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="0">
-     <widget class="QLabel" name="label_17">
-      <property name="text">
-       <string>Output Power</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="1">
-     <widget class="caLineEdit" name="calineedit_7">
-      <property name="toolTip">
-       <string>Transceiver optical output power</string>
-      </property>
-      <property name="channel" stdset="0">
-       <string notr="true">$(SYS)-$(DEVICE):SFP$(ID)-Pwr-TX-I</string>
-      </property>
-      <property name="unitsEnabled">
-       <bool>true</bool>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="0">
-     <widget class="QLabel" name="label_18">
-      <property name="text">
-       <string>Input Power</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="1">
-     <widget class="caLineEdit" name="calineedit_8">
-      <property name="toolTip">
-       <string>Transceiver optical input power</string>
-      </property>
-      <property name="channel" stdset="0">
-       <string notr="true">$(SYS)-$(DEVICE):SFP$(ID)-Pwr-RX-I</string>
-      </property>
-      <property name="unitsEnabled">
-       <bool>true</bool>
-      </property>
-     </widget>
-    </item>
-   </layout>
-  </widget>
   <widget class="caRelatedDisplay" name="carelateddisplay_3">
    <property name="geometry">
     <rect>
-     <x>219</x>
+     <x>200</x>
      <y>0</y>
      <width>41</width>
-     <height>31</height>
+     <height>21</height>
     </rect>
    </property>
    <property name="toolTip">
@@ -145,62 +61,232 @@
     <string notr="true">ID=$(ID),SYS=$(SYS),DEVICE=$(DEVICE)</string>
    </property>
   </widget>
-  <widget class="caLabel" name="calabel_2">
+  <widget class="QLabel" name="label_16">
    <property name="geometry">
     <rect>
-     <x>110</x>
-     <y>0</y>
-     <width>90</width>
-     <height>16</height>
+     <x>2</x>
+     <y>21</y>
+     <width>91</width>
+     <height>17</height>
     </rect>
    </property>
-   <property name="styleSheet">
-    <string notr="true">background-color: rgb(236, 236, 236, 255);</string>
-   </property>
    <property name="text">
-    <string>readout valid:</string>
+    <string>Temperature</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
    </property>
   </widget>
-  <widget class="caLed" name="caled_2">
+  <widget class="QLabel" name="label_18">
    <property name="geometry">
     <rect>
-     <x>201</x>
-     <y>0</y>
-     <width>16</width>
-     <height>16</height>
+     <x>2</x>
+     <y>67</y>
+     <width>91</width>
+     <height>17</height>
     </rect>
    </property>
-   <property name="rectangular">
-    <bool>true</bool>
+   <property name="text">
+    <string>Input Power</string>
    </property>
-   <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE):SFP$(ID)-Valid-I</string>
-   </property>
-   <property name="falseColor">
-    <color>
-     <red>218</red>
-     <green>218</green>
-     <blue>218</blue>
-    </color>
-   </property>
-   <property name="trueColor">
-    <color>
-     <red>0</red>
-     <green>205</green>
-     <blue>0</blue>
-    </color>
-   </property>
-   <property name="undefinedColor">
-    <color>
-     <red>255</red>
-     <green>255</green>
-     <blue>255</blue>
-    </color>
+   <property name="alignment">
+    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
    </property>
   </widget>
+  <widget class="QLabel" name="label_17">
+   <property name="geometry">
+    <rect>
+     <x>2</x>
+     <y>44</y>
+     <width>91</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Output Power</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+   </property>
+  </widget>
+  <widget class="caFrame" name="caframe">
+   <property name="geometry">
+    <rect>
+     <x>112</x>
+     <y>23</y>
+     <width>141</width>
+     <height>71</height>
+    </rect>
+   </property>
+   <property name="visibility">
+    <enum>caFrame::Calc</enum>
+   </property>
+   <property name="visibilityCalc">
+    <string notr="true">A||B||C</string>
+   </property>
+   <property name="channel" stdset="0">
+    <string notr="true">$(SYS)-$(DEVICE):SFP$(ID)-T-I.SEVR</string>
+   </property>
+   <property name="channelB">
+    <string notr="true">$(SYS)-$(DEVICE):SFP$(ID)-Pwr-TX-I.SEVR</string>
+   </property>
+   <property name="channelC">
+    <string notr="true">$(SYS)-$(DEVICE):SFP$(ID)-Pwr-RX-I.SEVR</string>
+   </property>
+   <widget class="caLineEdit" name="calineedit_6">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>127</width>
+      <height>18</height>
+     </rect>
+    </property>
+    <property name="toolTip">
+     <string>Transceiver temperature in Celsius</string>
+    </property>
+    <property name="channel" stdset="0">
+     <string notr="true">$(SYS)-$(DEVICE):SFP$(ID)-T-I</string>
+    </property>
+    <property name="background">
+     <color>
+      <red>218</red>
+      <green>218</green>
+      <blue>218</blue>
+     </color>
+    </property>
+    <property name="colorMode">
+     <enum>caLineEdit::Alarm_Static</enum>
+    </property>
+    <property name="unitsEnabled">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="caLineEdit" name="calineedit_7">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>22</y>
+      <width>127</width>
+      <height>18</height>
+     </rect>
+    </property>
+    <property name="toolTip">
+     <string>Transceiver optical output power</string>
+    </property>
+    <property name="channel" stdset="0">
+     <string notr="true">$(SYS)-$(DEVICE):SFP$(ID)-Pwr-TX-I</string>
+    </property>
+    <property name="background">
+     <color>
+      <red>218</red>
+      <green>218</green>
+      <blue>218</blue>
+     </color>
+    </property>
+    <property name="colorMode">
+     <enum>caLineEdit::Alarm_Static</enum>
+    </property>
+    <property name="unitsEnabled">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="caLineEdit" name="calineedit_8">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>44</y>
+      <width>127</width>
+      <height>18</height>
+     </rect>
+    </property>
+    <property name="toolTip">
+     <string>Transceiver optical input power</string>
+    </property>
+    <property name="channel" stdset="0">
+     <string notr="true">$(SYS)-$(DEVICE):SFP$(ID)-Pwr-RX-I</string>
+    </property>
+    <property name="background">
+     <color>
+      <red>218</red>
+      <green>218</green>
+      <blue>218</blue>
+     </color>
+    </property>
+    <property name="colorMode">
+     <enum>caLineEdit::Alarm_Static</enum>
+    </property>
+    <property name="unitsEnabled">
+     <bool>true</bool>
+    </property>
+   </widget>
+  </widget>
+  <widget class="caLineEdit" name="calineedit_11">
+   <property name="geometry">
+    <rect>
+     <x>112</x>
+     <y>67</y>
+     <width>127</width>
+     <height>18</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>Transceiver optical input power</string>
+   </property>
+   <property name="channel" stdset="0">
+    <string notr="true">$(SYS)-$(DEVICE):SFP$(ID)-Pwr-RX-I</string>
+   </property>
+   <property name="unitsEnabled">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="caLineEdit" name="calineedit_9">
+   <property name="geometry">
+    <rect>
+     <x>112</x>
+     <y>23</y>
+     <width>127</width>
+     <height>18</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>Transceiver temperature in Celsius</string>
+   </property>
+   <property name="channel" stdset="0">
+    <string notr="true">$(SYS)-$(DEVICE):SFP$(ID)-T-I</string>
+   </property>
+   <property name="unitsEnabled">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="caLineEdit" name="calineedit_10">
+   <property name="geometry">
+    <rect>
+     <x>112</x>
+     <y>45</y>
+     <width>127</width>
+     <height>18</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>Transceiver optical output power</string>
+   </property>
+   <property name="channel" stdset="0">
+    <string notr="true">$(SYS)-$(DEVICE):SFP$(ID)-Pwr-TX-I</string>
+   </property>
+   <property name="unitsEnabled">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <zorder>calabel</zorder>
+  <zorder>carelateddisplay_3</zorder>
+  <zorder>label_16</zorder>
+  <zorder>label_18</zorder>
+  <zorder>label_17</zorder>
+  <zorder>calineedit_11</zorder>
+  <zorder>calineedit_9</zorder>
+  <zorder>calineedit_10</zorder>
+  <zorder>caframe</zorder>
  </widget>
  <customwidgets>
   <customwidget>
@@ -209,14 +295,15 @@
    <header>caRelatedDisplay</header>
   </customwidget>
   <customwidget>
+   <class>caFrame</class>
+   <extends>QFrame</extends>
+   <header>caFrame</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
    <class>caLabel</class>
    <extends>QLabel</extends>
    <header>caLabel</header>
-  </customwidget>
-  <customwidget>
-   <class>caLed</class>
-   <extends>QWidget</extends>
-   <header>caLed</header>
   </customwidget>
   <customwidget>
    <class>caLineEdit</class>

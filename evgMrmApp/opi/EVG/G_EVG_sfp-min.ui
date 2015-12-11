@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>655</width>
-    <height>43</height>
+    <height>30</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -31,10 +31,10 @@
    <widget class="caLineEdit" name="calineedit_7">
     <property name="geometry">
      <rect>
-      <x>340</x>
-      <y>1</y>
-      <width>71</width>
-      <height>20</height>
+      <x>342</x>
+      <y>3</y>
+      <width>67</width>
+      <height>16</height>
      </rect>
     </property>
     <property name="toolTip">
@@ -42,6 +42,16 @@
     </property>
     <property name="channel" stdset="0">
      <string notr="true">$(SYS)-$(DEVICE):SFP$(ID)-Pwr-TX-I</string>
+    </property>
+    <property name="background">
+     <color>
+      <red>218</red>
+      <green>218</green>
+      <blue>218</blue>
+     </color>
+    </property>
+    <property name="colorMode">
+     <enum>caLineEdit::Alarm_Static</enum>
     </property>
     <property name="unitsEnabled">
      <bool>true</bool>
@@ -79,7 +89,7 @@
    <widget class="caLabel" name="calabel">
     <property name="geometry">
      <rect>
-      <x>20</x>
+      <x>1</x>
       <y>1</y>
       <width>71</width>
       <height>20</height>
@@ -98,10 +108,10 @@
    <widget class="caLineEdit" name="calineedit_8">
     <property name="geometry">
      <rect>
-      <x>500</x>
-      <y>1</y>
-      <width>71</width>
-      <height>20</height>
+      <x>502</x>
+      <y>3</y>
+      <width>67</width>
+      <height>16</height>
      </rect>
     </property>
     <property name="toolTip">
@@ -109,6 +119,16 @@
     </property>
     <property name="channel" stdset="0">
      <string notr="true">$(SYS)-$(DEVICE):SFP$(ID)-Pwr-RX-I</string>
+    </property>
+    <property name="background">
+     <color>
+      <red>218</red>
+      <green>218</green>
+      <blue>218</blue>
+     </color>
+    </property>
+    <property name="colorMode">
+     <enum>caLineEdit::Alarm_Static</enum>
     </property>
     <property name="unitsEnabled">
      <bool>true</bool>
@@ -165,10 +185,10 @@
    <widget class="caLineEdit" name="calineedit_6">
     <property name="geometry">
      <rect>
-      <x>187</x>
-      <y>1</y>
-      <width>71</width>
-      <height>20</height>
+      <x>189</x>
+      <y>3</y>
+      <width>67</width>
+      <height>16</height>
      </rect>
     </property>
     <property name="toolTip">
@@ -177,45 +197,18 @@
     <property name="channel" stdset="0">
      <string notr="true">$(SYS)-$(DEVICE):SFP$(ID)-T-I</string>
     </property>
-    <property name="unitsEnabled">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="caLed" name="caled_2">
-    <property name="geometry">
-     <rect>
-      <x>1</x>
-      <y>3</y>
-      <width>16</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="rectangular">
-     <bool>true</bool>
-    </property>
-    <property name="channel" stdset="0">
-     <string notr="true">$(SYS)-$(DEVICE):SFP$(ID)-Valid-I</string>
-    </property>
-    <property name="falseColor">
+    <property name="background">
      <color>
       <red>218</red>
       <green>218</green>
       <blue>218</blue>
      </color>
     </property>
-    <property name="trueColor">
-     <color>
-      <red>0</red>
-      <green>205</green>
-      <blue>0</blue>
-     </color>
+    <property name="colorMode">
+     <enum>caLineEdit::Alarm_Static</enum>
     </property>
-    <property name="undefinedColor">
-     <color>
-      <red>255</red>
-      <green>255</green>
-      <blue>255</blue>
-     </color>
+    <property name="unitsEnabled">
+     <bool>true</bool>
     </property>
    </widget>
   </widget>
@@ -230,11 +223,6 @@
    <class>caLabel</class>
    <extends>QLabel</extends>
    <header>caLabel</header>
-  </customwidget>
-  <customwidget>
-   <class>caLed</class>
-   <extends>QWidget</extends>
-   <header>caLed</header>
   </customwidget>
   <customwidget>
    <class>caLineEdit</class>

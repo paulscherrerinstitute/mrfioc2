@@ -1,23 +1,13 @@
 
-record(bi, "$(SYS)-$(DEVICE):SFP$(ID)-Valid-I") {
-  field(DTYP, "Obj Prop bool")
-  field(INP , "@OBJ=$(DEVICE):SFP$(ID), PROP=Valid")
-  field(DESC, "Are readouts valid?")
-  field(SCAN, "10 second")
-  field(ZNAM, "Invalid")
-  field(ONAM, "Valid")
-  field(ZSV , "MINOR")
-}
-
 record(ai, "$(SYS)-$(DEVICE):SFP$(ID)-T-I") {
   field(SCAN, "10 second")
   field(DTYP, "Obj Prop double")
   field(INP , "@OBJ=$(DEVICE):SFP$(ID), PROP=Temperature")
   field(DESC, "Tranceiver Temperature")
   field(ADEL, "0.5")
-  field(HIGH, "40")
+  field(HIGH, "50")
   field(HSV , "MINOR")
-  field(HIHI, "50")
+  field(HIHI, "60")
   field(HHSV, "MAJOR")
   field(LOW , "0")
   field(LSV , "INVALID")
@@ -31,7 +21,7 @@ record(ai, "$(SYS)-$(DEVICE):SFP$(ID)-Pwr-TX-I") {
   field(INP , "@OBJ=$(DEVICE):SFP$(ID), PROP=Power TX")
   field(DESC, "Tranceiver Output Power")
   field(ADEL, "5")
-  field(HIGH, "400")
+  field(HIGH, "600")
   field(HSV , "MINOR")
   field(LOW , "200")
   field(LSV , "MAJOR")
@@ -117,6 +107,10 @@ record(longin, "$(SYS)-$(DEVICE):SFP$(ID)-Status-I") {
   field(SCAN, "10 second")
   field(DTYP, "Obj Prop uint16")
   field(DESC, "Status/control register")
+  field(HIGH, "0xFFFF")
+  field(HSV , "INVALID")
+  field(LOW,  "0")
+  field(LSV , "NO_ALARM")
   field(INP , "@OBJ=$(DEVICE):SFP$(ID), PROP=Status")
 }
 
@@ -126,6 +120,12 @@ record(ai, "$(SYS)-$(DEVICE):SFP$(ID)-PowerVCC-I") {
   field(DESC, "Supply VCC Power")
   field(EGU , "V")
   field(PREC, "4")
+  field(HIGH, "4")
+  field(HSV , "MAJOR")
+  field(LOW,  "2")
+  field(LSV , "MAJOR")
+  field(LOLO, "0")
+  field(LLSV, "INVALID")
   field(INP , "@OBJ=$(DEVICE):SFP$(ID), PROP=Power VCC")
 }
 
@@ -134,6 +134,10 @@ record(longin, "$(SYS)-$(DEVICE):SFP$(ID)-BitRate-upper-I") {
   field(DTYP, "Obj Prop uint16")
   field(DESC, "Upper bit rate margin")
   field(EGU , "%")
+  field(HIGH, "0xFFFF")
+  field(HSV , "INVALID")
+  field(LOW,  "0")
+  field(LSV , "NO_ALARM")
   field(INP , "@OBJ=$(DEVICE):SFP$(ID), PROP=BitRate Upper")
 }
 
@@ -142,6 +146,10 @@ record(longin, "$(SYS)-$(DEVICE):SFP$(ID)-BitRate-lower-I") {
   field(DTYP, "Obj Prop uint16")
   field(DESC, "Lower bit rate margin")
   field(EGU , "%")
+  field(HIGH, "0xFFFF")
+  field(HSV , "INVALID")
+  field(LOW,  "0")
+  field(LSV , "NO_ALARM")
   field(INP , "@OBJ=$(DEVICE):SFP$(ID), PROP=BitRate Lower")
 }
 
@@ -150,6 +158,12 @@ record(longin, "$(SYS)-$(DEVICE):SFP$(ID)-LinkLength-9fiber-I") {
   field(DTYP, "Obj Prop uint32")
   field(DESC, "Link length: 9/125 um fiber")
   field(EGU , "m")
+  field(HIGH, "0xFFFFFFFF")
+  field(HSV , "INVALID")
+  field(LOW,  "0")
+  field(LSV , "NO_ALARM")
+  field(LOLO, "-1")
+  field(LLSV, "INVALID")
   field(INP , "@OBJ=$(DEVICE):SFP$(ID), PROP=LinkLength 9um")
 }
 
@@ -158,6 +172,10 @@ record(longin, "$(SYS)-$(DEVICE):SFP$(ID)-LinkLength-50fiber-I") {
   field(DTYP, "Obj Prop uint16")
   field(DESC, "Link length: 50/125 um fiber")
   field(EGU , "m")
+  field(HIGH, "0xFFFF")
+  field(HSV , "INVALID")
+  field(LOW,  "0")
+  field(LSV , "NO_ALARM")
   field(INP , "@OBJ=$(DEVICE):SFP$(ID), PROP=LinkLength 50um")
 }
 
@@ -166,6 +184,10 @@ record(longin, "$(SYS)-$(DEVICE):SFP$(ID)-LinkLength-62fiber-I") {
   field(DTYP, "Obj Prop uint16")
   field(DESC, "Link length: 62.5/125 um fiber")
   field(EGU , "m")
+  field(HIGH, "0xFFFF")
+  field(HSV , "INVALID")
+  field(LOW,  "0")
+  field(LSV , "NO_ALARM")
   field(INP , "@OBJ=$(DEVICE):SFP$(ID), PROP=LinkLength 62um")
 }
 
@@ -174,5 +196,9 @@ record(longin, "$(SYS)-$(DEVICE):SFP$(ID)-LinkLength-copper-I") {
   field(DTYP, "Obj Prop uint16")
   field(DESC, "Link length: copper")
   field(EGU , "m")
+  field(HIGH, "0xFFFF")
+  field(HSV , "INVALID")
+  field(LOW,  "0")
+  field(LSV , "NO_ALARM")
   field(INP , "@OBJ=$(DEVICE):SFP$(ID), PROP=LinkLength copper")
 }
