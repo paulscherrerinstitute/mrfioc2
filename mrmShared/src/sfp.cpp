@@ -27,7 +27,6 @@ epicsInt16 SFP::read16(unsigned int offset) const
     return val;
 }
 
-// TODO refractore validity checking
 SFP::SFP(const std::string &n, volatile unsigned char *reg)
     :mrf::ObjectInst<SFP>(n)
     ,base(reg)

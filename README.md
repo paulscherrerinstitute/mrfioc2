@@ -27,7 +27,7 @@ For example, to set up a basic IOC for use with EVR-VME-300 timing card, user sh
 
 * prepare a switable IOC structure in a `TOP` folder (where `TOP` is your project folder)
 * copy `PSI/example/evr_VME-300.subs` to `TOP/cfg/EVR0.subs`
-* configure parameters of the EVR by setting macros in `TOP/cfg/EVR0.subs`. Individual parameters are described in [`documentation/evr_manual.pdf`](https://github.psi.ch/projects/ED/repos/mrfioc2/browse/documentation/evr_manual.pdf?at=74f4ab8a17ca77753e84dffeb757e54b1c6a13e6&raw), and tutorials for various scenarios are available in [`documentation/tutorial.pdf`](https://github.psi.ch/projects/ED/repos/mrfioc2/browse/documentation/tutorial.pdf?at=56647b281d987b2907ab94e3697e7f69ba328912&raw).
+* configure parameters of the EVR by setting macros in `TOP/cfg/EVR0.subs`. Individual parameters are described in [`documentation/evr_manual.pdf`](https://github.psi.ch/projects/ED/repos/mrfioc2/browse/documentation/evr_manual.pdf?at=2.7.4), and tutorials for various scenarios are available in [`documentation/tutorial.pdf`](https://github.psi.ch/projects/ED/repos/mrfioc2/browse/documentation/tutorial.pdf?at=2.7.4).
 * add the following to your startup script (available in [`PSI/example/evr_VME_startup.script`](https://github.psi.ch/projects/ED/repos/mrfioc2/browse/PSI/example/evr_VME_startup.script?at=b284e63032f1ad4f5975ec1c66174b75ea10700b&raw)):
     
         require mrfioc2
@@ -38,12 +38,12 @@ For example, to set up a basic IOC for use with EVR-VME-300 timing card, user sh
     
         ## The following parameters are available to set up the device. They can either be set as an epics environmental variable, or passed as a macro to the 'runScript' command:
         # The following macros are available to set up the mrfioc2:
-        # SYS           MTEST-VME-TIMINGTEST ## is used as a prefix for all records. In this example it is set at the beginning using 'epicsEnvSet'
-        # DEVICE		"EVR0"		## is the event receiver / timing card name. (default: EVR0)
-        # EVR_SLOT		3			## is the VME crate slot where EVR is inserted. (default: 3)
-        # EVR_MEMOFFSET	0x3000000	## is the base A32 address (default: 0x3000000)
-        # EVR_IRQLINE 	0x5			## is the interrupt level. (default: 0x5)
-        # EVR_IRQVECT	0x26		## is the interrupt vector (default: 0x26)
+        # SYS           is used as a prefix for all records. This macro must be defined by the user!
+        # DEVICE        is the event receiver / timing card name. (default: EVR0)
+        # EVR_SLOT      is the VME crate slot where EVR is inserted. (default: 3)
+        # EVR_MEMOFFSET is the base A32 address (default: 0x3000000)
+        # EVR_IRQLINE   is the interrupt level. (default: 0x5)
+        # EVR_IRQVECT   is the interrupt vector (default: 0x26)
         # EVR_SUBS is the path to the substitution file that should be loaded. (default: cfg/$(DEVICE).subs=cfg/EVR0.subs)
     
         runScript $(mrfioc2_DIR)/mrfioc2_evr-VME.cmd, "SYS=MTEST-VME-TIMINGTEST, DEVICE=EVR0, EVR_SLOT=3, EVR_MEMOFFSET=0x3000000, EVR_IRQLINE=0x5"
