@@ -134,9 +134,9 @@
      <property name="geometry">
       <rect>
        <x>400</x>
-       <y>95</y>
+       <y>85</y>
        <width>260</width>
-       <height>81</height>
+       <height>91</height>
       </rect>
      </property>
      <property name="macro">
@@ -152,7 +152,7 @@
        <x>400</x>
        <y>10</y>
        <width>260</width>
-       <height>80</height>
+       <height>71</height>
       </rect>
      </property>
      <property name="macro">
@@ -181,7 +181,6 @@
     <zorder>cainclude_6</zorder>
     <zorder>label_11</zorder>
     <zorder>calineedit_3</zorder>
-    <zorder>line</zorder>
     <zorder>cainclude_15</zorder>
     <zorder>cainclude_16</zorder>
     <zorder>cainclude_17</zorder>

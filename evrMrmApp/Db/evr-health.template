@@ -138,9 +138,9 @@ record(ai, "$(SYS)-$(DEVICE)-HEALTH:SFP-T-I") {
   field(TSEL , "$(SYS)-$(DEVICE):SFP0-T-I.TIME")
   
   field(DESC, "Tranceiver Temperature")  
-  field(HIGH, "40")
+  field(HIGH, "50")
   field(HSV , "MINOR")
-  field(HIHI, "50")
+  field(HIHI, "60")
   field(HHSV, "MAJOR")
   field(LOW , "0")
   field(LSV , "INVALID")
@@ -153,7 +153,7 @@ record(ai, "$(SYS)-$(DEVICE)-HEALTH:SFP-Pwr-TX-I") {
   field(TSEL , "$(SYS)-$(DEVICE):SFP0-Pwr-TX-I.TIME")
   
   field(DESC, "Tranceiver Output Power")
-  field(HIGH, "400")
+  field(HIGH, "600")
   field(HSV , "MINOR")
   field(LOW , "200")
   field(LSV , "MAJOR")
