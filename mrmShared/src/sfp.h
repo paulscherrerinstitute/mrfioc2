@@ -38,8 +38,6 @@ public:
 
     void updateNow(bool=true);
 
-    bool valid() const;
-
     double linkSpeed() const;
     double temperature() const;
     double powerTX() const;

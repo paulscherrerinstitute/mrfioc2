@@ -17,7 +17,7 @@
 
 #define SFP_UPDATE_DELAY 10
 
-static const char nomod[] = "<No Module>";
+static const char nomod[] = "Could not read SFP data";
 
 epicsInt16 SFP::read16(unsigned int offset) const
 {
@@ -27,7 +27,6 @@ epicsInt16 SFP::read16(unsigned int offset) const
     return val;
 }
 
-// TODO refractore validity checking
 SFP::SFP(const std::string &n, volatile unsigned char *reg)
     :mrf::ObjectInst<SFP>(n)
     ,base(reg)
@@ -83,12 +82,6 @@ void SFP::updateNow(bool)
     guard.unlock();
 }
 
-
-bool SFP::valid() const
-{
-    return readout_valid;
-}
-
 double SFP::linkSpeed() const
 {
     if(!readout_valid){
@@ -116,7 +109,6 @@ double SFP::powerTX() const
 double SFP::powerRX() const
 {
     if(!readout_valid){
-        fprintf(stderr, "SFP readout not valid in powerRX()\n");
         return -1e-6;
     }
     return read16(SFP_rx_pwr) * 0.1e-6; // Gives Watts
@@ -187,20 +179,24 @@ double SFP::getVCCPower() const{
 
 epicsUInt16 SFP::getBitRateUpper() const{
     if(!readout_valid){
-        return -1;
+        return 0xFFFF;
     }
     return (epicsUInt16)buffer[SFP_bitRateMargin_upper];    // in %
 }
 
 epicsUInt16 SFP::getBitRateLower() const{
     if(!readout_valid){
-        return -1;
+        return 0xFFFF;
     }
     return (epicsUInt16)buffer[SFP_bitRateMargin_lower];    // in %
 }
 
 epicsUInt32 SFP::getLinkLength_9um() const{
     epicsUInt32 length;
+
+    if(!readout_valid){
+        return 0xFFFFFFFF;
+    }
 
     length = (epicsUInt32)buffer[SFP_linkLength_9uminkm] * 1000;    // km
     length += (epicsUInt32)buffer[SFP_linkLength_9umin100m] * 100;  // m
@@ -272,7 +268,6 @@ void SFP::reportMore() const{
 
 OBJECT_BEGIN(SFP) {
 
-    OBJECT_PROP1("Valid", &SFP::valid);
     OBJECT_PROP1("Vendor", &SFP::vendorName);
     OBJECT_PROP1("Part", &SFP::vendorPart);
     OBJECT_PROP1("Rev", &SFP::vendorRev);
