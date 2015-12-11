@@ -1,5 +1,8 @@
 For detailed changelog inspect commits at https://github.psi.ch/projects/ED/repos/mrfioc2/commits
 
+2.7.4 Fri 11 Dec 2015 13:00:00 CET:
+	- Bug fix, where scripts for GUIs did not accept -d switch
+	- SFP alarm handling added to databases and GUIs. Removed printout of powerRx error to shell on each occurance of the error. 
 
 2.7.3 Fri 4 Dec 2015 17:00:00 CET:
 	- Updated documentation, readme files, examples, templates and substitution files
