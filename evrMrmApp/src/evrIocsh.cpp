@@ -1066,20 +1066,20 @@ extern "C"{
 }
 
 static void mrmEVRFlashFunc(const iocshArgBuf *args) {
-   char* cardID = args[0].sval;
-   char* bitfile = args[1].sval;
+    char* cardID = args[0].sval;
+    char* bitfile = args[1].sval;
 
-   printf("Starting SPI flash procedure for %s [%s]\n", cardID, bitfile);
+    printf("Starting SPI flash procedure for %s [%s]\n", cardID, bitfile);
 
-   EVRMRM* evr = dynamic_cast<EVRMRM*>(mrf::Object::getObject(cardID));
-   if(!evr){
+    EVRMRM* evr = dynamic_cast<EVRMRM*>(mrf::Object::getObject(cardID));
+    if(!evr){
        errlogPrintf("EVR <%s> does not exist!\n", cardID);
        return;
-   }
+    }
 
-   void* preg = (void*)evr->base;
+    void* preg = (void*)evr->base;
 
-   spi_program_flash(preg, bitfile);
+    spi_program_flash(preg, bitfile);
 }
 
 /****************/

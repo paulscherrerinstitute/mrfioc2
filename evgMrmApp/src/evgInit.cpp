@@ -608,20 +608,20 @@ extern "C"{
 }
 
 static void mrmEVMFlashFunc(const iocshArgBuf *args) {
-   char* cardID = args[0].sval;
-   char* bitfile = args[1].sval;
+    char* cardID = args[0].sval;
+    char* bitfile = args[1].sval;
 
-   printf("Starting SPI flash procedure for %s [%s]\n",cardID,bitfile);
+    printf("Starting SPI flash procedure for %s [%s]\n",cardID,bitfile);
 
-   evgMrm* evg = dynamic_cast<evgMrm*>(mrf::Object::getObject(cardID));
-   if(!evg){
+    evgMrm* evg = dynamic_cast<evgMrm*>(mrf::Object::getObject(cardID));
+    if(!evg){
        errlogPrintf("EVG <%s> does not exist!\n",cardID);
        return;
-   }
+    }
 
-   void* preg = (void*)evg->getRegAddr();
+    void* preg = (void*)evg->getRegAddr();
 
-   spi_program_flash(preg, bitfile);
+    spi_program_flash(preg, bitfile);
 }
 
 /******************/

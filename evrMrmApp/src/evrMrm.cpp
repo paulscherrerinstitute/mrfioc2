@@ -154,8 +154,7 @@ EVRMRM::EVRMRM(const std::string& n,
   ,timestampValid(0)
   ,lastInvalidTimestamp(0)
   ,lastValidTimestamp(0)
-  ,m_remoteFlash(n+":Flash",b)
-
+  ,m_flash(b)
 {
 try{
     epicsUInt32 v, evr,ver;
@@ -192,6 +191,8 @@ try{
      */
 
     formFactor form = getFormFactor();
+
+    m_remoteFlash = new mrmRemoteFlash(n,b, form, m_flash);
 
     size_t nPul=16; // number of pulsers
     size_t nPS=3;   // number of prescalers
@@ -410,6 +411,7 @@ EVRMRM::cleanup()
     }
     outputs.clear();
 
+    delete m_remoteFlash;
     delete m_dataBuffer;
 
 #define CLEANVEC(TYPE, VAR) \
@@ -1109,6 +1111,11 @@ EVRMRM::setDbusToPulserMapping(epicsUInt8 dbus, epicsUInt32 pulsers){
     }
 
     return WRITE32(base, DBusTrigger(dbus), pulsers);
+}
+
+mrmRemoteFlash *EVRMRM::getRemoteFlash()
+{
+    return m_remoteFlash;
 }
 
 mrmDataBuffer *EVRMRM::getDataBuffer()

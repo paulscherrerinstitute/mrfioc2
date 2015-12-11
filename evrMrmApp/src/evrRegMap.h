@@ -148,9 +148,6 @@
 #define U32_GPIOIn      0x094
 #define U32_GPIOOut     0x098
 
-#define U32_SPIDData    0x0A0
-#define U32_SPIDCtrl    0x0A4
-
 #define U32_DCTarget    0x0B0   /* Delay Compensation Target Value */
 #define U32_DCRxValue   0x0B4   /* Delay Compensation Transmission Path Delay Value */
 #define U32_DCIntValue  0x0B8   /* Delay Compensation Internal Delay Value */

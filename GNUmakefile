@@ -25,6 +25,7 @@ SOURCES+=mrfCommon/src/mrfFracSynth.c
 
 SOURCES+=mrmShared/src/sfp.cpp
 SOURCES+=mrmShared/src/spi_flash.c
+SOURCES+=mrmShared/src/mrmFlash.cpp
 SOURCES+=mrmShared/src/mrmremoteflash.cpp
 SOURCES+=mrmShared/src/dataBuffer/mrmDataBuffer.cpp
 SOURCES+=mrmShared/src/dataBuffer/mrmDataBuffer_300.cpp
@@ -83,7 +84,7 @@ SOURCES+=evrMrmApp/src/evrDelayModule.cpp
 DBDS+=evrMrmApp/src/evrSupport.dbd
 DBDS+=evgMrmApp/src/evgInit.dbd
 DBDS+=mrfCommon/src/mrfCommon.dbd
-DBDS+=mrmShared/src/dataBuffer/mrmDataBuffer.dbd
+DBDS+=mrmShared/src/mrmShared.dbd
 
 # external data buffer support (eg. mrfioc2_regDev)
 HEADERS+=mrmShared/src/dataBuffer/mrmDataBufferUser.h

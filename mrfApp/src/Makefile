@@ -20,7 +20,7 @@ mrf_DBD += evgInit.dbd
 
 mrf_DBD += evrSupport.dbd
 
-mrf_DBD += mrmDataBuffer.dbd
+mrf_DBD += mrmShared.dbd
 mrf_DBD += mrfCommon.dbd
 
 mrf_DBD += epicsvme.dbd

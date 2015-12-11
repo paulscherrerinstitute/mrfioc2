@@ -39,6 +39,7 @@
 
 #include "sfp.h"
 
+#include "mrmFlash.h"
 #include "mrmremoteflash.h"
 #include "dataBuffer/mrmDataBuffer_300.h"
 #include "dataBuffer/mrmDataBuffer_230.h"
@@ -272,6 +273,7 @@ public:
     const void *isrLinuxPvt;
 #endif
 
+    mrmRemoteFlash* getRemoteFlash();
     mrmDataBuffer* getDataBuffer();
 
     const std::string id;
@@ -399,7 +401,8 @@ private:
     bool _ismap(epicsUInt8 evt, epicsUInt8 func) const { return (_mapped[evt] & 1<<(func)) != 0; }
 
 
-    mrmRemoteFlash m_remoteFlash;
+    mrmFlash m_flash;
+    mrmRemoteFlash* m_remoteFlash;
     mrmDataBuffer* m_dataBuffer;
 
 }; // class EVRMRM

@@ -5,13 +5,14 @@ include $(TOP)/configure/CONFIG
 LIBRARY_IOC += mrmShared
 INC += sfp.h
 INC += mrmShared.h
+INC += mrmFlash.h
 INC += mrmremoteflash.h
 INC += dataBuffer/mrmDataBuffer.h
 INC += dataBuffer/mrmDataBuffer_300.h
 INC += dataBuffer/mrmDataBuffer_230.h
 INC += dataBuffer/mrmDataBufferUser.h
 
-DBD += dataBuffer/mrmDataBuffer.dbd
+DBD += mrmShared.dbd
 
 SRC_DIRS += ../dataBuffer
 
@@ -21,6 +22,7 @@ mrmShared_SRCS += mrmDataBuffer_230.cpp
 mrmShared_SRCS += mrmDataBufferUser.cpp
 mrmShared_SRCS += sfp.cpp
 mrmShared_SRCS += spi_flash.c
+mrmShared_SRCS += mrmFlash.cpp
 mrmShared_SRCS += mrmremoteflash.cpp
 
 ifeq ($(OS),Windows_NT)

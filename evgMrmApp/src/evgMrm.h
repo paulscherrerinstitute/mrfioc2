@@ -41,6 +41,7 @@
 #include "sfp.h"
 #include "evgFct.h"
 
+#include "mrmFlash.h"
 #include "mrmremoteflash.h"
 #include "dataBuffer/mrmDataBuffer_300.h"
 #include "dataBuffer/mrmDataBuffer_230.h"
@@ -126,6 +127,8 @@ public:
     epicsEvent* getTimerEvent();
     bus_configuration* getBusConfiguration();
     std::vector<SFP *> *getSFP();
+
+    mrmRemoteFlash* getRemoteFlash();
     mrmDataBuffer* getDataBuffer();
 
     typedef std::map< std::pair<epicsUInt32, InputType>, evgInput*> Input_t;
@@ -165,7 +168,8 @@ private:
     evgEvtClk                     m_evtClk;
     evgSoftEvt                    m_softEvt;
 
-    mrmRemoteFlash                m_remoteFlash;
+    mrmFlash                      m_flash;
+    mrmRemoteFlash*               m_remoteFlash;
 
     typedef std::vector<evgTrigEvt*> TrigEvt_t;
     TrigEvt_t                     m_trigEvt;
