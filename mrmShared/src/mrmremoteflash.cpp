@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string>
 
+#include <errlog.h>
 #include "iocsh.h"
 #include <epicsExport.h>
 #include "mrmremoteflash.h"
@@ -137,26 +138,27 @@ void mrmRemoteFlash::startFlash(std::string filename)
     args->filename = filename;
     args->parent = this;
     m_flash_thread_id = epicsThreadCreate("MRF SPI FLASH", epicsThreadPriorityLow, epicsThreadGetStackSize(epicsThreadStackMedium), &mrmRemoteFlash::flash_thread, args);
-
+    if(!m_flash_thread_id) {
+        throw std::runtime_error("Unable to create thread for flash access.\n");
+    }
 }
 
 void mrmRemoteFlash::flash(const char *bitfile) {
     try{
-        printf("\nMRF FLASH: Starting flash of: %s to card on offset %zu\n",getFlashFilename().c_str(), m_offset);
+        infoPrintf(0, "Starting flash of %s card on offset %zu\n", bitfile, m_offset);
         if(m_supported) {
             m_flash.flash(bitfile, m_offset);
 
             m_flash_in_progress = false;
-            printf("\nMRF FLASH: DONE!\n");
+            infoPrintf(0, "Flashing done.\n");
             m_flash_success = true;
         }
         else {
-            printf("\nMRF FLASH: This card does not support flashing. DONE!\n");
+            infoPrintf(0, "This card does not support flash access. Done!\n");
         }
     }
     catch(std::exception& ex) {
-        //TODO make debug printouts
-        printf("An error occured while flashing: %s\n", ex.what());
+        errlogPrintf("An error occured while flashing: %s\n", ex.what());
         m_flash_success = false;
     }
 }
@@ -189,27 +191,28 @@ void mrmRemoteFlash::startRead(std::string filename)
     args->filename = filename;
     args->parent = this;
     m_flash_thread_id = epicsThreadCreate("MRF SPI READ", epicsThreadPriorityLow, epicsThreadGetStackSize(epicsThreadStackMedium), &mrmRemoteFlash::read_thread, args);
-
+    if(!m_flash_thread_id) {
+        throw std::runtime_error("Unable to create thread for flash access.\n");
+    }
 }
 
 void mrmRemoteFlash::read(const char *bitfile)
 {
     try{
-        printf("\nMRF FLASH: Reading flash of %s card on offset %zu\n",getFlashFilename().c_str(), m_offset);
+        infoPrintf(0, "Reading flash of %s card on offset %zu\n", bitfile, m_offset);
         if(m_supported) {
             m_flash.read(bitfile, m_offset);
 
             m_flash_in_progress = false;
-            printf("\nMRF FLASH: READ DONE!\n");
+            infoPrintf(0, "Reading of the flash done.\n");
             m_read_success = true;
         }
         else {
-            printf("\nMRF FLASH: This card does not support flash access. DONE!\n");
+            infoPrintf(0, "This card does not support flash access. Done!\n");
         }
     }
     catch(std::exception& ex) {
-        //TODO make debug printouts
-        printf("An error occured while flashing: %s\n", ex.what());
+        errlogPrintf("An error occured while accessing flash memory: %s\n", ex.what());
         m_read_success = false;
     }
 }
@@ -260,7 +263,7 @@ static void mrmRemoteFlashFunc_read(const iocshArgBuf *args) {
     char* bitfile = args[1].sval;
 
 
-    printf("Starting SPI read procedure for %s [%s]\n", device.c_str(), bitfile);
+    printf("Starting flash read procedure for %s [%s]\n", device.c_str(), bitfile);
     device.append(object_name);
 
     mrmRemoteFlash* remoteFlash = dynamic_cast<mrmRemoteFlash*>(mrf::Object::getObject(device.c_str()));
@@ -269,7 +272,12 @@ static void mrmRemoteFlashFunc_read(const iocshArgBuf *args) {
         return;
     }
 
-    remoteFlash->startRead(bitfile);
+    try{
+        remoteFlash->startRead(bitfile);
+    }
+    catch(std::exception& ex) {
+        errlogPrintf("An error occured while starting read procedure: %s\n", ex.what());
+    }
 }
 
 
@@ -288,7 +296,7 @@ static void mrmRemoteFlashFunc_write(const iocshArgBuf *args) {
     char* bitfile = args[1].sval;
 
 
-    printf("Starting SPI flash procedure for %s [%s]\n", device.c_str(), bitfile);
+    printf("Starting flashing procedure for %s [%s]\n", device.c_str(), bitfile);
     device.append(object_name);
 
     mrmRemoteFlash* remoteFlash = dynamic_cast<mrmRemoteFlash*>(mrf::Object::getObject(device.c_str()));
@@ -297,7 +305,12 @@ static void mrmRemoteFlashFunc_write(const iocshArgBuf *args) {
         return;
     }
 
-    remoteFlash->startFlash(bitfile);
+    try{
+        remoteFlash->startFlash(bitfile);
+    }
+    catch(std::exception& ex) {
+        errlogPrintf("An error occured while starting flash procedure: %s\n", ex.what());
+    }
 }
 
 
