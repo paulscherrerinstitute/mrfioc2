@@ -1,5 +1,8 @@
 For detailed changelog inspect commits at https://github.psi.ch/projects/ED/repos/mrfioc2/commits
 
+2.7.5 Fri 18 Dec 2015 11:00:00 CET:
+	- Added flashing support for PCIe and cPCI form factors
+
 2.7.4 Fri 11 Dec 2015 13:00:00 CET:
 	- Bug fix, where scripts for GUIs did not accept -d switch
 	- SFP alarm handling added to databases and GUIs. Removed printout of powerRx error to shell on each occurance of the error. 

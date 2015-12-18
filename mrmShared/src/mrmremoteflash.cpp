@@ -217,6 +217,7 @@ void mrmRemoteFlash::read(const char *bitfile)
     }
 }
 
+// TODO should be updated on operation completition. Extend public IOStatus....
 bool mrmRemoteFlash::flashInProgress() const
 {
     return m_flash.flashBusy() || m_flash_in_progress;

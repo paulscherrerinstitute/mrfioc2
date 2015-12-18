@@ -121,7 +121,7 @@ void mrmFlash::flash(const char *bitfile, size_t offset) {
             readSize = m_size_page;             // consecutive reads are page-alligned
             pageProgram(buf, offset, size);     // use page program to write data to the flash memory
             if((offset & 0x0000ffff) == 0) {    // Do not print in each iteration so the output is not flooded
-                infoPrintf(1,"\tWriting to address: %08x\n", offset);
+                infoPrintf(1,"\tWriting to address: %08x\n", offset);   // TODO formatting: offset is size_t
             }
             offset += size;
         } while (size > 0);
@@ -191,7 +191,7 @@ void mrmFlash::pageProgram(epicsUInt8 *data, size_t addr, size_t size) {
     }
 
     try{
-        infoPrintf(2,"Starting page program on address %x with size %zu\n", addr, size);
+        infoPrintf(2,"Starting page program on address %x with size %zu\n", addr, size);    // TODO formatting warning: size_t VS %x
 
         // Dummy write with SS not active
         slaveSelect(false);
@@ -292,7 +292,7 @@ void mrmFlash::sectorErase(size_t addr) {
     }
 
     try{
-        infoPrintf(2,"Starting sector erase on address: %x\n", addr);
+        infoPrintf(2,"Starting sector erase on address: %x\n", addr);   // TODO formatting warning: size_t VS %x
 
         // Dummy write with SS not active
         slaveSelect(false);
