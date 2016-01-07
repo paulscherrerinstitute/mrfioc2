@@ -42,7 +42,7 @@
 #include "evgFct.h"
 
 #include "mrmFlash.h"
-#include "mrmremoteflash.h"
+#include "mrmRemoteFlash.h"
 #include "dataBuffer/mrmDataBuffer_300.h"
 #include "dataBuffer/mrmDataBuffer_230.h"
 

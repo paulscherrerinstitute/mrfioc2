@@ -6,7 +6,7 @@ LIBRARY_IOC += mrmShared
 INC += sfp.h
 INC += mrmShared.h
 INC += mrmFlash.h
-INC += mrmremoteflash.h
+INC += mrmRemoteFlash.h
 INC += dataBuffer/mrmDataBuffer.h
 INC += dataBuffer/mrmDataBuffer_300.h
 INC += dataBuffer/mrmDataBuffer_230.h
@@ -21,9 +21,8 @@ mrmShared_SRCS += mrmDataBuffer_300.cpp
 mrmShared_SRCS += mrmDataBuffer_230.cpp
 mrmShared_SRCS += mrmDataBufferUser.cpp
 mrmShared_SRCS += sfp.cpp
-mrmShared_SRCS += spi_flash.c
 mrmShared_SRCS += mrmFlash.cpp
-mrmShared_SRCS += mrmremoteflash.cpp
+mrmShared_SRCS += mrmRemoteFlash.cpp
 
 ifeq ($(OS),Windows_NT)
 mrmShared_LIBS += mrfCommon $(EPICS_BASE_IOC_LIBS)

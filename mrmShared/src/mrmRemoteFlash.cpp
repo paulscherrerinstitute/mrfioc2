@@ -4,7 +4,7 @@
 #include <errlog.h>
 #include "iocsh.h"
 #include <epicsExport.h>
-#include "mrmremoteflash.h"
+#include "mrmRemoteFlash.h"
 
 // WARNING: a race condition can occur when many simultanious reads / writes are issued (eg through EPICS records and iocsh functions). This is not handled, since flashing is not done often and flash chip access is atomic.
 
