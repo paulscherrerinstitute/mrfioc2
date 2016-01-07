@@ -16,8 +16,8 @@
 #include "mrmFlash.h"
 
 // Misc
-#define RETRY_COUNT             10000         // Amount of retries until we fail when chacking command completition
-#define RETRY_COUNT_ERASE       0x10000000    // Amount of retries until we fail when chacking the erase command completition
+#define RETRY_COUNT             10000         // Amount of retries until we fail when checking command completition
+#define RETRY_COUNT_ERASE       0x10000000    // Amount of retries until we fail when checking the erase command completition
 
 // Flash chip commands
 #define M25P_READ_FAST              0x0B
@@ -35,11 +35,24 @@
 #define M25P_STATUS_BLOCK_PROTECT       0x0C  // block protect bits
 #define M25P_STATUS_WRITE_PROTECT       0x80  // status register write protect
 
-// Flash chip default size definition
-#define SIZE_PAGE           256             // Maximum number of bytes we can write at once.
-#define SIZE_SECTOR         0x00010000      // default sector size, if not provided by user [bytes]
-#define SIZE_MEMORY         0x00260000      // default flash memory size, if not provided by user [bytes]
+// Flash chip size definitions
+#define MB2BYTE                     1024 * 1024 / 8 // convert from mega bits to bytes
+#define SIZE_PAGE                   256             // Maximum number of bytes we can write at once.
+#define SIZE_SECTOR                 0x00010000      // most M25P chip have this default sector size
+#define SIZE_SECTOR_128             0x00040000      // 128Mb M25P chip has this default sector size
+#define SIZE_SECTOR_DEFAULT         SIZE_SECTOR     // default sector size, if it can not be detected [bytes]
+#define SIZE_MEMORY_DEFAULT         32 * MB2BYTE    // default flash memory size, if it can not be detected [bytes]
 
+// Read identification command return values (based on information available at Micron web site):
+#define M25P_MANUFACTURER_ID 0x20
+#define M25P_MEMORY_TYPE     0x20
+#define M25P_MEMORY_SIZE_128 0x18
+#define M25P_MEMORY_SIZE_64  0x17
+#define M25P_MEMORY_SIZE_32  0x16
+#define M25P_MEMORY_SIZE_16  0x15
+#define M25P_MEMORY_SIZE_8   0x14
+#define M25P_MEMORY_SIZE_4   0x13
+#define M25P_MEMORY_SIZE_2   0x12
 
 
 extern "C" {
@@ -49,30 +62,88 @@ extern "C" {
 
 mrmFlash::mrmFlash(volatile epicsUInt8 *parentBaseAddress)
     :m_base(parentBaseAddress)
+    ,m_size_sector(0)
+    ,m_size_memory(0)
 {
-    m_size_page   = SIZE_PAGE;
-    m_size_sector = SIZE_SECTOR;
-    m_size_memory = SIZE_MEMORY;
-
+    m_size_page = SIZE_PAGE;
 }
 
-mrmFlash::mrmFlash(volatile epicsUInt8 *parentBaseAddress,
-                   size_t pageSize, size_t sectorSize, size_t memorySize)
-    :m_base(parentBaseAddress)
-    ,m_size_page(pageSize)
-    ,m_size_sector(sectorSize)
-    ,m_size_memory(memorySize)
-{
+void mrmFlash::init(bool autodetect) {
+    epicsUInt8 manufacturerID = 0, memoryType = 0, capacity = 0;
+
+    if(autodetect) {
+        readIdentification(&manufacturerID, &memoryType, &capacity);
+
+        if(manufacturerID != M25P_MANUFACTURER_ID) {
+            throw std::runtime_error("Micron manufacturer ID not detected. Aborted.");
+        }
+
+        if(memoryType != M25P_MEMORY_TYPE) {
+            throw std::runtime_error("Micron M25P flash chip type not detected. Aborted.");
+        }
+
+        switch(capacity) {
+            case M25P_MEMORY_SIZE_128:
+                m_size_sector = SIZE_SECTOR_128;
+                m_size_memory = 128 * MB2BYTE;
+                break;
+
+            case M25P_MEMORY_SIZE_64:
+                m_size_sector = SIZE_SECTOR;    // could not find the info in the datasheets. Assuming this size...
+                m_size_memory = 64 * MB2BYTE;
+                break;
+
+            case M25P_MEMORY_SIZE_32:
+                m_size_sector = SIZE_SECTOR;
+                m_size_memory = 32 * MB2BYTE;
+                break;
+
+            case M25P_MEMORY_SIZE_16:
+                m_size_sector = SIZE_SECTOR;
+                m_size_memory = 16 * MB2BYTE;
+                break;
+
+            case M25P_MEMORY_SIZE_8:
+                m_size_sector = SIZE_SECTOR;
+                m_size_memory = 8 * MB2BYTE;    // Last address in the documentation is 0xFEFFF, which would suggest that the size is 0xFF000 = 1044480 bytes. But the chip is 8 Mb = 1048576 bytes, which is also stated in the documentation. Assuming size = 8 Mb = 1048576 bytes
+                break;
+
+            case M25P_MEMORY_SIZE_4:
+                m_size_sector = SIZE_SECTOR;
+                m_size_memory = 4 * MB2BYTE;
+                break;
+
+            case M25P_MEMORY_SIZE_2:
+                m_size_sector = SIZE_SECTOR;
+                m_size_memory = 2 * MB2BYTE;
+                break;
+
+            default:
+                throw std::runtime_error("Memory size for this flash chip is not supported. Aborted.");
+        }
+    } // end of autodetect
+    else {
+        m_size_sector = SIZE_SECTOR_DEFAULT;
+        m_size_memory = SIZE_MEMORY_DEFAULT;
+    }
 }
 
 
-// TODO rename offset to address?
 void mrmFlash::flash(const char *bitfile, size_t offset) {
-    epicsUInt8 *buf=NULL;
-    FILE *fd=NULL;
+    epicsUInt8 *buf = NULL;
+    FILE *fd = NULL;
     size_t size, readSize;
 
     epicsGuard<epicsMutex> g(m_lock);
+
+    if(m_busy) {
+        throw std::runtime_error("SPI busy.");
+    }
+
+    if(m_size_memory <= 0 || m_size_sector <= 0) {
+        throw std::runtime_error("Flash chip sector and memory sizes not defined. Did you run init() function?");
+    }
+
     try{
         m_busy = true;
         infoPrintf(1,"\tStarting flash procedure\n");
@@ -92,13 +163,10 @@ void mrmFlash::flash(const char *bitfile, size_t offset) {
             throw std::runtime_error("Could not open file for reading.");
         }
 
-        // TODO make this optional?
         // check if file is to big to be written to flash
         fseek(fd, 0L, SEEK_END);
         size = ftell(fd);
         if( offset + size > m_size_memory) {
-            free(buf);
-            fclose(fd);
             throw std::invalid_argument("File too big to be written to this offset.");
         }
         fseek(fd, 0L, SEEK_SET);
@@ -116,16 +184,17 @@ void mrmFlash::flash(const char *bitfile, size_t offset) {
         // start the programming of the flash memory at the 'offset' address
         infoPrintf(1, "Writing to flash....\n");
         readSize = m_size_page - (offset % m_size_page);    // offset might not be page-alligned. First write is until the end of page. All the rest are page-alligned.
-        do {    // write data page by page
-            size = fread(buf, 1, readSize, fd); // max one page can be written at once
-            readSize = m_size_page;             // consecutive reads are page-alligned
+        size = fread(buf, 1, readSize, fd); // max one page can be written at once
+        readSize = m_size_page;             // consecutive reads are page-alligned
+        while (size > 0) {    // write data page by page
             pageProgram(buf, offset, size);     // use page program to write data to the flash memory
             if((offset & 0x0000ffff) == 0) {    // Do not print in each iteration so the output is not flooded
-                infoPrintf(1,"\tWriting to address: %08x\n", offset);   // TODO formatting: offset is size_t
+                infoPrintf(1,"\tWriting to address: 0x%08zx\n", offset);
             }
             offset += size;
-        } while (size > 0);
-        infoPrintf(1, "Flashing finished.\n");
+            size = fread(buf, 1, readSize, fd); // max one page can be written at once
+        }
+        infoPrintf(1, "Flash written.\n");
 
         free(buf);
         fclose(fd);
@@ -142,11 +211,15 @@ void mrmFlash::flash(const char *bitfile, size_t offset) {
 void mrmFlash::read(const char *bitfile, size_t offset) {
     epicsGuard<epicsMutex> g(m_lock);
 
-    try{
-        if(m_busy) {
-            throw std::runtime_error("SPI busy.");
-        }
+    if(m_busy) {
+        throw std::runtime_error("SPI busy.");
+    }
 
+    if(m_size_memory <= 0 || m_size_sector <= 0) {
+        throw std::runtime_error("Flash chip sector and memory sizes invalid. Did you run init() function?");
+    }
+
+    try{
         m_busy = true;
         fastRead(bitfile, offset, m_size_memory-offset);
         m_busy = false;
@@ -177,6 +250,13 @@ bool mrmFlash::flashBusy()
     return m_busy;
 }
 
+void mrmFlash::report()
+{
+    printf("\tMemory size: %zu bytes = %zu kB = %zu MB\n", m_size_memory, m_size_memory / 1024, m_size_memory / 1024 / 1024);
+    printf("\tSector size: %zu bytes = %zu kB\n", m_size_sector, m_size_sector / 1024);
+    printf("\tPage size: %zu bytes\n", m_size_page);
+}
+
 //// Private functions start here ////
 
 void mrmFlash::pageProgram(epicsUInt8 *data, size_t addr, size_t size) {
@@ -191,7 +271,7 @@ void mrmFlash::pageProgram(epicsUInt8 *data, size_t addr, size_t size) {
     }
 
     try{
-        infoPrintf(2,"Starting page program on address %x with size %zu\n", addr, size);    // TODO formatting warning: size_t VS %x
+        infoPrintf(3,"Starting page program on address 0x%zx with size %zu\n", addr, size);
 
         // Dummy write with SS not active
         slaveSelect(false);
@@ -202,27 +282,26 @@ void mrmFlash::pageProgram(epicsUInt8 *data, size_t addr, size_t size) {
         write(M25P_WRITE_ENABLE);
         slaveSelect(false);
 
-
-        // Send page programm command
+        // Send page program command
         slaveSelect(true);
         write(M25P_PAGE_PROGRAM);
 
         // Send address where the programming will start
-        write((addr >> 16) & 0x00ff);
-        write((addr >> 8)  & 0x00ff);
-        write( addr        & 0x00ff);
+        write(addr >> 16);
+        write(addr >> 8 );
+        write(addr      );
 
-        for (i = 0; i < m_size_page; i++) {
+        for (i = 0; i < size; i++) {
           write(data[i]);
         }
 
         slaveSelect(false);
 
-        infoPrintf(3,"\tWaiting for page program completition...\n");
+        infoPrintf(4,"\tWaiting for page program completition...\n");
         i = 0;
-        while(!(readStatus() & M25P_STATUS_WIP) && i < RETRY_COUNT) {
+        while((readStatus() & M25P_STATUS_WIP) && (i < RETRY_COUNT)) {
             if ((i % 100000) == 0) {
-                infoPrintf(3,"\t\tWaiting for %zu iterations\n", i);
+                infoPrintf(4,"\t\tWaiting for %zu iterations\n", i);
             }
             i++;
         }
@@ -231,9 +310,7 @@ void mrmFlash::pageProgram(epicsUInt8 *data, size_t addr, size_t size) {
             throw std::runtime_error("Timeout reached while waiting for page program to complete!");
         }
 
-        slaveSelect(false);
-
-        infoPrintf(2,"Page programmed.\n\n");
+        infoPrintf(3,"Page programmed.\n\n");
     }
     catch(std::exception& ex) {
         slaveSelect(false);
@@ -262,10 +339,10 @@ void mrmFlash::bulkErase() {
         slaveSelect(false);
 
 
-        infoPrintf(3,"\tWaiting for bulk erase completition...\n");
-        while(!(readStatus() & M25P_STATUS_WIP) && i < RETRY_COUNT_ERASE) {
+        infoPrintf(2,"\tWaiting for bulk erase completition...\n");
+        while((readStatus() & M25P_STATUS_WIP) && (i < RETRY_COUNT_ERASE)) {
             if ((i % 100000) == 0) {
-                infoPrintf(3,"\t\tWaiting for %zu iterations\n", i);
+                infoPrintf(2,"\t\tWaiting for %zu iterations\n", i);
             }
             i++;
         }
@@ -273,8 +350,6 @@ void mrmFlash::bulkErase() {
         if(i >= RETRY_COUNT_ERASE) {
             throw std::runtime_error("Timeout reached while waiting for bulk erase to complete!");
         }
-
-        slaveSelect(false);
 
         infoPrintf(2,"Flash erased (bulk erase).\n\n");
     }
@@ -292,7 +367,7 @@ void mrmFlash::sectorErase(size_t addr) {
     }
 
     try{
-        infoPrintf(2,"Starting sector erase on address: %x\n", addr);   // TODO formatting warning: size_t VS %x
+        infoPrintf(2,"Starting sector erase on address: 0x%zx\n", addr);
 
         // Dummy write with SS not active
         slaveSelect(false);
@@ -306,17 +381,16 @@ void mrmFlash::sectorErase(size_t addr) {
         // Send sector erase command
         slaveSelect(true);
         write(M25P_SECTOR_ERASE);
-        slaveSelect(false);
 
         // Send address in a sector we are erasing
-        write((addr >> 16) & 0x00ff);
-        write((addr >> 8)  & 0x00ff);
-        write( addr        & 0x00ff);
+        write(addr >> 16);
+        write(addr >> 8 );
+        write(addr      );
         slaveSelect(false);
 
         infoPrintf(3,"\tWaiting for sector erase completition...\n");
         // Waiting for sector erase completition
-        while(!(readStatus() & M25P_STATUS_WIP) && i < RETRY_COUNT_ERASE) {
+        while((readStatus() & M25P_STATUS_WIP) && (i < RETRY_COUNT_ERASE)) {
             if ((i % 100000) == 0) {
                 infoPrintf(3,"\t\tWaiting for %zu iterations\n", i);
             }
@@ -324,10 +398,9 @@ void mrmFlash::sectorErase(size_t addr) {
         }
 
         if(i >= RETRY_COUNT_ERASE) {
-            throw std::runtime_error("Timeout reached while waiting for bulk erase to complete!");
+            throw std::runtime_error("Timeout reached while waiting for sector erase to complete!");
         }
 
-        slaveSelect(false);
         infoPrintf(2,"Sector erase complete\n\n");
     }
     catch(std::exception& ex) {
@@ -341,7 +414,7 @@ void mrmFlash::fastRead(const char *bitfile, size_t addr, size_t size) {
     FILE *fd;
     epicsUInt8 buf;
 
-    if( addr < 0 || addr > m_size_memory) {
+    if( addr < 0 || addr >= m_size_memory) {
         throw std::invalid_argument("Address for reading out of bounds!");
     }
 
@@ -366,9 +439,9 @@ void mrmFlash::fastRead(const char *bitfile, size_t addr, size_t size) {
         write(M25P_READ_FAST);
 
         // Three address bytes
-        write((addr >> 16) & 0x00ff);
-        write((addr >> 8)  & 0x00ff);
-        write( addr        & 0x00ff);
+        write(addr >> 16);
+        write(addr >> 8 );
+        write(addr      );
 
         // One dummy write + the first write that actually starts the transfer of the first real byte
         write(0);
@@ -378,6 +451,9 @@ void mrmFlash::fastRead(const char *bitfile, size_t addr, size_t size) {
             buf = read();
             if(fwrite(&buf, 1, 1, fd) != 1){
                 throw std::runtime_error("Could not write to file!");
+            }
+            if((i & 0x0000ffff) == 0) {    // Do not print in each iteration so the output is not flooded
+                infoPrintf(1,"\tReading address: 0x%08zx\n", addr+i);
             }
             write(0);
         }
@@ -393,31 +469,59 @@ void mrmFlash::fastRead(const char *bitfile, size_t addr, size_t size) {
     }
 }
 
+void mrmFlash::readIdentification(epicsUInt8 *manufacturerID, epicsUInt8 *memoryType, epicsUInt8 *memoryCapacity) {
+    try{
+        // Dummy write with SS not active
+        slaveSelect(false);
+        write(0);
+
+        // Send read identification command
+        slaveSelect(true);
+        write(M25P_READ_IDENTIFICATION);
+
+        write(0);   // Transfer byte
+        *manufacturerID = read();
+
+        write(0);   // Transfer byte
+        *memoryType = read();
+
+        write(0);   // Transfer byte
+        *memoryCapacity = read();
+
+        slaveSelect(false);
+    }
+    catch(std::exception& ex) {
+        slaveSelect(false);
+        throw;
+    }
+
+}
+
 void mrmFlash::slaveSelect(bool select) {
     epicsUInt32 spiControlReg;
 
     waitTransmitterEmpty();
 
     if(select) {
-        spiControlReg = BE_READ32(m_base, SpiCtrl);
+        spiControlReg = READ32(m_base, SpiCtrl);
         spiControlReg |= SpiCtrl_oe;
-        BE_WRITE32(m_base, SpiCtrl, spiControlReg);
+        WRITE32(m_base, SpiCtrl, spiControlReg);
 
         // set slave select
-        spiControlReg = BE_READ32(m_base, SpiCtrl);
+        spiControlReg = READ32(m_base, SpiCtrl);
         spiControlReg |= SpiCtrl_oe | SpiCtrl_slaveSelect;
-        BE_WRITE32(m_base, SpiCtrl, spiControlReg);
+        WRITE32(m_base, SpiCtrl, spiControlReg);
 
     }
     else {
-        spiControlReg = BE_READ32(m_base, SpiCtrl);
+        spiControlReg = READ32(m_base, SpiCtrl);
         spiControlReg |= SpiCtrl_oe;
-        BE_WRITE32(m_base, SpiCtrl, spiControlReg);
+        WRITE32(m_base, SpiCtrl, spiControlReg);
 
         // reset slave select
-        spiControlReg = BE_READ32(m_base, SpiCtrl);
+        spiControlReg = READ32(m_base, SpiCtrl);
         spiControlReg &= ~(SpiCtrl_oe | SpiCtrl_slaveSelect);
-        BE_WRITE32(m_base, SpiCtrl, spiControlReg);
+        WRITE32(m_base, SpiCtrl, spiControlReg);
     }
 }
 
@@ -425,26 +529,26 @@ void mrmFlash::write(epicsUInt8 data) {
 
     waitTransmitterReady();
 
-    BE_WRITE32(m_base, SpiData, data);
+    WRITE32(m_base, SpiData, data);
 }
 
 // TODO remove this one and only use waitTransmitterReady?
 void mrmFlash::waitTransmitterEmpty() {
     size_t i=0;
 
-    while(!(BE_READ32(m_base, SpiCtrl) & SpiCtrl_tmt) && i < RETRY_COUNT) {
+    while(!(READ32(m_base, SpiCtrl) & SpiCtrl_tmt) && (i < RETRY_COUNT)) {
         i++;
     }
 
     if (i >= RETRY_COUNT) {
-        throw std::runtime_error("Timeout reached while waiting for transmitter to be ready!");
+        throw std::runtime_error("Timeout reached while waiting for transmitter to be empty!");
     }
 }
 
 void mrmFlash::waitTransmitterReady() {
     size_t i=0;
 
-    while(!(BE_READ32(m_base, SpiCtrl) & SpiCtrl_trdy) && i < RETRY_COUNT) {
+    while(!(READ32(m_base, SpiCtrl) & SpiCtrl_trdy) && (i < RETRY_COUNT)) {
       i++;
     }
 
@@ -456,7 +560,7 @@ void mrmFlash::waitTransmitterReady() {
 void mrmFlash::waitReceiverReady() {
     size_t i=0;
 
-    while(!(BE_READ32(m_base, SpiCtrl) & SpiCtrl_rrdy) && i < RETRY_COUNT) {
+    while(!(READ32(m_base, SpiCtrl) & SpiCtrl_rrdy) && (i < RETRY_COUNT)) {
         i++;
     }
 
@@ -494,7 +598,7 @@ epicsUInt8 mrmFlash::read() {
 
     waitReceiverReady();
 
-    data = BE_READ32(m_base, SpiData);
+    data = READ32(m_base, SpiData);
 
     return (epicsUInt8)data;
 }

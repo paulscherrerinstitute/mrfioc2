@@ -6,73 +6,50 @@
 #include <epicsExport.h>
 #include "mrmremoteflash.h"
 
-const char *object_name = ":Flash";
+// WARNING: a race condition can occur when many simultanious reads / writes are issued (eg through EPICS records and iocsh functions). This is not handled, since flashing is not done often and flash chip access is atomic.
 
-void mrmRemoteFlash::flash_thread(void* args){
-    tThreadArgs *threadArgs = static_cast<tThreadArgs*>(args);
-    mrmRemoteFlash* parent = threadArgs->parent;
-
-    parent->flash(threadArgs->filename.c_str());
-    delete threadArgs;
-}
-
-void mrmRemoteFlash::read_thread(void* args){
-    tThreadArgs *threadArgs = static_cast<tThreadArgs*>(args);
-    mrmRemoteFlash* parent = threadArgs->parent;
-
-    parent->read(threadArgs->filename.c_str());
-    delete threadArgs;
-}
+const char *object_name = ":Flash"; // appended to device name for use in mrfioc2 object model
 
 
-mrmRemoteFlash::mrmRemoteFlash(const std::string &name, volatile epicsUInt8 *pReg, formFactor formFactor, mrmFlash &flash):
-    mrf::ObjectInst<mrmRemoteFlash>(name+object_name),
-    m_pReg(pReg),
+mrmRemoteFlash::mrmRemoteFlash(const std::string &parentName, volatile epicsUInt8 *parentBaseAddress, formFactor formFactor, mrmFlash &flash):
+    mrf::ObjectInst<mrmRemoteFlash>(parentName+object_name),
+    m_base(parentBaseAddress),
     m_flash_in_progress(false),
-    m_file_valid(false),
     m_flash_success(false),
     m_read_success(false),
     m_flash(flash)
 {
-    switch(formFactor){
-        case formFactor_CPCI:
-        case formFactor_CPCIFULL:
-        case formFactor_PCIe:
-            m_offset = m_flash.getSectorSize();
-            m_supported = true;
-        case formFactor_VME64:
-            m_offset = 0;
-            m_supported = true;
-            break;
-        default:
-            m_offset = 0;
-            m_supported = false;
+    try{
+        m_flash.init(true);
+
+        switch(formFactor){
+            case formFactor_CPCI:
+            case formFactor_CPCIFULL:
+            case formFactor_PCIe:
+                m_offset = m_flash.getSectorSize();
+                m_supported = true;
+                break;
+
+            case formFactor_VME64:
+                m_offset = 0;
+                m_supported = true;
+                break;
+
+            default:
+                errlogPrintf("Flash access: this form factor is not supported.\n");
+                m_offset = 0;
+                m_supported = false;
+        }
+    }
+    catch(std::exception& ex) {
+        errlogPrintf("Flash access: %s\n", ex.what());
+        m_offset = 0;
+        m_supported = false;
     }
 }
 
-
-/**
- * @brief mrmRemoteFlash::setFlashFilename
- * @param filename
- *
- * Sets if file exists and TODO: add some other sanity check (perhaps naming convention?)
- */
 void mrmRemoteFlash::setFlashFilename(std::string filename)
 {
-    printf("MRF FLASH: Checking file %s\n",filename.c_str());
-
-    m_file_valid = false;
-
-    //Check if file exists
-    FILE* f = fopen(filename.c_str(),"rw");
-    if(f==NULL){
-        //Warning: on linux, this will not catch an attempt to open directory.
-        m_filename="INVALID";
-        throw std::runtime_error("Invalid flash file specified!");
-    }
-
-    fclose(f);
-    m_file_valid = true;
     m_filename = filename;
 }
 
@@ -81,13 +58,6 @@ std::string mrmRemoteFlash::getFlashFilename() const
     return m_filename;
 }
 
-/**
- * @brief mrmRemoteFlash::setFlashFilenameWF
- * @param wf
- * @param l
- *
- * waveform wrapper for set filename. This is need since EPICS string is limited to 40char
- */
 void mrmRemoteFlash::setFlashFilenameWF(const char *wf, epicsUInt32 l)
 {
     setFlashFilename(std::string(wf,l));
@@ -98,18 +68,10 @@ epicsUInt32 mrmRemoteFlash::getFlashFilenameWF(char *wf, epicsUInt32 l) const
     return (epicsUInt32)m_filename.copy(wf,l);
 }
 
+
 /**
- * @brief mrmRemoteFlash::startFlash
- * @param start
- *
- * Preform the actual flashing of the EVR/EVM. Function calls original Jukkas code
- * in a new thread (to avoid blocking CA thread for looooong time). Only one thread is allowed
- * at any given time. Note that there is no feedback wheter the flashing was succssful or not,
- * this and any other status outputs would require rewrite/modifications to original code.
- *
- * In majority of the cases you will want to use the IOCSH function instead...
- *
- */
+ * Flashing
+ **/
 
 void mrmRemoteFlash::startFlash(bool start)
 {
@@ -118,19 +80,16 @@ void mrmRemoteFlash::startFlash(bool start)
 
 void mrmRemoteFlash::startFlash(std::string filename)
 {
-    tThreadArgs * args;
+    tThreadArgs * args = NULL;
 
-    //Only flash if valid file is specified
-    if(!m_file_valid){
-        throw std::runtime_error("Will not start flashing op. since file is not valid!");
+    // Is flash access even supported?
+    if(!m_supported) {
+        throw std::runtime_error("This device does not support flash access");
     }
 
-    //Check if flash is currently being accessed
-    if(!flashInProgress()){
-        //Check if thread is still alive
-        if(!epicsThreadIsSuspended(m_flash_thread_id)){
-            throw std::runtime_error("Flash thread still running!");
-        }
+    // Check if flash is currently being accessed
+    if(flashInProgress()) {
+        throw std::runtime_error("Flash chip is already in use. Aborting.");
     }
 
     m_flash_in_progress = true;
@@ -138,32 +97,42 @@ void mrmRemoteFlash::startFlash(std::string filename)
     args->filename = filename;
     args->parent = this;
     m_flash_thread_id = epicsThreadCreate("MRF SPI FLASH", epicsThreadPriorityLow, epicsThreadGetStackSize(epicsThreadStackMedium), &mrmRemoteFlash::flash_thread, args);
+
     if(!m_flash_thread_id) {
+        if(args != NULL) delete args;
         throw std::runtime_error("Unable to create thread for flash access.\n");
     }
 }
 
-void mrmRemoteFlash::flash(const char *bitfile) {
-    try{
-        infoPrintf(0, "Starting flash of %s card on offset %zu\n", bitfile, m_offset);
-        if(m_supported) {
-            m_flash.flash(bitfile, m_offset);
+void mrmRemoteFlash::flash_thread(void* args){
+    tThreadArgs *threadArgs = static_cast<tThreadArgs*>(args);
+    mrmRemoteFlash* parent = threadArgs->parent;
 
-            m_flash_in_progress = false;
-            infoPrintf(0, "Flashing done.\n");
-            m_flash_success = true;
-        }
-        else {
-            infoPrintf(0, "This card does not support flash access. Done!\n");
-        }
+    parent->flash(threadArgs->filename.c_str());
+    delete threadArgs;
+}
+
+void mrmRemoteFlash::flash(const char *bitfile)
+{
+    try{
+        infoPrintf(0, "Starting flash of %s to device. Using offset %zu [bytes]\n", bitfile, m_offset);
+        m_flash.flash(bitfile, m_offset);
+        infoPrintf(0, "Flashing procedure done.\n");
+        m_flash_success = true;
     }
     catch(std::exception& ex) {
         errlogPrintf("An error occured while flashing: %s\n", ex.what());
         m_flash_success = false;
     }
+
+    m_flash_in_progress = false;
 }
 
-//TODO use the same file for reading and writing???
+
+/**
+ * Reading flash memory
+ **/
+
 void mrmRemoteFlash::startRead(bool start)
 {
     startRead(getFlashFilename());
@@ -171,19 +140,16 @@ void mrmRemoteFlash::startRead(bool start)
 
 void mrmRemoteFlash::startRead(std::string filename)
 {
-    tThreadArgs * args;
+    tThreadArgs * args = NULL;
 
-    //Only read if valid file is specified
-    if(!m_file_valid){
-        throw std::runtime_error("Will not start reading op. since file is not valid!");
+    // Is flash access even supported?
+    if(!m_supported) {
+        throw std::runtime_error("This device does not support flash access");
     }
 
-    //Check if flash is currently being accessed
-    if(!flashInProgress()){
-        //Check if thread is still alive
-        if(!epicsThreadIsSuspended(m_flash_thread_id)){
-            throw std::runtime_error("Flash thread still running!");
-        }
+    // Check if flash is currently being accessed
+    if(flashInProgress()) {
+        throw std::runtime_error("Flash chip is already in use. Aborting.");
     }
 
     m_flash_in_progress = true;
@@ -191,38 +157,46 @@ void mrmRemoteFlash::startRead(std::string filename)
     args->filename = filename;
     args->parent = this;
     m_flash_thread_id = epicsThreadCreate("MRF SPI READ", epicsThreadPriorityLow, epicsThreadGetStackSize(epicsThreadStackMedium), &mrmRemoteFlash::read_thread, args);
+
     if(!m_flash_thread_id) {
+        if(args != NULL) delete args;
         throw std::runtime_error("Unable to create thread for flash access.\n");
     }
+}
+
+void mrmRemoteFlash::read_thread(void* args){
+    tThreadArgs *threadArgs = static_cast<tThreadArgs*>(args);
+    mrmRemoteFlash* parent = threadArgs->parent;
+
+    parent->read(threadArgs->filename.c_str());
+    delete threadArgs;
 }
 
 void mrmRemoteFlash::read(const char *bitfile)
 {
     try{
-        infoPrintf(0, "Reading flash of %s card on offset %zu\n", bitfile, m_offset);
-        if(m_supported) {
-            m_flash.read(bitfile, m_offset);
-
-            m_flash_in_progress = false;
-            infoPrintf(0, "Reading of the flash done.\n");
-            m_read_success = true;
-        }
-        else {
-            infoPrintf(0, "This card does not support flash access. Done!\n");
-        }
+        infoPrintf(0, "Reading flash to %s. Starting on flash memory offset %zu [bytes]\n", bitfile, m_offset);
+        m_flash.read(bitfile, m_offset);
+        infoPrintf(0, "Reading procedure done.\n");
+        m_read_success = true;
     }
     catch(std::exception& ex) {
         errlogPrintf("An error occured while accessing flash memory: %s\n", ex.what());
         m_read_success = false;
     }
+
+    m_flash_in_progress = false;
 }
 
-// TODO should be updated on operation completition. Extend public IOStatus....
+
+/**
+ * Flash access information
+ **/
+
 bool mrmRemoteFlash::flashInProgress() const
 {
     return m_flash.flashBusy() || m_flash_in_progress;
 }
-
 
 bool mrmRemoteFlash::flashSuccess() const
 {
@@ -234,16 +208,54 @@ bool mrmRemoteFlash::readSuccess() const
     return m_read_success;
 }
 
+bool mrmRemoteFlash::isSupported() const
+{
+    return m_supported;
+}
+
+void mrmRemoteFlash::report() const
+{
+    if(!isSupported()) {
+        printf("\tThis device does not support flash chip access\n");
+    }
+    else {
+        m_flash.report();
+        printf("\tFirst address for reading / writing is at offset: %zu [bytes]\n", m_offset);
+        printf("\tFlash is currently ");
+        if(!flashInProgress()) {
+            printf("not ");
+        }
+        printf("being accessed.\n");
+
+        printf("\tLast completed flash operation was ");
+        if(!flashSuccess()) {
+            printf("not ");
+        }
+        printf("successful.\n");
+
+        printf("\tLast completed read operation was ");
+        if(!readSuccess()) {
+            printf("not ");
+        }
+        printf("successful.\n");
+    }
+}
+
+
+
+/**
+ * Construct mrfioc2 objects for linking to EPICS records
+ **/
 
 OBJECT_BEGIN(mrmRemoteFlash) {
 
     OBJECT_PROP1("InProgress",&mrmRemoteFlash::flashInProgress);
+    OBJECT_PROP1("IsSupported",&mrmRemoteFlash::isSupported);
     OBJECT_PROP2("Flash", &mrmRemoteFlash::flashSuccess, &mrmRemoteFlash::startFlash);
     OBJECT_PROP2("Read", &mrmRemoteFlash::readSuccess, &mrmRemoteFlash::startRead);
     OBJECT_PROP2("Filename", &mrmRemoteFlash::getFlashFilenameWF, &mrmRemoteFlash::setFlashFilenameWF);
 
 } OBJECT_END(mrmRemoteFlash)
-
 
 
 
@@ -261,10 +273,10 @@ static const iocshFuncDef mrmRemoteFlashDef_read = { "mrmRemoteFlashRead", 2, mr
 
 static void mrmRemoteFlashFunc_read(const iocshArgBuf *args) {
     std::string device = args[0].sval;
-    char* bitfile = args[1].sval;
+    std::string bitfile = args[1].sval;
 
 
-    printf("Starting flash read procedure for %s [%s]\n", device.c_str(), bitfile);
+    printf("Starting flash read procedure for %s [%s]\n", device.c_str(), bitfile.c_str());
     device.append(object_name);
 
     mrmRemoteFlash* remoteFlash = dynamic_cast<mrmRemoteFlash*>(mrf::Object::getObject(device.c_str()));
@@ -294,10 +306,10 @@ static const iocshFuncDef mrmRemoteFlashDef_write = { "mrmRemoteFlashWrite", 2, 
 
 static void mrmRemoteFlashFunc_write(const iocshArgBuf *args) {
     std::string device = args[0].sval;
-    char* bitfile = args[1].sval;
+    std::string bitfile = args[1].sval;
 
 
-    printf("Starting flashing procedure for %s [%s]\n", device.c_str(), bitfile);
+    printf("Starting flashing procedure for %s [%s]\n", device.c_str(), bitfile.c_str());
     device.append(object_name);
 
     mrmRemoteFlash* remoteFlash = dynamic_cast<mrmRemoteFlash*>(mrf::Object::getObject(device.c_str()));
@@ -317,10 +329,37 @@ static void mrmRemoteFlashFunc_write(const iocshArgBuf *args) {
 
 /******************/
 
+/********** Report status for flash chip  *******/
+static const iocshArg mrmRemoteFlashArg0_status = { "Device", iocshArgString };
+
+static const iocshArg * const mrmRemoteFlashArgs_status[1] = { &mrmRemoteFlashArg0_status};
+static const iocshFuncDef mrmRemoteFlashDef_status = { "mrmRemoteFlashStatus", 1, mrmRemoteFlashArgs_status};
+
+
+static void mrmRemoteFlashFunc_status(const iocshArgBuf *args) {
+    std::string device = args[0].sval;
+
+    printf("Status report of %s flash chip\n", device.c_str());
+    device.append(object_name);
+
+    mrmRemoteFlash* remoteFlash = dynamic_cast<mrmRemoteFlash*>(mrf::Object::getObject(device.c_str()));
+    if(!remoteFlash){
+        printf("Device <%s> with flash support does not exist!\n", args[0].sval);
+        return;
+    }
+
+    remoteFlash->report();
+}
+
+
+/******************/
+
+
 extern "C" {
     static void mrmRemoteFlashRegistrar() {
         iocshRegister(&mrmRemoteFlashDef_read, mrmRemoteFlashFunc_read);
         iocshRegister(&mrmRemoteFlashDef_write, mrmRemoteFlashFunc_write);
+        iocshRegister(&mrmRemoteFlashDef_status, mrmRemoteFlashFunc_status);
     }
 
     epicsExportRegistrar(mrmRemoteFlashRegistrar);

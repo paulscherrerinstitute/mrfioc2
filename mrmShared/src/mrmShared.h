@@ -82,7 +82,7 @@ enum PLLBandwidth {
 //
 #define U32_SpiData    0x0A0
 #define U32_SpiCtrl    0x0A4
-  #define SpiCtrl_rrdy         (0x0040) // Receiver ready. Ff '1', data byte waiting in U32_SpiData.
+  #define SpiCtrl_rrdy         (0x0040) // Receiver ready. If '1', data byte waiting in U32_SpiData.
   #define SpiCtrl_trdy         (0x0020) // Transmitter ready. If '1', U32_SpiData is ready to accept new transmit data byte.
   #define SpiCtrl_tmt          (0x0010) // Transmitter empty. If '1', data byte has been transmitted.
   #define SpiCtrl_oe           (0x0002) // Output enable for SPI pins. '1' enables SPI pins.

@@ -192,7 +192,7 @@ try{
 
     formFactor form = getFormFactor();
 
-    m_remoteFlash = new mrmRemoteFlash(n,b, form, m_flash);
+    m_remoteFlash = new mrmRemoteFlash(n, b, form, m_flash);
 
     size_t nPul=16; // number of pulsers
     size_t nPS=3;   // number of prescalers

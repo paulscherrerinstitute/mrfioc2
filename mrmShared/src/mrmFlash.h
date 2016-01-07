@@ -18,26 +18,22 @@ extern "C" {
 
 
 /**
- * @brief The mrmFlash class handles the hardware acces to the flash chip using SPI interface. It exposes methods for reading/writing the flash memory to/from a file.
+ * @brief The mrmFlash class handles the hardware access to the flash chip using SPI interface. It exposes methods for reading/writing the flash memory to/from a file.
  */
 class epicsShareClass mrmFlash
 {
 public:
     /**
-     * @brief mrmFlash is the main constructor for this class. It uses default values for flash chip page, sector and memory size.
+     * @brief mrmFlash is the main constructor for this class. It sets the default page size. init() function must be called after object is created.
      * @param parentBaseAddress is the base memory-map address of the device (EVG or EVR) that created this class
      */
     mrmFlash(volatile epicsUInt8 *parentBaseAddress);
 
     /**
-     * @brief mrmFlash is an alternative constructor for this class. It is used to set custom values for flash chip page, sector and memory size.
-     * @param parentBaseAddress is the base memory-map address of the device (EVG or EVR) that created this class
-     * @param pageSize is the size of one page in the flash chip in [bytes]
-     * @param sectorSize is the size of one sector in the flash chip in [bytes]
-     * @param memorySize is the size of entire memory in the flash chip in [bytes]
+     * @brief init initializes the flash chip memory and sector sizes.
+     * @param autodetect will try to automatically detect flash chip memory and sector sizes if true. Function throws an exception (std::runtime_error) if auto detection fails. If false, default values are used and no exception can be thrown.
      */
-    mrmFlash(volatile epicsUInt8 *parentBaseAddress,
-             size_t pageSize, size_t sectorSize, size_t memorySize);
+    void init(bool autodetect);
 
     /**
      * @brief flash writes the entire bit file to an offset on the flash chip
@@ -79,12 +75,16 @@ public:
      */
     bool flashBusy();
 
+    /**
+     * @brief report prints basic flash chip information to iocsh
+     */
+    void report();
 
 private:
     volatile epicsUInt8 * const m_base; // Base address of the EVR/EVG card
     size_t m_size_page;                 // size of one page on the flash chip [bytes]
     size_t m_size_sector;               // size of one sector on the flash chip [bytes]
-    size_t m_size_memory;               // flash memmory size [bytes]
+    size_t m_size_memory;               // flash memory size [bytes]
 
     bool m_busy;                        // true if read or write operation is in progress. False otherwise.
     epicsMutex m_lock;                  // This lock is held while flashing or reading is in progress
@@ -104,17 +104,25 @@ private:
 
     /**
      * @brief sectorErase erases one page in the flash memory
-     * @param addr is the addres within the page we want to erase
+     * @param addr is the address within the page we want to erase
      */
     void sectorErase(size_t addr);
 
     /**
      * @brief fastRead issues a fast read program on the flash chip. It is used to read the content of the flash chip's memory into a file, starting at a specified address and reading a specified amount of bytes.
      * @param bitfile is the file to write the flash chip's memory content to
-     * @param addr is the addres in the flash chip memory, where the reading starts
-     * @param size is the number of [bytes] to read from the 'addr' of the flash chip's memory.
+     * @param addr is the address in the flash chip memory, where the reading starts
+     * @param size is the number of [bytes] to read from the 'addr' of the flash chip's memory. If 'size' is too big for the provided 'addr', entire memory starting from the 'addr' is read.
      */
     void fastRead(const char *bitfile, size_t addr, size_t size);
+
+    /**
+     * @brief readIdentification issues the read identification program on the flash chip. It is used to get the flash chip manufacturer ID, memory type and memory capacity.
+     * @param manufacturerID contains the manufacturer identification of the flash chip, after the function is executed. The manufacturer identification is assigned by JEDEC.
+     * @param memoryType contains the memory type of the flash chip, after the function is executed. The memory type is assigned by the device manufacturer.
+     * @param memoryCapacity contains the memory capacity code of the flash chip, after the function is executed. The memory capacity code is assigned by the device manufacturer.
+     */
+    void readIdentification(epicsUInt8 *manufacturerID, epicsUInt8 *memoryType, epicsUInt8 *memoryCapacity);
 
     /**
      * @brief slaveSelect a slave select used in the SPI protocol
