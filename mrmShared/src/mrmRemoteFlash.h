@@ -131,15 +131,12 @@ public:
 private:
     std::string m_filename;             // the name of the file to be written to the flash chip, or the destination file to be read from the flash chip when accessing the flash chip from EPICS records.
     volatile epicsUInt8* const m_base;  // base address of the EVR/EVG card
-    bool m_flash_in_progress;           // true when reading or flashing the chip is in progress
     bool m_flash_success;               // true when the last flashing operation completed successfully, false otherwise.
     bool m_read_success;                // true when the last reading operation completed successfully, false otherwise.
     bool m_supported;                   // true when the device supports flashing, false otherwise.
     size_t m_offset;                    // offset from the start of the flash chip memory where reading/writing begins.
 
     mrmFlash &m_flash;                  // reference to the mrmFlash class that is responsible for hardware access to the flash chip
-
-    epicsThreadId m_flash_thread_id;    // thread ID for reading / writing thread
 
     /**
      * @brief flash is the worker called by the 'flash_thread' that does the flashing.

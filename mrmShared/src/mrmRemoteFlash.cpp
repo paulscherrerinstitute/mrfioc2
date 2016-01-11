@@ -6,15 +6,12 @@
 #include <epicsExport.h>
 #include "mrmRemoteFlash.h"
 
-// WARNING: a race condition can occur when many simultanious reads / writes are issued (eg through EPICS records and iocsh functions). This is not handled, since flashing is not done often and flash chip access is atomic.
-
 const char *object_name = ":Flash"; // appended to device name for use in mrfioc2 object model
 
 
 mrmRemoteFlash::mrmRemoteFlash(const std::string &parentName, volatile epicsUInt8 *parentBaseAddress, formFactor formFactor, mrmFlash &flash):
     mrf::ObjectInst<mrmRemoteFlash>(parentName+object_name),
     m_base(parentBaseAddress),
-    m_flash_in_progress(false),
     m_flash_success(false),
     m_read_success(false),
     m_flash(flash)
@@ -81,6 +78,7 @@ void mrmRemoteFlash::startFlash(bool start)
 void mrmRemoteFlash::startFlash(std::string filename)
 {
     tThreadArgs * args = NULL;
+    epicsThreadId threadId;
 
     // Is flash access even supported?
     if(!m_supported) {
@@ -92,13 +90,12 @@ void mrmRemoteFlash::startFlash(std::string filename)
         throw std::runtime_error("Flash chip is already in use. Aborting.");
     }
 
-    m_flash_in_progress = true;
     args = new tThreadArgs;
     args->filename = filename;
     args->parent = this;
-    m_flash_thread_id = epicsThreadCreate("MRF SPI FLASH", epicsThreadPriorityLow, epicsThreadGetStackSize(epicsThreadStackMedium), &mrmRemoteFlash::flash_thread, args);
+    threadId = epicsThreadCreate("MRF SPI FLASH", epicsThreadPriorityLow, epicsThreadGetStackSize(epicsThreadStackMedium), &mrmRemoteFlash::flash_thread, args);
 
-    if(!m_flash_thread_id) {
+    if(!threadId) {
         if(args != NULL) delete args;
         throw std::runtime_error("Unable to create thread for flash access.\n");
     }
@@ -124,8 +121,6 @@ void mrmRemoteFlash::flash(const char *bitfile)
         errlogPrintf("An error occured while flashing: %s\n", ex.what());
         m_flash_success = false;
     }
-
-    m_flash_in_progress = false;
 }
 
 
@@ -141,6 +136,7 @@ void mrmRemoteFlash::startRead(bool start)
 void mrmRemoteFlash::startRead(std::string filename)
 {
     tThreadArgs * args = NULL;
+    epicsThreadId threadId;
 
     // Is flash access even supported?
     if(!m_supported) {
@@ -152,13 +148,12 @@ void mrmRemoteFlash::startRead(std::string filename)
         throw std::runtime_error("Flash chip is already in use. Aborting.");
     }
 
-    m_flash_in_progress = true;
     args = new tThreadArgs;
     args->filename = filename;
     args->parent = this;
-    m_flash_thread_id = epicsThreadCreate("MRF SPI READ", epicsThreadPriorityLow, epicsThreadGetStackSize(epicsThreadStackMedium), &mrmRemoteFlash::read_thread, args);
+    threadId = epicsThreadCreate("MRF SPI READ", epicsThreadPriorityLow, epicsThreadGetStackSize(epicsThreadStackMedium), &mrmRemoteFlash::read_thread, args);
 
-    if(!m_flash_thread_id) {
+    if(!threadId) {
         if(args != NULL) delete args;
         throw std::runtime_error("Unable to create thread for flash access.\n");
     }
@@ -184,8 +179,6 @@ void mrmRemoteFlash::read(const char *bitfile)
         errlogPrintf("An error occured while accessing flash memory: %s\n", ex.what());
         m_read_success = false;
     }
-
-    m_flash_in_progress = false;
 }
 
 
@@ -195,7 +188,7 @@ void mrmRemoteFlash::read(const char *bitfile)
 
 bool mrmRemoteFlash::flashInProgress() const
 {
-    return m_flash.flashBusy() || m_flash_in_progress;
+    return m_flash.flashBusy();
 }
 
 bool mrmRemoteFlash::flashSuccess() const

@@ -12,9 +12,9 @@
  */
 extern "C" {
     extern int mrfioc2_flashDebug;
-    #define infoPrintf(level,M, ...) if(mrfioc2_flashDebug >= level) fprintf(stderr, "mrfioc2_flashInfo: " M,##__VA_ARGS__)
+    #define infoPrintf(level,M, ...) if(mrfioc2_flashDebug >= level && mrfioc2_flashDebug > 0) fprintf(stderr, "mrfioc2_flashInfo: " M,##__VA_ARGS__)
 }
-//#define dbgPrintf(level,M, ...) if(mrfioc2_flashDebug >= level) fprintf(stderr, "mrfioc2_flashDebug: (%s:%d) " M, __FILE__, __LINE__, ##__VA_ARGS__)
+//#define dbgPrintf(level,M, ...) if(mrfioc2_flashDebug >= level && mrfioc2_flashDebug > 0) fprintf(stderr, "mrfioc2_flashDebug: (%s:%d) " M, __FILE__, __LINE__, ##__VA_ARGS__)
 
 
 /**
@@ -82,11 +82,9 @@ public:
 
 private:
     volatile epicsUInt8 * const m_base; // Base address of the EVR/EVG card
-    size_t m_size_page;                 // size of one page on the flash chip [bytes]
     size_t m_size_sector;               // size of one sector on the flash chip [bytes]
     size_t m_size_memory;               // flash memory size [bytes]
 
-    bool m_busy;                        // true if read or write operation is in progress. False otherwise.
     epicsMutex m_lock;                  // This lock is held while flashing or reading is in progress
 
     /**
@@ -107,14 +105,6 @@ private:
      * @param addr is the address within the page we want to erase
      */
     void sectorErase(size_t addr);
-
-    /**
-     * @brief fastRead issues a fast read program on the flash chip. It is used to read the content of the flash chip's memory into a file, starting at a specified address and reading a specified amount of bytes.
-     * @param bitfile is the file to write the flash chip's memory content to
-     * @param addr is the address in the flash chip memory, where the reading starts
-     * @param size is the number of [bytes] to read from the 'addr' of the flash chip's memory. If 'size' is too big for the provided 'addr', entire memory starting from the 'addr' is read.
-     */
-    void fastRead(const char *bitfile, size_t addr, size_t size);
 
     /**
      * @brief readIdentification issues the read identification program on the flash chip. It is used to get the flash chip manufacturer ID, memory type and memory capacity.
@@ -162,6 +152,14 @@ private:
      * @return data from the SPI data register
      */
     epicsUInt8 read();
+
+    /**
+     * @brief waitForCompletition will wait until previously issued command to the flash chip is completed. It throws an exception if the command time-outs (std::runtime_error).
+     * @param retryCount is the number of times to check for the command completition before an exception is raised.
+     * @param usSleep is the amount of time to sleep between each check for the command completition. [ms]
+     * @param verbosity is an optional argument that determines the verbosity level of debug statements in the function. Defaults to no output.
+     */
+    inline void waitForCompletition(size_t retryCount, size_t msSleep, int verbosity = 0);
 };
 
 #endif // MRMFLASH_H
