@@ -569,3 +569,16 @@ file "$(mrfioc2_TEMPLATES=db)/evgSoftSeq.template"
           RUNMODE   = 2          ## 0 = Normal, 1 = Automatic, 2 = Single
         }
 }
+
+
+## Flash access support
+## Uncomment this substitution to load records that expose read and write access to the flash chip on the device.
+#
+# Macros:
+#  SYS = System name (auto expanded by parent)
+#  DEVICE = Event receiver / timing card name (same as mrmEvgSetupVME()) Eg. EVG0. (auto expanded by parent)
+# 
+file "$(mrfioc2_TEMPLATES=db)/flash.template" 
+{
+   {}
+}

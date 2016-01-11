@@ -3,9 +3,10 @@ include $(TOP)/configure/CONFIG
 #----------------------------------------
 #  ADD MACRO DEFINITIONS AFTER THIS LINE
 
-#DB += databuftx.db
-#DB += databuftxCtrl.db
-#DB += sfp.db
+## Install non form factor specific tempalates
+DB += flash.template
+DB += sfp.template
+
 
 include $(TOP)/configure/RULES
 #----------------------------------------

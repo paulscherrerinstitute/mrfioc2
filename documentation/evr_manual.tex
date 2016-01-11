@@ -841,24 +841,24 @@ A heartbeat monitor is provided to receive heartbeat events from the timing netw
 	\texttt{mrfApp} folder contains source and makefiles that builds an executable IOC for this project, when using standard EPICS build system~\cite{appDevGuide}.
 \end{itemize}
 
-\subsection{Templates and substitution files}\label{sec:mrfioc2 organization:templates}
+\subsection{Templates and substitution files}\label{sec:mrfioc2 organization:substitution}
 \begin{itemize}
 \item 
-	\texttt{evrMrmApp/Db/evr-vme-230.substitutions} is an EVR form factor specific substitution file used to generate the form factor specific template file for EVR-VME-230. It is automatically generated when building the project.\label{itm:files:evr_ff_subs_vme}
+	\texttt{evrMrmApp/Db/evr-vme-230.substitutions} is an EVR form factor specific substitution file used to generate the form factor specific template file for EVR-VME-230. It is automatically generated when building the project.
 \item 
-	\texttt{evrMrmApp/Db/evr-vme-300.substitutions} is an EVR form factor specific substitution file used to generate the form factor specific template file for EVR-VME-300. It is automatically generated when building the project.\label{itm:files:evr_ff_subs_vme-300}
+	\texttt{evrMrmApp/Db/evr-vme-300.substitutions} is an EVR form factor specific substitution file used to generate the form factor specific template file for EVR-VME-300. It is automatically generated when building the project.
 \item 
-	\texttt{evrMrmApp/Db/evr-pcie-300.substitutions} is an EVR form factor specific substitution file used to generate the form factor specific template file for EVR-PCIe-300. It is automatically generated when building the project.\label{itm:files:evr_ff_subs_pcie}
+	\texttt{evrMrmApp/Db/evr-pcie-300.substitutions} is an EVR form factor specific substitution file used to generate the form factor specific template file for EVR-PCIe-300. It is automatically generated when building the project.
 \item 
-	\texttt{evrMrmApp/Db/evr-cpci-230.substitutions} is an EVR form factor specific substitution file used to generate the form factor specific template file for EVR-cPCI-230. It is automatically generated when building the project.\label{itm:files:evr_ff_subs_cpci}
+	\texttt{evrMrmApp/Db/evr-cpci-230.substitutions} is an EVR form factor specific substitution file used to generate the form factor specific template file for EVR-cPCI-230. It is automatically generated when building the project.
 \end{itemize}
 
 \subsection{GUI}\label{sec:mrfioc2 organization:gui}
 \begin{itemize}
 \item 
-	\texttt{evrMrmApp/opi/EVR/start\_EVR.sh} is a script used to launch the caQtDM~\cite{caqtdm} EVR GUI. \label{itm:files:evr_gui}
+	\texttt{evrMrmApp/opi/EVR/start\_EVR.sh} is a script used to launch the caQtDM~\cite{caqtdm} EVR GUI.
 \item 
-	\texttt{evrMrmApp/opi/EVR/start\_EVR-health.sh} is a script used to launch the caQtDM~\cite{caqtdm} EVR health monitor GUI. \label{itm:files:evr_gui_health}
+	\texttt{evrMrmApp/opi/EVR/start\_EVR-health.sh} is a script used to launch the caQtDM~\cite{caqtdm} EVR health monitor GUI.
 \item 
 	\texttt{evrMrmApp/opi/medm} folder contains deprecated medm~\cite{medm} GUIs (they do not work due to many database changes).
 \end{itemize}
@@ -874,7 +874,7 @@ A heartbeat monitor is provided to receive heartbeat events from the timing netw
 
 
 \subsection{Macros, substitution files and template files}\label{sec:Macros}
-The mrfioc2 device support contains a series of template and substitution files for the EVR, located in \texttt{mrfioc2/evrMrmAp/Db} folder. To simplify deployment of an IOC application, form factor specific templates are automatically generated uppon build time~\ref{sec:Building from scratch}. They can be directly included in the EVR substitution file and allow the usage of macros to set application specific configuration of the EVR. User can define its own EVR substitution file, or use one of the examples in \texttt{mrfioc2/PSI/example} folder (evr\_VME-300.subs, evr\_VME-230.subs, evr\_PCIe-300.subs ...).
+The mrfioc2 device support contains a series of template and substitution files for the EVR, located in \texttt{mrfioc2/evrMrmAp/Db} and \texttt{mrfioc2/mrmShared/Db} folder. To simplify deployment of an IOC application, form factor specific templates are automatically generated uppon build time~\ref{sec:Building from scratch}. They can be directly included in the EVR substitution file and allow the usage of macros to set application specific configuration of the EVR. User can define its own EVR substitution file, or use one of the examples in \texttt{mrfioc2/PSI/example} folder (evr\_VME-300.subs, evr\_VME-230.subs, evr\_PCIe-300.subs ...).
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=\columnwidth]{./img/templates}
@@ -991,7 +991,7 @@ As described in Section~\ref{sec:Event Receiver}, the EVR has many form factors 
 
 Whenever possible use the automatic template generation that occurs during the build process!
 
-To create such a template, use a form factor specific substitution file(eg. file list item~\ref{itm:files:evr_ff_subs_vme},~\ref{itm:files:evr_ff_subs_pcie}) and expand it using the
+To create such a template, use a form factor specific substitution file(eg. file list items in ~\ref{sec:mrfioc2 organization:substitution}) and expand it using the
 MSI tool~\cite{msi}. The tool works the same way as the EPICS macro substitutions do. The output of
 the tool can then be used in the substitution file for your IOC application.
 
@@ -1027,20 +1027,18 @@ default value, instead of applying it to the undefined macro.
 	The macro substitution \texttt{PS0-Div-SP=value} can then be used in our application substitution file to set the field \texttt{value}, otherwise it defaults to `2'.
 \end{itemize}
 
-\paragraph{Individual form factor compatible template files} can also be generated. The following \textbf{example} shows how to create a VME-EVR-300 form factor compatible template file, by issuing the following command in \newline\texttt{mrfioc2/evrMrmApp/Db} folder:
+\paragraph{Individual form factor compatible template files} can also be generated. The following \textbf{example} shows how to create a VME-EVR-300 form factor compatible template file, by issuing the following command in \newline\texttt{mrfioc2} folder:
 
 \begin{verbatim}
-msi -S evr-vme-300.substitutions > evr-vme-300.template 
+msi -I evrMrmApp/Db/ -I mrmShared/Db/ 
+    -S evrMrmApp/Db/evr-vme-300.substitutions 
+    -o evrMrmApp/Db/evr-vme-300.db 
 \end{verbatim}
 
-The command will use the EVR form factor specific \newline\texttt{evr-vmerf230.substitutions}
-file to generate the template \newline\texttt{evr-vmerf230.template} to be used in your IOC application substitution file.
+The command will use the EVR form factor specific \newline\texttt{evr-vme-300.substitutions}
+file to generate the template \newline\texttt{evr-vme-300.db} to be used in your IOC application substitution file.
 
-\begin{quote}
-Described solution can be observed in \texttt{evr-base.template},
-\texttt{evr-cml.template}, \texttt{evr-in.template}, ... located in
-\texttt{mrfioc2/evrMrmApp/Db/} folder.
-\end{quote}
+
 
 %\subsection{Manually generating EVR template}\label{sec:manually-generating-evr-template}
 %A MSI tool~\cite{msi} is required to generate a form factor specific template. It
@@ -1131,7 +1129,22 @@ The output contains :
 \end{itemize}
 
 \subsection{Using EPICS records for accessing the flash memory}
-The following records are available for status reporting:
+A template file \texttt{flash.template} contains records that expose flash memory access. It be loaded by adding the following lines to the EVR (or EVG) substitution file:
+\begin{verbatim}
+## Flash access support
+## Uncomment this substitution to load records that expose read and write access to the flash chip on the device.
+#
+# Macros:
+#  SYS = System name (auto expanded by parent)
+#  DEVICE = Event receiver / timing card name (same as mrmEvrSetupVME()) Eg. EVR0. (auto expanded by parent)
+# 
+file "$(mrfioc2_TEMPLATES=db)/flash.template" 
+{
+	{}
+}
+\end{verbatim}
+When using example substitution file provided for the PSI infrastructure the snippet above is already included, but commented out. In order to use it, uncomment it.
+The following records are then available for status reporting:
 \begin{itemize}
 	\item \texttt{\$(SYS)-\$(DEVICE):Flash-IsSupported-RB} record. Indicates if this device supports flash chip access.
 	\item \texttt{\$(SYS)-\$(DEVICE):Flash-InProgress-RB} record. When processed, indicates if reading or flashing is currently in progress (either through records or through iocsh functions).

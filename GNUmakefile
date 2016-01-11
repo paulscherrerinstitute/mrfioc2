@@ -126,6 +126,10 @@ TEMPLATES += PSI/example/evr_PCIe-300.subs
 TEMPLATES += PSI/example/evg_VME-230.subs
 TEMPLATES += PSI/example/evg_VME-300.subs
 
+## Shared templates
+TEMPLATES += mrmShared/Db/flash.template
+TEMPLATES += mrmShared/Db/sfp.template
+
 ## GENERIC STARTUP SCRIPTS ##
 SCRIPTS += PSI/mrfioc2_evr-PCIe.cmd
 SCRIPTS += PSI/mrfioc2_evr-VME.cmd
@@ -148,14 +152,14 @@ dbexpand:
 	
 	echo "Exapanding EVG database"	
 
-	msi -I evgMrmApp/Db/ -S evgMrmApp/Db/evg-vme-300.substitutions 	-o evgMrmApp/Db/evg-vme-300.db
-	msi -I evgMrmApp/Db/ -S evgMrmApp/Db/evg-vme-230.substitutions 	-o evgMrmApp/Db/evg-vme-230.db
+	msi -I evgMrmApp/Db/ -I mrmShared/Db/ -S evgMrmApp/Db/evg-vme-300.substitutions 	-o evgMrmApp/Db/evg-vme-300.db
+	msi -I evgMrmApp/Db/ -I mrmShared/Db/ -S evgMrmApp/Db/evg-vme-230.substitutions 	-o evgMrmApp/Db/evg-vme-230.db
 
 	echo "Exapanding EVR database"	
-	msi -I evrMrmApp/Db -S evrMrmApp/Db/evr-cpci-230.substitutions 	-o evrMrmApp/Db/evr-cpci-230.db
-	msi -I evrMrmApp/Db -S evrMrmApp/Db/evr-pcie-300.substitutions 	-o evrMrmApp/Db/evr-pcie-300.db
-	msi -I evrMrmApp/Db -S evrMrmApp/Db/evr-vme-300.substitutions 	-o evrMrmApp/Db/evr-vme-300.db
-	msi -I evrMrmApp/Db -S evrMrmApp/Db/evr-vme-230.substitutions 	-o evrMrmApp/Db/evr-vme-230.db
+	msi -I evrMrmApp/Db/ -I mrmShared/Db/ -S evrMrmApp/Db/evr-cpci-230.substitutions 	-o evrMrmApp/Db/evr-cpci-230.db
+	msi -I evrMrmApp/Db/ -I mrmShared/Db/ -S evrMrmApp/Db/evr-pcie-300.substitutions 	-o evrMrmApp/Db/evr-pcie-300.db
+	msi -I evrMrmApp/Db/ -I mrmShared/Db/ -S evrMrmApp/Db/evr-vme-300.substitutions 	-o evrMrmApp/Db/evr-vme-300.db
+	msi -I evrMrmApp/Db/ -I mrmShared/Db/ -S evrMrmApp/Db/evr-vme-230.substitutions 	-o evrMrmApp/Db/evr-vme-230.db
 
 
 
