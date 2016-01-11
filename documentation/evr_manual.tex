@@ -912,7 +912,7 @@ There are two possible ways to build the mrfioc2 device support. First is using 
 %driver.makefile~\cite{driver.makefile}, makes it possible to build IOC software projects such as drivers, state notation code, records, etc. with minimal configuration.
 To compile to a PSI style module, it is suggested to first clone the PSI git repository for mrfioc2:
 \begin{verbatim}
-	git clone https://github.psi.ch/scm/ed/mrfioc2.git
+	git clone git@git.psi.ch:epics_drivers/mrfioc2.git
 \end{verbatim}
 and then:
 \begin{enumerate}
@@ -955,7 +955,7 @@ Installed module can then be used with one of the example startup scripts~\ref{s
 \subsection{Standard makefile}\label{sec:Standard makefile}
 To compile the mrfioc2 as a standard IOC application, it is suggested to first clone the latest mrfioc2 repository from the PSI git: 
 \begin{verbatim}
-	git clone https://github.psi.ch/scm/ed/mrfioc2.git
+	git clone git@git.psi.ch:epics_drivers/mrfioc2.git
 \end{verbatim}
 
 Then follow these steps:
@@ -1073,6 +1073,91 @@ Described solution can be observed in \texttt{evr-base.template},
 %devLib2~\cite{devlib2} is an extension to the EPICS OS independent VME bus access library (devLib v1) found in the 3.14.x series. The v2 library is an overlay and extension to the v1 library and not a replacement. It is planned that the v2 library will be merged with the v1 library for the 3.15.x series. After that point devlib2 will continue to exist as a location for backports and bug fixes for the 3.14.x series.
 
 %\section{kernel/pcie port}\label{sec:kernel/pcie port}
+
+\section{Firmware update}
+\begin{quote}
+\textbf{Take great care when flashing the firmware on your device. Wrong bit-files or errors while flashing will most likely render your device unusable!}
+\end{quote}
+mrfioc2 EPICS device support enables us to update the VME, PCIe and cPCI event generator or event receiver firmware remotely. There are two ways to update the firmware, either through iocsh functions (recommended way) or through EPICS records.
+
+
+\subsection{Usage of the iocsh functions for accessing the device flash memory}
+In order to read back the content of the flash chip on the device, use the following iocsh command:
+\begin{verbatim}
+	mrmRemoteFlashRead Device File
+\end{verbatim}
+where:
+\begin{itemize}
+	\item \texttt{Device} is the device name we wish to read the flash chip memory from. Eg.: EVR0, EVR1, EVG0, EVG1
+	\item \texttt{File} is the path to the bit-file where the content of the flash chip memory will be written to.
+\end{itemize}
+
+In order to flash firmware to the device, use the following iocsh command:
+\begin{verbatim}
+	mrmRemoteFlashWrite Device File
+\end{verbatim}
+where:
+\begin{itemize}
+	\item \texttt{Device} is the device name we wish to flash. Eg.: EVR0, EVR1, EVG0, EVG1
+	\item \texttt{File} is the path to the bit-file that contains the firmware we wish to write to the flash chip on the device.
+\end{itemize}
+
+Flash chip information and access status can be printed using the following iocsh command:
+\begin{verbatim}
+	mrmRemoteFlashStatus Device
+\end{verbatim}
+where:
+\begin{itemize}
+	\item \texttt{Device} is the device name we wish to print the information for. Eg.: EVR0, EVR1, EVG0, EVG1
+\end{itemize}
+
+\paragraph{Example:} Reading the information of the EVR0 device flash chip by issuing \texttt{mrmRemoteFlashStatus EVR0} command can produce the following output:
+\begin{verbatim}
+Status report of EVR0 flash chip
+    Memory size: 16777216 bytes = 16384 kB = 16 MB
+    Sector size: 262144 bytes = 256 kB
+    Page size: 256 bytes
+    First address for reading / writing is at offset: 0 [bytes]
+    Flash is currently not being accessed.
+    Last completed flash operation was not successful.
+    Last completed read operation was not successful.
+\end{verbatim}
+The output contains :
+\begin{itemize}
+	\item basic information about the flash chip (memory, sector and page size),
+	\item read / write offset. This is the offset in the flash chip memory, where reading and flashing starts.
+	\item Indication whether reading or flashing is currently in progress (either through EPICS records or through iocsh functions).
+	\item Indication whether the last completed reading and flashing commands were successful (commands can be issued through EPICS records or through iocsh functions). If no read or write operations were issued yet, the indication states \texttt{not successful}.
+\end{itemize}
+
+\subsection{Using EPICS records for accessing the flash memory}
+The following records are available for status reporting:
+\begin{itemize}
+	\item \texttt{\$(SYS)-\$(DEVICE):Flash-IsSupported-RB} record. Indicates if this device supports flash chip access.
+	\item \texttt{\$(SYS)-\$(DEVICE):Flash-InProgress-RB} record. When processed, indicates if reading or flashing is currently in progress (either through records or through iocsh functions).
+	\item \texttt{\$(SYS)-\$(DEVICE):Flash-Flash-RB} record. When processed, indicates if the last completed flashing command was successful (flashing command can be issued through EPICS records or through iocsh functions).
+	\item \texttt{\$(SYS)-\$(DEVICE):Flash-Read-RB} record. When processed, indicates if the last completed read command was successful (read command can be issued through EPICS records or through iocsh functions).
+\end{itemize}
+
+The following procedure enables us to read back the content of the flash chip:
+\begin{enumerate}
+	\item Check if your device supports flash chip access by reading \newline\texttt{\$(SYS)-\$(DEVICE):Flash-IsSupported-RB} record.
+	\item Use \texttt{\$(SYS)-\$(DEVICE):Flash-Filename-SP} record to set the path to the bit-file where the content of the flash chip memory will be written to.
+	\item Use \texttt{\$(SYS)-\$(DEVICE):Flash-Filename-RB} record to check the previously set path to the bit-file.
+	\item Process \texttt{\$(SYS)-\$(DEVICE):Flash-Read-Cmd} record to initiate the reading procedure. 
+	\item Periodically process \texttt{\$(SYS)-\$(DEVICE):Flash-InProgress-RB} record in order to see if the procedure has finished. Mind that flash access is slow.
+	\item After reading had finished, process \texttt{\$(SYS)-\$(DEVICE):Flash-Read-RB} to see if the operation was successful.
+\end{enumerate}
+
+The following procedure enables us to flash the firmware:
+\begin{enumerate}
+	\item Check if your device supports flash chip access by reading \newline\texttt{\$(SYS)-\$(DEVICE):Flash-IsSupported-RB} record.
+	\item Use \texttt{\$(SYS)-\$(DEVICE):Flash-Filename-SP} record to set the path to the bit-file that contains the firmware you wish to write to the flash chip on the device.
+	\item Use \texttt{\$(SYS)-\$(DEVICE):Flash-Filename-RB} record to check the previously set path to the bit-file.
+	\item Process \texttt{\$(SYS)-\$(DEVICE):Flash-Flash-Cmd} record to initiate the flash procedure. 
+	\item Periodically process \texttt{\$(SYS)-\$(DEVICE):Flash-InProgress-RB} record in order to see if the procedure has finished. Mind that flash access is slow.
+	\item After flashing had finished, process \texttt{\$(SYS)-\$(DEVICE):Flash-Flash-RB} to see if the operation was successful.
+\end{enumerate}
 
 
 \section{GUI}\label{sec:GUI}

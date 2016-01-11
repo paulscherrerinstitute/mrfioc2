@@ -1,6 +1,6 @@
 # mrfioc2
 
-[mrfioc2](https://github.psi.ch/projects/ED/repos/mrfioc2/browse) is an EPICS device support for the Micro Research Finland ([MRF](http://www.mrf.fi/)) timing system (in short mrfioc2 driver). The mrfioc2 enables us to configure and use the event generators and event receivers in the timing system. It comprises of EPICS device support for MRF timing system and uses [devlib2](https://github.com/epics-modules/devlib2/) with additional kernel modules (eg. PCIe) for communication with the hardware.
+[mrfioc2](https://git.psi.ch/epics_drivers/mrfioc2) is an EPICS device support for the Micro Research Finland ([MRF](http://www.mrf.fi/)) timing system (in short mrfioc2 driver). The mrfioc2 enables us to configure and use the event generators and event receivers in the timing system. It comprises of EPICS device support for MRF timing system and uses [devlib2](https://github.com/epics-modules/devlib2/) with additional kernel modules (eg. PCIe) for communication with the hardware.
 
 This project is a continued development from the original mrfioc2 driver available on [GitHub](https://github.com/epics-modules/mrfioc2)
 
@@ -14,21 +14,21 @@ The documentation is available in the `documentation` folder:
 * `doxy` folder contains the generated doxygen documentation. For information on how to generate it, inspect readme in `documentation` folder.
 
 ## Quick start (PSI)
-To set up an IOC application for EVR we need to set up a startup script and a substitution file matching the timing card form factor. Suitable ones are available in the `PSI/example` folder:
+To set up an IOC application for EVR we need to set up a startup script and a substitution file matching the timing card form factor. Suitable ones are available in the [`PSI/example`](https://git.psi.ch/epics_drivers/mrfioc2/tree/2.7.4/PSI/example) folder:
 
 * EVG
-    * example startup script ([`evg_VME_startup.script`](https://github.psi.ch/projects/ED/repos/mrfioc2/browse/PSI/example/evg_VME_startup.script?at=b284e63032f1ad4f5975ec1c66174b75ea10700b&raw))
-    * example substitution files ([`evg_VME-230.subs`](https://github.psi.ch/projects/ED/repos/mrfioc2/browse/PSI/example/evg_VME-230.subs?at=567d1746e6cbcd7e3484626383e3f720ab3dc236&raw), [`evg_VME-300.subs`](https://github.psi.ch/projects/ED/repos/mrfioc2/browse/PSI/example/evg_VME-300.subs?at=567d1746e6cbcd7e3484626383e3f720ab3dc236&raw))
+    * example startup script ([`evg_VME_startup.script`](https://git.psi.ch/epics_drivers/mrfioc2/blob/2.7.4/PSI/example/evg_VME_startup.script))
+    * example substitution files ([`evg_VME-230.subs`](https://git.psi.ch/epics_drivers/mrfioc2/blob/2.7.4/PSI/example/evg_VME-230.subs), [`evg_VME-300.subs`](https://git.psi.ch/epics_drivers/mrfioc2/blob/2.7.4/PSI/example/evg_VME-300.subs))
 * EVR
-    * example startup scripts ([`evr_VME_startup.script`](https://github.psi.ch/projects/ED/repos/mrfioc2/browse/PSI/example/evr_VME_startup.script?at=b284e63032f1ad4f5975ec1c66174b75ea10700b&raw), [`evr_PCIe_startup.script`](https://github.psi.ch/projects/ED/repos/mrfioc2/browse/PSI/example/evr_PCIe_startup.script?at=b284e63032f1ad4f5975ec1c66174b75ea10700b&raw))
-    * example substitution files ([`evr_cPCI-230.subs`](https://github.psi.ch/projects/ED/repos/mrfioc2/browse/PSI/example/evr_cPCI-230.subs?at=1cbfa97936f8e17f3f0b7bfe5be391451639ebb0&raw), [`evr_PCIe-300.subs`](https://github.psi.ch/projects/ED/repos/mrfioc2/browse/PSI/example/evr_PCIe-300.subs?at=1cbfa97936f8e17f3f0b7bfe5be391451639ebb0&raw), [`evr_VME-230.subs`](https://github.psi.ch/projects/ED/repos/mrfioc2/browse/PSI/example/evr_VME-230.subs?at=1cbfa97936f8e17f3f0b7bfe5be391451639ebb0&raw), [`evr_VME-300.subs`](https://github.psi.ch/projects/ED/repos/mrfioc2/browse/PSI/example/evr_VME-300.subs?at=ed41ffa2d7a698345e07d8dfaf5d1d9e5df2482e&raw))
+    * example startup scripts ([`evr_VME_startup.script`](https://git.psi.ch/epics_drivers/mrfioc2/blob/2.7.4/PSI/example/evr_VME_startup.script), [`evr_PCIe_startup.script`](https://git.psi.ch/epics_drivers/mrfioc2/blob/2.7.4/PSI/example/evr_PCIe_startup.script))
+    * example substitution files ([`evr_cPCI-230.subs`](https://git.psi.ch/epics_drivers/mrfioc2/blob/2.7.4/PSI/example/evr_cPCI-230.subs), [`evr_PCIe-300.subs`](https://git.psi.ch/epics_drivers/mrfioc2/blob/2.7.4/PSI/example/evr_PCIe-300.subs), [`evr_VME-230.subs`](https://git.psi.ch/epics_drivers/mrfioc2/blob/2.7.4/PSI/example/evr_VME-230.subs), [`evr_VME-300.subs`](https://git.psi.ch/epics_drivers/mrfioc2/blob/2.7.4/PSI/example/evr_VME-300.subs))
 
 For example, to set up a basic IOC for use with EVR-VME-300 timing card, user should:
 
 * prepare a switable IOC structure in a `TOP` folder (where `TOP` is your project folder)
-* copy `PSI/example/evr_VME-300.subs` to `TOP/cfg/EVR0.subs`
-* configure parameters of the EVR by setting macros in `TOP/cfg/EVR0.subs`. Individual parameters are described in [`documentation/evr_manual.pdf`](https://github.psi.ch/projects/ED/repos/mrfioc2/browse/documentation/evr_manual.pdf?at=2.7.4), and tutorials for various scenarios are available in [`documentation/tutorial.pdf`](https://github.psi.ch/projects/ED/repos/mrfioc2/browse/documentation/tutorial.pdf?at=2.7.4).
-* add the following to your startup script (available in [`PSI/example/evr_VME_startup.script`](https://github.psi.ch/projects/ED/repos/mrfioc2/browse/PSI/example/evr_VME_startup.script?at=b284e63032f1ad4f5975ec1c66174b75ea10700b&raw)):
+* copy [`PSI/example/evr_VME-300.subs`](https://git.psi.ch/epics_drivers/mrfioc2/raw/2.7.4/PSI/example/evr_VME-300.subs) to `TOP/cfg/EVR0.subs`
+* configure parameters of the EVR by setting macros in `TOP/cfg/EVR0.subs`. Individual parameters are described in [`documentation/evr_manual.pdf`](https://git.psi.ch/epics_drivers/mrfioc2/raw/2.7.4/documentation/evr_manual.pdf), and tutorials for various scenarios are available in [`documentation/tutorial.pdf`](https://git.psi.ch/epics_drivers/mrfioc2/raw/2.7.4/documentation/tutorial.pdf).
+* add the following to your startup script (available in [`PSI/example/evr_VME_startup.script`](https://git.psi.ch/epics_drivers/mrfioc2/raw/2.7.4/PSI/example/evr_VME_startup.script)):
     
         require mrfioc2
     
@@ -52,7 +52,7 @@ For example, to set up a basic IOC for use with EVR-VME-300 timing card, user sh
 * run the GUI by issuing the following command: `start_EVR.sh -s MTEST-VME-TIMINGTEST -f VME-300`
 
 ## Using the application
-As with any EPICS application, build procedure produces all the necessary database files and an IOC for each architecture built. An example application for the `linux-x86_64` architecture is available in `iocBoot` folder. For more details inspect the `evr_manual.pdf` available in the `documentation` folder.
+As with any EPICS application, build procedure produces all the necessary database files and an IOC for each architecture built. An example application for the `linux-x86_64` architecture is available in `iocBoot` folder. For more details inspect the [`evr_manual.pdf`](https://git.psi.ch/epics_drivers/mrfioc2/raw/2.7.4/documentation/evr_manual.pdf) available in the [`documentation`](https://git.psi.ch/epics_drivers/mrfioc2/tree/2.7.4/documentation) folder.
 
 GUIs are available:
 
@@ -62,7 +62,7 @@ GUIs are available:
 Each folder contains a readme file which explains how to run the GUIs.
 
 ### PSI
-Example substitution files and startup scripts are available in the `PSI/example` folder. For more details inspect the `evr_manual.pdf` and `tutorial.pdf` available in the `documentation` folder.
+Example substitution files and startup scripts are available in the [`PSI/example`](https://git.psi.ch/epics_drivers/mrfioc2/tree/2.7.4/PSI/example) folder. For more details inspect the [`evr_manual.pdf`](https://git.psi.ch/epics_drivers/mrfioc2/raw/2.7.4/documentation/evr_manual.pdf) and [`tutorial.pdf`](https://git.psi.ch/epics_drivers/mrfioc2/raw/2.7.4/documentation/tutorial.pdf) available in the [`documentation`](https://git.psi.ch/epics_drivers/mrfioc2/tree/2.7.4/documentation) folder.
 
 
 ## Supported hardware
@@ -111,7 +111,7 @@ For building the documentation (for more information inspect readme in `document
 
 The mrfioc2 driver is structured as an ordinary EPICS application. In order to build it from source:
 
-* clone the sources from git repository by running command `git clone https://github.psi.ch/scm/ed/mrfioc2.git`, which creates a top folder called `mrfioc2`.
+* clone the sources from git repository by running command `git clone git@git.psi.ch:epics_drivers/mrfioc2.git`, which creates a top folder called `mrfioc2`.
 * update files in `mrfioc2/configure` folder to match your system, and to include additional libraries to be build together with the driver (eg. set paths in `configure/RELEASE`).
 * run `make -f Makefile` in the `mrfioc2` folder.
 
@@ -130,7 +130,7 @@ Outputs of the build command are:
 ### PSI
 Building the driver on the PSI infrastructure is a bit different, since it leverages the driver.makefile. In order to build it:
 
-* clone the sources from git repository by running command `git clone https://github.psi.ch/scm/ed/regdev.git`, which creates a top folder called `mrfioc2`.
+* clone the sources from git repository by running command `git clone git@git.psi.ch:epics_drivers/mrfioc2.git`, which creates a top folder called `mrfioc2`.
 * run `make` in the `mrfioc2` folder on the build server.
 * run 'make db' to create database files
 * to install the driver run `make install` in the `mrfioc2` folder on the build server.

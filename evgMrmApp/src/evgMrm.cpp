@@ -47,7 +47,7 @@ evgMrm::evgMrm(const std::string& id, bus_configuration& busConfig, volatile epi
     m_acTrig(id+":AcTrig", pReg),
     m_evtClk(id+":EvtClk", pReg),
     m_softEvt(id+":SoftEvt", pReg),
-    m_remoteFlash(id+":Flash",pReg),
+    m_flash(pReg),
     m_seqRamMgr(this),
     m_softSeqMgr(this)
 {
@@ -139,6 +139,9 @@ evgMrm::evgMrm(const std::string& id, bus_configuration& busConfig, volatile epi
         sfpName<<id<<":SFP0";
         m_sfp.push_back(new SFP(sfpName.str(), pReg + U32_SFP_transceiver));    // there is always a main transceiver module present (upstream)
 
+
+        m_remoteFlash = new mrmRemoteFlash(id, pReg, getFormFactor(), m_flash);
+
         if(version >= EVG_FCT_MIN_FIRMWARE && m_fctReg > 0){
             m_fct = new evgFct(id, m_fctReg, &m_sfp); // fanout SFP modules are initialized here
         } else{
@@ -204,6 +207,9 @@ evgMrm::~evgMrm() {
 
     for(size_t i = 0; i < m_sfp.size(); i++)
         delete m_sfp[i];
+
+    delete m_remoteFlash;
+    delete m_dataBuffer;
 }
 
 void 
@@ -828,6 +834,11 @@ bus_configuration *evgMrm::getBusConfiguration()
 
 std::vector<SFP *>* evgMrm::getSFP(){
     return &m_sfp;
+}
+
+mrmRemoteFlash *evgMrm::getRemoteFlash()
+{
+    return m_remoteFlash;
 }
 
 mrmDataBuffer *evgMrm::getDataBuffer()

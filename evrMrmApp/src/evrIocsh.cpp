@@ -573,7 +573,7 @@ void inithooks(initHookState state)
 }
 
 
-static const iocshArg mrmEvrSetupPCIArg0 = { "name",iocshArgString};
+static const iocshArg mrmEvrSetupPCIArg0 = { "Device",iocshArgString};
 static const iocshArg mrmEvrSetupPCIArg1 = { "Domain number",iocshArgInt};
 static const iocshArg mrmEvrSetupPCIArg2 = { "Bus number",iocshArgInt};
 static const iocshArg mrmEvrSetupPCIArg3 = { "Device number",iocshArgInt};
@@ -704,7 +704,7 @@ try {
     errlogFlush();
 }
 
-static const iocshArg mrmEvrSetupVMEArg0 = { "name",iocshArgString};
+static const iocshArg mrmEvrSetupVMEArg0 = { "Device",iocshArgString};
 static const iocshArg mrmEvrSetupVMEArg1 = { "Bus number",iocshArgInt};
 static const iocshArg mrmEvrSetupVMEArg2 = { "A32 base address",iocshArgInt};
 static const iocshArg mrmEvrSetupVMEArg3 = { "IRQ Level 1-7 (0 - disable)",iocshArgInt};
@@ -744,7 +744,7 @@ try {
 }
 }
 
-static const iocshArg mrmEvrDumpMapArg0 = { "name",iocshArgString};
+static const iocshArg mrmEvrDumpMapArg0 = { "Device",iocshArgString};
 static const iocshArg mrmEvrDumpMapArg1 = { "Event code",iocshArgInt};
 static const iocshArg mrmEvrDumpMapArg2 = { "Mapping select 0 or 1",iocshArgInt};
 static const iocshArg * const mrmEvrDumpMapArgs[3] =
@@ -853,7 +853,7 @@ try {
 }
 }
 
-static const iocshArg mrmEvrForwardArg0 = { "name",iocshArgString};
+static const iocshArg mrmEvrForwardArg0 = { "Device",iocshArgString};
 static const iocshArg mrmEvrForwardArg1 = { "Event spec string",iocshArgString};
 static const iocshArg * const mrmEvrForwardArgs[2] =
 {&mrmEvrForwardArg0,&mrmEvrForwardArg1};
@@ -888,7 +888,7 @@ try {
 }
 }
 
-static const iocshArg mrmEvrLoopbackArg0 = { "name",iocshArgString};
+static const iocshArg mrmEvrLoopbackArg0 = { "Device",iocshArgString};
 static const iocshArg mrmEvrLoopbackArg1 = { "RX-loopback",iocshArgInt};
 static const iocshArg mrmEvrLoopbackArg2 = { "TX-loopback",iocshArgInt};
 static const iocshArg * const mrmEvrLoopbackArgs[3] =
@@ -1054,35 +1054,6 @@ static void mrmEvrDelaySetCallFunc(const iocshArgBuf *args)
     mrmEvrDelaySet(args[0].sval, args[1].ival, args[2].ival, args[3].ival, args[4].ival,  args[5].ival);
 }*/
 
-/******  SPI  ********/
-static const iocshArg mrmEVRFlashArg0 = { "Card ID", iocshArgString };
-static const iocshArg mrmEVRFlashArg1 = { "bitFile", iocshArgString };
-
-static const iocshArg * const mrmEVRFlashArgs[2] = { &mrmEVRFlashArg0, &mrmEVRFlashArg1};
-static const iocshFuncDef mrmEVRFlashDef = { "mrmEVRFlash", 2, mrmEVRFlashArgs };
-
-extern "C"{
-    extern int spi_program_flash(void* preg, char *bitfile);
-}
-
-static void mrmEVRFlashFunc(const iocshArgBuf *args) {
-   char* cardID = args[0].sval;
-   char* bitfile = args[1].sval;
-
-   printf("Starting SPI flash procedure for %s [%s]\n", cardID, bitfile);
-
-   EVRMRM* evr = dynamic_cast<EVRMRM*>(mrf::Object::getObject(cardID));
-   if(!evr){
-       errlogPrintf("EVR <%s> does not exist!\n", cardID);
-       return;
-   }
-
-   void* preg = (void*)evr->base;
-
-   spi_program_flash(preg, bitfile);
-}
-
-/****************/
 
 static
 void mrmsetupreg()
@@ -1093,7 +1064,6 @@ void mrmsetupreg()
     iocshRegister(&mrmEvrDumpMapFuncDef,mrmEvrDumpMapCallFunc);
     iocshRegister(&mrmEvrForwardFuncDef,mrmEvrForwardCallFunc);
     iocshRegister(&mrmEvrLoopbackFuncDef,mrmEvrLoopbackCallFunc);
-    iocshRegister(&mrmEVRFlashDef,mrmEVRFlashFunc);
     /*iocshRegister(&mrmEvrGpioDirectionFuncDef,mrmEvrGpioDirectionCallFunc);
      *
     iocshRegister(&mrmEvrDelaySetFuncDef,mrmEvrDelaySetCallFunc);

@@ -539,7 +539,7 @@ void mrmEvgSoftTime(void* pvt) {}
 /*
  *    EPICS Registrar Function for this Module
  */
-static const iocshArg mrmEvgSoftTimeArg0 = { "Card ID", iocshArgString};
+static const iocshArg mrmEvgSoftTimeArg0 = { "Device", iocshArgString};
 static const iocshArg * const mrmEvgSoftTimeArgs[1] = { &mrmEvgSoftTimeArg0};
 static const iocshFuncDef mrmEvgSoftTimeFuncDef = { "mrmEvgSoftTime", 1, mrmEvgSoftTimeArgs };
 
@@ -557,7 +557,7 @@ static void mrmEvgSoftTimeFunc(const iocshArgBuf *args) {
 }
 
 
-static const iocshArg mrmEvgSetupVMEArg0 = { "Card ID", iocshArgString };
+static const iocshArg mrmEvgSetupVMEArg0 = { "Device", iocshArgString };
 static const iocshArg mrmEvgSetupVMEArg1 = { "Slot number", iocshArgInt };
 static const iocshArg mrmEvgSetupVMEArg2 = { "A24 base address", iocshArgInt };
 static const iocshArg mrmEvgSetupVMEArg3 = { "IRQ Level 1-7 (0 - disable)",
@@ -581,7 +581,7 @@ mrmEvgSetupVMECallFunc(const iocshArgBuf *args) {
                    args[4].ival);
 }
 
-static const iocshArg mrmEvgSetupPCIArg0 = { "Card ID", iocshArgString };
+static const iocshArg mrmEvgSetupPCIArg0 = { "Device", iocshArgString };
 static const iocshArg mrmEvgSetupPCIArg1 = { "B board", iocshArgInt };
 static const iocshArg mrmEvgSetupPCIArg2 = { "D device", iocshArgInt };
 static const iocshArg mrmEvgSetupPCIArg3 = { "F function", iocshArgInt };
@@ -596,35 +596,6 @@ static void mrmEvgSetupPCICallFunc(const iocshArgBuf *args) {
 	mrmEvgSetupPCI(args[0].sval, args[1].ival, args[2].ival, args[3].ival);
 }
 
-/********** Flash added  *******/
-static const iocshArg mrmEVMFlashArg0 = { "Card ID", iocshArgString };
-static const iocshArg mrmEVMFlashArg1 = { "bitFile", iocshArgString };
-
-static const iocshArg * const mrmEVMFlashArgs[2] = { &mrmEVMFlashArg0, &mrmEVMFlashArg1};
-static const iocshFuncDef mrmEVMFlashDef = { "mrmEVMFlash", 2, mrmEVMFlashArgs };
-
-extern "C"{
-    extern int spi_program_flash(void* preg, char *bitfile);
-}
-
-static void mrmEVMFlashFunc(const iocshArgBuf *args) {
-   char* cardID = args[0].sval;
-   char* bitfile = args[1].sval;
-
-   printf("Starting SPI flash procedure for %s [%s]\n",cardID,bitfile);
-
-   evgMrm* evg = dynamic_cast<evgMrm*>(mrf::Object::getObject(cardID));
-   if(!evg){
-       errlogPrintf("EVG <%s> does not exist!\n",cardID);
-       return;
-   }
-
-   void* preg = (void*)evg->getRegAddr();
-
-   spi_program_flash(preg, bitfile);
-}
-
-/******************/
 
 extern "C"{
 static void evgMrmRegistrar() {
@@ -632,7 +603,6 @@ static void evgMrmRegistrar() {
 	iocshRegister(&mrmEvgSetupVMEFuncDef, mrmEvgSetupVMECallFunc);
 	iocshRegister(&mrmEvgSetupPCIFuncDef, mrmEvgSetupPCICallFunc);
 	iocshRegister(&mrmEvgSoftTimeFuncDef, mrmEvgSoftTimeFunc);
-    iocshRegister(&mrmEVMFlashDef, mrmEVMFlashFunc);
 }
 
 epicsExportRegistrar(evgMrmRegistrar);

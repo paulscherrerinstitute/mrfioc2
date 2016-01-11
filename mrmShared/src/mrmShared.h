@@ -77,6 +77,16 @@ enum PLLBandwidth {
 //
 #define U32_Status      0x000
 
+//=====================
+// SPI register offsets
+//
+#define U32_SpiData    0x0A0
+#define U32_SpiCtrl    0x0A4
+  #define SpiCtrl_rrdy         (0x0040) // Receiver ready. If '1', data byte waiting in U32_SpiData.
+  #define SpiCtrl_trdy         (0x0020) // Transmitter ready. If '1', U32_SpiData is ready to accept new transmit data byte.
+  #define SpiCtrl_tmt          (0x0010) // Transmitter empty. If '1', data byte has been transmitted.
+  #define SpiCtrl_oe           (0x0002) // Output enable for SPI pins. '1' enables SPI pins.
+  #define SpiCtrl_slaveSelect  (0x0001) // Slave select output enable for SPI slave device. '1' means that the device is selected.
 
 //=====================
 // Data buffer register offsets and defines
