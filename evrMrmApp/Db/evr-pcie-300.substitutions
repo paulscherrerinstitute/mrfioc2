@@ -17,10 +17,6 @@ file "sfp.template"
 {SYS="$(SYS)", DEVICE="$(DEVICE)", ID="0"}
 }
 
-file "flash.template"
-{
-{SYS="$(SYS)", DEVICE="$(DEVICE)"}
-}
 
 file "evr-prescaler.template"
 {pattern

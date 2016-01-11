@@ -692,3 +692,15 @@ pattern {PID   F,      EVT, ID}
 #      Delay1  = 2.2,		# 2.2ns - 12.43ns: The delay of the second output
 #    }
 #}
+
+## Flash access support
+## Uncomment this substitution to load records that expose read and write access to the flash chip on the device.
+#
+# Macros:
+#  SYS = System name (auto expanded by parent)
+#  DEVICE = Event receiver / timing card name (same as mrmEvrSetupVME()) Eg. EVR0. (auto expanded by parent)
+# 
+file "$(mrfioc2_TEMPLATES=db)/flash.template" 
+{
+	{}
+}
