@@ -194,14 +194,14 @@ file "$(mrfioc2_TEMPLATES=db)/evr-vme-230.db"
 		CML1-Pwr-Sel=0, 			# 0 = Outputs powered down, 1 = Normal operation
 		CML1-Rst-Sel=0, 			# 0 = Normal operation, 1 = Reset CML output
 		CML1-Mode-Sel=0, 			# 0 = Pulse mode, 1 = Frequency mode, 2 = Waveform mode
-		CML2-Pat:Rise00_15-SP=0x0,	# 0x0 - 0xFFFF : Bits 15-0 of the pulse mode rising pattern
-		CML2-Pat:Rise16_31-SP=0x0,	# 0x0 - 0xFFFF : Bits 31-16 of the pulse mode rising pattern
-		CML2-Pat:High00_15-SP=0x0,	# 0x0 - 0xFFFF : Bits 15-0 of the pulse mode high pattern
-		CML2-Pat:High16_31-SP=0x0,	# 0x0 - 0xFFFF : Bits 31-16 of the pulse mode high pattern
-		CML2-Pat:Fall00_15-SP=0x0,	# 0x0 - 0xFFFF : Bits 15-0 of the pulse mode falling pattern
-		CML2-Pat:Fall16_31-SP=0x0,	# 0x0 - 0xFFFF : Bits 31-16 of the pulse mode falling pattern
-		CML2-Pat:Low00_15-SP=0,		# 0x0 - 0xFFFF : Bits 15-0 of the pulse mode low pattern
-		CML2-Pat:Low16_31-SP=0,		# 0x0 - 0xFFFF : Bits 31-16 of the pulse mode low pattern
+		CML1-Pat:Rise00_15-SP=0x0,	# 0x0 - 0xFFFF : Bits 15-0 of the pulse mode rising pattern
+		CML1-Pat:Rise16_31-SP=0x0,	# 0x0 - 0xFFFF : Bits 31-16 of the pulse mode rising pattern
+		CML1-Pat:High00_15-SP=0x0,	# 0x0 - 0xFFFF : Bits 15-0 of the pulse mode high pattern
+		CML1-Pat:High16_31-SP=0x0,	# 0x0 - 0xFFFF : Bits 31-16 of the pulse mode high pattern
+		CML1-Pat:Fall00_15-SP=0x0,	# 0x0 - 0xFFFF : Bits 15-0 of the pulse mode falling pattern
+		CML1-Pat:Fall16_31-SP=0x0,	# 0x0 - 0xFFFF : Bits 31-16 of the pulse mode falling pattern
+		CML1-Pat:Low00_15-SP=0,		# 0x0 - 0xFFFF : Bits 15-0 of the pulse mode low pattern
+		CML1-Pat:Low16_31-SP=0,		# 0x0 - 0xFFFF : Bits 31-16 of the pulse mode low pattern
 		CML1-Freq:Lvl-SP=0, 		# For frequency mode: 0 = Active high, 1 = Active low
 		CML1-Freq:Init-SP=0, 		# For frequency mode: Delay in ns (max 65535 clock periods)
 		CML1-Freq:High-SP=10, 		# For frequency mode: Width of active signal in ns (max 65535 clock periods)
