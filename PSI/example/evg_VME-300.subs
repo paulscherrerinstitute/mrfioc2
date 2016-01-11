@@ -578,7 +578,7 @@ file "$(mrfioc2_TEMPLATES=db)/evgSoftSeq.template"
 #  SYS = System name (auto expanded by parent)
 #  DEVICE = Event receiver / timing card name (same as mrmEvgSetupVME()) Eg. EVG0. (auto expanded by parent)
 # 
-file "$(mrfioc2_TEMPLATES=db)/flash.template" 
-{
-   {}
-}
+#file "$(mrfioc2_TEMPLATES=db)/flash.template" 
+#{
+#   {}
+#}

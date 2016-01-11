@@ -1,7 +1,7 @@
 For detailed changelog inspect commits at https://git.psi.ch/epics_drivers/mrfioc2/commits/master
 
 
-2.7.5 Fri 8 Jan 2015 11:00:00 CET:
+2.7.6 Fri 8 Jan 2015 11:00:00 CET:
 	- Added flashing support for PCIe and cPCI form factors
 
 

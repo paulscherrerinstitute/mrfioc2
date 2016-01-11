@@ -25,7 +25,7 @@
 %}
 
 % latest version of the mrfioc2 device support
-\newcommand{\latestDriverVersion}{2.7.5}
+\newcommand{\latestDriverVersion}{2.7.6}
 
 
 %opening
@@ -1132,11 +1132,13 @@ The output contains :
 A template file \texttt{flash.template} contains records that expose flash memory access. It be loaded by adding the following lines to the EVR (or EVG) substitution file:
 \begin{verbatim}
 ## Flash access support
-## Uncomment this substitution to load records that expose read and write access to the flash chip on the device.
+## Uncomment this substitution to load records that expose
+## read and write access to the flash chip on the device.
 #
 # Macros:
 #  SYS = System name (auto expanded by parent)
-#  DEVICE = Event receiver / timing card name (same as mrmEvrSetupVME()) Eg. EVR0. (auto expanded by parent)
+#  DEVICE = Event receiver / timing card name (same as mrmEvrSetupVME())
+#           Eg. EVR0. (auto expanded by parent)
 # 
 file "$(mrfioc2_TEMPLATES=db)/flash.template" 
 {
