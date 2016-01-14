@@ -114,6 +114,7 @@ TEMPLATES += evrMrmApp/Db/evr-softEvent-measure.template
 TEMPLATES += evrMrmApp/Db/evr-specialFunctionMap.template
 TEMPLATES += evrMrmApp/Db/evr-pulserMap.template
 TEMPLATES += evrMrmApp/Db/evr-pulserMap-dbus.template
+TEMPLATES += evrMrmApp/Db/evr-delayModule.template
 
 ## EVR health monitoring (fixed template)
 TEMPLATES += evrMrmApp/Db/evr-health.template
