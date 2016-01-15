@@ -136,6 +136,12 @@ SCRIPTS += PSI/mrfioc2_evr-PCIe.cmd
 SCRIPTS += PSI/mrfioc2_evr-VME.cmd
 SCRIPTS += PSI/mrfioc2_evg-VME.cmd
 
+## SCRIPTS FOR LOADING KERNEL MODULES
+SCRIPTS += PSI/loadKernelModule.sh
+SCRIPTS += PSI/SL6-x86_64.cmd
+SCRIPTS += PSI/SL6-x86.cmd
+SCRIPTS += PSI/eldk42-ppc4xxFP.cmd
+
 db: dbclean dbexpand
 
 dbclean: 
