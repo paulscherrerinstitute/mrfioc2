@@ -114,6 +114,7 @@ TEMPLATES += evrMrmApp/Db/evr-softEvent-measure.template
 TEMPLATES += evrMrmApp/Db/evr-specialFunctionMap.template
 TEMPLATES += evrMrmApp/Db/evr-pulserMap.template
 TEMPLATES += evrMrmApp/Db/evr-pulserMap-dbus.template
+TEMPLATES += evrMrmApp/Db/evr-delayModule.template
 
 ## EVR health monitoring (fixed template)
 TEMPLATES += evrMrmApp/Db/evr-health.template
@@ -134,6 +135,12 @@ TEMPLATES += mrmShared/Db/sfp.template
 SCRIPTS += PSI/mrfioc2_evr-PCIe.cmd
 SCRIPTS += PSI/mrfioc2_evr-VME.cmd
 SCRIPTS += PSI/mrfioc2_evg-VME.cmd
+
+## SCRIPTS FOR LOADING KERNEL MODULES
+SCRIPTS += PSI/loadKernelModule.sh
+SCRIPTS += PSI/SL6-x86_64.cmd
+SCRIPTS += PSI/SL6-x86.cmd
+SCRIPTS += PSI/eldk42-ppc4xxFP.cmd
 
 db: dbclean dbexpand
 
