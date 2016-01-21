@@ -1079,10 +1079,10 @@ file to generate the template \newline\texttt{evr-vme-300.db} to be used in your
 mrfioc2 EPICS device support enables us to update the VME, PCIe and cPCI event generator or event receiver firmware remotely. There are two ways to update the firmware, either through iocsh functions (recommended way) or through EPICS records.
 
 
-\subsection{Usage of the iocsh functions for accessing the device flash memory}
+\subsection{Usage of the iocsh functions for accessing the device flash memory} \label{sec:firmware update:iocsh}
 In order to read back the content of the flash chip on the device, use the following iocsh command:
 \begin{verbatim}
-	mrmRemoteFlashRead Device File
+	mrmFlashRead Device File
 \end{verbatim}
 where:
 \begin{itemize}
@@ -1092,7 +1092,7 @@ where:
 
 In order to flash firmware to the device, use the following iocsh command:
 \begin{verbatim}
-	mrmRemoteFlashWrite Device File
+	mrmFlashWrite Device File
 \end{verbatim}
 where:
 \begin{itemize}
@@ -1102,14 +1102,14 @@ where:
 
 Flash chip information and access status can be printed using the following iocsh command:
 \begin{verbatim}
-	mrmRemoteFlashStatus Device
+	mrmFlashStatus Device
 \end{verbatim}
 where:
 \begin{itemize}
 	\item \texttt{Device} is the device name we wish to print the information for. Eg.: EVR0, EVR1, EVG0, EVG1
 \end{itemize}
 
-\paragraph{Example:} Reading the information of the EVR0 device flash chip by issuing \texttt{mrmRemoteFlashStatus EVR0} command can produce the following output:
+\paragraph{Example:} Reading the information of the EVR0 device flash chip by issuing \texttt{mrmFlashStatus EVR0} command can produce the following output:
 \begin{verbatim}
 Status report of EVR0 flash chip
     Memory size: 16777216 bytes = 16384 kB = 16 MB
@@ -1148,7 +1148,7 @@ file "$(mrfioc2_TEMPLATES=db)/flash.template"
 When using example substitution file provided for the PSI infrastructure the snippet above is already included, but commented out. In order to use it, uncomment it.
 The following records are then available for status reporting:
 \begin{itemize}
-	\item \texttt{\$(SYS)-\$(DEVICE):Flash-IsSupported-RB} record. Indicates if this device supports flash chip access.
+	\item \texttt{\$(SYS)-\$(DEVICE):Flash-IsOffsetValid-RB} record. Indicates if the offset was set correctly. The offset determines the address on the flash chip where reading/writing starts from/to. It is set automatically based on the device form factor. It can also be set manually through an iocsh command, though this is dangerous. See Section~\ref{sec:firmware update:advanced} for details.
 	\item \texttt{\$(SYS)-\$(DEVICE):Flash-InProgress-RB} record. When processed, indicates if reading or flashing is currently in progress (either through records or through iocsh functions).
 	\item \texttt{\$(SYS)-\$(DEVICE):Flash-Flash-RB} record. When processed, indicates if the last completed flashing command was successful (flashing command can be issued through EPICS records or through iocsh functions).
 	\item \texttt{\$(SYS)-\$(DEVICE):Flash-Read-RB} record. When processed, indicates if the last completed read command was successful (read command can be issued through EPICS records or through iocsh functions).
@@ -1156,7 +1156,7 @@ The following records are then available for status reporting:
 
 The following procedure enables us to read back the content of the flash chip:
 \begin{enumerate}
-	\item Check if your device supports flash chip access by reading \newline\texttt{\$(SYS)-\$(DEVICE):Flash-IsSupported-RB} record.
+	\item Check if the offset was set correctly by reading \newline\texttt{\$(SYS)-\$(DEVICE):Flash-IsOffsetValid-RB} record.
 	\item Use \texttt{\$(SYS)-\$(DEVICE):Flash-Filename-SP} record to set the path to the bit-file where the content of the flash chip memory will be written to.
 	\item Use \texttt{\$(SYS)-\$(DEVICE):Flash-Filename-RB} record to check the previously set path to the bit-file.
 	\item Process \texttt{\$(SYS)-\$(DEVICE):Flash-Read-Cmd} record to initiate the reading procedure. 
@@ -1166,13 +1166,53 @@ The following procedure enables us to read back the content of the flash chip:
 
 The following procedure enables us to flash the firmware:
 \begin{enumerate}
-	\item Check if your device supports flash chip access by reading \newline\texttt{\$(SYS)-\$(DEVICE):Flash-IsSupported-RB} record.
+	\item Check if the offset was set correctly by reading \newline\texttt{\$(SYS)-\$(DEVICE):Flash-IsOffsetValid-RB} record.
 	\item Use \texttt{\$(SYS)-\$(DEVICE):Flash-Filename-SP} record to set the path to the bit-file that contains the firmware you wish to write to the flash chip on the device.
 	\item Use \texttt{\$(SYS)-\$(DEVICE):Flash-Filename-RB} record to check the previously set path to the bit-file.
 	\item Process \texttt{\$(SYS)-\$(DEVICE):Flash-Flash-Cmd} record to initiate the flash procedure. 
 	\item Periodically process \texttt{\$(SYS)-\$(DEVICE):Flash-InProgress-RB} record in order to see if the procedure has finished. Mind that flash access is slow.
 	\item After flashing had finished, process \texttt{\$(SYS)-\$(DEVICE):Flash-Flash-RB} to see if the operation was successful.
 \end{enumerate}
+
+\subsection{Advanced} \label{sec:firmware update:advanced}
+Sometimes a device with an old, broken or alien firmware needs to be flashed. In these cases the driver will exit with an error, since not all needed parameters could be read from the card. There is an optional \texttt{ignore version error} parameter that can be passed to \texttt{mrmEvgSetupPCI}, \texttt{mrmEvgSetupVME}, \texttt{mrmEvrSetupPCI} or \texttt{mrmEvrSetupVME} commands in order to ignore such errors while setting up the driver. The following startup script\footnote{This is an example for the PSI infrastructure, but the setup command is the same in all cases} example shows the usage of this parameter:
+\begin{verbatim}
+	require mrfioc2
+	
+	##########################
+	#-----! EVR Setup ------!#
+	##########################
+	
+	mrmEvrSetupVME(EVR0, 3, 0x3000000, 5, 0x26, true);
+\end{verbatim}
+This startup file will:
+\begin{enumerate}
+\item Load the latest version of the mrfioc2 driver
+\item Setup the VME event receiver using \texttt{mrmEvrSetupVME} command:
+	\begin{enumerate}
+	\item Set device name to \texttt{EVR0}.
+	\item Set VME crate slot to \texttt{3}.
+	\item Set the base A32 address (memory offset) to \texttt{0x3000000}.
+	\item Set interrupt level to \texttt{5}.
+	\item Set interrupt vector to \texttt{0x26}.
+	\item Finally, set the optional \texttt{ignore version error} parameter to \texttt{true}.
+	\end{enumerate}
+\end{enumerate}
+When the \texttt{ignore version error} parameter is set (it's value is \texttt{true} or a non-zero number) the device setup procedure will only notify the user of potential version mismatches instead of exiting the driver. Not all parts of the driver are guaranteed to work with \texttt{ignore version error} enabled, but flashing functions described in Section~\ref{sec:firmware update:iocsh} can still be used.
+
+In addition to the flashing functions described in Section~\ref{sec:firmware update:iocsh}, there is another iocsh function that allows us to override the offset from the start of the flash chip memory where reading/writing begins in order to force flashing of the firmware to the device. In normal operation, the offset is auto detected based on the device form factor. The auto detection can fail in rare cases where device firmware is not supported by this driver. This can be the case with old, broken or alien firmwares. \textbf{This is the only case where using this function should be considered.}
+\begin{quote}
+Setting wrong offset for flashing the device is very dangerous, and should be left to auto detection whenever possible!
+\end{quote}
+In order to set the offset, use the following iocsh command:
+\begin{verbatim}
+	mrmFlashSetOffset Device Offset
+\end{verbatim}
+where:
+\begin{itemize}
+	\item \texttt{Device} is the device name we wish to flash. Eg.: EVR0, EVR1, EVG0, EVG1
+	\item \texttt{Offset} is the offset from the beginning of the flash chip memory to write to / read from.
+\end{itemize}
 
 
 \section{GUI}\label{sec:GUI}
