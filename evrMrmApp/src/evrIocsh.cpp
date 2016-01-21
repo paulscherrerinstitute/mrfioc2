@@ -8,6 +8,7 @@
  * Author: Michael Davidsaver <mdavidsaver@bnl.gov>
  */
 
+#include <stdlib.h>
 #include <cstdio>
 #include <cstring>
 
@@ -125,29 +126,26 @@ REGINFO("RXBuf0-3",DataRx(0),32)
 
 static
 void
-printregisters(volatile epicsUInt8 *evr,epicsUInt32 len)
+printregisters(volatile epicsUInt8 *evr)
 {
     size_t reg;
 
-    printf("EVR register dump\n");
+    epicsPrintf("EVR register dump\n");
     for(reg=0; reg<NELEMENTS(printreg); reg++){
-
-        if(printreg[reg].offset+printreg[reg].rsize/8 > len)
-            continue;
 
         switch(printreg[reg].rsize){
         case 8:
-            printf("%9s: %02x\n",
+            epicsPrintf("%9s: %02x\n",
                    printreg[reg].label,
                    ioread8(evr+printreg[reg].offset));
             break;
         case 16:
-            printf("%9s: %04x\n",
+            epicsPrintf("%9s: %04x\n",
                    printreg[reg].label,
                    nat_ioread16(evr+printreg[reg].offset));
             break;
         case 32:
-            printf("%9s: %08x\n",
+            epicsPrintf("%9s: %08x\n",
                    printreg[reg].label,
                    nat_ioread32(evr+printreg[reg].offset));
             break;
@@ -160,13 +158,14 @@ bool reportCard(mrf::Object* obj, void* raw)
 {
     int *level=(int*)raw;
     EVRMRM *evr=dynamic_cast<EVRMRM*>(obj);
-    if(!evr)
-        return true;
+    if(!evr){
+        return false;
+    }
 
-    printf("EVR: %s\n",obj->name().c_str());
-    printf("\tFPGA Version: %08x (firmware: %x)\n", evr->fpgaFirmware(), evr->version());
-    printf("\tForm factor: %s\n", evr->formFactorStr().c_str());
-    printf("\tClock: %.6f MHz\n",evr->clock()*1e-6);
+    epicsPrintf("EVR: %s\n",obj->name().c_str());
+    epicsPrintf("\tFPGA Version: %08x (firmware: %x)\n", evr->fpgaFirmware(), evr->version());
+    epicsPrintf("\tForm factor: %s\n", evr->formFactorStr().c_str());
+    epicsPrintf("\tClock: %.6f MHz\n",evr->clock()*1e-6);
 
     bus_configuration *bus = evr->getBusConfiguration();
     if(bus->busType == busType_vme){
@@ -181,37 +180,37 @@ bool reportCard(mrf::Object* obj, void* raw)
                          (( user_offset & 0x0000ff00 )       ) |
                          (( user_offset & 0x000000ff ) << 16 );
 
-            printf("\tVME configured slot: %d\n", bus->vme.slot);
-            printf("\tVME configured A32 address 0x%08x\n", bus->vme.address);
-            printf("\tVME ADER: base address=0x%x\taddress modifier=0x%x\n", ader>>8, (ader&0xFF)>>2);
-            printf("\tVME IRQ Level %x (configured to %x)\n", CSRRead8(csrAddr + user_offset + UCSR_IRQ_LEVEL), bus->vme.irqLevel);
-            printf("\tVME IRQ Vector %x (configured to %x)\n", CSRRead8(csrAddr + user_offset + UCSR_IRQ_VECTOR), bus->vme.irqVector);
-            if(*level>1) printf("\tVME card vendor: 0x%08x\n", vmeDev.vendor);
-            if(*level>1) printf("\tVME card board: 0x%08x\n", vmeDev.board);
-            if(*level>1) printf("\tVME card revision: 0x%08x\n", vmeDev.revision);
-            if(*level>1) printf("\tVME CSR address: %p\n", csrAddr);
+            epicsPrintf("\tVME configured slot: %d\n", bus->vme.slot);
+            epicsPrintf("\tVME configured A32 address 0x%08x\n", bus->vme.address);
+            epicsPrintf("\tVME ADER: base address=0x%x\taddress modifier=0x%x\n", ader>>8, (ader&0xFF)>>2);
+            epicsPrintf("\tVME IRQ Level %x (configured to %x)\n", CSRRead8(csrAddr + user_offset + UCSR_IRQ_LEVEL), bus->vme.irqLevel);
+            epicsPrintf("\tVME IRQ Vector %x (configured to %x)\n", CSRRead8(csrAddr + user_offset + UCSR_IRQ_VECTOR), bus->vme.irqVector);
+            if(*level>1) epicsPrintf("\tVME card vendor: 0x%08x\n", vmeDev.vendor);
+            if(*level>1) epicsPrintf("\tVME card board: 0x%08x\n", vmeDev.board);
+            if(*level>1) epicsPrintf("\tVME card revision: 0x%08x\n", vmeDev.revision);
+            if(*level>1) epicsPrintf("\tVME CSR address: %p\n", csrAddr);
         }else{
-            printf("\tCard not detected in configured slot %d\n", bus->vme.slot);
+            epicsPrintf("\tCard not detected in configured slot %d\n", bus->vme.slot);
         }
     }
     else if(bus->busType == busType_pci){
         const epicsPCIDevice *pciDev;
         if(!devPCIFindBDF(mrmevrs, bus->pci.bus, bus->pci.device, bus->pci.function, &pciDev, 0)){
-            printf("\tPCI configured bus: 0x%08x\n", bus->pci.bus);
-            printf("\tPCI configured device: 0x%08x\n", bus->pci.device);
-            printf("\tPCI configured function: 0x%08x\n", bus->pci.function);
-            printf("\tPCI IRQ: %u\n", pciDev->irq);
-            if(*level>1) printf("\tPCI class: 0x%08x, revision: 0x%x, sub device: 0x%x, sub vendor: 0x%x\n", pciDev->id.pci_class, pciDev->id.revision, pciDev->id.sub_device, pciDev->id.sub_vendor);
+            epicsPrintf("\tPCI configured bus: 0x%08x\n", bus->pci.bus);
+            epicsPrintf("\tPCI configured device: 0x%08x\n", bus->pci.device);
+            epicsPrintf("\tPCI configured function: 0x%08x\n", bus->pci.function);
+            epicsPrintf("\tPCI IRQ: %u\n", pciDev->irq);
+            if(*level>1) epicsPrintf("\tPCI class: 0x%08x, revision: 0x%x, sub device: 0x%x, sub vendor: 0x%x\n", pciDev->id.pci_class, pciDev->id.revision, pciDev->id.sub_device, pciDev->id.sub_vendor);
 
         }else{
-            printf("\tPCI Device not found\n");
+            epicsPrintf("\tPCI Device not found\n");
         }
     }else{
-        printf("\tUnknown bus type\n");
+        epicsPrintf("\tUnknown bus type\n");
     }
 
     if(*level>=2){
-        printregisters(evr->base, evr->baselen);
+        printregisters(evr->base);
     }
     if(*level>=1 && evr->sfp.get()){
         evr->sfp->updateNow();
@@ -224,34 +223,33 @@ bool reportCard(mrf::Object* obj, void* raw)
 static
 long report(int level)
 {
-    printf("=== Begin MRF EVR support ===\n");
+    epicsPrintf("=== Begin MRF EVR support ===\n");
     mrf::Object::visitObjects(&reportCard, (void*)&level);
-    printf("=== End MRF EVR support ===\n");
+    epicsPrintf("=== End MRF EVR support ===\n");
     return 0;
 }
 
 static
-int checkVersion(volatile epicsUInt8 *base, unsigned int required)
+epicsUInt32 checkVersion(volatile epicsUInt8 *base, unsigned int required)
 {
-    epicsUInt32 v = READ32(base, FWVersion),evr,ver;
+    epicsUInt32 v = READ32(base, FWVersion), type, ver;
 
-    errlogPrintf("FPGA version 0x%08x\n", v);
+    epicsPrintf("FPGA version 0x%08x\n", v);
 
-    evr=v&FWVersion_type_mask;
-    evr>>=FWVersion_type_shift;
+    type=v&FWVersion_type_mask;
+    type>>=FWVersion_type_shift;
 
-    if(evr!=0x1)
-        throw std::runtime_error("Firmware does not correspond to an EVR");
+    if(type!=0x1){
+        errlogPrintf("Found type %x which does not correspond to EVR type 0x1.\n", type);
+        return 0;
+    }
 
     ver=v&FWVersion_ver_mask;
     ver>>=FWVersion_ver_shift;
 
-    errlogPrintf("Firmware version %x\n", ver);
-
     if(ver<required) {
         errlogPrintf("Firmware version >=%x is required\n", required);
-        throw std::runtime_error("Firmware version not supported");
-
+        return 0;
     }
 
     return ver;
@@ -271,8 +269,9 @@ int checkUIOVersion(int expect)
         errlogPrintf("Can't open %s in order to read kernel module interface version. Is kernel module loaded?\n", ifaceversion);
         return 1;
     }
-    if(fscanf(fd, "%d", &version)!=1) {
+    if(fscanf(fd, "%d", &version) != 1) {
         errlogPrintf("Failed to read %s in order to get the kernel module interface version. Is kernel module loaded?\n", ifaceversion);
+        fclose(fd);
         return 1;
     }
     fclose(fd);
@@ -291,180 +290,203 @@ static int checkUIOVersion(int expect) {return 0;}
 #endif
 
 extern "C"
-void
-mrmEvrSetupPCI(const char* id,int o,int b,int d,int f)
+epicsStatus
+mrmEvrSetupPCI(const char* id,      // Card Identifier
+               int o,               // Domain number
+               int b,               // Bus number
+               int d,               // Device number
+               int f,               // Function number
+               bool ignoreVersion)  // Ignore errors due to kernel module and firmware version checks
 {
-try {
+
     bus_configuration bus;
 
     bus.busType = busType_pci;
     bus.pci.bus = b;
     bus.pci.device = d;
     bus.pci.function = f;
-    if(mrf::Object::getObject(id)){
-        printf("Object ID %s already in use\n",id);
-        return;
-    }
 
-    if(checkUIOVersion(1) > 0) return;  // continue only if kernel version is successfully read and is as expected or higher.
 
-    const epicsPCIDevice *cur=0;
+    volatile epicsUInt8 *plx = 0, *evr = 0; // base addressed for plx/evr bar
 
-    if( devPCIFindDBDF(mrmevrs,o,b,d,f,&cur,0) ){
-        printf("PCI Device not found on %x:%x:%x.%x\n", o, b, d, f);
-        return;
-    }
-
-    printf("Device %s  %x:%x.%x\n", id, cur->bus, cur->device, cur->function);
-    printf("Using IRQ %u\n",cur->irq);
-
-    volatile epicsUInt8 *plx = 0, *evr = 0;
-    epicsUInt32 evrlen = 0;
-
-    /*
-     * The EC 30 device has only 1 bar (0) which we need to map to *evr.
-     */
-    if(cur->id.device == PCI_DEVICE_ID_EC_30) {
-        if(devPCIToLocalAddr(cur,0,(volatile void**)(void *)&evr,DEVLIB_MAP_UIO1TO1))
-        {
-            printf("PCI error: Failed to map BARs 0 for EC 30\n");
-            return;
-        }
-        if(!evr){
-            printf("PCI error: BAR mapped to zero? (%08lx)\n", (unsigned long)evr);
-            return;
+    try {
+        if(mrf::Object::getObject(id)){
+            errlogPrintf("Object ID %s already in use\n",id);
+            return -1;
         }
 
-        if( devPCIBarLen(cur,0,&evrlen) ) {
-            printf("PCI error: Can't find BAR #0 length\n");
-            return;
-        }
-    } else {
-        if( devPCIToLocalAddr(cur,0,(volatile void**)(void *)&plx,DEVLIB_MAP_UIO1TO1) ||
-            devPCIToLocalAddr(cur,2,(volatile void**)(void *)&evr,DEVLIB_MAP_UIO1TO1))
-        {
-            printf("PCI error: Failed to map BARs 0 and 2\n");
-            return;
-        }
-        if(!plx || !evr){
-            printf("PCI error: BARs mapped to zero? (%08lx,%08lx)\n",
-                   (unsigned long)plx,(unsigned long)evr);
-            return;
+        if(checkUIOVersion(1) > 0) {    // check if kernel version is successfully read and is as expected or higher, and if it can be read at all.
+            if(ignoreVersion){
+                epicsPrintf("Ignoring kernel module error.\n");
+            }
+            else{
+                return -1;
+            }
         }
 
-        if( devPCIBarLen(cur,2,&evrlen) ) {
-            printf("PCI error: Can't find BAR #2 length\n");
-            return;
-        }
-    }
 
-    // handle various PCI to local bus bridges
-    switch(cur->id.device) {
-    case PCI_DEVICE_ID_PLX_9030:
-        /* Use the PLX device on the EVR to swap access on
-         * little endian systems so we don't have no worry about
-         * byte order :)
+        // get pci device from devLib2
+        const epicsPCIDevice *cur = 0;
+        if( devPCIFindDBDF(mrmevrs,o,b,d,f,&cur,0) ){
+            errlogPrintf("PCI Device not found on %x:%x:%x.%x\n", o, b, d, f);
+            return -1;
+        }
+
+        epicsPrintf("Device %s  %x:%x.%x\n", id, cur->bus, cur->device, cur->function);
+        epicsPrintf("Using IRQ %u\n",cur->irq);
+
+
+
+        /*
+         * The EC 30 device has only 1 bar (0) which we need to map to *evr.
          */
-#if EPICS_BYTE_ORDER == EPICS_ENDIAN_BIG
-        BITSET(LE,32, plx, LAS0BRD, LAS0BRD_ENDIAN);
-#elif EPICS_BYTE_ORDER == EPICS_ENDIAN_LITTLE
-        BITCLR(LE,32, plx, LAS0BRD, LAS0BRD_ENDIAN);
-#endif
-
-        // Disable interrupts on device
-
-        NAT_WRITE32(evr, IRQEnable, 0);
-
-#ifndef __linux__
-        /* Enable active high interrupt1 through the PLX to the PCI bus.
-         */
-        LE_WRITE16(plx, INTCSR, INTCSR_INT1_Enable|
-                   INTCSR_INT1_Polarity|
-                   INTCSR_PCI_Enable);
-#else
-        /* ask the kernel module to enable interrupts through the PLX bridge */
-        if(devPCIEnableInterrupt(cur)) {
-            printf("PLX 9030: Failed to enable interrupt\n");
-            return;
+        if(cur->id.device == PCI_DEVICE_ID_EC_30) {
+            if(devPCIToLocalAddr(cur,0,(volatile void**)(void *)&evr,DEVLIB_MAP_UIO1TO1))
+            {
+                errlogPrintf("PCI error: Failed to map BARs 0 for EC 30\n");
+                return -1;
+            }
+            if(!evr){
+                errlogPrintf("PCI error: BAR mapped to zero? (%08lx)\n", (unsigned long)evr);
+                return -1;
+            }
+        } else {
+            if( devPCIToLocalAddr(cur,0,(volatile void**)(void *)&plx,DEVLIB_MAP_UIO1TO1) ||
+                devPCIToLocalAddr(cur,2,(volatile void**)(void *)&evr,DEVLIB_MAP_UIO1TO1))
+            {
+                errlogPrintf("PCI error: Failed to map BARs 0 and 2\n");
+                return -1;
+            }
+            if(!plx || !evr){
+                errlogPrintf("PCI error: BARs mapped to zero? (%08lx,%08lx)\n",
+                       (unsigned long)plx,(unsigned long)evr);
+                return -1;
+            }
         }
-#endif
-        break;
 
-    case PCI_DEVICE_ID_PLX_9056:
-#if EPICS_BYTE_ORDER == EPICS_ENDIAN_BIG
-        BITSET(LE,8, plx, BIGEND9056, BIGEND9056_BIG);
-#elif EPICS_BYTE_ORDER == EPICS_ENDIAN_LITTLE
-        BITCLR(LE,8, plx, BIGEND9056, BIGEND9056_BIG);
-#endif
+        // handle various PCI to local bus bridges
+        switch(cur->id.device) {
+        case PCI_DEVICE_ID_PLX_9030:
+            /* Use the PLX device on the EVR to swap access on
+             * little endian systems so we don't have no worry about
+             * byte order :)
+             */
+    #if EPICS_BYTE_ORDER == EPICS_ENDIAN_BIG
+            BITSET(LE,32, plx, LAS0BRD, LAS0BRD_ENDIAN);
+    #elif EPICS_BYTE_ORDER == EPICS_ENDIAN_LITTLE
+            BITCLR(LE,32, plx, LAS0BRD, LAS0BRD_ENDIAN);
+    #endif
 
-        // Disable interrupts on device
+            // Disable interrupts on device
 
-        NAT_WRITE32(evr, IRQEnable, 0);
+            NAT_WRITE32(evr, IRQEnable, 0);
 
-#ifndef __linux__
-        BITSET(LE,32,plx, INTCSR9056, INTCSR9056_PCI_Enable|INTCSR9056_LCL_Enable);
-#else
-        /* ask the kernel module to enable interrupts */
-        if(devPCIEnableInterrupt(cur)) {
-            printf("PLX 9056: Failed to enable interrupt\n");
-            return;
+    #ifndef __linux__
+            /* Enable active high interrupt1 through the PLX to the PCI bus.
+             */
+            LE_WRITE16(plx, INTCSR, INTCSR_INT1_Enable|
+                       INTCSR_INT1_Polarity|
+                       INTCSR_PCI_Enable);
+    #else
+            /* ask the kernel module to enable interrupts through the PLX bridge */
+            if(devPCIEnableInterrupt(cur)) {
+                errlogPrintf("PLX 9030: Failed to enable interrupt\n");
+                return -1;
+            }
+    #endif
+            break;
+
+        case PCI_DEVICE_ID_PLX_9056:
+    #if EPICS_BYTE_ORDER == EPICS_ENDIAN_BIG
+            BITSET(LE,8, plx, BIGEND9056, BIGEND9056_BIG);
+    #elif EPICS_BYTE_ORDER == EPICS_ENDIAN_LITTLE
+            BITCLR(LE,8, plx, BIGEND9056, BIGEND9056_BIG);
+    #endif
+
+            // Disable interrupts on device
+
+            NAT_WRITE32(evr, IRQEnable, 0);
+
+    #ifndef __linux__
+            BITSET(LE,32,plx, INTCSR9056, INTCSR9056_PCI_Enable|INTCSR9056_LCL_Enable);
+    #else
+            /* ask the kernel module to enable interrupts */
+            if(devPCIEnableInterrupt(cur)) {
+                errlogPrintf("PLX 9056: Failed to enable interrupt\n");
+                return -1;
+            }
+    #endif
+            break;
+
+        case PCI_DEVICE_ID_EC_30:
+    #if EPICS_BYTE_ORDER == EPICS_ENDIAN_BIG
+            //BITCLR(LE,32, evr, AC30CTRL, AC30CTRL_LEMDE);
+    #elif EPICS_BYTE_ORDER == EPICS_ENDIAN_LITTLE
+            //BITSET(LE,32, evr, AC30CTRL, AC30CTRL_LEMDE);
+            *(epicsUInt8 *)(evr+0x04) = 0x82; // unknown magic number
+            epicsPrintf("Setting magic LE number!\n");
+    #endif
+
+            // Disable interrupts on device
+            NAT_WRITE32(evr, IRQEnable, 0);
+
+    #ifndef __linux__
+            BITSET32(evr, IRQEnable, IRQ_PCIee);
+    #else
+            /* ask the kernel module to enable interrupts */
+            epicsPrintf("EC 30: Enabling interrupts\n");
+            if(devPCIEnableInterrupt(cur)) {
+                errlogPrintf("EC 30: Failed to enable interrupt\n");
+                return -1;
+            }
+    #endif
+            break;
+        default:
+            errlogPrintf("Unknown PCI bridge %04x\n", cur->id.device);
+            return -1;
         }
-#endif
-        break;
 
-    case PCI_DEVICE_ID_EC_30:
-#if EPICS_BYTE_ORDER == EPICS_ENDIAN_BIG
-        //BITCLR(LE,32, evr, AC30CTRL, AC30CTRL_LEMDE);
-#elif EPICS_BYTE_ORDER == EPICS_ENDIAN_LITTLE
-        //BITSET(LE,32, evr, AC30CTRL, AC30CTRL_LEMDE);
-        *(epicsUInt8 *)(evr+0x04) = 0x82; // unknown magic number
-        printf("Setting magic LE number!\n");
-#endif
 
-        // Disable interrupts on device
-        NAT_WRITE32(evr, IRQEnable, 0);
+        epicsUInt32 version = checkVersion(evr, 0x3);
+        epicsPrintf("Firmware version: %08x\n", version);
 
-#ifndef __linux__
-        BITSET32(evr, IRQEnable, IRQ_PCIee);
-#else
-        /* ask the kernel module to enable interrupts */
-        printf("EC 30: Enabling interrupts\n");
-        if(devPCIEnableInterrupt(cur)) {
-            printf("EC 30: Failed to enable interrupt\n");
-            return;
+        if(version == 0) {
+            if(ignoreVersion) {
+                epicsPrintf("Ignoring version error.\n");
+            }
+            else {
+                return -1;
+            }
         }
-#endif
-        break;
-    default:
-        printf("Unknown PCI bridge %04x\n", cur->id.device);
-        return;
+
+
+
+        // Acknowledge missed interrupts
+        //TODO: This avoids a spurious FIFO Full
+        NAT_WRITE32(evr, IRQFlag, NAT_READ32(evr, IRQFlag));
+
+        // Install ISR
+
+        EVRMRM *receiver=new EVRMRM(id,bus,evr);
+
+        void *arg=receiver;
+    #ifdef __linux__
+        receiver->isrLinuxPvt = (void*)cur;
+    #endif
+
+        if(devPCIConnectInterrupt(cur, &EVRMRM::isr_pci, arg, 0)){
+            errlogPrintf("Failed to install ISR\n");
+            delete receiver;
+        }else{
+            // Interrupts will be enabled during iocInit()
+        }
+    } catch(std::exception& e) {
+        errlogPrintf("Error: %s\n",e.what());
+        errlogFlush();
+        return -1;
     }
-
-    checkVersion(evr, 3);
-
-    // Acknowledge missed interrupts
-    //TODO: This avoids a spurious FIFO Full
-    NAT_WRITE32(evr, IRQFlag, NAT_READ32(evr, IRQFlag));
-
-    // Install ISR
-
-    EVRMRM *receiver=new EVRMRM(id,bus,evr,evrlen);
-
-    void *arg=receiver;
-#ifdef __linux__
-    receiver->isrLinuxPvt = (void*)cur;
-#endif
-
-    if(devPCIConnectInterrupt(cur, &EVRMRM::isr_pci, arg, 0)){
-        printf("Failed to install ISR\n");
-        delete receiver;
-    }else{
-        // Interrupts will be enabled during iocInit()
-    }
-} catch(std::exception& e) {
-    printf("Error: %s\n",e.what());
-}
     errlogFlush();
+    return 0;
 }
 
 static
@@ -483,8 +505,8 @@ printRamEvt(EVRMRM *evr,int evt,int ram)
     map[2]=NAT_READ32(evr->base, MappingRam(ram,evt,Set));
     map[3]=NAT_READ32(evr->base, MappingRam(ram,evt,Reset));
 
-    printf("Event 0x%02x %3d ",evt,evt);
-    printf("%08x %08x %08x %08x\n",map[0],map[1],map[2],map[3]);
+    epicsPrintf("Event 0x%02x %3d ",evt,evt);
+    epicsPrintf("%08x %08x %08x %08x\n",map[0],map[1],map[2],map[3]);
 }
 
 static
@@ -551,7 +573,7 @@ void inithooks(initHookState state)
             if (vme_level_mask&(1<<(lvl-1))) {
                 if(devEnableInterruptLevelVME(lvl))
                 {
-                    printf("Failed to enable interrupt level %d\n",lvl);
+                    errlogPrintf("Failed to enable interrupt level %d\n",lvl);
                     return;
                 }
             }
@@ -578,20 +600,37 @@ static const iocshArg mrmEvrSetupPCIArg1 = { "Domain number",iocshArgInt};
 static const iocshArg mrmEvrSetupPCIArg2 = { "Bus number",iocshArgInt};
 static const iocshArg mrmEvrSetupPCIArg3 = { "Device number",iocshArgInt};
 static const iocshArg mrmEvrSetupPCIArg4 = { "Function number",iocshArgInt};
-static const iocshArg * const mrmEvrSetupPCIArgs[5] =
-{&mrmEvrSetupPCIArg0,&mrmEvrSetupPCIArg1,&mrmEvrSetupPCIArg2,&mrmEvrSetupPCIArg3,&mrmEvrSetupPCIArg4};
-static const iocshFuncDef mrmEvrSetupPCIFuncDef =
-    {"mrmEvrSetupPCI",5,mrmEvrSetupPCIArgs};
+static const iocshArg mrmEvrSetupPCIArg5 = { "'Ignore version error'", iocshArgArgv};
+
+static const iocshArg * const mrmEvrSetupPCIArgs[6] ={&mrmEvrSetupPCIArg0,
+                                                      &mrmEvrSetupPCIArg1,
+                                                      &mrmEvrSetupPCIArg2,
+                                                      &mrmEvrSetupPCIArg3,
+                                                      &mrmEvrSetupPCIArg4,
+                                                      &mrmEvrSetupPCIArg5};
+static const iocshFuncDef mrmEvrSetupPCIFuncDef = {"mrmEvrSetupPCI", 6, mrmEvrSetupPCIArgs};
 static void mrmEvrSetupPCICallFunc(const iocshArgBuf *args)
 {
-    mrmEvrSetupPCI(args[0].sval,args[1].ival,args[2].ival,args[3].ival,args[4].ival);
+    // check the 'ignore' parameter
+    if(args[5].aval.ac > 1 && (strcmp("true", args[5].aval.av[1]) == 0 ||
+                               strtol(args[5].aval.av[1], NULL, 10) != 0)){
+        mrmEvrSetupPCI(args[0].sval,args[1].ival,args[2].ival,args[3].ival,args[4].ival, true);
+    }
+    else {
+        mrmEvrSetupPCI(args[0].sval,args[1].ival,args[2].ival,args[3].ival,args[4].ival, false);
+    }
 }
 
 extern "C"
-void
-mrmEvrSetupVME(const char* id,int slot,int base,int level, int vector)
+epicsStatus
+mrmEvrSetupVME(const char* id,      // Card Identifier
+               int slot,            // VME slot
+               int base,            // Desired VME address in A24 space
+               int level,           // Desired interrupt level
+               int vector,          // Desired interrupt vector number
+               bool ignoreVersion)  // Ignore errors due to firmware checks
 {
-try {
+
     bus_configuration bus;
 
     bus.busType = busType_vme;
@@ -600,108 +639,126 @@ try {
     bus.vme.irqLevel = level;
     bus.vme.irqVector = vector;
 
-    if(mrf::Object::getObject(id)){
-        printf("ID %s already in use\n",id);
-        return;
-    }
 
-    struct VMECSRID info;
+    volatile unsigned char* evr;    // base address for the card
 
-    volatile unsigned char* csr=devCSRTestSlot(vmeevrs,slot,&info);
-    if(!csr){
-        printf("No EVR in slot %d\n",slot);
-        return;
-    }
-
-    printf("Setting up EVR in VME Slot %d\n",slot);
-
-    printf("Found vendor: %08x board: %08x rev.: %08x\n",
-           info.vendor, info.board, info.revision);
-
-    // Set base address
-
-  /* Use function 0 for 16-bit addressing (length 0x00800 bytes)
-   * and function 1 for 24-bit addressing (length 0x10000 bytes)
-   * and function 2 for 32-bit addressing (length 0x40000 bytes)
-   *
-   * All expose the same registers, but not all registers are
-   * visible through functions 0 or 1.
-   */
-
-    CSRSetBase(csr, 2, base, VME_AM_EXT_SUP_DATA);
-    
-    {
-        epicsUInt32 temp=CSRRead32((csr) + CSR_FN_ADER(2));
-
-        if(temp != CSRADER((epicsUInt32)base,VME_AM_EXT_SUP_DATA)) {
-            printf("Failed to set CSR Base address in ADER2.  Check VME bus and card firmware version.\n");
-            return;
+    try {
+        if(mrf::Object::getObject(id)){
+            errlogPrintf("ID %s already in use\n",id);
+            return -1;
         }
-    }
 
-    volatile unsigned char* evr;
-    char *Description = allocSNPrintf(40, "EVR-%d '%s' slot %d",
-                                      info.board & MRF_BID_SERIES_MASK,
-                                      id, slot);
+        struct VMECSRID info;
+        volatile unsigned char* csr;    // csr is VME-CSR space CPU address for the board
+        csr=devCSRTestSlot(vmeevrs,slot,&info);
+        if(!csr){
+            errlogPrintf("No EVR in slot %d\n",slot);
+            return -1;
+        }
 
-    if(devRegisterAddress(Description, atVMEA32, base, EVR_REGMAP_SIZE, (volatile void**)(void *)&evr))
-    {
-        printf("Failed to map address %08x\n",base);
-        return;
-    }
+        epicsPrintf("Setting up EVR in VME Slot %d\n",slot);
 
-    epicsUInt32 junk;
-    if(devReadProbe(sizeof(junk), (volatile void*)(evr+U32_FWVersion), (void*)&junk)) {
-        printf("Failed to read from MRM registers (but could read CSR registers)\n");
-        return;
-    }
+        epicsPrintf("Found vendor: %08x board: %08x rev.: %08x\n",
+               info.vendor, info.board, info.revision);
 
-    checkVersion(evr, 4);
+        // Set base address
 
-    // Read offset from start of CSR to start of user (card specific) CSR.
-    size_t user_offset=CSRRead24(csr+CR_BEG_UCSR);
-    // Currently that value read from the UCSR pointer is
-    // actually little endian.
-    user_offset= (( user_offset & 0x00ff0000 ) >> 16 ) |
-                 (( user_offset & 0x0000ff00 )       ) |
-                 (( user_offset & 0x000000ff ) << 16 );
-    volatile unsigned char* user_csr=csr+user_offset;
+      /* Use function 0 for 16-bit addressing (length 0x00800 bytes)
+       * and function 1 for 24-bit addressing (length 0x10000 bytes)
+       * and function 2 for 32-bit addressing (length 0x40000 bytes)
+       *
+       * All expose the same registers, but not all registers are
+       * visible through functions 0 or 1.
+       */
 
-    NAT_WRITE32(evr, IRQEnable, 0); // Disable interrupts
+        CSRSetBase(csr, 2, base, VME_AM_EXT_SUP_DATA);
 
-    EVRMRM *receiver=new EVRMRM(id, bus, evr, EVR_REGMAP_SIZE);
-
-    if(level>0 && vector>=0) {
-        CSRWrite8(user_csr+UCSR_IRQ_LEVEL,  level&0x7);
-        CSRWrite8(user_csr+UCSR_IRQ_VECTOR, vector&0xff);
-
-        printf("Using IRQ %d:%2d\n",
-               CSRRead8(user_csr+UCSR_IRQ_LEVEL),
-               CSRRead8(user_csr+UCSR_IRQ_VECTOR)
-               );
-
-        // Acknowledge missed interrupts
-        //TODO: This avoids a spurious FIFO Full
-        NAT_WRITE32(evr, IRQFlag, NAT_READ32(evr, IRQFlag));
-
-        level&=0x7;
-        // VME IRQ level will be enabled later during iocInit()
-        vme_level_mask|=1<<(level-1);
-
-        if(devConnectInterruptVME(vector&0xff, &EVRMRM::isr_vme, receiver))
         {
-            printf("Failed to connection VME IRQ %d\n",vector&0xff);
-            delete receiver;
-            return;
+            epicsUInt32 temp=CSRRead32((csr) + CSR_FN_ADER(2));
+
+            if(temp != CSRADER((epicsUInt32)base,VME_AM_EXT_SUP_DATA)) {
+                errlogPrintf("Failed to set CSR Base address in ADER2.  Check VME bus and card firmware version.\n");
+                return -1;
+            }
         }
 
-        // Interrupts will be enabled during iocInit()
-    }
+        char *Description = allocSNPrintf(40, "EVR-%d '%s' slot %d",
+                                          info.board & MRF_BID_SERIES_MASK,
+                                          id, slot);
 
-} catch(std::exception& e) {
-    printf("Error: %s\n",e.what());
-}
+        if(devRegisterAddress(Description, atVMEA32, base, EVR_REGMAP_SIZE, (volatile void**)(void *)&evr))
+        {
+            errlogPrintf("Failed to map address %08x\n",base);
+            return -1;
+        }
+
+        epicsUInt32 junk;
+        if(devReadProbe(sizeof(junk), (volatile void*)(evr+U32_FWVersion), (void*)&junk)) {
+            errlogPrintf("Failed to read from MRM registers (but could read CSR registers)\n");
+            return -1;
+        }
+
+
+        epicsUInt32 version = checkVersion(evr, 0x4);
+        epicsPrintf("Firmware version: %08x\n", version);
+
+        if(version == 0) {
+            if(ignoreVersion) {
+                epicsPrintf("Ignoring version error.\n");
+            }
+            else {
+                return -1;
+            }
+        }
+
+
+        // Read offset from start of CSR to start of user (card specific) CSR.
+        size_t user_offset=CSRRead24(csr+CR_BEG_UCSR);
+        // Currently that value read from the UCSR pointer is
+        // actually little endian.
+        user_offset= (( user_offset & 0x00ff0000 ) >> 16 ) |
+                     (( user_offset & 0x0000ff00 )       ) |
+                     (( user_offset & 0x000000ff ) << 16 );
+        volatile unsigned char* user_csr=csr+user_offset;
+
+        NAT_WRITE32(evr, IRQEnable, 0); // Disable interrupts
+
+        EVRMRM *receiver=new EVRMRM(id, bus, evr);
+
+        if(level>0 && vector>=0) {
+            CSRWrite8(user_csr+UCSR_IRQ_LEVEL,  level&0x7);
+            CSRWrite8(user_csr+UCSR_IRQ_VECTOR, vector&0xff);
+
+            epicsPrintf("Using IRQ %d:%2d\n",
+                   CSRRead8(user_csr+UCSR_IRQ_LEVEL),
+                   CSRRead8(user_csr+UCSR_IRQ_VECTOR)
+                   );
+
+            // Acknowledge missed interrupts
+            //TODO: This avoids a spurious FIFO Full
+            NAT_WRITE32(evr, IRQFlag, NAT_READ32(evr, IRQFlag));
+
+            level&=0x7;
+            // VME IRQ level will be enabled later during iocInit()
+            vme_level_mask|=1<<(level-1);
+
+            if(devConnectInterruptVME(vector&0xff, &EVRMRM::isr_vme, receiver))
+            {
+                errlogPrintf("Failed to connection VME IRQ %d\n",vector&0xff);
+                delete receiver;
+                return -1;
+            }
+
+            // Interrupts will be enabled during iocInit()
+        }
+
+    } catch(std::exception& e) {
+        errlogPrintf("Error: %s\n",e.what());
+        errlogFlush();
+        return -1;
+    }
     errlogFlush();
+    return 0;
 }
 
 static const iocshArg mrmEvrSetupVMEArg0 = { "Device",iocshArgString};
@@ -709,39 +766,51 @@ static const iocshArg mrmEvrSetupVMEArg1 = { "Bus number",iocshArgInt};
 static const iocshArg mrmEvrSetupVMEArg2 = { "A32 base address",iocshArgInt};
 static const iocshArg mrmEvrSetupVMEArg3 = { "IRQ Level 1-7 (0 - disable)",iocshArgInt};
 static const iocshArg mrmEvrSetupVMEArg4 = { "IRQ vector 0-255",iocshArgInt};
-static const iocshArg * const mrmEvrSetupVMEArgs[5] =
-{&mrmEvrSetupVMEArg0,&mrmEvrSetupVMEArg1,&mrmEvrSetupVMEArg2,&mrmEvrSetupVMEArg3,&mrmEvrSetupVMEArg4};
-static const iocshFuncDef mrmEvrSetupVMEFuncDef =
-    {"mrmEvrSetupVME",5,mrmEvrSetupVMEArgs};
+static const iocshArg mrmEvrSetupVMEArg5 = { "'Ignore version error'", iocshArgArgv};
+
+static const iocshArg * const mrmEvrSetupVMEArgs[6] ={&mrmEvrSetupVMEArg0,
+                                                      &mrmEvrSetupVMEArg1,
+                                                      &mrmEvrSetupVMEArg2,
+                                                      &mrmEvrSetupVMEArg3,
+                                                      &mrmEvrSetupVMEArg4,
+                                                      &mrmEvrSetupVMEArg5};
+static const iocshFuncDef mrmEvrSetupVMEFuncDef =  {"mrmEvrSetupVME", 6, mrmEvrSetupVMEArgs};
 static void mrmEvrSetupVMECallFunc(const iocshArgBuf *args)
 {
-    mrmEvrSetupVME(args[0].sval,args[1].ival,args[2].ival,args[3].ival,args[4].ival);
+    // check the 'ignore' parameter
+    if(args[5].aval.ac > 1 && (strcmp("true", args[5].aval.av[1]) == 0 ||
+                               strtol(args[5].aval.av[1], NULL, 10) != 0)){
+        mrmEvrSetupVME(args[0].sval,args[1].ival,args[2].ival,args[3].ival,args[4].ival, true);
+    }
+    else {
+        mrmEvrSetupVME(args[0].sval,args[1].ival,args[2].ival,args[3].ival,args[4].ival, false);
+    }
 }
 
 extern "C"
 void
 mrmEvrDumpMap(const char* id,int evt,int ram)
 {
-try {
-    mrf::Object *obj=mrf::Object::getObject(id);
-    if(!obj)
-        throw std::runtime_error("Object not found");
-    EVRMRM *card=dynamic_cast<EVRMRM*>(obj);
-    if(!card)
-        throw std::runtime_error("Not a MRM EVR");
+    try {
+        mrf::Object *obj=mrf::Object::getObject(id);
+        if(!obj)
+            throw std::runtime_error("Object not found");
+        EVRMRM *card=dynamic_cast<EVRMRM*>(obj);
+        if(!card)
+            throw std::runtime_error("Not a MRM EVR");
 
-    printf("Print ram #%d\n",ram);
-    if(evt>=0){
-        // Print a single event
-        printRamEvt(card,evt,ram);
-        return;
+        epicsPrintf("Print ram #%d\n",ram);
+        if(evt>=0){
+            // Print a single event
+            printRamEvt(card,evt,ram);
+            return;
+        }
+        for(evt=0;evt<=255;evt++){
+            printRamEvt(card,evt,ram);
+        }
+    } catch(std::exception& e) {
+        errlogPrintf("Error: %s\n",e.what());
     }
-    for(evt=0;evt<=255;evt++){
-        printRamEvt(card,evt,ram);
-    }
-} catch(std::exception& e) {
-    printf("Error: %s\n",e.what());
-}
 }
 
 static const iocshArg mrmEvrDumpMapArg0 = { "Device",iocshArgString};
@@ -800,13 +869,13 @@ try {
 
     if(!events || strlen(events)==0) {
         // Just print current mappings
-        printf("Events forwarded: ");
+        epicsPrintf("Events forwarded: ");
         for(unsigned int i=1; i<256; i++) {
             if(card->specialMapped(i, ActionEvtFwd)) {
-                printf("%d ", i);
+                epicsPrintf("%d ", i);
             }
         }
-        printf("\n");
+        epicsPrintf("\n");
         free(events);
         return;
     }
@@ -833,9 +902,9 @@ try {
             char *end=0;
             long e=strtol(tok, &end, 0);
             if(*end || e==LONG_MAX || e==LONG_MIN) {
-                printf("Unable to parse event spec '%s'\n", tok);
+                errlogPrintf("Unable to parse event spec '%s'\n", tok);
             } else if(e>255 || e<-255 || e==0) {
-                printf("Invalid event %ld\n", e);
+                errlogPrintf("Invalid event %ld\n", e);
             } else if(e>0) {
                 card->specialSetMap(e, ActionEvtFwd, true);
             } else if(e<0) {
@@ -848,7 +917,7 @@ try {
 
     free(events);
 } catch(std::exception& e) {
-    printf("Error: %s\n",e.what());
+    errlogPrintf("Error: %s\n",e.what());
     free(events);
 }
 }
@@ -884,7 +953,7 @@ try {
     NAT_WRITE32(card->base,Control, control);
 
 } catch(std::exception& e) {
-    printf("Error: %s\n",e.what());
+    errlogPrintf("Error: %s\n",e.what());
 }
 }
 
@@ -901,159 +970,6 @@ static void mrmEvrLoopbackCallFunc(const iocshArgBuf *args)
     mrmEvrLoopback(args[0].sval,args[1].ival,args[2].ival);
 }
 
-/*extern "C"
-void
-mrmEvrGpioDirection(const char* id, int val)
-{
-    try {
-        mrf::Object *obj=mrf::Object::getObject(id);
-        if(!obj)
-            throw std::runtime_error("Object not found");
-        EVRMRM *card=dynamic_cast<EVRMRM*>(obj);
-        if(!card)
-            throw std::runtime_error("Not a MRM EVR");
-
-        card->gpio()->setDirection(val);
-        printf("Current direction: %x\n", card->gpio()->getDirection());
-    } catch(std::exception& e) {
-        printf("Error: %s\n",e.what());
-    }
-}
-
-static const iocshArg mrmEvrGpioDirectionArg0 = { "name",iocshArgString};
-static const iocshArg mrmEvrGpioDirectionArg1 = { "Direction register",iocshArgInt};
-static const iocshArg * const mrmEvrGpioDirectionArgs[2] =
-{&mrmEvrGpioDirectionArg0,&mrmEvrGpioDirectionArg1};
-static const iocshFuncDef mrmEvrGpioDirectionFuncDef =
-    {"mrmEvrGpioDirection",2,mrmEvrGpioDirectionArgs};
-static void mrmEvrGpioDirectionCallFunc(const iocshArgBuf *args)
-{
-    mrmEvrGpioDirection(args[0].sval,args[1].ival);
-}
-
-extern "C"
-void
-mrmEvrGpioWrite(const char* id, int val)
-{
-    try {
-        mrf::Object *obj=mrf::Object::getObject(id);
-        if(!obj)
-            throw std::runtime_error("Object not found");
-        EVRMRM *card=dynamic_cast<EVRMRM*>(obj);
-        if(!card)
-            throw std::runtime_error("Not a MRM EVR");
-
-        card->gpio()->setOutput(val);
-        printf("Written: %x\n", val);
-    } catch(std::exception& e) {
-        printf("Error: %s\n",e.what());
-    }
-}
-
-static const iocshArg mrmEvrGpioWriteArg0 = { "name",iocshArgString};
-static const iocshArg mrmEvrGpioWriteArg1 = { "Data",iocshArgInt};
-static const iocshArg * const mrmEvrGpioWriteArgs[2] =
-{&mrmEvrGpioWriteArg0,&mrmEvrGpioWriteArg1};
-static const iocshFuncDef mrmEvrGpioWriteFuncDef =
-    {"mrmEvrGpioWrite",2,mrmEvrGpioWriteArgs};
-static void mrmEvrGpioWriteCallFunc(const iocshArgBuf *args)
-{
-    mrmEvrGpioWrite(args[0].sval,args[1].ival);
-}
-
-
-
-extern "C"
-void
-mrmEvrDelayStart(const char* id)
-{
-    try {
-        mrf::Object *obj=mrf::Object::getObject(id);
-        if(!obj)
-            throw std::runtime_error("Object not found");
-        EVRMRM *card=dynamic_cast<EVRMRM*>(obj);
-        if(!card)
-            throw std::runtime_error("Not a MRM EVR");
-        DelayModule *d = card->delay(0);
-        d->start();
-    } catch(std::exception& e) {
-        printf("Error: %s\n",e.what());
-    }
-}
-
-static const iocshArg mrmEvrDelayStartArg0 = { "name",iocshArgString};
-static const iocshArg * const mrmEvrDelayStartArgs[1] =
-{&mrmEvrDelayStartArg0};
-static const iocshFuncDef mrmEvrDelayStartFuncDef =
-    {"mrmEvrDelayStart",1,mrmEvrDelayStartArgs};
-static void mrmEvrDelayStartCallFunc(const iocshArgBuf *args)
-{
-    mrmEvrDelayStart(args[0].sval);
-}
-*/
-
-/*extern "C"
-void
-mrmEvrGpioRead(const char* id)
-{
-    try {
-        mrf::Object *obj=mrf::Object::getObject(id);
-        if(!obj)
-            throw std::runtime_error("Object not found");
-        EVRMRM *card=dynamic_cast<EVRMRM*>(obj);
-        if(!card)
-            throw std::runtime_error("Not a MRM EVR");
-
-        printf("Read: %x\n", card->gpio()->getOutput());
-    } catch(std::exception& e) {
-        printf("Error: %s\n",e.what());
-    }
-}
-
-static const iocshArg mrmEvrGpioReadArg0 = { "name",iocshArgString};
-static const iocshArg * const mrmEvrGpioReadArgs[1] =
-{&mrmEvrGpioReadArg0};
-static const iocshFuncDef mrmEvrGpioReadFuncDef =
-    {"mrmEvrGpioRead",1,mrmEvrGpioReadArgs};
-static void mrmEvrGpioReadCallFunc(const iocshArgBuf *args)
-{
-    mrmEvrGpioRead(args[0].sval);
-}
-
-extern "C"
-void
-mrmEvrDelaySet(const char* id, int out0, int out1, int delay0, int delay1, int module)
-{
-    try {
-        mrf::Object *obj=mrf::Object::getObject(id);
-        if(!obj)
-            throw std::runtime_error("Object not found");
-        EVRMRM *card=dynamic_cast<EVRMRM*>(obj);
-        if(!card)
-            throw std::runtime_error("Not a MRM EVR");
-        DelayModule *d = card->delay(module);
-        d->set(out0, out1, delay0, delay1);
-    } catch(std::exception& e) {
-        printf("Error: %s\n",e.what());
-    }
-}
-
-static const iocshArg mrmEvrDelaySetArg0 = { "name",iocshArgString};
-static const iocshArg mrmEvrDelaySetArg1 = { "out0",iocshArgInt};
-static const iocshArg mrmEvrDelaySetArg2 = { "out1",iocshArgInt};
-static const iocshArg mrmEvrDelaySetArg3 = { "delay0",iocshArgInt};
-static const iocshArg mrmEvrDelaySetArg4 = { "delay1",iocshArgInt};
-static const iocshArg mrmEvrDelaySetArg5 = { "module",iocshArgInt};
-static const iocshArg * const mrmEvrDelaySetArgs[6] =
-{&mrmEvrDelaySetArg0, &mrmEvrDelaySetArg1, &mrmEvrDelaySetArg2,
- &mrmEvrDelaySetArg3, &mrmEvrDelaySetArg4, &mrmEvrDelaySetArg5};
-static const iocshFuncDef mrmEvrDelaySetFuncDef =
-    {"mrmEvrDelaySet",6,mrmEvrDelaySetArgs};
-static void mrmEvrDelaySetCallFunc(const iocshArgBuf *args)
-{
-    mrmEvrDelaySet(args[0].sval, args[1].ival, args[2].ival, args[3].ival, args[4].ival,  args[5].ival);
-}*/
-
 
 static
 void mrmsetupreg()
@@ -1064,13 +980,6 @@ void mrmsetupreg()
     iocshRegister(&mrmEvrDumpMapFuncDef,mrmEvrDumpMapCallFunc);
     iocshRegister(&mrmEvrForwardFuncDef,mrmEvrForwardCallFunc);
     iocshRegister(&mrmEvrLoopbackFuncDef,mrmEvrLoopbackCallFunc);
-    /*iocshRegister(&mrmEvrGpioDirectionFuncDef,mrmEvrGpioDirectionCallFunc);
-     *
-    iocshRegister(&mrmEvrDelaySetFuncDef,mrmEvrDelaySetCallFunc);
-    iocshRegister(&mrmEvrGpioReadFuncDef,mrmEvrGpioReadCallFunc);
-
-    iocshRegister(&mrmEvrGpioWriteFuncDef,mrmEvrGpioWriteCallFunc);
-    iocshRegister(&mrmEvrDelayStartFuncDef,mrmEvrDelayStartCallFunc);*/
 }
 
 

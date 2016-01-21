@@ -123,13 +123,11 @@ long get_ioint_info_statusChange(int dir,dbCommon* prec,IOSCANPVT* io)
 
 EVRMRM::EVRMRM(const std::string& n,
                bus_configuration& busConfig,
-               volatile epicsUInt8* b,
-               epicsUInt32 bl)
+               volatile epicsUInt8* b)
   :mrf::ObjectInst<EVRMRM>(n)
   ,evrLock()
   ,id(n)
   ,base(b)
-  ,baselen(bl)
   ,count_recv_error(0)
   ,count_hardware_irq(0)
   ,count_heartbeat(0)

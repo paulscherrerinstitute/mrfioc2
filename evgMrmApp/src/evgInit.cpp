@@ -1,5 +1,4 @@
-
-
+#include <stdlib.h>
 #include <iostream>
 #include <stdexcept>
 #include <string>
@@ -156,7 +155,7 @@ inithooks(initHookState state) {
 	}
 }
 
-int checkVersion(volatile epicsUInt8 *base, unsigned int required) {
+epicsUInt32 checkVersion(volatile epicsUInt8 *base, unsigned int required) {
 #ifndef __linux__
     epicsUInt32 junk;
     if(devReadProbe(sizeof(junk), (volatile void*)(base+U32_FPGAVersion), (void*)&junk)) {
@@ -166,20 +165,21 @@ int checkVersion(volatile epicsUInt8 *base, unsigned int required) {
 	epicsUInt32 type, ver;
     epicsUInt32 v = READ32(base, FPGAVersion);
 
-    printf("FPGA version: %08x\n", v);
+    epicsPrintf("FPGA version: %08x\n", v);
 
     type = v & FPGAVersion_TYPE_MASK;
     type = v >> FPGAVersion_TYPE_SHIFT;
 
-    if(type != 0x2)
-        throw std::runtime_error("Address does not correspond to an EVG");
+    if(type != 0x2){
+        errlogPrintf("Found type %x which does not correspond to EVG type 0x2.\n", type);
+        return 0;
+    }
 
     ver = v & FPGAVersion_VER_MASK;
 
     if(ver < required) {
-        printf("Firmware version >= %x is required got %x\n", required,ver);
-        throw std::runtime_error("Firmware version not supported");
-
+        errlogPrintf("Firmware version >= %x is required got %x\n", required,ver);
+        return 0;
     }
 
     return ver;
@@ -192,7 +192,8 @@ mrmEvgSetupVME (
     epicsInt32  slot,       // VME slot
     epicsUInt32 vmeAddress, // Desired VME address in A24 space
     epicsInt32  irqLevel,   // Desired interrupt level
-    epicsInt32  irqVector)  // Desired interrupt vector number
+    epicsInt32  irqVector,  // Desired interrupt vector number
+    bool ignoreVersion)     // Ignore errors due to firmware checks
 {
     volatile epicsUInt8* regCpuAddr = 0;
     volatile epicsUInt8* regCpuAddr2 = 0; //function 2 of regmap (fanout/concentrator specifics)
@@ -207,29 +208,31 @@ mrmEvgSetupVME (
     bus.vme.irqLevel = irqLevel;
     bus.vme.irqVector = irqVector;
 
+
+    int status; // a variable to hold function return statuses
+
     try {
         if(mrf::Object::getObject(id)){
             errlogPrintf("ID %s already in use\n",id);
             return -1;
         }
 
-        /*csrCpuAddr is VME-CSR space CPU address for the board*/
-        volatile unsigned char* csrCpuAddr = //devCSRProbeSlot(slot);
-                                    devCSRTestSlot(vmeEvgIDs,slot,&info); //FIXME: add support for EVM id
-
+        volatile unsigned char* csrCpuAddr; // csrCpuAddr is VME-CSR space CPU address for the board
+        csrCpuAddr = //devCSRProbeSlot(slot);
+                     devCSRTestSlot(vmeEvgIDs,slot,&info); //FIXME: add support for EVM id
 
         if(!csrCpuAddr) {
             errlogPrintf("No EVG in slot %d\n",slot);
             return -1;
         }
 
-        printf("##### Setting up MRF EVG in VME Slot %d #####\n",slot);
-        printf("Found Vendor: %08x\nBoard: %08x\nRevision: %08x\n",
+        epicsPrintf("##### Setting up MRF EVG in VME Slot %d #####\n",slot);
+        epicsPrintf("Found Vendor: %08x\nBoard: %08x\nRevision: %08x\n",
                 info.vendor, info.board, info.revision);
         
         epicsUInt32 xxx = CSRRead32(csrCpuAddr + CSR_FN_ADER(1));
         if(xxx)
-            errlogPrintf("Warning: EVG not in power on state! (%08x)\n", xxx);
+            epicsPrintf("Warning: EVG not in power on state! (%08x)\n", xxx);
 
         /*Setting the base address of Register Map on VME Board (EVG)*/
         CSRSetBase(csrCpuAddr, 1, vmeAddress, VME_AM_STD_SUP_DATA);
@@ -238,7 +241,7 @@ mrmEvgSetupVME (
             epicsUInt32 temp=CSRRead32((csrCpuAddr) + CSR_FN_ADER(1));
 
             if(temp != CSRADER((epicsUInt32)vmeAddress,VME_AM_STD_SUP_DATA)) {
-                printf("Failed to set CSR Base address in ADER1.  Check VME bus and card firmware version.\n");
+                errlogPrintf("Failed to set CSR Base address in ADER1.  Check VME bus and card firmware version.\n");
                 return -1;
             }
         }
@@ -249,7 +252,7 @@ mrmEvgSetupVME (
                                           id, slot);
 
         /*Register VME address and get corresponding CPU address */
-        int status = devRegisterAddress (
+        status = devRegisterAddress (
             Description,                           // Event Generator card description
             atVMEA24,                              // A24 Address space
             vmeAddress,                            // Physical address of register space
@@ -263,8 +266,19 @@ mrmEvgSetupVME (
             return -1;
         }
 
-        epicsUInt32 version = checkVersion(regCpuAddr, 3);
-        printf("Firmware version: %08x\n", version);
+
+        epicsUInt32 version = checkVersion(regCpuAddr, 0x3);
+        epicsPrintf("Firmware version: %08x\n", version);
+
+        if(version == 0){
+            if(ignoreVersion) {
+                epicsPrintf("Ignoring version error.\n");
+            }
+            else {
+                return -1;
+            }
+        }
+
 
         /* Set the base address of Register Map for function 2, if we have the right firmware version  */
         if(version >= EVG_FCT_MIN_FIRMWARE){
@@ -273,13 +287,13 @@ mrmEvgSetupVME (
                 epicsUInt32 temp=CSRRead32((csrCpuAddr) + CSR_FN_ADER(2));
 
                 if(temp != CSRADER((epicsUInt32)vmeAddress+EVG_REGMAP_SIZE,VME_AM_STD_SUP_DATA)) {
-                    printf("Failed to set CSR Base address in ADER2 for FCT register mapping.  Check VME bus and card firmware version.\n");
+                    epicsPrintf("Failed to set CSR Base address in ADER2 for FCT register mapping.  Check VME bus and card firmware version.\n");
                     return -1;
                 }
             }
 
             /* Create a static string for the card description (needed by vxWorks) */
-            Description = allocSNPrintf(40, "EVG-%d FOUT'%s' slot %d",
+            char *Description = allocSNPrintf(40, "EVG-%d FOUT'%s' slot %d",
                                               info.board & MRF_BID_SERIES_MASK,
                                               id, slot);
 
@@ -304,13 +318,13 @@ mrmEvgSetupVME (
             CSRWrite8(csrCpuAddr + MRF_UCSR_DEFAULT + UCSR_IRQ_LEVEL, irqLevel&0x7);
             CSRWrite8(csrCpuAddr + MRF_UCSR_DEFAULT + UCSR_IRQ_VECTOR, irqVector&0xff);
 
-            printf("IRQ Level: %d\nIRQ Vector: %d\n",
+            epicsPrintf("IRQ Level: %d\nIRQ Vector: %d\n",
                 CSRRead8(csrCpuAddr + MRF_UCSR_DEFAULT + UCSR_IRQ_LEVEL),
                 CSRRead8(csrCpuAddr + MRF_UCSR_DEFAULT + UCSR_IRQ_VECTOR)
             );
 
 
-            printf("csrCpuAddr : %p\nregCpuAddr : %p\nreCpuAddr2 : %p\n",csrCpuAddr, regCpuAddr, regCpuAddr2);
+            epicsPrintf("csrCpuAddr : %p\nregCpuAddr : %p\nreCpuAddr2 : %p\n",csrCpuAddr, regCpuAddr, regCpuAddr2);
 
             /*Disable the interrupts and enable them at the end of iocInit via initHooks*/
             WRITE32(regCpuAddr, IrqFlag, READ32(regCpuAddr, IrqFlag));
@@ -326,15 +340,15 @@ mrmEvgSetupVME (
                 delete evg;
                 return -1;
             }    
-        }
-
-        errlogFlush();
-        return 0;
+        }     
     } catch(std::exception& e) {
         errlogPrintf("Error: %s\n",e.what());
+        errlogFlush();
+        return -1;
     }
     errlogFlush();
-    return -1;
+    return 0;
+
 } //mrmEvgSetupVME
 
 #ifdef __linux__
@@ -351,8 +365,9 @@ int checkUIOVersion(int expect)
         errlogPrintf("Can't open %s in order to read kernel module interface version. Is kernel module loaded?\n", ifaceversion);
         return 1;
     }
-    if(fscanf(fd, "%d", &version)!=1) {
+    if(fscanf(fd, "%d", &version) != 1) {
         errlogPrintf("Failed to read %s in order to get the kernel module interface version. Is kernel module loaded?\n", ifaceversion);
+        fclose(fd);
         return 1;
     }
     fclose(fd);
@@ -390,7 +405,8 @@ mrmEvgSetupPCI (
 		const char* id,         // Card Identifier
 		int b,       			// Bus number
 		int d, 					// Device number
-		int f)   				// Function number
+        int f,   				// Function number
+        bool ignoreVersion)     // Ignore errors due to kernel module and firmware version checks
 {
     bus_configuration bus;
 
@@ -405,21 +421,28 @@ mrmEvgSetupPCI (
 			return -1;
 		}
 
-        if(checkUIOVersion(1))
-            return -1;
+        if(checkUIOVersion(1) > 0) {    // check if kernel version is successfully read and is as expected or higher, and if it can be read at all.
+            if(ignoreVersion){
+                epicsPrintf("Ignoring kernel module error.\n");
+            }
+            else{
+                return -1;
+            }
+        }
 
 		/* Find PCI device from devLib2 */
-		const epicsPCIDevice *cur = 0;
+        const epicsPCIDevice *cur = 0;
 		if (devPCIFindBDF(mrmevgs, b, d, f, &cur, 0)) {
-            printf("PCI Device not found on %x:%x.%x\n", b, d, f);
+            errlogPrintf("PCI Device not found on %x:%x.%x\n", b, d, f);
 			return -1;
 		}
 
-        printf("Device %s  %x:%x.%x\n", id, cur->bus, cur->device, cur->function);
-		printf("Using IRQ %u\n", cur->irq);
+        epicsPrintf("Device %s  %x:%x.%x\n", id, cur->bus, cur->device, cur->function);
+        epicsPrintf("Using IRQ %u\n", cur->irq);
 
-		/* MMap BAR0(plx) and BAR2(EVG)*/
-        volatile epicsUInt8 *BAR_plx, *BAR_evg;
+
+        /* MMap BAR0(plx) and BAR2(EVG)*/
+        volatile epicsUInt8 *BAR_plx, *BAR_evg; // base addressed for plx/evg bars
 
 		if (devPCIToLocalAddr(cur, 0, (volatile void**) (void *) &BAR_plx, 0)
 				|| devPCIToLocalAddr(cur, 2, (volatile void**) (void *) &BAR_evg, 0)) {
@@ -442,8 +465,19 @@ mrmEvgSetupPCI (
 		plxCtrl = plxCtrl & ~LAS0BRD_ENDIAN;
 		LE_WRITE32(BAR_plx,LAS0BRD,plxCtrl);
 
-        epicsUInt32 version = checkVersion(BAR_evg, 3);
-        printf("Firmware version: %08x\n", version);
+
+        epicsUInt32 version = checkVersion(BAR_evg, 0x3);
+        epicsPrintf("Firmware version: %08x\n", version);
+
+        if(version == 0) {
+            if(ignoreVersion) {
+                epicsPrintf("Ignoring version error.\n");
+            }
+            else {
+                return -1;
+            }
+        }
+
 
         evgMrm* evg = new evgMrm(id, bus, BAR_evg, 0, cur);
 
@@ -460,7 +494,7 @@ mrmEvgSetupPCI (
 		 */
 //		LE_WRITE16(BAR_plx, INTCSR,	INTCSR_INT1_Enable| INTCSR_INT1_Polarity| INTCSR_PCI_Enable);
         if(devPCIEnableInterrupt(cur)) {
-            printf("Failed to enable interrupt\n");
+            errlogPrintf("Failed to enable interrupt\n");
             return -1;
         }
 
@@ -474,15 +508,15 @@ mrmEvgSetupPCI (
 			delete evg;
 			return -1;
 		} else {
-			printf("PCI interrupt connected!\n");
+            epicsPrintf("PCI interrupt connected!\n");
 		}
-
-		return 0;
-
 	} catch (std::exception& e) {
 		errlogPrintf("Error: %s\n", e.what());
+        errlogFlush();
+        return -1;
 	}
-	return -1;
+
+    return 0;
 } //mrmEvgSetupPCI
 
 #ifndef _WIN32
@@ -544,7 +578,7 @@ static const iocshArg * const mrmEvgSoftTimeArgs[1] = { &mrmEvgSoftTimeArg0};
 static const iocshFuncDef mrmEvgSoftTimeFuncDef = { "mrmEvgSoftTime", 1, mrmEvgSoftTimeArgs };
 
 static void mrmEvgSoftTimeFunc(const iocshArgBuf *args) {
-	printf("Starting EVG Software based time provider...\n");
+    epicsPrintf("Starting EVG Software based time provider...\n");
 
 	if(!args[0].sval) return;
 
@@ -560,40 +594,63 @@ static void mrmEvgSoftTimeFunc(const iocshArgBuf *args) {
 static const iocshArg mrmEvgSetupVMEArg0 = { "Device", iocshArgString };
 static const iocshArg mrmEvgSetupVMEArg1 = { "Slot number", iocshArgInt };
 static const iocshArg mrmEvgSetupVMEArg2 = { "A24 base address", iocshArgInt };
-static const iocshArg mrmEvgSetupVMEArg3 = { "IRQ Level 1-7 (0 - disable)",
-		iocshArgInt };
+static const iocshArg mrmEvgSetupVMEArg3 = { "IRQ Level 1-7 (0 - disable)", iocshArgInt };
 static const iocshArg mrmEvgSetupVMEArg4 = { "IRQ Vector 0-255", iocshArgInt };
-static const iocshArg * const mrmEvgSetupVMEArgs[5] = { &mrmEvgSetupVMEArg0,
+static const iocshArg mrmEvgSetupVMEArg5 = { "'Ignore version error'", iocshArgArgv};
+
+static const iocshArg * const mrmEvgSetupVMEArgs[6] = { &mrmEvgSetupVMEArg0,
                                                         &mrmEvgSetupVMEArg1,
                                                         &mrmEvgSetupVMEArg2,
                                                         &mrmEvgSetupVMEArg3,
-                                                        &mrmEvgSetupVMEArg4 };
+                                                        &mrmEvgSetupVMEArg4,
+                                                        &mrmEvgSetupVMEArg5 };
 
-static const iocshFuncDef mrmEvgSetupVMEFuncDef = { "mrmEvgSetupVME", 5,
+static const iocshFuncDef mrmEvgSetupVMEFuncDef = { "mrmEvgSetupVME", 6,
 		mrmEvgSetupVMEArgs };
 
 static void 
 mrmEvgSetupVMECallFunc(const iocshArgBuf *args) {
-    mrmEvgSetupVME(args[0].sval,
-                   args[1].ival,
-                   args[2].ival,
-                   args[3].ival,
-                   args[4].ival);
+    // check the 'ignore' parameter
+    if(args[5].aval.ac > 1 && (strcmp("true", args[5].aval.av[1]) == 0 ||
+                               strtol(args[5].aval.av[1], NULL, 10) != 0)){
+        mrmEvgSetupVME(args[0].sval,
+                       args[1].ival,
+                       args[2].ival,
+                       args[3].ival,
+                       args[4].ival,
+                       true);
+    }
+    else {
+        mrmEvgSetupVME(args[0].sval,
+                       args[1].ival,
+                       args[2].ival,
+                       args[3].ival,
+                       args[4].ival,
+                       false);
+    }
 }
 
 static const iocshArg mrmEvgSetupPCIArg0 = { "Device", iocshArgString };
-static const iocshArg mrmEvgSetupPCIArg1 = { "B board", iocshArgInt };
-static const iocshArg mrmEvgSetupPCIArg2 = { "D device", iocshArgInt };
-static const iocshArg mrmEvgSetupPCIArg3 = { "F function", iocshArgInt };
+static const iocshArg mrmEvgSetupPCIArg1 = { "Bus number", iocshArgInt };
+static const iocshArg mrmEvgSetupPCIArg2 = { "Device number", iocshArgInt };
+static const iocshArg mrmEvgSetupPCIArg3 = { "Function number", iocshArgInt };
+static const iocshArg mrmEvgSetupPCIArg4 = { "'Ignore version error'", iocshArgArgv};
 
-static const iocshArg * const mrmEvgSetupPCIArgs[4] = { &mrmEvgSetupPCIArg0,
-		&mrmEvgSetupPCIArg1, &mrmEvgSetupPCIArg2, &mrmEvgSetupPCIArg3 };
+static const iocshArg * const mrmEvgSetupPCIArgs[5] = { &mrmEvgSetupPCIArg0,
+        &mrmEvgSetupPCIArg1, &mrmEvgSetupPCIArg2, &mrmEvgSetupPCIArg3, &mrmEvgSetupPCIArg4 };
 
-static const iocshFuncDef mrmEvgSetupPCIFuncDef = { "mrmEvgSetupPCI", 4,
+static const iocshFuncDef mrmEvgSetupPCIFuncDef = { "mrmEvgSetupPCI", 5,
 		mrmEvgSetupPCIArgs };
 
 static void mrmEvgSetupPCICallFunc(const iocshArgBuf *args) {
-	mrmEvgSetupPCI(args[0].sval, args[1].ival, args[2].ival, args[3].ival);
+    // check the 'ignore' parameter
+    if(args[4].aval.ac > 1 && (strcmp("true", args[4].aval.av[1]) == 0 ||
+                               strtol(args[4].aval.av[1], NULL, 10) != 0)){
+        mrmEvgSetupPCI(args[0].sval, args[1].ival, args[2].ival, args[3].ival, true);
+    }
+    else{
+        mrmEvgSetupPCI(args[0].sval, args[1].ival, args[2].ival, args[3].ival, false);
+    }
 }
 
 
@@ -702,20 +759,20 @@ REGINFO("SeqRamEvent(1,4)", SeqRamEvent(1,4),  8),
 static void
 printregisters(volatile epicsUInt8 *evg) {
     size_t reg;
-    printf("\n--- Register Dump @%p ---\n", evg);
+    epicsPrintf("\n--- Register Dump @%p ---\n", evg);
 
     for(reg=0; reg<NELEMENTS(printreg); reg++){
         switch(printreg[reg].rsize){
             case 8:
-                printf("%16s: %02x\n", printreg[reg].label,
+                epicsPrintf("%16s: %02x\n", printreg[reg].label,
                                        ioread8(evg+printreg[reg].offset));
                 break;
             case 16:
-                printf("%16s: %04x\n", printreg[reg].label,
+                epicsPrintf("%16s: %04x\n", printreg[reg].label,
                                        nat_ioread16(evg+printreg[reg].offset));
                 break;
             case 32:
-                printf("%16s: %08x\n", printreg[reg].label,
+                epicsPrintf("%16s: %08x\n", printreg[reg].label,
                                        nat_ioread32(evg+printreg[reg].offset));
                 break;
         }
@@ -726,12 +783,13 @@ static bool
 reportCard(mrf::Object* obj, void* arg) {
     int *level=(int*)arg;
     evgMrm *evg=dynamic_cast<evgMrm*>(obj);
-    if(!evg)
-        return true;
+    if(!evg){
+        return false;
+    }
 
-    printf("EVG: %s     \n", evg->getId().c_str());
-    printf("\tFPGA Version: %08x (firmware: %x)\n", evg->getFwVersion(), evg->getFwVersionID());
-    printf("\tForm factor: %s\n", evg->getFormFactorStr().c_str());
+    epicsPrintf("EVG: %s     \n", evg->getId().c_str());
+    epicsPrintf("\tFPGA Version: %08x (firmware: %x)\n", evg->getFwVersion(), evg->getFwVersionID());
+    epicsPrintf("\tForm factor: %s\n", evg->getFormFactorStr().c_str());
 
     bus_configuration *bus = evg->getBusConfiguration();
     if(bus->busType == busType_vme){
@@ -740,33 +798,33 @@ reportCard(mrf::Object* obj, void* arg) {
         volatile unsigned char* csrAddr = devCSRTestSlot(vmeEvgIDs, bus->vme.slot, &vmeDev);
         if(csrAddr){
             epicsUInt32 ader = CSRRead32(csrAddr + CSR_FN_ADER(1));
-            printf("\tVME configured slot: %d\n", bus->vme.slot);
-            printf("\tVME configured A24 address 0x%08x\n", bus->vme.address);
-            printf("\tVME ADER: base address=0x%x\taddress modifier=0x%x\n", ader>>8, (ader&0xFF)>>2);
-            printf("\tVME IRQ Level %x (configured to %x)\n", CSRRead8(csrAddr + MRF_UCSR_DEFAULT + UCSR_IRQ_LEVEL), bus->vme.irqLevel);
-            printf("\tVME IRQ Vector %x (configured to %x)\n", CSRRead8(csrAddr + MRF_UCSR_DEFAULT + UCSR_IRQ_VECTOR), bus->vme.irqVector);
-            if(*level>1) printf("\tVME card vendor: 0x%08x\n", vmeDev.vendor);
-            if(*level>1) printf("\tVME card board: 0x%08x\n", vmeDev.board);
-            if(*level>1) printf("\tVME card revision: 0x%08x\n", vmeDev.revision);
-            if(*level>1) printf("\tVME CSR address: %p\n", csrAddr);
+            epicsPrintf("\tVME configured slot: %d\n", bus->vme.slot);
+            epicsPrintf("\tVME configured A24 address 0x%08x\n", bus->vme.address);
+            epicsPrintf("\tVME ADER: base address=0x%x\taddress modifier=0x%x\n", ader>>8, (ader&0xFF)>>2);
+            epicsPrintf("\tVME IRQ Level %x (configured to %x)\n", CSRRead8(csrAddr + MRF_UCSR_DEFAULT + UCSR_IRQ_LEVEL), bus->vme.irqLevel);
+            epicsPrintf("\tVME IRQ Vector %x (configured to %x)\n", CSRRead8(csrAddr + MRF_UCSR_DEFAULT + UCSR_IRQ_VECTOR), bus->vme.irqVector);
+            if(*level>1) epicsPrintf("\tVME card vendor: 0x%08x\n", vmeDev.vendor);
+            if(*level>1) epicsPrintf("\tVME card board: 0x%08x\n", vmeDev.board);
+            if(*level>1) epicsPrintf("\tVME card revision: 0x%08x\n", vmeDev.revision);
+            if(*level>1) epicsPrintf("\tVME CSR address: %p\n", csrAddr);
         }else{
-            printf("\tCard not detected in configured slot %d\n", bus->vme.slot);
+            epicsPrintf("\tCard not detected in configured slot %d\n", bus->vme.slot);
         }
     }
     else if(bus->busType == busType_pci){
         const epicsPCIDevice *pciDev;
         if(!devPCIFindBDF(mrmevgs, bus->pci.bus, bus->pci.device, bus->pci.function, &pciDev, 0)){
-            printf("\tPCI configured bus: 0x%08x\n", bus->pci.bus);
-            printf("\tPCI configured device: 0x%08x\n", bus->pci.device);
-            printf("\tPCI configured function: 0x%08x\n", bus->pci.function);
-            printf("\tPCI IRQ: %u\n", pciDev->irq);
-            if(*level>1) printf("\tPCI class: 0x%08x, revision: 0x%x, sub device: 0x%x, sub vendor: 0x%x\n", pciDev->id.pci_class, pciDev->id.revision, pciDev->id.sub_device, pciDev->id.sub_vendor);
+            epicsPrintf("\tPCI configured bus: 0x%08x\n", bus->pci.bus);
+            epicsPrintf("\tPCI configured device: 0x%08x\n", bus->pci.device);
+            epicsPrintf("\tPCI configured function: 0x%08x\n", bus->pci.function);
+            epicsPrintf("\tPCI IRQ: %u\n", pciDev->irq);
+            if(*level>1) epicsPrintf("\tPCI class: 0x%08x, revision: 0x%x, sub device: 0x%x, sub vendor: 0x%x\n", pciDev->id.pci_class, pciDev->id.revision, pciDev->id.sub_device, pciDev->id.sub_vendor);
 
         }else{
-            printf("\tPCI Device not found\n");
+            epicsPrintf("\tPCI Device not found\n");
         }
     }else{
-        printf("\tUnknown bus type\n");
+        epicsPrintf("\tUnknown bus type\n");
     }
 
     evg->show(*level);
@@ -774,15 +832,15 @@ reportCard(mrf::Object* obj, void* arg) {
     if(*level >= 2)
         printregisters(evg->getRegAddr());
         
-    printf("\n");
+    epicsPrintf("\n");
     return true;
 }
 
 static long 
 report(int level) {
-    printf("===  Begin MRF EVG support   ===\n");
+    epicsPrintf("===  Begin MRF EVG support   ===\n");
     mrf::Object::visitObjects(&reportCard, (void*)&level);
-    printf("===   End MRF EVG support    ===\n");
+    epicsPrintf("===   End MRF EVG support    ===\n");
     return 0;
 }
 extern "C"{

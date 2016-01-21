@@ -32,6 +32,13 @@ public:
     virtual void unlock() const{}
 
     /**
+     * @brief setOffset allows to set the offset from the start of the flash chip memory where reading/writing begins. Setting wrong offset is very dangerous!
+     * The offset is autodetected in the constructor based on device form factor. The autodetection can fail in rare cases where device firmware is not supported by this driver. This can mean that it does not have the correct form factor description written at the correct address. This is the only case where using this function should be considered.
+     * @param offset is the offset from the beginning of the flash chip memory to write to / read from
+     */
+    void setOffset(size_t offset);
+
+    /**
      * @brief setFlashFilename sets the file name for use in reading or flashing the chip.
      * @param filename the file name to set.
      */
@@ -96,10 +103,10 @@ public:
     bool readSuccess() const;
 
     /**
-     * @brief isSupported indicates if accessing the flash chip is supported on this device.
+     * @brief isOffsetValid indicates if the offset from the start of the flash chip memory where reading/writing begins is correctly set.
      * @return true if flash access is supported on this device, false otherwise.
      */
-    bool isSupported() const;
+    bool isOffsetValid() const;
 
     /**
      * @brief report prints basic flash chip information to iocsh
@@ -133,8 +140,8 @@ private:
     volatile epicsUInt8* const m_base;  // base address of the EVR/EVG card
     bool m_flash_success;               // true when the last flashing operation completed successfully, false otherwise.
     bool m_read_success;                // true when the last reading operation completed successfully, false otherwise.
-    bool m_supported;                   // true when the device supports flashing, false otherwise.
     size_t m_offset;                    // offset from the start of the flash chip memory where reading/writing begins.
+    bool m_offsetValid;                 // true when the device offset was successfuly detected based on form factor, false otherwise.
 
     mrmFlash &m_flash;                  // reference to the mrmFlash class that is responsible for hardware access to the flash chip
 
