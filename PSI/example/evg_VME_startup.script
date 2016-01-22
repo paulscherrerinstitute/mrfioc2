@@ -7,12 +7,12 @@ require mrfioc2
 ## The following parameters are available to set up the device. They can either be set as an epics environmental variable, or passed as a macro to the 'runScript' command:
 
 # The following macros are available to set up the mrfioc2:
-# SYS 			"MTEST-VME-TIMINGTEST" ## is used as a prefix for all records.
-# DEVICE		"EVG0"		## is the event generator / timing card name. (default: EVG0)
-# EVG_SLOT		2			## is the VME crate slot where the card is inserted. (default: 2)
-# EVG_MEMOFFSET	0x0			## is the base A24 address (default: 0x0)
-# EVG_IRQLINE 	0x2			## is the interrupt level. (default: 0x2)
-# EVG_IRQVECT 	0x1			## is the interrupt vector (default: 0x1)
-# EVG_SUBS "cfg/EVG0.subs" 	## is the path to the substitution file that should be loaded. (default: cfg/$(DEVICE).subs=cfg/EVG0.subs)
+# SYS 			 is used as a prefix for all records.
+# DEVICE		 is the event generator / timing card name. (default: EVG0)
+# EVG_SLOT		 is the VME crate slot where the card is inserted. (default: 2)
+# EVG_MEMOFFSET	 is the base A24 address (default: 0x0)
+# EVG_IRQLINE 	 is the interrupt level. (default: 0x2)
+# EVG_IRQVECT 	 is the interrupt vector (default: 0x1)
+# EVG_SUBS       is the path to the substitution file that should be loaded. (default: cfg/$(DEVICE).subs=cfg/EVG0.subs)
 
 runScript $(mrfioc2_DIR)/mrfioc2_evg-VME.cmd, "SYS=MTEST-VME-TIMINGTEST, DEVICE=EVG0, EVG_SLOT=2, EVG_MEMOFFSET=0x000000, EVG_IRQLINE=0x2"

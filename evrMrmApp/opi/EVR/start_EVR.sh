@@ -3,7 +3,7 @@ set -o errexit
 
 SYS=""
 DEVICE="EVR0"
-FF="VME"
+FF="VME-300"
 
 usage()
 {

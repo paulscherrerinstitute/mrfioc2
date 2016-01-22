@@ -1422,7 +1422,7 @@ try {
 
     if(flags&IRQ_RXErr){
         if(!err_msg){
-            EVR_INFO(0,"EVR link down!");
+            EVR_INFO(1,"EVR link down!");
             err_msg=1;
         }
 
@@ -1436,7 +1436,7 @@ try {
         }
         WRITE32(evr->base, IRQFlag, IRQ_RXErr);
     }else{
-        EVR_INFO(0,"EVR link up!");
+        EVR_INFO(1,"EVR link up!");
         err_msg = 0;
 
         scanIoRequest(evr->IRQrxError);

@@ -6,12 +6,12 @@ require mrfioc2
 ## The following parameters are available to set up the device. They can either be set as an epics environmental variable, or passed as a macro to the 'runScript' command:
 
 # The following macros are available to set up the mrfioc2:
-# SYS 			"MTEST-VME-TIMINGTEST" ## is used as a prefix for all records.
-# DEVICE		"EVR0"		## is the event receiver / timing card name. (default: EVR0)
-# EVR_SLOT		3			## is the VME crate slot where EVR is inserted. (default: 3)
-# EVR_MEMOFFSET	0x3000000	## is the base A32 address (default: 0x3000000)
-# EVR_IRQLINE 	0x5			## is the interrupt level. (default: 0x5)
-# EVR_IRQVECT	0x26		## is the interrupt vector (default: 0x26)
+# SYS 			 is used as a prefix for all records.
+# DEVICE		 is the event receiver / timing card name. (default: EVR0)
+# EVR_SLOT		 is the VME crate slot where EVR is inserted. (default: 3)
+# EVR_MEMOFFSET	 is the base A32 address (default: 0x3000000)
+# EVR_IRQLINE 	 is the interrupt level. (default: 0x5)
+# EVR_IRQVECT	 is the interrupt vector (default: 0x26)
 # EVR_SUBS is the path to the substitution file that should be loaded. (default: cfg/$(DEVICE).subs=cfg/EVR0.subs)
 
 runScript $(mrfioc2_DIR)/mrfioc2_evr-VME.cmd, "SYS=MTEST-VME-TIMINGTEST, DEVICE=EVR0, EVR_SLOT=3, EVR_MEMOFFSET=0x3000000, EVR_IRQLINE=0x5"

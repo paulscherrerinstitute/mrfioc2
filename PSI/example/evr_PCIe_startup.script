@@ -7,12 +7,12 @@ require mrfioc2
 ## The following parameters are available to set up the device. They can either be set as an epics environmental variable, or passed as a macro to the 'runScript' command:
 
 # The following macros are available to set up the mrfioc2:
-# SYS 			"MTEST-VME-TIMINGTEST" ## is used as a prefix for all records.
-# DEVICE		"EVR0" 		## is the event receiver / timing card name. (default: EVR0)
-# EVR_DOMAIN  	0x1 		## is the PCI domain where the card is inserted. (default: 0x1)
-# EVR_BUS 		0x21 		## is the PCI bus where the card is inserted. (default: 0x21)
-# EVR_DEVICE  	0 			## is the PCI device where the card is inserted. (default: 0)
-# EVR_FUNCTION 	0 			## is the PCI function where the card is inserted. (default: 0)
-# EVR_SUBS "cfg/EVR0.subs" 	## is the path to the substitution file that should be loaded. (default: cfg/$(DEVICE).subs = cfg/EVR0.subs)
+# SYS 			 is used as a prefix for all records.
+# DEVICE		 is the event receiver / timing card name. (default: EVR0)
+# EVR_DOMAIN  	 is the PCI domain where the card is inserted. (default: 0x1)
+# EVR_BUS 		 is the PCI bus where the card is inserted. (default: 0x21)
+# EVR_DEVICE  	 is the PCI device where the card is inserted. (default: 0)
+# EVR_FUNCTION 	 is the PCI function where the card is inserted. (default: 0)
+# EVR_SUBS       is the path to the substitution file that should be loaded. (default: cfg/$(DEVICE).subs = cfg/EVR0.subs)
 
 runScript $(mrfioc2_DIR)/mrfioc2_evr-PCIe.cmd, "SYS=MTEST-VME-TIMINGTEST, DEVICE=EVR0, EVR_DOMAIN=0x1, EVR_BUS=0x21, EVR_DEVICE=0, EVR_FUNCTION=0, EVR_SUBS=cfg/evr_PCIe-300.subs"

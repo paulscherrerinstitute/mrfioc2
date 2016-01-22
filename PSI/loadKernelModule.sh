@@ -43,4 +43,4 @@ fi
 MRF_LOADED=$(lsmod | grep mrf)
 if [ -z "$MRF_LOADED" ]; then
 	echo "Mrf module failed to load."
-else
+fi

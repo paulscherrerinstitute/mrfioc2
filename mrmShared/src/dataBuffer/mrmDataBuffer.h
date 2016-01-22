@@ -42,7 +42,7 @@ public:
                   epicsUInt32 controlRegisterRx,
                   epicsUInt32 dataRegisterTx,
                   epicsUInt32 dataRegisterRx);
-    ~mrmDataBuffer();
+    virtual ~mrmDataBuffer();
     
     /**
      * @brief enableRx is used to enable or disable receiving for this data buffer
