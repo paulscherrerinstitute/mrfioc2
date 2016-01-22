@@ -1,6 +1,10 @@
 For detailed changelog inspect commits at https://git.psi.ch/epics_drivers/mrfioc2/commits/master
 
 
+x.x.x :
+	- Added option to ignore version errors while initializing the driver
+	- Name of iocsh functions for flashing changed. Record in flash.template changed name from *IsSupported-RB to *IsOffsetValid-RB. Added iocsh function to set offset (address where reading/writing from/to the flash chip starts)
+
 2.7.6 Fri 8 Jan 2015 11:00:00 CET:
 	- Added flashing support for PCIe and cPCI form factors
 

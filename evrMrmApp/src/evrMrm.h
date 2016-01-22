@@ -113,7 +113,7 @@ public:
     mutable epicsMutex evrLock;
 
 
-    EVRMRM(const std::string& n, bus_configuration& busConfig, volatile epicsUInt8 *, epicsUInt32);
+    EVRMRM(const std::string& n, bus_configuration& busConfig, volatile epicsUInt8 *);
 
     ~EVRMRM();
 private:
@@ -278,7 +278,6 @@ public:
 
     const std::string id;
     volatile unsigned char * const base;
-    epicsUInt32 baselen;
     std::auto_ptr<SFP> sfp;
 
     /**\defgroup devhelp Device Support Helpers

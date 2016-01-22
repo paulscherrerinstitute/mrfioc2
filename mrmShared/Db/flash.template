@@ -42,11 +42,11 @@ record(bi, "$(SYS)-$(DEVICE):Flash-InProgress-RB") {
   field(INP , "@OBJ=$(DEVICE):Flash, PROP=InProgress")
 }
 
-record(bi, "$(SYS)-$(DEVICE):Flash-IsSupported-RB") {
+record(bi, "$(SYS)-$(DEVICE):Flash-IsOffsetValid-RB") {
   field(DESC, "Is flash access supported")
   field(PINI, "YES")
   field(DTYP, "Obj Prop bool")
-  field(INP , "@OBJ=$(DEVICE):Flash, PROP=IsSupported")
+  field(INP , "@OBJ=$(DEVICE):Flash, PROP=IsOffsetValid")
 }
 
 record(waveform, "$(SYS)-$(DEVICE):Flash-Filename-SP") {
