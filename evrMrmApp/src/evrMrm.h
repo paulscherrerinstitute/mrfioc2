@@ -369,7 +369,7 @@ private:
     eventCode events[256];
 
     // Buffer received
-    CALLBACK data_rx_cb;
+    static void dataBufferRxComplete(void *vptr);
     CALLBACK dataBufferRx_cb;
 
     // Called when the Event Log is stopped

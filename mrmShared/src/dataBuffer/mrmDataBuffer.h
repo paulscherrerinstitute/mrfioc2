@@ -43,6 +43,11 @@ public:
                   epicsUInt32 dataRegisterTx,
                   epicsUInt32 dataRegisterRx);
     virtual ~mrmDataBuffer();
+
+    /**
+     * Definition of a callback function. Used in registerRxComplete()
+     */
+    typedef void(*rxCompleteCallback_t)(void* pvt);
     
     /**
      * @brief enableRx is used to enable or disable receiving for this data buffer
@@ -115,6 +120,13 @@ public:
     void setInterest(mrmDataBufferUser* user, epicsUInt32 *interest);
 
     /**
+     * @brief registerRxComplete registers a callback that is called when data buffer reception completes
+     * @param fptr is the callback function to invoke when data buffer reception is complete
+     * @param pvt is pointer to the callback function private structure
+     */
+    void registerRxComplete(rxCompleteCallback_t fptr, void* pvt);
+
+    /**
      * @brief handleDataBufferRxIRQ is called from the ISR when the data buffer IRQ arrives (through a CB High scheduled callback)
      */
     static void handleDataBufferRxIRQ(CALLBACK*);
@@ -164,7 +176,12 @@ protected:
     void printFlags(const char *preface, volatile epicsUInt8* flagRegister);
 
 private:
-    epicsMutex m_rx_lock;               // The lock prevents adding/removing users while data is being dispatched to users.
+    epicsMutex m_rx_lock;           // The lock prevents adding/removing users while data is being dispatched to users.
+
+    struct RxCompleteCallback{
+        rxCompleteCallback_t fptr;  // callback function pointer
+        void* pvt;                  // callback private
+    } rx_complete_callback;
 
     /**
      * @brief calcMaxInterestedLength Uses m_irq_flags to set new value for m_max_length

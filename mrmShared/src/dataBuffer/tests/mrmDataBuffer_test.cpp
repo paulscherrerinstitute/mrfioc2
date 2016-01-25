@@ -287,7 +287,7 @@ static void mrmDataBufferFunc_user(const iocshArgBuf *args) {
 
 /******************/
 
-/********** Send and receive on an offset  *******/
+/********** Handle interest  *******/
 static const iocshArg mrmDataBufferArg0_interest = { "User", iocshArgInt };
 static const iocshArg mrmDataBufferArg1_interest = { "Offset", iocshArgInt };
 
@@ -330,6 +330,7 @@ static void mrmDataBufferFunc_removeInterest(const iocshArgBuf *args) {
 }
 
 /******************/
+
 
 extern "C" {
     static void mrmDataBufferRegistrar() {

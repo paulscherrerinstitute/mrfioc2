@@ -97,7 +97,7 @@ mrmDataBufferUser::~mrmDataBufferUser()
     }
 }
 
-size_t mrmDataBufferUser::registerInterest(size_t offset, size_t length, dataBufferRXCallback_t fptr, void *pvt) {
+size_t mrmDataBufferUser::registerInterest(size_t offset, size_t length, dataBufferRxCallback_t fptr, void *pvt) {
     RxCallback *cb = NULL;
     size_t id;
     epicsUInt16 segment, i, segmentOffset, noOfSegmentsUpdated;

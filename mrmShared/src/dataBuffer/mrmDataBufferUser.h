@@ -21,7 +21,7 @@
 class mrmDataBuffer;    // forward decleration in order to avoid dependancy on mrmDataBuffer.h file when using this class
 
 
-typedef void(*dataBufferRXCallback_t)(size_t updated_offset, size_t length, void* pvt);
+typedef void(*dataBufferRxCallback_t)(size_t updated_offset, size_t length, void* pvt);
 
 
 /**
@@ -59,7 +59,7 @@ public:
      * @param pvt is pointer to the callback function private structure
      * @return the ID of the registered interest or 0 on error
      */
-    size_t registerInterest(size_t offset, size_t length, dataBufferRXCallback_t fptr, void* pvt);
+    size_t registerInterest(size_t offset, size_t length, dataBufferRxCallback_t fptr, void* pvt);
 
     /**
      * @brief removeInterest Remove previously registred interest
@@ -163,7 +163,7 @@ private:
     struct RxCallback{
         size_t id;                              // the id of the registered callback. Used for deletion.
         epicsUInt32 segments[4];                // segment mask in which the user is interested
-        dataBufferRXCallback_t fptr;            // callback function pointer
+        dataBufferRxCallback_t fptr;            // callback function pointer
         void* pvt;                              // callback private
     };
     std::vector<RxCallback*> m_rx_callbacks;    // a list of registered users and their segments of interest (offset + length)

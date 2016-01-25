@@ -44,6 +44,9 @@ mrmDataBuffer::mrmDataBuffer(const char * parentName,
 {
     epicsUInt16 i;
 
+    rx_complete_callback.fptr = NULL;
+    rx_complete_callback.pvt = NULL;
+
     enableRx(1);
     enableTx(1);
 
@@ -232,6 +235,12 @@ void mrmDataBuffer::setInterest(mrmDataBufferUser *user, epicsUInt32 *interest)
     }
 }
 
+void mrmDataBuffer::registerRxComplete(rxCompleteCallback_t fptr, void *pvt)
+{
+    rx_complete_callback.fptr = fptr;
+    rx_complete_callback.pvt = pvt;
+}
+
 void mrmDataBuffer::clearFlags(volatile epicsUInt8 *flagRegister) {
     int i;
 
@@ -265,6 +274,7 @@ void mrmDataBuffer::calcMaxInterestedLength()
     dbgPrintf(1, "Fetching max %d bytes from the data buffer\n", m_max_length);
 }
 
+
 void mrmDataBuffer::handleDataBufferRxIRQ(CALLBACK *cb) {
     void *vptr;
     callbackGetUser(vptr,cb);
@@ -275,6 +285,10 @@ void mrmDataBuffer::handleDataBufferRxIRQ(CALLBACK *cb) {
 
     parent->receive();
     parent->m_rx_irq_handled = true;
+
+    if(parent->rx_complete_callback.fptr != NULL){
+        parent->rx_complete_callback.fptr(parent->rx_complete_callback.pvt);
+    }
 }
 
 mrmDataBuffer* mrmDataBuffer::getDataBufferFromDevice(const char *device) {
