@@ -34,8 +34,6 @@ extern "C"{
  */
 class epicsShareClass mrmDataBuffer {
 public:
-    bool m_rx_irq_handled;  // guards against running multiple Rx callbacks from main ISR at the same time.
-
     mrmDataBuffer(const char *parentName,
                   volatile epicsUInt8 *parentBaseAddress,
                   epicsUInt32 controlRegisterTx,

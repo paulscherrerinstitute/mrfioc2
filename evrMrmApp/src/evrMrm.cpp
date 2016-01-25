@@ -1199,10 +1199,7 @@ EVRMRM::isr(void *arg)
         */
         if (evr->firmwareVersion < MIN_FW_SEGMENTED_DBUFF) BITSET(NAT,32,evr->base, DataRxCtrlEvr, DataRxCtrl_stop);
 
-        if (evr->m_dataBuffer->m_rx_irq_handled) {
-            evr->m_dataBuffer->m_rx_irq_handled = false;
-            callbackRequest(&evr->dataBufferRx_cb);
-        }
+        callbackRequest(&evr->dataBufferRx_cb);
     }
     if(active&IRQ_HWMapped){
         evr->shadowIRQEna &= ~IRQ_HWMapped;

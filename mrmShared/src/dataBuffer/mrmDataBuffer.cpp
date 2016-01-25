@@ -54,8 +54,6 @@ mrmDataBuffer::mrmDataBuffer(const char * parentName,
         m_irq_flags[i] = 0;
     }
 
-    m_rx_irq_handled = true;
-
     data_buffers[parentName] = this;
 }
 
@@ -284,7 +282,6 @@ void mrmDataBuffer::handleDataBufferRxIRQ(CALLBACK *cb) {
     epicsGuard<epicsMutex> g(parent->m_rx_lock);
 
     parent->receive();
-    parent->m_rx_irq_handled = true;
 
     if(parent->rx_complete_callback.fptr != NULL){
         parent->rx_complete_callback.fptr(parent->rx_complete_callback.pvt);
