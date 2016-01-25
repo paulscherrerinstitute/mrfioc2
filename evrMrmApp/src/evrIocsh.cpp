@@ -389,9 +389,14 @@ mrmEvrSetupPCI(const char* id,      // Card Identifier
                        INTCSR_PCI_Enable);
     #else
             /* ask the kernel module to enable interrupts through the PLX bridge */
-            if(devPCIEnableInterrupt(cur)) {
-                errlogPrintf("PLX 9030: Failed to enable interrupt\n");
-                return -1;
+            if(ignoreVersion){
+                epicsPrintf("Not enabling interrupts.\n");
+            }
+            else {
+                if(devPCIEnableInterrupt(cur)) {
+                    errlogPrintf("PLX 9030: Failed to enable interrupt\n");
+                    return -1;
+                }
             }
     #endif
             break;
@@ -411,9 +416,14 @@ mrmEvrSetupPCI(const char* id,      // Card Identifier
             BITSET(LE,32,plx, INTCSR9056, INTCSR9056_PCI_Enable|INTCSR9056_LCL_Enable);
     #else
             /* ask the kernel module to enable interrupts */
-            if(devPCIEnableInterrupt(cur)) {
-                errlogPrintf("PLX 9056: Failed to enable interrupt\n");
-                return -1;
+            if(ignoreVersion){
+                epicsPrintf("Not enabling interrupts.\n");
+            }
+            else {
+                if(devPCIEnableInterrupt(cur)) {
+                    errlogPrintf("PLX 9056: Failed to enable interrupt\n");
+                    return -1;
+                }
             }
     #endif
             break;
@@ -434,10 +444,15 @@ mrmEvrSetupPCI(const char* id,      // Card Identifier
             BITSET32(evr, IRQEnable, IRQ_PCIee);
     #else
             /* ask the kernel module to enable interrupts */
-            epicsPrintf("EC 30: Enabling interrupts\n");
-            if(devPCIEnableInterrupt(cur)) {
-                errlogPrintf("EC 30: Failed to enable interrupt\n");
-                return -1;
+            if(ignoreVersion){
+                epicsPrintf("Not enabling interrupts.\n");
+            }
+            else {
+                epicsPrintf("EC 30: Enabling interrupts\n");
+                if(devPCIEnableInterrupt(cur)) {
+                    errlogPrintf("EC 30: Failed to enable interrupt\n");
+                    return -1;
+                }
             }
     #endif
             break;
@@ -474,11 +489,16 @@ mrmEvrSetupPCI(const char* id,      // Card Identifier
         receiver->isrLinuxPvt = (void*)cur;
     #endif
 
-        if(devPCIConnectInterrupt(cur, &EVRMRM::isr_pci, arg, 0)){
-            errlogPrintf("Failed to install ISR\n");
-            delete receiver;
-        }else{
-            // Interrupts will be enabled during iocInit()
+        if(ignoreVersion){
+            epicsPrintf("Not connecting interrupts.\n");
+        }
+        else {
+            if(devPCIConnectInterrupt(cur, &EVRMRM::isr_pci, arg, 0)){
+                errlogPrintf("Failed to install ISR\n");
+                delete receiver;
+            }else{
+                // Interrupts will be enabled during iocInit()
+            }
         }
     } catch(std::exception& e) {
         errlogPrintf("Error: %s\n",e.what());
