@@ -181,10 +181,10 @@
     <zorder>cainclude_6</zorder>
     <zorder>label_11</zorder>
     <zorder>calineedit_3</zorder>
-    <zorder>cainclude_15</zorder>
     <zorder>cainclude_16</zorder>
     <zorder>cainclude_17</zorder>
     <zorder>line</zorder>
+    <zorder>cainclude_15</zorder>
    </widget>
    <widget class="QTabWidget" name="tabWidget">
     <property name="geometry">
@@ -387,7 +387,7 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>654</width>
+         <width>651</width>
          <height>1900</height>
         </rect>
        </property>
@@ -3027,7 +3027,7 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>654</width>
+         <width>651</width>
          <height>1900</height>
         </rect>
        </property>
@@ -5632,6 +5632,10 @@
      <string notr="true">SYS=$(SYS),DEVICE=$(DEVICE)</string>
     </property>
    </widget>
+   <zorder>groupBox_3</zorder>
+   <zorder>calabel</zorder>
+   <zorder>tabWidget</zorder>
+   <zorder>carelateddisplay_3</zorder>
   </widget>
  </widget>
  <customwidgets>

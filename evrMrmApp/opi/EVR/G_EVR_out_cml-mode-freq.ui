@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>Form</class>
  <widget class="QWidget" name="Form">
@@ -5,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>381</width>
-    <height>155</height>
+    <width>368</width>
+    <height>138</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -52,27 +53,30 @@
     <property name="channel" stdset="0">
      <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Freq:Lvl-SP</string>
     </property>
+    <property name="background">
+     <color>
+      <red>212</red>
+      <green>219</green>
+      <blue>157</blue>
+     </color>
+    </property>
+    <property name="bordercolor">
+     <color>
+      <red>0</red>
+      <green>0</green>
+      <blue>0</blue>
+     </color>
+    </property>
+    <property name="colorMode">
+     <enum>caChoice::Static</enum>
+    </property>
     <property name="stackingMode" stdset="0">
      <enum>caChoice::Column</enum>
     </property>
     <property name="endBit">
      <number>1</number>
     </property>
-   <property name="background">
-         <color>
-          <red>212</red>
-          <green>219</green>
-          <blue>157</blue>
-         </color>
-        </property><property name="bordercolor">
-         <color>
-          <red>0</red>
-          <green>0</green>
-          <blue>0</blue>
-         </color>
-        </property><property name="colorMode">
-         <enum>caChoice::Static</enum>
-        </property></widget>
+   </widget>
    <widget class="QLabel" name="label_6">
     <property name="geometry">
      <rect>
@@ -114,15 +118,17 @@
     <property name="channel" stdset="0">
      <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Freq:Init-SP</string>
     </property>
-   <property name="background">
-         <color>
-          <red>212</red>
-          <green>219</green>
-          <blue>157</blue>
-         </color>
-        </property><property name="colorMode">
-         <enum>caLineEdit::Static</enum>
-        </property></widget>
+    <property name="background">
+     <color>
+      <red>212</red>
+      <green>219</green>
+      <blue>157</blue>
+     </color>
+    </property>
+    <property name="colorMode">
+     <enum>caLineEdit::Static</enum>
+    </property>
+   </widget>
    <widget class="caTextEntry" name="catextentry_2">
     <property name="geometry">
      <rect>
@@ -135,15 +141,17 @@
     <property name="channel" stdset="0">
      <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Freq:High-SP</string>
     </property>
-   <property name="background">
-         <color>
-          <red>212</red>
-          <green>219</green>
-          <blue>157</blue>
-         </color>
-        </property><property name="colorMode">
-         <enum>caLineEdit::Static</enum>
-        </property></widget>
+    <property name="background">
+     <color>
+      <red>212</red>
+      <green>219</green>
+      <blue>157</blue>
+     </color>
+    </property>
+    <property name="colorMode">
+     <enum>caLineEdit::Static</enum>
+    </property>
+   </widget>
    <widget class="QLabel" name="label_7">
     <property name="geometry">
      <rect>
@@ -188,15 +196,17 @@
     <property name="channel" stdset="0">
      <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Freq:Low-SP</string>
     </property>
-   <property name="background">
-         <color>
-          <red>212</red>
-          <green>219</green>
-          <blue>157</blue>
-         </color>
-        </property><property name="colorMode">
-         <enum>caLineEdit::Static</enum>
-        </property></widget>
+    <property name="background">
+     <color>
+      <red>212</red>
+      <green>219</green>
+      <blue>157</blue>
+     </color>
+    </property>
+    <property name="colorMode">
+     <enum>caLineEdit::Static</enum>
+    </property>
+   </widget>
    <widget class="QLabel" name="label_8">
     <property name="geometry">
      <rect>
