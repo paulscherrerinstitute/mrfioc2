@@ -111,7 +111,7 @@ size_t mrmDataBufferUser::registerInterest(size_t offset, size_t length, dataBuf
 
     /* Check input arguments */
     if(length <= 0) {
-        errlogPrintf("Invalid length %zu provided. Offset + length should be in interval [1, %d].\n", length, DataBuffer_len_max-1);
+        errlogPrintf("Invalid length %" FORMAT_SIZET_U " provided. Offset + length should be in interval [1, %d].\n", length, DataBuffer_len_max-1);
         return 0;
     }
 
@@ -122,14 +122,14 @@ size_t mrmDataBufferUser::registerInterest(size_t offset, size_t length, dataBuf
 
     offset += m_user_offset;
     if (offset >= DataBuffer_len_max) {
-        errlogPrintf("Trying to register on offset %zu, which is out of range (max offset: %d).\n", offset, DataBuffer_len_max-1);
+        errlogPrintf("Trying to register on offset %" FORMAT_SIZET_U ", which is out of range (max offset: %d).\n", offset, DataBuffer_len_max-1);
         return 0;
     }
 
     if(offset + length > DataBuffer_len_max) {
-        dbgPrintf(1, "Trying to register %zu bytes on offset %zu, which is longer than buffer size (%d). ", length, offset, DataBuffer_len_max);
+        dbgPrintf(1, "Trying to register %" FORMAT_SIZET_U " bytes on offset %" FORMAT_SIZET_U ", which is longer than buffer size (%d). ", length, offset, DataBuffer_len_max);
         length = DataBuffer_len_max - offset;
-        dbgPrintf(1, "Cropped length to %zu\n", length);
+        dbgPrintf(1, "Cropped length to %" FORMAT_SIZET_U "\n", length);
     }  
 
 
@@ -200,7 +200,7 @@ bool mrmDataBufferUser::removeInterest(size_t id) {
     } else {
         RxCallback * cb = m_rx_callbacks.back();
         if(cb == NULL) errlogPrintf("No registered callbacks exist. Cannot remove...\n");
-        else errlogPrintf("Invalid registered interest ID (%zu). Valid IDs are in range [1, %zu]\n", id, cb->id);
+        else errlogPrintf("Invalid registered interest ID (%" FORMAT_SIZET_U "). Valid IDs are in range [1, %" FORMAT_SIZET_U "]\n", id, cb->id);
         return false;
     }
 
@@ -233,20 +233,20 @@ void mrmDataBufferUser::releaseTxBuffer(size_t offset, size_t length) {
 void mrmDataBufferUser::put(size_t offset, size_t length, void *buffer) {
     /* Check input arguments */
     if(length <= 0) {
-        errlogPrintf("Invalid length %zu provided. Offset + length should be in interval [1, %d].\n", length, DataBuffer_len_max-1);
+        errlogPrintf("Invalid length %" FORMAT_SIZET_U " provided. Offset + length should be in interval [1, %d].\n", length, DataBuffer_len_max-1);
         return;
     }
 
     offset += m_user_offset;
     if (offset >= DataBuffer_len_max) {
-        errlogPrintf("Trying to transfer on offset %zu, which is out of range (max offset: %d).\n", offset, DataBuffer_len_max-1);
+        errlogPrintf("Trying to transfer on offset %" FORMAT_SIZET_U ", which is out of range (max offset: %d).\n", offset, DataBuffer_len_max-1);
         return;
     }
 
     if(offset + length > DataBuffer_len_max) {
-        dbgPrintf(1, "Too much data to transfer on offset %zu (%zu bytes). ", offset, length);
+        dbgPrintf(1, "Too much data to transfer on offset %" FORMAT_SIZET_U " (%" FORMAT_SIZET_U " bytes). ", offset, length);
         length = DataBuffer_len_max - offset;
-        dbgPrintf(1, "Cropped length to %zu\n", length);
+        dbgPrintf(1, "Cropped length to %" FORMAT_SIZET_U "\n", length);
     }
 
     m_tx_lock.lock();
@@ -274,20 +274,20 @@ void mrmDataBufferUser::get(size_t offset, size_t length, void *buffer) {
 
     /* Check input arguments */
     if(length <= 0) {
-        errlogPrintf("Invalid length %zu provided. Offset + length should be in interval [1, %d].\n", length, DataBuffer_len_max-1);
+        errlogPrintf("Invalid length %" FORMAT_SIZET_U " provided. Offset + length should be in interval [1, %d].\n", length, DataBuffer_len_max-1);
         return;
     }
 
     offset += m_user_offset;
     if (offset >= DataBuffer_len_max) {
-        errlogPrintf("Trying to receive from offset %zu, which is out of range (max offset: %d).\n", offset, DataBuffer_len_max-1);
+        errlogPrintf("Trying to receive from offset %" FORMAT_SIZET_U ", which is out of range (max offset: %d).\n", offset, DataBuffer_len_max-1);
         return;
     }
 
     if(offset + length > DataBuffer_len_max) {
-        dbgPrintf(1, "Too much data to receive from offset %zu (%zu bytes). ", offset, length);
+        dbgPrintf(1, "Too much data to receive from offset %" FORMAT_SIZET_U " (%" FORMAT_SIZET_U " bytes). ", offset, length);
         length = DataBuffer_len_max - offset;
-        dbgPrintf(1, "Cropped length to %zu\n", length);
+        dbgPrintf(1, "Cropped length to %" FORMAT_SIZET_U "\n", length);
     }
 
     // Copy from offset to user buffer

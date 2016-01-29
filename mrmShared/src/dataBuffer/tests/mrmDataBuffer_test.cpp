@@ -229,7 +229,7 @@ void callback(size_t updated_offset, size_t length, void* pvt){
     size_t offset = (*str).offset;
     epicsUInt8 buffer[3000];
 
-    printf("Got update on offset %zu+%zu\n", updated_offset, length);
+    printf("Got update on offset %" FORMAT_SIZET_U "+%" FORMAT_SIZET_U "\n", updated_offset, length);
     rx->get(offset, length, (void *)&buffer);
     for(unsigned int i=0; i<length; i++){
         printf("%d, ", buffer[i]);
