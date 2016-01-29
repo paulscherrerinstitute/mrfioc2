@@ -4,7 +4,7 @@ file "$(mrfioc2_TEMPLATES=db)/evr-vme-230.db"
     
         ## Global settings
 		ExtInhib-Sel=0, 		#0 = Use Inhibit, 1 = Always permitt : Use HW trigger inhibit (EVRTG only)
-		Link-Clk-SP=124.916,	#50-150 : Event Link speed (MHz)
+		Link-Clk-SP=124.916,	#45-150 : Event Link speed (MHz)
 		Time-Src-Sel=0, 		#0 = Event clk, 1 = Mapped codes, 2 = DBus4 : Source for timestamping clock.
 		Time-Clock-SP=0.0,		#50-150 : Timestamp tick rate (MHz)
 

@@ -493,9 +493,14 @@ mrmEvgSetupPCI (
 		 * Enable active high interrupt1 through the PLX to the PCI bus.
 		 */
 //		LE_WRITE16(BAR_plx, INTCSR,	INTCSR_INT1_Enable| INTCSR_INT1_Polarity| INTCSR_PCI_Enable);
-        if(devPCIEnableInterrupt(cur)) {
-            errlogPrintf("Failed to enable interrupt\n");
-            return -1;
+        if(ignoreVersion){
+            epicsPrintf("Not enabling interrupts.\n");
+        }
+        else {
+            if(devPCIEnableInterrupt(cur)) {
+                errlogPrintf("Failed to enable interrupt\n");
+                return -1;
+            }
         }
 
 #ifdef __linux__
@@ -503,13 +508,18 @@ mrmEvgSetupPCI (
 #endif
 
 		/*Connect Interrupt handler to isr thread*/
-		if (devPCIConnectInterrupt(cur, &evgMrm::isr_pci, (void*) evg, 0)) {//devConnectInterruptVME(irqVector & 0xff, &evgMrm::isr, evg)){
-			errlogPrintf("ERROR:Failed to connect PCI interrupt\n");
-			delete evg;
-			return -1;
-		} else {
-            epicsPrintf("PCI interrupt connected!\n");
-		}
+        if(ignoreVersion){
+            epicsPrintf("Not connecting interrupts.\n");
+        }
+        else {
+            if (devPCIConnectInterrupt(cur, &evgMrm::isr_pci, (void*) evg, 0)) {//devConnectInterruptVME(irqVector & 0xff, &evgMrm::isr, evg)){
+                errlogPrintf("ERROR:Failed to connect PCI interrupt\n");
+                delete evg;
+                return -1;
+            } else {
+                epicsPrintf("PCI interrupt connected!\n");
+            }
+        }
 	} catch (std::exception& e) {
 		errlogPrintf("Error: %s\n", e.what());
         errlogFlush();

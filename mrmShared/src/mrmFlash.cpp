@@ -143,7 +143,7 @@ void mrmFlash::flash(const char *bitfile, size_t offset) {
     }
 
     // Open the file
-    fd = fopen(bitfile, "r");
+    fd = fopen(bitfile, "rb");
     if (fd == NULL) {
         throw std::runtime_error("Could not open file for reading.");
     }
@@ -213,7 +213,7 @@ void mrmFlash::read(const char *bitfile, size_t offset) {
 //        size = m_size_memory - offset;
 //    }
 
-    fd = fopen(bitfile, "w");
+    fd = fopen(bitfile, "wb");
     if (fd == NULL) {
         throw std::runtime_error("Could not open file for writing the flash content to!");
     }
@@ -289,8 +289,8 @@ bool mrmFlash::flashBusy()
 
 void mrmFlash::report()
 {
-    printf("\tMemory size: %zu bytes = %zu kB = %zu MB\n", m_size_memory, m_size_memory / 1024, m_size_memory / 1024 / 1024);
-    printf("\tSector size: %zu bytes = %zu kB\n", m_size_sector, m_size_sector / 1024);
+    printf("\tMemory size: %" FORMAT_SIZET_U " bytes = %" FORMAT_SIZET_U " kB = %" FORMAT_SIZET_U " MB\n", m_size_memory, m_size_memory / 1024, m_size_memory / 1024 / 1024);
+    printf("\tSector size: %" FORMAT_SIZET_U " bytes = %" FORMAT_SIZET_U " kB\n", m_size_sector, m_size_sector / 1024);
     printf("\tPage size: %d bytes\n", SIZE_PAGE);
 }
 
@@ -308,7 +308,7 @@ void mrmFlash::pageProgram(epicsUInt8 *data, size_t addr, size_t size) {
     }
 
     try{
-        infoPrintf(3,"Starting page program on address 0x%zx with size %zu\n", addr, size);
+        infoPrintf(3,"Starting page program on address 0x%" FORMAT_SIZET_X " with size %" FORMAT_SIZET_U "\n", addr, size);
 
         // Dummy write with SS not active
         slaveSelect(false);
@@ -376,7 +376,7 @@ void mrmFlash::sectorErase(size_t addr) {
     }
 
     try{
-        infoPrintf(2,"Starting sector erase on address: 0x%zx\n", addr);
+        infoPrintf(2,"Starting sector erase on address: 0x%" FORMAT_SIZET_X "\n", addr);
 
         // Dummy write with SS not active
         slaveSelect(false);
@@ -475,7 +475,7 @@ void mrmFlash::waitForCompletition(size_t retryCount, size_t msSleep, int verbos
 
     infoPrintf(verbosity,"\tWaiting for command completition...\n");
     while((readStatus() & M25P_STATUS_WIP) && (i < retryCount)) {
-        infoPrintf(verbosity,"\t\tWaiting for %zu ms\n", i * msSleep);
+        infoPrintf(verbosity,"\t\tWaiting for %" FORMAT_SIZET_U " ms\n", i * msSleep);
         i++;
         epicsThreadSleep(msSleep / 1000.0);
     }
@@ -491,7 +491,7 @@ void mrmFlash::waitTransmitterEmpty() {
 
     while(!(READ32(m_base, SpiCtrl) & SpiCtrl_tmt) && (i < RETRY_COUNT)) {
         i++;
-        epicsThreadSleep(1e-9);
+        // removed epicsThreadSleep because it takes too long on windows
     }
 
     if (i >= RETRY_COUNT) {
@@ -504,7 +504,7 @@ void mrmFlash::waitTransmitterReady() {
 
     while(!(READ32(m_base, SpiCtrl) & SpiCtrl_trdy) && (i < RETRY_COUNT)) {
       i++;
-      epicsThreadSleep(1e-9);
+      // removed epicsThreadSleep because it takes too long on windows
     }
 
     if (i >= RETRY_COUNT) {
@@ -517,7 +517,7 @@ void mrmFlash::waitReceiverReady() {
 
     while(!(READ32(m_base, SpiCtrl) & SpiCtrl_rrdy) && (i < RETRY_COUNT)) {
         i++;
-        epicsThreadSleep(1e-9);
+        // removed epicsThreadSleep because it takes too long on windows
     }
 
     if (i >= RETRY_COUNT) {

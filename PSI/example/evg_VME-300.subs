@@ -22,7 +22,7 @@ file "$(mrfioc2_TEMPLATES=db)/evg-vme-300.db"
          EvtClk-Source-Sel=0,   #0 = FracSynth, 1 = External, 2 = PXIe 100 MHz, 3 = Recovered RX clock, 4 = PXIe 10 MHz : EVG Evt Clk Source
          EvtClk-RFFreq-SP=500,  #50-1600 : EVG RF Frequency [MHz]
          EvtClk-RFDiv-SP=4,     #0-32 : RF Divider 
-         EvtClk-FracSynFreq-SP=142.876, #50-125 : Fractional Synthesizer Freq [MHz]
+         EvtClk-FracSynFreq-SP=142.876, #50-150 : Fractional Synthesizer Freq [MHz]
          EvtClk-PLL-Bandwidth-Sel=4,   #0 = HM, 1 = HL, 2 = MH, 3 = MM, 4 = ML: PLL Bandwidth Select (see Silicon Labs Si5317 datasheet)
          
          ## Distributed bus configuration

@@ -335,6 +335,7 @@ try{
     } else {
         m_dataBuffer = new mrmDataBuffer_300(n.c_str(), base, U32_DataTxCtrlEvr, U32_DataRxCtrlEvr, U32_DataTxBaseEvr, U32_DataRxBaseEvr);
     }
+    m_dataBuffer->registerRxComplete(&EVRMRM::dataBufferRxComplete, this);
     CBINIT(&dataBufferRx_cb, priorityHigh, &mrmDataBuffer::handleDataBufferRxIRQ, &*m_dataBuffer);
 
     SCOPED_LOCK(evrLock);
@@ -1191,15 +1192,14 @@ EVRMRM::isr(void *arg)
         callbackRequest(&evr->poll_link_cb);
     }
     if(active&IRQ_BufFull){
+         evr->shadowIRQEna &= ~IRQ_BufFull; // interrupt is re-enabled in the dataBufferRxComplete() callback
+
         /* 230 series hardware (and firmware versions < MIN_FW_SEGMENTED_DBUFF) only.
         * Silence interrupt. DataRxCtrl_stop is actually Rx acknowledge, so we need to write to it in order to clear it.
         */
         if (evr->firmwareVersion < MIN_FW_SEGMENTED_DBUFF) BITSET(NAT,32,evr->base, DataRxCtrlEvr, DataRxCtrl_stop);
 
-        if (evr->m_dataBuffer->m_rx_irq_handled) {
-            evr->m_dataBuffer->m_rx_irq_handled = false;
-            callbackRequest(&evr->dataBufferRx_cb);
-        }
+        callbackRequest(&evr->dataBufferRx_cb);
     }
     if(active&IRQ_HWMapped){
         evr->shadowIRQEna &= ~IRQ_HWMapped;
@@ -1376,6 +1376,18 @@ EVRMRM::drain_fifo()
     EVR_INFO(1,"FIFO task exiting\n");
 }
 
+void EVRMRM::dataBufferRxComplete(void *vptr)
+{
+    EVRMRM *evr=static_cast<EVRMRM*>(vptr);
+
+    int iflags=epicsInterruptLock();
+
+    evr->shadowIRQEna |= IRQ_BufFull;
+    WRITE8(evr->base,IRQEnableBot,(epicsUInt8)evr->shadowIRQEna);
+
+    epicsInterruptUnlock(iflags);
+}
+
 void
 EVRMRM::sentinel_done(CALLBACK* cb)
 {
@@ -1422,7 +1434,7 @@ try {
 
     if(flags&IRQ_RXErr){
         if(!err_msg){
-            EVR_INFO(0,"EVR link down!");
+            EVR_INFO(1,"EVR link down!");
             err_msg=1;
         }
 
@@ -1436,7 +1448,7 @@ try {
         }
         WRITE32(evr->base, IRQFlag, IRQ_RXErr);
     }else{
-        EVR_INFO(0,"EVR link up!");
+        EVR_INFO(1,"EVR link up!");
         err_msg = 0;
 
         scanIoRequest(evr->IRQrxError);

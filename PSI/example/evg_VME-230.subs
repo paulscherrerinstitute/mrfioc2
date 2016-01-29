@@ -20,7 +20,7 @@ file "$(mrfioc2_TEMPLATES=db)/evg-vme-230.db"
          EvtClk-Source-Sel=0,   #0 = FracSynth, 1 = External : EVG Evt Clk Source
          EvtClk-RFFreq-SP=500,  #50-1600 : EVG RF Frequency [MHz]
          EvtClk-RFDiv-SP=4,     #0-32 : RF Divider 
-         EvtClk-FracSynFreq-SP=124.920, #50-125 : Fractional Synthesizer Freq [MHz]
+         EvtClk-FracSynFreq-SP=124.920, #50-150 : Fractional Synthesizer Freq [MHz]
          
          ## Distributed bus configuration
          Dbus0-Src-Sel=0,

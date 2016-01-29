@@ -122,9 +122,9 @@ void mrmRemoteFlash::flash_thread(void* args){
 void mrmRemoteFlash::flash(const char *bitfile)
 {
     try{
-        infoPrintf(0, "Starting flash of %s to device. Using offset %zu [bytes]\n", bitfile, m_offset);
+        infoPrintf(1, "Starting flash of %s to device. Using offset %" FORMAT_SIZET_U " [bytes]\n", bitfile, m_offset);
         m_flash.flash(bitfile, m_offset);
-        infoPrintf(0, "Flashing procedure done.\n");
+        infoPrintf(1, "Flashing procedure done.\n");
         m_flash_success = true;
     }
     catch(std::exception& ex) {
@@ -180,9 +180,9 @@ void mrmRemoteFlash::read_thread(void* args){
 void mrmRemoteFlash::read(const char *bitfile)
 {
     try{
-        infoPrintf(0, "Reading flash to %s. Starting on flash memory offset %zu [bytes]\n", bitfile, m_offset);
+        infoPrintf(1, "Reading flash to %s. Starting on flash memory offset %" FORMAT_SIZET_U " [bytes]\n", bitfile, m_offset);
         m_flash.read(bitfile, m_offset);
-        infoPrintf(0, "Reading procedure done.\n");
+        infoPrintf(1, "Reading procedure done.\n");
         m_read_success = true;
     }
     catch(std::exception& ex) {
@@ -223,7 +223,7 @@ void mrmRemoteFlash::report() const
     if(!isOffsetValid()) {
         printf("\tFirst address for reading / writing (offset) is not valid!\n");
     }
-    printf("\tFirst address for reading / writing is at offset: %zu [bytes]\n", m_offset);
+    printf("\tFirst address for reading / writing is at offset: %" FORMAT_SIZET_U " [bytes]\n", m_offset);
     printf("\tFlash is currently ");
     if(!flashInProgress()) {
         printf("not ");
@@ -274,6 +274,14 @@ static const iocshFuncDef mrmRemoteFlashDef_read = { "mrmFlashRead", 2, mrmRemot
 
 
 static void mrmRemoteFlashFunc_read(const iocshArgBuf *args) {
+    if(args[0].sval == NULL || args[1].sval == NULL){
+        printf("Usage: mrmFlashRead Device File\n\t" \
+               "Device = name of the timing card (eg.: EVR0, EVG0, ...)\n\t"    \
+               "File = name of the file to write flash content to\n");
+        return;
+    }
+
+
     std::string device = args[0].sval;
     std::string bitfile = args[1].sval;
 
@@ -307,6 +315,14 @@ static const iocshFuncDef mrmRemoteFlashDef_write = { "mrmFlashWrite", 2, mrmRem
 
 
 static void mrmRemoteFlashFunc_write(const iocshArgBuf *args) {
+    if(args[0].sval == NULL || args[1].sval == NULL){
+        printf("Usage: mrmFlashWrite Device File\n\t" \
+               "Device = name of the timing card (eg.: EVR0, EVG0, ...)\n\t"    \
+               "File = bit-file to write to flash memory\n");
+        return;
+    }
+
+
     std::string device = args[0].sval;
     std::string bitfile = args[1].sval;
 
@@ -340,6 +356,14 @@ static const iocshFuncDef mrmRemoteFlashDef_setOffset = { "mrmFlashSetOffset", 2
 
 
 static void mrmRemoteFlashFunc_setOffset(const iocshArgBuf *args) {
+    if(args[0].sval == NULL || args[1].ival == 0){
+        printf("Usage: mrmFlashSetOffset Device Offset\n\t" \
+               "Device = name of the timing card (eg.: EVR0, EVG0, ...)\n\t"    \
+               "Offset = offset to set\n");
+        return;
+    }
+
+
     std::string device = args[0].sval;
     int offset = args[1].ival;
 
@@ -372,7 +396,14 @@ static const iocshFuncDef mrmRemoteFlashDef_status = { "mrmFlashStatus", 1, mrmR
 
 
 static void mrmRemoteFlashFunc_status(const iocshArgBuf *args) {
+    if(args[0].sval == NULL){
+        printf("Usage: mrmFlashStatus Device\n\t"   \
+               "Device = name of the timing card (eg.: EVR0, EVG0, ...)\n");
+        return;
+    }
+
     std::string device = args[0].sval;
+
 
     printf("Status report of %s flash chip\n", device.c_str());
     device.append(OBJECT_NAME);

@@ -2,8 +2,10 @@ For detailed changelog inspect commits at https://git.psi.ch/epics_drivers/mrfio
 
 
 x.x.x :
-	- Added option to ignore version errors while initializing the driver
+	- Added option to ignore version errors while initializing the driver. This option also disables enabling and connecting interrupts on PCI devices.
 	- Name of iocsh functions for flashing changed. Record in flash.template changed name from *IsSupported-RB to *IsOffsetValid-RB. Added iocsh function to set offset (address where reading/writing from/to the flash chip starts)
+	- Event clock can now be set to as low as 45 MHz
+	- Scripts that start GUIs now use VME-300 form factor by default (instead VME-230)
 
 2.7.6 Fri 8 Jan 2015 11:00:00 CET:
 	- Added flashing support for PCIe and cPCI form factors

@@ -124,4 +124,16 @@ enum PLLBandwidth {
 #define MIN_FW_SEGMENTED_DBUFF  0x202
 
 
+////////////////////
+/** Misc defines **/
+////////////////////
+// printf formatting for size_t differs on windows
+#ifdef _WIN32
+    #define FORMAT_SIZET_U "Iu"
+    #define FORMAT_SIZET_X "Ix"
+#else
+    #define FORMAT_SIZET_U "zu"
+    #define FORMAT_SIZET_X "zx"
+#endif
+
 #endif // MRMSHARED_H
