@@ -81,6 +81,7 @@
 #  define Control_logsea  0x00000010
 #  define Control_fiforst 0x00000008
 
+/* Interrupt status register */
 #define U32_IRQFlag     0x008
 #  define IRQ_LinkChg   0x40
 #  define IRQ_BufFull   0x20
@@ -90,12 +91,21 @@
 #  define IRQ_FIFOFull  0x02
 #  define IRQ_RXErr     0x01
 
+
+/* Interrupt control register */
 #define U32_IRQEnable   0x00c
-#define U8_IRQEnableBot 0x00f
+#define U8_IRQEnableBot 0x00f   //Only 1st byte is accessed to prevent usr/kernel racer on PCIe300.
 
 /* Same bits as IRQFlag plus */
 #  define IRQ_Enable    0x80000000
 #  define IRQ_PCIee     0x40000000
+
+/* PCIe interrupt control register */
+//Only available on new PCIe EVR300e cards with xilinx fpga
+//Contains only IRQ_PCIee bit that is on the same location
+//as in old 300e card
+#define U32_IRQ_PCIECtrl  0x001C
+
 
 #define U32_IRQPulseMap 0x010
 

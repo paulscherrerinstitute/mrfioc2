@@ -120,7 +120,6 @@ long get_ioint_info_statusChange(int dir,dbCommon* prec,IOSCANPVT* io)
     return 0;
 }
 
-
 EVRMRM::EVRMRM(const std::string& n,
                bus_configuration& busConfig,
                volatile epicsUInt8* b)
@@ -383,12 +382,15 @@ try{
 
     drain_fifo_task.start();
 
+
 } catch (std::exception& e) {
     printf("Aborting EVR initializtion: %s\n", e.what());
     cleanup();
     throw;
 }
 }
+
+
 
 EVRMRM::~EVRMRM()
 {
@@ -1140,6 +1142,11 @@ EVRMRM::enableIRQ(void)
     WRITE32(base, IRQEnable, shadowIRQEna);
 
     EVR_DEBUG(2,"Enabling interrupts: 0x%x",shadowIRQEna);
+
+    if(getFormFactor() != formFactor_VME64 ){
+        EVR_DEBUG(2,"Enabling PCIe interrupts: 0x%x",shadowIRQEna);
+        devPCIEnableInterrupt( (const epicsPCIDevice*)(this->isrLinuxPvt) );
+    }
 
     epicsInterruptUnlock(key);
 }

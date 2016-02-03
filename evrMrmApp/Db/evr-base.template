@@ -110,7 +110,7 @@ record(calcout, "$(SYS)-$(DEVICE):Link-Init-FO_") {
   field(CALC, "A")
   field(OUT , "$(SYS)-$(DEVICE):Ena-Sel PP")
   field(OOPT, "Transition To Non-zero")
-  field(ODLY, "1.0")
+  field(ODLY, "4")
   field(TSEL, "$(SYS)-$(DEVICE):Link-Sts.TIME")
 }
 

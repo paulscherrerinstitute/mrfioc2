@@ -27,8 +27,10 @@ MODULE_PARM_DESC(interfaceversion, "User space interface version");
 #define PCI_SUBVENDOR_ID_MRF                0x1a3e
 
 #define PCI_VENDOR_ID_LATTICE               0x1204
+//#define PCI_VENDOR_ID_XILINX                0x10EE    // Already defined in include/linux/pci_ids.h
 
 #define PCI_DEVICE_ID_EC_30                 0xEC30
+#define PCI_DEVICE_ID_XILINX                0x7011
 
 #define PCI_DEVICE_ID_PLX_9030              0x9030      /** PCI Device ID for PLX-9030 bridge chip */
 #define PCI_DEVICE_ID_PLX_9056              0x9056      /** PCI Device ID for PLX-9056 bridge chip */
@@ -43,6 +45,8 @@ MODULE_PARM_DESC(interfaceversion, "User space interface version");
 #define PCI_SUBDEVICE_ID_MRF_EVRTG_300      0x192c
 /* PCIe-EVR-300 */
 #define PCI_SUBDEVICE_ID_PCIE_EVR_300       0x172c
+/* PCIe-EVR-300DC */
+#define PCI_SUBDEVICE_ID_PCIE_EVR_300DC     0x132c
 
 /************************ Compatability ****************************/
 
@@ -199,7 +203,7 @@ mrf_handler_plx(int irq, struct uio_info *info)
         break;
 
     case PCI_DEVICE_ID_EC_30:
-        // Check endianism
+        // Check endianess
         val = ioread32(plx + FPGAVersion);
         if(((val & FPGAVer_FF) >> 24) == FPGAVER_EVR300) {
             // little endian
@@ -251,6 +255,32 @@ mrf_handler_plx(int irq, struct uio_info *info)
         }
 
         oops = val & IRQ_PCIee;
+        break;
+
+    /* A new series of PCIe EVRs 300DC. Similar to EC30 based devices but with a separate register for controlling PCIe_IRQ enable */
+    case PCI_DEVICE_ID_XILINX:
+        // Check endianess
+        val = ioread32(plx + FPGAVersion);
+        if(((val & FPGAVer_FF) >> 24) == FPGAVER_EVR300) {
+            // little endian
+            end = 0;
+        } else {
+            val = ioread32be(plx + FPGAVersion);
+            if(((val & FPGAVer_FF) >> 24) == FPGAVER_EVR300) {
+                // big endian
+                end = 1;
+            } else {
+                // This should never happen.
+                dev_info(&dev->dev, "ERROR: Unable to read form factor magic number.");
+                return IRQ_NONE;
+            }
+        }
+
+        //Disable IRQ, the whole register is unsued so it can be cleared safely..
+        iowrite32(0,plx+IRQPCIEEnable);
+        wmb();
+        val = ioread32(plx+IRQPCIEEnable);
+        oops = val&IRQ_PCIee;
         break;
 
     default:
@@ -320,8 +350,8 @@ int mrf_irqcontrol(struct uio_info *info, s32 onoff)
         break;
 
     case PCI_DEVICE_ID_EC_30:
-	
-        // Check endianism
+
+        // Check endianess
         val = ioread32(plx + FPGAVersion);
         if(((val & FPGAVer_FF) >> 24) == FPGAVER_EVR300) {
             end = 0;
@@ -363,6 +393,29 @@ int mrf_irqcontrol(struct uio_info *info, s32 onoff)
         }
 
         break;
+
+    case PCI_DEVICE_ID_XILINX:
+        // Check endianess
+        val = ioread32(plx + FPGAVersion);
+        if(((val & FPGAVer_FF) >> 24) == FPGAVER_EVR300) {
+            end = 0;
+        } else {
+            val = ioread32be(plx + FPGAVersion);
+            if(((val & FPGAVer_FF) >> 24) == FPGAVER_EVR300) {
+                end = 1;
+            } else {
+                dev_info(&dev->dev, "ERROR: Unable to read form factor magic number.");
+                return -EINVAL;
+            }
+        }
+
+        if(end) {
+            iowrite32be(IRQ_PCIee,plx+IRQPCIEEnable);
+        } else {
+            iowrite32(IRQ_PCIee,plx+IRQPCIEEnable);
+        }
+        break;
+
 
     default:
         return -EINVAL;
@@ -411,7 +464,7 @@ mrf_probe(struct pci_dev *dev,
          * EVR memory space is mapped directly to uio0 region so that it
          * matches windows version
          */
-        if(dev->subsystem_device == PCI_SUBDEVICE_ID_PCIE_EVR_300){
+        if(dev->subsystem_device == PCI_SUBDEVICE_ID_PCIE_EVR_300 || dev->subsystem_device == PCI_SUBDEVICE_ID_PCIE_EVR_300DC){
             dev_info(&dev->dev, "Attaching BAR0 of PCIe-EVR-300\n");
             /* BAR 0 is the EVR */
             info->mem[0].name = "EVR memory";
@@ -575,6 +628,12 @@ static struct pci_device_id mrf_pci_ids[] __devinitdata = {
         .subvendor =    PCI_SUBVENDOR_ID_MRF,
         .subdevice =    PCI_SUBDEVICE_ID_PCIE_EVR_300,
     },
+    {
+        .vendor =       PCI_VENDOR_ID_XILINX,
+        .device =       PCI_DEVICE_ID_XILINX,
+        .subvendor =    PCI_SUBVENDOR_ID_MRF,
+        .subdevice =    PCI_SUBDEVICE_ID_PCIE_EVR_300DC,
+    },
     { 0, }
 };
 
@@ -595,7 +654,7 @@ mrf_remove(struct pci_dev *dev)
 #endif
 #if defined(CONFIG_GENERIC_GPIO) || defined(CONFIG_PARPORT_NOT_PC)
         {
-            if(dev->subsystem_device != PCI_SUBDEVICE_ID_PCIE_EVR_300) {
+            if(dev->subsystem_device != PCI_SUBDEVICE_ID_PCIE_EVR_300 || dev->subsystem_device != PCI_SUBDEVICE_ID_PCIE_EVR_300DC) {
                 void __iomem *plx = info->mem[0].internal_addr;
                 u32 val = ioread32(plx + GPIOC);
                 // Disable output drivers for TCLK, TMS, and TDI
@@ -610,7 +669,7 @@ mrf_remove(struct pci_dev *dev)
         pci_set_drvdata(dev, NULL);
         iounmap(info->mem[0].internal_addr);
 
-        if(dev->subsystem_device != PCI_SUBDEVICE_ID_PCIE_EVR_300) {
+        if(dev->subsystem_device != PCI_SUBDEVICE_ID_PCIE_EVR_300 || dev->subsystem_device != PCI_SUBDEVICE_ID_PCIE_EVR_300DC) {
             iounmap(info->mem[2].internal_addr);
         }
 

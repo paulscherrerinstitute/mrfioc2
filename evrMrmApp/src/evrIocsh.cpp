@@ -65,6 +65,8 @@ static const epicsPCIID mrmevrs[] = {
                                 PCI_DEVICE_ID_MRF_EVRTG_300, PCI_VENDOR_ID_MRF)
     ,DEVPCI_SUBDEVICE_SUBVENDOR(PCI_DEVICE_ID_EC_30,    PCI_VENDOR_ID_LATTICE,
                                 PCI_DEVICE_ID_MRF_EVRTG_300E, PCI_VENDOR_ID_MRF)
+    ,DEVPCI_SUBDEVICE_SUBVENDOR(PCI_DEVICE_ID_XILINX,    PCI_VENDOR_ID_XILINX,
+                                PCI_DEVICE_ID_MRF_EVR_300DC, PCI_VENDOR_ID_MRF)
     ,DEVPCI_END
 };
 
@@ -327,8 +329,9 @@ mrmEvrSetupPCI(const char* id,      // Card Identifier
 
         // get pci device from devLib2
         const epicsPCIDevice *cur = 0;
-        if( devPCIFindDBDF(mrmevrs,o,b,d,f,&cur,0) ){
-            errlogPrintf("PCI Device not found on %x:%x:%x.%x\n", o, b, d, f);
+        int err;
+        if( err=devPCIFindDBDF(mrmevrs,o,b,d,f,&cur,0) ){
+            errlogPrintf("PCI Device not found on %x:%x:%x.%x with error: %d\n", o, b, d, f, err);
             return -1;
         }
 
@@ -340,7 +343,7 @@ mrmEvrSetupPCI(const char* id,      // Card Identifier
         /*
          * The EC 30 device has only 1 bar (0) which we need to map to *evr.
          */
-        if(cur->id.device == PCI_DEVICE_ID_EC_30) {
+        if(cur->id.device == PCI_DEVICE_ID_EC_30 || cur->id.device == PCI_DEVICE_ID_XILINX) {
             if(devPCIToLocalAddr(cur,0,(volatile void**)(void *)&evr,DEVLIB_MAP_UIO1TO1))
             {
                 errlogPrintf("PCI error: Failed to map BARs 0 for EC 30\n");
@@ -429,6 +432,7 @@ mrmEvrSetupPCI(const char* id,      // Card Identifier
             break;
 
         case PCI_DEVICE_ID_EC_30:
+        case PCI_DEVICE_ID_XILINX:
     #if EPICS_BYTE_ORDER == EPICS_ENDIAN_BIG
             //BITCLR(LE,32, evr, AC30CTRL, AC30CTRL_LEMDE);
     #elif EPICS_BYTE_ORDER == EPICS_ENDIAN_LITTLE
