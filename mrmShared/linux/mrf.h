@@ -112,6 +112,10 @@
 #  define IRQ_Enable    0x80000000
 #  define IRQ_PCIee     0x40000000
 
+
+/* Only available on new Xilinx based 300e cards */
+#define IRQPCIEEnable 0x01c
+
 #define IRQ_Enable_ALL  (IRQ_Enable|IRQ_PCIee)
 
 /* The expected value (form factor and 0x1 for EVR) that is
