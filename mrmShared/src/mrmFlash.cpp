@@ -20,20 +20,20 @@
 #define RETRY_COUNT             10000         // Amount of retries until we fail when waiting for SPI receiver / transmitter to be ready
 
 // Flash chip commands
-#define M25P_READ_FAST              0x0B
-#define M25P_READ_IDENTIFICATION    0x9F
-#define M25P_WRITE_ENABLE           0x06
-#define M25P_WRITE_DISABLE          0x04
-#define M25P_READ_STATUS            0x05
-#define M25P_SECTOR_ERASE           0xD8
-#define M25P_BULK_ERASE             0xC7
-#define M25P_PAGE_PROGRAM           0x02
+#define CMD_READ_FAST              0x0B
+#define CMD_READ_IDENTIFICATION    0x9F
+#define CMD_WRITE_ENABLE           0x06
+#define CMD_WRITE_DISABLE          0x04
+#define CMD_READ_STATUS            0x05
+#define CMD_SECTOR_ERASE           0xD8
+#define CMD_BULK_ERASE             0xC7
+#define CMD_PAGE_PROGRAM           0x02
 
 // Flash chip status command returns:
-#define M25P_STATUS_WIP                 0x01  // write in progress
-#define M25P_STATUS_WRITE_ENABLE_LATCH  0x02  // write enable latch bit
-#define M25P_STATUS_BLOCK_PROTECT       0x0C  // block protect bits
-#define M25P_STATUS_WRITE_PROTECT       0x80  // status register write protect
+#define STATUS_WIP                 0x01  // write in progress
+#define STATUS_WRITE_ENABLE_LATCH  0x02  // write enable latch bit
+#define STATUS_BLOCK_PROTECT       0x0C  // block protect bits
+#define STATUS_WRITE_PROTECT       0x80  // status register write protect
 
 // Flash chip size definitions
 #define MB2BYTE                     1024 * 1024 / 8 // convert from mega bits to bytes
@@ -44,15 +44,18 @@
 #define SIZE_MEMORY_DEFAULT         32 * MB2BYTE    // default flash memory size, if it can not be detected [bytes]
 
 // Read identification command return values (based on information available at Micron web site):
-#define M25P_MANUFACTURER_ID 0x20
+#define MICRON_MANUFACTURER_ID 0x20
+
 #define M25P_MEMORY_TYPE     0x20
-#define M25P_MEMORY_SIZE_128 0x18
-#define M25P_MEMORY_SIZE_64  0x17
-#define M25P_MEMORY_SIZE_32  0x16
-#define M25P_MEMORY_SIZE_16  0x15
-#define M25P_MEMORY_SIZE_8   0x14
-#define M25P_MEMORY_SIZE_4   0x13
-#define M25P_MEMORY_SIZE_2   0x12
+#define N25Q_MEMORY_TYPE     0xBA
+
+#define MEMORY_SIZE_128 0x18
+#define MEMORY_SIZE_64  0x17
+#define MEMORY_SIZE_32  0x16
+#define MEMORY_SIZE_16  0x15
+#define MEMORY_SIZE_8   0x14
+#define MEMORY_SIZE_4   0x13
+#define MEMORY_SIZE_2   0x12
 
 
 extern "C" {
@@ -73,53 +76,72 @@ void mrmFlash::init(bool autodetect) {
     if(autodetect) {
         readIdentification(&manufacturerID, &memoryType, &capacity);
 
-        if(manufacturerID != M25P_MANUFACTURER_ID) {
+        infoPrintf(1, "Flash chip identification read:\n\t" \
+                      "Manufacturer ID: 0x%x\n\t" \
+                      "Memory type: 0x%x\n\t"  \
+                      "Capacity: 0x%x\n" \
+                   , manufacturerID, memoryType, capacity);
+
+        if(manufacturerID != MICRON_MANUFACTURER_ID) {
             throw std::runtime_error("Micron manufacturer ID not detected. Aborted.");
         }
 
-        if(memoryType != M25P_MEMORY_TYPE) {
-            throw std::runtime_error("Micron M25P flash chip type not detected. Aborted.");
+        if(memoryType == M25P_MEMORY_TYPE){
+            switch(capacity) {
+                case MEMORY_SIZE_128:
+                    m_size_sector = SIZE_SECTOR_128;
+                    m_size_memory = 128 * MB2BYTE;
+                    break;
+
+                case MEMORY_SIZE_64:
+                    m_size_sector = SIZE_SECTOR;    // could not find the info in the datasheets. Assuming this size...
+                    m_size_memory = 64 * MB2BYTE;
+                    break;
+
+                case MEMORY_SIZE_32:
+                    m_size_sector = SIZE_SECTOR;
+                    m_size_memory = 32 * MB2BYTE;
+                    break;
+
+                case MEMORY_SIZE_16:
+                    m_size_sector = SIZE_SECTOR;
+                    m_size_memory = 16 * MB2BYTE;
+                    break;
+
+                case MEMORY_SIZE_8:
+                    m_size_sector = SIZE_SECTOR;
+                    m_size_memory = 8 * MB2BYTE;    // Last address in the documentation is 0xFEFFF, which would suggest that the size is 0xFF000 = 1044480 bytes. But the chip is 8 Mb = 1048576 bytes, which is also stated in the documentation. Assuming size = 8 Mb = 1048576 bytes
+                    break;
+
+                case MEMORY_SIZE_4:
+                    m_size_sector = SIZE_SECTOR;
+                    m_size_memory = 4 * MB2BYTE;
+                    break;
+
+                case MEMORY_SIZE_2:
+                    m_size_sector = SIZE_SECTOR;
+                    m_size_memory = 2 * MB2BYTE;
+                    break;
+
+                default:
+                    throw std::runtime_error("Memory size for this flash chip is not supported. Aborted.");
+            }
+        } // end M25P_MEMORY_TYPE
+        else if(memoryType == N25Q_MEMORY_TYPE){
+            switch(capacity) {
+                case MEMORY_SIZE_128:
+                    m_size_sector = SIZE_SECTOR;
+                    m_size_memory = 128 * MB2BYTE;
+                    break;
+
+                default:
+                    throw std::runtime_error("Memory size for this flash chip is not supported. Aborted.");
+            }
+        }// end N25Q_MEMORY_TYPE
+        else{
+            throw std::runtime_error("Micron M25P or N25Q flash chip type not detected. Aborted.");
         }
 
-        switch(capacity) {
-            case M25P_MEMORY_SIZE_128:
-                m_size_sector = SIZE_SECTOR_128;
-                m_size_memory = 128 * MB2BYTE;
-                break;
-
-            case M25P_MEMORY_SIZE_64:
-                m_size_sector = SIZE_SECTOR;    // could not find the info in the datasheets. Assuming this size...
-                m_size_memory = 64 * MB2BYTE;
-                break;
-
-            case M25P_MEMORY_SIZE_32:
-                m_size_sector = SIZE_SECTOR;
-                m_size_memory = 32 * MB2BYTE;
-                break;
-
-            case M25P_MEMORY_SIZE_16:
-                m_size_sector = SIZE_SECTOR;
-                m_size_memory = 16 * MB2BYTE;
-                break;
-
-            case M25P_MEMORY_SIZE_8:
-                m_size_sector = SIZE_SECTOR;
-                m_size_memory = 8 * MB2BYTE;    // Last address in the documentation is 0xFEFFF, which would suggest that the size is 0xFF000 = 1044480 bytes. But the chip is 8 Mb = 1048576 bytes, which is also stated in the documentation. Assuming size = 8 Mb = 1048576 bytes
-                break;
-
-            case M25P_MEMORY_SIZE_4:
-                m_size_sector = SIZE_SECTOR;
-                m_size_memory = 4 * MB2BYTE;
-                break;
-
-            case M25P_MEMORY_SIZE_2:
-                m_size_sector = SIZE_SECTOR;
-                m_size_memory = 2 * MB2BYTE;
-                break;
-
-            default:
-                throw std::runtime_error("Memory size for this flash chip is not supported. Aborted.");
-        }
     } // end of autodetect
     else {
         m_size_sector = SIZE_SECTOR_DEFAULT;
@@ -228,7 +250,7 @@ void mrmFlash::read(const char *bitfile, size_t offset) {
 
         // Send read fast command
         slaveSelect(true);
-        write(M25P_READ_FAST);
+        write(CMD_READ_FAST);
 
         // Three address bytes
         write((epicsUInt8)(offset >> 16));
@@ -312,16 +334,16 @@ void mrmFlash::pageProgram(epicsUInt8 *data, size_t addr, size_t size) {
 
         // Dummy write with SS not active
         slaveSelect(false);
-        write(M25P_READ_IDENTIFICATION);
+        write(CMD_READ_IDENTIFICATION);
 
         // Write enable
         slaveSelect(true);
-        write(M25P_WRITE_ENABLE);
+        write(CMD_WRITE_ENABLE);
         slaveSelect(false);
 
         // Send page program command
         slaveSelect(true);
-        write(M25P_PAGE_PROGRAM);
+        write(CMD_PAGE_PROGRAM);
 
         // Send address where the programming will start
         write((epicsUInt8)(addr >> 16));
@@ -349,16 +371,16 @@ void mrmFlash::bulkErase() {
 
         // Dummy write with SS not active
         slaveSelect(false);
-        write(M25P_READ_IDENTIFICATION);
+        write(CMD_READ_IDENTIFICATION);
 
         // Write enable
         slaveSelect(true);
-        write(M25P_WRITE_ENABLE);
+        write(CMD_WRITE_ENABLE);
         slaveSelect(false);
 
         // Send bulk erase command
         slaveSelect(true);
-        write(M25P_BULK_ERASE);
+        write(CMD_BULK_ERASE);
         slaveSelect(false);
 
         waitForCompletition(60, 5000, 2); // Command duration info: Typical: 10 s, Max 250 s
@@ -380,16 +402,16 @@ void mrmFlash::sectorErase(size_t addr) {
 
         // Dummy write with SS not active
         slaveSelect(false);
-        write(M25P_READ_IDENTIFICATION);
+        write(CMD_READ_IDENTIFICATION);
 
         // Write enable
         slaveSelect(true);
-        write(M25P_WRITE_ENABLE);
+        write(CMD_WRITE_ENABLE);
         slaveSelect(false);
 
         // Send sector erase command
         slaveSelect(true);
-        write(M25P_SECTOR_ERASE);
+        write(CMD_SECTOR_ERASE);
 
         // Send address in a sector we are erasing
         write((epicsUInt8)(addr >> 16));
@@ -414,7 +436,7 @@ void mrmFlash::readIdentification(epicsUInt8 *manufacturerID, epicsUInt8 *memory
 
         // Send read identification command
         slaveSelect(true);
-        write(M25P_READ_IDENTIFICATION);
+        write(CMD_READ_IDENTIFICATION);
 
         write(0);   // Transfer byte
         *manufacturerID = read();
@@ -474,7 +496,7 @@ void mrmFlash::waitForCompletition(size_t retryCount, size_t msSleep, int verbos
     size_t i = 0;
 
     infoPrintf(verbosity,"\tWaiting for command completition...\n");
-    while((readStatus() & M25P_STATUS_WIP) && (i < retryCount)) {
+    while((readStatus() & STATUS_WIP) && (i < retryCount)) {
         infoPrintf(verbosity,"\t\tWaiting for %" FORMAT_SIZET_U " ms\n", i * msSleep);
         i++;
         epicsThreadSleep(msSleep / 1000.0);
@@ -535,7 +557,7 @@ epicsUInt8 mrmFlash::readStatus() {
 
         // Send read status command
         slaveSelect(true);
-        write(M25P_READ_STATUS);
+        write(CMD_READ_STATUS);
         write(0);
 
         data = read();
