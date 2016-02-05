@@ -13,105 +13,38 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QScrollArea" name="scrollArea_5">
+  <widget class="caRelatedDisplay" name="carelateddisplay_3">
    <property name="geometry">
     <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>671</width>
-     <height>411</height>
+     <x>240</x>
+     <y>50</y>
+     <width>171</width>
+     <height>31</height>
     </rect>
    </property>
-   <property name="widgetResizable">
-    <bool>true</bool>
+   <property name="background">
+    <color>
+     <red>183</red>
+     <green>157</green>
+     <blue>92</blue>
+    </color>
    </property>
-   <widget class="QWidget" name="scrollAreaWidgetContents_5">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>0</y>
-      <width>651</width>
-      <height>1450</height>
-     </rect>
-    </property>
-    <property name="minimumSize">
-     <size>
-      <width>0</width>
-      <height>1450</height>
-     </size>
-    </property>
-    <widget class="caInclude" name="cainclude_11">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>0</y>
-       <width>662</width>
-       <height>351</height>
-      </rect>
-     </property>
-     <property name="macro">
-      <string notr="true">ID=0, P=CML, SYS=$(SYS),DEVICE=$(DEVICE)</string>
-     </property>
-     <property name="filename" stdset="0">
-      <string notr="true">G_EVR_out_cml_40.ui</string>
-     </property>
-    </widget>
-    <widget class="caInclude" name="cainclude_12">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>360</y>
-       <width>662</width>
-       <height>351</height>
-      </rect>
-     </property>
-     <property name="macro">
-      <string notr="true">ID=1, P=CML, SYS=$(SYS),DEVICE=$(DEVICE)</string>
-     </property>
-     <property name="filename" stdset="0">
-      <string notr="true">G_EVR_out_cml_40.ui</string>
-     </property>
-    </widget>
-    <widget class="caInclude" name="cainclude_13">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>720</y>
-       <width>662</width>
-       <height>351</height>
-      </rect>
-     </property>
-     <property name="macro">
-      <string notr="true">ID=2, P=CML, SYS=$(SYS),DEVICE=$(DEVICE)</string>
-     </property>
-     <property name="filename" stdset="0">
-      <string notr="true">G_EVR_out_cml_40.ui</string>
-     </property>
-    </widget>
-    <widget class="caInclude" name="cainclude_15">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>1080</y>
-       <width>662</width>
-       <height>351</height>
-      </rect>
-     </property>
-     <property name="macro">
-      <string notr="true">ID=3, P=CML, SYS=$(SYS),DEVICE=$(DEVICE)</string>
-     </property>
-     <property name="filename" stdset="0">
-      <string notr="true">G_EVR_out_cml_40.ui</string>
-     </property>
-    </widget>
-   </widget>
+   <property name="labels">
+    <string notr="true">Open CML outputs control</string>
+   </property>
+   <property name="files">
+    <string notr="true">G_EVR_$(FF)_out_cml_widget.ui</string>
+   </property>
+   <property name="args">
+    <string notr="true">SYS=$(SYS),DEVICE=$(DEVICE),FF=$(FF)</string>
+   </property>
   </widget>
  </widget>
  <customwidgets>
   <customwidget>
-   <class>caInclude</class>
+   <class>caRelatedDisplay</class>
    <extends>QWidget</extends>
-   <header>caInclude</header>
+   <header>caRelatedDisplay</header>
   </customwidget>
  </customwidgets>
  <resources/>
