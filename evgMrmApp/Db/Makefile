@@ -15,7 +15,8 @@ DB += evg-vme-230.db
 DB += evg-cpci.db 
 
 ## Install non form factor specific tempalates
-DB += evgSoftSeq.db
+DB += evgSoftSeq.template
+DB += evg-health.template
 
 # If <anyname>.db template is not named <anyname>*.template add
 # <anyname>_TEMPLATE = <templatename>

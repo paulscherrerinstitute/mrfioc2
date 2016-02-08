@@ -1,5 +1,7 @@
 For detailed changelog inspect commits at https://git.psi.ch/epics_drivers/mrfioc2/commits/master
 
+x.x.x : :
+	- Added health monitor template for EVM-VME-300 series.
 
 2.7.7 : Fri 29 Jan 2016 17:30 CET:
 	- Added option to ignore version errors while initializing the driver. This option also disables enabling and connecting interrupts on PCI devices.
