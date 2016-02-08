@@ -1,0 +1,308 @@
+# Health monitoring recodrds for PSI EVG. 
+#
+# Macros:
+#  SYS = System name
+#  DEVICE = Event generator / timing card name (same as mrmEvgSetupVME()) Eg. EVG0
+#  PORTS = Ports on the event generator (sfp 0 - sfp 8) to monitor. Binary selection
+#
+
+record(mbbiDirect, "$(SYS)-$(DEVICE)-HEALTH:Monitor-SP"){
+  field(DESC, "Which ports to monitor")
+  field(PINI, "YES")
+
+  field(VAL, "$(PORTS=0x01)")
+  field(FLNK, "$(SYS)-$(DEVICE)-HEALTH:Update_")
+}
+
+record(fanout, "$(SYS)-$(DEVICE)-HEALTH:Update_"){
+  field(DESC, "Update monitored calculations")
+  field(LNK1, "$(SYS)-$(DEVICE)-HEALTH:SFP-Rx_")
+  field(LNK2, "$(SYS)-$(DEVICE)-HEALTH:SFP0-I")
+}
+
+############################
+# Check for link error. Link is in error state when it's status is 0 or it is in violation. Link error is checked for ports that have SFP Rx power > 0.
+############################
+record(calc, "$(SYS)-$(DEVICE)-HEALTH:Link_"){
+	field(DESC, "Link status, 0 = ok, 1 = err")
+
+	field(INPA, "$(SYS)-$(DEVICE):FCT-status-I.B0 CP")
+	field(INPB, "$(SYS)-$(DEVICE):FCT-Violation-I.B0 CP")
+	field(INPC, "$(SYS)-$(DEVICE):FCT-status-I.B1 CP")
+	field(INPD, "$(SYS)-$(DEVICE):FCT-Violation-I.B1 CP")
+	field(INPE, "$(SYS)-$(DEVICE):FCT-status-I.B2 CP")  
+	field(INPF, "$(SYS)-$(DEVICE):FCT-Violation-I.B2 CP") 
+	field(INPG, "$(SYS)-$(DEVICE):FCT-status-I.B3 CP") 
+	field(INPH, "$(SYS)-$(DEVICE):FCT-Violation-I.B3 CP")
+
+	field(INPI, "$(SYS)-$(DEVICE):SFP1-Pwr-RX-I CP")
+  field(INPJ, "$(SYS)-$(DEVICE):SFP2-Pwr-RX-I CP")
+  field(INPK, "$(SYS)-$(DEVICE):SFP3-Pwr-RX-I CP")
+  field(INPL, "$(SYS)-$(DEVICE):SFP4-Pwr-RX-I CP")
+	
+  field(CALC, "(I&&(!A||B))||(J&&(!C||D))||(K&&(!E||F))||(L&&(!G||H))")
+
+	field(HIGH, "1")
+	field(HSV,  "MAJOR")
+
+  field(FLNK, "$(SYS)-$(DEVICE)-HEALTH:Link-I")
+}
+
+record(calc, "$(SYS)-$(DEVICE)-HEALTH:Link__"){
+  field(DESC, "Link status, 0 = ok, 1 = err")
+
+  field(INPA, "$(SYS)-$(DEVICE):FCT-status-I.B4 CP")
+  field(INPB, "$(SYS)-$(DEVICE):FCT-Violation-I.B4 CP")
+  field(INPC, "$(SYS)-$(DEVICE):FCT-status-I.B5 CP")
+  field(INPD, "$(SYS)-$(DEVICE):FCT-Violation-I.B5 CP")
+  field(INPE, "$(SYS)-$(DEVICE):FCT-status-I.B6 CP")  
+  field(INPF, "$(SYS)-$(DEVICE):FCT-Violation-I.B6 CP")
+  field(INPG, "$(SYS)-$(DEVICE):FCT-status-I.B7 CP")  
+  field(INPH, "$(SYS)-$(DEVICE):FCT-Violation-I.B7 CP")
+
+  field(INPI, "$(SYS)-$(DEVICE):SFP5-Pwr-RX-I CP")
+  field(INPJ, "$(SYS)-$(DEVICE):SFP6-Pwr-RX-I CP")
+  field(INPK, "$(SYS)-$(DEVICE):SFP7-Pwr-RX-I CP")
+  field(INPL, "$(SYS)-$(DEVICE):SFP8-Pwr-RX-I CP")
+  
+  field(CALC, "(I&&(!A||B))||(J&&(!C||D))||(K&&(!E||F))||(L&&(!G||H))")
+
+  field(HIGH, "1")
+  field(HSV,  "MAJOR")
+
+  field(FLNK, "$(SYS)-$(DEVICE)-HEALTH:Link-I")
+}
+
+record(calc, "$(SYS)-$(DEVICE)-HEALTH:Link-I"){
+  field(DESC, "Link status, 0 = ok, 1 = err")
+
+  field(INPA, "$(SYS)-$(DEVICE)-HEALTH:Link_")
+  field(INPB, "$(SYS)-$(DEVICE)-HEALTH:Link__")
+  
+  field(CALC, "A || B")
+
+  field(HIGH, "1")
+  field(HSV,  "MAJOR")
+
+  field(FLNK, "$(SYS)-$(DEVICE)-HEALTH:Reason_")
+}
+
+
+############################
+# Check for SFP error. Temperature and Tx power of all SFPs are checked
+############################
+
+record(calc, "$(SYS)-$(DEVICE)-HEALTH:SFP_"){
+  field(DESC, "SFP status")
+
+  field(INPA, "$(SYS)-$(DEVICE):SFP1-Pwr-TX-I.SEVR CP")
+  field(INPB, "$(SYS)-$(DEVICE):SFP1-T-I.SEVR CP")
+
+  field(INPC, "$(SYS)-$(DEVICE):SFP2-Pwr-TX-I.SEVR CP")
+  field(INPD, "$(SYS)-$(DEVICE):SFP2-T-I.SEVR CP")
+
+  field(INPE, "$(SYS)-$(DEVICE):SFP3-Pwr-TX-I.SEVR CP")
+  field(INPF, "$(SYS)-$(DEVICE):SFP3-T-I.SEVR CP")
+
+  field(INPG, "$(SYS)-$(DEVICE):SFP4-Pwr-TX-I.SEVR CP")
+  field(INPH, "$(SYS)-$(DEVICE):SFP4-T-I.SEVR CP")
+
+  field(INPI, "$(SYS)-$(DEVICE):SFP5-Pwr-TX-I.SEVR CP")
+  field(INPJ, "$(SYS)-$(DEVICE):SFP5-T-I.SEVR CP")
+
+  field(INPK, "$(SYS)-$(DEVICE):SFP6-Pwr-TX-I.SEVR CP")
+  field(INPL, "$(SYS)-$(DEVICE):SFP6-T-I.SEVR CP")
+  
+  field(CALC, "MAX(A,B,C,D,E,F,G,H,I,J,K,L)+1")
+
+  field(LOW,  "0")
+  field(LSV,  "INVALID")
+
+  field(HIGH, "2")
+  field(HSV,  "MINOR")
+
+  field(HIHI, "3")
+  field(HHSV, "MAJOR")
+
+  field(FLNK, "$(SYS)-$(DEVICE)-HEALTH:SFP-I")
+}
+
+record(calc, "$(SYS)-$(DEVICE)-HEALTH:SFP-I"){
+  field(DESC, "SFP status")
+
+  field(INPA, "$(SYS)-$(DEVICE):SFP7-Pwr-TX-I.SEVR CP")
+  field(INPB, "$(SYS)-$(DEVICE):SFP7-T-I.SEVR CP")
+
+  field(INPC, "$(SYS)-$(DEVICE):SFP8-Pwr-TX-I.SEVR CP")
+  field(INPD, "$(SYS)-$(DEVICE):SFP8-T-I.SEVR CP")
+
+  field(INPE, "$(SYS)-$(DEVICE)-HEALTH:SFP_")
+  
+  field(CALC, "MAX(MAX(A,B,C,D)+1,E)")
+
+  field(LOW,  "0")
+  field(LSV,  "INVALID")
+
+  field(HIGH, "2")
+  field(HSV,  "MINOR")
+
+  field(HIHI, "3")
+  field(HHSV, "MAJOR")
+
+  field(FLNK, "$(SYS)-$(DEVICE)-HEALTH:Reason_")
+}
+
+
+############################
+# Check for SFP error. Rx power of all monitored SFPs are checked
+############################
+#
+record(calc, "$(SYS)-$(DEVICE)-HEALTH:SFP-Rx_"){
+  field(DESC, "SFP Rx status")
+
+  field(INPA, "$(SYS)-$(DEVICE):SFP1-Pwr-RX-I.SEVR CP")
+  field(INPB, "$(SYS)-$(DEVICE):SFP2-Pwr-RX-I.SEVR CP")
+  field(INPC, "$(SYS)-$(DEVICE):SFP3-Pwr-RX-I.SEVR CP")
+  field(INPD, "$(SYS)-$(DEVICE):SFP4-Pwr-RX-I.SEVR CP")
+  field(INPE, "$(SYS)-$(DEVICE):SFP5-Pwr-RX-I.SEVR CP")
+  field(INPF, "$(SYS)-$(DEVICE):SFP6-Pwr-RX-I.SEVR CP")
+
+  field(INPG, "$(SYS)-$(DEVICE)-HEALTH:Monitor-SP.B1")
+  field(INPH, "$(SYS)-$(DEVICE)-HEALTH:Monitor-SP.B2")
+  field(INPI, "$(SYS)-$(DEVICE)-HEALTH:Monitor-SP.B3")
+  field(INPJ, "$(SYS)-$(DEVICE)-HEALTH:Monitor-SP.B4")
+  field(INPK, "$(SYS)-$(DEVICE)-HEALTH:Monitor-SP.B5")
+  field(INPL, "$(SYS)-$(DEVICE)-HEALTH:Monitor-SP.B6")
+  
+  field(CALC, "G&&A>0?A+1:(H&&B>0?B+1:(I&&C>0?C+1:(J&&D>0?D+1:(K&&E>0?E+1:(L&&F>0?F+1:1)))))")
+
+  field(LOW,  "0")
+  field(LSV,  "INVALID")
+
+  field(HIGH, "2")
+  field(HSV,  "MINOR")
+
+  field(HIHI, "3")
+  field(HHSV, "MAJOR")
+
+  field(FLNK, "$(SYS)-$(DEVICE)-HEALTH:SFP-Rx-I")
+}
+
+record(calc, "$(SYS)-$(DEVICE)-HEALTH:SFP-Rx-I"){
+  field(DESC, "SFP Rx status")
+
+  field(INPA, "$(SYS)-$(DEVICE):SFP7-Pwr-RX-I.SEVR CP")
+  field(INPB, "$(SYS)-$(DEVICE):SFP8-Pwr-RX-I.SEVR CP")
+  #field(INPC, "$(SYS)-$(DEVICE):SFP0-Pwr-RX-I.SEVR CP")
+
+  field(INPG, "$(SYS)-$(DEVICE)-HEALTH:Monitor-SP.B7")
+  field(INPH, "$(SYS)-$(DEVICE)-HEALTH:Monitor-SP.B8")
+  #field(INPI, "$(SYS)-$(DEVICE)-HEALTH:Monitor-SP.B0")
+
+  field(INPJ, "$(SYS)-$(DEVICE)-HEALTH:SFP-Rx_")
+  
+  #field(CALC, "G&&A>0?A+1:(H&&B>0?B+1:(I&&C>0?C+1:J))")
+  field(CALC, "G&&A>0?A+1:(H&&B>0?B+1:J)")
+
+  field(LOW,  "0")
+  field(LSV,  "INVALID")
+
+  field(HIGH, "2")
+  field(HSV,  "MINOR")
+
+  field(HIHI, "3")
+  field(HHSV, "MAJOR")
+
+  field(FLNK, "$(SYS)-$(DEVICE)-HEALTH:Reason_")
+}
+
+############################
+# Check for error on uplink SFP port. Temperature, Tx and Rx power of SFP0 is checked, if monitored.
+############################
+
+record(calc, "$(SYS)-$(DEVICE)-HEALTH:SFP0-I"){
+  field(DESC, "SFO 0 status")
+  
+  field(INPA, "$(SYS)-$(DEVICE):SFP0-Pwr-TX-I.SEVR CP")
+  field(INPB, "$(SYS)-$(DEVICE):SFP0-Pwr-RX-I.SEVR CP")
+  field(INPC, "$(SYS)-$(DEVICE):SFP0-T-I.SEVR CP")
+  field(INPD, "$(SYS)-$(DEVICE)-HEALTH:Monitor-SP.B0")
+  
+  field(CALC, "D=1 ? MAX(A,B,C)+1 : 1")
+
+  field(LOW,  "0")
+  field(LSV,  "INVALID")
+
+  field(HIGH, "2")
+  field(HSV,  "MINOR")
+
+  field(HIHI, "3")
+  field(HHSV, "MAJOR")
+
+  field(FLNK, "$(SYS)-$(DEVICE)-HEALTH:Reason_")
+}
+
+
+############################
+# Find out reason for the error and set the error message accordingly
+############################
+
+record(calcout, "$(SYS)-$(DEVICE)-HEALTH:Reason_"){
+	field(DESC, "Reason calculator")
+
+	field(INPA, "$(SYS)-$(DEVICE):EvtClk-PLL-Sts CP")
+	field(INPB, "$(SYS)-$(DEVICE)-HEALTH:Link-I")
+	field(INPC, "$(SYS)-$(DEVICE)-HEALTH:SFP-I")
+  field(INPD, "$(SYS)-$(DEVICE)-HEALTH:SFP-Rx-I")
+  field(INPE, "$(SYS)-$(DEVICE)-HEALTH:SFP0-I")
+	
+  field(CALC, "(E>1?E+6:(A#1?7:(B>0?B+3:(C>2?C+3:(D>2?D:(C>1?C+3:(D>1?D:1)))))))")
+
+	field(OUT, "$(SYS)-$(DEVICE)-HEALTH:Reason-I PP")
+} 
+
+record(mbbi, "$(SYS)-$(DEVICE)-HEALTH:Reason-I"){
+  field(DESC, "Error description")
+	field(INP,  "$(SYS)-$(DEVICE)-HEALTH:Reason_")
+
+	field(ZRVL, "0")
+	field(ZRST,	"Not connected")
+  field(ZRSV, "INVALID")
+
+	field(ONVL, "1")
+	field(ONST, "OK")
+  field(ONSV, "NO_ALARM")
+
+	field(TWVL, "2")
+	field(TWST, "SFP Rx warn")
+  field(TWSV, "MINOR")
+
+	field(THVL, "3")
+	field(THST, "SFP Rx error")
+  field(THSV, "MAJOR")
+
+  field(FRVL, "4")
+  field(FRST, "Link error")
+  field(FRSV, "MAJOR")
+
+  field(FVVL, "5")
+  field(FVST, "SFP warning")
+  field(FVSV, "MINOR")
+
+  field(SXVL, "6")
+  field(SXST, "SFP error")
+  field(SXSV, "MAJOR")
+
+  field(SVVL, "7")
+  field(SVST, "PLL not locked")
+  field(SVSV, "MAJOR")
+
+  field(EIVL, "8")
+  field(EIST, "Uplink warning")
+  field(EISV, "MINOR")
+
+  field(NIVL, "9")
+  field(NIST, "Uplink error")
+  field(NISV, "MAJOR")
+}
+

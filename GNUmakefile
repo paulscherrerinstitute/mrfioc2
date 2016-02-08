@@ -101,6 +101,7 @@ HEADERS+=mrmShared/src/dataBuffer/mrmDataBufferUser.h
 TEMPLATES += evgMrmApp/Db/evg-vme-300.db
 TEMPLATES += evgMrmApp/Db/evg-vme-230.db
 TEMPLATES += evgMrmApp/Db/evgSoftSeq.template
+TEMPLATES += evgMrmApp/Db/evg-health.template
 
 ##Generated EVR templates
 TEMPLATES += evrMrmApp/Db/evr-cpci-230.db
