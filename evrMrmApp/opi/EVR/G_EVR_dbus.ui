@@ -210,11 +210,14 @@
    <widget class="QFrame" name="frame_2">
     <property name="geometry">
      <rect>
-      <x>3</x>
-      <y>139</y>
-      <width>257</width>
-      <height>91</height>
+      <x>5</x>
+      <y>140</y>
+      <width>261</width>
+      <height>101</height>
      </rect>
+    </property>
+    <property name="autoFillBackground">
+     <bool>true</bool>
     </property>
     <property name="frameShape">
      <enum>QFrame::NoFrame</enum>
