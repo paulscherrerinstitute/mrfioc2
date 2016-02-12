@@ -121,7 +121,7 @@ long get_ioint_info_statusChange(int dir,dbCommon* prec,IOSCANPVT* io)
 }
 
 EVRMRM::EVRMRM(const std::string& n,
-               bus_configuration& busConfig,
+               deviceInfoT &devInfo,
                volatile epicsUInt8* b)
   :mrf::ObjectInst<EVRMRM>(n)
   ,evrLock()
@@ -132,7 +132,7 @@ EVRMRM::EVRMRM(const std::string& n,
   ,count_heartbeat(0)
   ,shadowIRQEna(0)
   ,count_FIFO_overflow(0)
-  ,busConfiguration(busConfig)
+  ,deviceInfo(devInfo)
   ,outputs()
   ,prescalers()
   ,pulsers()
@@ -187,9 +187,10 @@ try{
      * Create subunit instances
      */
 
+    setFormFactor();  // updates deviceInfo.formFactor
     formFactor form = getFormFactor();
 
-    m_remoteFlash = new mrmRemoteFlash(n, b, form, m_flash);
+    m_remoteFlash = new mrmRemoteFlash(n, b, deviceInfo, m_flash);
 
     size_t nPul=16; // number of pulsers
     size_t nPS=3;   // number of prescalers
@@ -438,7 +439,7 @@ EVRMRM::versionSw() const
 
 bus_configuration *
 EVRMRM::getBusConfiguration(){
-    return &busConfiguration;
+    return &deviceInfo.bus;
 }
 
 std::string
@@ -446,8 +447,8 @@ EVRMRM::position() const
 {
     std::ostringstream position;
 
-    if(busConfiguration.busType == busType_pci) position << busConfiguration.pci.bus << ":" << busConfiguration.pci.device << "." << busConfiguration.pci.function;
-    else if(busConfiguration.busType == busType_vme) position << "Slot #" << busConfiguration.vme.slot;
+    if(deviceInfo.bus.busType == busType_pci) position << deviceInfo.bus.pci.bus << ":" << deviceInfo.bus.pci.device << "." << deviceInfo.bus.pci.function;
+    else if(deviceInfo.bus.busType == busType_vme) position << "Slot #" << deviceInfo.bus.vme.slot;
     else position << "Unknown position";
 
     return position.str();
@@ -476,18 +477,7 @@ EVRMRM::version() const
 
 formFactor
 EVRMRM::getFormFactor(){
-    epicsUInt32 form = model();
-
-    /**
-     * Removing 'formFactor_CPCI <= form' from the if condition since
-     * 'form' is unsigned and 'formFactor_CPCI' is 0. 'form' can never
-     * be less than 0 which makes this comparison always true and
-     * therefore superfluous.
-     *
-     * Changed by: jkrasna
-     */
-    if(form <= formFactor_PCIe) return (formFactor)form;
-    else return formFactor_unknown;
+    return deviceInfo.formFactor;
 }
 
 std::string
@@ -1519,4 +1509,24 @@ EVRMRM::seconds_tick(void *raw, epicsUInt32)
     }
 
 
+}
+
+void EVRMRM::setFormFactor()
+{
+    epicsUInt32 form = model();
+
+    /**
+     * Removing 'formFactor_CPCI <= form' from the if condition since
+     * 'form' is unsigned and 'formFactor_CPCI' is 0. 'form' can never
+     * be less than 0 which makes this comparison always true and
+     * therefore superfluous.
+     *
+     * Changed by: jkrasna
+     */
+    if(form <= formFactor_PCIe){
+        deviceInfo.formFactor = (formFactor)form;
+    }
+    else{
+        deviceInfo.formFactor = formFactor_unknown;
+    }
 }

@@ -198,15 +198,16 @@ mrmEvgSetupVME (
     volatile epicsUInt8* regCpuAddr = 0;
     volatile epicsUInt8* regCpuAddr2 = 0; //function 2 of regmap (fanout/concentrator specifics)
     struct VMECSRID info;
-    bus_configuration bus;
+    deviceInfoT deviceInfo;
 
     info.board = 0; info.revision = 0; info.vendor = 0;
 
-    bus.busType = busType_vme;
-    bus.vme.slot = slot;
-    bus.vme.address = vmeAddress;
-    bus.vme.irqLevel = irqLevel;
-    bus.vme.irqVector = irqVector;
+    deviceInfo.bus.busType = busType_vme;
+    deviceInfo.bus.vme.slot = slot;
+    deviceInfo.bus.vme.address = vmeAddress;
+    deviceInfo.bus.vme.irqLevel = irqLevel;
+    deviceInfo.bus.vme.irqVector = irqVector;
+    deviceInfo.series = series_unknown;
 
 
     int status; // a variable to hold function return statuses
@@ -311,7 +312,7 @@ mrmEvgSetupVME (
             }
         }
 
-        evgMrm* evg = new evgMrm(id, bus, regCpuAddr, regCpuAddr2, NULL);
+        evgMrm* evg = new evgMrm(id, deviceInfo, regCpuAddr, regCpuAddr2, NULL);
 
         if(irqLevel > 0 && irqVector >= 0) {
             /*Configure the Interrupt level and vector on the EVG board*/
@@ -408,12 +409,13 @@ mrmEvgSetupPCI (
         int f,   				// Function number
         bool ignoreVersion)     // Ignore errors due to kernel module and firmware version checks
 {
-    bus_configuration bus;
+    deviceInfoT deviceInfo;
 
-    bus.busType = busType_pci;
-    bus.pci.bus = b;
-    bus.pci.device = d;
-    bus.pci.function = f;
+    deviceInfo.bus.busType = busType_pci;
+    deviceInfo.bus.pci.bus = b;
+    deviceInfo.bus.pci.device = d;
+    deviceInfo.bus.pci.function = f;
+    deviceInfo.series = series_unknown;
 
 	try {
 		if (mrf::Object::getObject(id)) {
@@ -479,7 +481,7 @@ mrmEvgSetupPCI (
         }
 
 
-        evgMrm* evg = new evgMrm(id, bus, BAR_evg, 0, cur);
+        evgMrm* evg = new evgMrm(id, deviceInfo, BAR_evg, 0, cur);
 
 		evg->getSeqRamMgr()->getSeqRam(0)->disable();
 		evg->getSeqRamMgr()->getSeqRam(1)->disable();

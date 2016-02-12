@@ -29,6 +29,11 @@
 #define CMD_BULK_ERASE             0xC7
 #define CMD_PAGE_PROGRAM           0x02
 
+// N25Q
+#define CMD_READ_NONVOLATILE_CONFIGURATION       0xB5
+#define CMD_READ_VOLATILE_CONFIGURATION          0x85
+#define CMD_READ_ENHANCED_VOLATILE_CONFIGURATION 0x65
+
 // Flash chip status command returns:
 #define STATUS_WIP                 0x01  // write in progress
 #define STATUS_WRITE_ENABLE_LATCH  0x02  // write enable latch bit
@@ -201,7 +206,7 @@ void mrmFlash::flash(const char *bitfile, size_t offset) {
         while (size > 0) {    // write data page by page
             pageProgram(buf, offset, size);     // use page program to write data to the flash memory
             if((offset & 0x0000ffff) == 0) {    // Do not print in each iteration so the output is not flooded
-                infoPrintf(1,"\tWriting to address: 0x%08zx\n", offset);
+                infoPrintf(1,"\tWriting to address: 0x%08" FORMAT_SIZET_X "\n", offset);
             }
             offset += size;
             size = fread(buf, 1, readSize, fd); // max one page can be written at once
@@ -241,7 +246,7 @@ void mrmFlash::read(const char *bitfile, size_t offset) {
     }
 
     try {
-        infoPrintf(1,"Starting to read flash memory...\n");
+        infoPrintf(1,"Starting to read flash memory at offset %" FORMAT_SIZET_U "\n", offset);
         epicsGuard<epicsMutex> g(m_lock);
 
         // Dummy write with SS not active
@@ -267,7 +272,7 @@ void mrmFlash::read(const char *bitfile, size_t offset) {
                 throw std::runtime_error("Could not write to file!");
             }
             if((i & 0x0000ffff) == 0) {    // Do not print in each iteration so the output is not flooded
-                infoPrintf(1,"\tReading address: 0x%08zx\n", offset+i);
+                infoPrintf(1,"\tReading address: 0x%08" FORMAT_SIZET_X "\n", offset+i);
             }
             write(0);
         }

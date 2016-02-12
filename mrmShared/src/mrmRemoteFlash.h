@@ -25,7 +25,7 @@
 class epicsShareClass mrmRemoteFlash : public mrf::ObjectInst<mrmRemoteFlash>
 {
 public:
-    mrmRemoteFlash(const std::string& parentName, volatile epicsUInt8* parentBaseAddress, formFactor formFactor, mrmFlash &flash);
+    mrmRemoteFlash(const std::string& parentName, volatile epicsUInt8* parentBaseAddress, deviceInfoT& deviceInfo, mrmFlash &flash);
 
     /* locking done internally */
     virtual void lock() const{}

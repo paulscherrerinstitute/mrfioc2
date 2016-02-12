@@ -58,7 +58,7 @@ enum ALARM_TS {TS_ALARM_NONE, TS_ALARM_MINOR, TS_ALARM_MAJOR};
 
 class evgMrm : public mrf::ObjectInst<evgMrm> {
 public:
-    evgMrm(const std::string& id, bus_configuration& busConfig, volatile epicsUInt8* const, volatile epicsUInt8* const, const epicsPCIDevice* pciDevice);
+    evgMrm(const std::string& id, deviceInfoT& devInfo, volatile epicsUInt8* const, volatile epicsUInt8* const, const epicsPCIDevice* pciDevice);
     ~evgMrm();
 
     /* locking done internally */
@@ -162,7 +162,7 @@ private:
     const std::string             m_id;
     volatile epicsUInt8* const    m_pReg;   // EVG function register map
     volatile epicsUInt8* const    m_fctReg; // FCT function register map
-    bus_configuration             busConfiguration;
+    deviceInfoT                   m_deviceInfo;
 
     evgAcTrig                     m_acTrig;
     evgEvtClk                     m_evtClk;
@@ -196,6 +196,11 @@ private:
     std::vector<SFP*>             m_sfp;    // upstream + fanout transceivers. Transceiver indexed 0 is upstream transceiver.
 
     mrmDataBuffer*                m_dataBuffer;
+
+    /**
+     * @brief setFormFactor sets the internal m_deviceInfo.formFactor based on the content of the device registers
+     */
+    void setFormFactor();
 };
 
 

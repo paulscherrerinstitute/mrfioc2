@@ -160,6 +160,7 @@ private:
      * @param verbosity is an optional argument that determines the verbosity level of debug statements in the function. Defaults to no output.
      */
     inline void waitForCompletition(size_t retryCount, size_t msSleep, int verbosity = 0);
+
 };
 
 #endif // MRMFLASH_H

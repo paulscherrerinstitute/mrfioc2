@@ -102,6 +102,7 @@ Example substitution files and startup scripts are available in the [`PSI/exampl
 * EVR VME-230: VME-230 form factor event receiver. (tested and working)
 * EVR VME-300: VME-300 form factor event receiver.  (tested, check known issues)
 * EVR PCIe-300: PCIe-300 form factor event receiver. (tested and working with firmware version 7. Not everything works with firmware version 202 - check known issues)
+* EVR PCIe-300DC: PCIE-300 form factor event receiver with newer hardware. (check known issues)
 * EVR cPCI-230: cPCI-230 form factor event receiver (not tested, no GUI)
 
 mrfioc2 driver supports hardware firmware versions up to and including 202.
@@ -120,6 +121,7 @@ Minimal supported firmware version for:
     * CML: only frequency mode works, since hardware addresses which store patterns are currently not accessible.
     * EVM-VME-300: Input registers for FrontInp0 and FrontInp2 are linked together in hardware. Awaiting firmware fix.
 * sending the data buffer upstream does not work on EVR-VME-300 and was not tested on other cards.
+* PCIe-300DC cards: no detailed tests were made. Event and data buffer reception seems to work with EVG-VME-300 series. This was tested with event link speed up to 150 MHz.
 
 ## Dependencies
 

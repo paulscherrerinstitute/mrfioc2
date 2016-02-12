@@ -41,8 +41,21 @@ enum formFactor {
   formFactor_CRIO=3,
   formFactor_CPCIFULL=4, // 6U
   formFactor_PXIe=6,
-  formFactor_PCIe=7,
+  formFactor_PCIe=7
 };
+
+enum deviceSeries {
+    series_unknown = 0,
+    series_300 = 1,
+    series_300DC = 2,
+    series_230 = 3
+};
+
+typedef struct device_info {
+    enum formFactor formFactor;
+    struct bus_configuration bus;
+    enum deviceSeries series;
+} deviceInfoT;
 
 
 /* PLL Bandwidth Select (see Silicon Labs Si5317 datasheet)

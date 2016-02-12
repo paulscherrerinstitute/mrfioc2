@@ -9,7 +9,7 @@
 const char *OBJECT_NAME = ":Flash"; // appended to device name for use in mrfioc2 object model
 
 
-mrmRemoteFlash::mrmRemoteFlash(const std::string &parentName, volatile epicsUInt8 *parentBaseAddress, formFactor formFactor, mrmFlash &flash):
+mrmRemoteFlash::mrmRemoteFlash(const std::string &parentName, volatile epicsUInt8 *parentBaseAddress, deviceInfoT &deviceInfo, mrmFlash &flash):
     mrf::ObjectInst<mrmRemoteFlash>(parentName+OBJECT_NAME),
     m_base(parentBaseAddress),
     m_flash_success(false),
@@ -19,11 +19,16 @@ mrmRemoteFlash::mrmRemoteFlash(const std::string &parentName, volatile epicsUInt
     try{
         m_flash.init(true);
 
-        switch(formFactor){
+        switch(deviceInfo.formFactor){
             case formFactor_CPCI:
             case formFactor_CPCIFULL:
             case formFactor_PCIe:
-                m_offset = m_flash.getSectorSize();
+                if(deviceInfo.series == series_300DC){
+                    m_offset = 0;
+                }
+                else{
+                    m_offset = m_flash.getSectorSize();
+                }
                 m_offsetValid = true;
                 break;
 
@@ -356,13 +361,12 @@ static const iocshFuncDef mrmRemoteFlashDef_setOffset = { "mrmFlashSetOffset", 2
 
 
 static void mrmRemoteFlashFunc_setOffset(const iocshArgBuf *args) {
-    if(args[0].sval == NULL || args[1].ival == 0){
+    if(args[0].sval == NULL){
         printf("Usage: mrmFlashSetOffset Device Offset\n\t" \
                "Device = name of the timing card (eg.: EVR0, EVG0, ...)\n\t"    \
-               "Offset = offset to set\n");
+               "Offset = offset to set (default: 0)\n");
         return;
     }
-
 
     std::string device = args[0].sval;
     int offset = args[1].ival;

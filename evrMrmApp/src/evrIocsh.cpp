@@ -300,13 +300,13 @@ mrmEvrSetupPCI(const char* id,      // Card Identifier
                int f,               // Function number
                bool ignoreVersion)  // Ignore errors due to kernel module and firmware version checks
 {
+    deviceInfoT deviceInfo;
 
-    bus_configuration bus;
-
-    bus.busType = busType_pci;
-    bus.pci.bus = b;
-    bus.pci.device = d;
-    bus.pci.function = f;
+    deviceInfo.bus.busType = busType_pci;
+    deviceInfo.bus.pci.bus = b;
+    deviceInfo.bus.pci.device = d;
+    deviceInfo.bus.pci.function = f;
+    deviceInfo.series = series_unknown;
 
 
     volatile epicsUInt8 *plx = 0, *evr = 0; // base addressed for plx/evr bar
@@ -330,7 +330,7 @@ mrmEvrSetupPCI(const char* id,      // Card Identifier
         // get pci device from devLib2
         const epicsPCIDevice *cur = 0;
         int err;
-        if( err=devPCIFindDBDF(mrmevrs,o,b,d,f,&cur,0) ){
+        if( (err=devPCIFindDBDF(mrmevrs,o,b,d,f,&cur,0)) ){
             errlogPrintf("PCI Device not found on %x:%x:%x.%x with error: %d\n", o, b, d, f, err);
             return -1;
         }
@@ -338,6 +338,13 @@ mrmEvrSetupPCI(const char* id,      // Card Identifier
         epicsPrintf("Device %s  %x:%x.%x\n", id, cur->bus, cur->device, cur->function);
         epicsPrintf("Using IRQ %u\n",cur->irq);
 
+
+        if(cur->id.device == PCI_DEVICE_ID_EC_30){
+            deviceInfo.series = series_300;
+        }
+        else if(cur->id.device == PCI_DEVICE_ID_XILINX){
+            deviceInfo.series = series_300DC;
+        }
 
 
         /*
@@ -452,7 +459,12 @@ mrmEvrSetupPCI(const char* id,      // Card Identifier
                 epicsPrintf("Not enabling interrupts.\n");
             }
             else {
-                epicsPrintf("EC 30: Enabling interrupts\n");
+                if(cur->id.device == PCI_DEVICE_ID_EC_30){
+                    epicsPrintf("EC 30: Enabling interrupts\n");
+                }
+                else if(cur->id.device == PCI_DEVICE_ID_XILINX){
+                    epicsPrintf("Xilinx: Enabling interrupts\n");
+                }
                 if(devPCIEnableInterrupt(cur)) {
                     errlogPrintf("EC 30: Failed to enable interrupt\n");
                     return -1;
@@ -486,7 +498,7 @@ mrmEvrSetupPCI(const char* id,      // Card Identifier
 
         // Install ISR
 
-        EVRMRM *receiver=new EVRMRM(id,bus,evr);
+        EVRMRM *receiver=new EVRMRM(id,deviceInfo,evr);
 
         void *arg=receiver;
     #ifdef __linux__
@@ -655,13 +667,14 @@ mrmEvrSetupVME(const char* id,      // Card Identifier
                bool ignoreVersion)  // Ignore errors due to firmware checks
 {
 
-    bus_configuration bus;
+    deviceInfoT deviceInfo;
 
-    bus.busType = busType_vme;
-    bus.vme.slot = slot;
-    bus.vme.address = base;
-    bus.vme.irqLevel = level;
-    bus.vme.irqVector = vector;
+    deviceInfo.bus.busType = busType_vme;
+    deviceInfo.bus.vme.slot = slot;
+    deviceInfo.bus.vme.address = base;
+    deviceInfo.bus.vme.irqLevel = level;
+    deviceInfo.bus.vme.irqVector = vector;
+    deviceInfo.series = series_unknown;
 
 
     volatile unsigned char* evr;    // base address for the card
@@ -747,7 +760,7 @@ mrmEvrSetupVME(const char* id,      // Card Identifier
 
         NAT_WRITE32(evr, IRQEnable, 0); // Disable interrupts
 
-        EVRMRM *receiver=new EVRMRM(id, bus, evr);
+        EVRMRM *receiver=new EVRMRM(id, deviceInfo, evr);
 
         if(level>0 && vector>=0) {
             CSRWrite8(user_csr+UCSR_IRQ_LEVEL,  level&0x7);
