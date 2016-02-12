@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>456</width>
-    <height>302</height>
+    <height>469</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -297,7 +297,7 @@
      <x>10</x>
      <y>220</y>
      <width>391</width>
-     <height>91</height>
+     <height>111</height>
     </rect>
    </property>
    <property name="title">
@@ -325,6 +325,32 @@
      <number>7</number>
     </property>
    </widget>
+   <widget class="caRelatedDisplay" name="carelateddisplay_3">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>60</y>
+      <width>221</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="background">
+     <color>
+      <red>183</red>
+      <green>157</green>
+      <blue>92</blue>
+     </color>
+    </property>
+    <property name="labels">
+     <string notr="true">Configure DBUS to pulser mapping</string>
+    </property>
+    <property name="files">
+     <string notr="true">G_EVR_$(FF)_dbus.ui</string>
+    </property>
+    <property name="args">
+     <string notr="true">SYS=$(SYS),DEVICE=$(DEVICE),FF=$(FF)</string>
+    </property>
+   </widget>
   </widget>
  </widget>
  <customwidgets>
@@ -332,6 +358,11 @@
    <class>caMenu</class>
    <extends>QComboBox</extends>
    <header>caMenu</header>
+  </customwidget>
+  <customwidget>
+   <class>caRelatedDisplay</class>
+   <extends>QWidget</extends>
+   <header>caRelatedDisplay</header>
   </customwidget>
   <customwidget>
    <class>caTextEntry</class>

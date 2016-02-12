@@ -29,8 +29,8 @@
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>0</y>
-      <width>651</width>
+      <y>-3241</y>
+      <width>654</width>
       <height>3650</height>
      </rect>
     </property>
@@ -40,6 +40,18 @@
       <height>3650</height>
      </size>
     </property>
+
+    <widget class="QWidget" name="verticalLayoutWidget">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>661</width>
+       <height>3641</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
     <widget class="caInclude" name="cainclude_569">
      <property name="geometry">
       <rect>
@@ -56,6 +68,7 @@
       <string notr="true">G_EVR_out-twoSources.ui</string>
      </property>
     </widget>
+  </item><item>
     <widget class="caInclude" name="cainclude_570">
      <property name="geometry">
       <rect>
@@ -72,6 +85,7 @@
       <string notr="true">G_EVR_out-twoSources.ui</string>
      </property>
     </widget>
+  </item><item>
     <widget class="caInclude" name="cainclude_571">
      <property name="geometry">
       <rect>
@@ -88,6 +102,7 @@
       <string notr="true">G_EVR_out-twoSources.ui</string>
      </property>
     </widget>
+  </item><item>
     <widget class="caInclude" name="cainclude_572">
      <property name="geometry">
       <rect>
@@ -104,6 +119,7 @@
       <string notr="true">G_EVR_out-twoSources.ui</string>
      </property>
     </widget>
+  </item><item>
     <widget class="caInclude" name="cainclude_573">
      <property name="geometry">
       <rect>
@@ -120,6 +136,7 @@
       <string notr="true">G_EVR_out-twoSources.ui</string>
      </property>
     </widget>
+  </item><item>
     <widget class="caInclude" name="cainclude_574">
      <property name="geometry">
       <rect>
@@ -136,6 +153,7 @@
       <string notr="true">G_EVR_out-twoSources.ui</string>
      </property>
     </widget>
+  </item><item>
     <widget class="caInclude" name="cainclude_575">
      <property name="geometry">
       <rect>
@@ -152,6 +170,7 @@
       <string notr="true">G_EVR_out-twoSources.ui</string>
      </property>
     </widget>
+  </item><item>
     <widget class="caInclude" name="cainclude_576">
      <property name="geometry">
       <rect>
@@ -168,6 +187,7 @@
       <string notr="true">G_EVR_out-twoSources.ui</string>
      </property>
     </widget>
+  </item><item>
     <widget class="caInclude" name="cainclude_577">
      <property name="geometry">
       <rect>
@@ -184,6 +204,7 @@
       <string notr="true">G_EVR_out-twoSources.ui</string>
      </property>
     </widget>
+  </item><item>
     <widget class="caInclude" name="cainclude_578">
      <property name="geometry">
       <rect>
@@ -200,6 +221,7 @@
       <string notr="true">G_EVR_out-twoSources.ui</string>
      </property>
     </widget>
+  </item><item>
     <widget class="caInclude" name="cainclude_579">
      <property name="geometry">
       <rect>
@@ -216,6 +238,7 @@
       <string notr="true">G_EVR_out-twoSources.ui</string>
      </property>
     </widget>
+  </item><item>
     <widget class="caInclude" name="cainclude_580">
      <property name="geometry">
       <rect>
@@ -232,6 +255,7 @@
       <string notr="true">G_EVR_out-twoSources.ui</string>
      </property>
     </widget>
+  </item><item>
     <widget class="caInclude" name="cainclude_581">
      <property name="geometry">
       <rect>
@@ -248,6 +272,7 @@
       <string notr="true">G_EVR_out-twoSources.ui</string>
      </property>
     </widget>
+  </item><item>
     <widget class="caInclude" name="cainclude_582">
      <property name="geometry">
       <rect>
@@ -264,6 +289,7 @@
       <string notr="true">G_EVR_out-twoSources.ui</string>
      </property>
     </widget>
+  </item><item>
     <widget class="caInclude" name="cainclude_583">
      <property name="geometry">
       <rect>
@@ -280,6 +306,7 @@
       <string notr="true">G_EVR_out-twoSources.ui</string>
      </property>
     </widget>
+  </item><item>
     <widget class="caInclude" name="cainclude_584">
      <property name="geometry">
       <rect>
@@ -296,6 +323,7 @@
       <string notr="true">G_EVR_out-twoSources.ui</string>
      </property>
     </widget>
+  </item><item>
     <widget class="caInclude" name="cainclude_585">
      <property name="geometry">
       <rect>
@@ -312,6 +340,7 @@
       <string notr="true">G_EVR_out-twoSources.ui</string>
      </property>
     </widget>
+  </item><item>
     <widget class="caInclude" name="cainclude_586">
      <property name="geometry">
       <rect>
@@ -328,6 +357,7 @@
       <string notr="true">G_EVR_out-twoSources.ui</string>
      </property>
     </widget>
+  </item><item>
     <widget class="caInclude" name="cainclude_587">
      <property name="geometry">
       <rect>
@@ -344,6 +374,7 @@
       <string notr="true">G_EVR_out-twoSources.ui</string>
      </property>
     </widget>
+  </item><item>
     <widget class="caInclude" name="cainclude_588">
      <property name="geometry">
       <rect>
@@ -360,6 +391,7 @@
       <string notr="true">G_EVR_out-twoSources.ui</string>
      </property>
     </widget>
+  </item><item>
     <widget class="caInclude" name="cainclude_589">
      <property name="geometry">
       <rect>
@@ -376,6 +408,7 @@
       <string notr="true">G_EVR_out-twoSources.ui</string>
      </property>
     </widget>
+  </item><item>
     <widget class="caInclude" name="cainclude_590">
      <property name="geometry">
       <rect>
@@ -392,6 +425,7 @@
       <string notr="true">G_EVR_out-twoSources.ui</string>
      </property>
     </widget>
+  </item><item>
     <widget class="caInclude" name="cainclude_591">
      <property name="geometry">
       <rect>
@@ -408,6 +442,7 @@
       <string notr="true">G_EVR_out-twoSources.ui</string>
      </property>
     </widget>
+  </item><item>
     <widget class="caInclude" name="cainclude_592">
      <property name="geometry">
       <rect>
@@ -424,6 +459,7 @@
       <string notr="true">G_EVR_out-twoSources.ui</string>
      </property>
     </widget>
+  </item><item>
     <widget class="caInclude" name="cainclude_593">
      <property name="geometry">
       <rect>
@@ -440,6 +476,7 @@
       <string notr="true">G_EVR_out-twoSources.ui</string>
      </property>
     </widget>
+  </item><item>
     <widget class="caInclude" name="cainclude_594">
      <property name="geometry">
       <rect>
@@ -455,6 +492,10 @@
      <property name="filename" stdset="0">
       <string notr="true">G_EVR_out-twoSources.ui</string>
      </property>
+    </widget>
+
+      </item>
+     </layout>
     </widget>
    </widget>
   </widget>

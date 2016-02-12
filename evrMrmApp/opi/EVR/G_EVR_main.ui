@@ -296,7 +296,7 @@
        </rect>
       </property>
       <property name="macro">
-       <string notr="true">SYS=$(SYS),DEVICE=$(DEVICE)</string>
+       <string notr="true">SYS=$(SYS),DEVICE=$(DEVICE),FF=$(FF)</string>
       </property>
       <property name="filename" stdset="0">
        <string notr="true">G_EVR_$(FF)_out_cml.ui</string>
@@ -317,31 +317,10 @@
        </rect>
       </property>
       <property name="macro">
-       <string notr="true">SYS=$(SYS),DEVICE=$(DEVICE)</string>
+       <string notr="true">SYS=$(SYS),DEVICE=$(DEVICE),FF=$(FF)</string>
       </property>
       <property name="filename" stdset="0">
        <string notr="true">G_EVR_$(FF)_misc.ui</string>
-      </property>
-     </widget>
-    </widget>
-    <widget class="QWidget" name="tab_10">
-     <attribute name="title">
-      <string>DBus</string>
-     </attribute>
-     <widget class="caInclude" name="cainclude_9">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>671</width>
-        <height>411</height>
-       </rect>
-      </property>
-      <property name="macro">
-       <string notr="true">SYS=$(SYS),DEVICE=$(DEVICE)</string>
-      </property>
-      <property name="filename" stdset="0">
-       <string notr="true">G_EVR_$(FF)_dbus.ui</string>
       </property>
      </widget>
     </widget>
@@ -387,7 +366,7 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>651</width>
+         <width>654</width>
          <height>1900</height>
         </rect>
        </property>
@@ -3027,7 +3006,7 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>651</width>
+         <width>654</width>
          <height>1900</height>
         </rect>
        </property>
@@ -5611,9 +5590,6 @@
       <width>51</width>
       <height>21</height>
      </rect>
-    </property>
-    <property name="toolTip">
-     <string>Detailed SFP information</string>
     </property>
     <property name="background">
      <color>

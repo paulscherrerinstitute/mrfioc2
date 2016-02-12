@@ -32,8 +32,8 @@
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>0</y>
-      <width>651</width>
+      <y>-1691</y>
+      <width>654</width>
       <height>2100</height>
      </rect>
     </property>
@@ -49,110 +49,128 @@
       <height>16777215</height>
      </size>
     </property>
-    <widget class="caInclude" name="cainclude">
+
+    <widget class="QWidget" name="verticalLayoutWidget">
      <property name="geometry">
       <rect>
        <x>70</x>
        <y>10</y>
        <width>531</width>
-       <height>251</height>
+       <height>2071</height>
       </rect>
      </property>
-     <property name="macro">
-      <string notr="true">SYS=$(SYS),DEVICE=$(DEVICE),ID=0</string>
-     </property>
-     <property name="filename" stdset="0">
-      <string notr="true">G_EVR_dbus.ui</string>
-     </property>
-    </widget>
-    <widget class="caInclude" name="cainclude_2">
-     <property name="geometry">
-      <rect>
-       <x>70</x>
-       <y>270</y>
-       <width>531</width>
-       <height>251</height>
-      </rect>
-     </property>
-     <property name="macro">
-      <string notr="true">SYS=$(SYS),DEVICE=$(DEVICE),ID=1</string>
-     </property>
-     <property name="filename" stdset="0">
-      <string notr="true">G_EVR_dbus.ui</string>
-     </property>
-    </widget>
-    <widget class="caInclude" name="cainclude_3">
-     <property name="geometry">
-      <rect>
-       <x>70</x>
-       <y>530</y>
-       <width>531</width>
-       <height>251</height>
-      </rect>
-     </property>
-     <property name="macro">
-      <string notr="true">SYS=$(SYS),DEVICE=$(DEVICE),ID=2</string>
-     </property>
-     <property name="filename" stdset="0">
-      <string notr="true">G_EVR_dbus.ui</string>
-     </property>
-    </widget>
-    <widget class="caInclude" name="cainclude_4">
-     <property name="geometry">
-      <rect>
-       <x>70</x>
-       <y>790</y>
-       <width>531</width>
-       <height>251</height>
-      </rect>
-     </property>
-     <property name="macro">
-      <string notr="true">SYS=$(SYS),DEVICE=$(DEVICE),ID=3</string>
-     </property>
-     <property name="filename" stdset="0">
-      <string notr="true">G_EVR_dbus.ui</string>
-     </property>
-    </widget>
-    <widget class="caInclude" name="cainclude_5">
-     <property name="geometry">
-      <rect>
-       <x>70</x>
-       <y>1050</y>
-       <width>531</width>
-       <height>251</height>
-      </rect>
-     </property>
-     <property name="macro">
-      <string notr="true">SYS=$(SYS),DEVICE=$(DEVICE),ID=4</string>
-     </property>
-     <property name="filename" stdset="0">
-      <string notr="true">G_EVR_dbus.ui</string>
-     </property>
-    </widget>
-    <widget class="caInclude" name="cainclude_6">
-     <property name="geometry">
-      <rect>
-       <x>70</x>
-       <y>1310</y>
-       <width>531</width>
-       <height>251</height>
-      </rect>
-     </property>
-     <property name="macro">
-      <string notr="true">SYS=$(SYS),DEVICE=$(DEVICE),ID=5</string>
-     </property>
-     <property name="filename" stdset="0">
-      <string notr="true">G_EVR_dbus.ui</string>
-     </property>
-    </widget>
-    <widget class="caInclude" name="cainclude_7">
-     <property name="geometry">
-      <rect>
-       <x>70</x>
-       <y>1570</y>
-       <width>531</width>
-       <height>251</height>
-      </rect>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+      <widget class="caInclude" name="cainclude">
+       <property name="geometry">
+        <rect>
+         <x>70</x>
+         <y>10</y>
+         <width>531</width>
+         <height>251</height>
+        </rect>
+       </property>
+       <property name="macro">
+        <string notr="true">SYS=$(SYS),DEVICE=$(DEVICE),ID=0</string>
+       </property>
+       <property name="filename" stdset="0">
+        <string notr="true">G_EVR_dbus.ui</string>
+       </property>
+      </widget>
+    </item><item>
+      <widget class="caInclude" name="cainclude_2">
+       <property name="geometry">
+        <rect>
+         <x>70</x>
+         <y>270</y>
+         <width>531</width>
+         <height>251</height>
+        </rect>
+       </property>
+       <property name="macro">
+        <string notr="true">SYS=$(SYS),DEVICE=$(DEVICE),ID=1</string>
+       </property>
+       <property name="filename" stdset="0">
+        <string notr="true">G_EVR_dbus.ui</string>
+       </property>
+      </widget>
+    </item><item>
+      <widget class="caInclude" name="cainclude_3">
+       <property name="geometry">
+        <rect>
+         <x>70</x>
+         <y>530</y>
+         <width>531</width>
+         <height>251</height>
+        </rect>
+       </property>
+       <property name="macro">
+        <string notr="true">SYS=$(SYS),DEVICE=$(DEVICE),ID=2</string>
+       </property>
+       <property name="filename" stdset="0">
+        <string notr="true">G_EVR_dbus.ui</string>
+       </property>
+      </widget>
+    </item><item>
+      <widget class="caInclude" name="cainclude_4">
+       <property name="geometry">
+        <rect>
+         <x>70</x>
+         <y>790</y>
+         <width>531</width>
+         <height>251</height>
+        </rect>
+       </property>
+       <property name="macro">
+        <string notr="true">SYS=$(SYS),DEVICE=$(DEVICE),ID=3</string>
+       </property>
+       <property name="filename" stdset="0">
+        <string notr="true">G_EVR_dbus.ui</string>
+       </property>
+      </widget>
+    </item><item>
+      <widget class="caInclude" name="cainclude_5">
+       <property name="geometry">
+        <rect>
+         <x>70</x>
+         <y>1050</y>
+         <width>531</width>
+         <height>251</height>
+        </rect>
+       </property>
+       <property name="macro">
+        <string notr="true">SYS=$(SYS),DEVICE=$(DEVICE),ID=4</string>
+       </property>
+       <property name="filename" stdset="0">
+        <string notr="true">G_EVR_dbus.ui</string>
+       </property>
+      </widget>
+    </item><item>
+      <widget class="caInclude" name="cainclude_6">
+       <property name="geometry">
+        <rect>
+         <x>70</x>
+         <y>1310</y>
+         <width>531</width>
+         <height>251</height>
+        </rect>
+       </property>
+       <property name="macro">
+        <string notr="true">SYS=$(SYS),DEVICE=$(DEVICE),ID=5</string>
+       </property>
+       <property name="filename" stdset="0">
+        <string notr="true">G_EVR_dbus.ui</string>
+       </property>
+      </widget>
+    </item><item>
+      <widget class="caInclude" name="cainclude_7">
+       <property name="geometry">
+        <rect>
+         <x>70</x>
+         <y>1570</y>
+         <width>531</width>
+         <height>251</height>
+        </rect>
      </property>
      <property name="macro">
       <string notr="true">SYS=$(SYS),DEVICE=$(DEVICE),ID=6</string>
@@ -161,6 +179,7 @@
       <string notr="true">G_EVR_dbus.ui</string>
      </property>
     </widget>
+    </item><item>
     <widget class="caInclude" name="cainclude_8">
      <property name="geometry">
       <rect>
@@ -176,6 +195,10 @@
      <property name="filename" stdset="0">
       <string notr="true">G_EVR_dbus.ui</string>
      </property>
+    </widget>
+
+      </item>
+     </layout>
     </widget>
    </widget>
   </widget>
