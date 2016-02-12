@@ -31,7 +31,7 @@
 #define evgAllowedTsGitter 0.5f
 
 
-evgMrm::evgMrm(const std::string& id, bus_configuration& busConfig, volatile epicsUInt8* const pReg, volatile epicsUInt8* const fctReg, const epicsPCIDevice *pciDevice):
+evgMrm::evgMrm(const std::string& id, deviceInfoT &devInfo, volatile epicsUInt8* const pReg, volatile epicsUInt8* const fctReg, const epicsPCIDevice *pciDevice):
     mrf::ObjectInst<evgMrm>(id),
     irqStop0_queued(0),
     irqStop1_queued(0),
@@ -43,7 +43,7 @@ evgMrm::evgMrm(const std::string& id, bus_configuration& busConfig, volatile epi
     m_id(id),
     m_pReg(pReg),
     m_fctReg(fctReg),
-    busConfiguration(busConfig),
+    m_deviceInfo(devInfo),
     m_acTrig(id+":AcTrig", pReg),
     m_evtClk(id+":EvtClk", pReg),
     m_softEvt(id+":SoftEvt", pReg),
@@ -70,6 +70,8 @@ evgMrm::evgMrm(const std::string& id, bus_configuration& busConfig, volatile epi
             numFrontInp = 3;
             numUnivInp = 0;
         }
+
+        setFormFactor();  // updates deviceInfo.formFactor
 
         printf("Sub-units:\n"
                " FrontInp: %d, FrontOut: %d\n"
@@ -139,8 +141,7 @@ evgMrm::evgMrm(const std::string& id, bus_configuration& busConfig, volatile epi
         sfpName<<id<<":SFP0";
         m_sfp.push_back(new SFP(sfpName.str(), pReg + U32_SFP_transceiver));    // there is always a main transceiver module present (upstream)
 
-
-        m_remoteFlash = new mrmRemoteFlash(id, pReg, getFormFactor(), m_flash);
+        m_remoteFlash = new mrmRemoteFlash(id, pReg, m_deviceInfo, m_flash);
 
         if(version >= EVG_FCT_MIN_FIRMWARE && m_fctReg > 0){
             m_fct = new evgFct(id, m_fctReg, &m_sfp); // fanout SFP modules are initialized here
@@ -246,21 +247,7 @@ evgMrm::getFwVersionID(){
 
 formFactor
 evgMrm::getFormFactor(){
-    epicsUInt32 form = getFwVersion();
-
-    form &= FPGAVersion_FORM_MASK;
-    form >>= FPGAVersion_FORM_SHIFT;
-
-    /**
-     * Removing 'formFactor_CPCI <= form' from the if condition since
-     * 'form' is unsigned and 'formFactor_CPCI' is 0. 'form' can never
-     * be less than 0 which makes this comparison always true and
-     * therefore superfluous.
-     *
-     * Changed by: jkrasna
-     */
-    if(form <= formFactor_PCIe) return (formFactor)form;
-    else return formFactor_unknown;
+    return m_deviceInfo.formFactor;
 }
 
 std::string
@@ -829,7 +816,7 @@ evgMrm::getTimerEvent() {
 
 bus_configuration *evgMrm::getBusConfiguration()
 {
-    return &busConfiguration;
+    return &m_deviceInfo.bus;
 }
 
 std::vector<SFP *>* evgMrm::getSFP(){
@@ -855,6 +842,29 @@ void evgMrm::show(int lvl)
     showSoftSeq ss;
     ss.lvl = lvl;
     m_softSeqMgr.visit(ss);
+}
+
+void
+evgMrm::setFormFactor(){
+    epicsUInt32 form = getFwVersion();
+
+    form &= FPGAVersion_FORM_MASK;
+    form >>= FPGAVersion_FORM_SHIFT;
+
+    /**
+     * Removing 'formFactor_CPCI <= form' from the if condition since
+     * 'form' is unsigned and 'formFactor_CPCI' is 0. 'form' can never
+     * be less than 0 which makes this comparison always true and
+     * therefore superfluous.
+     *
+     * Changed by: jkrasna
+     */
+    if(form <= formFactor_PCIe){
+        m_deviceInfo.formFactor = (formFactor)form;
+    }
+    else{
+        m_deviceInfo.formFactor = formFactor_unknown;
+    }
 }
 
 

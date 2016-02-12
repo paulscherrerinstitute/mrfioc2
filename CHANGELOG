@@ -2,6 +2,7 @@ For detailed changelog inspect commits at https://git.psi.ch/epics_drivers/mrfio
 
 x.x.x : :
 	- Added health monitor template for EVM-VME-300 series.
+	- Added support for EVR-PCIe-300DC series cards: added device IDs, updated interrupt handling and added N25Q flash chip support
 
 2.7.7 : Fri 29 Jan 2016 17:30 CET:
 	- Added option to ignore version errors while initializing the driver. This option also disables enabling and connecting interrupts on PCI devices.

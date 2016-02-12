@@ -113,7 +113,7 @@ public:
     mutable epicsMutex evrLock;
 
 
-    EVRMRM(const std::string& n, bus_configuration& busConfig, volatile epicsUInt8 *);
+    EVRMRM(const std::string& n, deviceInfoT &devInfo, volatile epicsUInt8 *);
 
     ~EVRMRM();
 private:
@@ -336,7 +336,7 @@ private:
 
     // Set by ctor, not changed after
 
-    bus_configuration busConfiguration;
+    deviceInfoT deviceInfo;
 
     typedef std::vector<EvrInput*> inputs_t;
     inputs_t inputs;
@@ -399,6 +399,11 @@ private:
     void _unmap(epicsUInt8 evt, epicsUInt8 func) { _mapped[evt] &= ~( 1<<(func) );}
     bool _ismap(epicsUInt8 evt, epicsUInt8 func) const { return (_mapped[evt] & 1<<(func)) != 0; }
 
+
+    /**
+     * @brief setFormFactor sets the internal m_deviceInfo.formFactor based on the content of the device registers
+     */
+    void setFormFactor();
 
     mrmFlash m_flash;
     mrmRemoteFlash* m_remoteFlash;

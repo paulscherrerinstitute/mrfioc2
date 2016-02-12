@@ -25,7 +25,7 @@
 class epicsShareClass mrmRemoteFlash : public mrf::ObjectInst<mrmRemoteFlash>
 {
 public:
-    mrmRemoteFlash(const std::string& parentName, volatile epicsUInt8* parentBaseAddress, formFactor formFactor, mrmFlash &flash);
+    mrmRemoteFlash(const std::string& parentName, volatile epicsUInt8* parentBaseAddress, deviceInfoT& deviceInfo, mrmFlash &flash);
 
     /* locking done internally */
     virtual void lock() const{}
@@ -134,6 +134,10 @@ public:
      * @param args user arguments (tThreadArgs)
      */
     static void read_thread(void* args);
+
+    /*mrmFlash* getFlash(){
+        return &m_flash;
+    }*/
 
 private:
     std::string m_filename;             // the name of the file to be written to the flash chip, or the destination file to be read from the flash chip when accessing the flash chip from EPICS records.
