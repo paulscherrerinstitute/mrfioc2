@@ -80,7 +80,6 @@ public:
      */
     void report();
 
-    //void readConfiguration();
 private:
     volatile epicsUInt8 * const m_base; // Base address of the EVR/EVG card
     size_t m_size_sector;               // size of one sector on the flash chip [bytes]
@@ -162,10 +161,6 @@ private:
      */
     inline void waitForCompletition(size_t retryCount, size_t msSleep, int verbosity = 0);
 
-    // M25P does not support theese functions. They are for N25Q.
-//    void readVolatileConfiguration();
-//    void readNonVolatileConfiguration();
-//    void readEnhancedVolatileConfiguration();
 };
 
 #endif // MRMFLASH_H

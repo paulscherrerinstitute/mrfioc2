@@ -424,40 +424,6 @@ static void mrmRemoteFlashFunc_status(const iocshArgBuf *args) {
 
 /******************/
 
-/********** Read flash chip configuration register  *******/
-/*static const iocshArg mrmRemoteFlashArg0_readConfig = { "Device", iocshArgString };
-
-static const iocshArg * const mrmRemoteFlashArgs_readConfig[1] = { &mrmRemoteFlashArg0_readConfig};
-static const iocshFuncDef mrmRemoteFlashDef_readConfig = { "mrmFlashReadConfig", 1, mrmRemoteFlashArgs_readConfig};
-
-
-static void mrmRemoteFlashFunc_readConfig(const iocshArgBuf *args) {
-    if(args[0].sval == NULL){
-        printf("Usage: mrmFlashReadConfig Device\n\t"   \
-               "Device = name of the timing card (eg.: EVR0, EVG0, ...)\n");
-        return;
-    }
-
-    std::string device = args[0].sval;
-
-
-    printf("Configuration of %s flash chip\n", device.c_str());
-    device.append(OBJECT_NAME);
-
-    mrmRemoteFlash* remoteFlash = dynamic_cast<mrmRemoteFlash*>(mrf::Object::getObject(device.c_str()));
-    if(!remoteFlash){
-        printf("Device <%s> with flash support does not exist!\n", args[0].sval);
-        return;
-    }
-
-    mrmFlash* flash = remoteFlash->getFlash();
-
-    flash->readConfiguration();
-}*/
-
-
-/******************/
-
 
 extern "C" {
     static void mrmRemoteFlashRegistrar() {
@@ -465,7 +431,6 @@ extern "C" {
         iocshRegister(&mrmRemoteFlashDef_write, mrmRemoteFlashFunc_write);
         iocshRegister(&mrmRemoteFlashDef_setOffset, mrmRemoteFlashFunc_setOffset);
         iocshRegister(&mrmRemoteFlashDef_status, mrmRemoteFlashFunc_status);
-        //iocshRegister(&mrmRemoteFlashDef_readConfig, mrmRemoteFlashFunc_readConfig);
     }
 
     epicsExportRegistrar(mrmRemoteFlashRegistrar);

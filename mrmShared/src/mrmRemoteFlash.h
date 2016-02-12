@@ -135,10 +135,6 @@ public:
      */
     static void read_thread(void* args);
 
-    /*mrmFlash* getFlash(){
-        return &m_flash;
-    }*/
-
 private:
     std::string m_filename;             // the name of the file to be written to the flash chip, or the destination file to be read from the flash chip when accessing the flash chip from EPICS records.
     volatile epicsUInt8* const m_base;  // base address of the EVR/EVG card
