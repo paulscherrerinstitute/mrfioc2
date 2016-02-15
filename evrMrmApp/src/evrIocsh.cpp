@@ -30,7 +30,7 @@
 #include <mrfBitOps.h>
 
 #include "mrfcsr.h"
-#include "mrmpci.h"
+#include "mrfpci.h"
 
 #include <epicsExport.h>
 
