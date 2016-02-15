@@ -23,6 +23,7 @@
 #endif
 
 #include <mrfcsr.h>
+#include <mrfpci.h>
 #include <mrfCommonIO.h>
 #include <devLibPCI.h>
 #include "plx9030.h"
@@ -316,12 +317,12 @@ mrmEvgSetupVME (
 
         if(irqLevel > 0 && irqVector >= 0) {
             /*Configure the Interrupt level and vector on the EVG board*/
-            CSRWrite8(csrCpuAddr + MRF_UCSR_DEFAULT + UCSR_IRQ_LEVEL, irqLevel&0x7);
-            CSRWrite8(csrCpuAddr + MRF_UCSR_DEFAULT + UCSR_IRQ_VECTOR, irqVector&0xff);
+            CSRWrite8(csrCpuAddr + UCSR_DEFAULT_OFFSET + UCSR_IRQ_LEVEL, irqLevel&0x7);
+            CSRWrite8(csrCpuAddr + UCSR_DEFAULT_OFFSET + UCSR_IRQ_VECTOR, irqVector&0xff);
 
             epicsPrintf("IRQ Level: %d\nIRQ Vector: %d\n",
-                CSRRead8(csrCpuAddr + MRF_UCSR_DEFAULT + UCSR_IRQ_LEVEL),
-                CSRRead8(csrCpuAddr + MRF_UCSR_DEFAULT + UCSR_IRQ_VECTOR)
+                CSRRead8(csrCpuAddr + UCSR_DEFAULT_OFFSET + UCSR_IRQ_LEVEL),
+                CSRRead8(csrCpuAddr + UCSR_DEFAULT_OFFSET + UCSR_IRQ_VECTOR)
             );
 
 
@@ -813,8 +814,8 @@ reportCard(mrf::Object* obj, void* arg) {
             epicsPrintf("\tVME configured slot: %d\n", bus->vme.slot);
             epicsPrintf("\tVME configured A24 address 0x%08x\n", bus->vme.address);
             epicsPrintf("\tVME ADER: base address=0x%x\taddress modifier=0x%x\n", ader>>8, (ader&0xFF)>>2);
-            epicsPrintf("\tVME IRQ Level %x (configured to %x)\n", CSRRead8(csrAddr + MRF_UCSR_DEFAULT + UCSR_IRQ_LEVEL), bus->vme.irqLevel);
-            epicsPrintf("\tVME IRQ Vector %x (configured to %x)\n", CSRRead8(csrAddr + MRF_UCSR_DEFAULT + UCSR_IRQ_VECTOR), bus->vme.irqVector);
+            epicsPrintf("\tVME IRQ Level %x (configured to %x)\n", CSRRead8(csrAddr + UCSR_DEFAULT_OFFSET + UCSR_IRQ_LEVEL), bus->vme.irqLevel);
+            epicsPrintf("\tVME IRQ Vector %x (configured to %x)\n", CSRRead8(csrAddr + UCSR_DEFAULT_OFFSET + UCSR_IRQ_VECTOR), bus->vme.irqVector);
             if(*level>1) epicsPrintf("\tVME card vendor: 0x%08x\n", vmeDev.vendor);
             if(*level>1) epicsPrintf("\tVME card board: 0x%08x\n", vmeDev.board);
             if(*level>1) epicsPrintf("\tVME card revision: 0x%08x\n", vmeDev.revision);

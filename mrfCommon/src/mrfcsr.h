@@ -58,6 +58,8 @@
 /* Register address is slot base address + read(base + CR_BEG_UCSR) + UCSR_*                      */
 /**************************************************************************************************/
 
+#define  UCSR_DEFAULT_OFFSET           0x7fb03  /* Default user CSR offset                        */
+
 #define  UCSR_IRQ_LEVEL                0x0000   /* Interrupt request level                        */
 #define  UCSR_IRQ_VECTOR               0x0004   /* Interrupt request vector                       */
 #define  UCSR_SERIAL_NUMBER            0x0010   /* Board serial number (MAC Address)              */

@@ -17,9 +17,6 @@ INC += evrCML.h
 INC += evrPrescaler.h
 INC += evrRegMap.h
 INC += evrGpio.h
-INC += mrmpci.h
-INC += plx9030.h
-INC += plx9056.h
 INC += evrDelayModule.h
 
 INC += support/evrGTIF.h
