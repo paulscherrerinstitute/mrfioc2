@@ -125,6 +125,7 @@ TEMPLATES += PSI/example/evr_VME-230.subs
 TEMPLATES += PSI/example/evr_VME-300.subs
 TEMPLATES += PSI/example/evr_cPCI-230.subs
 TEMPLATES += PSI/example/evr_PCIe-300.subs
+TEMPLATES += PSI/example/evr_PCIe-300DC.subs
 TEMPLATES += PSI/example/evg_VME-230.subs
 TEMPLATES += PSI/example/evg_VME-300.subs
 TEMPLATES += PSI/example/evg_VME-300-fout.subs
