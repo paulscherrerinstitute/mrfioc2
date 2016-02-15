@@ -12,6 +12,9 @@ require mrfioc2
 # EVR_MEMOFFSET	 is the base A32 address (default: 0x3000000)
 # EVR_IRQLINE 	 is the interrupt level. (default: 0x5)
 # EVR_IRQVECT	 is the interrupt vector (default: 0x26)
-# EVR_SUBS is the path to the substitution file that should be loaded. (default: cfg/$(DEVICE).subs=cfg/EVR0.subs)
+# EVR_SUBS       is the path to the substitution file that should be loaded. (default: cfg/$(DEVICE).subs=cfg/EVR0.subs)
+#                The following macros can be used to load example substitution files already available in the mrfioc2 module:
+#                EVG_SUBS=$(mrfioc2_DB)/evr_VME-300.subs      for EVR-VME-300 device series
+#                EVG_SUBS=$(mrfioc2_DB)/evr_VME-230.subs      for EVR-VME-230 device series
 
 runScript $(mrfioc2_DIR)/mrfioc2_evr-VME.cmd, "SYS=MTEST-VME-TIMINGTEST, DEVICE=EVR0, EVR_SLOT=3, EVR_MEMOFFSET=0x3000000, EVR_IRQLINE=0x5"

@@ -18,10 +18,10 @@ To set up an IOC application for EVR we need to set up a startup script and a su
 
 * EVG
     * example startup script ([`evg_VME_startup.script`](https://git.psi.ch/epics_drivers/mrfioc2/raw/2.7.8/PSI/example/evg_VME_startup.script))
-    * example substitution files ([`evg_VME-230.subs`](https://git.psi.ch/epics_drivers/mrfioc2/raw/2.7.8/PSI/example/evg_VME-230.subs), [`evg_VME-300.subs`](https://git.psi.ch/epics_drivers/mrfioc2/raw/2.7.8/PSI/example/evg_VME-300.subs))
+    * example substitution files ([`evg_VME-230.subs`](https://git.psi.ch/epics_drivers/mrfioc2/raw/2.7.8/PSI/example/evg_VME-230.subs), [`evg_VME-300.subs`](https://git.psi.ch/epics_drivers/mrfioc2/raw/2.7.8/PSI/example/evg_VME-300.subs), [`evg_VME-300-fout.subs`](https://git.psi.ch/epics_drivers/mrfioc2/raw/2.7.8/PSI/example/evg_VME-300-fout.subs))
 * EVR
     * example startup scripts ([`evr_VME_startup.script`](https://git.psi.ch/epics_drivers/mrfioc2/raw/2.7.8/PSI/example/evr_VME_startup.script), [`evr_PCIe_startup.script`](https://git.psi.ch/epics_drivers/mrfioc2/raw/2.7.8/PSI/example/evr_PCIe_startup.script))
-    * example substitution files ([`evr_cPCI-230.subs`](https://git.psi.ch/epics_drivers/mrfioc2/raw/2.7.8/PSI/example/evr_cPCI-230.subs), [`evr_PCIe-300.subs`](https://git.psi.ch/epics_drivers/mrfioc2/raw/2.7.8/PSI/example/evr_PCIe-300.subs), [`evr_VME-230.subs`](https://git.psi.ch/epics_drivers/mrfioc2/raw/2.7.8/PSI/example/evr_VME-230.subs), [`evr_VME-300.subs`](https://git.psi.ch/epics_drivers/mrfioc2/raw/2.7.8/PSI/example/evr_VME-300.subs))
+    * example substitution files ([`evr_cPCI-230.subs`](https://git.psi.ch/epics_drivers/mrfioc2/raw/2.7.8/PSI/example/evr_cPCI-230.subs), [`evr_PCIe-300.subs`](https://git.psi.ch/epics_drivers/mrfioc2/raw/2.7.8/PSI/example/evr_PCIe-300.subs), [`evr_PCIe-300DC.subs`](https://git.psi.ch/epics_drivers/mrfioc2/raw/2.7.8/PSI/example/evr_PCIe-300DC.subs), [`evr_VME-230.subs`](https://git.psi.ch/epics_drivers/mrfioc2/raw/2.7.8/PSI/example/evr_VME-230.subs), [`evr_VME-300.subs`](https://git.psi.ch/epics_drivers/mrfioc2/raw/2.7.8/PSI/example/evr_VME-300.subs))
 
 For example, to set up a basic IOC for use with EVR-VME-300 timing card, user should:
 
@@ -44,7 +44,10 @@ For example, to set up a basic IOC for use with EVR-VME-300 timing card, user sh
         # EVR_MEMOFFSET is the base A32 address (default: 0x3000000)
         # EVR_IRQLINE   is the interrupt level. (default: 0x5)
         # EVR_IRQVECT   is the interrupt vector (default: 0x26)
-        # EVR_SUBS is the path to the substitution file that should be loaded. (default: cfg/$(DEVICE).subs=cfg/EVR0.subs)
+        # EVR_SUBS      is the path to the substitution file that should be loaded. (default: cfg/$(DEVICE).subs=cfg/EVR0.subs)
+        #                The following macros can be used to load example substitution files already available in the mrfioc2 module:
+        #                EVG_SUBS=$(mrfioc2_DB)/evr_VME-300.subs      for EVR-VME-300 device series
+        #                EVG_SUBS=$(mrfioc2_DB)/evr_VME-230.subs      for EVR-VME-230 device series
     
         runScript $(mrfioc2_DIR)/mrfioc2_evr-VME.cmd, "SYS=MTEST-VME-TIMINGTEST, DEVICE=EVR0, EVR_SLOT=3, EVR_MEMOFFSET=0x3000000, EVR_IRQLINE=0x5"
 

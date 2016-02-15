@@ -866,7 +866,7 @@ A heartbeat monitor is provided to receive heartbeat events from the timing netw
 \subsection{PSI specific example folder}\label{sec:PSI specifics}
 \begin{itemize}
 \item 
-	\texttt{PSI/example} contains example startup scripts and example substitution files that can be used in creation of an IOC application (for each form factor separately). Example substitution files also contain all the form factor specific macros available to set up the EVR.
+	\texttt{PSI/example} contains example startup scripts and example substitution files that can be used in creation of an IOC application (for each form factor separately). Example substitution files also contain all the form factor specific macros available to set up the EVR or EVG. There is one additional substitution file \texttt{evg\_VME-300-fout.subs} tailored for EVG-VME-300 series that operate as fanouts/concentrators. It differs from the default EVG-VME-300 series substitution file (\texttt{evg\_VME-300.subs}) only in event clock source selection setting (\texttt{EvtClk-Source-Sel} macro), which is set to \texttt{Recovered RX clock}.
 \end{itemize}
 
 %\item 

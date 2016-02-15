@@ -14,5 +14,9 @@ require mrfioc2
 # EVG_IRQLINE 	 is the interrupt level. (default: 0x2)
 # EVG_IRQVECT 	 is the interrupt vector (default: 0x1)
 # EVG_SUBS       is the path to the substitution file that should be loaded. (default: cfg/$(DEVICE).subs=cfg/EVG0.subs)
+#                The following macros can be used to load example substitution files already available in the mrfioc2 module:
+#                EVG_SUBS=$(mrfioc2_DB)/evg_VME-300.subs      for EVM-VME-300 device series
+#                EVG_SUBS=$(mrfioc2_DB)/evg_VME-300-fout.subs for EVM-VME-300 operating as a fanout
+#                EVG_SUBS=$(mrfioc2_DB)/evg_VME-230.subs      for EVG-VME-230 device series
 
 runScript $(mrfioc2_DIR)/mrfioc2_evg-VME.cmd, "SYS=MTEST-VME-TIMINGTEST, DEVICE=EVG0, EVG_SLOT=2, EVG_MEMOFFSET=0x000000, EVG_IRQLINE=0x2"

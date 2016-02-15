@@ -1,7 +1,7 @@
 EXAMPLE STARTUP SCRIPT AND EXAMPLE SUBSTITUTION FILES
 ======================
 
-`mrfioc2/PSI/example` folder contains example startup scripts. They load default substitution files which are available in `mrfioc2/PSI/example/cfg` folder (*.subs files). Each substitution file coresponds to a specific form factor/firmware version and contains all the available macros the user needs to start using the driver. More details are available in the documentation.
+`mrfioc2/PSI/example` folder contains example startup scripts. They load default substitution files which are available in `mrfioc2/PSI/example` folder (*.subs files). Each substitution file coresponds to a specific form factor/firmware version and contains all the available macros the user needs to start using the driver. There is one additional substitution file `evg_VME-300-fout.subs` tailored for EVG-VME-300 devices that operate as a fanout/concentrator. It differs from the default EVG-VME-300 series substitution file (`evg_VME-300.subs`) only in event clock source selection setting (`EvtClk-Source-Sel` macro), which is set to `Recovered RX clock`. More details are available in the documentation.
 
 
 COMPILATION
