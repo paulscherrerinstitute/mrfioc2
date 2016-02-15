@@ -127,6 +127,7 @@ TEMPLATES += PSI/example/evr_cPCI-230.subs
 TEMPLATES += PSI/example/evr_PCIe-300.subs
 TEMPLATES += PSI/example/evg_VME-230.subs
 TEMPLATES += PSI/example/evg_VME-300.subs
+TEMPLATES += PSI/example/evg_VME-300-fout.subs
 
 ## Shared templates
 TEMPLATES += mrmShared/Db/flash.template
