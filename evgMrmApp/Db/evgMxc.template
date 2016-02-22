@@ -75,7 +75,6 @@ record(longin , "$(SYS)-$(DEVICE):Mxc$(ID)-Prescaler-RB") {
     field( EGU, "Evt Clk Tick")
     field( HIHI, "4294967295")
     field( LOLO, "2")
-    field( FLNK, "$(SYS)-$(DEVICE):ResetMxc-Cmd")
 }
 
 #
