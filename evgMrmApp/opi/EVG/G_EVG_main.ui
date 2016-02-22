@@ -519,20 +519,20 @@
          <x>0</x>
          <y>0</y>
          <width>644</width>
-         <height>1100</height>
+         <height>1150</height>
         </rect>
        </property>
        <property name="minimumSize">
         <size>
          <width>0</width>
-         <height>1100</height>
+         <height>1150</height>
         </size>
        </property>
        <widget class="QWidget" name="verticalLayoutWidget_3">
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>10</y>
+          <y>40</y>
           <width>561</width>
           <height>1081</height>
          </rect>
@@ -619,6 +619,32 @@
           </widget>
          </item>
         </layout>
+       </widget>
+       <widget class="caMessageButton" name="camessagebutton">
+        <property name="geometry">
+         <rect>
+          <x>210</x>
+          <y>10</y>
+          <width>141</width>
+          <height>22</height>
+         </rect>
+        </property>
+        <property name="channel" stdset="0">
+         <string notr="true">$(SYS)-$(DEVICE):ResetMxc-Cmd</string>
+        </property>
+        <property name="label">
+         <string notr="true">Reset all MXC counters</string>
+        </property>
+        <property name="background">
+         <color>
+          <red>212</red>
+          <green>219</green>
+          <blue>157</blue>
+         </color>
+        </property>
+        <property name="releaseMessage">
+         <string notr="true">1</string>
+        </property>
        </widget>
       </widget>
      </widget>
@@ -842,6 +868,11 @@
   </widget>
  </widget>
  <customwidgets>
+  <customwidget>
+   <class>caMessageButton</class>
+   <extends>QPushButton</extends>
+   <header>caMessageButton</header>
+  </customwidget>
   <customwidget>
    <class>caLabel</class>
    <extends>QLabel</extends>
