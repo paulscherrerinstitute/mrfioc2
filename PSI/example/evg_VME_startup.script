@@ -18,5 +18,16 @@ require mrfioc2
 #                EVG_SUBS=$(mrfioc2_DB)/evg_VME-300.subs      for EVM-VME-300 device series
 #                EVG_SUBS=$(mrfioc2_DB)/evg_VME-300-fout.subs for EVM-VME-300 operating as a fanout
 #                EVG_SUBS=$(mrfioc2_DB)/evg_VME-230.subs      for EVG-VME-230 device series
+# MON-PORTS      will only take effect when using health monitoring as configured in evg_VME-300.subs and evg_VME-300-fout.subs substitution files.
+# 				 This macro selects which ports (SFP 0 - SFP 8) on the device will be monitored for health status. Macro is used as a binary selection of ports. (default: 0x00 = do not monitor SFPs)
+# 				 Examples:
+#                  MON-PORTS = 0x00  -> do not monitor SFPs
+#                  MON-PORTS = 0x01  -> monitor SFP 0
+#                  MON-PORTS = 0x02  -> monitor SFP 1
+#                  MON-PORTS = 0x03  -> monitor SFP 0 and SFP 1
+#                  MON-PORTS = 0x04  -> monitor SFP 2
+#                  MON-PORTS = 0x85  -> monitor SFP 0, SFP 2 and SFP 8
+#                  MON-PORTS = 0x80  -> monitor SFP 8
+#
 
-runScript $(mrfioc2_DIR)/mrfioc2_evg-VME.cmd, "SYS=MTEST-VME-TIMINGTEST, DEVICE=EVG0, EVG_SLOT=2, EVG_MEMOFFSET=0x000000, EVG_IRQLINE=0x2"
+runScript $(mrfioc2_DIR)/mrfioc2_evg-VME.cmd, "SYS=MTEST-VME-TIMINGTEST, DEVICE=EVG0, EVG_SLOT=2, EVG_MEMOFFSET=0x000000, EVG_IRQLINE=0x2, MON-PORTS=0x00"

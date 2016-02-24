@@ -570,6 +570,26 @@ file "$(mrfioc2_TEMPLATES=db)/evgSoftSeq.template"
         }
 }
 
+## Health monitoring
+## Template for monitoring health status of the device
+#
+# Macros:
+#  SYS = System name (auto expanded by parent)
+#  DEVICE = Event receiver / timing card name (same as mrmEvgSetupVME()) Eg. EVG0. (auto expanded by parent)
+#  MON-PORTS = Ports on the event generator (SFP 0 - SFP 8) to monitor. Binary selection. (auto expanded by parent)
+#          Examples:
+#            MON-PORTS = 0x00  -> do not monitor SFPs
+#            MON-PORTS = 0x01  -> monitor SFP 0
+#            MON-PORTS = 0x02  -> monitor SFP 1
+#            MON-PORTS = 0x03  -> monitor SFP 0 and SFP 1
+#            MON-PORTS = 0x04  -> monitor SFP 2
+#            MON-PORTS = 0x85  -> monitor SFP 0, SFP 2 and SFP 8
+#            MON-PORTS = 0x80  -> monitor SFP 8
+# 
+file "$(mrfioc2_TEMPLATES=db)/evg-health.template" 
+{
+   {}
+}
 
 ## Flash access support
 ## Uncomment this substitution to load records that expose read and write access to the flash chip on the device.

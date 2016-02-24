@@ -3,14 +3,22 @@
 # Macros:
 #  SYS = System name
 #  DEVICE = Event generator / timing card name (same as mrmEvgSetupVME()) Eg. EVG0
-#  PORTS = Ports on the event generator (sfp 0 - sfp 8) to monitor. Binary selection
+#  MON-PORTS = Ports on the event generator (SFP 0 - SFP 8) to monitor. Binary selection. Default: 0x00 = do not monitor SFPs
+#          Examples:
+#            MON-PORTS = 0x00  -> do not monitor SFPs
+#            MON-PORTS = 0x01  -> monitor SFP 0
+#            MON-PORTS = 0x02  -> monitor SFP 1
+#            MON-PORTS = 0x03  -> monitor SFP 0 and SFP 1
+#            MON-PORTS = 0x04  -> monitor SFP 2
+#            MON-PORTS = 0x85  -> monitor SFP 0, SFP 2 and SFP 8
+#            MON-PORTS = 0x80  -> monitor SFP 8
 #
 
 record(mbbiDirect, "$(SYS)-$(DEVICE)-HEALTH:Monitor-SP"){
   field(DESC, "Which ports to monitor")
   field(PINI, "YES")
 
-  field(VAL, "$(PORTS=0x01)")
+  field(VAL, "$(MON-PORTS)")
   field(FLNK, "$(SYS)-$(DEVICE)-HEALTH:Update_")
 }
 
