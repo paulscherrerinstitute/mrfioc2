@@ -1,5 +1,11 @@
 For detailed changelog inspect commits at https://git.psi.ch/epics_drivers/mrfioc2/commits/master
 
+2.7.9 : Wed 24 Feb 2016:
+    - added example substitution files (EVG-VME-300 used as fanout, EVR-PCIe-300DC )
+    - EVG: Setting a MXC frequency no longer resets all MXC counters. A button to explicitly reset all counters was added to the GUI.
+    - EVG: Health monitor template added to 300-series substitution files
+    - Bux fix: dbior command would not print report for all loaded devices
+
 2.7.8 : Fri 12 Feb 2016:
 	- Added health monitor template for EVM-VME-300 series.
 	- Added support for EVR-PCIe-300DC series cards: added device IDs, updated interrupt handling and added N25Q flash chip support
