@@ -794,10 +794,14 @@ printregisters(volatile epicsUInt8 *evg) {
 
 static bool
 reportCard(mrf::Object* obj, void* arg) {
+    // this function is called by Object::visitObjects
+    // it must return 'true' in order for the Object::visitObjects to continue searching for objects.
+    // if false is returned, Object::visitObjects stops
+
     int *level=(int*)arg;
     evgMrm *evg=dynamic_cast<evgMrm*>(obj);
     if(!evg){
-        return false;
+        return true;
     }
 
     epicsPrintf("EVG: %s     \n", evg->getId().c_str());
