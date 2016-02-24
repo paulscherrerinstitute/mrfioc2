@@ -73,11 +73,11 @@ The following steps demonstrate how to prepare a SWIT compatible IOC application
 			touch EVR0.subs
 			cd ..
 		\end{verbatim}
-	\item Copy the content of the substitution file  at \texttt{https://github.psi.ch/projects/} \texttt{ED/repos/mrfioc2/browse/PSI/example/evr\_VME-230.subs?at=\latestDriverVersion} to newly created \texttt{cfg/EVR0.subs}. This substitution file can always be used as a starting point for new applications. Substitution files for other form factors are available at the same location (mrfioc2 repository in folder \texttt{PSI/example}).
+	\item \label{quickstart:copySubs} Copy the content of the substitution file  at \texttt{https://git.psi.ch/} \texttt{epics\_drivers/mrfioc2/raw/\latestDriverVersion/PSI/example/evr\_VME-230.subs} to newly created \texttt{cfg/EVR0.subs}. This substitution file can always be used as a starting point for new applications. Substitution files for other form factors are available at the same location (mrfioc2 repository in folder \texttt{PSI/example}).
 	
 	The macro definitions in the substitution file are used to configure the EVR. All the available macros are already present in the substitution file and set to their default values, so the user can simply change the desired values. Detailed description of the substitution file is available in the EVR manual~\cite{evr_manual}.
 
-	\item 
+	\item
 		Create a startup script named \texttt{MTEST-VME-TIMINGTEST\_startup.script} in your project folder:
 		\begin{verbatim}
 			touch MTEST-VME-TIMINGTEST_startup.script
@@ -216,6 +216,76 @@ Finally, the Pulser 3 is set to trigger on reception of the event 4:
 In order to use different pulser simply change the pulser number, eg. using \texttt{Pul5-Delay-SP} instead of \texttt{Pul3-Delay-SP} sets the delay of pulser 5 instead of pulser 3.
 Similar is for outputs, eg. using \texttt{FrontOut1-Src-SP} instead of \texttt{FrontOut0-Src-SP} sets the output source signal of front panel output 1 instead of front panel output 0. In order to set a different event mapped to Pulser 3 Trig function, simply set a new value of the record \texttt{MTEST-VME-TIMINGTEST-EVR0:Pul3-Evt-Trig0-SP}. To disable the mapping, set the record value to \texttt{0}.
 
+\section{Configuration of pulsers for trigger switching between normal and off beam operation}\label{sec:2pulsers}
+\begin{quote}
+\textbf{This functionality is only available on event receivers that support pulser gating (eg. EVR-VME-300 series)!}
+\end{quote}
+Often devices need to be triggered with a different delay, based on the status of the beam or machine protection system (MPS). Many steps are required to configure the EVR to achieve this behavior, as described in Section~\ref{sec:triggerSwitching}. In order to simplify the configuration, \texttt{evr-configTriggerSwitch.template} helper template is available. It is included in the example substitution file (\texttt{evr\_VME-300.subs}).%(see quick start guide step~\ref{quickstart:copySubs} in Section~\ref{sec:Quick start}).
+
+This tutorial demonstrates how to configure an EVR using helper template to:
+\begin{itemize}
+\item generate a 40~ns wide pulse, 40~ns after each reception of event 4 in normal operation.
+\item generate a 40~ns wide pulse, 80~ns after each reception of event 4 in off-beam operation (eg. when MPS is asserted).
+\item The pulse is outputted through front panel universal TTL output 0 (FrontUnivOut0).
+\end{itemize}
+%The setup is depicted in Figure~\ref{fig:2pulsers}.
+For an advance guide, without using the helper template, see Section~\ref{sec:triggerSwitching}.
+%\begin{figure}[H]
+%	\centering
+%	\includegraphics[width=\columnwidth]{./img/2pulsers}
+%	\caption{Selecting which of two pulsers generate a pulse on the output based on the presence of an event.}
+%	\label{fig:2pulsers}
+%\end{figure}
+
+\subsection{Instructions}
+\begin{enumerate}
+	\item If starting a new IOC application, consult the quick start in Section~\ref{sec:Quick start}, but use the substitution file at \texttt{https://git.psi.ch/epics\_drivers/}\newline \texttt{mrfioc2/raw/\latestDriverVersion/PSI/example/evr\_VME-300.subs} in step~\ref{quickstart:copySubs}.
+
+	\item Uncomment \texttt{evr-configTriggerSwitch.template} substitutions and set the macro values in the substitution file \newline(\texttt{MTEST-VME-TIMINGTEST/cfg/EVR0.subs}) according to this snippet (explained in~\ref{sec:explain_2pulsers}):
+\begin{verbatim}
+	file "$(mrfioc2_TEMPLATES=db)/evr-configTriggerSwitch.template"{
+	pattern { ID,  Event, Norm-Width, Norm-Delay, Off-Width,
+	        { "1", "4",   "40",       "40",       "40",            
+      
+	          Off-Delay,  Output,               Norm-ID,     Off-ID}
+	          "80",       "FrontUnivOut0",      "22",        "23"   }
+	}
+\end{verbatim}
+	%The above macro substitution of the \texttt{evr-configTriggerSwitch.template} sets the values of the following records, which can be changed by the user during runtime:
+	The above macro substitution of the \texttt{evr-configTriggerSwitch.template} creates the following records:
+	\begin{itemize}
+		\item \texttt{\$(SYS)-\$(DEVICE):TS\$(ID)-Event-SP}, where \texttt{\$(ID)} is \texttt{1}. This records sets the event number that triggers the pulse.
+		
+		\item \texttt{\$(SYS)-\$(DEVICE):TS\$(ID)-Norm-Width-SP}, where \texttt{\$(ID)} is \texttt{1}. This record sets the width in [us] of the pulse to be outputted in normal operation. 
+		
+		\item \texttt{\$(SYS)-\$(DEVICE):TS\$(ID)-Norm-Delay-SP}, where \texttt{\$(ID)} is \texttt{1}. This record sets the delay in [us] of the pulse to be outputted in normal operation. 
+		
+		\item \texttt{\$(SYS)-\$(DEVICE):TS\$(ID)-Off-Width-SP}, where \texttt{\$(ID)} is \texttt{1}. This record sets the width in [us] of the pulse to be outputted in off-beam operation.
+		
+		\item \texttt{\$(SYS)-\$(DEVICE):TS\$(ID)-Off-Delay-SP}, where \texttt{\$(ID)} is \texttt{1}. This record sets the delay in [us] of the pulse to be outputted in off-beam operation.
+		
+		\item \texttt{\$(SYS)-\$(DEVICE):TS\$(ID)-SimOff-Sel}, where \texttt{\$(ID)} is \texttt{1}. This record is used to select normal or simulated off-beam operation. This is useful for testing purposes.
+	\end{itemize}
+	
+	\item Optionally, you can remove all the macros whose values you did not change. 
+	\item Install the prepared IOC by running command \texttt{swit -V} from your project folder \textit{MTEST-VME-TIMINGTEST}.
+\end{enumerate}
+\subsection{Substitution snippet explanation:}\label{sec:explain_2pulsers}
+Macros in \texttt{evr-configTriggerSwitch.template} substitution have the following meaning:
+\begin{itemize}
+	\item \texttt{Event}=1 : Pulse will be outputted upon reception of event 1.
+	\item \texttt{Norm-Width}=40 : The width of the pulse to be outputted in normal operation is 40~us.
+	\item \texttt{Norm-Delay}=40 : The delay of the pulse to be outputted in normal operation is 40~us.
+	\item \texttt{Off-Width}=40 : The width of the pulse to be outputted in off-beam operation is 40~us.
+	\item \texttt{Off-Delay}=80 : The delay of the pulse to be outputted in off-beam operation is 80~us.
+	\item \texttt{Output}=FrontUnivOut0 : Pulse is outputted from FrontUnivOut0. Any other output can be used here (eg. FrontUnivOut0, FrontUnivOut1,..., RearUniv0, RearUniv1,...).
+	\item \texttt{Norm-Id}=22 : Pulser 22 is used to generate the pulse in normal operation. If this macro is not specified it defaults to pulser 22.
+	\item \texttt{Alrm-Id}=23 : Pulser 23 is used to generate the pulse in off-beam operation. If this macro is not specified it defaults to pulser 23.
+\end{itemize}
+In order to configure more pulses, simple add patterns to macro substitution of the \texttt{evr-configTriggerSwitch.template}.
+\paragraph{Be careful} not to configure the same output or the same pulsers multiple times, or use them for other use cases!
+
+	
 \section{Trigger an EPICS event upon receiving an event from the timing system}
 Using the macros in the substitution file it is possible to configure triggering of the EPICS events. Each event from the timing system can be configured to trigger an EPICS event.
 
@@ -455,6 +525,137 @@ The timing system supports deterministic data transmission. Data buffer enables 
 %	\end{itemize}
 %\item Install the prepared IOC by running command \texttt{swit -V} from your project folder \textit{MTEST-VME-TIMINGTEST}.
 %\end{enumerate}
+
+\section{Advanced: Trigger switching between normal and off beam operation}\label{sec:triggerSwitching}
+\begin{quote}
+\textbf{This functionality is only available on event receivers that support pulser gating (eg. EVR-VME-300 series)!}
+\end{quote}
+
+This tutorial is the advanced version of tutorial in Section~\ref{sec:2pulsers}. It demonstrates the same configuration without using \texttt{evr-configTriggerSwitch.template} helper template.
+
+Often devices need to be triggered with a different delay, based on the status of the beam or machine protection system (MPS). This status is available on the event receiver as presence or absence of an event. In SwissFEL setup, there is an event called \texttt{RF OFF beam}, that is present:
+\begin{itemize}
+\item when MPS is asserted and
+\item when RF is configured to not generate a beam (controlled by \texttt{RF ON} frequency set in the Timing master application, which is responsible for calculation of events to be emitted on the timing network).
+\end{itemize}
+\texttt{RF OFF beam} event can thus be used as an indication weather a device should be triggered with a delay or not.
+
+Event receivers that support pulser gating also support setting two sources to one physical output. These functionalities can be used to set up two pulsers with different settings (eg. different delays) and select which pulse will be outputted based on the presence of an event (eg. \texttt{RF OFF beam}). Configuring such behavior involves the following steps:
+\begin{enumerate}
+\item Select two pulsers (eg. Pulser 22 and Pulser 23) and set them as output sources for desired physical output (eg. FrontUnivOut0). \label{mps_steps:selectPulsers}
+\item Configure the first pulser (eg. set pulse width and delay) for normal device operation (eg. when \texttt{RF OFF beam} is not present). \label{mps_steps:configurePulser1}
+\item Configure the second pulser (eg. set pulse width and delay) for off-beam device operation (eg. when \texttt{RF OFF beam} is present). \label{mps_steps:configurePulser2}
+\item Define desired event number to trigger both pulsers.  \label{mps_steps:triggerEvent}
+\item Configure pulser gate (eg. pulser 28 which represents gate 0) to be set by off-beam event (eg. \texttt{RF OFF beam}) and reset by start of sequence event (\texttt{SOS}). \label{mps_steps:setupGate}
+\item Set first pulser to be masked by pulser gate (eg. pulser 28 = pulser gate 0 = mask 0x01). \label{mps_steps:setPulserMask}
+\item Set second pulser to be enabled by pulser gate (eg. pulser 28 = pulser gate 0 = enable 0x01). \label{mps_steps:setPulserEnable}
+\end{enumerate}
+For more information about pulser gating and outputs with two configurable sources inspect the EVR manual~\cite{evr_manual}.
+
+This tutorial demonstrates how to configure an EVR without using helper template to:
+\begin{itemize}
+\item generate a 40~ns wide pulse, 40~ns after each reception of event 4 in normal operation (when \texttt{RF OFF beam} is not present).
+\item generate a 40~ns wide pulse, 80~ns after each reception of event 4 in off-beam operation (when \texttt{RF OFF beam} is present).
+\item The pulse is outputted through front panel universal TTL output 0 (FrontUnivOut0).
+\end{itemize}
+%The setup is depicted in Figure~\ref{fig:2pulsers}.
+
+\subsection{Instructions}\label{sec:instructions_triggerSwitching}
+\begin{enumerate}
+	\item If starting a new IOC application, consult the quick start in Section~\ref{sec:Quick start}, but use the substitution file at \texttt{https://git.psi.ch/epics\_drivers/}\newline \texttt{mrfioc2/raw/\latestDriverVersion/PSI/example/evr\_VME-300.subs} in step~\ref{quickstart:copySubs}. 
+
+	\item \label{sec:gating_instructions1_setMacro} Set the macro values in the substitution file (\texttt{MTEST-VME-TIMINGTEST/} \texttt{cfg/EVR0.subs}) according to this snippet (explained in~\ref{sec:explain_triggerSwitching}):
+\begin{verbatim}
+	file "$(mrfioc2_TEMPLATES=db)/evr-vme-300.db"
+	{
+	  {
+	    ...
+	    Pul22-Delay-SP=40,
+	    Pul22-Width-SP=40,
+	    Pul22-Gate-Mask-SP=0x1,
+	    ...
+	    Pul23-Delay-SP=80,
+	    Pul23-Width-SP=40,
+	    Pul23-Gate-Enable-SP=0x1,
+	    ...
+	    FrontUnivOut0-Src-SP=22,
+	    FrontUnivOut0-Src2-SP=23,
+	    ...
+	  }
+	}
+
+	file "$(mrfioc2_TEMPLATES=db)/evr-pulserMap.template"{
+	pattern { PID   F,       EVT, ID}
+	        ...
+	        { 22,   Trig,    4,   0 }
+	        { 23,   Trig,    4,   0 }
+	        ...
+	        { 28,   Set,     6,   0 }
+	        { 28,   Reset,   40,  0 }
+	        ...
+	}
+\end{verbatim}
+	The above macro substitution of the \texttt{evr-vme-300.db} sets the values of the following records:
+	\begin{itemize}
+		\item \texttt{MTEST-VME-TIMINGTEST-EVR0:Pul22-Delay-SP}
+		\item \texttt{MTEST-VME-TIMINGTEST-EVR0:Pul22-Width-SP}
+		\item \texttt{MTEST-VME-TIMINGTEST-EVR0:Pul22-Gate-Mask-SP}
+		\item \texttt{MTEST-VME-TIMINGTEST-EVR0:Pul23-Delay-SP}
+		\item \texttt{MTEST-VME-TIMINGTEST-EVR0:Pul23-Width-SP}
+		\item \texttt{MTEST-VME-TIMINGTEST-EVR0:Pul23-Gate-Enable-SP}
+		\item \texttt{MTEST-VME-TIMINGTEST-EVR0:FrontUnivOut0-Src-SP}
+		\item \texttt{MTEST-VME-TIMINGTEST-EVR0:FrontUnivOut0-Src2-SP}
+	\end{itemize}
+	The above macro substitution of the \texttt{evr-pulserMap.template} creates records named \texttt{MTEST-VME-TIMINGTEST-EVR0:Pul\$(PID)-Evt-\$(F)\$(ID)-SP}. In this case the record names are:
+	\begin{itemize}
+		\item \texttt{MTEST-VME-TIMINGTEST-EVR0:Pul22-Evt-Trig0-SP}
+		\item \texttt{MTEST-VME-TIMINGTEST-EVR0:Pul22-Evt-Trig0-SP}
+		\item \texttt{MTEST-VME-TIMINGTEST-EVR0:Pul28-Evt-Set0-SP}
+		\item \texttt{MTEST-VME-TIMINGTEST-EVR0:Pul28-Evt-Reset0-SP}
+	\end{itemize}
+	
+	\item Optionally, you can remove all the macros whose values you did not change. 
+	\item Install the prepared IOC by running command \texttt{swit -V} from your project folder \textit{MTEST-VME-TIMINGTEST}.
+\end{enumerate}
+
+\subsection{Substitution snippet explanation:}\label{sec:explain_triggerSwitching}
+
+First we set up the pulse generator 22 (Pul22) and  pulse generator 23 (Pul23).
+\begin{itemize}
+	\item \texttt{Pul22-Delay-SP}=40: Set the delay between the reception of the event and the start of the pulse (pulse rising edge) for pulser 22 to 40 ns. 
+	\item \texttt{Pul22-Width-SP}=40: Set the pulse width (time between the pulse rising and falling edge) for pulser 22 to 40 ns.
+	\item \texttt{Pul23-Delay-SP}=80: Set the delay between the reception of the event and the start of the pulse (pulse rising edge) for pulser 23 to 80 ns. 
+	\item \texttt{Pul23-Width-SP}=40: Set the pulse width (time between the pulse rising and falling edge) for pulser 23 to 40 ns.
+	\item \texttt{Pul22-Gate-Mask-SP}=0x1: Set the gate 0 to mask pulser 22. While the selected gate is activated, this pulser's \textit{Trig} function is inhibited. Gates are selected using a bit mask, eg. value 0x1 corresponds to gate 0.
+	\item \texttt{Pul23-Gate-Enable-SP}=0x1: Set the gate 0 to enable this pulser. While the selected gate is not activated, this pulser's \textit{Trig} function is inhibited. Gates are selected using a bit mask, eg. value 0x1 corresponds to gate 0.
+\end{itemize}
+
+Then, the value of the output source macros \texttt{FrontUnivOut0-Src-SP} and \texttt{FrontUnivOut0-Src2-SP} is set to 22 and 23 respectively, which configures the front panel output 0 (FrontUnivOut0) to use pulsers 22 and 23 as its source. Macro values 0-23 correspond to pulsers 0-23. A complete list of available values can be found in the EVR manual~\cite{evr_manual}.
+
+Pulser 22 and Pulser 23 are then set to trigger on reception of the event 4:
+\begin{itemize}
+	\item \texttt{PID}: Select Pulser 22/23
+	\item \texttt{F}: Select the \textit{Trig} (trigger) function of the pulser
+	\item \texttt{EVT}: Map Pulser 22/23 \textit{Trig} function to event 4
+	\item \texttt{ID}: Unique ID for each PID-F combination.
+\end{itemize}
+
+Finally, Pulser 28, which represent pulser gate 0, is configured to be set upon reception of \texttt{RF OFF beam} event (event code 6), and reset upon reception of \texttt{SOS} event (event code 40):
+\begin{itemize}
+	\item \texttt{PID}: Select Pulser 28 (pulser gate 0)
+	\item \texttt{F}: Select the \textit{Set} and \textit{Reset} function of the pulser
+	\item \texttt{EVT}: Map Pulser 28 \textit{Set} function to event 6 and \textit{Reset} function to event 40.
+	\item \texttt{ID}: Unique ID for each PID-F combination.
+\end{itemize}
+
+In order to use different pulser, simply change the pulser number, eg. using \texttt{Pul20-Delay-SP} instead of \texttt{Pul22-Delay-SP} sets the delay of pulser 20 instead of pulser 22.
+
+Similar is for outputs, eg. using \texttt{RearUniv0-Src-SP} and \texttt{RearUniv0-Src2-SP} instead of \texttt{FrontUnivOut0-Src-SP} and \texttt{FrontUnivOut0-Src2-SP} sets the output source signal of rear panel output 1 instead of front panel output 0. 
+
+In order to set a different event mapped to Pulsers 22 and 23 Trig function, simply set a new value of records \texttt{MTEST-VME-TIMINGTEST-EVR0:Pul22-Evt-Trig0-SP} and \texttt{MTEST-VME-TIMINGTEST-EVR0:Pul23-Evt-Trig0-SP}. To disable the mapping, set records value to \texttt{0}.
+
+Similar is for changing events that set and reset the pulser gate. In order to set a different event mapped to setting the gate (which controls when off-beam operation is in affect), simply set a new value of the \newline\texttt{MTEST-VME-TIMINGTEST-EVR0:Pul28-Evt-Set0-SP} record.
+
 
 \section{GUI}\label{sec:gui} 
 There is a caQtDM~\cite{caqtdm} GUI for the Event Receiver available. It can be used to further configure the EVR or simply check the running configuration. The GUI is launched using the following command:

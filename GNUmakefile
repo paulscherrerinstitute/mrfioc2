@@ -120,6 +120,9 @@ TEMPLATES += evrMrmApp/Db/evr-delayModule.template
 ## EVR health monitoring (fixed template)
 TEMPLATES += evrMrmApp/Db/evr-health.template
 
+## EVR helper templates for trigger switching configuration (fixed template)
+TEMPLATES += evrMrmApp/Db/evr-configTriggerSwitch.template
+
 ## EVR and EVG substitution files
 TEMPLATES += PSI/example/evr_VME-230.subs
 TEMPLATES += PSI/example/evr_VME-300.subs
