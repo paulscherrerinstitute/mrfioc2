@@ -409,10 +409,17 @@ int mrf_irqcontrol(struct uio_info *info, s32 onoff)
             }
         }
 
-        if(end) {
-            iowrite32be(IRQ_PCIee,plx+IRQPCIEEnable);
+        // Modify the IRQ enable bit
+        if (onoff == 1) {
+            val = IRQ_PCIee;
         } else {
-            iowrite32(IRQ_PCIee,plx+IRQPCIEEnable);
+            val = 0;
+        }
+
+        if(end) {
+            iowrite32be(val, plx+IRQPCIEEnable);
+        } else {
+            iowrite32(val, plx+IRQPCIEEnable);
         }
         break;
 
