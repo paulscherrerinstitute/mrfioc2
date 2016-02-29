@@ -1,0 +1,193 @@
+# Record set for an easy configuration of pulsers for trigger switching between normal and off beam operation
+#
+# Important records:
+# $(SYS)-$(DEVICE):TS$(ID)-Event-SP       -> Event number that triggers the pulsers
+# $(SYS)-$(DEVICE):TS$(ID)-Norm-Width-SP  -> The width in [us] of the pulse to be outputted in normal operation
+# $(SYS)-$(DEVICE):TS$(ID)-Norm-Delay-SP  -> The delay in [us] of the pulse to be outputted in normal operation
+# $(SYS)-$(DEVICE):TS$(ID)-Off-Width-SP   -> The width in [us] of the pulse to be outputted in off-beam operation
+# $(SYS)-$(DEVICE):TS$(ID)-Off-Delay-SP   -> The delay in [us] of the pulse to be outputted in off-beam operation
+# $(SYS)-$(DEVICE):TS$(ID)-SimOff-Sel     -> Normal operation or simulate off-beam operation. Useful for testing purposes.
+# $(SYS)-$(DEVICE):TS$(ID)-Gate-Set-SP    -> Set event number that sets the pulser gate
+# $(SYS)-$(DEVICE):TS$(ID)-Gate-Reset-SP  -> Set event number that resets the pulser gate
+# 
+# Mandatory macros:
+#  SYS = System name
+#  DEVICE = Event receiver / timing card name (same as mrmEvrSetupVME()) Eg. EVR0
+#  
+#  Event      = Event number that triggers the pulsers
+#  Norm-Width = The width of the pulse to be outputted in normal operation
+#  Norm-Delay = The delay of the pulse to be outputted in normal operation
+#  Off-Width  = The width of the pulse to be outputted in off-beam operation
+#  Off-Delay  = The delay of the pulse to be outputted in off-beam operation
+#  Output     = Name of the output where the pulse is routed. Eg. FrontUnivOut0, FrontUnivOut1,..., RearUniv0, RearUniv1, ...
+#  
+# Optional macros:
+#  Norm-ID = ID of the pulser used for normal operation. Default: Pulser 22
+#  Off-ID  = ID of the pulser used for off-beam operation. Default: Pulser 23
+#  Gate    = Pulser ID that represents the gate to use. Default: 28 = Pulser 28 -> Gate 0
+#                 Gate = 28 : Pulser 28 -> Gate 0
+#                 Gate = 29 : Pulser 29 -> Gate 1
+#                 Gate = 30 : Pulser 30 -> Gate 2
+#                 Gate = 31 : Pulser 31 -> Gate 3
+#  Gate-Set   = Event number that sets the selected gate. Default: 6 = RF OFF beam event in SwissFEL
+#  Gate-Reset = Event number that resets the selected gate. Default: 40 = Start of sequence event (SOS) in SwissFEL
+#  
+
+
+
+# Set event number that triggers the pulse
+record(dfanout, "$(SYS)-$(DEVICE):TS$(ID)-Event-SP"){
+  field( DESC, "Set trigger event" )
+  field( OUTA, "$(SYS)-$(DEVICE):Pul$(Norm-ID=22)-Evt-Trig0-SP PP")
+  field( OUTB, "$(SYS)-$(DEVICE):Pul$(Off-ID=23)-Evt-Trig0-SP PP")
+  field( PINI, "YES")
+  field( VAL , "$(Event)")
+  field( LOPR, "0")
+  field( HOPR, "255")
+
+}
+#--------------------------------------------------------------------------#
+
+# Set where the pulse will be outputted
+record(longout, "$(SYS)-$(DEVICE):TS$(ID)-OutNorm_") {
+  field( DESC, "Set normal operation output" )
+  field( OUT , "$(SYS)-$(DEVICE):$(Output)-Src-SP PP")
+  field( PINI, "YES")
+  field( VAL , "$(Norm-ID=22)")
+  field( LOPR, "0")
+  field( HOPR, "23")
+  field( DRVL, "0")
+  field( DRVH, "23")
+}
+
+record(longout, "$(SYS)-$(DEVICE):TS$(ID)-OutOff_") {
+  field( DESC, "Set normal operation output" )
+  field( OUT , "$(SYS)-$(DEVICE):$(Output)-Src2-SP PP")
+  field( PINI, "YES")
+  field( VAL , "$(Off-ID=23)")
+  field( LOPR, "0")
+  field( HOPR, "23")
+  field( DRVL, "0")
+  field( DRVH, "23")
+}
+
+#--------------------------------------------------------------------------#
+
+# Select pulse width/delay for normal and off-beam operation
+
+record(ao, "$(SYS)-$(DEVICE):TS$(ID)-Norm-Width-SP") {
+  field( DESC, "Set normal operation pulse width" )
+  field( OUT , "$(SYS)-$(DEVICE):Pul$(Norm-ID=22)-Width-SP PP")
+  field( PINI, "YES")
+  field( VAL , "$(Norm-Width)")
+}
+
+record(ao, "$(SYS)-$(DEVICE):TS$(ID)-Norm-Delay-SP") {
+  field( DESC, "Set normal operation pulse delay" )
+  field( OUT , "$(SYS)-$(DEVICE):Pul$(Norm-ID=22)-Delay-SP PP")
+  field( PINI, "YES")
+  field( VAL , "$(Norm-Delay)")
+}
+
+record(ao, "$(SYS)-$(DEVICE):TS$(ID)-Off-Width-SP") {
+  field( DESC, "Set normal operation pulse width" )
+  field( OUT , "$(SYS)-$(DEVICE):Pul$(Off-ID=23)-Width-SP PP")
+  field( PINI, "YES")
+  field( VAL , "$(Off-Width)")
+}
+
+record(ao, "$(SYS)-$(DEVICE):TS$(ID)-Off-Delay-SP") {
+  field( DESC, "Set normal operation pulse delay" )
+  field( OUT , "$(SYS)-$(DEVICE):Pul$(Off-ID=23)-Delay-SP PP")
+  field( PINI, "YES")
+  field( VAL , "$(Off-Delay)")
+}
+
+#--------------------------------------------------------------------------#
+
+# Configure normal and off-beam pulser to be controlled by the selected gate
+record(dfanout, "$(SYS)-$(DEVICE):TS$(ID)-SetGate_"){
+  field( DESC, "Set gate which controls pulsers" )
+  field( OMSL, "closed_loop")
+  field( DOL , "$(SYS)-$(DEVICE):TS$(ID)-Gate-RB")
+  field( OUTA, "$(SYS)-$(DEVICE):Pul$(Norm-ID=22)-Gate-Mask-SP PP")
+  field( OUTB, "$(SYS)-$(DEVICE):Pul$(Off-ID=23)-Gate-Enable-SP PP")
+  field( PINI, "RUNNING")
+  field( LOPR, "1")
+  field( HOPR, "4")
+}
+#--------------------------------------------------------------------------#
+
+#--------------------------------------------------------------------------#
+# GATE CONFIGURATION
+
+
+# Set event numbers that set and reset the gates
+record(longout, "$(SYS)-$(DEVICE):TS$(ID)-Gate-Set-SP") {
+  field( DESC, "Set event that sets the gate" )
+  field( OUT , "$(SYS)-$(DEVICE):Pul$(Gate=28)-Evt-Set0-SP PP")
+  field( PINI, "YES")
+  field( VAL , "$(Gate-Set=6)")
+  field( LOPR, "0")
+  field( HOPR, "255")
+  field( DRVL, "0")
+  field( DRVH, "255")
+}
+
+record(longout, "$(SYS)-$(DEVICE):TS$(ID)-Gate-Reset-SP") {
+  field( DESC, "Set event that resets the gate" )
+  field( OUT , "$(SYS)-$(DEVICE):Pul$(Gate=28)-Evt-Reset0-SP PP")
+  field( PINI, "YES")
+  field( VAL , "$(Gate-Reset=40)")
+  field( LOPR, "0")
+  field( HOPR, "255")
+  field( DRVL, "0")
+  field( DRVH, "255")
+}
+#--------------------------------------------------------------------------#
+
+# Calculate gate mask / enable value from pulser ID. 
+record(calc, "$(SYS)-$(DEVICE):TS$(ID)-Gate-RB") {
+  field( DESC, "Get gate mask/enable from pulser ID")
+  field( INPA, "$(Gate=28)")
+  field( CALC, "A-27")
+  field( PINI, "YES")
+}
+#--------------------------------------------------------------------------#
+
+# Toggle gate always on in order to test off-beam behaviour
+record(bi, "$(SYS)-$(DEVICE):TS$(ID)-SimOff-Sel"){
+  field( DESC, "Simulate off-beam behaviour")
+  field( ZNAM, "Normal operation")
+  field( ONAM, "Simulate off-beam")
+  field( VAL,  "0")
+  field( FLNK, "$(SYS)-$(DEVICE):TS$(ID)-GateReset_")
+}
+
+# gate has to be reset to 0, because duplicate event mappings are not allowed.
+record(longout, "$(SYS)-$(DEVICE):TS$(ID)-GateReset_"){
+  field( DESC, "Gate set to 0")
+  field( VAL,  "0")
+  field( OUT,  "$(SYS)-$(DEVICE):Pul$(Gate=28)-Evt-Set0-SP PP")
+  field( FLNK, "$(SYS)-$(DEVICE):TS$(ID)-SimOff_")
+}
+
+record(calcout, "$(SYS)-$(DEVICE):TS$(ID)-SimOff_"){
+  field( DESC, "Toggle gate reset")
+  field( INPA, "$(SYS)-$(DEVICE):TS$(ID)-SimOff-Sel")
+  field( INPB, "$(SYS)-$(DEVICE):TS$(ID)-Gate-Reset-SP")
+  field( CALC, "A ? 0 : B")
+  field( OUT,  "$(SYS)-$(DEVICE):Pul$(Gate=28)-Evt-Reset0-SP PP")
+  field( FLNK, "$(SYS)-$(DEVICE):TS$(ID)-SimOff__")
+}
+
+record(calcout, "$(SYS)-$(DEVICE):TS$(ID)-SimOff__"){
+  field( DESC, "Toggles gate set")
+  field( INPA, "$(SYS)-$(DEVICE):TS$(ID)-SimOff-Sel")
+  field( INPB, "$(SYS)-$(DEVICE):TS$(ID)-Gate-Set-SP")
+  field( INPC, "$(SYS)-$(DEVICE):TS$(ID)-Gate-Reset-SP")
+  field( CALC, "A ? C : B")
+  field( OUT,  "$(SYS)-$(DEVICE):Pul$(Gate=28)-Evt-Set0-SP PP")
+}
+
+#--------------------------------------------------------------------------#
