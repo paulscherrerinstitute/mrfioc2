@@ -6,20 +6,20 @@
 #  
 #  ID         = Each macro substitution must have a unique ID.
 #  Event      = 0-255 : Event number that triggers the pulsers
-#  Norm-Width = 0-65535 : The width in [us] of the pulse to be outputted in normal operation
-#  Norm-Delay = 0-4294967295 : The delay in [us] of the pulse to be outputted in normal operation
-#  Off-Width  = 0-65535 : The width in [us] of the pulse to be outputted in off-beam operation
-#  Off-Delay  = 0-4294967295 : The delay in [us] of the pulse to be outputted in off-beam operation
+#  Pul-R-Width = 0-65535 : The width in [us] of the pulse to be outputted in normal mode
+#  Pul-R-Delay = 0-4294967295 : The delay in [us] of the pulse to be outputted in normal mode
+#  Pul-S-Width  = 0-65535 : The width in [us] of the pulse to be outputted in switched mode
+#  Pul-S-Delay  = 0-4294967295 : The delay in [us] of the pulse to be outputted in switched mode
 #  Output     = FrontUnivOut0, FrontUnivOut1,..., RearUniv0, RearUniv1,...: Name of the output where the pulse is routed.
-#  Norm-ID    = 0 - 23: ID of the pulser used in normal operation. Default: Pulser 22
-#  Off-ID     = 0 - 23: ID of the pulser used in off-beam operation. Default: Pulser 23
+#  Pul-R-ID    = 0 - 23: ID of the pulser used in normal mode. Default: Pulser 22
+#  Pul-S-ID     = 0 - 23: ID of the pulser used in switched mode. Default: Pulser 23
 #  
 #  More macros are available (see evr-configTriggerSwitch.template file) which can be used for advanced configuration.
 #
 #file "$(mrfioc2_TEMPLATES=db)/evr-configTriggerSwitch.template"{
-#pattern { ID,  Event,  Norm-Width,  Norm-Delay,  Off-Width,  Off-Delay,  Output,           Norm-ID,  Off-ID}
-#        { "0", "1",    "40",        "40",        "40",        "80",      "FrontUnivOut0",  "20",     "21"  }
-#        { "1", "2",    "50",        "60",        "70",        "80",      "RearUniv0",      "22",     "23"  }
+#pattern { ID,  Event,  Pul-R-Width, Pul-R-Delay, Pul-S-Width, Pul-S-Delay, Output,           Pul-R-ID, Pul-S-ID}
+#        { "0", "1",    "40",        "40",        "40",        "80",        "FrontUnivOut0",  "20",     "21"  }
+#        { "1", "2",    "50",        "60",        "70",        "80",        "RearUniv0",      "22",     "23"  }
 #}
 
 

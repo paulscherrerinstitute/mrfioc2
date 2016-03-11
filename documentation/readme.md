@@ -47,10 +47,10 @@ In order to build the documentation from source, follow theese simple steps:
 
 5. Build the Tutorials
 
-		pdflatex -synctex=1 -interaction=nonstopmode "tutorial".tex
-		bibtex "tutorial".aux
-		pdflatex -synctex=1 -interaction=nonstopmode "tutorial".tex
-		pdflatex -synctex=1 -interaction=nonstopmode "tutorial".tex
+pdflatex -synctex=1 -interaction=nonstopmode "tutorial".tex
+bibtex "tutorial".aux
+pdflatex -synctex=1 -interaction=nonstopmode "tutorial".tex
+pdflatex -synctex=1 -interaction=nonstopmode "tutorial".tex
 
 6. Build the EVR Manual
 

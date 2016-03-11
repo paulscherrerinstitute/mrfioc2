@@ -14,12 +14,12 @@
 #  SYS = System name
 #  DEVICE = Event receiver / timing card name (same as mrmEvrSetupVME()) Eg. EVR0
 #  
-#  Event                = Event number that triggers the pulsers
-#  Pul-R-Width = The width of the pulse to be outputted in normal operation
-#  Pul-R-Delay = The delay of the pulse to be outputted in normal operation
-#  Pul-S-Width = The width of the pulse to be outputted in off-beam operation
-#  Pul-S-Delay = The delay of the pulse to be outputted in off-beam operation
-#  Output               = Name of the output where the pulse is routed. Eg. FrontUnivOut0, FrontUnivOut1,..., RearUniv0, RearUniv1, ...
+#  Event       = Event number that triggers the pulsers
+#  Pul-R-Width = The width of the pulse to be outputted in normal mode
+#  Pul-R-Delay = The delay of the pulse to be outputted in normal mode
+#  Pul-S-Width = The width of the pulse to be outputted in switched mode
+#  Pul-S-Delay = The delay of the pulse to be outputted in switched mode
+#  Output      = Name of the output where the pulse is routed. Eg. FrontUnivOut0, FrontUnivOut1,..., RearUniv0, RearUniv1, ...
 #  
 # Optional macros:
 #  Pul-R-ID = ID of the pulser used for normal operation. Default: Pulser 22
@@ -29,8 +29,8 @@
 #                     Gate = 29 : Pulser 29 -> Gate 1
 #                     Gate = 30 : Pulser 30 -> Gate 2
 #                     Gate = 31 : Pulser 31 -> Gate 3
-#  Set-Evt   = Event number that sets the selected gate. Default: 6 = RF OFF beam event in SwissFEL
-#  Reset-Evt = Event number that resets the selected gate. Default: 40 = Start of sequence event (SOS) in SwissFEL
+#  Set-Evt   = Id of the event that gates pulser Pul-S-ID to the Output. Default: 6 = RF OFF beam event in SwissFEL
+#  Reset-Evt = Id of the event that gates pulser Pul-R-ID to the Output. Default: 38 = Start of sequence event (SOS) in SwissFEL
 #  
 
 
@@ -76,31 +76,31 @@ record(longout, "$(SYS)-$(DEVICE):TS$(ID)-OutOff_") {
 # Select pulse width/delay for normal and off-beam operation
 
 record(ao, "$(SYS)-$(DEVICE):TS$(ID)-Pul-R-Width-SP") {
-  field( DESC, "Set normal operation pulse width" )
+  field( DESC, "Set normal mode pulse width" )
   field( OUT , "$(SYS)-$(DEVICE):Pul$(Pul-R-ID=22)-Width-SP PP")
   field( PINI, "YES")
   field( VAL , "$(Pul-R-Width)")
 }
 
 record(ao, "$(SYS)-$(DEVICE):TS$(ID)-Pul-R-Delay-SP") {
-  field( DESC, "Set normal operation pulse delay" )
+  field( DESC, "Set normal mode pulse delay" )
   field( OUT , "$(SYS)-$(DEVICE):Pul$(Pul-R-ID=22)-Delay-SP PP")
   field( PINI, "YES")
   field( VAL , "$(Pul-R-Delay)")
 }
 
-record(ao, "$(SYS)-$(DEVICE):TS$(ID)-Gate-Set-Pul-Width-SP") {
-  field( DESC, "Set normal operation pulse width" )
+record(ao, "$(SYS)-$(DEVICE):TS$(ID)-Pul-S-Width-SP") {
+  field( DESC, "Set switched mode pulse width" )
   field( OUT , "$(SYS)-$(DEVICE):Pul$(Pul-S-ID=23)-Width-SP PP")
   field( PINI, "YES")
-  field( VAL , "$(Gate-Set-Pul-Width)")
+  field( VAL , "$(Pul-S-Width)")
 }
 
-record(ao, "$(SYS)-$(DEVICE):TS$(ID)-Gate-Set-Pul-Delay-SP") {
-  field( DESC, "Set normal operation pulse delay" )
+record(ao, "$(SYS)-$(DEVICE):TS$(ID)-Pul-S-Delay-SP") {
+  field( DESC, "Set switched mode pulse delay" )
   field( OUT , "$(SYS)-$(DEVICE):Pul$(Pul-S-ID=23)-Delay-SP PP")
   field( PINI, "YES")
-  field( VAL , "$(Gate-Set-Pul-Delay)")
+  field( VAL , "$(Pul-S-Delay)")
 }
 
 #--------------------------------------------------------------------------#

@@ -216,16 +216,16 @@ Finally, the Pulser 3 is set to trigger on reception of the event 4:
 In order to use different pulser simply change the pulser number, eg. using \texttt{Pul5-Delay-SP} instead of \texttt{Pul3-Delay-SP} sets the delay of pulser 5 instead of pulser 3.
 Similar is for outputs, eg. using \texttt{FrontOut1-Src-SP} instead of \texttt{FrontOut0-Src-SP} sets the output source signal of front panel output 1 instead of front panel output 0. In order to set a different event mapped to Pulser 3 Trig function, simply set a new value of the record \texttt{MTEST-VME-TIMINGTEST-EVR0:Pul3-Evt-Trig0-SP}. To disable the mapping, set the record value to \texttt{0}.
 
-\section{Configuration of pulsers switching between two different pulsers on the same output}\label{sec:2pulsers}
+\section{Event dependent pulse switching}\label{sec:2pulsers}
 \begin{quote}
 \textbf{This functionality is only available on event receivers that support pulser gating (eg. EVR-VME-300 series)!}
 \end{quote}
 Often devices need to be triggered with a different delay, based on the status of the beam or machine protection system (MPS). Many steps are required to configure the EVR to achieve this behavior, as described in Section~\ref{sec:triggerSwitching}. In order to simplify the configuration, \texttt{evr-configTriggerSwitch.template} helper template is available. It is included in the example substitution file (\texttt{evr\_VME-300.subs}).%(see quick start guide step~\ref{quickstart:copySubs} in Section~\ref{sec:Quick start}). 
 
-This tutorial demonstrates how to configure an EVR using helper template to:
+This tutorial demonstrates how to configure an EVR using helper template to generate pulses:
 \begin{itemize}
-\item generate a 40~ns wide pulse, 40~ns after each reception of event 4 in normal mode (when only the Reset Event is present).
-\item generate a 40~ns wide pulse, 80~ns after each reception of event 4 in switched mode (when also the Set Event is present, eg. when MPS is asserted).
+\item 40~ns wide, 40~ns delay, triggered on event 4 in normal mode (when only the Reset-Evt is present).
+\item 40~ns wide, 80~ns delay, triggered on event 4 in switched mode (when the Set-Evt is present, eg. when MPS is asserted).
 \item The pulse is outputted through front panel universal TTL output 0 (FrontUnivOut0).
 \end{itemize}
 %The setup is depicted in Figure~\ref{fig:2pulsers}.
@@ -247,8 +247,8 @@ For an advance guide, without using the helper template, see Section~\ref{sec:tr
 	pattern { ID,  Event, Pul-R-Width, Pul-R-Delay, Pul-S-Width,
 	        { "1", "4",   "40",       "40",         "40",            
       
-	          Pul-S-Delay,  Output,               Pul-R-ID,     Pul-S-ID}
-	          "80",         "FrontUnivOut0",      "22",         "23"   }
+	        Pul-S-Delay,  Output,             Pul-R-ID,    Pul-S-ID}
+	        "80",         "FrontUnivOut0",    "22",        "23"    }
 	}
 \end{verbatim}
 	%The above macro substitution of the \texttt{evr-configTriggerSwitch.template} sets the values of the following records, which can be changed by the user during runtime:
@@ -528,7 +528,7 @@ The timing system supports deterministic data transmission. Data buffer enables 
 %\item Install the prepared IOC by running command \texttt{swit -V} from your project folder \textit{MTEST-VME-TIMINGTEST}.
 %\end{enumerate}
 
-\section{Advanced: Trigger switching between two different pulses on the same output. (Normal and off beam operation)}\label{sec:triggerSwitching}
+\section{Advanced: Event dependent pulse switching. (Normal and off beam operation)}\label{sec:triggerSwitching}
 \begin{quote}
 \textbf{This functionality is only available on event receivers that support pulser gating (eg. EVR-VME-300 series)!}
 \end{quote}
@@ -556,8 +556,8 @@ For more information about pulser gating and outputs with two configurable sourc
 
 This tutorial demonstrates how to configure an EVR without using helper template to generate pulses:
 \begin{itemize}
-\item 40~ns wide, with 40~ns delay on event 4 when \texttt{RF OFF beam} is not present.
-\item 40~ns wide, with 80~ns delay on event 4 when \texttt{RF OFF beam} is present.
+\item 40~ns wide, 40~ns delay, triggered on event 4 when \texttt{RF OFF beam} is not present.
+\item 40~ns wide, 80~ns delay, triggered on event 4 when \texttt{RF OFF beam} is present.
 \item The pulse is outputted through front panel universal TTL output 0 (FrontUnivOut0).
 \end{itemize}
 %The setup is depicted in Figure~\ref{fig:2pulsers}.
@@ -593,7 +593,7 @@ This tutorial demonstrates how to configure an EVR without using helper template
 	        { 23,   Trig,    4,   0 }
 	        ...
 	        { 28,   Set,     6,   0 }
-	        { 28,   Reset,   40,  0 }
+	        { 28,   Reset,   38,  0 }
 	        ...
 	}
 \end{verbatim}
@@ -642,11 +642,11 @@ Pulser 22 and Pulser 23 are then set to trigger on reception of the event 4:
 	\item \texttt{ID}: Unique ID for each PID-F combination.
 \end{itemize}
 
-Finally, Pulser 28, which represent pulser gate 0, is configured to be set upon reception of \texttt{RF OFF beam} event (event code 6), and reset upon reception of \texttt{SOS} event (event code 40):
+Finally, Pulser 28, which represent pulser gate 0, is configured to be set upon reception of \texttt{RF OFF beam} event (event code 6), and reset upon reception of \texttt{SOS} event (event code 38):
 \begin{itemize}
 	\item \texttt{PID}: Select Pulser 28 (pulser gate 0)
 	\item \texttt{F}: Select the \textit{Set} and \textit{Reset} function of the pulser
-	\item \texttt{EVT}: Map Pulser 28 \textit{Set} function to event 6 and \textit{Reset} function to event 40.
+	\item \texttt{EVT}: Map Pulser 28 \textit{Set} function to event 6 and \textit{Reset} function to event 38.
 	\item \texttt{ID}: Unique ID for each PID-F combination.
 \end{itemize}
 
