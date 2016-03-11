@@ -216,16 +216,16 @@ Finally, the Pulser 3 is set to trigger on reception of the event 4:
 In order to use different pulser simply change the pulser number, eg. using \texttt{Pul5-Delay-SP} instead of \texttt{Pul3-Delay-SP} sets the delay of pulser 5 instead of pulser 3.
 Similar is for outputs, eg. using \texttt{FrontOut1-Src-SP} instead of \texttt{FrontOut0-Src-SP} sets the output source signal of front panel output 1 instead of front panel output 0. In order to set a different event mapped to Pulser 3 Trig function, simply set a new value of the record \texttt{MTEST-VME-TIMINGTEST-EVR0:Pul3-Evt-Trig0-SP}. To disable the mapping, set the record value to \texttt{0}.
 
-\section{Configuration of pulsers for trigger switching between normal and off beam operation}\label{sec:2pulsers}
+\section{Configuration of pulsers switching between two different pulsers on the same output}\label{sec:2pulsers}
 \begin{quote}
 \textbf{This functionality is only available on event receivers that support pulser gating (eg. EVR-VME-300 series)!}
 \end{quote}
-Often devices need to be triggered with a different delay, based on the status of the beam or machine protection system (MPS). Many steps are required to configure the EVR to achieve this behavior, as described in Section~\ref{sec:triggerSwitching}. In order to simplify the configuration, \texttt{evr-configTriggerSwitch.template} helper template is available. It is included in the example substitution file (\texttt{evr\_VME-300.subs}).%(see quick start guide step~\ref{quickstart:copySubs} in Section~\ref{sec:Quick start}).
+Often devices need to be triggered with a different delay, based on the status of the beam or machine protection system (MPS). Many steps are required to configure the EVR to achieve this behavior, as described in Section~\ref{sec:triggerSwitching}. In order to simplify the configuration, \texttt{evr-configTriggerSwitch.template} helper template is available. It is included in the example substitution file (\texttt{evr\_VME-300.subs}).%(see quick start guide step~\ref{quickstart:copySubs} in Section~\ref{sec:Quick start}). 
 
 This tutorial demonstrates how to configure an EVR using helper template to:
 \begin{itemize}
-\item generate a 40~ns wide pulse, 40~ns after each reception of event 4 in normal operation.
-\item generate a 40~ns wide pulse, 80~ns after each reception of event 4 in off-beam operation (eg. when MPS is asserted).
+\item generate a 40~ns wide pulse, 40~ns after each reception of event 4 in normal mode (when only the Reset Event is present).
+\item generate a 40~ns wide pulse, 80~ns after each reception of event 4 in switched mode (when also the Set Event is present, eg. when MPS is asserted).
 \item The pulse is outputted through front panel universal TTL output 0 (FrontUnivOut0).
 \end{itemize}
 %The setup is depicted in Figure~\ref{fig:2pulsers}.
@@ -244,11 +244,11 @@ For an advance guide, without using the helper template, see Section~\ref{sec:tr
 	\item Uncomment \texttt{evr-configTriggerSwitch.template} substitutions and set the macro values in the substitution file \newline(\texttt{MTEST-VME-TIMINGTEST/cfg/EVR0.subs}) according to this snippet (explained in~\ref{sec:explain_2pulsers}):
 \begin{verbatim}
 	file "$(mrfioc2_TEMPLATES=db)/evr-configTriggerSwitch.template"{
-	pattern { ID,  Event, Norm-Width, Norm-Delay, Off-Width,
-	        { "1", "4",   "40",       "40",       "40",            
+	pattern { ID,  Event, Pul-R-Width, Pul-R-Delay, Pul-S-Width,
+	        { "1", "4",   "40",       "40",         "40",            
       
-	          Off-Delay,  Output,               Norm-ID,     Off-ID}
-	          "80",       "FrontUnivOut0",      "22",        "23"   }
+	          Pul-S-Delay,  Output,               Pul-R-ID,     Pul-S-ID}
+	          "80",         "FrontUnivOut0",      "22",         "23"   }
 	}
 \end{verbatim}
 	%The above macro substitution of the \texttt{evr-configTriggerSwitch.template} sets the values of the following records, which can be changed by the user during runtime:
@@ -256,15 +256,15 @@ For an advance guide, without using the helper template, see Section~\ref{sec:tr
 	\begin{itemize}
 		\item \texttt{\$(SYS)-\$(DEVICE):TS\$(ID)-Event-SP}, where \texttt{\$(ID)} is \texttt{1}. This records sets the event number that triggers the pulse.
 		
-		\item \texttt{\$(SYS)-\$(DEVICE):TS\$(ID)-Norm-Width-SP}, where \texttt{\$(ID)} is \texttt{1}. This record sets the width in [us] of the pulse to be outputted in normal operation. 
+		\item \texttt{\$(SYS)-\$(DEVICE):TS\$(ID)-Pul-R-Width-SP} - This record sets the width in [us] of the pulse to be outputted in normal mode. 
 		
-		\item \texttt{\$(SYS)-\$(DEVICE):TS\$(ID)-Norm-Delay-SP}, where \texttt{\$(ID)} is \texttt{1}. This record sets the delay in [us] of the pulse to be outputted in normal operation. 
+		\item \texttt{\$(SYS)-\$(DEVICE):TS\$(ID)-Pul-R-Delay-SP} - This record sets the delay in [us] of the pulse to be outputted in normal mode. 
 		
-		\item \texttt{\$(SYS)-\$(DEVICE):TS\$(ID)-Off-Width-SP}, where \texttt{\$(ID)} is \texttt{1}. This record sets the width in [us] of the pulse to be outputted in off-beam operation.
+		\item \texttt{\$(SYS)-\$(DEVICE):TS\$(ID)-Pul-S-Width-SP} - This record sets the width in [us] of the pulse to be outputted in switched mode.
 		
-		\item \texttt{\$(SYS)-\$(DEVICE):TS\$(ID)-Off-Delay-SP}, where \texttt{\$(ID)} is \texttt{1}. This record sets the delay in [us] of the pulse to be outputted in off-beam operation.
+		\item \texttt{\$(SYS)-\$(DEVICE):TS\$(ID)-Pul-S-Delay-SP} - This record sets the delay in [us] of the pulse to be outputted in switched mode.
 		
-		\item \texttt{\$(SYS)-\$(DEVICE):TS\$(ID)-SimOff-Sel}, where \texttt{\$(ID)} is \texttt{1}. This record is used to select normal or simulated off-beam operation. This is useful for testing purposes.
+		\item \texttt{\$(SYS)-\$(DEVICE):TS\$(ID)-SimOff-Sel} - This record is used to select normal or switched operation. This is useful for testing purposes.
 	\end{itemize}
 	
 	\item Optionally, you can remove all the macros whose values you did not change. 
@@ -273,16 +273,18 @@ For an advance guide, without using the helper template, see Section~\ref{sec:tr
 \subsection{Substitution snippet explanation:}\label{sec:explain_2pulsers}
 Macros in \texttt{evr-configTriggerSwitch.template} substitution have the following meaning:
 \begin{itemize}
-	\item \texttt{Event}=1 : Pulse will be outputted upon reception of event 1.
-	\item \texttt{Norm-Width}=40 : The width of the pulse to be outputted in normal operation is 40~us.
-	\item \texttt{Norm-Delay}=40 : The delay of the pulse to be outputted in normal operation is 40~us.
-	\item \texttt{Off-Width}=40 : The width of the pulse to be outputted in off-beam operation is 40~us.
-	\item \texttt{Off-Delay}=80 : The delay of the pulse to be outputted in off-beam operation is 80~us.
+	\item \texttt{Reset-Evt}=38 : Event 38 gates pulser Pul-R-ID to the Output. If this macro is not specified it defaults to event 38 (Start of Sequence in SwissFEL).
+	\item \texttt{Set-Evt}=6 : Event 6 gates pulser Pul-S-ID to the Output. If this macro is not specified it defaults to to event 6 (RF-OffBeam in SwissFEL).
+	\item \texttt{Event}=1 : Event 1 will trigger a pulse from pulser Pul-R-ID or Pul-S-ID on the Output.
+	\item \texttt{Pul-R-Width}=40 : The width of the pulse to be outputted when the Reset Event is present is 40~us.
+	\item \texttt{Pul-R-Delay}=40 : The delay of the pulse to be outputted when the Reset Event is present 40~us.
+	\item \texttt{Pul-S-Width}=40 : The width of the pulse to be outputted when the Set Event is present is 40~us.
+	\item \texttt{Pul-S-Delay}=80 : The delay of the pulse to be outputted when the Set Event is present is 80~us.
 	\item \texttt{Output}=FrontUnivOut0 : Pulse is outputted from FrontUnivOut0. Any other output can be used here (eg. FrontUnivOut0, FrontUnivOut1,..., RearUniv0, RearUniv1,...).
-	\item \texttt{Norm-Id}=22 : Pulser 22 is used to generate the pulse in normal operation. If this macro is not specified it defaults to pulser 22.
-	\item \texttt{Alrm-Id}=23 : Pulser 23 is used to generate the pulse in off-beam operation. If this macro is not specified it defaults to pulser 23.
+	\item \texttt{Pul-R-ID}=22 : Pulser 22 is used to generate the pulse when the Reset Event is present is 40~us. If this macro is not specified it defaults to pulser 22.
+	\item \texttt{Pul-S-ID}=23 : Pulser 23 is used to generate the pulse when the Set Event is present is 40~us. If this macro is not specified it defaults to pulser 23.
 \end{itemize}
-In order to configure more pulses, simple add patterns to macro substitution of the \texttt{evr-configTriggerSwitch.template}.
+In order to configure more pulses, simply add patterns to macro substitution of the \texttt{evr-configTriggerSwitch.template}.
 \paragraph{Be careful} not to configure the same output or the same pulsers multiple times, or use them for other use cases!
 
 	
@@ -526,7 +528,7 @@ The timing system supports deterministic data transmission. Data buffer enables 
 %\item Install the prepared IOC by running command \texttt{swit -V} from your project folder \textit{MTEST-VME-TIMINGTEST}.
 %\end{enumerate}
 
-\section{Advanced: Trigger switching between normal and off beam operation}\label{sec:triggerSwitching}
+\section{Advanced: Trigger switching between two different pulses on the same output. (Normal and off beam operation)}\label{sec:triggerSwitching}
 \begin{quote}
 \textbf{This functionality is only available on event receivers that support pulser gating (eg. EVR-VME-300 series)!}
 \end{quote}
@@ -552,10 +554,10 @@ Event receivers that support pulser gating also support setting two sources to o
 \end{enumerate}
 For more information about pulser gating and outputs with two configurable sources inspect the EVR manual~\cite{evr_manual}.
 
-This tutorial demonstrates how to configure an EVR without using helper template to:
+This tutorial demonstrates how to configure an EVR without using helper template to generate pulses:
 \begin{itemize}
-\item generate a 40~ns wide pulse, 40~ns after each reception of event 4 in normal operation (when \texttt{RF OFF beam} is not present).
-\item generate a 40~ns wide pulse, 80~ns after each reception of event 4 in off-beam operation (when \texttt{RF OFF beam} is present).
+\item 40~ns wide, with 40~ns delay on event 4 when \texttt{RF OFF beam} is not present.
+\item 40~ns wide, with 80~ns delay on event 4 when \texttt{RF OFF beam} is present.
 \item The pulse is outputted through front panel universal TTL output 0 (FrontUnivOut0).
 \end{itemize}
 %The setup is depicted in Figure~\ref{fig:2pulsers}.
