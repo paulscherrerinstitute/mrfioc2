@@ -54,6 +54,9 @@ mrmDataBuffer::mrmDataBuffer(const char * parentName,
         m_irq_flags[i] = 0;
     }
 
+    // init interest flags
+    setInterest(NULL, NULL);
+
     data_buffers[parentName] = this;
 }
 
