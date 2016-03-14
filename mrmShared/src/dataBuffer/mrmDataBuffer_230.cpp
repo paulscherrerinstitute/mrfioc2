@@ -16,6 +16,39 @@
 #include "mrmDataBuffer_230.h"
 
 
+mrmDataBuffer_230::mrmDataBuffer_230(const char *parentName,
+                                     volatile epicsUInt8 *parentBaseAddress,
+                                     epicsUInt32 controlRegisterTx,
+                                     epicsUInt32 controlRegisterRx,
+                                     epicsUInt32 dataRegisterTx,
+                                     epicsUInt32 dataRegisterRx):
+    mrmDataBuffer(parentName,
+                  parentBaseAddress,
+                  controlRegisterTx,
+                  controlRegisterRx,
+                  dataRegisterTx,
+                  dataRegisterRx)
+{
+    enableRx(true);
+}
+
+void mrmDataBuffer_230::enableRx(bool en)
+{
+    epicsUInt32 reg;
+
+    if(supportsRx()) {
+        epicsGuard<epicsMutex> g(m_rx_lock);
+        reg = nat_ioread32(base+ctrlRegRx);
+        if(en) {
+            reg |= DataRxCtrl_mode|DataRxCtrl_rx; // Set mode to DBUS+data buffer and set up buffer for reception
+        } else {
+            reg |= DataRxCtrl_stop;    // stop reception
+            reg &= ~DataRxCtrl_mode;   // set mode to DBUS only (no effect on firmware 200+)
+        }
+        nat_iowrite32(base+ctrlRegRx, reg);
+    }
+}
+
 bool mrmDataBuffer_230::send(epicsUInt8 startSegment, epicsUInt16 length, epicsUInt8 *data){
     epicsUInt32 offset, reg;
     epicsUInt16 i;
@@ -78,7 +111,8 @@ void mrmDataBuffer_230::receive() {
         return;
     }
     else if (sts&DataRxCtrl_sumerr) {   // acknowledged by setting DataRxCtrl_rx (at the end of the function)
-        errlogPrintf("RX: Checksum error. Skipping reception.\n");
+        dbgPrintf(1, "RX: Checksum error. Skipping reception.\n");
+        m_checksum_count[0]++;
     }
     else {
         length = sts & DataRxCtrl_len_mask;

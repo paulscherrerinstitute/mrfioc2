@@ -338,6 +338,9 @@ try{
     m_dataBuffer->registerRxComplete(&EVRMRM::dataBufferRxComplete, this);
     CBINIT(&dataBufferRx_cb, priorityHigh, &mrmDataBuffer::handleDataBufferRxIRQ, &*m_dataBuffer);
 
+   m_dataBufferObj = new mrmDataBufferObj(n, *m_dataBuffer);
+
+
     SCOPED_LOCK(evrLock);
 
     memset(_mapped, 0, sizeof(_mapped));
@@ -414,6 +417,7 @@ EVRMRM::cleanup()
     outputs.clear();
 
     delete m_remoteFlash;
+    delete m_dataBufferObj;
     delete m_dataBuffer;
 
 #define CLEANVEC(TYPE, VAR) \

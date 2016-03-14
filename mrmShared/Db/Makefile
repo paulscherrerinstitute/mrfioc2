@@ -6,6 +6,7 @@ include $(TOP)/configure/CONFIG
 ## Install non form factor specific tempalates
 DB += flash.template
 DB += sfp.template
+DB += dataBuffer.template
 
 
 include $(TOP)/configure/RULES

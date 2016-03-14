@@ -12,13 +12,10 @@ public:
                               epicsUInt32 controlRegisterTx,
                               epicsUInt32 controlRegisterRx,
                               epicsUInt32 dataRegisterTx,
-                              epicsUInt32 dataRegisterRx):
-                mrmDataBuffer(parentName,
-                              parentBaseAddress,
-                              controlRegisterTx,
-                              controlRegisterRx,
-                              dataRegisterTx,
-                              dataRegisterRx) {}
+                              epicsUInt32 dataRegisterRx);
+
+
+    void enableRx(bool en);
 
 private:
     bool send(epicsUInt8 startSegment, epicsUInt16 length, epicsUInt8 *data);

@@ -5,6 +5,7 @@
  * Windows
  * Theese flip the flags for importing from dll, rather then exporting
  */
+#define MRMDATABUFFEROBJ_H_LEVEL2
 #define MRMREMOTEFLASH_H_LEVEL2
 #define SFP_H_LEVEL2
 
@@ -43,13 +44,14 @@
 
 #include "mrmFlash.h"
 #include "mrmRemoteFlash.h"
+#include "dataBuffer/mrmDataBufferObj.h"
 #include "dataBuffer/mrmDataBuffer_300.h"
 #include "dataBuffer/mrmDataBuffer_230.h"
 
 /*********
- * Each EVG will be represented by the instance of class 'evgMrm'. Each evg 
+ * Each EVG will be represented by the instance of class 'evgMrm'. Each evg
  * object maintains a list to all the evg sub-componets i.e. Event clock,
- * Software Events, Trigger Events, Distributed bus, Multiplex Counters, 
+ * Software Events, Trigger Events, Distributed bus, Multiplex Counters,
  * Input, Output etc.
  */
 class wdTimer;
@@ -111,7 +113,7 @@ public:
     void syncTimestamp();
     void syncTsRequest();
     void incrTimestamp();
-    
+
     /**    Access    functions     **/
     evgAcTrig* getAcTrig();
     evgEvtClk* getEvtClk();
@@ -196,6 +198,7 @@ private:
     std::vector<SFP*>             m_sfp;    // upstream + fanout transceivers. Transceiver indexed 0 is upstream transceiver.
 
     mrmDataBuffer*                m_dataBuffer;
+    mrmDataBufferObj*             m_dataBufferObj;
 
     /**
      * @brief setFormFactor sets the internal m_deviceInfo.formFactor based on the content of the device registers

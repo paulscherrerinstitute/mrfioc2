@@ -4,7 +4,7 @@
 #include <stdexcept>
 #include <math.h>
 
-#include <errlog.h> 
+#include <errlog.h>
 
 #include <dbAccess.h>
 #include <devSup.h>
@@ -17,8 +17,8 @@
 #include <longoutRecord.h>
 
 #include "mrf/version.h"
-#include <mrfCommonIO.h> 
-#include <mrfCommon.h> 
+#include <mrfCommonIO.h>
+#include <mrfCommon.h>
 #include "evgRegMap.h"
 
 #ifdef __rtems__
@@ -154,7 +154,9 @@ evgMrm::evgMrm(const std::string& id, deviceInfoT &devInfo, volatile epicsUInt8*
         } else {
             m_dataBuffer = new mrmDataBuffer_300(id.c_str(), pReg, U32_DataTxCtrlEvg, 0, U8_DataTxBaseEvg, 0);
         }
-    
+
+        m_dataBufferObj = new mrmDataBufferObj(id.c_str(), *m_dataBuffer);
+
         /*
          * Swtiched order of creation for m_timerEvent and m_wdTimer.
          *
@@ -171,7 +173,7 @@ evgMrm::evgMrm(const std::string& id, deviceInfoT &devInfo, volatile epicsUInt8*
 
         m_timerEvent = new epicsEvent();
         m_wdTimer = new wdTimer("Watch Dog Timer", this);
-        
+
         init_cb(&irqStart0_cb, priorityHigh, &evgMrm::process_sos0_cb,
                                             m_seqRamMgr.getSeqRam(0));
         init_cb(&irqStart1_cb, priorityHigh, &evgMrm::process_sos1_cb,
@@ -181,7 +183,7 @@ evgMrm::evgMrm(const std::string& id, deviceInfoT &devInfo, volatile epicsUInt8*
         init_cb(&irqStop1_cb, priorityHigh, &evgMrm::process_eos1_cb,
                                             m_seqRamMgr.getSeqRam(1));
         init_cb(&irqExtInp_cb, priorityHigh, &evgMrm::process_inp_cb, this);
-    
+
         scanIoInit(&ioScanTimestamp);
     } catch(std::exception& e) {
         errlogPrintf("Error: %s\n", e.what());
@@ -210,15 +212,16 @@ evgMrm::~evgMrm() {
         delete m_sfp[i];
 
     delete m_remoteFlash;
+    delete m_dataBufferObj;
     delete m_dataBuffer;
 }
 
-void 
-evgMrm::init_cb(CALLBACK *ptr, int priority, void(*fn)(CALLBACK*), void* valptr) { 
-    callbackSetPriority(priority, ptr); 
-    callbackSetCallback(fn, ptr);     
-    callbackSetUser(valptr, ptr);     
-    (ptr)->timer=NULL;                            
+void
+evgMrm::init_cb(CALLBACK *ptr, int priority, void(*fn)(CALLBACK*), void* valptr) {
+    callbackSetPriority(priority, ptr);
+    callbackSetCallback(fn, ptr);
+    callbackSetUser(valptr, ptr);
+    (ptr)->timer=NULL;
 }
 
 const std::string
@@ -231,7 +234,7 @@ evgMrm::getRegAddr() const {
     return m_pReg;
 }
 
-epicsUInt32 
+epicsUInt32
 evgMrm::getFwVersion() const {
     return READ32(m_pReg, FPGAVersion);
 }
@@ -506,7 +509,7 @@ evgMrm::isr(void* arg) {
      }
 
     #else
-    
+
     /*
      * This is far far far far from proper solution
      * since it blocks IRQ thread. Luckily the whole ISR
@@ -554,7 +557,7 @@ void
 evgMrm::process_eos0_cb(CALLBACK *pCallback) {
     void* pVoid;
     evgSeqRam* seqRam;
-    
+
     callbackGetUser(pVoid, pCallback);
     seqRam = (evgSeqRam*)pVoid;
     if(!seqRam)
@@ -642,7 +645,7 @@ evgMrm::process_inp_cb(CALLBACK *pCallback) {
             BITSET32(evg->getRegAddr(), IrqEnable, EVG_IRQ_EXT_INP);
         evg->irqExtInp_queued=0;
     }
-     
+
     epicsUInt32 data = evg->sendTimestamp();
     if(!data)
         return;
@@ -660,7 +663,7 @@ evgMrm::sendTimestamp() {
     /*Start the timer*/
     m_timerEvent->signal();
 
-    /*If the time since last update is more than 1.5 secs(i.e. if wdTimer expires) 
+    /*If the time since last update is more than 1.5 secs(i.e. if wdTimer expires)
     then we need to resync the time after 5 good pulses*/
     if(m_wdTimer->getPilotCount()) {
         m_wdTimer->decrPilotCount();
@@ -699,7 +702,7 @@ evgMrm::sendTimestamp() {
             printf("EVG time:\n");
             storedTime.show(1);
             printf("----Timestamping Error of %f Secs----\n", errorTime);
-        } 
+        }
     }
 
     return getTimestamp().secPastEpoch + 1 + POSIX_TIME_AT_EPICS_EPOCH;
@@ -728,7 +731,7 @@ evgMrm::syncTimestamp() {
      */
     if(m_timestamp.nsec > 500*pow(10.0,6))
         incrTimestamp();
-    
+
     m_timestamp.nsec = 0;
 }
 
@@ -763,7 +766,7 @@ evgMrm::getTrigEvt(epicsUInt32 evtTrigNum) {
     return trigEvt;
 }
 
-evgMxc* 
+evgMxc*
 evgMrm::getMuxCounter(epicsUInt32 muxNum) {
     evgMxc* mxc =    m_muxCounter[muxNum];
     if(!mxc)
@@ -809,7 +812,7 @@ evgMrm::getSoftSeqMgr() {
     return &m_softSeqMgr;
 }
 
-epicsEvent* 
+epicsEvent*
 evgMrm::getTimerEvent() {
     return m_timerEvent;
 }

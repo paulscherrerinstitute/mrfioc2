@@ -16,6 +16,37 @@
 #include "mrmDataBuffer_300.h"
 
 
+mrmDataBuffer_300::mrmDataBuffer_300(const char *parentName,
+                                     volatile epicsUInt8 *parentBaseAddress,
+                                     epicsUInt32 controlRegisterTx,
+                                     epicsUInt32 controlRegisterRx,
+                                     epicsUInt32 dataRegisterTx,
+                                     epicsUInt32 dataRegisterRx):
+    mrmDataBuffer(parentName,
+                  parentBaseAddress,
+                  controlRegisterTx,
+                  controlRegisterRx,
+                  dataRegisterTx,
+                  dataRegisterRx)
+{
+    enableRx(true);
+}
+
+void mrmDataBuffer_300::enableRx(bool en)
+{
+    epicsUInt32 reg;
+
+    if(supportsRx() && en) {
+        epicsGuard<epicsMutex> g(m_rx_lock);
+        reg = nat_ioread32(base+ctrlRegRx);
+
+        reg |= DataRxCtrl_mode|DataRxCtrl_rx; // Set mode to DBUS+data buffer and set up buffer for reception
+        nat_iowrite32(base+ctrlRegRx, reg);
+
+        clearFlags(base+DataBufferFlags_rx);    // also clear Rx flags (and consequently checksum+overflow flags)
+    }
+}
+
 bool mrmDataBuffer_300::send(epicsUInt8 startSegment, epicsUInt16 length, epicsUInt8 *data){
     epicsUInt32 offset, reg;
     epicsUInt16 i;
@@ -147,6 +178,7 @@ void mrmDataBuffer_300::receive()
         }
     }
 
+    // TODO: is this really needed? Registers get written when intreset is set/removed
     for(i=0; i<4; i++) {        // set which segments will trigger interrupt when data is received
         nat_iowrite32(base+DataBuffer_SegmentIRQ + 4 * i, m_irq_flags[i]);
     }
@@ -161,7 +193,10 @@ bool mrmDataBuffer_300::overflowOccured() {
         segment = 0;
         while (m_overflows[i] !=0 ) {   // overflow occured.
             overflow = true;
-            if (m_overflows[i] & 0x80000000) errlogPrintf("HW overflow occured for segment %d\n", i*32 + segment);
+            if (m_overflows[i] & 0x80000000) {
+                dbgPrintf(1, "HW overflow occured for segment %d\n", i*32 + segment);
+                m_overflow_count[i*32 + segment]++;
+            }
             m_overflows[i] <<= 1;
             segment ++;
         }
@@ -179,7 +214,10 @@ bool mrmDataBuffer_300::checksumError() {   // DBCS bit is not checked, since se
         segment = 0;
         while (m_checksums[i] !=0 ) {   // checksum occured.
             checksum = true;
-            if (m_checksums[i] & 0x80000000) errlogPrintf("Checksum error occured for segment %d.\n", i*32 + segment);
+            if (m_checksums[i] & 0x80000000) {
+                dbgPrintf(1, "Checksum error occured for segment %d.\n", i*32 + segment);
+                m_checksum_count[i*32 + segment]++;
+            }
             m_checksums[i] <<= 1;
             segment ++;
         }

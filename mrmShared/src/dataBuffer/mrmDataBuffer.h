@@ -46,12 +46,12 @@ public:
      * Definition of a callback function. Used in registerRxComplete()
      */
     typedef void(*rxCompleteCallback_t)(void* pvt);
-    
+
     /**
      * @brief enableRx is used to enable or disable receiving for this data buffer
      * @param en enables receiving when true, disables when false
      */
-    void enableRx(bool en);
+    virtual void enableRx(bool en) = 0;
 
     /**
      * @brief enabledRx tells if the data buffer reception is enabled
@@ -131,6 +131,20 @@ public:
 
     static mrmDataBuffer* getDataBufferFromDevice(const char *device);
 
+    /**
+     * @brief getOverflowCount sets the pointer to the internal counter for overflows on each segment. Use the pointer for reading only!
+     * @param overflowCount will be set to the pointer to the internal counter
+     * @return number of items in the couter array (number of segments)
+     */
+    epicsUInt32 getOverflowCount(epicsUInt32 **overflowCount);
+
+    /**
+     * @brief getChecksumCount sets the pointer to the internal counter for checksums on each segment. Use the pointer for reading only!
+     * @param checksumCount will be set to the pointer to the internal counter
+     * @return number of items in the couter array (number of segments)
+     */
+    epicsUInt32 getChecksumCount(epicsUInt32 **checksumCount);
+
     // test functions (used from mrmDataBuffer_test.cpp)
     void setSegmentIRQ(epicsUInt8 i, epicsUInt32 mask);
     void ctrlReceive();
@@ -147,6 +161,7 @@ protected:
     epicsUInt32 const dataRegRx;        // Rx data register offset
 
     epicsMutex m_tx_lock;               // This lock must be held while send is in progress
+    epicsMutex m_rx_lock;               // The lock prevents adding/removing users while data is being dispatched to users.
 
     epicsUInt8 m_rx_buff[2048];         // Always up-to-date copy of rx buffer
 
@@ -156,12 +171,15 @@ protected:
     epicsUInt32 m_irq_flags[4];         // used to set the segment IRQ flags register
     epicsUInt16 m_max_length;           // maximum buffer length that we are interested in (based on m_irq_flags)
 
+    epicsUInt32 m_overflow_count[128];  // count the total number of overflows that occured for each segment (4*32 = 128 segments)
+    epicsUInt32 m_checksum_count[128];  // count the total number of checksum errors that occured for each segment (4*32 = 128 segments)
+
     //Registered users
     struct Users{
         mrmDataBufferUser *user;
-        epicsUInt32 segments[4];                // segment mask in which the user is interested
+        epicsUInt32 segments[4];        // segment mask in which the user is interested
     };
-    std::vector<Users*> m_users;    // a list of users who are accessing the data buffer
+    std::vector<Users*> m_users;        // a list of users who are accessing the data buffer
 
     /**
      * @brief waitWhileTxRunning is busy waiting while data buffer transmission is running (pools the TXRUN bit)
@@ -169,13 +187,18 @@ protected:
      */
     bool waitWhileTxRunning();
 
+
+    /**
+     * @brief clearFlags clears all the flags for the specified flag register, by writing '1' to each flag bit
+     * @param flagRegister is the starting address of a 4x32 bit flag register to clear.
+     */
+    void clearFlags(volatile epicsUInt8* flagRegister);
+
     // helper functions
     void printBinary(const char *preface, epicsUInt32 n);
     void printFlags(const char *preface, volatile epicsUInt8* flagRegister);
 
 private:
-    epicsMutex m_rx_lock;           // The lock prevents adding/removing users while data is being dispatched to users.
-
     struct RxCompleteCallback{
         rxCompleteCallback_t fptr;  // callback function pointer
         void* pvt;                  // callback private
@@ -185,12 +208,6 @@ private:
      * @brief calcMaxInterestedLength Uses m_irq_flags to set new value for m_max_length
      */
     void calcMaxInterestedLength();
-
-    /**
-     * @brief clearFlags clears all the flags for the specified flag register, by writing '1' to each flag bit
-     * @param flagRegister is the starting address of a 4x32 bit flag register to clear.
-     */
-    void clearFlags(volatile epicsUInt8* flagRegister);
 
     /**
      * @brief receive is invoked by handleDataBufferRxIRQ. Function implementations are in separate classes.
