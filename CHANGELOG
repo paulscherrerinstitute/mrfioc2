@@ -1,5 +1,10 @@
 For detailed changelog inspect commits at https://git.psi.ch/epics_drivers/mrfioc2/commits/master
 
+2.7.10 : Tue 15 Mar 2016:
+	- added evr-configTriggerSwitch.template for easy configuration of trigger switching (pulser set up + gating)
+	- updated sfp.template alarm settings (based on AV02-0447EN and AV02-0881EN datasheets)
+	- exposed data buffer properties to records/GUI for EVRs, and added iocsh function mrmDataBufferReport
+
 2.7.9 : Wed 24 Feb 2016:
     - added example substitution files (EVG-VME-300 used as fanout, EVR-PCIe-300DC )
     - EVG: Setting a MXC frequency no longer resets all MXC counters. A button to explicitly reset all counters was added to the GUI.
