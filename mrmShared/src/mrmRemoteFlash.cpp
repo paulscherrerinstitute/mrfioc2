@@ -6,7 +6,7 @@
 #include <epicsExport.h>
 #include "mrmRemoteFlash.h"
 
-const char *OBJECT_NAME = ":Flash"; // appended to device name for use in mrfioc2 object model
+const char *mrmRemoteFlash::OBJECT_NAME = ":Flash"; // appended to device name for use in mrfioc2 object model
 
 
 mrmRemoteFlash::mrmRemoteFlash(const std::string &parentName, volatile epicsUInt8 *parentBaseAddress, deviceInfoT &deviceInfo, mrmFlash &flash):
@@ -292,7 +292,7 @@ static void mrmRemoteFlashFunc_read(const iocshArgBuf *args) {
 
 
     printf("Starting flash read procedure for %s [%s]\n", device.c_str(), bitfile.c_str());
-    device.append(OBJECT_NAME);
+    device.append(mrmRemoteFlash::OBJECT_NAME);
 
     mrmRemoteFlash* remoteFlash = dynamic_cast<mrmRemoteFlash*>(mrf::Object::getObject(device.c_str()));
     if(!remoteFlash){
@@ -333,7 +333,7 @@ static void mrmRemoteFlashFunc_write(const iocshArgBuf *args) {
 
 
     printf("Starting flashing procedure for %s [%s]\n", device.c_str(), bitfile.c_str());
-    device.append(OBJECT_NAME);
+    device.append(mrmRemoteFlash::OBJECT_NAME);
 
     mrmRemoteFlash* remoteFlash = dynamic_cast<mrmRemoteFlash*>(mrf::Object::getObject(device.c_str()));
     if(!remoteFlash){
@@ -373,7 +373,7 @@ static void mrmRemoteFlashFunc_setOffset(const iocshArgBuf *args) {
 
 
     printf("Setting offset for %s to %d\n", device.c_str(), offset);
-    device.append(OBJECT_NAME);
+    device.append(mrmRemoteFlash::OBJECT_NAME);
 
     mrmRemoteFlash* remoteFlash = dynamic_cast<mrmRemoteFlash*>(mrf::Object::getObject(device.c_str()));
     if(!remoteFlash){
@@ -410,7 +410,7 @@ static void mrmRemoteFlashFunc_status(const iocshArgBuf *args) {
 
 
     printf("Status report of %s flash chip\n", device.c_str());
-    device.append(OBJECT_NAME);
+    device.append(mrmRemoteFlash::OBJECT_NAME);
 
     mrmRemoteFlash* remoteFlash = dynamic_cast<mrmRemoteFlash*>(mrf::Object::getObject(device.c_str()));
     if(!remoteFlash){

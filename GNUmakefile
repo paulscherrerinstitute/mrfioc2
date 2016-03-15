@@ -31,6 +31,7 @@ SOURCES+=mrmShared/src/dataBuffer/mrmDataBuffer.cpp
 SOURCES+=mrmShared/src/dataBuffer/mrmDataBuffer_300.cpp
 SOURCES+=mrmShared/src/dataBuffer/mrmDataBuffer_230.cpp
 SOURCES+=mrmShared/src/dataBuffer/mrmDataBufferUser.cpp
+SOURCES+=mrmShared/src/dataBuffer/mrmDataBufferObj.cpp
 
 SOURCES+=evrMrmApp/src/devSupport/devEvrStringIO.cpp
 SOURCES+=evrMrmApp/src/devSupport/devEvrPulserMapping.cpp

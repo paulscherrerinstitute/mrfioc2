@@ -130,7 +130,7 @@ size_t mrmDataBufferUser::registerInterest(size_t offset, size_t length, dataBuf
         dbgPrintf(1, "Trying to register %" FORMAT_SIZET_U " bytes on offset %" FORMAT_SIZET_U ", which is longer than buffer size (%d). ", length, offset, DataBuffer_len_max);
         length = DataBuffer_len_max - offset;
         dbgPrintf(1, "Cropped length to %" FORMAT_SIZET_U "\n", length);
-    }  
+    }
 
 
     if (m_rx_callbacks.size() > 0) {

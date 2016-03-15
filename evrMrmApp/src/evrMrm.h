@@ -11,6 +11,7 @@
 #ifndef EVRMRM_H_INC
 #define EVRMRM_H_INC
 
+#define MRMDATABUFFEROBJ_H_LEVEL2
 #define MRMREMOTEFLASH_H_LEVEL2
 #define SFP_H_LEVEL2
 
@@ -43,6 +44,7 @@
 #include "mrmRemoteFlash.h"
 #include "dataBuffer/mrmDataBuffer_300.h"
 #include "dataBuffer/mrmDataBuffer_230.h"
+#include "dataBuffer/mrmDataBufferObj.h"
 
 
 enum TSSource {
@@ -101,11 +103,11 @@ struct eventCode {
 
 /**@brief Modular Register Map Event Receivers
  *
- * 
+ *
  */
 class epicsShareClass EVRMRM : public mrf::ObjectInst<EVRMRM>
 {
-public:    
+public:
     /** @brief Guards access to instance
    *  All callers must take this lock before any operations on
    *  this object.
@@ -408,6 +410,7 @@ private:
     mrmFlash m_flash;
     mrmRemoteFlash* m_remoteFlash;
     mrmDataBuffer* m_dataBuffer;
+    mrmDataBufferObj *m_dataBufferObj;
 
 }; // class EVRMRM
 

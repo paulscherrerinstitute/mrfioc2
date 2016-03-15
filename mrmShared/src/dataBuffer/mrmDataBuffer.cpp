@@ -47,12 +47,19 @@ mrmDataBuffer::mrmDataBuffer(const char * parentName,
     rx_complete_callback.fptr = NULL;
     rx_complete_callback.pvt = NULL;
 
-    enableRx(1);
-    enableTx(1);
+    enableTx(true);
 
     for (i=0; i<4; i++) {
         m_irq_flags[i] = 0;
     }
+
+    for (i=0; i<128; i++) {
+        m_overflow_count[i] = 0;
+        m_checksum_count[i] = 0;
+    }
+
+    // init interest flags
+    setInterest(NULL, NULL);
 
     data_buffers[parentName] = this;
 }
@@ -60,33 +67,14 @@ mrmDataBuffer::mrmDataBuffer(const char * parentName,
 mrmDataBuffer::~mrmDataBuffer() {
     size_t i;
 
-    enableRx(0);
-    enableTx(0);
-
     for (i=0; i<m_users.size(); i++) {
         delete m_users[i];
     }
 
+    // reset intrest
+    setInterest(NULL, NULL);
+
     // data_buffers are destroyed when the app is destroyed...
-}
-
-void mrmDataBuffer::enableRx(bool en)
-{
-    epicsUInt32 reg;
-
-    if(supportsRx()) {
-        epicsGuard<epicsMutex> g(m_rx_lock);
-        reg = nat_ioread32(base+ctrlRegRx);
-        if(en) {
-            reg |= DataRxCtrl_mode|DataRxCtrl_rx; // Set mode to DBUS+data buffer and set up buffer for reception
-        } else {
-            reg |= DataRxCtrl_stop;    // stop reception
-            reg &= ~DataRxCtrl_mode;   // set mode to DBUS only (no effect on firmware 200+)
-        }
-        nat_iowrite32(base+ctrlRegRx, reg);
-
-        clearFlags(base+DataBufferFlags_rx);    // also clear Rx flags (and consequently checksum+overflow flags)
-    }
 }
 
 bool mrmDataBuffer::enabledRx()
@@ -296,6 +284,18 @@ mrmDataBuffer* mrmDataBuffer::getDataBufferFromDevice(const char *device) {
     }
 
     return NULL;
+}
+
+epicsUInt32 mrmDataBuffer::getOverflowCount(epicsUInt32 **overflowCount)
+{
+    *overflowCount = m_overflow_count;
+    return (epicsUInt32)(sizeof (m_overflow_count) / sizeof (epicsUInt32 *));
+}
+
+epicsUInt32 mrmDataBuffer::getChecksumCount(epicsUInt32 **checksumCount)
+{
+    *checksumCount = m_checksum_count;
+    return (epicsUInt32)(sizeof (m_overflow_count) / sizeof (epicsUInt32 *));
 }
 
 

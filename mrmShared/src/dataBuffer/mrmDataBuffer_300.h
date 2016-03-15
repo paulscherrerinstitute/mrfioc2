@@ -11,13 +11,14 @@ public:
                       epicsUInt32 controlRegisterTx,
                       epicsUInt32 controlRegisterRx,
                       epicsUInt32 dataRegisterTx,
-                      epicsUInt32 dataRegisterRx):
-        mrmDataBuffer(parentName,
-                      parentBaseAddress,
-                      controlRegisterTx,
-                      controlRegisterRx,
-                      dataRegisterTx,
-                      dataRegisterRx) {}
+                      epicsUInt32 dataRegisterRx);
+
+    /**
+     * @brief enableRx can only enable reception. Disabling reception has no effect on this HW.
+     * @param en when true enables reception, otherwise does nothing
+     */
+    void enableRx(bool en);
+
 private:
     bool send(epicsUInt8 startSegment, epicsUInt16 length, epicsUInt8 *data);
     void receive();

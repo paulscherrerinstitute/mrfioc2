@@ -1,3 +1,4 @@
 variable(mrfioc2_dataBufferDebug,int)
 variable(mrfioc2_flashDebug,int)
 registrar(mrmRemoteFlashRegistrar)
+registrar(mrmDataBufferObjRegistrar)

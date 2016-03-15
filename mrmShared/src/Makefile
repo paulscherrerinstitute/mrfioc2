@@ -11,6 +11,7 @@ INC += dataBuffer/mrmDataBuffer.h
 INC += dataBuffer/mrmDataBuffer_300.h
 INC += dataBuffer/mrmDataBuffer_230.h
 INC += dataBuffer/mrmDataBufferUser.h
+INC += dataBuffer/mrmDataBufferObj.h
 
 DBD += mrmShared.dbd
 
@@ -20,6 +21,7 @@ mrmShared_SRCS += mrmDataBuffer.cpp
 mrmShared_SRCS += mrmDataBuffer_300.cpp
 mrmShared_SRCS += mrmDataBuffer_230.cpp
 mrmShared_SRCS += mrmDataBufferUser.cpp
+mrmShared_SRCS += mrmDataBufferObj.cpp
 mrmShared_SRCS += sfp.cpp
 mrmShared_SRCS += mrmFlash.cpp
 mrmShared_SRCS += mrmRemoteFlash.cpp
