@@ -106,7 +106,7 @@ enum PLLBandwidth {
 //
 
 // Tx control register offsets
-#define DataTxCtrl_saddr_mask 0xFF000000    // Transfer start segment address (DADDR)
+#define DataTxCtrl_saddr_mask 0xFF000000    // Transfer start segment address (SADDR)
 #define DataTxCtrl_saddr_shift 24
 #define DataTxCtrl_done 0x100000    // Transmission complete (CPT)
 #define DataTxCtrl_run  0x080000    // Transmission running (RUN)
@@ -116,10 +116,10 @@ enum PLLBandwidth {
 #define DataTxCtrl_len_mask 0x0007fc
 
 
-#define DataBuffer_SegmentIRQ  0x780   //4x32 bit
-#define DataBufferFlags_cheksum 0x7A0   //4x32 bit, each bit for one segment. 0 = Checksum OK
+#define DataBuffer_SegmentIRQ       0x780   //4x32 bit
+#define DataBufferFlags_cheksum     0x7A0   //4x32 bit, each bit for one segment. 0 = Checksum OK
 #define DataBufferFlags_overflow    0x7C0   //4x32 bit, each bit for one segment.
-#define DataBufferFlags_rx  0x7E0   //4x32 bit
+#define DataBufferFlags_rx          0x7E0   //4x32 bit
 
 
 // Rx control register offsets

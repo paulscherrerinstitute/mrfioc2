@@ -33,6 +33,10 @@
  * Jukka Pietarinen
  * 15 June 2015
  *
+ * Review based on EventSystem-DCManual-160217.pdf
+ * Jukka Pietarinen
+ * February 17, 2016
+ *
  * Important note about data width
  *
  * All registers can be accessed with 8, 16, or 32 width
@@ -58,7 +62,7 @@
 #  define Control_txloop  0x20000000
 #  define Control_rxloop  0x10000000
 
-#  define Control_outena  0x08000000 /* cPCI-EVRTG-300 only */
+#  define Control_outena  0x08000000 /* Output enable for FPGA external components / IFB-300 (cPCI-EVRTG-300, PCIe-EVR-300, PXIe-EVR-300I) */
 
 #  define Control_sreset  0x04000000 /* soft FPGA reset */
 
@@ -67,19 +71,19 @@
 #  define Control_GTXio   0x01000000 /* GTX use external inhibit */
 
 /*                        Timestamp clock on DBUS #4 */
-#  define Control_tsdbus  0x00004000
-#  define Control_tsrst   0x00002000
-#  define Control_tsltch  0x00000400
+#  define Control_tsdbus  0x00004000    /* Use timestamp counter clock on DBUS4 */
+#  define Control_tsrst   0x00002000    /* Reset timetamp. Write 1 to reset timestamp event counter and timestamp latch. */
+#  define Control_tsltch  0x00000400    /* Latch timestamp. Write 1 to latch timetamp from timestamp event counter to timestamp latch. */
 
-#  define Control_mapena  0x00000200
-#  define Control_mapsel  0x00000100
+#  define Control_mapena  0x00000200    /* Event mapping RAM enable */
+#  define Control_mapsel  0x00000100    /* Mapping ram select bit for event decoding (0 - RAM1, 1 - RAM 2) */
 
-#  define Control_logrst  0x00000080
-#  define Control_logena  0x00000040
-#  define Control_logdis  0x00000020
+#  define Control_logrst  0x00000080    /* Reset event log. Write 1 to reset log. */
+#  define Control_logena  0x00000040    /* Enable event log. Write 1 to (re)enable event log */
+#  define Control_logdis  0x00000020    /* Disable event log. Write 1 to disable event log */
 /*  Stop Event Enable */
-#  define Control_logsea  0x00000010
-#  define Control_fiforst 0x00000008
+#  define Control_logsea  0x00000010    /* Log stop event enable */
+#  define Control_fiforst 0x00000008    /* Reset event FIFO. Write 1 to clear event FIFO */
 
 /* Interrupt status register */
 #define U32_IRQFlag     0x008
@@ -93,8 +97,8 @@
 
 
 /* Interrupt control register */
-#define U32_IRQEnable   0x00c
-#define U8_IRQEnableBot 0x00f   //Only 1st byte is accessed to prevent usr/kernel racer on PCIe300.
+#define U32_IRQEnable   0x00C
+#define U8_IRQEnableBot 0x00F   //Only 1st byte is accessed to prevent usr/kernel racer on PCIe300.
 
 /* Same bits as IRQFlag plus */
 #  define IRQ_Enable    0x80000000
@@ -118,14 +122,14 @@
 #define U32_DataRx(N)      (U32_DataRxBaseEvr + (N))
 #define U32_DataTx(N)      (U32_DataTxBaseEvr + (N))
 
-#define U32_FWVersion   0x02c
-#  define FWVersion_type_mask 0xf0000000
+#define U32_FWVersion   0x02C
+#  define FWVersion_type_mask 0xF0000000
 #  define FWVersion_type_shift 28
-#  define FWVersion_form_mask 0x0f000000
+#  define FWVersion_form_mask 0x0F000000
 #  define FWVersion_form_shift 24
-#  define FWVersion_ver_mask  0x00000fff
+#  define FWVersion_ver_mask  0x00000FFF
 #  define FWVersion_ver_shift  0
-#  define FWVersion_zero_mask 0x00fff000
+#  define FWVersion_zero_mask 0x00FFF000
 
 #define U32_CounterPS   0x040 /* Timestamp event counter prescaler */
 
@@ -139,14 +143,14 @@
 
 #define U32_SRSec       0x05C
 
-#define U32_TSSec       0x060
-#define U32_TSEvt       0x064
-#define U32_TSSecLatch  0x068
-#define U32_TSEvtLatch  0x06c
+#define U32_TSSec       0x060   // Timestamp seconds counter
+#define U32_TSEvt       0x064   // Timestamp event counter
+#define U32_TSSecLatch  0x068   // Timestamp seconds counter latch
+#define U32_TSEvtLatch  0x06c   // Timestamp event counter latch
 
-#define U32_EvtFIFOSec  0x070
-#define U32_EvtFIFOEvt  0x074
-#define U32_EvtFIFOCode 0x078
+#define U32_EvtFIFOSec  0x070   // Event FIFO seconds register
+#define U32_EvtFIFOEvt  0x074   // Event FIFO event counter register
+#define U32_EvtFIFOCode 0x078   // Event FIFO event code register
 
 #define U32_LogStatus   0x07C
 
@@ -154,9 +158,9 @@
 
 #define U32_RFInitPhas  0x088
 
-#define U32_GPIODir     0x090
-#define U32_GPIOIn      0x094
-#define U32_GPIOOut     0x098
+#define U32_GPIODir     0x090   // Front panel univIO GPIO signal direction
+#define U32_GPIOIn      0x094   // Front panel univIO GPIO input register
+#define U32_GPIOOut     0x098   // Front panel univIO GPIO output register
 
 #define U32_DCTarget    0x0B0   /* Delay Compensation Target Value */
 #define U32_DCRxValue   0x0B4   /* Delay Compensation Transmission Path Delay Value */
@@ -181,7 +185,7 @@
 #define U32_PulserNCtrl 0x200
 #define U32_PulserNScal 0x204
 #define U32_PulserNDely 0x208
-#define U32_PulserNWdth 0x20c
+#define U32_PulserNWdth 0x20C
 #  define PulserMax 32
 
 /* 0 <= N <= 9 */
@@ -264,7 +268,7 @@
 #define U32_OutputCMLNLow  0x600
 #define U32_OutputCMLNRise 0x604
 #define U32_OutputCMLNFall 0x608
-#define U32_OutputCMLNHigh 0x60c
+#define U32_OutputCMLNHigh 0x60C
 #define U32_OutputCMLNEna  0x610
 #  define OutputCMLEna_ftrig_mask 0xffff0000
 #  define OutputCMLEna_ftrig_shft 16

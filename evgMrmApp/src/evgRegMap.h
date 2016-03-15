@@ -45,12 +45,12 @@
 #define  U8_SwEventCode         0x001B  // Software Event Code Register
 
 #define  SW_EVT_ENABLE          0x01
-#define  SW_EVT_PEND            0x02    
+#define  SW_EVT_PEND            0x02
 
 //=====================
 // Data Buffer and Distributed Data Bus Control
 //
-#define  U32_DataTxCtrlEvg  0x0020  // Data Buffer Control Register
+#define  U32_DataTxCtrlEvg      0x0020  // Data Buffer Control Register
 #define  U32_DBusSrc            0x0024  // Distributed Data Bus Mapping Register
 
 //=====================
@@ -62,7 +62,7 @@
 // Event Clock Control
 //
 #define  U16_uSecDiv            0x004e  // Event Clock Freq Rounded to Nearest 1 MHz
-#define  U8_ClockSource         0x0050  // Event Clock Source(Internal or RF Input)
+#define  U8_ClockSource         0x0050  // Event Clock Control Register (also Source select (Internal, RF Input,...))
 #define  U8_RfDiv               0x0051  // RF Input Divider
 #define  U16_ClockStatus        0x0052  // Event Clock Status
 
@@ -130,7 +130,7 @@
 #define  U16_UnivOutMap(n)      (U16_UnivOutMap_base + (2*(n)))
 
 //=====================
-// Front Panel Input Mapping Registers 
+// Front Panel Input Mapping Registers
 //
 #define  U32_FrontInMap_base       0x0500  // Front Input Port Mapping Register
 #define  U32_FrontInMap(n)         (U32_FrontInMap_base + (4*(n)))
@@ -186,7 +186,7 @@
 
 #define FPGAVersion_ZERO_MASK   0x00FFF000
 #define FPGAVersion_TYPE_MASK   0xF0000000
-#define FPGAVersion_FORM_MASK   0x0f000000
+#define FPGAVersion_FORM_MASK   0x0F000000
 #define FPGAVersion_FORM_SHIFT  24
 #define FPGAVersion_TYPE_SHIFT  28
 #define FPGAVersion_VER_MASK    0x00000FFF
@@ -220,11 +220,13 @@
 /**************************************************************************************************/
 
 #define  EVG_CLK_SRC_SEL      0x07  // External/Internal reference clock select
-#define  EVG_CLK_SRC_INTERNAL  0
-#define  EVG_CLK_SRC_EXTERNAL  1
-#define  EVG_CLK_SRC_PXIE100   2
-#define  EVG_CLK_SRC_RECOVERED 4
-#define  EVG_CLK_SRC_PXIE10    6
+#define  EVG_CLK_SRC_INTERNAL      0
+#define  EVG_CLK_SRC_EXTERNAL      1
+#define  EVG_CLK_SRC_PXIE100       2
+#define  EVG_CLK_SRC_RECOVERED     4
+#define  EVG_CLK_SRC_EXTDOWNRATE   5  // use external RF reference for downstream ports, internal reference for upstream port, Fan-Out mode, event rate down conversion
+#define  EVG_CLK_SRC_PXIE10        6
+#define  EVG_CLK_SRC_RECOVERHALVED 7  // recovered clock /2 decimate mode, event rate is halved
 #define  EVG_CLK_PLLLOCK        0x80
 #define  EVG_CLK_BW             0x70        /* PLL Bandwidth Select (see Silicon Labs Si5317 datasheet) */
 #define  EVG_CLK_BW_shift       4
@@ -256,8 +258,8 @@
 /* Multiplexed Counter                                                                            */
 /**************************************************************************************************/
 
-#define  EVG_MUX_POLARITY       0x40000000 
-#define  EVG_MUX_STATUS         0x80000000 
+#define  EVG_MUX_POLARITY       0x40000000
+#define  EVG_MUX_STATUS         0x80000000
 
 /**************************************************************************************************/
 /* Control Register flags                                                                         */
