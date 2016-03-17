@@ -43,10 +43,10 @@ record(calc, "$(SYS)-$(DEVICE)-HEALTH:Link_"){
 	field(INPG, "$(SYS)-$(DEVICE):FCT-status-I.B3 CP") 
 	field(INPH, "$(SYS)-$(DEVICE):FCT-Violation-I.B3 CP")
 
-	field(INPI, "$(SYS)-$(DEVICE):SFP1-Pwr-RX-I CP")
-  field(INPJ, "$(SYS)-$(DEVICE):SFP2-Pwr-RX-I CP")
-  field(INPK, "$(SYS)-$(DEVICE):SFP3-Pwr-RX-I CP")
-  field(INPL, "$(SYS)-$(DEVICE):SFP4-Pwr-RX-I CP")
+  field(INPI, "$(SYS)-$(DEVICE)-HEALTH:Monitor-SP.B1 CP")
+  field(INPJ, "$(SYS)-$(DEVICE)-HEALTH:Monitor-SP.B2 CP")
+  field(INPK, "$(SYS)-$(DEVICE)-HEALTH:Monitor-SP.B3 CP")
+  field(INPL, "$(SYS)-$(DEVICE)-HEALTH:Monitor-SP.B4 CP")
 	
   field(CALC, "(I&&(!A||B))||(J&&(!C||D))||(K&&(!E||F))||(L&&(!G||H))")
 
@@ -68,10 +68,10 @@ record(calc, "$(SYS)-$(DEVICE)-HEALTH:Link__"){
   field(INPG, "$(SYS)-$(DEVICE):FCT-status-I.B7 CP")  
   field(INPH, "$(SYS)-$(DEVICE):FCT-Violation-I.B7 CP")
 
-  field(INPI, "$(SYS)-$(DEVICE):SFP5-Pwr-RX-I CP")
-  field(INPJ, "$(SYS)-$(DEVICE):SFP6-Pwr-RX-I CP")
-  field(INPK, "$(SYS)-$(DEVICE):SFP7-Pwr-RX-I CP")
-  field(INPL, "$(SYS)-$(DEVICE):SFP8-Pwr-RX-I CP")
+  field(INPI, "$(SYS)-$(DEVICE)-HEALTH:Monitor-SP.B5 CP")
+  field(INPJ, "$(SYS)-$(DEVICE)-HEALTH:Monitor-SP.B6 CP")
+  field(INPK, "$(SYS)-$(DEVICE)-HEALTH:Monitor-SP.B7 CP")
+  field(INPL, "$(SYS)-$(DEVICE)-HEALTH:Monitor-SP.B8 CP")
   
   field(CALC, "(I&&(!A||B))||(J&&(!C||D))||(K&&(!E||F))||(L&&(!G||H))")
 
@@ -182,7 +182,7 @@ record(calc, "$(SYS)-$(DEVICE)-HEALTH:SFP-Rx_"){
   field(INPK, "$(SYS)-$(DEVICE)-HEALTH:Monitor-SP.B5")
   field(INPL, "$(SYS)-$(DEVICE)-HEALTH:Monitor-SP.B6")
   
-  field(CALC, "G&&A>0?A+1:(H&&B>0?B+1:(I&&C>0?C+1:(J&&D>0?D+1:(K&&E>0?E+1:(L&&F>0?F+1:1)))))")
+  field(CALC, "MAX(G*A,H*B,I*C,J*D,K*E,L*F)+1")
 
   field(LOW,  "0")
   field(LSV,  "INVALID")
