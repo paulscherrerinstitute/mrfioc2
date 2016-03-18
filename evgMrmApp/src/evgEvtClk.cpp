@@ -1,11 +1,11 @@
 #include "evgEvtClk.h"
 
 #include <stdio.h>
-#include <errlog.h> 
+#include <errlog.h>
 #include <stdexcept>
 
-#include <mrfCommonIO.h> 
-#include <mrfCommon.h> 
+#include <mrfCommonIO.h>
+#include <mrfCommon.h>
 #include <mrfFracSynth.h>
 
 #include "evgRegMap.h"
@@ -42,7 +42,7 @@ evgEvtClk::setRFFreq (epicsFloat64 RFref) {
 
 epicsFloat64
 evgEvtClk::getRFFreq() const {
-    return m_RFref;    
+    return m_RFref;
 }
 
 void
@@ -53,7 +53,7 @@ evgEvtClk::setRFDiv(epicsUInt32 rfDiv) {
         std::string strErr(err);
         throw std::runtime_error(strErr);
     }
-    
+
     WRITE8(m_pReg, RfDiv, rfDiv-1);
 }
 
@@ -70,7 +70,7 @@ evgEvtClk::setFracSynFreq(epicsFloat64 freq) {
     controlWord = FracSynthControlWord (freq, MRF_FRAC_SYNTH_REF, 0, &error);
     if ((!controlWord) || (error > 100.0)) {
         char err[80];
-        sprintf(err, "Cannot set event clock speed to %f MHz.\n", freq);            
+        sprintf(err, "Cannot set event clock speed to %f MHz.\n", freq);
         std::string strErr(err);
         throw std::runtime_error(strErr);
     }
@@ -131,8 +131,8 @@ evgEvtClk::setSource (epicsUInt16 source) {
     epicsUInt8 clkReg, regMap = 0;
     epicsUInt32 version;
 
-    version = READ32(m_pReg, FPGAVersion);
-    version &= FPGAVersion_VER_MASK;
+    version = READ32(m_pReg, FWVersion);
+    version &= FWVersion_ver_mask;
 
     switch ((RFClockReference) source) {
     case RFClockReference_Internal:
@@ -172,8 +172,8 @@ evgEvtClk::getSource() const {
     bool fct = true;
     epicsUInt32 version;
 
-    version = READ32(m_pReg, FPGAVersion);
-    version &= FPGAVersion_VER_MASK;
+    version = READ32(m_pReg, FWVersion);
+    version &= FWVersion_ver_mask;
 
     clkReg = READ8(m_pReg, ClockSource);
     clkReg &= EVG_CLK_SRC_SEL;

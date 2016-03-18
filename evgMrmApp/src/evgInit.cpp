@@ -53,13 +53,13 @@ enableIRQ(mrf::Object* obj, void*) {
     if(!evg)
         return true;
 
-	/**
-	 * Enable PCIe interrputs (1<<30)
-	 * 
-	 * Change by: tslejko
-	 * Reason: Support for cPCI EVG 
-	 */
-	WRITE32(evg->getRegAddr(), IrqEnable,
+    /**
+     * Enable PCIe interrputs (1<<30)
+     *
+     * Change by: tslejko
+     * Reason: Support for cPCI EVG
+     */
+    WRITE32(evg->getRegAddr(), IrqEnable,
              EVG_IRQ_PCIIE          | //PCIe interrupt enable,
              EVG_IRQ_ENABLE         |
              EVG_IRQ_EXT_INP        |
@@ -77,7 +77,7 @@ enableIRQ(mrf::Object* obj, void*) {
 //         EVG_IRQ_EXT_INP       |
 //         EVG_IRQ_DBUFF         |
 //         EVG_IRQ_FIFO          |
-//         EVG_IRQ_RXVIO             
+//         EVG_IRQ_RXVIO
 //    );
 
     return true;
@@ -115,7 +115,7 @@ startSFPUpdate(mrf::Object* obj, void*)
     return true;
 }
 
-static void 
+static void
 inithooks(initHookState state) {
     epicsUInt8 lvl;
     switch(state) {
@@ -131,18 +131,18 @@ inithooks(initHookState state) {
                 }
             }
 
-		break;
+        break;
 
-	/*
-	 * Enable interrupts after IOC has been started (this is need for cPCI version) 
-	 * 
-	 * Change by: tslejko
-	 * Reason: cPCI EVG support
-	 */
-	case initHookAtIocRun:
-		epicsAtExit(&evgShutdown, NULL);
-		mrf::Object::visitObjects(&enableIRQ, 0);
-		break;
+    /*
+     * Enable interrupts after IOC has been started (this is need for cPCI version)
+     *
+     * Change by: tslejko
+     * Reason: cPCI EVG support
+     */
+    case initHookAtIocRun:
+        epicsAtExit(&evgShutdown, NULL);
+        mrf::Object::visitObjects(&enableIRQ, 0);
+        break;
 
     /*
      * callback for updating SFP info gets called here for the first time.
@@ -151,32 +151,31 @@ inithooks(initHookState state) {
         mrf::Object::visitObjects(&startSFPUpdate, 0);
         break;
 
-	default:
-		break;
-	}
+    default:
+        break;
+    }
 }
 
 epicsUInt32 checkVersion(volatile epicsUInt8 *base, unsigned int required) {
 #ifndef __linux__
     epicsUInt32 junk;
-    if(devReadProbe(sizeof(junk), (volatile void*)(base+U32_FPGAVersion), (void*)&junk)) {
+    if(devReadProbe(sizeof(junk), (volatile void*)(base+U32_FWVersion), (void*)&junk)) {
         throw std::runtime_error("Failed to read from MRM registers (but could read CSR registers)\n");
     }
 #endif
-	epicsUInt32 type, ver;
-    epicsUInt32 v = READ32(base, FPGAVersion);
+    epicsUInt32 type, ver;
+    epicsUInt32 v = READ32(base, FWVersion);
 
     epicsPrintf("FPGA version: %08x\n", v);
 
-    type = v & FPGAVersion_TYPE_MASK;
-    type = v >> FPGAVersion_TYPE_SHIFT;
+    type = v >> FWVersion_type_shift;
 
     if(type != 0x2){
         errlogPrintf("Found type %x which does not correspond to EVG type 0x2.\n", type);
         return 0;
     }
 
-    ver = v & FPGAVersion_VER_MASK;
+    ver = v & FWVersion_ver_mask;
 
     if(ver < required) {
         errlogPrintf("Firmware version >= %x is required got %x\n", required,ver);
@@ -231,7 +230,7 @@ mrmEvgSetupVME (
         epicsPrintf("##### Setting up MRF EVG in VME Slot %d #####\n",slot);
         epicsPrintf("Found Vendor: %08x\nBoard: %08x\nRevision: %08x\n",
                 info.vendor, info.board, info.revision);
-        
+
         epicsUInt32 xxx = CSRRead32(csrCpuAddr + CSR_FN_ADER(1));
         if(xxx)
             epicsPrintf("Warning: EVG not in power on state! (%08x)\n", xxx);
@@ -334,15 +333,15 @@ mrmEvgSetupVME (
 
             // VME IRQ level will be enabled later during iocInit()
             vme_level_mask |= 1 << ((irqLevel&0x7)-1);
-    
+
             /*Connect Interrupt handler to vector*/
             if(devConnectInterruptVME(irqVector & 0xff, &evgMrm::isr_vme, evg)){
                 errlogPrintf("ERROR:Failed to connect VME IRQ vector %d\n"
                                                          ,irqVector&0xff);
                 delete evg;
                 return -1;
-            }    
-        }     
+            }
+        }
     } catch(std::exception& e) {
         errlogPrintf("Error: %s\n",e.what());
         errlogFlush();
@@ -388,25 +387,25 @@ static int checkUIOVersion(int expect) {return 0;}
 #endif
 
 /**
- * This function and definitions add support for cPCI EVG. 
- * Function works similiar to that of EVR device support and reilies on devLib2 
- * + mrf_uio kernel module to map EVG address space. 
- * 
+ * This function and definitions add support for cPCI EVG.
+ * Function works similiar to that of EVR device support and reilies on devLib2
+ * + mrf_uio kernel module to map EVG address space.
+ *
  * Change by: tslejko
  * Reason: cPCI EVG support
  */
 
 static const epicsPCIID
 mrmevgs[] = {
-		DEVPCI_SUBDEVICE_SUBVENDOR(PCI_DEVICE_ID_PLX_9030, PCI_VENDOR_ID_PLX,PCI_DEVICE_ID_MRF_PXIEVG230, PCI_VENDOR_ID_MRF),
-		DEVPCI_END };
+        DEVPCI_SUBDEVICE_SUBVENDOR(PCI_DEVICE_ID_PLX_9030, PCI_VENDOR_ID_PLX,PCI_DEVICE_ID_MRF_PXIEVG230, PCI_VENDOR_ID_MRF),
+        DEVPCI_END };
 
 extern "C"
 epicsStatus
 mrmEvgSetupPCI (
-		const char* id,         // Card Identifier
-		int b,       			// Bus number
-		int d, 					// Device number
+        const char* id,         // Card Identifier
+        int b,       			// Bus number
+        int d, 					// Device number
         int f,   				// Function number
         bool ignoreVersion)     // Ignore errors due to kernel module and firmware version checks
 {
@@ -418,11 +417,11 @@ mrmEvgSetupPCI (
     deviceInfo.bus.pci.function = f;
     deviceInfo.series = series_unknown;
 
-	try {
-		if (mrf::Object::getObject(id)) {
-			errlogPrintf("ID %s already in use\n", id);
-			return -1;
-		}
+    try {
+        if (mrf::Object::getObject(id)) {
+            errlogPrintf("ID %s already in use\n", id);
+            return -1;
+        }
 
         if(checkUIOVersion(1) > 0) {    // check if kernel version is successfully read and is as expected or higher, and if it can be read at all.
             if(ignoreVersion){
@@ -433,12 +432,12 @@ mrmEvgSetupPCI (
             }
         }
 
-		/* Find PCI device from devLib2 */
+        /* Find PCI device from devLib2 */
         const epicsPCIDevice *cur = 0;
-		if (devPCIFindBDF(mrmevgs, b, d, f, &cur, 0)) {
+        if (devPCIFindBDF(mrmevgs, b, d, f, &cur, 0)) {
             errlogPrintf("PCI Device not found on %x:%x.%x\n", b, d, f);
-			return -1;
-		}
+            return -1;
+        }
 
         epicsPrintf("Device %s  %x:%x.%x\n", id, cur->bus, cur->device, cur->function);
         epicsPrintf("Using IRQ %u\n", cur->irq);
@@ -447,26 +446,26 @@ mrmEvgSetupPCI (
         /* MMap BAR0(plx) and BAR2(EVG)*/
         volatile epicsUInt8 *BAR_plx, *BAR_evg; // base addressed for plx/evg bars
 
-		if (devPCIToLocalAddr(cur, 0, (volatile void**) (void *) &BAR_plx, 0)
-				|| devPCIToLocalAddr(cur, 2, (volatile void**) (void *) &BAR_evg, 0)) {
-			errlogPrintf("Failed to map BARs 0 and 2\n");
-			return -1;
-		}
+        if (devPCIToLocalAddr(cur, 0, (volatile void**) (void *) &BAR_plx, 0)
+                || devPCIToLocalAddr(cur, 2, (volatile void**) (void *) &BAR_evg, 0)) {
+            errlogPrintf("Failed to map BARs 0 and 2\n");
+            return -1;
+        }
 
         if (!BAR_plx || !BAR_evg) {
-			errlogPrintf("BARs mapped to zero? (%08lx,%08lx)\n",
+            errlogPrintf("BARs mapped to zero? (%08lx,%08lx)\n",
                     (unsigned long) BAR_plx, (unsigned long) BAR_evg);
-			return -1;
-		}
+            return -1;
+        }
 
-		//Set LE mode on PLX bridge
-		//TODO: this limits cPCI EVG device support to LE architectures
-		//			At this point in time we do not have any BE PCI systems at hand so this is left as
-		//			unsported until we HW to test it on...
+        //Set LE mode on PLX bridge
+        //TODO: this limits cPCI EVG device support to LE architectures
+        //			At this point in time we do not have any BE PCI systems at hand so this is left as
+        //			unsported until we HW to test it on...
 
-		epicsUInt32 plxCtrl = LE_READ32(BAR_plx,LAS0BRD);
-		plxCtrl = plxCtrl & ~LAS0BRD_ENDIAN;
-		LE_WRITE32(BAR_plx,LAS0BRD,plxCtrl);
+        epicsUInt32 plxCtrl = LE_READ32(BAR_plx,LAS0BRD);
+        plxCtrl = plxCtrl & ~LAS0BRD_ENDIAN;
+        LE_WRITE32(BAR_plx,LAS0BRD,plxCtrl);
 
 
         epicsUInt32 version = checkVersion(BAR_evg, 0x3);
@@ -484,17 +483,17 @@ mrmEvgSetupPCI (
 
         evgMrm* evg = new evgMrm(id, deviceInfo, BAR_evg, 0, cur);
 
-		evg->getSeqRamMgr()->getSeqRam(0)->disable();
-		evg->getSeqRamMgr()->getSeqRam(1)->disable();
+        evg->getSeqRamMgr()->getSeqRam(0)->disable();
+        evg->getSeqRamMgr()->getSeqRam(1)->disable();
 
 
-		/*Disable the interrupts and enable them at the end of iocInit via initHooks*/
-		WRITE32(BAR_evg, IrqFlag, READ32(BAR_evg, IrqFlag));
-		WRITE32(BAR_evg, IrqEnable, 0);
+        /*Disable the interrupts and enable them at the end of iocInit via initHooks*/
+        WRITE32(BAR_evg, IrqFlag, READ32(BAR_evg, IrqFlag));
+        WRITE32(BAR_evg, IrqEnable, 0);
 
-		/*
-		 * Enable active high interrupt1 through the PLX to the PCI bus.
-		 */
+        /*
+         * Enable active high interrupt1 through the PLX to the PCI bus.
+         */
 //		LE_WRITE16(BAR_plx, INTCSR,	INTCSR_INT1_Enable| INTCSR_INT1_Polarity| INTCSR_PCI_Enable);
         if(ignoreVersion){
             epicsPrintf("Not enabling interrupts.\n");
@@ -510,7 +509,7 @@ mrmEvgSetupPCI (
         evg->isrLinuxPvt = (void*) cur;
 #endif
 
-		/*Connect Interrupt handler to isr thread*/
+        /*Connect Interrupt handler to isr thread*/
         if(ignoreVersion){
             epicsPrintf("Not connecting interrupts.\n");
         }
@@ -523,11 +522,11 @@ mrmEvgSetupPCI (
                 epicsPrintf("PCI interrupt connected!\n");
             }
         }
-	} catch (std::exception& e) {
-		errlogPrintf("Error: %s\n", e.what());
+    } catch (std::exception& e) {
+        errlogPrintf("Error: %s\n", e.what());
         errlogFlush();
         return -1;
-	}
+    }
 
     return 0;
 } //mrmEvgSetupPCI
@@ -536,48 +535,48 @@ mrmEvgSetupPCI (
 /*
  * This function spawns additional thread that emulate PPS input. Function is used for
  * testing of timestamping functionality... DO NOT USE IN PRODUCTION!!!!!
- * 
+ *
  * Change by: tslejko
- * Reason: testing utilities 
+ * Reason: testing utilities
  */
 void mrmEvgSoftTime(void* pvt) {
-	evgMrm* evg = static_cast<evgMrm*>(pvt);
+    evgMrm* evg = static_cast<evgMrm*>(pvt);
 
-	if (!evg) {
-		errlogPrintf("mrmEvgSoftTimestamp: Could not find EVG!\n");
-	}
+    if (!evg) {
+        errlogPrintf("mrmEvgSoftTimestamp: Could not find EVG!\n");
+    }
 
-	while (1) {
-		epicsUInt32 data = evg->sendTimestamp();
-		if (!data){
-			errlogPrintf("mrmEvgSoftTimestamp: Could not retrive timestamp...\n");
-			epicsThreadSleep(1);
-			continue;
-		}
+    while (1) {
+        epicsUInt32 data = evg->sendTimestamp();
+        if (!data){
+            errlogPrintf("mrmEvgSoftTimestamp: Could not retrive timestamp...\n");
+            epicsThreadSleep(1);
+            continue;
+        }
 
-		//Send out event reset
-		evg->getSoftEvt()->setEvtCode(MRF_EVENT_TS_COUNTER_RST);
+        //Send out event reset
+        evg->getSoftEvt()->setEvtCode(MRF_EVENT_TS_COUNTER_RST);
 
-		//Clock out data...
-		for (int i = 0; i < 32; data <<= 1, i++) {
-			if (data & 0x80000000)
-				evg->getSoftEvt()->setEvtCode(MRF_EVENT_TS_SHIFT_1);
-			else
-				evg->getSoftEvt()->setEvtCode(MRF_EVENT_TS_SHIFT_0);
-		}
+        //Clock out data...
+        for (int i = 0; i < 32; data <<= 1, i++) {
+            if (data & 0x80000000)
+                evg->getSoftEvt()->setEvtCode(MRF_EVENT_TS_SHIFT_1);
+            else
+                evg->getSoftEvt()->setEvtCode(MRF_EVENT_TS_SHIFT_0);
+        }
 
-		struct timespec sleep_until_t;
+        struct timespec sleep_until_t;
 
-		clock_gettime(CLOCK_REALTIME,&sleep_until_t); //Get current time
-		/* Sleep until next full second */
-		sleep_until_t.tv_nsec=0;
-		sleep_until_t.tv_sec++;
+        clock_gettime(CLOCK_REALTIME,&sleep_until_t); //Get current time
+        /* Sleep until next full second */
+        sleep_until_t.tv_nsec=0;
+        sleep_until_t.tv_sec++;
 
-		clock_nanosleep(CLOCK_REALTIME,TIMER_ABSTIME,&sleep_until_t,0);
+        clock_nanosleep(CLOCK_REALTIME,TIMER_ABSTIME,&sleep_until_t,0);
 
 
 //		sleep(1);
-	}
+    }
 }
 #else
 void mrmEvgSoftTime(void* pvt) {}
@@ -593,14 +592,14 @@ static const iocshFuncDef mrmEvgSoftTimeFuncDef = { "mrmEvgSoftTime", 1, mrmEvgS
 static void mrmEvgSoftTimeFunc(const iocshArgBuf *args) {
     epicsPrintf("Starting EVG Software based time provider...\n");
 
-	if(!args[0].sval) return;
+    if(!args[0].sval) return;
 
-	evgMrm* evg = dynamic_cast<evgMrm*>(mrf::Object::getObject(args[0].sval));
-	if(!evg){
-		errlogPrintf("EVG <%s> does not exist!\n",args[0].sval);
-	}
+    evgMrm* evg = dynamic_cast<evgMrm*>(mrf::Object::getObject(args[0].sval));
+    if(!evg){
+        errlogPrintf("EVG <%s> does not exist!\n",args[0].sval);
+    }
 
-	epicsThreadCreate("EVG_TimestampTestThread",90, epicsThreadStackSmall,mrmEvgSoftTime,static_cast<void*>(evg));
+    epicsThreadCreate("EVG_TimestampTestThread",90, epicsThreadStackSmall,mrmEvgSoftTime,static_cast<void*>(evg));
 }
 
 
@@ -619,9 +618,9 @@ static const iocshArg * const mrmEvgSetupVMEArgs[6] = { &mrmEvgSetupVMEArg0,
                                                         &mrmEvgSetupVMEArg5 };
 
 static const iocshFuncDef mrmEvgSetupVMEFuncDef = { "mrmEvgSetupVME", 6,
-		mrmEvgSetupVMEArgs };
+        mrmEvgSetupVMEArgs };
 
-static void 
+static void
 mrmEvgSetupVMECallFunc(const iocshArgBuf *args) {
     // check the 'ignore' parameter
     if(args[5].aval.ac > 1 && (strcmp("true", args[5].aval.av[1]) == 0 ||
@@ -653,7 +652,7 @@ static const iocshArg * const mrmEvgSetupPCIArgs[5] = { &mrmEvgSetupPCIArg0,
         &mrmEvgSetupPCIArg1, &mrmEvgSetupPCIArg2, &mrmEvgSetupPCIArg3, &mrmEvgSetupPCIArg4 };
 
 static const iocshFuncDef mrmEvgSetupPCIFuncDef = { "mrmEvgSetupPCI", 5,
-		mrmEvgSetupPCIArgs };
+        mrmEvgSetupPCIArgs };
 
 static void mrmEvgSetupPCICallFunc(const iocshArgBuf *args) {
     // check the 'ignore' parameter
@@ -669,10 +668,10 @@ static void mrmEvgSetupPCICallFunc(const iocshArgBuf *args) {
 
 extern "C"{
 static void evgMrmRegistrar() {
-	initHookRegister(&inithooks);
-	iocshRegister(&mrmEvgSetupVMEFuncDef, mrmEvgSetupVMECallFunc);
-	iocshRegister(&mrmEvgSetupPCIFuncDef, mrmEvgSetupPCICallFunc);
-	iocshRegister(&mrmEvgSoftTimeFuncDef, mrmEvgSoftTimeFunc);
+    initHookRegister(&inithooks);
+    iocshRegister(&mrmEvgSetupVMEFuncDef, mrmEvgSetupVMECallFunc);
+    iocshRegister(&mrmEvgSetupPCIFuncDef, mrmEvgSetupPCICallFunc);
+    iocshRegister(&mrmEvgSoftTimeFuncDef, mrmEvgSoftTimeFunc);
 }
 
 epicsExportRegistrar(evgMrmRegistrar);
@@ -698,7 +697,7 @@ REGINFO("SwEventControl",   SwEventControl,    8),
 REGINFO("SwEventCode",      SwEventCode,       8),
 REGINFO("DataTxCtrlEvg",    DataTxCtrlEvg,    32),
 REGINFO("DBusSrc",          DBusSrc,          32),
-REGINFO("FPGAVersion",      FPGAVersion,      32),
+REGINFO("FPGAVersion",      FWVersion,        32),
 REGINFO("uSecDiv",          uSecDiv,          16),
 REGINFO("ClockSource",      ClockSource,       8),
 REGINFO("RfDiv",            RfDiv,             8),
@@ -811,7 +810,7 @@ reportCard(mrf::Object* obj, void* arg) {
     bus_configuration *bus = evg->getBusConfiguration();
     if(bus->busType == busType_vme){
         struct VMECSRID vmeDev;
-		vmeDev.board = 0; vmeDev.revision = 0; vmeDev.vendor = 0;
+        vmeDev.board = 0; vmeDev.revision = 0; vmeDev.vendor = 0;
         volatile unsigned char* csrAddr = devCSRTestSlot(vmeEvgIDs, bus->vme.slot, &vmeDev);
         if(csrAddr){
             epicsUInt32 ader = CSRRead32(csrAddr + CSR_FN_ADER(1));
@@ -845,15 +844,15 @@ reportCard(mrf::Object* obj, void* arg) {
     }
 
     evg->show(*level);
-    
+
     if(*level >= 2)
         printregisters(evg->getRegAddr());
-        
+
     epicsPrintf("\n");
     return true;
 }
 
-static long 
+static long
 report(int level) {
     epicsPrintf("===  Begin MRF EVG support   ===\n");
     mrf::Object::visitObjects(&reportCard, (void*)&level);

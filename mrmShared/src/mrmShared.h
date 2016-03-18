@@ -91,6 +91,19 @@ enum PLLBandwidth {
 #define U32_Status      0x000
 
 //=====================
+// FPGA firmware version register
+//
+#define U32_FWVersion   0x02C
+#  define FWVersion_type_mask 0xF0000000
+#  define FWVersion_type_shift 28
+#  define FWVersion_form_mask 0x0F000000
+#  define FWVersion_form_shift 24
+#  define FWVersion_ver_mask  0x0000FFFF
+#  define FWVersion_ver_shift  0
+#  define FWVersion_zero_mask 0x00FF0000
+
+
+//=====================
 // SPI register offsets
 //
 #define U32_SpiData    0x0A0

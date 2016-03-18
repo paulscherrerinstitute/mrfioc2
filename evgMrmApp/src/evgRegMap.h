@@ -56,7 +56,7 @@
 //=====================
 // FPGA Firmware Version
 //
-#define  U32_FPGAVersion        0x002C  // FPGA Firmware Version
+// defined in mrmShared.h
 
 //=====================
 // Event Clock Control
@@ -180,18 +180,6 @@
 #define  EVG_REGMAP_SIZE        0x10000  // Register map size is 64K
 
 
-/**************************************************************************************************/
-/*    Status Register (0x0000) Bit Assignments                                                    */
-/**************************************************************************************************/
-
-#define FPGAVersion_ZERO_MASK   0x00FFF000
-#define FPGAVersion_TYPE_MASK   0xF0000000
-#define FPGAVersion_FORM_MASK   0x0F000000
-#define FPGAVersion_FORM_SHIFT  24
-#define FPGAVersion_TYPE_SHIFT  28
-#define FPGAVersion_VER_MASK    0x00000FFF
-
-
 
 /**************************************************************************************************/
 /*    AC Trigger Register Bit Assignmen                                                           */
@@ -288,7 +276,7 @@
 /**************************************************************************************************/
 // note, that fanout SFPs are defined in the SFP section
 
-#define EVG_FCT_MIN_FIRMWARE    200
+#define EVG_FCT_MIN_FIRMWARE    0x200
 
 #define U32_fct_status_base     0x000   // status register
 #define U32_fct_control_base    0x004   // control register

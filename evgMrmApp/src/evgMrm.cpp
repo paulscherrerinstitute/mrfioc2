@@ -236,14 +236,14 @@ evgMrm::getRegAddr() const {
 
 epicsUInt32
 evgMrm::getFwVersion() const {
-    return READ32(m_pReg, FPGAVersion);
+    return READ32(m_pReg, FWVersion);
 }
 
 epicsUInt32
 evgMrm::getFwVersionID(){
     epicsUInt32 ver = getFwVersion();
 
-    ver &= FPGAVersion_VER_MASK;
+    ver &= FWVersion_ver_mask;
 
     return ver;
 }
@@ -851,8 +851,8 @@ void
 evgMrm::setFormFactor(){
     epicsUInt32 form = getFwVersion();
 
-    form &= FPGAVersion_FORM_MASK;
-    form >>= FPGAVersion_FORM_SHIFT;
+    form &= FWVersion_form_mask;
+    form >>= FWVersion_form_shift;
 
     /**
      * Removing 'formFactor_CPCI <= form' from the if condition since

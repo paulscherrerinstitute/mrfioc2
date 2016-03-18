@@ -122,14 +122,7 @@
 #define U32_DataRx(N)      (U32_DataRxBaseEvr + (N))
 #define U32_DataTx(N)      (U32_DataTxBaseEvr + (N))
 
-#define U32_FWVersion   0x02C
-#  define FWVersion_type_mask 0xF0000000
-#  define FWVersion_type_shift 28
-#  define FWVersion_form_mask 0x0F000000
-#  define FWVersion_form_shift 24
-#  define FWVersion_ver_mask  0x00000FFF
-#  define FWVersion_ver_shift  0
-#  define FWVersion_zero_mask 0x00FFF000
+// Firmware register is defined in mrmShared.h
 
 #define U32_CounterPS   0x040 /* Timestamp event counter prescaler */
 
