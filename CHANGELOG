@@ -1,5 +1,10 @@
 For detailed changelog inspect commits at https://git.psi.ch/epics_drivers/mrfioc2/commits/master
 
+2.7.11 : Fri 18 Mar 2016:
+	- EVG health monitoring updated (link error obeys MON_PORTS macro)
+	- bug fix: typo in macro name (in example substitution file) for evr-configTriggerSwitch.template
+	- bug fix: incorrect link in evgMxc.template
+
 2.7.10 : Tue 15 Mar 2016:
 	- added evr-configTriggerSwitch.template for easy configuration of trigger switching (pulser set up + gating)
 	- updated sfp.template alarm settings (based on AV02-0447EN and AV02-0881EN datasheets)

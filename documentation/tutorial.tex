@@ -20,7 +20,7 @@
 %}
 
 % latest version of the mrfioc2 device support
-\newcommand{\latestDriverVersion}{2.7.10}
+\newcommand{\latestDriverVersion}{2.7.11}
 
 %opening
 \title{EVR Tutorials}
@@ -268,7 +268,7 @@ For an advance guide, without using the helper template, see Section~\ref{sec:tr
 		
 		\item \texttt{\$(SYS)-\$(DEVICE):TS\$(ID)-Pul-Sw-Delay-SP} - This record sets the delay in [us] of the pulse to be outputted in switched mode.
 		
-		\item \texttt{\$(SYS)-\$(DEVICE):TS\$(ID)-SimOff-Sel} - This record is used to select normal or switched mode. This is useful for testing purposes.
+		\item \texttt{\$(SYS)-\$(DEVICE):TS\$(ID)-Sim-Sel} - This record is used to select normal or switched mode. This is useful for testing purposes.
 	\end{itemize}
 	
 	\item Optionally, you can remove all the macros whose values you did not change. 
@@ -277,8 +277,8 @@ For an advance guide, without using the helper template, see Section~\ref{sec:tr
 \subsection{Substitution snippet explanation:}\label{sec:explain_2pulsers}
 Macros in \texttt{evr-configTriggerSwitch.template} substitution have the following meaning:
 \begin{itemize}
-	\item \texttt{Reset-Evt}=38 : Event 38 gates pulser Pul-Norm-ID to the Output. If this macro is not specified it defaults to event 38 (Start of Sequence in SwissFEL).
-	\item \texttt{Set-Evt}=6 : Event 6 gates pulser Pul-Sw-ID to the Output. If this macro is not specified it defaults to to event 6 (RF-OffBeam in SwissFEL).
+%	\item \texttt{Reset-Evt}=38 : Event 38 gates pulser Pul-Norm-ID to the Output. If this macro is not specified it defaults to event 38 (Start of Sequence in SwissFEL).
+%	\item \texttt{Set-Evt}=6 : Event 6 gates pulser Pul-Sw-ID to the Output. If this macro is not specified it defaults to to event 6 (RF-OffBeam in SwissFEL).
 	\item \texttt{Event}=1 : Event 1 will trigger a pulse from pulser Pul-Norm-ID or Pul-Sw-ID on the Output.
 	\item \texttt{Pul-Norm-Width}=40 : The width of the pulse to be outputted in normal mode is 40~us.
 	\item \texttt{Pul-Norm-Delay}=40 : The delay of the pulse to be outputted in normal mode 40~us.
