@@ -6,7 +6,7 @@
 # $(SYS)-$(DEVICE):TS$(ID)-Pul-Norm-Delay-SP  -> The delay in [us] of the pulse to be outputted in normal mode
 # $(SYS)-$(DEVICE):TS$(ID)-Pul-Sw-Width-SP    -> The width in [us] of the pulse to be outputted in switched mode
 # $(SYS)-$(DEVICE):TS$(ID)-Pul-Sw-Delay-SP    -> The delay in [us] of the pulse to be outputted in switched mode
-# $(SYS)-$(DEVICE):TS$(ID)-SimOff-Sel         -> Normal mode or simulate switched mode. Useful for testing purposes.
+# $(SYS)-$(DEVICE):TS$(ID)-Sim-Sel            -> Normal mode or simulate switched mode. Useful for testing purposes.
 # $(SYS)-$(DEVICE):TS$(ID)-Gate-Set-SP        -> Set event number that sets the pulser gate
 # $(SYS)-$(DEVICE):TS$(ID)-Gate-Reset-SP      -> Set event number that resets the pulser gate
 # 
@@ -50,7 +50,7 @@ record(dfanout, "$(SYS)-$(DEVICE):TS$(ID)-Event-SP"){
 
 # Set where the pulse will be outputted
 record(longout, "$(SYS)-$(DEVICE):TS$(ID)-OutNorm_") {
-  field( DESC, "Set normal operation output" )
+  field( DESC, "Set normal mode output" )
   field( OUT , "$(SYS)-$(DEVICE):$(Output)-Src-SP PP")
   field( PINI, "YES")
   field( VAL , "$(Pul-Norm-ID=22)")
@@ -61,7 +61,7 @@ record(longout, "$(SYS)-$(DEVICE):TS$(ID)-OutNorm_") {
 }
 
 record(longout, "$(SYS)-$(DEVICE):TS$(ID)-OutOff_") {
-  field( DESC, "Set normal operation output" )
+  field( DESC, "Set switched mode output" )
   field( OUT , "$(SYS)-$(DEVICE):$(Output)-Src2-SP PP")
   field( PINI, "YES")
   field( VAL , "$(Pul-Sw-ID=23)")
@@ -156,10 +156,10 @@ record(calc, "$(SYS)-$(DEVICE):TS$(ID)-Gate-RB") {
 #--------------------------------------------------------------------------#
 
 # Toggle gate always on in order to test off-beam behaviour
-record(bi, "$(SYS)-$(DEVICE):TS$(ID)-SimOff-Sel"){
-  field( DESC, "Simulate off-beam behaviour")
-  field( ZNAM, "Normal operation")
-  field( ONAM, "Simulate off-beam")
+record(bi, "$(SYS)-$(DEVICE):TS$(ID)-Sim-Sel"){
+  field( DESC, "Simulate switched mode behaviour")
+  field( ZNAM, "Normal mode")
+  field( ONAM, "Simulate switched mode")
   field( VAL,  "0")
   field( FLNK, "$(SYS)-$(DEVICE):TS$(ID)-GateReset_")
 }
@@ -169,21 +169,21 @@ record(longout, "$(SYS)-$(DEVICE):TS$(ID)-GateReset_"){
   field( DESC, "Gate set to 0")
   field( VAL,  "0")
   field( OUT,  "$(SYS)-$(DEVICE):Pul$(Gate-Pul-ID=28)-Evt-Set0-SP PP")
-  field( FLNK, "$(SYS)-$(DEVICE):TS$(ID)-SimOff_")
+  field( FLNK, "$(SYS)-$(DEVICE):TS$(ID)-Sim_")
 }
 
-record(calcout, "$(SYS)-$(DEVICE):TS$(ID)-SimOff_"){  
+record(calcout, "$(SYS)-$(DEVICE):TS$(ID)-Sim_"){  
   field( DESC, "Toggle gate reset")
-  field( INPA, "$(SYS)-$(DEVICE):TS$(ID)-SimOff-Sel")
+  field( INPA, "$(SYS)-$(DEVICE):TS$(ID)-Sim-Sel")
   field( INPB, "$(SYS)-$(DEVICE):TS$(ID)-Gate-Reset-SP")
   field( CALC, "A ? 0 : B")
   field( OUT,  "$(SYS)-$(DEVICE):Pul$(Gate-Pul-ID=28)-Evt-Reset0-SP PP")
-  field( FLNK, "$(SYS)-$(DEVICE):TS$(ID)-SimOff__")
+  field( FLNK, "$(SYS)-$(DEVICE):TS$(ID)-Sim__")
 }
 
-record(calcout, "$(SYS)-$(DEVICE):TS$(ID)-SimOff__"){
+record(calcout, "$(SYS)-$(DEVICE):TS$(ID)-Sim__"){
   field( DESC, "Toggles gate set")
-  field( INPA, "$(SYS)-$(DEVICE):TS$(ID)-SimOff-Sel")
+  field( INPA, "$(SYS)-$(DEVICE):TS$(ID)-Sim-Sel")
   field( INPB, "$(SYS)-$(DEVICE):TS$(ID)-Gate-Set-SP")
   field( INPC, "$(SYS)-$(DEVICE):TS$(ID)-Gate-Reset-SP")
   field( CALC, "A ? C : B")

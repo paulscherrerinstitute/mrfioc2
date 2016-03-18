@@ -81,7 +81,7 @@ record(longin , "$(SYS)-$(DEVICE):Mxc$(ID)-Prescaler-RB") {
 # When Evt Clock Frequency changes, Mxc Freq changes keeping the Prescaler same.
 #
 record(ai, "$(SYS)-$(DEVICE):Mxc$(ID)-EvtClkFreq-RB_") {
-    field( INP,  "$(SYS){$(DEVICE)-EvtClk}Frequency-RB CP")
+    field( INP,  "$(SYS)-$(DEVICE):EvtClk-Frequency-RB CP")
     field( FLNK, "$(SYS)-$(DEVICE):Mxc$(ID)-Frequency-RB")
 }
 

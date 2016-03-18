@@ -6,7 +6,7 @@
 # $(SYS)-$(DEVICE):TS$(ID)-Pul-Norm-Delay-SP  -> The delay in [us] of the pulse to be outputted in normal mode
 # $(SYS)-$(DEVICE):TS$(ID)-Pul-Sw-Width-SP    -> The width in [us] of the pulse to be outputted in switched mode
 # $(SYS)-$(DEVICE):TS$(ID)-Pul-Sw-Delay-SP    -> The delay in [us] of the pulse to be outputted in switched mode
-# $(SYS)-$(DEVICE):TS$(ID)-SimOff-Sel         -> Normal mode or simulate switched mode. Useful for testing purposes.
+# $(SYS)-$(DEVICE):TS$(ID)-Sim-Sel            -> Normal mode or simulate switched mode. Useful for testing purposes.
 # $(SYS)-$(DEVICE):TS$(ID)-Gate-Set-SP        -> Set event number that sets the pulser gate
 # $(SYS)-$(DEVICE):TS$(ID)-Gate-Reset-SP      -> Set event number that resets the pulser gate
 # 
@@ -33,7 +33,7 @@
 #  Reset-Evt = Id of the event that gates pulser Pul-Norm-ID to the Output. Default: 38 = Start of sequence event (SOS) in SwissFEL
 #  
 #file "$(mrfioc2_TEMPLATES=db)/evr-configTriggerSwitch.template"{
-#pattern { ID,  Event,  Pul-Norm-Width, Pul-Norm-Delay, Pul-Sw-Width, Pul-S-Delay, Output,           Pul-Norm-ID, Pul-Sw-ID}
+#pattern { ID,  Event,  Pul-Norm-Width, Pul-Norm-Delay, Pul-Sw-Width, Pul-Sw-Delay, Output,           Pul-Norm-ID, Pul-Sw-ID}
 #        { "0", "1",    "40",           "40",           "40",         "80",        "FrontUnivOut0",  "20",        "21"  }
 #        { "1", "2",    "50",           "60",           "70",         "80",        "RearUniv0",      "22",        "23"  }
 #}
@@ -45,7 +45,7 @@ file "$(mrfioc2_TEMPLATES=db)/evr-vme-300.db"
     
         ## Global settings
 		ExtInhib-Sel=0, 		#0 = Use Inhibit, 1 = Always permitt : Use HW trigger inhibit (EVRTG only)
-		Link-Clk-SP=142.876,	#45-150 : Event Link speed (MHz)
+		Link-Clk-SP=142.8,  	#45-150 : Event Link speed (MHz)
 		Time-Src-Sel=0, 		#0 = Event clk, 1 = Mapped codes, 2 = DBus4 : Source for timestamping clock.
 		Time-Clock-SP=0.0,		#50-150 : Timestamp tick rate (MHz)
 		PLL-Bandwidth-Sel=4,	#0 = HM, 1 = HL, 2 = MH, 3 = MM, 4 = ML: PLL Bandwidth Select (see Silicon Labs Si5317 datasheet)
