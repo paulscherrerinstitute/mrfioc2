@@ -10,6 +10,8 @@
 
 #include "evgRegMap.h"
 
+#define EVG_MIN_FIRMWARE_REDUCECLK 0x204
+
 evgEvtClk::evgEvtClk(const std::string& name, volatile epicsUInt8* const pReg):
 mrf::ObjectInst<evgEvtClk>(name),
 m_pReg(pReg),
@@ -134,30 +136,47 @@ evgEvtClk::setSource (epicsUInt16 source) {
     version = READ32(m_pReg, FWVersion);
     version &= FWVersion_ver_mask;
 
+    if ((RFClockReference) source >= RFClockReference_PXIe100 && version < EVG_FCT_MIN_FIRMWARE ) {
+        throw std::out_of_range("RF clock source you selected does not exist in this firmware version.");
+    }
+    else if ((RFClockReference) source >= RFClockReference_ExtDownrate && version < EVG_MIN_FIRMWARE_REDUCECLK ) {
+        throw std::out_of_range("RF clock source you selected does not exist in this firmware version.");
+    }
+
     switch ((RFClockReference) source) {
     case RFClockReference_Internal:
         regMap = EVG_CLK_SRC_INTERNAL;
         break;
+
     case RFClockReference_External:
         regMap = EVG_CLK_SRC_EXTERNAL;
         break;
+
     case RFClockReference_PXIe100:
         regMap = EVG_CLK_SRC_PXIE100;
         break;
+
     case RFClockReference_PXIe10:
         regMap = EVG_CLK_SRC_PXIE10;
         break;
+
     case RFClockReference_Recovered:
         regMap = EVG_CLK_SRC_RECOVERED;
         break;
+
+    case RFClockReference_ExtDownrate:
+        regMap = EVG_CLK_SRC_EXTDOWNRATE;
+        break;
+
+    case RFClockReference_RecoverHalved:
+        regMap = EVG_CLK_SRC_RECOVERHALVED;
+        break;
+
     default:
         throw std::out_of_range("RF clock source you selected does not exist.");
         break;
     }
 
-    if((RFClockReference) source > RFClockReference_External && version < EVG_FCT_MIN_FIRMWARE ){
-        throw std::out_of_range("RF clock source you selected does not exist in this firmware version.");
-    }
 
 
     clkReg = READ8(m_pReg, ClockSource);    // read register content
@@ -169,11 +188,6 @@ evgEvtClk::setSource (epicsUInt16 source) {
 epicsUInt16
 evgEvtClk::getSource() const {
     epicsUInt8 clkReg, source;
-    bool fct = true;
-    epicsUInt32 version;
-
-    version = READ32(m_pReg, FWVersion);
-    version &= FWVersion_ver_mask;
 
     clkReg = READ8(m_pReg, ClockSource);
     clkReg &= EVG_CLK_SRC_SEL;
@@ -181,28 +195,35 @@ evgEvtClk::getSource() const {
     switch (clkReg) {
     case EVG_CLK_SRC_INTERNAL:
        source = (epicsUInt8)RFClockReference_Internal;
-       fct = false;
         break;
+
     case EVG_CLK_SRC_EXTERNAL:
        source = (epicsUInt8)RFClockReference_External;
-       fct = false;
         break;
+
     case EVG_CLK_SRC_PXIE100:
        source = (epicsUInt8)RFClockReference_PXIe100;
         break;
+
     case EVG_CLK_SRC_PXIE10:
        source = (epicsUInt8)RFClockReference_PXIe10;
         break;
+
     case EVG_CLK_SRC_RECOVERED:
        source = (epicsUInt8)RFClockReference_Recovered;
         break;
+
+    case EVG_CLK_SRC_EXTDOWNRATE:
+        source = (epicsUInt8)RFClockReference_ExtDownrate;
+        break;
+
+    case EVG_CLK_SRC_RECOVERHALVED:
+        source = (epicsUInt8)RFClockReference_RecoverHalved;
+        break;
+
     default:
         throw std::out_of_range("Cannot read valid RF clock source.");
         break;
-    }
-
-    if(fct && version < EVG_FCT_MIN_FIRMWARE ){
-        throw std::out_of_range("Read an RF clock source which does not exist in this firmware version.");
     }
 
     return source;

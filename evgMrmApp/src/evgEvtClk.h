@@ -10,10 +10,12 @@ const epicsUInt16 ClkSrcRF = 1;  // Event clock is derived from the RF input
 
 enum RFClockReference {
     RFClockReference_Internal = 0,   // Use internal reference (fractional synthesizer)
-    RFClockReference_External = 1,   // Use external RF reference (front panel input through divider)
-    RFClockReference_PXIe100 = 2,    // PXIe 100 MHz clock
-    RFClockReference_Recovered = 3,  // Use recovered RX clock, Fan-Out mode
-    RFClockReference_PXIe10 = 4      // PXIe 10 MHz clock through clock multiplier
+    RFClockReference_External,       // Use external RF reference (front panel input through divider)
+    RFClockReference_PXIe100,        // PXIe 100 MHz clock
+    RFClockReference_Recovered,      // Use recovered RX clock, Fan-Out mode
+    RFClockReference_PXIe10,         // PXIe 10 MHz clock through clock multiplier
+    RFClockReference_ExtDownrate,    // use external RF reference for downstream ports, internal reference for upstream port, Fan-Out mode, event rate down conversion
+    RFClockReference_RecoverHalved   // recovered clock /2 decimate mode, event rate is halved
 };
 
 class evgEvtClk : public mrf::ObjectInst<evgEvtClk> {
@@ -24,7 +26,7 @@ public:
     /* locking done internally */
     virtual void lock() const{};
     virtual void unlock() const{};
-    
+
     epicsFloat64 getFrequency() const;
 
     void setRFFreq(epicsFloat64);
