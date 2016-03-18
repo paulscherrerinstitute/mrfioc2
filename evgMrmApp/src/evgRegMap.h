@@ -130,6 +130,13 @@
 #define  U16_UnivOutMap(n)      (U16_UnivOutMap_base + (2*(n)))
 
 //=====================
+// Rear Universal Output Mapping Register Array
+//
+#define  U16_RearOutMap_base    0x0480  // Rear Univ Output Mapping Register
+#define  U16_RearOutMap(n)      (U16_RearOutMap_base + (2*(n)))
+
+
+//=====================
 // Front Panel Input Mapping Registers
 //
 #define  U32_FrontInMap_base       0x0500  // Front Input Port Mapping Register

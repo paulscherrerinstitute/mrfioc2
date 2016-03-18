@@ -54,6 +54,26 @@ pattern { SYS,      DEVICE,      OBJ,       ID,  PPS,  DBUSOBJ}
         {"$(SYS)", "$(DEVICE)", "RearInp",  15,  0,    "Dbus"}
 }
 
+file evgOutput300.template {
+pattern { SYS,      DEVICE,      OBJ,        ID }
+        {"$(SYS)", "$(DEVICE)", "RearOut",   0  }
+        {"$(SYS)", "$(DEVICE)", "RearOut",   1  }
+        {"$(SYS)", "$(DEVICE)", "RearOut",   2  }
+        {"$(SYS)", "$(DEVICE)", "RearOut",   3  }
+        {"$(SYS)", "$(DEVICE)", "RearOut",   4  }
+        {"$(SYS)", "$(DEVICE)", "RearOut",   5  }
+        {"$(SYS)", "$(DEVICE)", "RearOut",   6  }
+        {"$(SYS)", "$(DEVICE)", "RearOut",   7  }
+        {"$(SYS)", "$(DEVICE)", "RearOut",   8  }
+        {"$(SYS)", "$(DEVICE)", "RearOut",   9  }
+        {"$(SYS)", "$(DEVICE)", "RearOut",   10 }
+        {"$(SYS)", "$(DEVICE)", "RearOut",   11 }
+        {"$(SYS)", "$(DEVICE)", "RearOut",   12 }
+        {"$(SYS)", "$(DEVICE)", "RearOut",   13 }
+        {"$(SYS)", "$(DEVICE)", "RearOut",   14 }
+        {"$(SYS)", "$(DEVICE)", "RearOut",   15 }
+}
+
 file evgTrigEvt.template {
 pattern { SYS,      DEVICE,     ID }
         {"$(SYS)", "$(DEVICE)", 0  }

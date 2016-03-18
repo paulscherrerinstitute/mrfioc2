@@ -57,7 +57,7 @@
      <string notr="true">background-color: rgb(212, 219, 157);</string>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Src-Pulse-SP</string>
+     <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Src-Misc-SP</string>
     </property>
    </widget>
    <widget class="QLabel" name="label_16">
@@ -86,7 +86,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Pulse source</string>
+     <string>Other sources</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
@@ -97,12 +97,12 @@
      <rect>
       <x>530</x>
       <y>1</y>
-      <width>110</width>
+      <width>91</width>
       <height>20</height>
      </rect>
     </property>
     <property name="text">
-     <string>Prescaler source</string>
+     <string>Mxc source</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
@@ -121,7 +121,7 @@
      <string notr="true">background-color: rgb(212, 219, 157);</string>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Src-Scale-SP</string>
+     <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Src-Mxc-SP</string>
     </property>
    </widget>
    <widget class="caMenu" name="camenu_4">
@@ -138,22 +138,6 @@
     </property>
     <property name="channel" stdset="0">
      <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Src-DBus-SP</string>
-    </property>
-   </widget>
-   <widget class="caToggleButton" name="catogglebutton">
-    <property name="geometry">
-     <rect>
-      <x>110</x>
-      <y>1</y>
-      <width>91</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>enabled</string>
-    </property>
-    <property name="channel" stdset="0">
-     <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Ena-SP</string>
     </property>
    </widget>
    <widget class="caLabel" name="calabel">
@@ -244,7 +228,7 @@
      </property>
     </widget>
    </widget>
-   <widget class="caFrame" name="caframe_prescaler_2">
+   <widget class="caFrame" name="caframe_mxc_2">
     <property name="geometry">
      <rect>
       <x>510</x>
@@ -254,19 +238,19 @@
      </rect>
     </property>
     <property name="macro">
-     <string notr="true">CHAN=$(SYS)-$(DEVICE):$(P)$(ID)-Src-Scale-RB</string>
+     <string notr="true">CHAN=$(SYS)-$(DEVICE):$(P)$(ID)-Src-Mxc-RB</string>
     </property>
     <property name="visibility">
      <enum>caFrame::Calc</enum>
     </property>
     <property name="visibilityCalc">
-     <string notr="true">A=B&amp;&amp;A&gt;39</string>
+     <string notr="true">A=B&amp;&amp;A&gt;=40&amp;&amp;A&lt;=47</string>
     </property>
     <property name="channel" stdset="0">
      <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Src-RB</string>
     </property>
     <property name="channelB">
-     <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Src-Scale-RB.RVAL</string>
+     <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Src-Mxc-RB.RVAL</string>
     </property>
     <widget class="caLed" name="caled_9">
      <property name="geometry">
@@ -300,7 +284,7 @@
      </property>
     </widget>
    </widget>
-   <widget class="caFrame" name="caframe_pulser_2">
+   <widget class="caFrame" name="caframe_other_2">
     <property name="geometry">
      <rect>
       <x>240</x>
@@ -310,19 +294,19 @@
      </rect>
     </property>
     <property name="macro">
-     <string notr="true">CHAN=$(SYS)-$(DEVICE):$(P)$(ID)-Src-Pulse-RB</string>
+     <string notr="true">CHAN=$(SYS)-$(DEVICE):$(P)$(ID)-Src-Misc-RB</string>
     </property>
     <property name="visibility">
      <enum>caFrame::Calc</enum>
     </property>
     <property name="visibilityCalc">
-     <string notr="true">A=B&amp;&amp;A&lt;16</string>
+     <string notr="true">A=B&amp;&amp;(A==48||A==62||A==63)</string>
     </property>
     <property name="channel" stdset="0">
      <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Src-RB</string>
     </property>
     <property name="channelB">
-     <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Src-Pulse-RB.RVAL</string>
+     <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Src-Misc-RB.RVAL</string>
     </property>
     <widget class="caLed" name="caled_7">
      <property name="geometry">
@@ -356,7 +340,7 @@
      </property>
     </widget>
    </widget>
-   <widget class="caFrame" name="caframe_pulser">
+   <widget class="caFrame" name="caframe_other">
     <property name="geometry">
      <rect>
       <x>110</x>
@@ -366,19 +350,19 @@
      </rect>
     </property>
     <property name="macro">
-     <string notr="true">CHAN=$(SYS)-$(DEVICE):$(P)$(ID)-Src-Pulse-RB</string>
+     <string notr="true">CHAN=$(SYS)-$(DEVICE):$(P)$(ID)-Src-Misc-RB</string>
     </property>
     <property name="visibility">
      <enum>caFrame::Calc</enum>
     </property>
     <property name="visibilityCalc">
-     <string notr="true">A=B&amp;&amp;A&lt;16</string>
+     <string notr="true">A=B&amp;&amp;(A==48||A==62||A==63)</string>
     </property>
     <property name="channel" stdset="0">
      <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Src-RB</string>
     </property>
     <property name="channelB">
-     <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Src-Pulse-RB.RVAL</string>
+     <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Src-Misc-RB.RVAL</string>
     </property>
     <widget class="caLineEdit" name="calineedit_5">
      <property name="geometry">
@@ -432,7 +416,7 @@
      </property>
     </widget>
    </widget>
-   <widget class="caFrame" name="caframe_prescaler">
+   <widget class="caFrame" name="caframe_mxc">
     <property name="geometry">
      <rect>
       <x>110</x>
@@ -442,19 +426,19 @@
      </rect>
     </property>
     <property name="macro">
-     <string notr="true">CHAN=$(SYS)-$(DEVICE):$(P)$(ID)-Src-Scale-RB</string>
+     <string notr="true">CHAN=$(SYS)-$(DEVICE):$(P)$(ID)-Src-Mxc-RB</string>
     </property>
     <property name="visibility">
      <enum>caFrame::Calc</enum>
     </property>
     <property name="visibilityCalc">
-     <string notr="true">A=B&amp;&amp;A&gt;39</string>
+     <string notr="true">A=B&amp;&amp;A&gt;=40&amp;&amp;A&lt;=47</string>
     </property>
     <property name="channel" stdset="0">
      <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Src-RB</string>
     </property>
     <property name="channelB">
-     <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Src-Scale-RB.RVAL</string>
+     <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Src-Mxc-RB.RVAL</string>
     </property>
     <widget class="caLineEdit" name="calineedit_4">
      <property name="geometry">
@@ -477,11 +461,6 @@
    <class>caMenu</class>
    <extends>QComboBox</extends>
    <header>caMenu</header>
-  </customwidget>
-  <customwidget>
-   <class>caToggleButton</class>
-   <extends>QCheckBox</extends>
-   <header>caToggleButton</header>
   </customwidget>
   <customwidget>
    <class>caFrame</class>

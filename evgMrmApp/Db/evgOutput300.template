@@ -1,0 +1,183 @@
+record(longout, "$(SYS)-$(DEVICE):$(OBJ)$(ID)-Src-SP") {
+  field( DTYP, "Obj Prop uint16")
+  field( OUT , "@OBJ=$(DEVICE):$(OBJ)$(ID), PROP=Source")
+  field( FLNK, "$(SYS)-$(DEVICE):$(OBJ)$(ID)-Src-RB")
+  field( PINI, "YES")
+  field( VAL,  "$($(OBJ)$(ID)-Src-SP\=63)") # default is force output low
+  info(autosaveFields_pass0, "VAL")
+}
+
+record(mbbo, "$(SYS)-$(DEVICE):$(OBJ)$(ID)-Src-Misc-SP") {
+    field( DTYP, "Raw Soft Channel")
+    field( OUT , "$(SYS)-$(DEVICE):$(OBJ)$(ID)-Src-SP PP")
+
+    field( ZRST, "AC trigger")
+    field( ONST, "High")
+    field( TWST, "Low")
+
+    field( ZRVL, 48)
+    field( ONVL, 62)
+    field( TWVL, 63)
+
+    field( THSV, "INVALID")
+    field( FRSV, "INVALID")
+    field( FVSV, "INVALID")
+    field( SXSV, "INVALID")
+    field( SVSV, "INVALID")
+    field( EISV, "INVALID")
+    field( NISV, "INVALID")
+    field( TESV, "INVALID")
+    field( ELSV, "INVALID")
+    field( TVSV, "INVALID")
+    field( TTSV, "INVALID")
+    field( FTSV, "INVALID")
+    field( FFSV, "INVALID")
+    field( UNSV, "INVALID")
+    field( IVOA, "Don't drive outputs")
+    field( UDF,  "0")
+}
+
+
+record(mbbo, "$(SYS)-$(DEVICE):$(OBJ)$(ID)-Src-DBus-SP") {
+    field( DTYP, "Raw Soft Channel")
+    field( OUT , "$(SYS)-$(DEVICE):$(OBJ)$(ID)-Src-SP PP")
+
+    field( ZRST, "Dbus0")
+    field( ONST, "Dbus1")
+    field( TWST, "Dbus2")
+    field( THST, "Dbus3")
+    field( FRST, "Dbus4")
+    field( FVST, "Dbus5")
+    field( SXST, "Dbus6")
+    field( SVST, "Dbus7")
+
+    field( ZRVL, 32)
+    field( ONVL, 33)
+    field( TWVL, 34)
+    field( THVL, 35)
+    field( FRVL, 36)
+    field( FVVL, 37)
+    field( SXVL, 38)
+    field( SVVL, 39)
+
+    field( EISV, "INVALID")
+    field( NISV, "INVALID")
+    field( TESV, "INVALID")
+    field( ELSV, "INVALID")
+    field( TVSV, "INVALID")
+    field( TTSV, "INVALID")
+    field( FTSV, "INVALID")
+    field( FFSV, "INVALID")
+    field( UNSV, "INVALID")
+    field( IVOA, "Don't drive outputs")
+    field( UDF,  "0")
+}
+
+record(mbbo, "$(SYS)-$(DEVICE):$(OBJ)$(ID)-Src-Mxc-SP") {
+    field( DTYP, "Raw Soft Channel")
+    field( OUT , "$(SYS)-$(DEVICE):$(OBJ)$(ID)-Src-SP PP")
+
+    field( ZRST, "Mxc 0")
+    field( ONST, "Mxc 1")
+    field( TWST, "Mxc 2")
+    field( THST, "Mxc 3")
+    field( FRST, "Mxc 4")
+    field( FVST, "Mxc 5")
+    field( SXST, "Mxc 6")
+    field( SVST, "Mxc 7")
+
+    field( ZRVL, 40)
+    field( ONVL, 41)
+    field( TWVL, 42)
+    field( THVL, 43)
+    field( FRVL, 44)
+    field( FVVL, 45)
+    field( SXVL, 46)
+    field( SVVL, 47)
+
+    field( EISV, "INVALID")
+    field( NISV, "INVALID")
+    field( TESV, "INVALID")
+    field( ELSV, "INVALID")
+    field( TVSV, "INVALID")
+    field( TTSV, "INVALID")
+    field( FTSV, "INVALID")
+    field( FFSV, "INVALID")
+    field( UNSV, "INVALID")
+    field( IVOA, "Don't drive outputs")
+    field( UDF,  "0")
+}
+
+
+###############################
+# Readbacks
+###############################
+
+record(longin, "$(SYS)-$(DEVICE):$(OBJ)$(ID)-Src-RB") {
+  field( DTYP, "Obj Prop uint16")
+  field( INP , "@OBJ=$(DEVICE):$(OBJ)$(ID), PROP=Source")
+  field( FLNK, "$(SYS)-$(DEVICE):$(OBJ)$(ID)-Src-Misc-RB")
+}
+
+record(mbbi, "$(SYS)-$(DEVICE):$(OBJ)$(ID)-Src-Misc-RB") {
+    field( DTYP, "Raw Soft Channel")
+    field( INP , "$(SYS)-$(DEVICE):$(OBJ)$(ID)-Src-RB")
+
+    field( ZRST, "AC trigger")
+    field( ONST, "High")
+    field( TWST, "Low")
+
+    field( ZRVL, 48)
+    field( ONVL, 62)
+    field( TWVL, 63)
+
+    field( FLNK, "$(SYS)-$(DEVICE):$(OBJ)$(ID)-Src-DBus-RB")
+}
+
+record(mbbi, "$(SYS)-$(DEVICE):$(OBJ)$(ID)-Src-DBus-RB") {
+    field( DTYP, "Raw Soft Channel")
+    field( INP , "$(SYS)-$(DEVICE):$(OBJ)$(ID)-Src-RB")
+
+    field( ZRST, "Dbus0")
+    field( ONST, "Dbus1")
+    field( TWST, "Dbus2")
+    field( THST, "Dbus3")
+    field( FRST, "Dbus4")
+    field( FVST, "Dbus5")
+    field( SXST, "Dbus6")
+    field( SVST, "Dbus7")
+
+    field( ZRVL, 32)
+    field( ONVL, 33)
+    field( TWVL, 34)
+    field( THVL, 35)
+    field( FRVL, 36)
+    field( FVVL, 37)
+    field( SXVL, 38)
+    field( SVVL, 39)
+
+    field( FLNK, "$(SYS)-$(DEVICE):$(OBJ)$(ID)-Src-Mxc-RB")
+}
+
+record(mbbi, "$(SYS)-$(DEVICE):$(OBJ)$(ID)-Src-Mxc-RB") {
+    field( DTYP, "Raw Soft Channel")
+    field( INP , "$(SYS)-$(DEVICE):$(OBJ)$(ID)-Src-RB")
+
+    field( ZRST, "Mxc 0")
+    field( ONST, "Mxc 1")
+    field( TWST, "Mxc 2")
+    field( THST, "Mxc 3")
+    field( FRST, "Mxc 4")
+    field( FVST, "Mxc 5")
+    field( SXST, "Mxc 6")
+    field( SVST, "Mxc 7")
+
+    field( ZRVL, 40)
+    field( ONVL, 41)
+    field( TWVL, 42)
+    field( THVL, 43)
+    field( FRVL, 44)
+    field( FVVL, 45)
+    field( SXVL, 46)
+    field( SVVL, 47)
+}

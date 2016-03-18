@@ -61,6 +61,7 @@ evgMrm::evgMrm(const std::string& id, deviceInfoT &devInfo, volatile epicsUInt8*
         epicsUInt16 numFrontInp = 2;
         epicsUInt16 numUnivInp = 4;
         epicsUInt16 numRearInp = 16;
+        epicsUInt16 numRearOut = 0;
         epicsUInt32 version;
 
         version = getFwVersionID();
@@ -69,18 +70,21 @@ evgMrm::evgMrm(const std::string& id, deviceInfoT &devInfo, volatile epicsUInt8*
             numUnivOut = 0;
             numFrontInp = 3;
             numUnivInp = 0;
+            numRearOut = 16;
         }
 
         setFormFactor();  // updates deviceInfo.formFactor
 
         printf("Sub-units:\n"
-               " FrontInp: %d, FrontOut: %d\n"
-               " UnivInp: %d, UnivOut: %d\n"
-               " RearInp: %d\n"
-               " Mxc: %d, Event triggers: %d, DBus bits: %d\n",
+               " FrontInp: %u, FrontOut: %u\n"
+               " UnivInp: %u, UnivOut: %u\n"
+               " RearInp: %u\n"
+               " RearOut: %u\n"
+               " Mxc: %u, Event triggers: %u, DBus bits: %u\n",
                numFrontInp, numFrontOut,
                numUnivInp, numUnivOut,
                numRearInp,
+               numRearOut,
                numMxc, numEvtTrig, numDbusBit);
 
 
@@ -135,6 +139,13 @@ evgMrm::evgMrm(const std::string& id, deviceInfoT &devInfo, volatile epicsUInt8*
             name<<id<<":UnivOut"<<i;
             m_output[std::pair<epicsUInt32, evgOutputType>(i, UnivOut)] =
                 new evgOutput(name.str(), i, UnivOut, pReg + U16_UnivOutMap(i));
+        }
+
+        for(int i = 0; i < numRearOut; i++) {
+            std::ostringstream name;
+            name<<id<<":RearOut"<<i;
+            m_output[std::pair<epicsUInt32, evgOutputType>(i, RearOut)] =
+                new evgOutput(name.str(), i, RearOut, pReg + U16_RearOutMap(i));
         }
 
         std::ostringstream sfpName;
