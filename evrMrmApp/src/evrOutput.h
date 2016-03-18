@@ -15,6 +15,7 @@
 #include <epicsTypes.h>
 
 #include "support/util.h"
+#include "mrmShared.h"
 
 class EVRMRM;
 
@@ -72,10 +73,13 @@ private:
   bool isEnabled;
   epicsUInt32 shadowSource;
   epicsUInt32 shadowSource2;
+  deviceInfoT deviceInfo;
+
 
   virtual epicsUInt32 sourceInternal() const;
   virtual epicsUInt32 sourceInternal2() const;
   virtual void setSourceInternal(epicsUInt32 v, epicsUInt32 v1);
+  virtual bool isSourceValid(epicsUInt32 source) const;
 };
 
 

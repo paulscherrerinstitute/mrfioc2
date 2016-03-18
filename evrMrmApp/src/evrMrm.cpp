@@ -216,7 +216,7 @@ try{
         nIFP=1;
         break;
     case formFactor_VME64:
-        if(ver >= 200){  //This is for vme300
+        if(ver >= 0x200){  //This is for vme300
             nOFP=0;
             nCML=4; // FP univ out 6-9 are CML
             nOFPDly=4;
@@ -524,6 +524,11 @@ EVRMRM::formFactorStr(){
     }
 
     return text;
+}
+
+deviceInfoT
+EVRMRM::getDeviceInfo(){
+    return deviceInfo;
 }
 
 bool
