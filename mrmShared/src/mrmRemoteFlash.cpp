@@ -129,7 +129,7 @@ void mrmRemoteFlash::flash(const char *bitfile)
     try{
         infoPrintf(1, "Starting flash of %s to device. Using offset %" FORMAT_SIZET_U " [bytes]\n", bitfile, m_offset);
         m_flash.flash(bitfile, m_offset);
-        infoPrintf(1, "Flashing procedure done.\n");
+        infoPrintf(0, "Flashing procedure done.\n");
         m_flash_success = true;
     }
     catch(std::exception& ex) {
@@ -187,7 +187,7 @@ void mrmRemoteFlash::read(const char *bitfile)
     try{
         infoPrintf(1, "Reading flash to %s. Starting on flash memory offset %" FORMAT_SIZET_U " [bytes]\n", bitfile, m_offset);
         m_flash.read(bitfile, m_offset);
-        infoPrintf(1, "Reading procedure done.\n");
+        infoPrintf(0, "Reading procedure done.\n");
         m_read_success = true;
     }
     catch(std::exception& ex) {
