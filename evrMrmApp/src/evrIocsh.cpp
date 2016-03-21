@@ -751,6 +751,12 @@ mrmEvrSetupVME(const char* id,      // Card Identifier
                 return -1;
             }
         }
+        else if (version < 0x200) {
+            deviceInfo.series = series_230;
+        }
+        else {
+            deviceInfo.series = series_300;
+        }
 
 
         // Read offset from start of CSR to start of user (card specific) CSR.

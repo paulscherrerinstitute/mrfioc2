@@ -282,7 +282,8 @@ mrmEvgSetupVME (
 
 
         /* Set the base address of Register Map for function 2, if we have the right firmware version  */
-        if(version >= EVG_FCT_MIN_FIRMWARE){
+        if(version >= EVG_FCT_MIN_FIRMWARE) {
+            deviceInfo.series = series_300;
             CSRSetBase(csrCpuAddr, 2, vmeAddress+EVG_REGMAP_SIZE, VME_AM_STD_SUP_DATA);
             {
                 epicsUInt32 temp=CSRRead32((csrCpuAddr) + CSR_FN_ADER(2));
@@ -310,6 +311,9 @@ mrmEvgSetupVME (
                 errlogPrintf("Failed to map VME address %08x for FCT mapping\n", vmeAddress);
                 return -1;
             }
+        }
+        else {
+            deviceInfo.series = series_230;
         }
 
         evgMrm* evg = new evgMrm(id, deviceInfo, regCpuAddr, regCpuAddr2, NULL);
@@ -479,7 +483,6 @@ mrmEvgSetupPCI (
                 return -1;
             }
         }
-
 
         evgMrm* evg = new evgMrm(id, deviceInfo, BAR_evg, 0, cur);
 
