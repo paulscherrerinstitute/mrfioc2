@@ -289,13 +289,13 @@ mrmDataBuffer* mrmDataBuffer::getDataBufferFromDevice(const char *device) {
 epicsUInt32 mrmDataBuffer::getOverflowCount(epicsUInt32 **overflowCount)
 {
     *overflowCount = m_overflow_count;
-    return (epicsUInt32)(sizeof (m_overflow_count) / sizeof (epicsUInt32 *));
+    return (epicsUInt32)(sizeof (m_overflow_count) / sizeof (epicsUInt32));
 }
 
 epicsUInt32 mrmDataBuffer::getChecksumCount(epicsUInt32 **checksumCount)
 {
     *checksumCount = m_checksum_count;
-    return (epicsUInt32)(sizeof (m_overflow_count) / sizeof (epicsUInt32 *));
+    return (epicsUInt32)(sizeof (m_checksum_count) / sizeof (epicsUInt32));
 }
 
 
