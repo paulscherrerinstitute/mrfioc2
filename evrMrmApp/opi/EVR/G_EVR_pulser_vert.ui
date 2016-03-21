@@ -124,15 +124,6 @@
      <property name="fixedFormat">
       <bool>false</bool>
      </property>
-     <property name="limitsMode">
-      <enum>caSpinbox::User</enum>
-     </property>
-     <property name="maxValue">
-      <double>1999999999.999999046325684</double>
-     </property>
-     <property name="minValue">
-      <double>0.000000000000000</double>
-     </property>
     </widget>
     <widget class="QLabel" name="label_31">
      <property name="geometry">
@@ -297,9 +288,6 @@
        <height>31</height>
       </rect>
      </property>
-     <property name="toolTip">
-      <string/>
-     </property>
      <property name="channel" stdset="0">
       <string notr="true">$(SYS)-$(DEVICE):Pul$(ID)-Delay-SP</string>
      </property>
@@ -312,15 +300,6 @@
      </property>
      <property name="fixedFormat">
       <bool>false</bool>
-     </property>
-     <property name="limitsMode">
-      <enum>caSpinbox::User</enum>
-     </property>
-     <property name="maxValue">
-      <double>1999999999.999999046325684</double>
-     </property>
-     <property name="minValue">
-      <double>0.000000000000000</double>
      </property>
     </widget>
     <widget class="caLineEdit" name="calineedit_14">

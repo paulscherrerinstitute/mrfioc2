@@ -119,10 +119,10 @@ OBJECT_BEGIN(EvrOutput) {
 OBJECT_BEGIN(EvrPulser) {
 
     OBJECT_PROP2("Delay", &EvrPulser::delay, &EvrPulser::setDelay);
-    OBJECT_PROP2("Delay", &EvrPulser::delayRaw, &EvrPulser::setDelayRaw);
+    OBJECT_PROP2("DelayRaw", &EvrPulser::delayRaw, &EvrPulser::setDelayRaw);
 
     OBJECT_PROP2("Width", &EvrPulser::width, &EvrPulser::setWidth);
-    OBJECT_PROP2("Width", &EvrPulser::widthRaw, &EvrPulser::setWidthRaw);
+    OBJECT_PROP2("WidthRaw", &EvrPulser::widthRaw, &EvrPulser::setWidthRaw);
 
     OBJECT_PROP2("Enable", &EvrPulser::enabled, &EvrPulser::enable);
 

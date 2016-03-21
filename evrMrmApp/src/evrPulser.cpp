@@ -57,8 +57,11 @@ EvrPulser::enable(bool s)
 }
 
 void
-EvrPulser::setDelayRaw(epicsUInt32 v)
+EvrPulser::setDelayRaw(double v)
 {
+    epicsUInt64 val = (epicsUInt64)v;   // convert double to something that can hold value this big
+    val &= 0xFFFFFFFF;  // make sure it's a 32-bit unsigned value
+
     WRITE32(owner.base, PulserDely(id), v);
 }
 
@@ -74,10 +77,10 @@ EvrPulser::setDelay(double v)
     setDelayRaw(ticks);
 }
 
-epicsUInt32
+double
 EvrPulser::delayRaw() const
 {
-    return READ32(owner.base,PulserDely(id));
+    return (double)READ32(owner.base,PulserDely(id));
 }
 
 double
@@ -92,8 +95,11 @@ EvrPulser::delay() const
 }
 
 void
-EvrPulser::setWidthRaw(epicsUInt32 v)
+EvrPulser::setWidthRaw(double v)
 {
+    epicsUInt64 val = (epicsUInt64)v;   // convert double to something that can hold value this big
+    val &= 0xFFFFFFFF;  // make sure it's a 32-bit unsigned value
+
     WRITE32(owner.base, PulserWdth(id), v);
 }
 
@@ -109,10 +115,10 @@ EvrPulser::setWidth(double v)
     setWidthRaw(ticks);
 }
 
-epicsUInt32
+double
 EvrPulser::widthRaw() const
 {
-    return READ32(owner.base,PulserWdth(id));
+    return (double)READ32(owner.base,PulserWdth(id));
 }
 
 double

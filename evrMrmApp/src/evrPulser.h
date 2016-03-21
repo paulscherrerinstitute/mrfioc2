@@ -63,9 +63,9 @@ public:
      * Units of event clock period.
      */
     /*@{*/
-    void setDelayRaw(epicsUInt32);
+    void setDelayRaw(double);
     void setDelay(double);
-    epicsUInt32 delayRaw() const;
+    double delayRaw() const;
     double delay() const;
     /*@}*/
 
@@ -74,9 +74,9 @@ public:
      * Units of event clock period.
      */
     /*@{*/
-    void setWidthRaw(epicsUInt32);
+    void setWidthRaw(double);
     void setWidth(double);
-    epicsUInt32 widthRaw() const;
+    double widthRaw() const;
     double width() const;
     /*@}*/
 

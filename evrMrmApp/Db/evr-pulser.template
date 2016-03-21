@@ -42,6 +42,7 @@ record(ao, "$(SYS)-$(DEVICE):Pul$(ID)-Delay-SP") {
   field(LINR, "LINEAR")
   field(ESLO, "1e6")
   field(PREC, "3")
+  field(HOPR, "0x3FFFFFFFFFF")
   field(LOPR, "0")
   field(FLNK, "$(SYS)-$(DEVICE):Pul$(ID)-Delay-RB")
   info(autosaveFields_pass0, "VAL EGU ESLO PREC HOPR LOPR DRVL DRVH")
@@ -50,7 +51,7 @@ record(ao, "$(SYS)-$(DEVICE):Pul$(ID)-Delay-SP") {
 record(ai, "$(SYS)-$(DEVICE):Pul$(ID)-Delay-RB") {
   field(DTYP, "Obj Prop double")
   field(INP , "@OBJ=$(DEVICE):Pul$(ID), PROP=Delay")
-  field(VAL , 0)
+  field(VAL , "0")
   field(EGU , "us")
   field(LINR, "LINEAR")
   field(ESLO, "1e6")
@@ -58,9 +59,9 @@ record(ai, "$(SYS)-$(DEVICE):Pul$(ID)-Delay-RB") {
   field(FLNK, "$(SYS)-$(DEVICE):Pul$(ID)-Delay-Raw-RB")
 }
 
-record(longin, "$(SYS)-$(DEVICE):Pul$(ID)-Delay-Raw-RB") {
-  field(DTYP, "Obj Prop uint32")
-  field(INP , "@OBJ=$(DEVICE):Pul$(ID), PROP=Delay")
+record(ai, "$(SYS)-$(DEVICE):Pul$(ID)-Delay-Raw-RB") {
+  field(DTYP, "Obj Prop double")
+  field(INP , "@OBJ=$(DEVICE):Pul$(ID), PROP=DelayRaw")
   field(EGU , "cnts")
   field(HOPR, "$(DMAX=0xffff)")
   field(LOPR, "0")
@@ -78,6 +79,7 @@ record(ao, "$(SYS)-$(DEVICE):Pul$(ID)-Width-SP") {
   field(LINR, "LINEAR")
   field(ESLO, "1e6")
   field(PREC, "3")
+  field(HOPR, "0x3FFFFFFFFFF")
   field(LOPR, "0")
   field(FLNK, "$(SYS)-$(DEVICE):Pul$(ID)-Width-RB")
   info(autosaveFields_pass0, "VAL EGU ESLO PREC HOPR LOPR DRVL DRVH")
@@ -86,7 +88,7 @@ record(ao, "$(SYS)-$(DEVICE):Pul$(ID)-Width-SP") {
 record(ai, "$(SYS)-$(DEVICE):Pul$(ID)-Width-RB") {
   field(DTYP, "Obj Prop double")
   field(INP , "@OBJ=$(DEVICE):Pul$(ID), PROP=Width")
-  field(VAL , 0)
+  field(VAL , "0")
   field(EGU , "us")
   field(LINR, "LINEAR")
   field(ESLO, "1e6")
@@ -94,9 +96,9 @@ record(ai, "$(SYS)-$(DEVICE):Pul$(ID)-Width-RB") {
   field(FLNK, "$(SYS)-$(DEVICE):Pul$(ID)-Width-Raw-RB")
 }
 
-record(longin, "$(SYS)-$(DEVICE):Pul$(ID)-Width-Raw-RB") {
-  field(DTYP, "Obj Prop uint32")
-  field(INP , "@OBJ=$(DEVICE):Pul$(ID), PROP=Width")
+record(ai, "$(SYS)-$(DEVICE):Pul$(ID)-Width-Raw-RB") {
+  field(DTYP, "Obj Prop double")
+  field(INP , "@OBJ=$(DEVICE):Pul$(ID), PROP=WidthRaw")
   field(PINI, "YES")
   field(HOPR, "$(WMAX=0xffff)")
   field(LOPR, "0")

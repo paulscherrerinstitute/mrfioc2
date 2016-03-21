@@ -7,7 +7,7 @@
 #  IDX = ID # corresponding to output mapping codes
 #  MAX = Maximum division
 
-record(longout, "$(SYS)-$(DEVICE):PS$(ID)-Div-SP") {
+record(ao, "$(SYS)-$(DEVICE):PS$(ID)-Div-SP") {
   field( DTYP, "Obj Prop uint32")
   field( DESC, "Prescaler $(ID)")
   field( OUT , "@OBJ=$(DEVICE):PS$(ID), PROP=Divide")
@@ -27,7 +27,7 @@ record(calc, "$(SYS)-$(DEVICE):PS$(ID)-Rate-I") {
   field(INPB, "$(SYS)-$(DEVICE):Link-Clk-I CP")
   field(CALC, "B/A")
   field(EGU, "MHz")
-  field(PREC, "7")
+  field(PREC, "8")
 }
 
 

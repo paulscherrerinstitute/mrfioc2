@@ -997,7 +997,7 @@ EVRMRM::convertTS(epicsTimeStamp* ts)
     }
 
     // 1 sec. reset is late
-    if(ts->nsec>=1000000000) {
+    if(ts->nsec>=1000000000) {  // TODO: isn't this in ticks? Shouldn't it be converted to nsec before comparing to '1 second'?
         SCOPED_LOCK(evrLock);
         timestampValid=0;
         lastInvalidTimestamp=ts->secPastEpoch;
