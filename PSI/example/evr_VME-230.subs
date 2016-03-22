@@ -19,87 +19,87 @@ file "$(mrfioc2_TEMPLATES=db)/evr-vme-230.db"
 		## Pulsers
 		Pul0-Ena-Sel=1,			#0 = Disabled, 1 = Enabled
 		Pul0-Polarity-Sel=0,   	#0 = Active High, 1 = Active Low
-		Pul0-Delay-SP=0,		#0-4294967295 : Delay in us 
-		Pul0-Width-SP=0,		#0-65535 : Width in us
+		Pul0-Delay-SP=0,		#Pulse delay in us (range depends on prescaler selection and event clock)
+		Pul0-Width-SP=0,		#Pulse width in us (range depends on prescaler selection and event clock)
 		Pul0-Prescaler-SP=1,   	#0-255 : Pulser prescaler
 
 		Pul1-Ena-Sel=1,			#0 = Disabled, 1 = Enabled
 		Pul1-Polarity-Sel=0,   	#0 = Active High, 1 = Active Low
-		Pul1-Delay-SP=0,		#0-4294967295 : Delay in us 
-		Pul1-Width-SP=0,		#0-65535 : Width in us
+		Pul1-Delay-SP=0,		#Pulse delay in us  (range depends on prescaler selection and event clock)
+		Pul1-Width-SP=0,		#Pulse width in us (range depends on prescaler selection and event clock)
 		Pul1-Prescaler-SP=1,   	#0-255 : Pulser prescaler
 
 		Pul2-Ena-Sel=1,			#0 = Disabled, 1 = Enabled
 		Pul2-Polarity-Sel=0,  	#0 = Active High, 1 = Active Low
-		Pul2-Delay-SP=0,		#0-4294967295 : Delay in us 
-		Pul2-Width-SP=0,		#0-65535 : Width in us
+		Pul2-Delay-SP=0,		#Pulse delay in us  (range depends on prescaler selection and event clock)
+		Pul2-Width-SP=0,		#Pulse width in us (range depends on prescaler selection and event clock)
 		Pul2-Prescaler-SP=1, 	#0-255 : Pulser prescaler
 
 		Pul3-Ena-Sel=1,			#0 = Disabled, 1 = Enabled
 		Pul3-Polarity-Sel=0,   	#0 = Active High, 1 = Active Low
-		Pul3-Delay-SP=0,		#0-4294967295 : Delay in us 
-		Pul3-Width-SP=0,		#0-65535 : Width in us
+		Pul3-Delay-SP=0,		#Pulse delay in us  (range depends on prescaler selection and event clock)
+		Pul3-Width-SP=0,		#Pulse width in us (range depends on prescaler selection and event clock)
 		Pul3-Prescaler-SP=1,   	#0-255 : Pulser prescaler
 
 		Pul4-Ena-Sel=1,			#0 = Disabled, 1 = Enabled
 		Pul4-Polarity-Sel=0,   	#0 = Active High, 1 = Active Low
-		Pul4-Delay-SP=0,		#0-4294967295 : Delay in us 
-		Pul4-Width-SP=0,		#0-65535 : Width in us
+		Pul4-Delay-SP=0,		#Pulse delay in us 
+		Pul4-Width-SP=0,		#Pulse width in us
 
 		Pul5-Ena-Sel=1,			#0 = Disabled, 1 = Enabled
 		Pul5-Polarity-Sel=0,   	#0 = Active High, 1 = Active Low
-		Pul5-Delay-SP=0,		#0-4294967295 : Delay in us 
-		Pul5-Width-SP=0,		#0-65535 : Width in us
+		Pul5-Delay-SP=0,		#Pulse delay in us 
+		Pul5-Width-SP=0,		#Pulse width in us
 
 		Pul6-Ena-Sel=1,			#0 = Disabled, 1 = Enabled
 		Pul6-Polarity-Sel=0,   	#0 = Active High, 1 = Active Low
-		Pul6-Delay-SP=0,		#0-4294967295 : Delay in us 
-		Pul6-Width-SP=0,		#0-65535 : Width in us
+		Pul6-Delay-SP=0,		#Pulse delay in us 
+		Pul6-Width-SP=0,		#Pulse width in us
 
 		Pul7-Ena-Sel=1,			#0 = Disabled, 1 = Enabled
 		Pul7-Polarity-Sel=0,   	#0 = Active High, 1 = Active Low
-		Pul7-Delay-SP=0,		#0-4294967295 : Delay in us 
-		Pul7-Width-SP=0,		#0-65535 : Width in us
+		Pul7-Delay-SP=0,		#Pulse delay in us 
+		Pul7-Width-SP=0,		#Pulse width in us
 
 		Pul8-Ena-Sel=1,			#0 = Disabled, 1 = Enabled
 		Pul8-Polarity-Sel=0,   	#0 = Active High, 1 = Active Low
-		Pul8-Delay-SP=0,		#0-4294967295 : Delay in us 
-		Pul8-Width-SP=0,		#0-65535 : Width in us
+		Pul8-Delay-SP=0,		#Pulse delay in us 
+		Pul8-Width-SP=0,		#Pulse width in us
 
 		Pul9-Ena-Sel=1,			#0 = Disabled, 1 = Enabled
 		Pul9-Polarity-Sel=0,   	#0 = Active High, 1 = Active Low
-		Pul9-Delay-SP=0,		#0-4294967295 : Delay in us 
-		Pul9-Width-SP=0,		#0-65535 : Width in us
+		Pul9-Delay-SP=0,		#Pulse delay in us 
+		Pul9-Width-SP=0,		#Pulse width in us
 
 		Pul10-Ena-Sel=1,		#0 = Disabled, 1 = Enabled
 		Pul10-Polarity-Sel=0,  	#0 = Active High, 1 = Active Low
-		Pul10-Delay-SP=0,		#0-4294967295 : Delay in us 
-		Pul10-Width-SP=0,		#0-65535 : Width in us
+		Pul10-Delay-SP=0,		#Pulse delay in us 
+		Pul10-Width-SP=0,		#Pulse width in us
 
 		Pul11-Ena-Sel=1,		#0 = Disabled, 1 = Enabled
 		Pul11-Polarity-Sel=0,  	#0 = Active High, 1 = Active Low
-		Pul11-Delay-SP=0,		#0-4294967295 : Delay in us 
-		Pul11-Width-SP=0,		#0-65535 : Width in us
+		Pul11-Delay-SP=0,		#Pulse delay in us 
+		Pul11-Width-SP=0,		#Pulse width in us
 
 		Pul12-Ena-Sel=1,		#0 = Disabled, 1 = Enabled
 		Pul12-Polarity-Sel=0,  	#0 = Active High, 1 = Active Low
-		Pul12-Delay-SP=0,		#0-4294967295 : Delay in us 
-		Pul12-Width-SP=0,		#0-65535 : Width in us
+		Pul12-Delay-SP=0,		#Pulse delay in us 
+		Pul12-Width-SP=0,		#Pulse width in us
 
 		Pul13-Ena-Sel=1,		#0 = Disabled, 1 = Enabled
 		Pul13-Polarity-Sel=0,  	#0 = Active High, 1 = Active Low
-		Pul13-Delay-SP=0,		#0-4294967295 : Delay in us 
-		Pul13-Width-SP=0,		#0-65535 : Width in us
+		Pul13-Delay-SP=0,		#Pulse delay in us 
+		Pul13-Width-SP=0,		#Pulse width in us
 
 		Pul14-Ena-Sel=1,		#0 = Disabled, 1 = Enabled
 		Pul14-Polarity-Sel=0,  	#0 = Active High, 1 = Active Low
-		Pul14-Delay-SP=0,		#0-4294967295 : Delay in us 
-		Pul14-Width-SP=0,		#0-65535 : Width in us
+		Pul14-Delay-SP=0,		#Pulse delay in us 
+		Pul14-Width-SP=0,		#Pulse width in us
 
 		Pul15-Ena-Sel=1,		#0 = Disabled, 1 = Enabled
 		Pul15-Polarity-Sel=0,  	#0 = Active High, 1 = Active Low
-		Pul15-Delay-SP=0,		#0-4294967295 : Delay in us 
-		Pul15-Width-SP=0,		#0-65535 : Width in us
+		Pul15-Delay-SP=0,		#Pulse delay in us 
+		Pul15-Width-SP=0,		#Pulse width in us
 
 
 		## Front panel inputs

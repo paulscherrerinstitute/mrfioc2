@@ -18,7 +18,7 @@
 #  Pul-Norm-Width = The width of the pulse to be outputted in normal mode
 #  Pul-Norm-Delay = The delay of the pulse to be outputted in normal mode
 #  Pul-Sw-Width   = The width of the pulse to be outputted in switched mode
-#  Pul-Sw-Delay   = The delay of the pulse to be outputted in switched mode
+#  Pul-Sw-Delay   = The delay of the pulse to be outputted in switched mode.
 #  Output         = Name of the output where the pulse is routed. Eg. FrontUnivOut0, FrontUnivOut1,..., RearUniv0, RearUniv1, ...
 #  
 # Optional macros:
@@ -55,28 +55,28 @@ file "$(mrfioc2_TEMPLATES=db)/evr-vme-300.db"
 		DlyCompensation-Target-SP=0,	# Delay compensation value in [ns]
 
 		## Prescalers
-		PS0-Div-SP=2, 			#2-65535 :Integer divisor between the Event Clock and the sub-unit output.
+		PS0-Div-SP=2, 			#2-4294967295 :Integer divisor between the Event Clock and the sub-unit output.
 		PS0-PulserMap-L-SP=0,	#0-65535 :Trigger a pulser on prescaler rising edge. Pulsers 0-15 are bit-wise selectable
 		PS0-PulserMap-H-SP=0,	#0-255   :Trigger a pulser on prescaler rising edge. Pulsers 16-23 are bit-wise selectable
-		PS1-Div-SP=2, 			#2-65535 :Integer divisor between the Event Clock and the sub-unit output.
+		PS1-Div-SP=2, 			#2-4294967295 :Integer divisor between the Event Clock and the sub-unit output.
 		PS1-PulserMap-L-SP=0,	#0-65535 :Trigger a pulser on prescaler rising edge. Pulsers 0-15 are bit-wise selectable
 		PS1-PulserMap-H-SP=0,	#0-255   :Trigger a pulser on prescaler rising edge. Pulsers 16-23 are bit-wise selectable
-		PS2-Div-SP=2, 			#2-65535 :Integer divisor between the Event Clock and the sub-unit output.
+		PS2-Div-SP=2, 			#2-4294967295 :Integer divisor between the Event Clock and the sub-unit output.
 		PS2-PulserMap-L-SP=0,	#0-65535 :Trigger a pulser on prescaler rising edge. Pulsers 0-15 are bit-wise selectable
 		PS2-PulserMap-H-SP=0,	#0-255   :Trigger a pulser on prescaler rising edge. Pulsers 16-23 are bit-wise selectable
-		PS3-Div-SP=2, 			#2-65535 :Integer divisor between the Event Clock and the sub-unit output.
+		PS3-Div-SP=2, 			#2-4294967295 :Integer divisor between the Event Clock and the sub-unit output.
 		PS3-PulserMap-L-SP=0,	#0-65535 :Trigger a pulser on prescaler rising edge. Pulsers 0-15 are bit-wise selectable
 		PS3-PulserMap-H-SP=0,	#0-255   :Trigger a pulser on prescaler rising edge. Pulsers 16-23 are bit-wise selectable
-		PS4-Div-SP=2, 			#2-65535 :Integer divisor between the Event Clock and the sub-unit output.
+		PS4-Div-SP=2, 			#2-4294967295 :Integer divisor between the Event Clock and the sub-unit output.
 		PS4-PulserMap-L-SP=0,	#0-65535 :Trigger a pulser on prescaler rising edge. Pulsers 0-15 are bit-wise selectable
 		PS4-PulserMap-H-SP=0,	#0-255   :Trigger a pulser on prescaler rising edge. Pulsers 16-23 are bit-wise selectable
-		PS5-Div-SP=2, 			#2-65535 :Integer divisor between the Event Clock and the sub-unit output.
+		PS5-Div-SP=2, 			#2-4294967295 :Integer divisor between the Event Clock and the sub-unit output.
 		PS5-PulserMap-L-SP=0,	#0-65535 :Trigger a pulser on prescaler rising edge. Pulsers 0-15 are bit-wise selectable
 		PS5-PulserMap-H-SP=0,	#0-255   :Trigger a pulser on prescaler rising edge. Pulsers 16-23 are bit-wise selectable
-		PS6-Div-SP=2, 			#2-65535 :Integer divisor between the Event Clock and the sub-unit output.
+		PS6-Div-SP=2, 			#2-4294967295 :Integer divisor between the Event Clock and the sub-unit output.
 		PS6-PulserMap-L-SP=0,	#0-65535 :Trigger a pulser on prescaler rising edge. Pulsers 0-15 are bit-wise selectable
 		PS6-PulserMap-H-SP=0,	#0-255   :Trigger a pulser on prescaler rising edge. Pulsers 16-23 are bit-wise selectable
-		PS7-Div-SP=2, 			#2-65535 :Integer divisor between the Event Clock and the sub-unit output.
+		PS7-Div-SP=2, 			#2-4294967295 :Integer divisor between the Event Clock and the sub-unit output.
 		PS7-PulserMap-L-SP=0,	#0-65535 :Trigger a pulser on prescaler rising edge. Pulsers 0-15 are bit-wise selectable
 		PS7-PulserMap-H-SP=0,	#0-255   :Trigger a pulser on prescaler rising edge. Pulsers 16-23 are bit-wise selectable
 			
@@ -110,173 +110,173 @@ file "$(mrfioc2_TEMPLATES=db)/evr-vme-300.db"
 		## Pulsers
 		Pul0-Ena-Sel=1,				#0 = Disabled, 1 = Enabled
 		Pul0-Polarity-Sel=0,   		#0 = Active High, 1 = Active Low
-		Pul0-Delay-SP=0,			#0-4294967295 : Delay in us 
-		Pul0-Width-SP=0,			#0-65535 : Width in us
+		Pul0-Delay-SP=0,			#Pulse delay in us (range depends on prescaler selection and event clock)
+		Pul0-Width-SP=0,			#Pulse width in us (range depends on prescaler selection and event clock)
 		Pul0-Prescaler-SP=1,   		#0-255 : Pulser prescaler
 		Pul0-Gate-Mask-SP=0x0,		#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will mask this pulser
 		Pul0-Gate-Enable-SP=0x0,	#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will enable this pulser
 
 		Pul1-Ena-Sel=1,				#0 = Disabled, 1 = Enabled
 		Pul1-Polarity-Sel=0,   		#0 = Active High, 1 = Active Low
-		Pul1-Delay-SP=0,			#0-4294967295 : Delay in us 
-		Pul1-Width-SP=0,			#0-65535 : Width in us
+		Pul1-Delay-SP=0,			#Pulse delay in us  (range depends on prescaler selection and event clock)
+		Pul1-Width-SP=0,			#Pulse width in us (range depends on prescaler selection and event clock)
 		Pul1-Prescaler-SP=1,   		#0-255 : Pulser prescaler
 		Pul1-Gate-Mask-SP=0x0,		#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will mask this pulser
 		Pul1-Gate-Enable-SP=0x0,	#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will enable this pulser
 
 		Pul2-Ena-Sel=1,				#0 = Disabled, 1 = Enabled
 		Pul2-Polarity-Sel=0,  		#0 = Active High, 1 = Active Low
-		Pul2-Delay-SP=0,			#0-4294967295 : Delay in us 
-		Pul2-Width-SP=0,			#0-65535 : Width in us
+		Pul2-Delay-SP=0,			#Pulse delay in us  (range depends on prescaler selection and event clock)
+		Pul2-Width-SP=0,			#Pulse width in us (range depends on prescaler selection and event clock)
 		Pul2-Prescaler-SP=1, 		#0-255 : Pulser prescaler
 		Pul2-Gate-Mask-SP=0x0,		#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will mask this pulser
 		Pul2-Gate-Enable-SP=0x0,	#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will enable this pulser
 
 		Pul3-Ena-Sel=1,				#0 = Disabled, 1 = Enabled
 		Pul3-Polarity-Sel=0,   		#0 = Active High, 1 = Active Low
-		Pul3-Delay-SP=0,			#0-4294967295 : Delay in us 
-		Pul3-Width-SP=0,			#0-65535 : Width in us
+		Pul3-Delay-SP=0,			#Pulse delay in us  (range depends on prescaler selection and event clock)
+		Pul3-Width-SP=0,			#Pulse width in us (range depends on prescaler selection and event clock)
 		Pul3-Prescaler-SP=1,   		#0-255 : Pulser prescaler
 		Pul3-Gate-Mask-SP=0x0,		#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will mask this pulser
 		Pul3-Gate-Enable-SP=0x0,	#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will enable this pulser
 
 		Pul4-Ena-Sel=1,				#0 = Disabled, 1 = Enabled
 		Pul4-Polarity-Sel=0,   		#0 = Active High, 1 = Active Low
-		Pul4-Delay-SP=0,			#0-4294967295 : Delay in us 
-		Pul4-Width-SP=0,			#0-65535 : Width in us
+		Pul4-Delay-SP=0,			#Pulse delay in us 
+		Pul4-Width-SP=0,			#Pulse width in us
 		Pul4-Gate-Mask-SP=0x0,		#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will mask this pulser
 		Pul4-Gate-Enable-SP=0x0,	#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will enable this pulser
 
 		Pul5-Ena-Sel=1,				#0 = Disabled, 1 = Enabled
 		Pul5-Polarity-Sel=0,   		#0 = Active High, 1 = Active Low
-		Pul5-Delay-SP=0,			#0-4294967295 : Delay in us 
-		Pul5-Width-SP=0,			#0-65535 : Width in us
+		Pul5-Delay-SP=0,			#Pulse delay in us 
+		Pul5-Width-SP=0,			#Pulse width in us
 		Pul5-Gate-Mask-SP=0x0,		#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will mask this pulser
 		Pul5-Gate-Enable-SP=0x0,	#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will enable this pulser
 
 		Pul6-Ena-Sel=1,				#0 = Disabled, 1 = Enabled
 		Pul6-Polarity-Sel=0,   		#0 = Active High, 1 = Active Low
-		Pul6-Delay-SP=0,			#0-4294967295 : Delay in us 
-		Pul6-Width-SP=0,			#0-65535 : Width in us
+		Pul6-Delay-SP=0,			#Pulse delay in us 
+		Pul6-Width-SP=0,			#Pulse width in us
 		Pul6-Gate-Mask-SP=0x0,		#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will mask this pulser
 		Pul6-Gate-Enable-SP=0x0,	#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will enable this pulser
 
 		Pul7-Ena-Sel=1,				#0 = Disabled, 1 = Enabled
 		Pul7-Polarity-Sel=0,   		#0 = Active High, 1 = Active Low
-		Pul7-Delay-SP=0,			#0-4294967295 : Delay in us 
-		Pul7-Width-SP=0,			#0-65535 : Width in us
+		Pul7-Delay-SP=0,			#Pulse delay in us 
+		Pul7-Width-SP=0,			#Pulse width in us
 		Pul7-Gate-Mask-SP=0x0,		#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will mask this pulser
 		Pul7-Gate-Enable-SP=0x0,	#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will enable this pulser
 
 		Pul8-Ena-Sel=1,				#0 = Disabled, 1 = Enabled
 		Pul8-Polarity-Sel=0,   		#0 = Active High, 1 = Active Low
-		Pul8-Delay-SP=0,			#0-4294967295 : Delay in us 
-		Pul8-Width-SP=0,			#0-65535 : Width in us
+		Pul8-Delay-SP=0,			#Pulse delay in us 
+		Pul8-Width-SP=0,			#Pulse width in us
 		Pul8-Gate-Mask-SP=0x0,		#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will mask this pulser
 		Pul8-Gate-Enable-SP=0x0,	#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will enable this pulser
 
 		Pul9-Ena-Sel=1,				#0 = Disabled, 1 = Enabled
 		Pul9-Polarity-Sel=0,   		#0 = Active High, 1 = Active Low
-		Pul9-Delay-SP=0,			#0-4294967295 : Delay in us 
-		Pul9-Width-SP=0,			#0-65535 : Width in us
+		Pul9-Delay-SP=0,			#Pulse delay in us 
+		Pul9-Width-SP=0,			#Pulse width in us
 		Pul9-Gate-Mask-SP=0x0,		#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will mask this pulser
 		Pul9-Gate-Enable-SP=0x0,	#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will enable this pulser
 
 		Pul10-Ena-Sel=1,			#0 = Disabled, 1 = Enabled
 		Pul10-Polarity-Sel=0,  		#0 = Active High, 1 = Active Low
-		Pul10-Delay-SP=0,			#0-4294967295 : Delay in us 
-		Pul10-Width-SP=0,			#0-65535 : Width in us
+		Pul10-Delay-SP=0,			#Pulse delay in us 
+		Pul10-Width-SP=0,			#Pulse width in us
 		Pul10-Gate-Mask-SP=0x0,		#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will mask this pulser
 		Pul10-Gate-Enable-SP=0x0,	#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will enable this pulser
 
 		Pul11-Ena-Sel=1,			#0 = Disabled, 1 = Enabled
 		Pul11-Polarity-Sel=0,  		#0 = Active High, 1 = Active Low
-		Pul11-Delay-SP=0,			#0-4294967295 : Delay in us 
-		Pul11-Width-SP=0,			#0-65535 : Width in us
+		Pul11-Delay-SP=0,			#Pulse delay in us 
+		Pul11-Width-SP=0,			#Pulse width in us
 		Pul11-Gate-Mask-SP=0x0,		#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will mask this pulser
 		Pul11-Gate-Enable-SP=0x0,	#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will enable this pulser
 
 		Pul12-Ena-Sel=1,			#0 = Disabled, 1 = Enabled
 		Pul12-Polarity-Sel=0,  		#0 = Active High, 1 = Active Low
-		Pul12-Delay-SP=0,			#0-4294967295 : Delay in us 
-		Pul12-Width-SP=0,			#0-65535 : Width in us
+		Pul12-Delay-SP=0,			#Pulse delay in us 
+		Pul12-Width-SP=0,			#Pulse width in us
 		Pul12-Gate-Mask-SP=0x0,		#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will mask this pulser
 		Pul12-Gate-Enable-SP=0x0,	#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will enable this pulser
 
 		Pul13-Ena-Sel=1,			#0 = Disabled, 1 = Enabled
 		Pul13-Polarity-Sel=0,  		#0 = Active High, 1 = Active Low
-		Pul13-Delay-SP=0,			#0-4294967295 : Delay in us 
-		Pul13-Width-SP=0,			#0-65535 : Width in us
+		Pul13-Delay-SP=0,			#Pulse delay in us 
+		Pul13-Width-SP=0,			#Pulse width in us
 		Pul13-Gate-Mask-SP=0x0,		#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will mask this pulser
 		Pul13-Gate-Enable-SP=0x0,	#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will enable this pulser
 
 		Pul14-Ena-Sel=1,			#0 = Disabled, 1 = Enabled
 		Pul14-Polarity-Sel=0,  		#0 = Active High, 1 = Active Low
-		Pul14-Delay-SP=0,			#0-4294967295 : Delay in us 
-		Pul14-Width-SP=0,			#0-65535 : Width in us
+		Pul14-Delay-SP=0,			#Pulse delay in us 
+		Pul14-Width-SP=0,			#Pulse width in us
 		Pul14-Gate-Mask-SP=0x0,		#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will mask this pulser
 		Pul14-Gate-Enable-SP=0x0,	#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will enable this pulser
 
 		Pul15-Ena-Sel=1,			#0 = Disabled, 1 = Enabled
 		Pul15-Polarity-Sel=0,  		#0 = Active High, 1 = Active Low
-		Pul15-Delay-SP=0,			#0-4294967295 : Delay in us 
-		Pul15-Width-SP=0,			#0-65535 : Width in us
+		Pul15-Delay-SP=0,			#Pulse delay in us 
+		Pul15-Width-SP=0,			#Pulse width in us
 		Pul15-Gate-Mask-SP=0x0,		#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will mask this pulser
 		Pul15-Gate-Enable-SP=0x0,	#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will enable this pulser
 
 		Pul16-Ena-Sel=1,			#0 = Disabled, 1 = Enabled
 		Pul16-Polarity-Sel=0,  		#0 = Active High, 1 = Active Low
-		Pul16-Delay-SP=0,			#0-4294967295 : Delay in us 
-		Pul16-Width-SP=0,			#0-65535 : Width in us
+		Pul16-Delay-SP=0,			#Pulse delay in us 
+		Pul16-Width-SP=0,			#Pulse width in us
 		Pul16-Gate-Mask-SP=0x0,		#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will mask this pulser
 		Pul16-Gate-Enable-SP=0x0,	#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will enable this pulser
 
 		Pul17-Ena-Sel=1,			#0 = Disabled, 1 = Enabled
 		Pul17-Polarity-Sel=0,  		#0 = Active High, 1 = Active Low
-		Pul17-Delay-SP=0,			#0-4294967295 : Delay in us 
-		Pul17-Width-SP=0,			#0-65535 : Width in us
+		Pul17-Delay-SP=0,			#Pulse delay in us 
+		Pul17-Width-SP=0,			#Pulse width in us
 		Pul17-Gate-Mask-SP=0x0,		#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will mask this pulser
 		Pul17-Gate-Enable-SP=0x0,	#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will enable this pulser
 
 		Pul18-Ena-Sel=1,			#0 = Disabled, 1 = Enabled
 		Pul18-Polarity-Sel=0,  		#0 = Active High, 1 = Active Low
-		Pul18-Delay-SP=0,			#0-4294967295 : Delay in us 
-		Pul18-Width-SP=0,			#0-65535 : Width in us
+		Pul18-Delay-SP=0,			#Pulse delay in us 
+		Pul18-Width-SP=0,			#Pulse width in us
 		Pul18-Gate-Mask-SP=0x0,		#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will mask this pulser
 		Pul18-Gate-Enable-SP=0x0,	#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will enable this pulser
 
 		Pul19-Ena-Sel=1,			#0 = Disabled, 1 = Enabled
 		Pul19-Polarity-Sel=0,  		#0 = Active High, 1 = Active Low
-		Pul19-Delay-SP=0,			#0-4294967295 : Delay in us 
-		Pul19-Width-SP=0,			#0-65535 : Width in us
+		Pul19-Delay-SP=0,			#Pulse delay in us 
+		Pul19-Width-SP=0,			#Pulse width in us
 		Pul19-Gate-Mask-SP=0x0,		#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will mask this pulser
 		Pul19-Gate-Enable-SP=0x0,	#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will enable this pulser
 
 		Pul20-Ena-Sel=1,			#0 = Disabled, 1 = Enabled
 		Pul20-Polarity-Sel=0,  		#0 = Active High, 1 = Active Low
-		Pul20-Delay-SP=0,			#0-4294967295 : Delay in us 
-		Pul20-Width-SP=0,			#0-65535 : Width in us
+		Pul20-Delay-SP=0,			#Pulse delay in us 
+		Pul20-Width-SP=0,			#Pulse width in us
 		Pul20-Gate-Mask-SP=0x0,		#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will mask this pulser
 		Pul20-Gate-Enable-SP=0x0,	#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will enable this pulser
 
 		Pul21-Ena-Sel=1,			#0 = Disabled, 1 = Enabled
 		Pul21-Polarity-Sel=0,  		#0 = Active High, 1 = Active Low
-		Pul21-Delay-SP=0,			#0-4294967295 : Delay in us 
-		Pul21-Width-SP=0,			#0-65535 : Width in us
+		Pul21-Delay-SP=0,			#Pulse delay in us 
+		Pul21-Width-SP=0,			#Pulse width in us
 		Pul21-Gate-Mask-SP=0x0,		#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will mask this pulser
 		Pul21-Gate-Enable-SP=0x0,	#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will enable this pulser
 
 		Pul22-Ena-Sel=1,			#0 = Disabled, 1 = Enabled
 		Pul22-Polarity-Sel=0,  		#0 = Active High, 1 = Active Low
-		Pul22-Delay-SP=0,			#0-4294967295 : Delay in us 
-		Pul22-Width-SP=0,			#0-65535 : Width in us
+		Pul22-Delay-SP=0,			#Pulse delay in us 
+		Pul22-Width-SP=0,			#Pulse width in us
 		Pul22-Gate-Mask-SP=0x0,		#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will mask this pulser
 		Pul22-Gate-Enable-SP=0x0,	#0-15 : Selects which gate will enable this pulser
 
 		Pul23-Ena-Sel=1,			#0 = Disabled, 1 = Enabled
 		Pul23-Polarity-Sel=0,  		#0 = Active High, 1 = Active Low
-		Pul23-Delay-SP=0,			#0-4294967295 : Delay in us 
-		Pul23-Width-SP=0,			#0-65535 : Width in us
+		Pul23-Delay-SP=0,			#Pulse delay in us 
+		Pul23-Width-SP=0,			#Pulse width in us
 		Pul23-Gate-Mask-SP=0x0,		#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will mask this pulser
 		Pul23-Gate-Enable-SP=0x0,	#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will enable this pulser
 

@@ -107,6 +107,7 @@ TEMPLATES += evgMrmApp/Db/evg-health.template
 ##Generated EVR templates
 TEMPLATES += evrMrmApp/Db/evr-cpci-230.db
 TEMPLATES += evrMrmApp/Db/evr-pcie-300.db
+TEMPLATES += evrMrmApp/Db/evr-pcie-300DC.db
 TEMPLATES += evrMrmApp/Db/evr-vme-300.db
 TEMPLATES += evrMrmApp/Db/evr-vme-230.db
 
@@ -172,6 +173,7 @@ dbexpand:
 	echo "Exapanding EVR database"	
 	msi -I evrMrmApp/Db/ -I mrmShared/Db/ -S evrMrmApp/Db/evr-cpci-230.substitutions 	-o evrMrmApp/Db/evr-cpci-230.db
 	msi -I evrMrmApp/Db/ -I mrmShared/Db/ -S evrMrmApp/Db/evr-pcie-300.substitutions 	-o evrMrmApp/Db/evr-pcie-300.db
+	msi -I evrMrmApp/Db/ -I mrmShared/Db/ -S evrMrmApp/Db/evr-pcie-300DC.substitutions 	-o evrMrmApp/Db/evr-pcie-300DC.db
 	msi -I evrMrmApp/Db/ -I mrmShared/Db/ -S evrMrmApp/Db/evr-vme-300.substitutions 	-o evrMrmApp/Db/evr-vme-300.db
 	msi -I evrMrmApp/Db/ -I mrmShared/Db/ -S evrMrmApp/Db/evr-vme-230.substitutions 	-o evrMrmApp/Db/evr-vme-230.db
 
