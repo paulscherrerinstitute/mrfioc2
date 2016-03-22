@@ -177,11 +177,6 @@ void mrmDataBuffer_300::receive()
             }
         }
     }
-
-    // TODO: is this really needed? Registers get written when intreset is set/removed
-    for(i=0; i<4; i++) {        // set which segments will trigger interrupt when data is received
-        nat_iowrite32(base+DataBuffer_SegmentIRQ + 4 * i, m_irq_flags[i]);
-    }
 }
 
 bool mrmDataBuffer_300::overflowOccured() {
