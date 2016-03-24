@@ -683,7 +683,7 @@ pattern { EVT,	CODE,    FLNK }
 ## There are some default events, that allways trigger specific functions!
 ## Available functions:
 ##		- Blink : An LED on the EVRs front panel will blink when the code is received.
-##		- Forward : The received code will be immediately retransmits on the upstream event link.
+##		- Forward : The received code will be immediately retransmitted on the upstream event link.
 ##		- Stop Log (default event 121): Freeze the circular event log buffer. An CPU interrupt will be raised which will cause the buffer to be downloaded. This might be a useful action to map to a fault event.
 ##		- Log : Include this event code in the circular event log.
 ##		- Heartbeat (default event 122): This event resets the heartbeat timeout timer.
