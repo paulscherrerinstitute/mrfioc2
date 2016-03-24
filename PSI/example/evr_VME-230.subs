@@ -7,7 +7,7 @@ file "$(mrfioc2_TEMPLATES=db)/evr-vme-230.db"
 		Link-Clk-SP=124.916,	#45-150 : Event Link speed (MHz)
 		Time-Src-Sel=0, 		#0 = Event clk, 1 = Mapped codes, 2 = DBus4 : Source for timestamping clock.
 		Time-Clock-SP=0.0,		#50-150 : Timestamp tick rate (MHz)
-        DBuf-Mode-SP=1,         #0 = DBus only, 1 =   DBus+Data Buffer : Downstream data mode
+        DBuf-Mode-Sel=1,         #0 = DBus only, 1 =   DBus+Data Buffer : Downstream data mode
 
 
 		## Prescalers
