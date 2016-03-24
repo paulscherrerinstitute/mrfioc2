@@ -60,8 +60,8 @@ record(ai, "$(SYS)-$(DEVICE):Pul$(ID)-Delay-RB") {
 }
 
 record(ai, "$(SYS)-$(DEVICE):Pul$(ID)-Delay-Raw-RB") {
-  field(DTYP, "Obj Prop double")
-  field(INP , "@OBJ=$(DEVICE):Pul$(ID), PROP=DelayRaw")
+  field(DTYP, "Obj Prop uint32")
+  field(INP , "@OBJ=$(DEVICE):Pul$(ID), PROP=Delay")
   field(EGU , "cnts")
   field(HOPR, "$(DMAX=0xffff)")
   field(LOPR, "0")
@@ -97,8 +97,8 @@ record(ai, "$(SYS)-$(DEVICE):Pul$(ID)-Width-RB") {
 }
 
 record(ai, "$(SYS)-$(DEVICE):Pul$(ID)-Width-Raw-RB") {
-  field(DTYP, "Obj Prop double")
-  field(INP , "@OBJ=$(DEVICE):Pul$(ID), PROP=WidthRaw")
+  field(DTYP, "Obj Prop uint32")
+  field(INP , "@OBJ=$(DEVICE):Pul$(ID), PROP=Width")
   field(PINI, "YES")
   field(HOPR, "$(WMAX=0xffff)")
   field(LOPR, "0")
@@ -155,7 +155,7 @@ record(mbboDirect, "$(SYS)-$(DEVICE):Pul$(ID)-Gate-Mask-SP") {
   field(PINI, "YES")
   field(NOBT, "16")
   field(DESC, "Pulser gate mask")
-  field(VAL , "$(Pul$(ID)-Gate-Mask-SP\=0)")
+  field(RVAL, "$(Pul$(ID)-Gate-Mask-SP\=0)")
   field(FLNK, "$(SYS)-$(DEVICE):Pul$(ID)-Gate-Mask-RB")
 }
 
@@ -171,7 +171,7 @@ record(mbboDirect, "$(SYS)-$(DEVICE):Pul$(ID)-Gate-Enable-SP") {
   field(PINI, "YES")
   field(NOBT, "16")
   field(DESC, "Pulser gate enable")
-  field(VAL , "$(Pul$(ID)-Gate-Enable-SP\=0)")
+  field(RVAL, "$(Pul$(ID)-Gate-Enable-SP\=0)")
   field(FLNK, "$(SYS)-$(DEVICE):Pul$(ID)-Gate-Enable-RB")
 }
 

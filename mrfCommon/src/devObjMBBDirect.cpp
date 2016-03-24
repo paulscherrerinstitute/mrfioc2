@@ -82,7 +82,7 @@ try {
 OBJECT_DSET(MBBODirFromUINT32,
             (&add_record_out<mbboDirectRecord,epicsUInt32>),
             &del_record_property,
-            &init_record_empty,
+            &init_record_return2,
             &write_mbbodir_from_integer<epicsUInt32>,
             NULL);
 
@@ -92,7 +92,7 @@ OBJECT_DSET(MBBODirFromUINT32,
 OBJECT_DSET(MBBODirFromUINT16,
             (&add_record_out<mbboDirectRecord,epicsUInt16>),
             &del_record_property,
-            &init_record_empty,
+            &init_record_return2,
             &write_mbbodir_from_integer<epicsUInt16>,
             NULL);
 

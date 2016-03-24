@@ -36,9 +36,9 @@ record(mbboDirect, "$(SYS)-$(DEVICE):PS$(ID)-PulserMap-L-SP") {
   field(DTYP, "Obj Prop uint16")
   field(OUT , "@OBJ=$(DEVICE):PS$(ID), PROP=Pulser mapping L")
   field(PINI, "YES")
-  field(NOBT, 16)
+  field(NOBT, "16")
   field(DESC, "Pulser mapping")
-  field(VAL , "$(PS$(ID)-PulserMap-L-SP\=0)")
+  field(RVAL, "$(PS$(ID)-PulserMap-L-SP\=0)")
   field(FLNK, "$(SYS)-$(DEVICE):PS$(ID)-PulserMap-L-RB")
 }
 
@@ -52,9 +52,9 @@ record(mbboDirect, "$(SYS)-$(DEVICE):PS$(ID)-PulserMap-H-SP") {
   field(DTYP, "Obj Prop uint16")
   field(OUT , "@OBJ=$(DEVICE):PS$(ID), PROP=Pulser mapping H")
   field(PINI, "YES")
-  field(NOBT, 16)
+  field(NOBT, "16")
   field(DESC, "Pulser mapping")
-  field(VAL , "$(PS$(ID)-PulserMap-H-SP\=0)")
+  field(RVAL, "$(PS$(ID)-PulserMap-H-SP\=0)")
   field(FLNK, "$(SYS)-$(DEVICE):PS$(ID)-PulserMap-H-RB")
 }
 

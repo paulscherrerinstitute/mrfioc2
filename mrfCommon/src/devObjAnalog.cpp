@@ -86,7 +86,7 @@ OBJECT_DSET(AIFromUINT32,
             (&add_record_inp<aiRecord,epicsUInt32>),
             &del_record_property,
             &init_record_empty,
-            &read_ai_from_integer<epicsUInt32>,
+            &read_ai_from_real<epicsUInt32>,
             NULL);
 
 // ai uint16
@@ -95,7 +95,7 @@ OBJECT_DSET(AIFromUINT16,
             (&add_record_inp<aiRecord,epicsUInt16>),
             &del_record_property,
             &init_record_empty,
-            &read_ai_from_integer<epicsUInt16>,
+            &read_ai_from_real<epicsUInt16>,
             NULL);
 
 
@@ -183,8 +183,8 @@ try {
 OBJECT_DSET(AOFromUINT32,
             (&add_record_out<aoRecord,epicsUInt32>),
             &del_record_property,
-            &init_record_empty,
-            &write_ao_from_integer<epicsUInt32>,
+            &init_record_return2,
+            &write_ao_from_real<epicsUInt32>,
             NULL);
 
 // ao uint16
@@ -192,8 +192,8 @@ OBJECT_DSET(AOFromUINT32,
 OBJECT_DSET(AOFromUINT16,
             (&add_record_out<aoRecord,epicsUInt16>),
             &del_record_property,
-            &init_record_empty,
-            &write_ao_from_integer<epicsUInt16>,
+            &init_record_return2,
+            &write_ao_from_real<epicsUInt16>,
             NULL);
 
 

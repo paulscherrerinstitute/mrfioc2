@@ -25,8 +25,7 @@ EvrPrescaler::EvrPrescaler(const std::string& n, volatile epicsUInt8 * b, size_t
 
 }
 
-epicsUInt32
-EvrPrescaler::prescaler() const
+epicsUInt32 EvrPrescaler::prescaler() const
 {
     return READ32(base, Scaler(id));
 }
