@@ -26,7 +26,6 @@ file "$(mrfioc2_TEMPLATES=db)/evg-vme-300.db"
          EvtClk-PLL-Bandwidth-Sel=4,   #0 = HM, 1 = HL, 2 = MH, 3 = MM, 4 = ML: PLL Bandwidth Select (see Silicon Labs Si5317 datasheet)
          
          ## Distributed bus configuration
-         Dbus0-Src-Sel=0,
          Dbus0-Map-Sel=0, #0 = Off, 1 = Front input, 2= Mxc 0, 3 = From upstream EVG : EVG DBUS Source
          Dbus1-Map-Sel=0, #0 = Off, 1 = Front input, 2= Mxc 1, 3 = From upstream EVG : EVG DBUS Source
          Dbus2-Map-Sel=0, #0 = Off, 1 = Front input, 2= Mxc 2, 3 = From upstream EVG : EVG DBUS Source
@@ -423,6 +422,48 @@ file "$(mrfioc2_TEMPLATES=db)/evg-vme-300.db"
          RearInp15-SeqMask-SP=0,   # Masks soft sequence events
          RearInp15-SeqEnable-SP=0, # Enables soft sequence events
          
+
+         ## Output configuration
+         # Available -Src-SP choices:
+         # 32  DBus 0
+         # 33  DBus 1
+         # 34  DBus 2
+         # 35  DBus 3
+         # 36  DBus 4
+         # 37  DBus 5   
+         # 38  DBus 6
+         # 39  Dbus 7
+         # 40  Mxc 0
+         # 41  Mxc 1
+         # 42  Mxc 2
+         # 43  Mxc 3
+         # 44  Mxc 4
+         # 45  Mxc 5
+         # 46  Mxc 6
+         # 47  Mxc 7
+         # 48  AC trigger logic output
+         # 63  Force Low
+         # 62  Force High
+         
+
+         # Rear outputs (transition board)
+         RearOut0-Src-SP=63, 
+         RearOut1-Src-SP=63,
+         RearOut2-Src-SP=63,
+         RearOut3-Src-SP=63,
+         RearOut4-Src-SP=63,
+         RearOut5-Src-SP=63,
+         RearOut6-Src-SP=63,
+         RearOut7-Src-SP=63,
+         RearOut8-Src-SP=63, 
+         RearOut9-Src-SP=63, 
+         RearOut10-Src-SP=63,
+         RearOut11-Src-SP=63,
+         RearOut12-Src-SP=63,
+         RearOut13-Src-SP=63,
+         RearOut14-Src-SP=63,
+         RearOut15-Src-SP=63,
+         
          ## Event trigger configuration
          TrigEvt0-Enable-Sel=1, #0 = Disabled, 1 = Enabled :  EVG Trigger Event Enable
          TrigEvt0-EvtCode-SP=0, #0-255 = Event code : EVG Trigger Event Code
@@ -450,7 +491,7 @@ file "$(mrfioc2_TEMPLATES=db)/evg-vme-300.db"
          
          ## Multiplexed counters configuration
          Mxc0-Polarity-Sel=0, #0 = Normal, 1 = Inverted : EVG Mux Output Polarity
-         Mxc0-Frequency-SP=1, #0.029-62500000 EVG Mux Frequency (Hz)
+         Mxc0-Frequency-SP=1, #0.034-62500000 EVG Mux Frequency (Hz) - depends on event clock speed
          Mxc0-Prescaler-SP=124920, # Overriden by Frequency-SP
          Mxc0-TrigSrc0-SP=0,  #0 = Disable, 1 = Enable: Map to event trigger
          Mxc0-TrigSrc1-SP=0,  #0 = Disable, 1 = Enable: Map to event trigger
@@ -462,7 +503,7 @@ file "$(mrfioc2_TEMPLATES=db)/evg-vme-300.db"
          Mxc0-TrigSrc7-SP=0,  #0 = Disable, 1 = Enable: Map to event trigger
 
          Mxc1-Polarity-Sel=0, #0 = Normal, 1 = Inverted : EVG Mux Output Polarity
-         Mxc1-Frequency-SP=1, #0.029-62500000 EVG Mux Frequency (Hz)
+         Mxc1-Frequency-SP=1, #0.034-62500000 EVG Mux Frequency (Hz) - depends on event clock speed
          Mxc1-Prescaler-SP=124920, # Overriden by Frequency-SP
          Mxc1-TrigSrc0-SP=0,  #0 = Disable, 1 = Enable: Map to event trigger
          Mxc1-TrigSrc1-SP=0,  #0 = Disable, 1 = Enable: Map to event trigger
@@ -474,7 +515,7 @@ file "$(mrfioc2_TEMPLATES=db)/evg-vme-300.db"
          Mxc1-TrigSrc7-SP=0,  #0 = Disable, 1 = Enable: Map to event trigger
 
          Mxc2-Polarity-Sel=0, #0 = Normal, 1 = Inverted : EVG Mux Output Polarity
-         Mxc2-Frequency-SP=1, #0.029-62500000 EVG Mux Frequency (Hz)
+         Mxc2-Frequency-SP=1, #0.034-62500000 EVG Mux Frequency (Hz) - depends on event clock speed
          Mxc2-Prescaler-SP=124920, # Overriden by Frequency-SP
          Mxc2-TrigSrc0-SP=0,  #0 = Disable, 1 = Enable: Map to event trigger
          Mxc2-TrigSrc1-SP=0,  #0 = Disable, 1 = Enable: Map to event trigger
@@ -486,7 +527,7 @@ file "$(mrfioc2_TEMPLATES=db)/evg-vme-300.db"
          Mxc2-TrigSrc7-SP=0,  #0 = Disable, 1 = Enable: Map to event trigger
 
          Mxc3-Polarity-Sel=0, #0 = Normal, 1 = Inverted : EVG Mux Output Polarity
-         Mxc3-Frequency-SP=1, #0.029-62500000 EVG Mux Frequency (Hz)
+         Mxc3-Frequency-SP=1, #0.034-62500000 EVG Mux Frequency (Hz) - depends on event clock speed
          Mxc3-Prescaler-SP=124920, # Overriden by Frequency-SP
          Mxc3-TrigSrc0-SP=0,  #0 = Disable, 1 = Enable: Map to event trigger
          Mxc3-TrigSrc1-SP=0,  #0 = Disable, 1 = Enable: Map to event trigger
@@ -498,7 +539,7 @@ file "$(mrfioc2_TEMPLATES=db)/evg-vme-300.db"
          Mxc3-TrigSrc7-SP=0,  #0 = Disable, 1 = Enable: Map to event trigger
 
          Mxc4-Polarity-Sel=0, #0 = Normal, 1 = Inverted : EVG Mux Output Polarity
-         Mxc4-Frequency-SP=1, #0.029-62500000 EVG Mux Frequency (Hz)
+         Mxc4-Frequency-SP=1, #0.034-62500000 EVG Mux Frequency (Hz) - depends on event clock speed
          Mxc4-Prescaler-SP=124920, # Overriden by Frequency-SP
          Mxc4-TrigSrc0-SP=0,  #0 = Disable, 1 = Enable: Map to event trigger
          Mxc4-TrigSrc1-SP=0,  #0 = Disable, 1 = Enable: Map to event trigger
@@ -510,7 +551,7 @@ file "$(mrfioc2_TEMPLATES=db)/evg-vme-300.db"
          Mxc4-TrigSrc7-SP=0,  #0 = Disable, 1 = Enable: Map to event trigger
 
          Mxc5-Polarity-Sel=0, #0 = Normal, 1 = Inverted : EVG Mux Output Polarity
-         Mxc5-Frequency-SP=1, #0.029-62500000 EVG Mux Frequency (Hz)
+         Mxc5-Frequency-SP=1, #0.034-62500000 EVG Mux Frequency (Hz) - depends on event clock speed
          Mxc5-Prescaler-SP=124920, # Overriden by Frequency-SP
          Mxc5-TrigSrc0-SP=0,  #0 = Disable, 1 = Enable: Map to event trigger
          Mxc5-TrigSrc1-SP=0,  #0 = Disable, 1 = Enable: Map to event trigger
@@ -522,7 +563,7 @@ file "$(mrfioc2_TEMPLATES=db)/evg-vme-300.db"
          Mxc5-TrigSrc7-SP=0,  #0 = Disable, 1 = Enable: Map to event trigger
 
          Mxc6-Polarity-Sel=0, #0 = Normal, 1 = Inverted : EVG Mux Output Polarity
-         Mxc6-Frequency-SP=1, #0.029-62500000 EVG Mux Frequency (Hz)
+         Mxc6-Frequency-SP=1, #0.034-62500000 EVG Mux Frequency (Hz) - depends on event clock speed
          Mxc6-Prescaler-SP=124920, # Overriden by Frequency-SP
          Mxc6-TrigSrc0-SP=0,  #0 = Disable, 1 = Enable: Map to event trigger
          Mxc6-TrigSrc1-SP=0,  #0 = Disable, 1 = Enable: Map to event trigger
@@ -534,7 +575,7 @@ file "$(mrfioc2_TEMPLATES=db)/evg-vme-300.db"
          Mxc6-TrigSrc7-SP=0,  #0 = Disable, 1 = Enable: Map to event trigger
 
          Mxc7-Polarity-Sel=0, #0 = Normal, 1 = Inverted : EVG Mux Output Polarity
-         Mxc7-Frequency-SP=1, #0.029-62500000 EVG Mux Frequency (Hz)
+         Mxc7-Frequency-SP=1, #0.034-62500000 EVG Mux Frequency (Hz) - depends on event clock speed
          Mxc7-Prescaler-SP=124920, # Overriden by Frequency-SP
          Mxc7-TrigSrc0-SP=0,  #0 = Disable, 1 = Enable: Map to event trigger
          Mxc7-TrigSrc1-SP=0,  #0 = Disable, 1 = Enable: Map to event trigger
