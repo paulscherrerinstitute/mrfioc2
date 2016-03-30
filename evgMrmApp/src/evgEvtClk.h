@@ -5,8 +5,6 @@
 #include "mrf/object.h"
 #include "mrmShared.h"
 
-const epicsUInt16 ClkSrcInternal = 0; // Event clock is generated internally
-const epicsUInt16 ClkSrcRF = 1;  // Event clock is derived from the RF input
 
 enum RFClockReference {
     RFClockReference_Internal = 0,   // Use internal reference (fractional synthesizer)

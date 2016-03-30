@@ -24,10 +24,22 @@ evgEvtClk::~evgEvtClk() {
 
 epicsFloat64
 evgEvtClk::getFrequency() const {
-    if(getSource() == ClkSrcInternal)
-        return m_fracSynFreq;
-    else
-        return getRFFreq()/getRFDiv();
+    epicsUInt16 source = getSource();
+
+    switch ((RFClockReference) source) {
+        case RFClockReference_Internal:
+        case RFClockReference_Recovered:
+            return m_fracSynFreq;
+            break;
+
+        case RFClockReference_RecoverHalved:
+            return m_fracSynFreq/2;
+            break;
+
+        default:
+            return getRFFreq()/getRFDiv();
+            break;
+    }
 }
 
 void
@@ -81,9 +93,17 @@ evgEvtClk::setFracSynFreq(epicsFloat64 freq) {
 
     /* Changing the control word disturbes the phase of the synthesiser
      which will cause a glitch. Don't change the control word unless needed.*/
-    if(controlWord != oldControlWord){
+    if(controlWord != oldControlWord) {
+        epicsUInt16 uSecDivider;
+
+        if ((RFClockReference)getSource() == RFClockReference_RecoverHalved) {
+            uSecDivider = (epicsUInt16)(freq / 2);
+        }
+        else {
+            uSecDivider = (epicsUInt16)freq;
+        }
+
         WRITE32(m_pReg, FracSynthWord, controlWord);
-        epicsUInt16 uSecDivider = (epicsUInt16)freq;
         WRITE16(m_pReg, uSecDiv, uSecDivider);
     }
 
