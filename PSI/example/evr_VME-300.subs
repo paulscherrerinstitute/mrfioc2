@@ -112,7 +112,7 @@ file "$(mrfioc2_TEMPLATES=db)/evr-vme-300.db"
 		Pul0-Polarity-Sel=0,   		#0 = Active High, 1 = Active Low
 		Pul0-Delay-SP=0,			#Pulse delay in us (range depends on prescaler selection and event clock)
 		Pul0-Width-SP=0,			#Pulse width in us (range depends on prescaler selection and event clock)
-		Pul0-Prescaler-SP=1,   		#0-255 : Pulser prescaler
+		Pul0-Prescaler-SP=1,   		#0-65535 : Pulser prescaler
 		Pul0-Gate-Mask-SP=0x0,		#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will mask this pulser
 		Pul0-Gate-Enable-SP=0x0,	#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will enable this pulser
 
@@ -120,7 +120,7 @@ file "$(mrfioc2_TEMPLATES=db)/evr-vme-300.db"
 		Pul1-Polarity-Sel=0,   		#0 = Active High, 1 = Active Low
 		Pul1-Delay-SP=0,			#Pulse delay in us  (range depends on prescaler selection and event clock)
 		Pul1-Width-SP=0,			#Pulse width in us (range depends on prescaler selection and event clock)
-		Pul1-Prescaler-SP=1,   		#0-255 : Pulser prescaler
+		Pul1-Prescaler-SP=1,   		#0-65535 : Pulser prescaler
 		Pul1-Gate-Mask-SP=0x0,		#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will mask this pulser
 		Pul1-Gate-Enable-SP=0x0,	#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will enable this pulser
 
@@ -128,7 +128,7 @@ file "$(mrfioc2_TEMPLATES=db)/evr-vme-300.db"
 		Pul2-Polarity-Sel=0,  		#0 = Active High, 1 = Active Low
 		Pul2-Delay-SP=0,			#Pulse delay in us  (range depends on prescaler selection and event clock)
 		Pul2-Width-SP=0,			#Pulse width in us (range depends on prescaler selection and event clock)
-		Pul2-Prescaler-SP=1, 		#0-255 : Pulser prescaler
+		Pul2-Prescaler-SP=1, 		#0-65535 : Pulser prescaler
 		Pul2-Gate-Mask-SP=0x0,		#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will mask this pulser
 		Pul2-Gate-Enable-SP=0x0,	#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will enable this pulser
 
@@ -136,7 +136,7 @@ file "$(mrfioc2_TEMPLATES=db)/evr-vme-300.db"
 		Pul3-Polarity-Sel=0,   		#0 = Active High, 1 = Active Low
 		Pul3-Delay-SP=0,			#Pulse delay in us  (range depends on prescaler selection and event clock)
 		Pul3-Width-SP=0,			#Pulse width in us (range depends on prescaler selection and event clock)
-		Pul3-Prescaler-SP=1,   		#0-255 : Pulser prescaler
+		Pul3-Prescaler-SP=1,   		#0-65535 : Pulser prescaler
 		Pul3-Gate-Mask-SP=0x0,		#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will mask this pulser
 		Pul3-Gate-Enable-SP=0x0,	#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will enable this pulser
 

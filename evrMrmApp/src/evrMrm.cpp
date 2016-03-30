@@ -240,6 +240,9 @@ try{
         break;
     case formFactor_PCIe:
         nOFPUV=16;
+        if(deviceInfo.series == series_300DC) {
+            nPS = 8;
+        }
         break;
     default:
         printf("Unknown EVR form factor %d\n",v);

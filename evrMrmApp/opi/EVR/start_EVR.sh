@@ -48,9 +48,9 @@ if [ -z $SYS ]; then
     exit 1
 fi
 
-if [ $FF != "VME" ] && [ $FF != "PCIe" ] && [ $FF != "VME-300" ]; then
+if [ $FF != "VME" ] && [ $FF != "PCIe" ] && [ $FF != "VME-300" ]&& [ $FF != "PCIe-300DC" ]; then
     echo "Invalid form factor selected: $FF"
-    echo "        Available choices: VME, VME-300, PCIe"
+    echo "        Available choices: VME, VME-300, PCIe, PCIe-300DC"
     exit 1
 fi
 

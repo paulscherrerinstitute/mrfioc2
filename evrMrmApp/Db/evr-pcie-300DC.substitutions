@@ -77,3 +77,16 @@ file "evr-out.template"
 {"$(SYS)", "$(DEVICE)", "FrontUnivOut", 	14,  "UNIV14"}
 {"$(SYS)", "$(DEVICE)", "FrontUnivOut", 	15,  "UNIV15"}
 }
+
+file "evr-pulserMap-dbus.template"
+{pattern
+{ SYS,      DEVICE,     ID}
+{"$(SYS)", "$(DEVICE)", 0}
+{"$(SYS)", "$(DEVICE)", 1}
+{"$(SYS)", "$(DEVICE)", 2}
+{"$(SYS)", "$(DEVICE)", 3}
+{"$(SYS)", "$(DEVICE)", 4}
+{"$(SYS)", "$(DEVICE)", 5}
+{"$(SYS)", "$(DEVICE)", 6}
+{"$(SYS)", "$(DEVICE)", 7}
+}

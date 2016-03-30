@@ -7,9 +7,13 @@ from this folder.
 
 Script options:
 
- - -s <system name>     The system/project name
- - -d <EVR name>        Event Receiver / timing card name (default: EVR0)
- - -h                   This help
+ - -s <system name\> ..... The system/project name
+ - -d <EVR name\>    ..... Event Receiver / timing card name (default: EVR0)
+ - -f <form factor\> ..... Choose the event receiver form factor (default: VME-300)
+ 
+	                     Choices: VME, PCIe, VME-300, PCIe-300DC
+
+ - -h ..... This help
 
 
 ## EVR health monitoring
