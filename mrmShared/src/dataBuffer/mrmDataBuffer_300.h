@@ -2,6 +2,7 @@
 #define MRMDATABUFFER_300_H
 
 #include "mrmDataBuffer.h"
+#include "time.h"
 
 class epicsShareClass mrmDataBuffer_300 : public mrmDataBuffer
 {
@@ -34,6 +35,14 @@ private:
      * @return True if checksum error is detected, false otherwise
      */
     bool checksumError();
+
+    double pulseID;
+    time_t rawtime;
+    struct tm * timeinfo;
+    time_t rawtime1;
+    struct tm * timeinfo1;
+
+    epicsUInt32 txcount, regcount, rxcount, sendReg;
 };
 
 

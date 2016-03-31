@@ -161,6 +161,11 @@ public:
     const epicsPCIDevice*         m_pciDevice;
 
 private:
+
+
+
+
+
     const std::string             m_id;
     volatile epicsUInt8* const    m_pReg;   // EVG function register map
     volatile epicsUInt8* const    m_fctReg; // FCT function register map

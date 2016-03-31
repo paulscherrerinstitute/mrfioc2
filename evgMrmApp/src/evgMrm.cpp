@@ -445,6 +445,17 @@ evgMrm::isr_vme(void* arg) {
     evg->isr(arg);
 }
 
+
+#include "time.h"
+inline double time_gett(int clock_type=CLOCK_REALTIME){
+    struct timespec t;
+    clock_gettime(clock_type,&t);
+    return t.tv_sec + t.tv_nsec/1e9;
+}
+double sos, sosDiff;
+time_t rawtime;
+struct tm * timeinfo;
+
 void
 evgMrm::isr(void* arg) {
     evgMrm *evg = (evgMrm*)(arg);
@@ -529,6 +540,10 @@ evgMrm::isr(void* arg) {
      * original driver, but care must be taken in order to
      * avoid race conditions.
      */
+
+
+
+
     if(active & EVG_IRQ_STOP_RAM(0)) {
         evg->getSeqRamMgr()->getSeqRam(0)->process_eos();
     }
@@ -539,13 +554,32 @@ evgMrm::isr(void* arg) {
 
     if(active & EVG_IRQ_START_RAM(0)) {
         evg->getSeqRamMgr()->getSeqRam(0)->process_sos();
+        sosDiff = time_gett();
+        sosDiff -= sos;
+        if(sosDiff > 0.011 || sosDiff < 0.009) {
+            time ( &rawtime );
+            timeinfo = localtime ( &rawtime );
+            printf("sos 0 irq timeout %f at %s\n", sosDiff*1e3, asctime (timeinfo));
+            fflush(stdout);
+        }
+        sos = time_gett();
     }
 
     if(active & EVG_IRQ_START_RAM(1)) {
         evg->getSeqRamMgr()->getSeqRam(1)->process_sos();
+        sosDiff = time_gett();
+        sosDiff -= sos;
+        if(sosDiff > 0.011 || sosDiff < 0.009) {
+            time ( &rawtime );
+            timeinfo = localtime ( &rawtime );
+            printf("sos 1 irq timeout %f at %s\n", sosDiff*1e3, asctime (timeinfo));
+            fflush(stdout);
+        }
+        sos = time_gett();
     }
 
-    if(active & EVG_IRQ_EXT_INP) {
+    // When does this interrupt happen??
+    /*if(active & EVG_IRQ_EXT_INP) {
         if(evg->irqExtInp_queued==0) {
             callbackRequest(&evg->irqExtInp_cb);
             evg->irqExtInp_queued=1;
@@ -553,9 +587,8 @@ evgMrm::isr(void* arg) {
             WRITE32(evg->getRegAddr(), IrqEnable, enable & ~EVG_IRQ_EXT_INP);
             evg->irqExtInp_queued=2;
         }
-    }
+    }*/
 #endif
-
 
 
     WRITE32(evg->m_pReg, IrqFlag, flags);  // Clear the interrupt causes

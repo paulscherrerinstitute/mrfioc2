@@ -10,6 +10,9 @@ mrmDataBufferObj::mrmDataBufferObj(const std::string &parentName, mrmDataBuffer 
     mrf::ObjectInst<mrmDataBufferObj>(parentName+OBJECT_NAME),
     m_data_buffer(dataBuffer)
 {
+    for(epicsUInt32 i=0; i<256; i++) {
+        fakeData[i] = i;
+    }
 }
 
 // Overflow
@@ -125,6 +128,11 @@ void mrmDataBufferObj::report() const
     }
 }
 
+void mrmDataBufferObj::send(bool dummy)
+{
+    m_data_buffer.send(2, 32, fakeData);
+}
+
 
 // Private function(s)
 epicsUInt32 mrmDataBufferObj::getCountSum(epicsUInt32 *count, epicsUInt32 nElems) const
@@ -153,6 +161,8 @@ OBJECT_BEGIN(mrmDataBufferObj) {
     OBJECT_PROP1("SupportsTx", &mrmDataBufferObj::supportsRx);
     OBJECT_PROP1("SupportsRx", &mrmDataBufferObj::supportsTx);
     OBJECT_PROP2("EnableRx", &mrmDataBufferObj::enabledRx, &mrmDataBufferObj::enableRx);
+
+    OBJECT_PROP2("Trigger", &mrmDataBufferObj::supportsRx, &mrmDataBufferObj::send);
 
 } OBJECT_END(mrmDataBufferObj)
 

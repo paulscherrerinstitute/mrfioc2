@@ -59,6 +59,8 @@ public:
 
     void report() const;
 
+    void send(bool dummy);
+
 private:
     mrmDataBuffer &m_data_buffer;   // reference to the base data buffer class (hardware interface to the data buffer)
     /**
@@ -66,6 +68,8 @@ private:
      */
 
     epicsUInt32 getCountSum(epicsUInt32 *count, epicsUInt32 nElems) const;
+
+    epicsUInt8 fakeData[256];
 };
 
 #endif // MRMDATABUFFEROBJ_H

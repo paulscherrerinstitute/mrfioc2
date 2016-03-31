@@ -115,3 +115,13 @@ record(bi, "$(SYS)-$(DEVICE):DBuf-Mode-RB") {
   field(ZNAM, "DBus only")
   field(ONAM, "DBus+Data Buffer")
 }
+
+record(bo, "$(SYS)-EVG0:Trigger") {
+  field(DESC, "Trigger fake data send")
+  field(DTYP, "Obj Prop bool")
+  field(OUT , "@OBJ=EVG0:DataBuffer, PROP=Trigger")
+  field(PINI, "NO")
+  field(ZNAM, "Not triggered yet")
+  field(ONAM, "Was triggered")
+  field(SCAN, ".01 second")
+}

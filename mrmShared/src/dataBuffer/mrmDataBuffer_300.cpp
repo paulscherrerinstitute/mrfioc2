@@ -30,6 +30,9 @@ mrmDataBuffer_300::mrmDataBuffer_300(const char *parentName,
                   dataRegisterRx)
 {
     enableRx(true);
+    pulseID = 0;
+
+    txcount = regcount = rxcount = 0;
 }
 
 void mrmDataBuffer_300::enableRx(bool en)
@@ -46,6 +49,14 @@ void mrmDataBuffer_300::enableRx(bool en)
         clearFlags(base+DataBufferFlags_rx);    // also clear Rx flags (and consequently checksum+overflow flags)
     }
 }
+
+inline double time_get(int clock_type=CLOCK_REALTIME){
+    struct timespec t;
+    clock_gettime(clock_type,&t);
+    return t.tv_sec + t.tv_nsec/1e9;
+}
+double receiveTime=0, receiveDiff;
+double sendTime=0, sendDiff;
 
 bool mrmDataBuffer_300::send(epicsUInt8 startSegment, epicsUInt16 length, epicsUInt8 *data){
     epicsUInt32 offset, reg;
@@ -83,9 +94,9 @@ bool mrmDataBuffer_300::send(epicsUInt8 startSegment, epicsUInt16 length, epicsU
     // Using big endian write (instead of memcopy for example), because the data is always in big endian on the network. Thus we always
     // need to write using big endian.
     // Length cannot be less than 4, and it must be dividable by 4. Thus we can use 32 bit access.
-    for(i = 0; i < length; i+=4){
+    /*for(i = 0; i < length; i+=4){
         be_iowrite32(dataRegTx+base+i+offset, *(epicsUInt32*)(data+i) );
-    }
+    }*/
 
     dbgPrintf(3, "Triggering transmision: 0x%x => ", (epicsUInt32)length|DataTxCtrl_trig|((epicsUInt32)startSegment << DataTxCtrl_saddr_shift));
 
@@ -97,9 +108,38 @@ bool mrmDataBuffer_300::send(epicsUInt8 startSegment, epicsUInt16 length, epicsU
 
     dbgPrintf(3, "0x%x\n", nat_ioread32(base+ctrlRegTx));
 
-    return true;
+    sendReg = (epicsUInt32)length|DataTxCtrl_trig|((epicsUInt32)startSegment << DataTxCtrl_saddr_shift);
+    if(sendReg != 0x2040020) {
+        printf("Send parameters not ok! length=%u, startSegment=%u, sendCmd=%x, reg=%x\n", length, startSegment, sendReg, reg);
+    }
+    //if(length !=16 || startSegment != 2) printf("Send parameters not ok! length=%u, startSegment=%u, sendCmd=%x, reg=%x\n", length, startSegment, sendReg, reg);
 
+    sendDiff = time_get() - sendTime;
+    if(mrfioc2_dataBufferDebug >= 1) {
+        if(sendDiff > 0.011 || sendDiff < 0.009) {
+            time ( &rawtime1 );
+            timeinfo1 = localtime ( &rawtime1 );
+            txcount++;
+            printf("send timeout %f. Dbuf length=%u, startSeg=%u at %s. %u times.\n", sendDiff*1e3, length, startSegment, asctime (timeinfo1), txcount);
+            fflush(stdout);
+        }
+    }
+    sendTime = time_get();
+
+    reg = nat_ioread32(base+ctrlRegTx);
+    if (!(reg & DataTxCtrl_done) || (reg & DataTxCtrl_run)) {
+        time ( &rawtime1 );
+        timeinfo1 = localtime ( &rawtime1 );
+        regcount++;
+        printf("Tx done: %x at %s. %u times.\n", reg, asctime (timeinfo1), regcount);
+    }
+
+
+
+    return true;
 }
+
+
 
 void mrmDataBuffer_300::receive()
 {
@@ -157,6 +197,21 @@ void mrmDataBuffer_300::receive()
             for(i=segment*DataBuffer_segment_length; i<length+segment*DataBuffer_segment_length; i+=4) {
                 *(epicsUInt32*)(m_rx_buff+i) = be_ioread32(base + dataRegRx + i);
             }
+
+            receiveDiff = time_get();
+            receiveDiff -= receiveTime;
+            if(mrfioc2_dataBufferDebug >= 1) {
+                double newPulseID = (*((double*) &m_rx_buff[32]));
+                if (newPulseID != pulseID+1) {
+                    time ( &rawtime );
+                    timeinfo = localtime ( &rawtime );
+                    rxcount++;
+                    printf("PulseID skip: expected %f, found %f, diff: %f, at %s. %u times.\n", pulseID+1, newPulseID, receiveDiff*1e3, asctime (timeinfo), rxcount);
+                    fflush(stdout);
+                }
+                pulseID = newPulseID;
+            }
+            receiveTime = time_get();
 
             if(mrfioc2_dataBufferDebug >= 2){
                 for(i=segment*DataBuffer_segment_length; i<length+segment*DataBuffer_segment_length; i++) {
