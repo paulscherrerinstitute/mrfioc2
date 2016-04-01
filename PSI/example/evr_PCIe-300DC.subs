@@ -1,44 +1,3 @@
-# Record set for an easy configuration of pulsers for trigger switching between normal and switched mode
-#
-# Important records:
-# $(SYS)-$(DEVICE):TS$(ID)-Event-SP           -> Event number that triggers the pulsers
-# $(SYS)-$(DEVICE):TS$(ID)-Pul-Norm-Width-SP  -> The width in [us] of the pulse to be outputted in normal mode
-# $(SYS)-$(DEVICE):TS$(ID)-Pul-Norm-Delay-SP  -> The delay in [us] of the pulse to be outputted in normal mode
-# $(SYS)-$(DEVICE):TS$(ID)-Pul-Sw-Width-SP    -> The width in [us] of the pulse to be outputted in switched mode
-# $(SYS)-$(DEVICE):TS$(ID)-Pul-Sw-Delay-SP    -> The delay in [us] of the pulse to be outputted in switched mode
-# $(SYS)-$(DEVICE):TS$(ID)-Sim-Sel            -> Normal mode or simulate switched mode. Useful for testing purposes.
-# $(SYS)-$(DEVICE):TS$(ID)-Gate-Set-SP        -> Set event number that sets the pulser gate
-# $(SYS)-$(DEVICE):TS$(ID)-Gate-Reset-SP      -> Set event number that resets the pulser gate
-# 
-# Mandatory macros:
-#  SYS = System name
-#  DEVICE = Event receiver / timing card name (same as mrmEvrSetupVME()) Eg. EVR0
-#  
-#  Event          = Event number that triggers the pulsers
-#  Pul-Norm-Width = The width of the pulse to be outputted in normal mode
-#  Pul-Norm-Delay = The delay of the pulse to be outputted in normal mode
-#  Pul-Sw-Width   = The width of the pulse to be outputted in switched mode
-#  Pul-Sw-Delay   = The delay of the pulse to be outputted in switched mode.
-#  Output         = Name of the output where the pulse is routed. Eg. FrontUnivOut0, FrontUnivOut1,..., RearUniv0, RearUniv1, ...
-#  
-# Optional macros:
-#  Pul-Norm-ID       = ID of the pulser used for normal mode. Default: Pulser 22
-#  Pul-Sw-ID         = ID of the pulser used for switched mode. Default: Pulser 23
-#  Gate-Pul-ID       = Pulser ID that represents the gate to use. Default: 28 = Pulser 28 -> Gate 0
-#                      Gate = 28 : Pulser 28 -> Gate 0
-#                      Gate = 29 : Pulser 29 -> Gate 1
-#                      Gate = 30 : Pulser 30 -> Gate 2
-#                      Gate = 31 : Pulser 31 -> Gate 3
-#  Set-Evt   = Id of the event that gates pulser Pul-Sw-ID to the Output. Default: 6 = RF OFF beam event in SwissFEL
-#  Reset-Evt = Id of the event that gates pulser Pul-Norm-ID to the Output. Default: 38 = Start of sequence event (SOS) in SwissFEL
-#  
-#file "$(mrfioc2_TEMPLATES=db)/evr-configTriggerSwitch.template"{
-#pattern { ID,  Event,  Pul-Norm-Width, Pul-Norm-Delay, Pul-Sw-Width, Pul-Sw-Delay, Output,           Pul-Norm-ID, Pul-Sw-ID}
-#        { "0", "1",    "40",           "40",           "40",         "80",        "FrontUnivOut0",  "20",        "21"  }
-#        { "1", "2",    "50",           "60",           "70",         "80",        "RearUniv0",      "22",        "23"  }
-#}
-
-
 file "$(mrfioc2_TEMPLATES=db)/evr-pcie-300DC.db"
 {
     {
@@ -52,7 +11,7 @@ file "$(mrfioc2_TEMPLATES=db)/evr-pcie-300DC.db"
 
 		## Delay compensation
 		DlyCompensation-Enabled-Sel=1,	#0 = Disabled, 1 = Enabled: Enables or disables delay compensation
-		DlyCompensation-Target-SP=0,	# Delay compensation value in [ns]
+		DlyCompensation-Target-SP=1000,	# Delay compensation value in [ns]. Should be set to max(path + delta) of all receivers in the timing system.  This value can also be retrieved from an external record (see startup script example).
 
 		## Prescalers
 		PS0-Div-SP=2, 			#2-4294967295 :Integer divisor between the Event Clock and the sub-unit output.
