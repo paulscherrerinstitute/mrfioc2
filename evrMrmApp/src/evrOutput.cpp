@@ -176,7 +176,7 @@ bool EvrOutput::isSourceValid(epicsUInt32 source) const
     if( ( (source<=63 && source>=62) ||
           (source<=47 && source>=32) ||
           (source<=31) )        ||
-        (deviceInfo.series == series_300DC && source == 61)
+        (deviceInfo.formFactor == formFactor_PCIe && source == 61)
     ) {
         return true;
     }
@@ -191,7 +191,7 @@ EvrOutput::sourceName(epicsUInt32 id) const
     switch(id){
     case 63: return "Force Low";
     case 62: return "Force High";
-    case 61: return "Tri-state output";   // only on PCIe-EVR-300DC
+    case 61: return "Tri-state output";   // only on PCIe-EVR
     case 60: return "Event clock output with 180 phase shift";   // only on PXIe-EVR-300
     case 59: return "Event clock output";   // only on PXIe-EVR-300
     // 48 -> 58 Reserved
