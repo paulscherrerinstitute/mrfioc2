@@ -1147,7 +1147,9 @@ EVRMRM::enableIRQ(void)
 
     if(getFormFactor() != formFactor_VME64 ){
         EVR_DEBUG(2,"Enabling PCIe interrupts: 0x%x",shadowIRQEna);
-        devPCIEnableInterrupt( (const epicsPCIDevice*)(this->isrLinuxPvt) );
+        if(devPCIEnableInterrupt((const epicsPCIDevice*)this->isrLinuxPvt)) {
+            errlogPrintf("Failed to enable PCIe interrupt.  Stuck...\n");
+        }
     }
 
     epicsInterruptUnlock(key);
@@ -1162,7 +1164,7 @@ EVRMRM::isr_pci(void *arg) {
 
     EVR_DEBUG(5,"Re-enabling IRQs");
     if(devPCIEnableInterrupt((const epicsPCIDevice*)evr->isrLinuxPvt)) {
-        printf("Failed to re-enable interrupt.  Stuck...\n");
+        errlogPrintf("Failed to re-enable interrupt.  Stuck...\n");
     }
 }
 
@@ -1196,7 +1198,7 @@ EVRMRM::isr(void *arg)
 
     epicsUInt32 active=flags&evr->shadowIRQEna;
 
-    EVR_INFO(4,"ISR start, flags 0x%x",flags);
+    EVR_INFO(4,"ISR start, flags 0x%x (active: 0x%x)", flags, active);
 
     if(!active)
         return;
@@ -1261,7 +1263,7 @@ EVRMRM::isr(void *arg)
     // Ensure IRQFlags is written before returning.
     evrMrmIsrFlagsTrashCan=READ32(evr->base, IRQFlag);
 
-    EVR_INFO(4,"ISR ended, IRQEnable 0x%x",evr->shadowIRQEna);
+    EVR_INFO(4,"ISR ended, IRQEnable 0x%x, flags: 0x%x",evr->shadowIRQEna, flags);
 
 }
 

@@ -395,7 +395,7 @@ mrmEvrSetupPCI(const char* id,      // Card Identifier
 
             NAT_WRITE32(evr, IRQEnable, 0);
 
-    #ifndef __linux__
+    #if !defined(__linux__) || !defined(_WIN32)
             /* Enable active high interrupt1 through the PLX to the PCI bus.
              */
             LE_WRITE16(plx, INTCSR, INTCSR_INT1_Enable|
@@ -426,7 +426,7 @@ mrmEvrSetupPCI(const char* id,      // Card Identifier
 
             NAT_WRITE32(evr, IRQEnable, 0);
 
-    #ifndef __linux__
+    #if !defined(__linux__) || !defined(_WIN32)
             BITSET(LE,32,plx, INTCSR9056, INTCSR9056_PCI_Enable|INTCSR9056_LCL_Enable);
     #else
             /* ask the kernel module to enable interrupts */
@@ -455,7 +455,7 @@ mrmEvrSetupPCI(const char* id,      // Card Identifier
             // Disable interrupts on device
             NAT_WRITE32(evr, IRQEnable, 0);
 
-    #ifndef __linux__
+    #if !defined(__linux__) || !defined(_WIN32)
             BITSET32(evr, IRQEnable, IRQ_PCIee);
     #else
             /* ask the kernel module to enable interrupts */
@@ -505,7 +505,7 @@ mrmEvrSetupPCI(const char* id,      // Card Identifier
         EVRMRM *receiver=new EVRMRM(id,deviceInfo,evr);
 
         void *arg=receiver;
-    #ifdef __linux__
+    #if  defined(__linux__) || defined(_WIN32)
         receiver->isrLinuxPvt = (void*)cur;
     #endif
 
