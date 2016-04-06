@@ -140,7 +140,6 @@ bool mrmDataBuffer::waitWhileTxRunning(){
     }
     dbgPrintf(4, "Waiting while TX is running took %d iterations (waiting for maximum of %d iterations)\n", i, TX_WAIT_MAX_ITERATIONS);
     if (i >= TX_WAIT_MAX_ITERATIONS) {
-        errlogPrintf("Waiting while Tx running takes too long. Forced exit...\n");
         return false;
     }
     return true;

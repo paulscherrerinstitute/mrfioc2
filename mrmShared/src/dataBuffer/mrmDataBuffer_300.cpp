@@ -89,7 +89,10 @@ bool mrmDataBuffer_300::send(epicsUInt8 startSegment, epicsUInt16 length, epicsU
     }
 
     /* Send data */
-    if (!waitWhileTxRunning()) return false;
+    if (!waitWhileTxRunning()) {
+        dbgPrintf(1, "Data sending skipped...waiting while Tx running took too long.\n");
+        return false;
+    }
 
     // Using big endian write (instead of memcopy for example), because the data is always in big endian on the network. Thus we always
     // need to write using big endian.
