@@ -121,6 +121,23 @@ public:
     void setGateEnable(epicsUInt16 mask);
     /*@}*/
 
+    /**\defgroup swSetReset Software set / reset for the pulser
+     *
+     * When 'set' is true the pulser will be set, when false it will be reset.
+     */
+    /*@{*/
+    bool dummyReturn() const{return false;}
+    void swSetReset(bool set);
+    /*@}*/
+
+
+    /**\defgroup out Get current pulser output
+     *
+     * Output high or low.
+     */
+    /*@{*/
+    bool getOutput() const;
+    /*@}*/
 private:
     // bit map of which event #'s are mapped
     // used as a safty check to avoid overloaded mappings

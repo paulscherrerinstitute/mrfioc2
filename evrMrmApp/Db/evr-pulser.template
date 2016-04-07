@@ -180,3 +180,23 @@ record(mbbiDirect, "$(SYS)-$(DEVICE):Pul$(ID)-Gate-Enable-RB") {
   field(NOBT, "16")
   field(INP , "@OBJ=$(DEVICE):Pul$(ID), PROP=Gate enable")
 }
+
+
+# Pulse generator software set / reset
+record(bo, "$(SYS)-$(DEVICE):Pul$(ID)-SetReset-Sel") {
+  field(DESC, "Software set/reset")
+  field(DTYP, "Obj Prop bool")
+  field(OUT , "@OBJ=$(DEVICE):Pul$(ID), PROP=Sw set reset")
+  field(VAL , "0")
+  field(ZNAM, "Reset")
+  field(ONAM, "Set")
+}
+
+# Pulser output state (logic high, logic low)
+record(bi, "$(SYS)-$(DEVICE):Pul$(ID)-Out-I") {
+  field(DESC, "Output state")
+  field(DTYP, "Obj Prop bool")
+  field(INP , "@OBJ=$(DEVICE):Pul$(ID), PROP=Output")
+  field(ZNAM, "Low")
+  field(ONAM, "High")
+}

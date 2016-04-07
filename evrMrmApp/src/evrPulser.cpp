@@ -285,3 +285,30 @@ EvrPulser::setGateEnable(epicsUInt16 gate){
     pulserCtrl |= ((epicsUInt32)gate << PulserCtrl_gateEnable_shift);
     WRITE32(owner.base, PulserCtrl(id), pulserCtrl);
 }
+
+
+void EvrPulser::swSetReset(bool set)
+{
+    epicsUInt32 pulserCtrl;
+
+    pulserCtrl = READ32(owner.base, PulserCtrl(id));
+
+    if(set) {
+        pulserCtrl |= PulserCtrl_sset;
+    }
+    else {
+        pulserCtrl |= PulserCtrl_srst;
+    }
+
+    WRITE32(owner.base, PulserCtrl(id), pulserCtrl);
+}
+
+
+bool
+EvrPulser::getOutput() const {
+    epicsUInt32 pulserCtrl;
+
+    pulserCtrl = READ32(owner.base, PulserCtrl(id));
+
+    return (bool)(pulserCtrl & PulserCtrl_rbv);
+}

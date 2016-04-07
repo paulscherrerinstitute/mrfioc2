@@ -183,14 +183,14 @@
 
 /* 0 <= N <= 9 */
 #define U32_PulserCtrl(N) (U32_PulserNCtrl + (16*(N)))
-#  define PulserCtrl_ena  0x01
-#  define PulserCtrl_mtrg 0x02
-#  define PulserCtrl_mset 0x04
-#  define PulserCtrl_mrst 0x08
-#  define PulserCtrl_pol  0x10
-#  define PulserCtrl_srst 0x20
-#  define PulserCtrl_sset 0x40
-#  define PulserCtrl_rbv  0x80
+#  define PulserCtrl_ena  0x01  // 0 - disabled, 1 - enabled
+#  define PulserCtrl_mtrg 0x02  // Event mapping RAM trigger event enable. 0 - event triggers disabled, 1 - mapped trigger events trigger pulse generator
+#  define PulserCtrl_mset 0x04  // Event mapping RAM set event enable. 0 - set events disabled, 1- mapped set events set pulse generator output
+#  define PulserCtrl_mrst 0x08  // Event mapping RAM reset event enable. 0 - reset events disabled, 1- mapped reset events reset pulse generator output
+#  define PulserCtrl_pol  0x10  // Output polarity. 0 - normal, 1 - inverted
+#  define PulserCtrl_srst 0x20  // Software set
+#  define PulserCtrl_sset 0x40  // Software reset
+#  define PulserCtrl_rbv  0x80  // Output (read-only)
 #  define PulserCtrl_gateMask           0xFF000000
 #  define PulserCtrl_gateMask_shift     24
 #  define PulserCtrl_gateEnable         0x00FF0000

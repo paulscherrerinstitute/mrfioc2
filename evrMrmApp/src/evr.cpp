@@ -133,6 +133,10 @@ OBJECT_BEGIN(EvrPulser) {
     OBJECT_PROP2("Gate mask", &EvrPulser::gateMask, &EvrPulser::setGateMask);
     OBJECT_PROP2("Gate enable", &EvrPulser::gateEnable, &EvrPulser::setGateEnable);
 
+    OBJECT_PROP2("Sw set reset", &EvrPulser::dummyReturn, &EvrPulser::swSetReset);
+
+    OBJECT_PROP1("Output", &EvrPulser::getOutput);
+
 } OBJECT_END(EvrPulser)
 
 

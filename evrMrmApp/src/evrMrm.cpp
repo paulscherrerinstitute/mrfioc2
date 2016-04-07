@@ -255,12 +255,25 @@ try{
     // Special output for mapping bus interrupt
     //outputs[std::make_pair(OutputInt,0)]=new EvrOutput(base+U16_IRQPulseMap);
 
+    //inputs.resize(nIFP+nOFPUV+nORB);
     inputs.resize(nIFP);
     for(size_t i=0; i<nIFP; i++){
         std::ostringstream name;
         name<<id<<":FPIn"<<i;
         inputs[i]=new EvrInput(name.str(), base,i);
     }
+
+    /*for(size_t i=0; i<nOFPUV; i++){
+        std::ostringstream name;
+        name<<id<<":FPUnivIn"<<i;
+        inputs[i+nIFP]=new EvrInput(name.str(), base,i);
+    }
+
+    for(size_t i=0; i<nORB; i++){
+        std::ostringstream name;
+        name<<id<<":FPRearIn"<<i;
+        inputs[i+nIFP+nOFPUV]=new EvrInput(name.str(), base,i);
+    }*/
 
     for(size_t i=0; i<nOFP; i++){
         std::ostringstream name;
