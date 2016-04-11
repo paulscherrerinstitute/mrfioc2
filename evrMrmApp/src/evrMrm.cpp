@@ -1194,14 +1194,6 @@ EVRMRM::isr_vme(void *arg) {
 // This value should never be used anywhere else.
 volatile epicsUInt32 evrMrmIsrFlagsTrashCan;
 
-
-inline double time_gett(int clock_type=CLOCK_REALTIME){
-    struct timespec t;
-    clock_gettime(clock_type,&t);
-    return t.tv_sec + t.tv_nsec/1e9;
-}
-double dbufIrq, diff;
-
 void
 EVRMRM::isr(void *arg)
 {
@@ -1224,15 +1216,7 @@ EVRMRM::isr(void *arg)
         callbackRequest(&evr->poll_link_cb);
     }
     if(active&IRQ_BufFull){
-        diff = time_gett();
-        diff -= dbufIrq;
-        if(diff > 0.011 || diff < 0.009) {
-            printf("dbuf irq timeout %f\n", diff*1e3);
-            fflush(stdout);
-        }
-        dbufIrq = time_gett();
-
-        evr->shadowIRQEna &= ~IRQ_BufFull; // interrupt is re-enabled in the dataBufferRxComplete() callback
+         evr->shadowIRQEna &= ~IRQ_BufFull; // interrupt is re-enabled in the dataBufferRxComplete() callback
 
         /* 230 series hardware (and firmware versions < MIN_FW_SEGMENTED_DBUFF) only.
         * Silence interrupt. DataRxCtrl_stop is actually Rx acknowledge, so we need to write to it in order to clear it.
