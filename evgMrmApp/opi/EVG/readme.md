@@ -13,4 +13,5 @@ Options:
  
 	                     Choices: VME, VME-300
 
- - -h ..... This help
+- -n ..... Do not attach to existing caQtDM. Open new one instead
+- -h ..... This help

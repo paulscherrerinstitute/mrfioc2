@@ -13,6 +13,7 @@ Script options:
  
 	                     Choices: VME, PCIe, VME-300, PCIe-300DC
 
+ - -n ..... Do not attach to existing caQtDM. Open new one instead
  - -h ..... This help
 
 
@@ -26,6 +27,7 @@ Script options:
 
  - -s <system name>     The system/project name
  - -d <EVR name>        Event Receiver /timing card name (default: EVR0)
+ - -n                   Do not attach to existing caQtDM. Open new one instead
  - -h                   This help
 
 
