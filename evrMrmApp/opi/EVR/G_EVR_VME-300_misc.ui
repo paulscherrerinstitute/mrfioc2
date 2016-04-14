@@ -17,7 +17,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>10</y>
+     <y>50</y>
      <width>411</width>
      <height>171</height>
     </rect>
@@ -288,7 +288,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>201</y>
+     <y>241</y>
      <width>101</width>
      <height>17</height>
     </rect>
@@ -301,7 +301,7 @@
    <property name="geometry">
     <rect>
      <x>120</x>
-     <y>198</y>
+     <y>238</y>
      <width>71</width>
      <height>25</height>
     </rect>
@@ -317,7 +317,7 @@
    <property name="geometry">
     <rect>
      <x>200</x>
-     <y>200</y>
+     <y>240</y>
      <width>71</width>
      <height>20</height>
     </rect>
@@ -336,7 +336,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>240</y>
+     <y>280</y>
      <width>391</width>
      <height>111</height>
     </rect>
@@ -393,13 +393,13 @@
     </property>
    </widget>
   </widget>
-  <widget class="caRelatedDisplay" name="carelateddisplay_4">
+  <widget class="caRelatedDisplay" name="carelateddisplay_5">
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>370</y>
-     <width>221</width>
-     <height>31</height>
+     <y>10</y>
+     <width>171</width>
+     <height>25</height>
     </rect>
    </property>
    <property name="background">
@@ -410,7 +410,7 @@
     </color>
    </property>
    <property name="labels">
-    <string notr="true">Data buffer</string>
+    <string notr="true">Data buffer status overview</string>
    </property>
    <property name="files">
     <string notr="true">G_EVR_$(FF)_dbuf.ui</string>

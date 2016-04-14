@@ -6,53 +6,13 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>128</width>
-    <height>99</height>
+    <width>124</width>
+    <height>96</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="caLed" name="caled_3">
-   <property name="geometry">
-    <rect>
-     <x>1</x>
-     <y>73</y>
-     <width>18</width>
-     <height>18</height>
-    </rect>
-   </property>
-   <property name="toolTip">
-    <string>Is the EVR's local oscilator phase locked with the phase of the EVG's oscilator.</string>
-   </property>
-   <property name="rectangular">
-    <bool>false</bool>
-   </property>
-   <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE):CG-Sts</string>
-   </property>
-   <property name="falseColor">
-    <color>
-     <red>255</red>
-     <green>0</green>
-     <blue>0</blue>
-    </color>
-   </property>
-   <property name="trueColor">
-    <color>
-     <red>0</red>
-     <green>205</green>
-     <blue>0</blue>
-    </color>
-   </property>
-   <property name="undefinedColor">
-    <color>
-     <red>255</red>
-     <green>255</green>
-     <blue>255</blue>
-    </color>
-   </property>
-  </widget>
   <widget class="QLabel" name="label_3">
    <property name="geometry">
     <rect>
@@ -159,19 +119,6 @@
     </color>
    </property>
   </widget>
-  <widget class="QLabel" name="label_4">
-   <property name="geometry">
-    <rect>
-     <x>25</x>
-     <y>73</y>
-     <width>105</width>
-     <height>18</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Fract synth OK</string>
-   </property>
-  </widget>
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
@@ -225,8 +172,86 @@
     </color>
    </property>
   </widget>
+  <widget class="caFrame" name="caframe">
+   <property name="geometry">
+    <rect>
+     <x>1</x>
+     <y>73</y>
+     <width>131</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="visibility">
+    <enum>caFrame::Calc</enum>
+   </property>
+   <property name="visibilityCalc">
+    <string notr="true">A&gt;=0x200</string>
+   </property>
+   <property name="channel" stdset="0">
+    <string notr="true">$(SYS)-$(DEVICE):FwVer-I</string>
+   </property>
+   <widget class="QLabel" name="label_4">
+    <property name="geometry">
+     <rect>
+      <x>24</x>
+      <y>0</y>
+      <width>105</width>
+      <height>18</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Fract synth OK</string>
+    </property>
+   </widget>
+   <widget class="caLed" name="caled_3">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>18</width>
+      <height>18</height>
+     </rect>
+    </property>
+    <property name="toolTip">
+     <string>Is the EVR's local oscilator phase locked with the phase of the EVG's oscilator.</string>
+    </property>
+    <property name="rectangular">
+     <bool>false</bool>
+    </property>
+    <property name="channel" stdset="0">
+     <string notr="true">$(SYS)-$(DEVICE):CG-Sts</string>
+    </property>
+    <property name="falseColor">
+     <color>
+      <red>255</red>
+      <green>0</green>
+      <blue>0</blue>
+     </color>
+    </property>
+    <property name="trueColor">
+     <color>
+      <red>0</red>
+      <green>205</green>
+      <blue>0</blue>
+     </color>
+    </property>
+    <property name="undefinedColor">
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+    </property>
+   </widget>
+  </widget>
  </widget>
  <customwidgets>
+  <customwidget>
+   <class>caFrame</class>
+   <extends>QFrame</extends>
+   <header>caFrame</header>
+   <container>1</container>
+  </customwidget>
   <customwidget>
    <class>caLed</class>
    <extends>QWidget</extends>
