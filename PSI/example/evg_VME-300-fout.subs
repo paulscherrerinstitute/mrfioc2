@@ -19,7 +19,7 @@ file "$(mrfioc2_TEMPLATES=db)/evg-vme-300.db"
          AcTrig-TrigSrc6-SP=0,  #0 = Disable, 1 = Enable: Map to event trigger
          AcTrig-TrigSrc7-SP=0,  #0 = Disable, 1 = Enable: Map to event trigger
          
-         EvtClk-Source-Sel=3,   #0 = FracSynth, 1 = External, 2 = PXIe 100 MHz, 3 = Recovered RX clock, 4 = PXIe 10 MHz : EVG Evt Clk Source
+         EvtClk-Source-Sel=3,   #0 = FracSynth, 1 = External, 2 = PXIe 100 MHz, 3 = Recovered RX clock, 4 = PXIe 10 MHz, 5 = External source for fanouts, FractSynth for upstream port, 6 = Recovered RX clock / 2 : EVG Evt Clk Source
          EvtClk-RFFreq-SP=500,  #50-1600 : EVG RF Frequency [MHz]
          EvtClk-RFDiv-SP=4,     #0-32 : RF Divider 
          EvtClk-FracSynFreq-SP=142.8, #50-142.8 : Fractional Synthesizer Freq [MHz]

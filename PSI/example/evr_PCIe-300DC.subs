@@ -165,6 +165,11 @@ file "$(mrfioc2_TEMPLATES=db)/evr-pcie-300DC.db"
 		# 40	Prescaler 0
 		# 41	Prescaler 1
 		# 42	Prescaler 2
+		# 43	Prescaler 3
+		# 44	Prescaler 4
+		# 45	Prescaler 5
+		# 46	Prescaler 6
+		# 47	Prescaler 7
 		# 63	Force Low
 		# 62	Force High
 

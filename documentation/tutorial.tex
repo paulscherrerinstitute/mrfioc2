@@ -44,7 +44,7 @@ This document contains step-by-step instructions to configuring some of the basi
 To set up a timing system we need a VME crate, a Single Board Computer (SBC) and an EVR. A VME crate has a number of slots where SBC, EVR and other components can be inserted. Slot numbering should be checked with the VME crate documentation. The tutorials in this document are written for the following setup:
 \begin{itemize}
 	\item a VME64x IFC 1210 Single Board Computer inserted into VME crate slot 1 (how to set up IFC 1210~\cite{ifc}),
-	\item EVR-VME-230RF event receiver inserted in slot 3,
+	\item EVR-VME-300 event receiver inserted in slot 3,
 	\item the EVR connected to the timing network through an optical cable.
 \end{itemize}
 
@@ -73,7 +73,7 @@ The following steps demonstrate how to prepare a SWIT compatible IOC application
 			touch EVR0.subs
 			cd ..
 		\end{verbatim}
-	\item \label{quickstart:copySubs} Copy the content of the substitution file  at \texttt{https://git.psi.ch/} \texttt{epics\_drivers/mrfioc2/raw/\latestDriverVersion/PSI/example/evr\_VME-230.subs} to newly created \texttt{cfg/EVR0.subs}. This substitution file can always be used as a starting point for new applications. Substitution files for other form factors are available at the same location (mrfioc2 repository in folder \texttt{PSI/example}).
+	\item \label{quickstart:copySubs} Copy the content of the substitution file  at \texttt{https://git.psi.ch/} \texttt{epics\_drivers/mrfioc2/raw/\latestDriverVersion/PSI/example/evr\_VME-300.subs} to newly created \texttt{cfg/EVR0.subs}. This substitution file can always be used as a starting point for new applications. Substitution files for other form factors are available at the same location (mrfioc2 repository in folder \texttt{PSI/example}).
 	
 	The macro definitions in the substitution file are used to configure the EVR. All the available macros are already present in the substitution file and set to their default values, so the user can simply change the desired values. Detailed description of the substitution file is available in the EVR manual~\cite{evr_manual}.
 
@@ -93,21 +93,46 @@ The following steps demonstrate how to prepare a SWIT compatible IOC application
 	#-----! EVR Setup ------!#
 	##########################
 	## The following parameters are available to set up the device. 
-	## They can either be set as an epics environmental variable, 
-	## or passed as a macro to the 'runScript' command:
+	They can either be set as an epics environmental variable, 
+	or passed as a macro to the 'runScript' command:
 	
 	# The following macros are available to set up the mrfioc2:
-	# SYS           "MTEST-VME-TIMINGTEST"
-	# DEVICE        "EVR0"		
-	# EVR_SLOT		     3			
-	# EVR_MEMOFFSET	0x3000000
-	# EVR_IRQLINE 	 0x5		
-	# EVR_IRQVECT	  0x26
-	# EVR_SUBS      cfg/evr_VME-300.subs
+	# SYS            is used as a prefix for all records.
+	# DEVICE         is the event receiver / timing card name. 
+	#                (default: EVR0)
+	
+	# EVR_SLOT       is the VME crate slot where EVR is inserted.
+	#                (default: 3)
+	
+	# EVR_MEMOFFSET	 is the base A32 address 
+	#                (default: 0x3000000)
+	
+	# EVR_IRQLINE    is the interrupt level. 
+	#                (default: 0x5)
+	
+	# EVR_IRQVECT    is the interrupt vector 
+	#                (default: 0x26)
+	
+	# EVR_SUBS       is the path to the substitution file that
+	#                should be loaded. (default: cfg/$(DEVICE).subs)
+	#                The following macros can be used to load example 
+	#                substitution files already available in the 
+	#                mrfioc2 module:
+	#                EVR_SUBS=$(mrfioc2_DB)/evr_VME-300.subs
+	#                EVR_SUBS=$(mrfioc2_DB)/evr_VME-230.subs
+	
+	# DC_SOURCE	     delay compensation target value is sourced 
+	#                from the record referenced here. This macro 
+	#                has no effect if the hardware does not support 
+	#                delay compensation (eg. 230 series)
+	#                (default: empty)
+	#                Recommended setting for SwissFEL is
+	#                SIN-CVME-TIMAST-TMA:EvrDC-SP
 	
 	runScript $(mrfioc2_DIR)/mrfioc2_evr-VME.cmd, 
-	  "SYS=MTEST-VME-TIMINGTEST, DEVICE=EVR0, EVR_SLOT=3,
-	   EVR_MEMOFFSET=0x3000000, EVR_IRQLINE=0x5"
+	  "SYS=MTEST-VME-TIMINGTEST, DEVICE=EVR0, EVR_SLOT=3, 
+	  EVR_MEMOFFSET=0x3000000, EVR_IRQLINE=0x5"
+
 \end{verbatim}
 Startup script overview:
 \begin{itemize}
@@ -136,6 +161,7 @@ The configurable variables in the startup script are:
 		\end{itemize}
 	\item 
 		\texttt{EVR\_SUBS} is the substitution file that we are using for our application. If not specified, a substitution file in \texttt{cfg/\$(EVR).subs} (where \$(EVR) is the event receiver name) will be loaded.
+	\item \texttt{DC\_SOURCE} points to a record which will be used to set target delay compensation value for this EVR. If not specified remote setting of delay compensation target value is not used.
 \end{itemize}
 Using the above startup script, the system name is set to \textit{MTEST-VME-TIMINGTEST}, and the event receiver named \textit{EVR0} is placed in the physical slot 3 of the VME crate. It uses default A32 address and interrupt configuration. Substitution file \texttt{cfg/EVR0.subs} will be loaded.
 \end{enumerate}
@@ -151,7 +177,7 @@ This tutorial demonstrates how to configure an EVR to generate a 80 ns wide puls
 	\caption{An example of a pulse generated after the reception of the event 4.}
 	\label{fig:pulser_signal}
 \end{figure}
-The pulse in this tutorial is generated using pulser 3 and outputted through the front panel TTL output 0 (FrontOut0), as seen in Figure~\ref{fig:pulser}. 
+The pulse in this tutorial is generated using pulser 3 and outputted through the front panel TTL output 0 (FrontUnivOut0), as seen in Figure~\ref{fig:pulser}. 
 
 \begin{figure}[H]
 	\centering
@@ -166,14 +192,14 @@ The pulse in this tutorial is generated using pulser 3 and outputted through the
 
 	\item Set the macro values in the substitution file (\texttt{MTEST-VME-TIMINGTEST/} \texttt{cfg/EVR0.subs}) according to this snippet (explained in~\ref{sec:explain_pulser}):
 \begin{verbatim}
-	file "$(mrfioc2_TEMPLATES=db)/evr-vme-230.db"
+	file "$(mrfioc2_TEMPLATES=db)/evr-vme-300.db"
 	{
 	  {
 	    ...
 	    Pul3-Delay-SP=40,
 	    Pul3-Width-SP=80,
 	    ...
-	    FrontOut0-Src-SP=3,
+	    FrontUnivOut0-Src-SP=3,
 	    ...
 	  }
 	}
@@ -185,11 +211,11 @@ The pulse in this tutorial is generated using pulser 3 and outputted through the
 	        ...
 	}
 \end{verbatim}
-	The above macro substitution of the \texttt{evr-vme-230.db} sets the values of the following records:
+	The above macro substitution of the \texttt{evr-vme-300.db} sets the values of the following records:
 	\begin{itemize}
 	\item \texttt{MTEST-VME-TIMINGTEST-EVR0:Pul3-Delay-SP}
 	\item \texttt{MTEST-VME-TIMINGTEST-EVR0:Pul3-Width-SP}
-	\item \texttt{MTEST-VME-TIMINGTEST-EVR0:FrontOut0-Src-SP}
+	\item \texttt{MTEST-VME-TIMINGTEST-EVR0:FrontUnivOut0-Src-SP}
 	\end{itemize}
 	The above macro substitution of the \texttt{evr-pulserMap.template} creates a record named \texttt{MTEST-VME-TIMINGTEST-EVR0:Pul\$(PID)-Evt-\$(F)\$(ID)-SP}.
 	\item Optionally, you can remove all the macros whose values you did not change. 
@@ -203,7 +229,7 @@ First we set up the pulse generator 3 (Pul3):
 	\item \texttt{Pul3-Width-SP}=80: Set the pulse width (time between the pulse rising and falling edge) for pulser 3 to 80 ns.
 \end{itemize}
 
-Then the value of the output source macro \texttt{FrontOut0-Src-SP} is set to 3, which configures the front panel output 0 (FrontOut0) to use pulser 3 as its source. Macro values 0-15 correspond to pulsers 0-15. A complete list of available values can be found in the EVR manual~\cite{evr_manual}.
+Then the value of the output source macro \texttt{FrontUnivOut0-Src-SP} is set to 3, which configures the front panel universal output 0 (FrontUnivOut0) to use pulser 3 as its source. Macro values 0-23 correspond to pulsers 0-23. A complete list of available values can be found in the EVR manual~\cite{evr_manual}.
 
 Finally, the Pulser 3 is set to trigger on reception of the event 4:
 \begin{itemize}
@@ -214,7 +240,7 @@ Finally, the Pulser 3 is set to trigger on reception of the event 4:
 \end{itemize}
 
 In order to use different pulser simply change the pulser number, eg. using \texttt{Pul5-Delay-SP} instead of \texttt{Pul3-Delay-SP} sets the delay of pulser 5 instead of pulser 3.
-Similar is for outputs, eg. using \texttt{FrontOut1-Src-SP} instead of \texttt{FrontOut0-Src-SP} sets the output source signal of front panel output 1 instead of front panel output 0. In order to set a different event mapped to Pulser 3 Trig function, simply set a new value of the record \texttt{MTEST-VME-TIMINGTEST-EVR0:Pul3-Evt-Trig0-SP}. To disable the mapping, set the record value to \texttt{0}.
+Similar is for outputs, eg. using \texttt{FrontUnivOut1-Src-SP} instead of \texttt{FrontUnivOut0-Src-SP} sets the output source signal of front panel universal output 1 instead of front panel universal output 0. In order to set a different event mapped to Pulser 3 Trig function, simply set a new value of the record \texttt{MTEST-VME-TIMINGTEST-EVR0:Pul3-Evt-Trig0-SP}. To disable the mapping, set the record value to \texttt{0}.
 
 \section{Event dependent pulse switching}\label{sec:2pulsers}
 \begin{quote}
@@ -243,7 +269,7 @@ For an advance guide, without using the helper template, see Section~\ref{sec:tr
 
 \subsection{Instructions}
 \begin{enumerate}
-	\item If starting a new IOC application, consult the quick start in Section~\ref{sec:Quick start}, but use the substitution file at \texttt{https://git.psi.ch/epics\_drivers/}\newline \texttt{mrfioc2/raw/\latestDriverVersion/PSI/example/evr\_VME-300.subs} in step~\ref{quickstart:copySubs}.
+	\item If starting a new IOC application, consult the quick start in Section~\ref{sec:Quick start}.
 
 	\item Uncomment \texttt{evr-configTriggerSwitch.template} substitutions and set the macro values in the substitution file \newline(\texttt{MTEST-VME-TIMINGTEST/cfg/EVR0.subs}) according to this snippet (explained in~\ref{sec:explain_2pulsers}):
 \begin{verbatim}
@@ -279,7 +305,7 @@ Macros in \texttt{evr-configTriggerSwitch.template} substitution have the follow
 \begin{itemize}
 %	\item \texttt{Reset-Evt}=38 : Event 38 gates pulser Pul-Norm-ID to the Output. If this macro is not specified it defaults to event 38 (Start of Sequence in SwissFEL).
 %	\item \texttt{Set-Evt}=6 : Event 6 gates pulser Pul-Sw-ID to the Output. If this macro is not specified it defaults to to event 6 (RF-OffBeam in SwissFEL).
-	\item \texttt{Event}=1 : Event 1 will trigger a pulse from pulser Pul-Norm-ID or Pul-Sw-ID on the Output.
+	\item \texttt{Event}=1 : Event 1 will trigger a pulse from pulser Pul-Norm-ID or Pul-Sw-ID on the \texttt{Output}.
 	\item \texttt{Pul-Norm-Width}=40 : The width of the pulse to be outputted in normal mode is 40~us.
 	\item \texttt{Pul-Norm-Delay}=40 : The delay of the pulse to be outputted in normal mode 40~us.
 	\item \texttt{Pul-Sw-Width}=40 : The width of the pulse to be outputted in switched mode is 40~us.
@@ -322,7 +348,7 @@ It is suggested that macros \texttt{EVT} and \texttt{CODE} are set to the same v
 
 Event receivers have synchronized event clock across the timing system (the same phase and frequency). The event clock can be prescaled and mapped to the EVR output. The minimum prescale factor is 2, so a clock signal with the same phase and frequency as the event clock cannot be generated this way (Section~\ref{sec:generate_event_clock} describes how to generate the event clock).
 
-This tutorial demonstrates how to configure the prescaler 0 (PS0) to divide the event clock frequency by 2, and output it through the front panel output 1 (FrontOut1), as seen in Figure~\ref{fig:prescaler}. 
+This tutorial demonstrates how to configure the prescaler 0 (PS0) to divide the event clock frequency by 2, and output it through the front panel output 1 (FrontUnivOut1), as seen in Figure~\ref{fig:prescaler}. 
 
 \begin{figure}[H]
 	\centering
@@ -337,21 +363,21 @@ This tutorial demonstrates how to configure the prescaler 0 (PS0) to divide the 
 
 	\item Set the macro values in the substitution file (\texttt{MTEST-VME-TIMINGTEST/} \texttt{cfg/EVR0.subs}) according to this snippet (explained in~\ref{sec:explain_clock}):
 \begin{verbatim}
-	file "$(mrfioc2_TEMPLATES=db)/evr-vme-230.db"
+	file "$(mrfioc2_TEMPLATES=db)/evr-vme-300.db"
 	{
 	  {
 	    ...
 	    PS0-Div-SP=2,
 	    ...
-	    FrontOut1-Src-SP=40,
+	    FrontUnivOut1-Src-SP=40,
 		    ...
 	  }
 	}
 \end{verbatim}
-	The above macro substitution of the \texttt{evr-vme-230.db} sets the values of the following records:
+	The above macro substitution of the \texttt{evr-vme-300.db} sets the values of the following records:
 	\begin{itemize}
 		\item \texttt{MTEST-VME-TIMINGTEST-EVR0:PS0-Div-SP}
-		\item \texttt{MTEST-VME-TIMINGTEST-EVR0:FrontOut1-Src-SP}
+		\item \texttt{MTEST-VME-TIMINGTEST-EVR0:FrontUnivOut1-Src-SP}
 	\end{itemize}
 	
 	\item Optionally, you can remove all the macros whose values you did not change. 
@@ -361,14 +387,20 @@ This tutorial demonstrates how to configure the prescaler 0 (PS0) to divide the 
 \subsection{Substitution snippet explanation:}\label{sec:explain_clock}
 \begin{itemize}
 	\item \texttt{PS0-Div-SP}=2: Set the Prescaler 0 to divide event clock frequency by 2.
-	\item \texttt{FrontOut1-Src-SP}=40: Set the source of the Front Panel Output 1 to Prescaler 0. Values 40-42 correspond to prescalers 0-2. A complete list of values is available in the EVR manual~\cite{evr_manual}.
+	\item \texttt{FrontUnivOut1-Src-SP}=40: Set the source of the Front Panel Universal Output 1 to Prescaler 0. Values 40-47 correspond to prescalers 0-7. A complete list of values is available in the EVR manual~\cite{evr_manual}.
 \end{itemize}
 
 In order to use different prescaler, simply change the prescaler number, eg. using \texttt{PS2-Div-SP} instead of \texttt{PS0-Div-SP} sets the divider of prescaler 2 instead of prescaler 0.
-Similar is for outputs, eg. using \texttt{FrontOut0-Src-SP} instead of \texttt{FrontOut1-Src-SP} sets the output source signal of front panel output 0 instead of front panel output 1.
+Similar is for outputs, eg. using \texttt{FrontUnivOut0-Src-SP} instead of \texttt{FrontUnivOut1-Src-SP} sets the output source signal of front panel universal output 0 instead of front panel universal output 1.
 
 \section{Generate the event clock}\label{sec:generate_event_clock}
-Signals with frequency greater or equal to the frequency of the event clock can only be generated using the CML outputs. More about the operation of the CML outputs and their modes is available in the EVR manual~\cite{evr_manual}. Note, that not all event receiver form factors have CML outputs. The EVR-VME-230RF form factor has outputs FrontOut4 (CML0), FrontOut5 (CML1) and FrontOut6 (CML2) capable of CML output. This tutorial demonstrates how to configure CML0 output (corresponds to FrontOut4 output) to generate a clock signal, that has the same phase and frequency as the event clock. To achieve this, the FrontOut4 output source is set to \texttt{logic low} and the CML outputs are enabled. This causes the logic low pattern of the CML pulse mode to be continuously outputted. The configurable pattern, as seen in Figure~\ref{fig:gen_evt_clk}, is 20 bits long and is sent out with a bit rate of 20 times the event clock rate. It is configured to replicate the event clock phase and frequency.
+Signals with frequency greater or equal to the frequency of the event clock can only be generated using the CML outputs. More about the operation of the CML outputs and their modes is available in the EVR manual~\cite{evr_manual}. Note, that not all event receiver form factors have CML outputs.
+CML capable outputs:
+\begin{itemize}
+	\item The EVR-VME-230RF form factor: FrontOut4 (CML0), FrontOut5 (CML1) and FrontOut6 (CML2)
+	\item The EVR-VME-300 form factor: FrontUnivOut6 (CML0), FrontUnivOut7 (CML1), FrontUnivOut8 (CML2), FrontUnivOut9 (CML3)
+\end{itemize} 
+This tutorial demonstrates how to configure CML0 output of EVR-VME-300 to generate a clock signal, that has the same phase and frequency as the event clock. To achieve this, the FrontUnivOut6 output source is set to \texttt{logic low} and the CML outputs are enabled. This causes the logic low pattern of the CML pattern mode to be continuously outputted. The configurable pattern, as seen in Figure~\ref{fig:gen_evt_clk}, is 40 bits long and is sent out with a bit rate of 40 times the event clock rate. It is configured to replicate the event clock phase and frequency.
 
 \begin{figure}[H]
 	\centering
@@ -382,6 +414,80 @@ Signals with frequency greater or equal to the frequency of the event clock can 
 	\item If starting a new IOC application, consult the quick start in Section~\ref{sec:Quick start}.
 	
 	\item Set the macro values in the substitution file (\texttt{MTEST-VME-TIMINGTEST/} \texttt{cfg/EVR0.subs}) according to this snippet (explained in~\ref{sec:explain_cml}):
+\begin{verbatim}
+	file "$(mrfioc2_TEMPLATES=db)/evr-vme-300.db"
+	{
+	  {
+	    ...
+	    FrontUnivOut6-Ena-SP=1,
+	    FrontUnivOut6-Src-SP=63,
+	    CML0-Ena-Sel=1,
+	    CML0-Pwr-Sel=1,
+	    CML0-Mode-Sel=0,
+	    CML0-Pat:Rise00_15-SP=0x0,
+	    CML0-Pat:Rise16_31-SP=0x0,
+	    CML0-Pat:Rise32_39-SP=0x0,
+	    CML0-Pat:High00_15-SP=0x0,
+	    CML0-Pat:High16_31-SP=0x0,
+	    CML0-Pat:High32_39-SP=0x0,
+	    CML0-Pat:Fall00_15-SP=0x0,
+	    CML0-Pat:Fall16_31-SP=0x0,
+	    CML0-Pat:Fall32_39-SP=0x0,
+	    CML0-Pat:Low00_15-SP=0xFFFF,
+	    CML0-Pat:Low16_31-SP=0xF000,
+	    CML0-Pat:Low32_39-SP=0x0,
+	    ...
+	  }
+	}
+\end{verbatim}
+	The above macro substitution of the \texttt{evr-vme-300.db} sets the values of the following records:
+	\begin{itemize}
+		\item \texttt{MTEST-VME-TIMINGTEST-EVR0:FrontUnivOut6-Ena-SP}
+		\item \texttt{MTEST-VME-TIMINGTEST-EVR0:FrontUnivOut6-Src-SP}
+		\item \texttt{MTEST-VME-TIMINGTEST-EVR0:CML0-Ena-Sel}
+		\item \texttt{MTEST-VME-TIMINGTEST-EVR0:CML0-Pwr-Sel}
+		\item \texttt{MTEST-VME-TIMINGTEST-EVR0:CML0-Mode-Sel}
+		\item \texttt{MTEST-VME-TIMINGTEST-EVR0:CML0-Pat:Rise00\_15-SP}
+		\item \texttt{MTEST-VME-TIMINGTEST-EVR0:CML0-Pat:Rise16\_31-SP}
+		\item \texttt{MTEST-VME-TIMINGTEST-EVR0:CML0-Pat:Rise32\_39-SP}
+		\item \texttt{MTEST-VME-TIMINGTEST-EVR0:CML0-Pat:High00\_15-SP}
+		\item \texttt{MTEST-VME-TIMINGTEST-EVR0:CML0-Pat:High16\_31-SP}
+		\item \texttt{MTEST-VME-TIMINGTEST-EVR0:CML0-Pat:High32\_39-SP}
+		\item \texttt{MTEST-VME-TIMINGTEST-EVR0:CML0-Pat:Fall00\_15-SP}
+		\item \texttt{MTEST-VME-TIMINGTEST-EVR0:CML0-Pat:Fall16\_31-SP}
+		\item \texttt{MTEST-VME-TIMINGTEST-EVR0:CML0-Pat:Fall32\_39-SP}
+		\item \texttt{MTEST-VME-TIMINGTEST-EVR0:CML0-Pat:Low00\_15-SP}
+		\item \texttt{MTEST-VME-TIMINGTEST-EVR0:CML0-Pat:Low16\_31-SP}
+		\item \texttt{MTEST-VME-TIMINGTEST-EVR0:CML0-Pat:Low32\_39-SP}
+	\end{itemize}
+
+	\item Optionally, you can remove all the macros whose values you did not change. 
+	\item Install the prepared IOC by running command \texttt{swit -V} from your project folder \textit{MTEST-VME-TIMINGTEST}.
+\end{enumerate}
+
+\subsection{Substitution snippet explanation:}\label{sec:explain_cml}
+\begin{itemize}
+	\item \texttt{FrontUnivOut6-Ena-SP}=1: Enable the front panel output 6.
+	\item \texttt{FrontUnivOut6-Src-SP}=63: Set the source of the front panel output 6 to logic low. A complete list of settable values is available in the EVR manual~\cite{evr_manual}.
+	\item \texttt{CML0-Ena-Sel}=1: Enable the CML0 output, which corresponds to the front panel output 6.
+	\item \texttt{CML0-Pwr-Sel}=1: Power on the CML0 output.
+	\item \texttt{CML0-Mode-Sel}=0: Select the pattern mode. Because the output source signal of the front panel output 6 is set to logic low, this mode will continuously output logic low pattern.
+	\item \texttt{CML0-Pat:Low00\_15-SP}=0xFFFF: Set logic low pattern bits 0-15. The Figure~\ref{fig:gen_evt_clk} shows that the bits 15-0 must be set as follows: \texttt{1111 1111 1111 1111}, which translates to \texttt{0xFFFF}. Each bit represents $1/40$ of the event clock period.
+	\item \texttt{CML0-Pat:Low16\_31-SP}=0xF000: Set signal low pattern bits 16-31.The Figure~\ref{fig:gen_evt_clk} shows that the bits 15-0 must be set as follows: \texttt{1111 0000 0000 0000}, which translates to \texttt{0xF000}. 
+	\item \texttt{CML0-Pat:Low16\_31-SP}=0x0: Set signal low pattern bits 32-39, as seen in Figure~\ref{fig:gen_evt_clk}. Note, that only bits 32-29 (lower 8 bits) can be used.
+	\item \texttt{CML0-Pat:Rise00\_15-SP}=0x0: Other patterns are not used, so they are set to 0.
+	\item \texttt{CML0-Pat:Rise16\_31-SP}=0x0: Other patterns are not used, so they are set to 0.
+	\item \texttt{CML0-Pat:Rise32\_39-SP}=0x0: Other patterns are not used, so they are set to 0.
+	\item \texttt{CML0-Pat:High00\_15-SP}=0x0: Other patterns are not used, so they are set to 0.
+	\item \texttt{CML0-Pat:High16\_31-SP}=0x0: Other patterns are not used, so they are set to 0.
+	\item \texttt{CML0-Pat:High32\_39-SP}=0x0: Other patterns are not used, so they are set to 0.
+	\item \texttt{CML0-Pat:Fall00\_15-SP}=0x0: Other patterns are not used, so they are set to 0.
+	\item \texttt{CML0-Pat:Fall16\_31-SP}=0x0: Other patterns are not used, so they are set to 0.
+	\item \texttt{CML0-Pat:Fall32\_39-SP}=0x0: Other patterns are not used, so they are set to 0.
+\end{itemize}
+
+\subsection{Substitution snippet for EVR-VME-230 form factor}
+The following substitution snippet can be used in case of EVR-VME-230 form factor. The main difference is in the configured output (FrontOut4 instead of FrontUnivOut6) and the fact that this form factor has only 20 configurable CML bits in pattern mode, where EVR-VME-300 has 40.
 \begin{verbatim}
 	file "$(mrfioc2_TEMPLATES=db)/evr-vme-230.db"
 	{
@@ -398,36 +504,10 @@ Signals with frequency greater or equal to the frequency of the event clock can 
 	  }
 	}
 \end{verbatim}
-	The above macro substitution of the \texttt{evr-vme-230.db} sets the values of the following records:
-	\begin{itemize}
-		\item \texttt{MTEST-VME-TIMINGTEST-EVR0:FrontOut4-Ena-SP}
-		\item \texttt{MTEST-VME-TIMINGTEST-EVR0:FrontOut4-Src-SP}
-		\item \texttt{MTEST-VME-TIMINGTEST-EVR0:CML0-Ena-Sel}
-		\item \texttt{MTEST-VME-TIMINGTEST-EVR0:CML0-Pwr-Sel}
-		\item \texttt{MTEST-VME-TIMINGTEST-EVR0:CML0-Mode-Sel}
-		\item \texttt{MTEST-VME-TIMINGTEST-EVR0:CML0-Pat:Low00\_15-SP}
-		\item \texttt{MTEST-VME-TIMINGTEST-EVR0:CML0-Pat:Low16\_31-SP}
-	\end{itemize}
-
-	\item Optionally, you can remove all the macros whose values you did not change. 
-	\item Install the prepared IOC by running command \texttt{swit -V} from your project folder \textit{MTEST-VME-TIMINGTEST}.
-\end{enumerate}
-
-\subsection{Substitution snippet explanation:}\label{sec:explain_cml}
-\begin{itemize}
-	\item \texttt{FrontOut4-Ena-SP}=1: Enable the front panel output 4.
-	\item \texttt{FrontOut4-Src-SP}=63: Set the source of the front panel output 4 to logic low. A complete list of settable values is available in the EVR manual~\cite{evr_manual}.
-	\item \texttt{CML0-Ena-Sel}=1: Enable the CML0 output, which corresponds to the front panel output 4.
-	\item \texttt{CML0-Pwr-Sel}=1: Power on the CML0 output.
-	\item \texttt{CML0-Mode-Sel}=0: Select the pulse mode. Because the output source signal of the front panel output 4 is set to logic low, this mode will continuously output logic low pattern.
-	\item \texttt{CML0-Pat:Low00\_15-SP}=0xFFC0: Set logic low pattern bits 0-15. The Figure~\ref{fig:gen_evt_clk} shows that the bits 15-0 must be set as follows: \texttt{1111 1111 1100 0000}, which translates to \texttt{0xFFC0}. Each bit represents $1/20$ of the event clock period.
-	\item \texttt{CML0-Pat:Low16\_31-SP}=0: Set signal low pattern bits 16-31, as seen in Figure~\ref{fig:gen_evt_clk}. Note, that only bits 31-28 (top 4 bits) can be used.
-\end{itemize}
-
 
 \section{Output a Distributed Bus bit}
 A custom distributed bus (DBus) bit can be outputted through desired EVR outputs. This tutorial demonstrates how to set up the DBus bit 0 as a source of an EVR front panel output 1, as seen in Figure~\ref{fig:dbus}. 
-%To achieve this, the front panel output 0 should be mapped to the distributed bus bit (signal) 0. This is configured by setting the value of the output source macro \texttt{FrontOut1-Src-Sp} to 32. Mapping 32 corresponds to the DBus bit 0.
+%To achieve this, the front panel output 0 should be mapped to the distributed bus bit (signal) 0. This is configured by setting the value of the output source macro \texttt{FrontUnivOut1-Src-Sp} to 32. Mapping 32 corresponds to the DBus bit 0.
 
 \begin{figure}[H]
 	\centering
@@ -442,18 +522,18 @@ A custom distributed bus (DBus) bit can be outputted through desired EVR outputs
 	
 	\item Set the macro values in the substitution file (\texttt{MTEST-VME-TIMINGTEST/} \texttt{cfg/EVR0.subs}) according to this snippet (explained in~\ref{sec:explain_dbus}):
 \begin{verbatim}
-	file "$(mrfioc2_TEMPLATES=db)/evr-vme-230.db"
+	file "$(mrfioc2_TEMPLATES=db)/evr-vme-300.db"
 	{
 	  {
 	    ...
-	    FrontOut1-Src-SP=32,
+	    FrontUnivOut1-Src-SP=32,
 	    ...
 	  }
 	}
 \end{verbatim}
-	The above macro substitution of the \texttt{evr-vme-230.db} sets the values of the following record:
+	The above macro substitution of the \texttt{evr-vme-300.db} sets the values of the following record:
 	\begin{itemize}
-		\item \texttt{MTEST-VME-TIMINGTEST-EVR0:FrontOut1-Src-SP}
+		\item \texttt{MTEST-VME-TIMINGTEST-EVR0:FrontUnivOut1-Src-SP}
 	\end{itemize}
 
 	\item Optionally, you can remove all the macros whose values you did not change. 
@@ -462,10 +542,10 @@ A custom distributed bus (DBus) bit can be outputted through desired EVR outputs
 
 \subsection{Substitution snippet explanation:}\label{sec:explain_dbus}
 \begin{itemize}
-	\item \texttt{FrontOut1-Src-SP}=32: Set the source of the front panel output 1  to DBus bit 0. Values 32-39 correspond to DBus bits 0-7. A complete list of values is available in the EVR manual~\cite{evr_manual}.
+	\item \texttt{FrontUnivOut1-Src-SP}=32: Set the source of the front panel output 1  to DBus bit 0. Values 32-39 correspond to DBus bits 0-7. A complete list of values is available in the EVR manual~\cite{evr_manual}.
 \end{itemize}
 
-In order to use different front panel output, simply change the front panel output number, eg. using \texttt{FrontOut0-Src-SP} instead of \texttt{FrontOut1-Src-SP} sets the output source signal of front panel output 0 instead of front panel output 1.
+In order to use different front panel output, simply change the front panel output number, eg. using \texttt{FrontUnivOut0-Src-SP} instead of \texttt{FrontUnivOut1-Src-SP} sets the output source signal of front panel universal output 0 instead of front panel universal output 1.
 
 \section{Data buffer}\label{sec:data_buffer}
 The timing system supports deterministic data transmission. Data buffer enables the event receivers to accept the transmitted data in a buffer. The data can be written and read from through EPICS records, which access the buffer in the EVR. In order to use this feature, \texttt{mrfioc2\_regDev} module~\cite{git_mrfioc2_regDev} must be loaded. For further details, inspect the readme file in the \texttt{mrfioc2\_regDev} git repository~\cite{git_mrfioc2_regDev}.
@@ -558,17 +638,17 @@ Event receivers that support pulser gating also support setting two sources to o
 \end{enumerate}
 For more information about pulser gating and outputs with two configurable sources inspect the EVR manual~\cite{evr_manual}.
 
-This tutorial demonstrates how to configure an EVR without using helper template to generate pulse:
+This tutorial demonstrates how to configure an EVR without using helper template to generate a pulse:
 \begin{itemize}
 \item 40~ns wide, 40~ns delay, triggered on event 4 when \texttt{RF OFF beam} is not present;
 \item 40~ns wide, 80~ns delay, triggered on event 4 when \texttt{RF OFF beam} is present;
-\item on TTL output 0 (FrontUnivOut0).
+\item on output 0 (FrontUnivOut0).
 \end{itemize}
 %The setup is depicted in Figure~\ref{fig:2pulsers}.
 
 \subsection{Instructions}\label{sec:instructions_triggerSwitching}
 \begin{enumerate}
-	\item If starting a new IOC application, consult the quick start in Section~\ref{sec:Quick start}, but use the substitution file at \texttt{https://git.psi.ch/epics\_drivers/}\newline \texttt{mrfioc2/raw/\latestDriverVersion/PSI/example/evr\_VME-300.subs} in step~\ref{quickstart:copySubs}. 
+	\item If starting a new IOC application, consult the quick start in Section~\ref{sec:Quick start}. 
 
 	\item \label{sec:gating_instructions1_setMacro} Set the macro values in the substitution file (\texttt{MTEST-VME-TIMINGTEST/} \texttt{cfg/EVR0.subs}) according to this snippet (explained in~\ref{sec:explain_triggerSwitching}):
 \begin{verbatim}
@@ -687,7 +767,7 @@ where the \texttt{<system name>} represents a \textbf{mandatory} system name, an
 
 \paragraph{Example 2:} Open the GUI for the EVR-VME-230RF event receiver named \texttt{EVR3}, using system name \texttt{MTEST-VME-TIMINGTEST}.
 \begin{verbatim}
-	start_EVR.sh -s MTEST-VME-TIMINGTEST -d EVR3
+	start_EVR.sh -s MTEST-VME-TIMINGTEST -d EVR3 -f VME
 \end{verbatim}
 
 \paragraph{Example 2:} Open the GUI for the EVR-PCIe-300 event receiver named \texttt{EVR0}, using system name \texttt{MTEST-VME-TIMINGTEST}.
