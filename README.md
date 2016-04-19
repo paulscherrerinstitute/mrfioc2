@@ -48,8 +48,6 @@ For example, to set up a basic IOC for use with EVR-VME-300 timing card, user sh
         #                The following macros can be used to load example substitution files already available in the mrfioc2 module:
         #                EVR_SUBS=$(mrfioc2_DB)/evr_VME-300.subs      for EVR-VME-300 device series
         #                EVR_SUBS=$(mrfioc2_DB)/evr_VME-230.subs      for EVR-VME-230 device series
-        # DC_SOURCE		 delay compensation target value is sourced from the record referenced here. This macro has no effect if the hardware does not support delay compensation (eg. 230 series). (default: empty)
-        #                Recommended setting for SwissFEL is SIN-CVME-TIMAST-TMA:EvrDC-SP
         
         runScript $(mrfioc2_DIR)/mrfioc2_evr-VME.cmd, "SYS=MTEST-VME-TIMINGTEST, DEVICE=EVR0, EVR_SLOT=3, EVR_MEMOFFSET=0x3000000, EVR_IRQLINE=0x5"
         

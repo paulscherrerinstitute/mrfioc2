@@ -18,7 +18,5 @@ require mrfioc2
 #                EVR_SUBS=$(mrfioc2_DB)/evr_PCIe-300.subs     for EVR-PCIe-300 device series
 #                EVR_SUBS=$(mrfioc2_DB)/evr_PCIe-300DC.subs   for EVR-PCIe-300DC device series
 #                EVR_SUBS=$(mrfioc2_DB)/evr_cPCI-230.subs     for EVR-cPCI-230 device series
-# DC_SOURCE		 delay compensation target value is sourced from the record referenced here. This macro has no effect if the hardware does not support delay compensation (eg. 230 series). (default: empty)
-#                Recommended setting for SwissFEL is SIN-CVME-TIMAST-TMA:EvrDC-SP
 
 runScript $(mrfioc2_DIR)/mrfioc2_evr-PCIe.cmd, "SYS=MTEST-VME-TIMINGTEST, DEVICE=EVR0, EVR_DOMAIN=0x1, EVR_BUS=0x21, EVR_DEVICE=0, EVR_FUNCTION=0"

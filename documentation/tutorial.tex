@@ -121,14 +121,6 @@ The following steps demonstrate how to prepare a SWIT compatible IOC application
 	#                EVR_SUBS=$(mrfioc2_DB)/evr_VME-300.subs
 	#                EVR_SUBS=$(mrfioc2_DB)/evr_VME-230.subs
 	
-	# DC_SOURCE	     delay compensation target value is sourced 
-	#                from the record referenced here. This macro 
-	#                has no effect if the hardware does not support 
-	#                delay compensation (eg. 230 series)
-	#                (default: empty)
-	#                Recommended setting for SwissFEL is
-	#                SIN-CVME-TIMAST-TMA:EvrDC-SP
-	
 	runScript $(mrfioc2_DIR)/mrfioc2_evr-VME.cmd, 
 	  "SYS=MTEST-VME-TIMINGTEST, DEVICE=EVR0, EVR_SLOT=3, 
 	  EVR_MEMOFFSET=0x3000000, EVR_IRQLINE=0x5"
@@ -161,7 +153,6 @@ The configurable variables in the startup script are:
 		\end{itemize}
 	\item 
 		\texttt{EVR\_SUBS} is the substitution file that we are using for our application. If not specified, a substitution file in \texttt{cfg/\$(EVR).subs} (where \$(EVR) is the event receiver name) will be loaded.
-	\item \texttt{DC\_SOURCE} points to a record which will be used to set target delay compensation value for this EVR. If not specified remote setting of delay compensation target value is not used.
 \end{itemize}
 Using the above startup script, the system name is set to \textit{MTEST-VME-TIMINGTEST}, and the event receiver named \textit{EVR0} is placed in the physical slot 3 of the VME crate. It uses default A32 address and interrupt configuration. Substitution file \texttt{cfg/EVR0.subs} will be loaded.
 \end{enumerate}
