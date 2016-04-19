@@ -1,5 +1,23 @@
 For detailed changelog inspect commits at https://git.psi.ch/epics_drivers/mrfioc2/commits/master
 
+2.7.12 : Tue 19 Apr 2016:
+	- EVG-300 series now supports more output sources (with some improved error handling). Because of more output sources, the database changed comparing to 230 series.
+	- substitution file updates: 
+	  - descriptions, 
+	  - new macros for 300 series, 
+	  - new default values for event clock and EVR target delay compensation
+	  - CMLs are now configured to respond as normal outputs by default
+	- Pulser divisor, prescaler delay and width records now support 32-bit values
+	- Fixed bug where some macro setting was not applied (eg. PSX-Div-SP)
+	- added GUIs and databases for PCIe-300DC
+	- EVR pulsers now have software set/reset exposed
+	- driver version added to GUI
+	- documentation update (for 300-series)
+	- Fixed a bug in device support, where SEVR what not 0 uppon init (bug affected mbboDirect records).
+	- EVG-300 can have link violations on all ports reset at the same time (also remotely)
+	- EVRs can update their target delay compensation value from a remote record
+	- GUI script: -n option added, which does not attach to existing caQtDM but opens new one instead
+
 2.7.11 : Fri 18 Mar 2016:
 	- EVG health monitoring updated (link error obeys MON_PORTS macro)
 	- bug fix: typo in macro name (in example substitution file) for evr-configTriggerSwitch.template
