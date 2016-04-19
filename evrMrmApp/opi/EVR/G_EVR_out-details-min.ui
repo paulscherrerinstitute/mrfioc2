@@ -212,14 +212,35 @@
     <property name="channelB">
      <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Src-DBus-RB.RVAL</string>
     </property>
-    <widget class="KLed" name="kled">
+    <widget class="caLed" name="caled_8">
      <property name="geometry">
       <rect>
        <x>0</x>
        <y>1</y>
-       <width>18</width>
-       <height>18</height>
+       <width>16</width>
+       <height>16</height>
       </rect>
+     </property>
+     <property name="falseColor">
+      <color>
+       <red>0</red>
+       <green>255</green>
+       <blue>0</blue>
+      </color>
+     </property>
+     <property name="trueColor">
+      <color>
+       <red>0</red>
+       <green>255</green>
+       <blue>0</blue>
+      </color>
+     </property>
+     <property name="undefinedColor">
+      <color>
+       <red>0</red>
+       <green>255</green>
+       <blue>0</blue>
+      </color>
      </property>
     </widget>
    </widget>
@@ -247,14 +268,35 @@
     <property name="channelB">
      <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Src-Scale-RB.RVAL</string>
     </property>
-    <widget class="KLed" name="kled_2">
+    <widget class="caLed" name="caled_9">
      <property name="geometry">
       <rect>
        <x>0</x>
        <y>1</y>
-       <width>18</width>
-       <height>18</height>
+       <width>16</width>
+       <height>16</height>
       </rect>
+     </property>
+     <property name="falseColor">
+      <color>
+       <red>0</red>
+       <green>255</green>
+       <blue>0</blue>
+      </color>
+     </property>
+     <property name="trueColor">
+      <color>
+       <red>0</red>
+       <green>255</green>
+       <blue>0</blue>
+      </color>
+     </property>
+     <property name="undefinedColor">
+      <color>
+       <red>0</red>
+       <green>255</green>
+       <blue>0</blue>
+      </color>
      </property>
     </widget>
    </widget>
@@ -282,14 +324,35 @@
     <property name="channelB">
      <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Src-Pulse-RB.RVAL</string>
     </property>
-    <widget class="KLed" name="kled_3">
+    <widget class="caLed" name="caled_7">
      <property name="geometry">
       <rect>
        <x>0</x>
        <y>1</y>
-       <width>18</width>
-       <height>18</height>
+       <width>16</width>
+       <height>16</height>
       </rect>
+     </property>
+     <property name="falseColor">
+      <color>
+       <red>0</red>
+       <green>255</green>
+       <blue>0</blue>
+      </color>
+     </property>
+     <property name="trueColor">
+      <color>
+       <red>0</red>
+       <green>255</green>
+       <blue>0</blue>
+      </color>
+     </property>
+     <property name="undefinedColor">
+      <color>
+       <red>0</red>
+       <green>255</green>
+       <blue>0</blue>
+      </color>
      </property>
     </widget>
    </widget>
@@ -411,11 +474,6 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>KLed</class>
-   <extends>QWidget</extends>
-   <header>kled.h</header>
-  </customwidget>
-  <customwidget>
    <class>caMenu</class>
    <extends>QComboBox</extends>
    <header>caMenu</header>
@@ -435,6 +493,11 @@
    <class>caLabel</class>
    <extends>QLabel</extends>
    <header>caLabel</header>
+  </customwidget>
+  <customwidget>
+   <class>caLed</class>
+   <extends>QWidget</extends>
+   <header>caLed</header>
   </customwidget>
   <customwidget>
    <class>caLineEdit</class>

@@ -69,12 +69,12 @@ void
 evgFct::clearPortViolation(epicsUInt16 port){
     epicsUInt32 ctrlReg;
 
-    if(port > EVG_FCT_maxPorts || port < 1){    // port 0 == upstream. Fanouts are ports 1+
+    if(port >= (1 << EVG_FCT_maxPorts) || port < 1){    // port 0 == upstream. Fanouts are ports 1+
         throw std::out_of_range("Selected fanout port does not exist.");
     }
 
     ctrlReg = READ32(m_fctReg, fct_control_base);
-    ctrlReg |= EVG_FCT_CONTROL_VIOLATION_start << (port-1);  // clear violation by writing '1' to the clear violation port register
+    ctrlReg |= port;  // clear violation by writing '1' to the clear violation port register
     WRITE32(m_fctReg, fct_control_base, ctrlReg);
 }
 
@@ -86,53 +86,3 @@ evgFct::getPortDelayValue(epicsUInt16 port)  const{
 
     return READ32(m_fctReg, fct_portDC(port-1));
 }
-
-/*
-bool evgFct::getPortStatus()
-{
-    epicsUInt32 status;
-
-    if(m_id > EVG_FCT_maxPorts || m_id < 1){    // port 0 == upstream. Fanouts are ports 1+
-        std::out_of_range("Selected fanout port does not exist.");
-    }
-    status = READ32(m_fctReg, U32_fct_status_base);
-    status &= EVG_FCT_STATUS_STATUS_start << (m_id-1);
-
-    return  status != 0;
-}
-
-bool evgFct::getPortViolation()
-{
-    epicsUInt32 violation;
-
-    if(m_id > EVG_FCT_maxPorts || m_id < 1){    // port 0 == upstream. Fanouts are ports 1+
-        std::out_of_range("Selected fanout port does not exist.");
-    }
-    violation = READ32(m_fctReg, U32_fct_status_base);
-    violation &= EVG_FCT_STATUS_VIOLATION_start << (m_id-1);
-
-    return  violation != 0;
-}
-
-void evgFct::clearPortViolation()
-{
-    epicsUInt32 ctrlReg;
-
-    if(m_id > EVG_FCT_maxPorts || m_id < 1){    // port 0 == upstream. Fanouts are ports 1+
-        std::out_of_range("Selected fanout port does not exist.");
-    }
-
-    ctrlReg = READ32(m_fctReg, U32_fct_control_base);
-    ctrlReg |= EVG_FCT_CONTROL_VIOLATION_start << (m_id-1);  // clear violation by writing '1' to the clear violation port register
-
-    WRITE32(m_fctReg, U32_fct_control_base, ctrlReg);
-}
-
-epicsUInt32 evgFct::getPortDelayValue()
-{
-    if(m_id > EVG_FCT_maxPorts || m_id < 1){    // port 0 == upstream. Fanouts are ports 1+
-        std::out_of_range("Selected fanout port does not exist.");
-    }
-
-    return READ32(m_fctReg, U32_fct_portDC(m_id-1));
-}*/

@@ -59,6 +59,9 @@ EvrPulser::enable(bool s)
 void
 EvrPulser::setDelayRaw(epicsUInt32 v)
 {
+    epicsUInt64 val = (epicsUInt64)v;   // convert double to something that can hold value this big
+    val &= 0xFFFFFFFF;  // make sure it's a 32-bit unsigned value
+
     WRITE32(owner.base, PulserDely(id), v);
 }
 
@@ -94,6 +97,9 @@ EvrPulser::delay() const
 void
 EvrPulser::setWidthRaw(epicsUInt32 v)
 {
+    epicsUInt64 val = (epicsUInt64)v;   // convert double to something that can hold value this big
+    val &= 0xFFFFFFFF;  // make sure it's a 32-bit unsigned value
+
     WRITE32(owner.base, PulserWdth(id), v);
 }
 
@@ -109,8 +115,7 @@ EvrPulser::setWidth(double v)
     setWidthRaw(ticks);
 }
 
-epicsUInt32
-EvrPulser::widthRaw() const
+epicsUInt32 EvrPulser::widthRaw() const
 {
     return READ32(owner.base,PulserWdth(id));
 }
@@ -279,4 +284,31 @@ EvrPulser::setGateEnable(epicsUInt16 gate){
     pulserCtrl = pulserCtrl & ~PulserCtrl_gateEnable;
     pulserCtrl |= ((epicsUInt32)gate << PulserCtrl_gateEnable_shift);
     WRITE32(owner.base, PulserCtrl(id), pulserCtrl);
+}
+
+
+void EvrPulser::swSetReset(bool set)
+{
+    epicsUInt32 pulserCtrl;
+
+    pulserCtrl = READ32(owner.base, PulserCtrl(id));
+
+    if(set) {
+        pulserCtrl |= PulserCtrl_sset;
+    }
+    else {
+        pulserCtrl |= PulserCtrl_srst;
+    }
+
+    WRITE32(owner.base, PulserCtrl(id), pulserCtrl);
+}
+
+
+bool
+EvrPulser::getOutput() const {
+    epicsUInt32 pulserCtrl;
+
+    pulserCtrl = READ32(owner.base, PulserCtrl(id));
+
+    return (bool)(pulserCtrl & PulserCtrl_rbv);
 }

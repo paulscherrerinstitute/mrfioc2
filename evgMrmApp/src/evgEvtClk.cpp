@@ -1,14 +1,16 @@
 #include "evgEvtClk.h"
 
 #include <stdio.h>
-#include <errlog.h> 
+#include <errlog.h>
 #include <stdexcept>
 
-#include <mrfCommonIO.h> 
-#include <mrfCommon.h> 
+#include <mrfCommonIO.h>
+#include <mrfCommon.h>
 #include <mrfFracSynth.h>
 
 #include "evgRegMap.h"
+
+#define EVG_MIN_FIRMWARE_REDUCECLK 0x204
 
 evgEvtClk::evgEvtClk(const std::string& name, volatile epicsUInt8* const pReg):
 mrf::ObjectInst<evgEvtClk>(name),
@@ -22,10 +24,22 @@ evgEvtClk::~evgEvtClk() {
 
 epicsFloat64
 evgEvtClk::getFrequency() const {
-    if(getSource() == ClkSrcInternal)
-        return m_fracSynFreq;
-    else
-        return getRFFreq()/getRFDiv();
+    epicsUInt16 source = getSource();
+
+    switch ((RFClockReference) source) {
+        case RFClockReference_Internal:
+        case RFClockReference_Recovered:
+            return m_fracSynFreq;
+            break;
+
+        case RFClockReference_RecoverHalved:
+            return m_fracSynFreq/2;
+            break;
+
+        default:
+            return getRFFreq()/getRFDiv();
+            break;
+    }
 }
 
 void
@@ -42,7 +56,7 @@ evgEvtClk::setRFFreq (epicsFloat64 RFref) {
 
 epicsFloat64
 evgEvtClk::getRFFreq() const {
-    return m_RFref;    
+    return m_RFref;
 }
 
 void
@@ -53,7 +67,7 @@ evgEvtClk::setRFDiv(epicsUInt32 rfDiv) {
         std::string strErr(err);
         throw std::runtime_error(strErr);
     }
-    
+
     WRITE8(m_pReg, RfDiv, rfDiv-1);
 }
 
@@ -70,7 +84,7 @@ evgEvtClk::setFracSynFreq(epicsFloat64 freq) {
     controlWord = FracSynthControlWord (freq, MRF_FRAC_SYNTH_REF, 0, &error);
     if ((!controlWord) || (error > 100.0)) {
         char err[80];
-        sprintf(err, "Cannot set event clock speed to %f MHz.\n", freq);            
+        sprintf(err, "Cannot set event clock speed to %f MHz.\n", freq);
         std::string strErr(err);
         throw std::runtime_error(strErr);
     }
@@ -79,9 +93,17 @@ evgEvtClk::setFracSynFreq(epicsFloat64 freq) {
 
     /* Changing the control word disturbes the phase of the synthesiser
      which will cause a glitch. Don't change the control word unless needed.*/
-    if(controlWord != oldControlWord){
+    if(controlWord != oldControlWord) {
+        epicsUInt16 uSecDivider;
+
+        if ((RFClockReference)getSource() == RFClockReference_RecoverHalved) {
+            uSecDivider = (epicsUInt16)(freq / 2);
+        }
+        else {
+            uSecDivider = (epicsUInt16)freq;
+        }
+
         WRITE32(m_pReg, FracSynthWord, controlWord);
-        epicsUInt16 uSecDivider = (epicsUInt16)freq;
         WRITE16(m_pReg, uSecDiv, uSecDivider);
     }
 
@@ -131,33 +153,50 @@ evgEvtClk::setSource (epicsUInt16 source) {
     epicsUInt8 clkReg, regMap = 0;
     epicsUInt32 version;
 
-    version = READ32(m_pReg, FPGAVersion);
-    version &= FPGAVersion_VER_MASK;
+    version = READ32(m_pReg, FWVersion);
+    version &= FWVersion_ver_mask;
+
+    if ((RFClockReference) source >= RFClockReference_PXIe100 && version < EVG_FCT_MIN_FIRMWARE ) {
+        throw std::out_of_range("RF clock source you selected does not exist in this firmware version.");
+    }
+    else if ((RFClockReference) source >= RFClockReference_ExtDownrate && version < EVG_MIN_FIRMWARE_REDUCECLK ) {
+        throw std::out_of_range("RF clock source you selected does not exist in this firmware version.");
+    }
 
     switch ((RFClockReference) source) {
     case RFClockReference_Internal:
         regMap = EVG_CLK_SRC_INTERNAL;
         break;
+
     case RFClockReference_External:
         regMap = EVG_CLK_SRC_EXTERNAL;
         break;
+
     case RFClockReference_PXIe100:
         regMap = EVG_CLK_SRC_PXIE100;
         break;
+
     case RFClockReference_PXIe10:
         regMap = EVG_CLK_SRC_PXIE10;
         break;
+
     case RFClockReference_Recovered:
         regMap = EVG_CLK_SRC_RECOVERED;
         break;
+
+    case RFClockReference_ExtDownrate:
+        regMap = EVG_CLK_SRC_EXTDOWNRATE;
+        break;
+
+    case RFClockReference_RecoverHalved:
+        regMap = EVG_CLK_SRC_RECOVERHALVED;
+        break;
+
     default:
         throw std::out_of_range("RF clock source you selected does not exist.");
         break;
     }
 
-    if((RFClockReference) source > RFClockReference_External && version < EVG_FCT_MIN_FIRMWARE ){
-        throw std::out_of_range("RF clock source you selected does not exist in this firmware version.");
-    }
 
 
     clkReg = READ8(m_pReg, ClockSource);    // read register content
@@ -169,11 +208,6 @@ evgEvtClk::setSource (epicsUInt16 source) {
 epicsUInt16
 evgEvtClk::getSource() const {
     epicsUInt8 clkReg, source;
-    bool fct = true;
-    epicsUInt32 version;
-
-    version = READ32(m_pReg, FPGAVersion);
-    version &= FPGAVersion_VER_MASK;
 
     clkReg = READ8(m_pReg, ClockSource);
     clkReg &= EVG_CLK_SRC_SEL;
@@ -181,28 +215,35 @@ evgEvtClk::getSource() const {
     switch (clkReg) {
     case EVG_CLK_SRC_INTERNAL:
        source = (epicsUInt8)RFClockReference_Internal;
-       fct = false;
         break;
+
     case EVG_CLK_SRC_EXTERNAL:
        source = (epicsUInt8)RFClockReference_External;
-       fct = false;
         break;
+
     case EVG_CLK_SRC_PXIE100:
        source = (epicsUInt8)RFClockReference_PXIe100;
         break;
+
     case EVG_CLK_SRC_PXIE10:
        source = (epicsUInt8)RFClockReference_PXIe10;
         break;
+
     case EVG_CLK_SRC_RECOVERED:
        source = (epicsUInt8)RFClockReference_Recovered;
         break;
+
+    case EVG_CLK_SRC_EXTDOWNRATE:
+        source = (epicsUInt8)RFClockReference_ExtDownrate;
+        break;
+
+    case EVG_CLK_SRC_RECOVERHALVED:
+        source = (epicsUInt8)RFClockReference_RecoverHalved;
+        break;
+
     default:
         throw std::out_of_range("Cannot read valid RF clock source.");
         break;
-    }
-
-    if(fct && version < EVG_FCT_MIN_FIRMWARE ){
-        throw std::out_of_range("Read an RF clock source which does not exist in this firmware version.");
     }
 
     return source;

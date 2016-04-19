@@ -20,12 +20,14 @@
 #include <stdexcept>
 #include "evrOutput.h"
 
+
 EvrOutput::EvrOutput(const std::string& n, EVRMRM* o, OutputType t, size_t idx)
     :mrf::ObjectInst<EvrOutput>(n)
     ,owner(o)
     ,type(t)
     ,N(idx)
     ,isEnabled(true)
+    ,deviceInfo(o->getDeviceInfo())
 {
     shadowSource = sourceInternal();
     shadowSource2 = 63; //force low, for backwards compatiblity
@@ -47,11 +49,9 @@ EvrOutput::source() const
 void
 EvrOutput::setSource(epicsUInt32 v)
 {
-    if( ! ( (v<=63 && v>=62) ||
-            (v<=47 && v>=32) ||
-            (v<=31) )
-    )
+    if(!isSourceValid(v)) {
         throw std::out_of_range("Mapping code is out of range");
+    }
 
     shadowSource = v;
 
@@ -66,11 +66,13 @@ epicsUInt32 EvrOutput::source2() const
 
 void EvrOutput::setSource2(epicsUInt32 v)
 {
-    if( ! ( (v<=63 && v>=62) ||
-            (v<=47 && v>=32) ||
-            (v<=31) )
-    )
+    if(!isSourceValid(v)) {
         throw std::out_of_range("Mapping code is out of range");
+    }
+
+    if(deviceInfo.series == series_230 || deviceInfo.series == series_unknown) {
+        throw std::out_of_range("Hardware does not support second output source selection");
+    }
 
     shadowSource2 = v;
 
@@ -168,13 +170,36 @@ EvrOutput::setSourceInternal(epicsUInt32 v, epicsUInt32 v1)
     }
 }
 
+bool EvrOutput::isSourceValid(epicsUInt32 source) const
+{
+
+    if( ( (source<=63 && source>=62) ||
+          (source<=47 && source>=32) ||
+          (source<=31) )        ||
+        (deviceInfo.formFactor == formFactor_PCIe && source == 61)
+    ) {
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+
 const char*
 EvrOutput::sourceName(epicsUInt32 id) const
 {
     switch(id){
     case 63: return "Force Low";
     case 62: return "Force High";
-    // 43 -> 61 Reserved
+    case 61: return "Tri-state output";   // only on PCIe-EVR
+    case 60: return "Event clock output with 180 phase shift";   // only on PXIe-EVR-300
+    case 59: return "Event clock output";   // only on PXIe-EVR-300
+    // 48 -> 58 Reserved
+    case 47: return "Prescaler (Divider) 7";
+    case 46: return "Prescaler (Divider) 6";
+    case 45: return "Prescaler (Divider) 5";
+    case 44: return "Prescaler (Divider) 4";
+    case 43: return "Prescaler (Divider) 3";
     case 42: return "Prescaler (Divider) 2";
     case 41: return "Prescaler (Divider) 1";
     case 40: return "Prescaler (Divider) 0";
@@ -186,7 +211,21 @@ EvrOutput::sourceName(epicsUInt32 id) const
     case 34: return "Distributed Bus Bit 2";
     case 33: return "Distributed Bus Bit 1";
     case 32: return "Distributed Bus Bit 0";
-    // 10 -> 31 Reserved
+    // 24 -> 31 Reserved
+    case 23: return "Pulse generator 23";
+    case 22: return "Pulse generator 22";
+    case 21: return "Pulse generator 21";
+    case 20: return "Pulse generator 20";
+    case 19: return "Pulse generator 19";
+    case 18: return "Pulse generator 18";
+    case 17: return "Pulse generator 17";
+    case 16: return "Pulse generator 16";
+    case 15: return "Pulse generator 15";
+    case 14: return "Pulse generator 14";
+    case 13: return "Pulse generator 13";
+    case 12: return "Pulse generator 12";
+    case 11: return "Pulse generator 11";
+    case 10: return "Pulse generator 10";
     case 9: return "Pulse generator 9";
     case 8: return "Pulse generator 8";
     case 7: return "Pulse generator 7";

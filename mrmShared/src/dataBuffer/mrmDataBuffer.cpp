@@ -140,7 +140,6 @@ bool mrmDataBuffer::waitWhileTxRunning(){
     }
     dbgPrintf(4, "Waiting while TX is running took %d iterations (waiting for maximum of %d iterations)\n", i, TX_WAIT_MAX_ITERATIONS);
     if (i >= TX_WAIT_MAX_ITERATIONS) {
-        errlogPrintf("Waiting while Tx running takes too long. Forced exit...\n");
         return false;
     }
     return true;
@@ -289,13 +288,13 @@ mrmDataBuffer* mrmDataBuffer::getDataBufferFromDevice(const char *device) {
 epicsUInt32 mrmDataBuffer::getOverflowCount(epicsUInt32 **overflowCount)
 {
     *overflowCount = m_overflow_count;
-    return (epicsUInt32)(sizeof (m_overflow_count) / sizeof (epicsUInt32 *));
+    return (epicsUInt32)(sizeof (m_overflow_count) / sizeof (epicsUInt32));
 }
 
 epicsUInt32 mrmDataBuffer::getChecksumCount(epicsUInt32 **checksumCount)
 {
     *checksumCount = m_checksum_count;
-    return (epicsUInt32)(sizeof (m_overflow_count) / sizeof (epicsUInt32 *));
+    return (epicsUInt32)(sizeof (m_checksum_count) / sizeof (epicsUInt32));
 }
 
 

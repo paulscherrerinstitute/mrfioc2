@@ -3,6 +3,7 @@ set -o errexit
 
 SYS=""
 DEVICE="EVR0"
+ATTACH="-attach"
 
 usage()
 {
@@ -10,16 +11,20 @@ usage()
     echo "Options:"
     echo "    -s <system name>     The system/project name"
     echo "    -d <EVR name>        Event Receiver / timing card name (default: $EVR)"
+    echo "    -n                   Do not attach to existing caQtDM. Open new one instead"
     echo "    -h                   This help"
 }
 
-while getopts ":s:d:f:h" o; do
+while getopts ":s:d:f:nh" o; do
     case "${o}" in
         s)
             SYS=${OPTARG}
             ;;
         d)
             DEVICE=${OPTARG}
+            ;;
+        n)
+            ATTACH=""
             ;;
         h)
             usage
@@ -43,5 +48,4 @@ if [ -z $SYS ]; then
 fi
 
 macro="SYS=$SYS,DEVICE=$DEVICE"
-caqtdm -attach -macro "$macro" G_EVR-health.ui &
-#echo caqtdm -attach -macro "$macro" G_EVR-health.ui
+caqtdm $ATTACH -macro "$macro" G_EVR-health.ui &

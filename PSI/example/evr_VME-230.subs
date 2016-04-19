@@ -7,7 +7,7 @@ file "$(mrfioc2_TEMPLATES=db)/evr-vme-230.db"
 		Link-Clk-SP=124.916,	#45-150 : Event Link speed (MHz)
 		Time-Src-Sel=0, 		#0 = Event clk, 1 = Mapped codes, 2 = DBus4 : Source for timestamping clock.
 		Time-Clock-SP=0.0,		#50-150 : Timestamp tick rate (MHz)
-        DBuf-Mode-SP=1,         #0 = DBus only, 1 =   DBus+Data Buffer : Downstream data mode
+        DBuf-Mode-Sel=1,         #0 = DBus only, 1 =   DBus+Data Buffer : Downstream data mode
 
 
 		## Prescalers
@@ -19,87 +19,87 @@ file "$(mrfioc2_TEMPLATES=db)/evr-vme-230.db"
 		## Pulsers
 		Pul0-Ena-Sel=1,			#0 = Disabled, 1 = Enabled
 		Pul0-Polarity-Sel=0,   	#0 = Active High, 1 = Active Low
-		Pul0-Delay-SP=0,		#0-4294967295 : Delay in us 
-		Pul0-Width-SP=0,		#0-65535 : Width in us
+		Pul0-Delay-SP=0,		#Pulse delay in us (range depends on prescaler selection and event clock)
+		Pul0-Width-SP=0,		#Pulse width in us (range depends on prescaler selection and event clock)
 		Pul0-Prescaler-SP=1,   	#0-255 : Pulser prescaler
 
 		Pul1-Ena-Sel=1,			#0 = Disabled, 1 = Enabled
 		Pul1-Polarity-Sel=0,   	#0 = Active High, 1 = Active Low
-		Pul1-Delay-SP=0,		#0-4294967295 : Delay in us 
-		Pul1-Width-SP=0,		#0-65535 : Width in us
+		Pul1-Delay-SP=0,		#Pulse delay in us  (range depends on prescaler selection and event clock)
+		Pul1-Width-SP=0,		#Pulse width in us (range depends on prescaler selection and event clock)
 		Pul1-Prescaler-SP=1,   	#0-255 : Pulser prescaler
 
 		Pul2-Ena-Sel=1,			#0 = Disabled, 1 = Enabled
 		Pul2-Polarity-Sel=0,  	#0 = Active High, 1 = Active Low
-		Pul2-Delay-SP=0,		#0-4294967295 : Delay in us 
-		Pul2-Width-SP=0,		#0-65535 : Width in us
+		Pul2-Delay-SP=0,		#Pulse delay in us  (range depends on prescaler selection and event clock)
+		Pul2-Width-SP=0,		#Pulse width in us (range depends on prescaler selection and event clock)
 		Pul2-Prescaler-SP=1, 	#0-255 : Pulser prescaler
 
 		Pul3-Ena-Sel=1,			#0 = Disabled, 1 = Enabled
 		Pul3-Polarity-Sel=0,   	#0 = Active High, 1 = Active Low
-		Pul3-Delay-SP=0,		#0-4294967295 : Delay in us 
-		Pul3-Width-SP=0,		#0-65535 : Width in us
+		Pul3-Delay-SP=0,		#Pulse delay in us  (range depends on prescaler selection and event clock)
+		Pul3-Width-SP=0,		#Pulse width in us (range depends on prescaler selection and event clock)
 		Pul3-Prescaler-SP=1,   	#0-255 : Pulser prescaler
 
 		Pul4-Ena-Sel=1,			#0 = Disabled, 1 = Enabled
 		Pul4-Polarity-Sel=0,   	#0 = Active High, 1 = Active Low
-		Pul4-Delay-SP=0,		#0-4294967295 : Delay in us 
-		Pul4-Width-SP=0,		#0-65535 : Width in us
+		Pul4-Delay-SP=0,		#Pulse delay in us 
+		Pul4-Width-SP=0,		#Pulse width in us
 
 		Pul5-Ena-Sel=1,			#0 = Disabled, 1 = Enabled
 		Pul5-Polarity-Sel=0,   	#0 = Active High, 1 = Active Low
-		Pul5-Delay-SP=0,		#0-4294967295 : Delay in us 
-		Pul5-Width-SP=0,		#0-65535 : Width in us
+		Pul5-Delay-SP=0,		#Pulse delay in us 
+		Pul5-Width-SP=0,		#Pulse width in us
 
 		Pul6-Ena-Sel=1,			#0 = Disabled, 1 = Enabled
 		Pul6-Polarity-Sel=0,   	#0 = Active High, 1 = Active Low
-		Pul6-Delay-SP=0,		#0-4294967295 : Delay in us 
-		Pul6-Width-SP=0,		#0-65535 : Width in us
+		Pul6-Delay-SP=0,		#Pulse delay in us 
+		Pul6-Width-SP=0,		#Pulse width in us
 
 		Pul7-Ena-Sel=1,			#0 = Disabled, 1 = Enabled
 		Pul7-Polarity-Sel=0,   	#0 = Active High, 1 = Active Low
-		Pul7-Delay-SP=0,		#0-4294967295 : Delay in us 
-		Pul7-Width-SP=0,		#0-65535 : Width in us
+		Pul7-Delay-SP=0,		#Pulse delay in us 
+		Pul7-Width-SP=0,		#Pulse width in us
 
 		Pul8-Ena-Sel=1,			#0 = Disabled, 1 = Enabled
 		Pul8-Polarity-Sel=0,   	#0 = Active High, 1 = Active Low
-		Pul8-Delay-SP=0,		#0-4294967295 : Delay in us 
-		Pul8-Width-SP=0,		#0-65535 : Width in us
+		Pul8-Delay-SP=0,		#Pulse delay in us 
+		Pul8-Width-SP=0,		#Pulse width in us
 
 		Pul9-Ena-Sel=1,			#0 = Disabled, 1 = Enabled
 		Pul9-Polarity-Sel=0,   	#0 = Active High, 1 = Active Low
-		Pul9-Delay-SP=0,		#0-4294967295 : Delay in us 
-		Pul9-Width-SP=0,		#0-65535 : Width in us
+		Pul9-Delay-SP=0,		#Pulse delay in us 
+		Pul9-Width-SP=0,		#Pulse width in us
 
 		Pul10-Ena-Sel=1,		#0 = Disabled, 1 = Enabled
 		Pul10-Polarity-Sel=0,  	#0 = Active High, 1 = Active Low
-		Pul10-Delay-SP=0,		#0-4294967295 : Delay in us 
-		Pul10-Width-SP=0,		#0-65535 : Width in us
+		Pul10-Delay-SP=0,		#Pulse delay in us 
+		Pul10-Width-SP=0,		#Pulse width in us
 
 		Pul11-Ena-Sel=1,		#0 = Disabled, 1 = Enabled
 		Pul11-Polarity-Sel=0,  	#0 = Active High, 1 = Active Low
-		Pul11-Delay-SP=0,		#0-4294967295 : Delay in us 
-		Pul11-Width-SP=0,		#0-65535 : Width in us
+		Pul11-Delay-SP=0,		#Pulse delay in us 
+		Pul11-Width-SP=0,		#Pulse width in us
 
 		Pul12-Ena-Sel=1,		#0 = Disabled, 1 = Enabled
 		Pul12-Polarity-Sel=0,  	#0 = Active High, 1 = Active Low
-		Pul12-Delay-SP=0,		#0-4294967295 : Delay in us 
-		Pul12-Width-SP=0,		#0-65535 : Width in us
+		Pul12-Delay-SP=0,		#Pulse delay in us 
+		Pul12-Width-SP=0,		#Pulse width in us
 
 		Pul13-Ena-Sel=1,		#0 = Disabled, 1 = Enabled
 		Pul13-Polarity-Sel=0,  	#0 = Active High, 1 = Active Low
-		Pul13-Delay-SP=0,		#0-4294967295 : Delay in us 
-		Pul13-Width-SP=0,		#0-65535 : Width in us
+		Pul13-Delay-SP=0,		#Pulse delay in us 
+		Pul13-Width-SP=0,		#Pulse width in us
 
 		Pul14-Ena-Sel=1,		#0 = Disabled, 1 = Enabled
 		Pul14-Polarity-Sel=0,  	#0 = Active High, 1 = Active Low
-		Pul14-Delay-SP=0,		#0-4294967295 : Delay in us 
-		Pul14-Width-SP=0,		#0-65535 : Width in us
+		Pul14-Delay-SP=0,		#Pulse delay in us 
+		Pul14-Width-SP=0,		#Pulse width in us
 
 		Pul15-Ena-Sel=1,		#0 = Disabled, 1 = Enabled
 		Pul15-Polarity-Sel=0,  	#0 = Active High, 1 = Active Low
-		Pul15-Delay-SP=0,		#0-4294967295 : Delay in us 
-		Pul15-Width-SP=0,		#0-65535 : Width in us
+		Pul15-Delay-SP=0,		#Pulse delay in us 
+		Pul15-Width-SP=0,		#Pulse width in us
 
 
 		## Front panel inputs
@@ -171,15 +171,15 @@ file "$(mrfioc2_TEMPLATES=db)/evr-vme-230.db"
 		CML0-Ena-Sel=0, 			# 0 = Output disabled, 1 = Output enabled
 		CML0-Pwr-Sel=0, 			# 0 = Outputs powered down, 1 = Normal operation
 		CML0-Rst-Sel=0, 			# 0 = Normal operation, 1 = Reset CML output
-		CML0-Mode-Sel=0, 			# 0 = Pulse mode, 1 = Frequency mode, 2 = Waveform mode
-		CML0-Pat:Rise00_15-SP=0x0,	# 0x0 - 0xFFFF : Bits 15-0 of the pulse mode rising pattern
-		CML0-Pat:Rise16_31-SP=0x0,	# 0x0 - 0xFFFF : Bits 31-16 of the pulse mode rising pattern
-		CML0-Pat:High00_15-SP=0x0,	# 0x0 - 0xFFFF : Bits 15-0 of the pulse mode high pattern
-		CML0-Pat:High16_31-SP=0x0,	# 0x0 - 0xFFFF : Bits 31-16 of the pulse mode high pattern
-		CML0-Pat:Fall00_15-SP=0x0,	# 0x0 - 0xFFFF : Bits 15-0 of the pulse mode falling pattern
-		CML0-Pat:Fall16_31-SP=0x0,	# 0x0 - 0xFFFF : Bits 31-16 of the pulse mode falling pattern
-		CML0-Pat:Low00_15-SP=0,		# 0x0 - 0xFFFF : Bits 15-0 of the pulse mode low pattern
-		CML0-Pat:Low16_31-SP=0,		# 0x0 - 0xFFFF : Bits 31-16 of the pulse mode low pattern
+		CML0-Mode-Sel=0, 			# 0 = Pattern mode, 1 = Frequency mode, 2 = Waveform mode
+		CML0-Pat:Rise00_15-SP=0x0,	# 0x0 - 0xFFFF : Bits 15-0 of the Pattern mode rising pattern
+		CML0-Pat:Rise16_31-SP=0x0,	# 0x0 - 0xFFFF : Bits 31-16 of the Pattern mode rising pattern
+		CML0-Pat:High00_15-SP=0x0,	# 0x0 - 0xFFFF : Bits 15-0 of the Pattern mode high pattern
+		CML0-Pat:High16_31-SP=0x0,	# 0x0 - 0xFFFF : Bits 31-16 of the Pattern mode high pattern
+		CML0-Pat:Fall00_15-SP=0x0,	# 0x0 - 0xFFFF : Bits 15-0 of the Pattern mode falling pattern
+		CML0-Pat:Fall16_31-SP=0x0,	# 0x0 - 0xFFFF : Bits 31-16 of the Pattern mode falling pattern
+		CML0-Pat:Low00_15-SP=0,		# 0x0 - 0xFFFF : Bits 15-0 of the Pattern mode low pattern
+		CML0-Pat:Low16_31-SP=0,		# 0x0 - 0xFFFF : Bits 31-16 of the Pattern mode low pattern
 		CML0-Freq:Lvl-SP=0, 		# For frequency mode: 0 = Active high, 1 = Active low
 		CML0-Freq:Init-SP=0, 		# For frequency mode: Delay in ns (max 65535 clock periods)
 		CML0-Freq:High-SP=10, 		# For frequency mode: Width of active signal in ns (max 65535 clock periods)
@@ -194,15 +194,15 @@ file "$(mrfioc2_TEMPLATES=db)/evr-vme-230.db"
 		CML1-Ena-Sel=0, 			# 0 = Output disabled, 1 = Output enabled
 		CML1-Pwr-Sel=0, 			# 0 = Outputs powered down, 1 = Normal operation
 		CML1-Rst-Sel=0, 			# 0 = Normal operation, 1 = Reset CML output
-		CML1-Mode-Sel=0, 			# 0 = Pulse mode, 1 = Frequency mode, 2 = Waveform mode
-		CML1-Pat:Rise00_15-SP=0x0,	# 0x0 - 0xFFFF : Bits 15-0 of the pulse mode rising pattern
-		CML1-Pat:Rise16_31-SP=0x0,	# 0x0 - 0xFFFF : Bits 31-16 of the pulse mode rising pattern
-		CML1-Pat:High00_15-SP=0x0,	# 0x0 - 0xFFFF : Bits 15-0 of the pulse mode high pattern
-		CML1-Pat:High16_31-SP=0x0,	# 0x0 - 0xFFFF : Bits 31-16 of the pulse mode high pattern
-		CML1-Pat:Fall00_15-SP=0x0,	# 0x0 - 0xFFFF : Bits 15-0 of the pulse mode falling pattern
-		CML1-Pat:Fall16_31-SP=0x0,	# 0x0 - 0xFFFF : Bits 31-16 of the pulse mode falling pattern
-		CML1-Pat:Low00_15-SP=0,		# 0x0 - 0xFFFF : Bits 15-0 of the pulse mode low pattern
-		CML1-Pat:Low16_31-SP=0,		# 0x0 - 0xFFFF : Bits 31-16 of the pulse mode low pattern
+		CML1-Mode-Sel=0, 			# 0 = Pattern mode, 1 = Frequency mode, 2 = Waveform mode
+		CML1-Pat:Rise00_15-SP=0x0,	# 0x0 - 0xFFFF : Bits 15-0 of the Pattern mode rising pattern
+		CML1-Pat:Rise16_31-SP=0x0,	# 0x0 - 0xFFFF : Bits 31-16 of the Pattern mode rising pattern
+		CML1-Pat:High00_15-SP=0x0,	# 0x0 - 0xFFFF : Bits 15-0 of the Pattern mode high pattern
+		CML1-Pat:High16_31-SP=0x0,	# 0x0 - 0xFFFF : Bits 31-16 of the Pattern mode high pattern
+		CML1-Pat:Fall00_15-SP=0x0,	# 0x0 - 0xFFFF : Bits 15-0 of the Pattern mode falling pattern
+		CML1-Pat:Fall16_31-SP=0x0,	# 0x0 - 0xFFFF : Bits 31-16 of the Pattern mode falling pattern
+		CML1-Pat:Low00_15-SP=0,		# 0x0 - 0xFFFF : Bits 15-0 of the Pattern mode low pattern
+		CML1-Pat:Low16_31-SP=0,		# 0x0 - 0xFFFF : Bits 31-16 of the Pattern mode low pattern
 		CML1-Freq:Lvl-SP=0, 		# For frequency mode: 0 = Active high, 1 = Active low
 		CML1-Freq:Init-SP=0, 		# For frequency mode: Delay in ns (max 65535 clock periods)
 		CML1-Freq:High-SP=10, 		# For frequency mode: Width of active signal in ns (max 65535 clock periods)
@@ -218,15 +218,15 @@ file "$(mrfioc2_TEMPLATES=db)/evr-vme-230.db"
 		CML2-Ena-Sel=0, 			# 0 = Output disabled, 1 = Output enabled
 		CML2-Pwr-Sel=0, 			# 0 = Outputs powered down, 1 = Normal operation
 		CML2-Rst-Sel=0, 			# 0 = Normal operation, 1 = Reset CML output
-		CML2-Mode-Sel=0, 			# 0 = Pulse mode, 1 = Frequency mode, 2 = Waveform mode
-		CML2-Pat:Rise00_15-SP=0x0,	# 0x0 - 0xFFFF : Bits 15-0 of the pulse mode rising pattern
-		CML2-Pat:Rise16_31-SP=0x0,	# 0x0 - 0xFFFF : Bits 31-16 of the pulse mode rising pattern
-		CML2-Pat:High00_15-SP=0x0,	# 0x0 - 0xFFFF : Bits 15-0 of the pulse mode high pattern
-		CML2-Pat:High16_31-SP=0x0,	# 0x0 - 0xFFFF : Bits 31-16 of the pulse mode high pattern
-		CML2-Pat:Fall00_15-SP=0x0,	# 0x0 - 0xFFFF : Bits 15-0 of the pulse mode falling pattern
-		CML2-Pat:Fall16_31-SP=0x0,	# 0x0 - 0xFFFF : Bits 31-16 of the pulse mode falling pattern
-		CML2-Pat:Low00_15-SP=0,		# 0x0 - 0xFFFF : Bits 15-0 of the pulse mode low pattern
-		CML2-Pat:Low16_31-SP=0,		# 0x0 - 0xFFFF : Bits 31-16 of the pulse mode low pattern
+		CML2-Mode-Sel=0, 			# 0 = Pattern mode, 1 = Frequency mode, 2 = Waveform mode
+		CML2-Pat:Rise00_15-SP=0x0,	# 0x0 - 0xFFFF : Bits 15-0 of the Pattern mode rising pattern
+		CML2-Pat:Rise16_31-SP=0x0,	# 0x0 - 0xFFFF : Bits 31-16 of the Pattern mode rising pattern
+		CML2-Pat:High00_15-SP=0x0,	# 0x0 - 0xFFFF : Bits 15-0 of the Pattern mode high pattern
+		CML2-Pat:High16_31-SP=0x0,	# 0x0 - 0xFFFF : Bits 31-16 of the Pattern mode high pattern
+		CML2-Pat:Fall00_15-SP=0x0,	# 0x0 - 0xFFFF : Bits 15-0 of the Pattern mode falling pattern
+		CML2-Pat:Fall16_31-SP=0x0,	# 0x0 - 0xFFFF : Bits 31-16 of the Pattern mode falling pattern
+		CML2-Pat:Low00_15-SP=0,		# 0x0 - 0xFFFF : Bits 15-0 of the Pattern mode low pattern
+		CML2-Pat:Low16_31-SP=0,		# 0x0 - 0xFFFF : Bits 31-16 of the Pattern mode low pattern
 		CML2-Freq:Lvl-SP=0, 		# For frequency mode: 0 = Active high, 1 = Active low
 		CML2-Freq:Init-SP=0, 		# For frequency mode: Delay in ns (max 65535 clock periods)
 		CML2-Freq:High-SP=10, 		# For frequency mode: Width of active signal in ns (max 65535 clock periods)
@@ -340,7 +340,7 @@ pattern { EVT,	CODE,    FLNK }
 ## There are some default events, that allways trigger specific functions!
 ## Available functions:
 ##		- Blink : An LED on the EVRs front panel will blink when the code is received.
-##		- Forward : The received code will be immediately retransmits on the upstream event link.
+##		- Forward : The received code will be immediately retransmitted on the upstream event link.
 ##		- Stop Log (default event 121): Freeze the circular event log buffer. An CPU interrupt will be raised which will cause the buffer to be downloaded. This might be a useful action to map to a fault event.
 ##		- Log : Include this event code in the circular event log.
 ##		- Heartbeat (default event 122): This event resets the heartbeat timeout timer.

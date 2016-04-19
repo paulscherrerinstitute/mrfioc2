@@ -25,7 +25,7 @@
 %}
 
 % latest version of the mrfioc2 device support
-\newcommand{\latestDriverVersion}{2.7.11}
+\newcommand{\latestDriverVersion}{2.7.12}
 
 
 %opening
@@ -60,13 +60,13 @@ The mrfioc2 contains all the template files needed to use the EVR in your IOC ap
 It is recommended to use one of the existing EVR substitution files, available in \texttt{mrfioc2/PSI/example/*.subs}. If these are not suitable, user can adopt them to their needs.
 An EVR substitution file consists of
 \begin{itemize}
-	\item an EVR form factor specific template. This template contains all the records describing EVR components (eg. inputs, outputs, pulsers, ...) available on a specific EVR form factor. It accepts macros that allow application specific configuration of these components. For example, through setting a correct macro, one can enable or disable selected output. The following is the EVR substitution file snippet using EVR-VME-230 form factor template. It shows how to disable front panel output 1 by substituting macro \texttt{FrontOut1-Ena-SP} with 0.
+	\item an EVR form factor specific template. This template contains all the records describing EVR components (eg. inputs, outputs, pulsers, ...) available on a specific EVR form factor. It accepts macros that allow application specific configuration of these components. For example, through setting a correct macro, one can enable or disable selected output. The following is the EVR substitution file snippet using EVR-VME-300 form factor template. It shows how to disable front panel output 1 by substituting macro \texttt{FrontUnivOut1-Ena-SP} with 0.
 	\begin{verbatim}
-	file "$(mrfioc2_TEMPLATES=db)/evr-vme-230.db"
+	file "$(mrfioc2_TEMPLATES=db)/evr-vme-300.db"
 	{
 	  {
 	    .....
-	    FrontOut1-Ena-SP=0,
+	    FrontUnivOut1-Ena-SP=0,
 	    .....
 	  }
 	}
@@ -106,13 +106,13 @@ There is usually only one event receiver controlled from a single IOC applicatio
 
 
 
-\subsection{Events and event clock}\label{sec:Events and event clock}
+\subsection{Event clock}\label{sec:Events and event clock}
 EVR receives events transmitted by an event generator from the timing network. Event clock is the frequency, at which the events are transmitted. All the EVRs lock to the phase and frequency of the event clock, thus it is synchronized across the entire timing system.
 
 \paragraph{Substitution file macros}
 \begin{itemize}
 \item
-	\textbf{Link-Clk-SP}=\emph{124.916} : The event receiver requires a
+	\textbf{Link-Clk-SP}=\emph{142.8} : The event receiver requires a
 reference clock to be able to synchronize on the incoming event
 stream sent by the event generator. For flexibility, a programmable
 reference clock is provided to allow the use of the equipment in
@@ -161,11 +161,20 @@ There are a maximum of 24 pulsers available, depending on the EVR form factor. P
   \item
     \textbf{Pul\#-Polarity-Sel}=\emph{0} : Sets the pulser \textbf{polarity} to \texttt{active high(0)} or \texttt{active low(1)}.
   \item
-    \textbf{Pul\#-Delay-SP}=\emph{0} : Sets the pulse \textbf{delay} in range of \texttt{0 us - 4294967295 us}.
+    \textbf{Pul\#-Delay-SP}=\emph{0} : Sets the pulse \textbf{delay} in us. The value range depends on pulse prescaler and event clock settings. Assuming event clock set to 142.8~MHz, the range is:
+        \begin{itemize}
+    	    \item \texttt{0 us - 1971083204567.857 us}, when prescaler is set to 65535 (maximum value).
+    	    \item \texttt{0 us - 30076801.779 us}, when prescaler is set to 1 (or if the pulser does not have a prescaler).
+        \end{itemize}
   \item
-    \textbf{Pul\#-Width-SP}=\emph{0} : Sets the pulse \textbf{width} in range of \texttt{0 us- 4294967295 us}. Maximum configurable width depends on the EVR form factor.
+    \textbf{Pul\#-Width-SP}=\emph{0} : Sets the pulse \textbf{width} in us. The value range depends on pulse prescaler, event clock settings and EVR form factor. Assuming event clock set to 142.8~MHz, the range is:
+    \begin{itemize}
+	    \item \texttt{0 us - 1971083204567.857 us}, when prescaler is set to 65535 (maximum value).
+	    \item \texttt{0 us - 30076801.779 us}, when prescaler is set to 1.
+	    \item \texttt{0 us - 458.929 us} for pulsers without prescalers.
+    \end{itemize}
   \item
-    \textbf{Pul\#-Prescaler-SP}=\emph{1} : Decreases the resolution of both \textbf{delay} and \textbf{width} by an integer factor. Value range: \texttt{0-65535}. Maximum configurable prescale value depends on the EVR form factor. Pulsers without prescalers use a fixed prescale value of 1.
+    \textbf{Pul\#-Prescaler-SP}=\emph{1} : Decreases the resolution and increases range of both \textbf{delay} and \textbf{width} by an integer factor. Value range: \texttt{0-65535}. Maximum configurable prescale value depends on the EVR form factor. Pulsers without prescalers use a fixed prescale value of 1.
   \end{itemize}
 EVR-VME-300 also supports the following macros:
 \begin{itemize}
@@ -194,7 +203,7 @@ Pulser gating was introduced in series 300 of the event receivers. In EVR-VME-30
 
 An EVR has a number of outputs, each with a configurable source signal. As seen in Figure~\ref{fig:output}, any of the available pulser, prescaler, DBus, logic low or logic high signals can be selected as the output source signal. Depending on the output type(TTL, CML, ...), the signal can be send through directly, further manipulated or used as a trigger for a special function of that output.
 
-\paragraph{Substitution file macros common to all outputs:} Outputs, and the corresponding macro name prefixes, are named either \emph{FrontOut\#},\emph{ FrontUnivOut\#} or \emph{RearUniv\#}, where the range of the number \# depends on the EVR form factor. Macros for the \emph{FrontOut0} are described below. 
+\paragraph{Substitution file macros common to all outputs:} Outputs, and the corresponding macro name prefixes, are named either \emph{FrontUnivOut\#},\emph{ FrontUnivOut\#} or \emph{RearUniv\#}, where the range of the number \# depends on the EVR form factor. Macros for the \emph{FrontUnivOut0} are described below. 
 
 \begin{table}[!hbt]
 \caption{Output source signal mappings}
@@ -245,21 +254,21 @@ An EVR has a number of outputs, each with a configurable source signal. As seen 
 
   \begin{itemize}
   \item
-   \textbf{FrontOut0-Ena-SP}=\emph{1} : When set to \texttt{enabled(1)} the mapping
-    defined in \texttt{FrontOut0-Src-SP} is used. When \texttt{disabled(0)}, a
+   \textbf{FrontUnivOut0-Ena-SP}=\emph{1} : When set to \texttt{enabled(1)} the mapping
+    defined in \texttt{FrontUnivOut0-Src-SP} is used. When \texttt{disabled(0)}, a
     mapping of \texttt{Force Low(63)} from Table~\ref{tab:mappings} is used.
   \item
-    \textbf{FrontOut0-Src-SP}=\emph{63} : \texttt{Mappings} from the Table~\ref{tab:mappings} are
+    \textbf{FrontUnivOut0-Src-SP}=\emph{63} : \texttt{Mappings} from the Table~\ref{tab:mappings} are
     set here. Any of the available pulser, prescaler, DBus, logic low or
     logic high signals can be selected as the output source signal.
   \end{itemize}
-EVR-VME-300 also supports the following macros\footnote{EVR-PCIe-300 also supports this mechanics, but it was not tested}:
+300 series of event receivers (EVR-VME-300, EVR-PCIe-300DC) also support the following macro:
 \begin{itemize}
   \item
-    \textbf{FrontOut0-Src2-SP}=\emph{63} : Two sources for one output can be selected. The resulting output signal is a logical OR of \textbf{FrontOut0-Src-SP} and \textbf{FrontOut0-Src2-SP} source signals. As with \textbf{FrontOut0-Src-SP}, \texttt{mappings} from the Table~\ref{tab:mappings} are set here. Any of the available pulser, prescaler, DBus, logic low or logic high signals can be selected as the second output source signal.
+    \textbf{FrontUnivOut0-Src2-SP}=\emph{63} : Two sources for one output can be selected. The resulting output signal is a logical OR of \textbf{FrontUnivOut0-Src-SP} and \textbf{FrontUnivOut0-Src2-SP} source signals. As with \newline\textbf{FrontUnivOut0-Src-SP}, \texttt{mappings} from the Table~\ref{tab:mappings} are set here. Any of the available pulser, prescaler, DBus, logic low or logic high signals can be selected as the second output source signal.
   \end{itemize}
   
-\subsubsection{Front Panel TTL Output (FrontOut)}\label{sec:Front Panel TTL Output}
+\subsubsection{Front Panel TTL Output (FrontUnivOut)}\label{sec:Front Panel TTL Output}
 These outputs are capable of driving TTL compatible logic level signals. The output source signal is converted to TTL logic levels(LVTTL of max 3.3 Volts) and send through the output, as seen in Figure~\ref{fig:output_ttl}.
 
 \begin{figure}[H]
@@ -269,7 +278,7 @@ These outputs are capable of driving TTL compatible logic level signals. The out
 	\label{fig:output_ttl}
 \end{figure}
 
-\subsubsection{Front Panel CML Output (FrontOut)}\label{sec:Front Panel CML Output}
+\subsubsection{Front Panel CML Output (FrontUnivOut)}\label{sec:Front Panel CML Output}
 These outputs are capable of driving Current-mode logic compatible signals. Based on the output source signal and the selected CML mode, various patterns can be generated. As seen in Figure~\ref{fig:output_cml}, patterns are generated using one of the three configurable modes. They are sent out with a bit rate of \texttt{NBIT} times the event clock rate, thus the outputs allow for producing fine grained adjustable pulses and clock frequencies. Value of \texttt{NBIT} depends on the event receiver form factor (\texttt{NBIT} is 20 in EVR-VME-230 and 40 in EVR-VME-300).
 \begin{figure}[H]
 	\centering
@@ -293,7 +302,7 @@ There are a maximum of 8 CML outputs available, depending on the EVR form factor
 Patterns are defined by one of the configurable CML modes:
 \begin{itemize}
 \item 
-	In \textbf{pulse mode} a user configurable \texttt{NBIT}-bit pattern is sent out based on the output source signal:
+	In \textbf{pattern mode} a user configurable \texttt{NBIT}-bit pattern is sent out based on the output source signal:
 	
 	\begin{itemize}
 		\item
@@ -326,14 +335,14 @@ Patterns are defined by one of the configurable CML modes:
 	  	\item \texttt{Active low(1)}: starting logic level is logic low
 	  \end{itemize}
 	\item
-	  \textbf{CML\#-Freq:Init-SP}=\emph{0} : Set the initial delay between when the frequency generation is triggered and when it starts to generate a clock signal. This allows for a phase difference between the output source signal and the output signal. The value range in ns depends on the event clock. It must be in range of 1 event clock period to 3276 event clock periods.
+	  \textbf{CML\#-Freq:Init-SP}=\emph{0} : Set the initial delay between when the frequency generation is triggered and when it starts to generate a clock signal. This allows for a phase difference between the output source signal and the output signal. The value range in ns depends on the event clock. It must be in range of 1 event clock period to $65536/NBIT$ event clock periods. Assuming event clock at 142.8~MHz and \texttt{NBIT=40}, the range is 3.676~ns - 11473.126~ns.
 	\item
-	  \textbf{CML\#-Freq:High-SP}=\emph{10} : sets the amount of time in ns the signal stays on logic high, before switching to logic low. The value range in ns depends on the event clock. It must be in range of 1 event clock period to 3276 event clock periods.
+	  \textbf{CML\#-Freq:High-SP}=\emph{10} : sets the amount of time in ns the signal stays on logic high, before switching to logic low. The value range in ns depends on the event clock. It must be in range of 1 event clock period to $65536/NBIT$ event clock periods. Assuming event clock at 142.8~MHz and \texttt{NBIT=40}, the range is 3.676~ns - 11473.126~ns.
 	\item
-	  \textbf{CML\#-Freq:Low-SP}=\emph{10} : sets the amount of time in ns the signal stays logic low, before switching to logic high. The value range in ns depends on the event clock. It must be in range of 1 event clock period to 3276 event clock periods.
+	  \textbf{CML\#-Freq:Low-SP}=\emph{10} : sets the amount of time in ns the signal stays logic low, before switching to logic high. The value range in ns depends on the event clock. It must be in range of 1 event clock period to $65536/NBIT$ event clock periods. Assuming event clock at 142.8~MHz, the range is 3.676~ns - 11473.126~ns.
 	\end{itemize}
 \item 
-	In \textbf{pattern mode}, one can generate arbitrary bit patterns(waveforms), triggered by the output source signal(pulser, DBus signal,...). The waveform length is in multiple of \texttt{NBIT} bits (each bit is 1/\texttt{NBIT} of the event clock period), where maximum waveform length is \texttt{NBIT}x2048 bits.
+	In \textbf{waveform mode}, one can generate arbitrary bit patterns(waveforms), triggered by the output source signal(pulser, DBus signal,...). The waveform length is in multiple of \texttt{NBIT} bits (each bit is 1/\texttt{NBIT} of the event clock period), where maximum waveform length is \texttt{NBIT}x2048 bits.
 	%	  \textbf{timeline} (\emph{Pat:WfX-I}): displays the times at which an  element from the pattern will be sent out.
 		
 	\paragraph{Substitution file macros}
@@ -348,11 +357,11 @@ Patterns are defined by one of the configurable CML modes:
 	\paragraph{A delay calculator} has configurable \texttt{delay} and \texttt{width} macros to generate a pulse(similar to a pulser):
 	\begin{itemize}
 	\item
-	  \textbf{CML\#-WfCalc:Ena-SP}=\emph{0} : \texttt{enable(1)} or \texttt{disable(0)} the calculation.
+	  \textbf{CML\#-WfCalc:Ena-SP}=\emph{0} : \texttt{enable(1)} and apply the waveform, or \texttt{disable(0)} the calculation.
 	\item
-	  \textbf{CML\#-WfCalc:Delay-SP}=\emph{16} : can be used to specify the time in ns between when the mode is triggered and the pulse is generated. The value range in ns depends on the event clock. It must be in range of 1 event clock period to 2048 event clock periods.
+	  \textbf{CML\#-WfCalc:Delay-SP}=\emph{16} : can be used to specify the time in ns between when the mode is triggered and the pulse is generated. The value range in ns depends on the event clock. It must be in range of 1 event clock period to 2048 event clock periods, which yields 0~ns - 14334~ns at 142.8~MHz event clock. The sum of \texttt{delay} and \texttt{width} must not exceed this maximum value.
 	\item
-	  \textbf{CML\#-WfCalc:Width-SP}=\emph{50} : can be used to specify the width of the pulse - the time the signal is stable at logic high. The value range in ns depends on the event clock. It must be in range of 1 event clock period to 2048 event clock periods.
+	  \textbf{CML\#-WfCalc:Width-SP}=\emph{50} : can be used to specify the width of the pulse - the time the signal is stable at logic high. The value range in ns depends on the event clock.It must be in range of 1 event clock period to 2048 event clock periods, which yields 0~ns - 14334~ns at 142.8~MHz event clock. The sum of \texttt{delay} and \texttt{width} must not exceed this maximum value.
 	\end{itemize}
 	
 	%\paragraph{A bunch train calculator} that generates a series of consecutive pulses with width and delay fixed to $(event clock) / 4$. As seen in Figure~\ref{fig:output_cml_bunch}, each bunch pattern consists of \texttt{NBIT/2} %logic low bits and \texttt{NBIT/2} logic high bits. A bunch train always ends with \texttt{NBIT} logic low bits.
@@ -570,7 +579,7 @@ EVR-VME-300 also supports the following macros:
 \end{itemize}
 
 \subsection{Distributed Bus (DBus)}\label{sec:DBus}
-The distributed bus is able to carry 8 signals, that are propagated throughout the timing network with the event clock rate. Individual DBus signals (bits) can be outputted through programmable outputs(FrontOut, FrontUnivOut, RearUniv), or used as inputs (described in Section~\ref{sec:Front Panel TTL Input}).
+The distributed bus is able to carry 8 signals, that are propagated throughout the timing network with the event clock rate. Individual DBus signals (bits) can be outputted through programmable outputs(FrontUnivOut, RearUniv, ...), or used as inputs (described in Section~\ref{sec:Front Panel TTL Input}).
 
 
 \subsection{Front Panel TTL Input (FPIn)}\label{sec:Front Panel TTL Input}
@@ -594,8 +603,13 @@ There are a maximum of 2 front panel TTL inputs available, depending on the EVR 
   \item
     \textbf{FPIn\#-DBus-Sel}=\emph{0} : Set the upstream DBus bit mask which is driven by this input. DBus bits and the macro value are condensed with a bit-wise OR. Available values for the DBus bit mask are: \texttt{1 = Bit 0, 2 = Bit 1, 4 = Bit 2, 8 = Bit 3, 16 = Bit 4, 32 = Bit 5, 64 = Bit 6, 128 = Bit 7}.
   \end{itemize}
-  
-  
+
+\subsection{Universal and rear (trnasition board) inputs}
+Based on the EVR form factor, universal input modules can be inserted into EVR universal I/O slots, on the transition board (eg. VME timing card) or on a special extension module (eg. PCIe form factor timing card). These inputs have the same settings as front panel TTL inputs (see Section~\ref{sec:Front Panel TTL Input}), except that they are not named with prefix \texttt{FPIn}, but rather with:
+\begin{itemize}
+\item \texttt{UnivIn} in case of universal inputs and
+\item \texttt{RearIn} in case of rear inputs.
+\end{itemize}
 
 \subsection{UNIV-LVPECL-DLY high precision delay module}\label{sec:UNIV-LVPECL-DLY}
 EVR has universal I/O slots, described in Section~\ref{sec:Front Panel Universal I/O}, where universal modules can be inserted. One of these is UNIV-LVPECL-DLY Delay module. This module will output a delayed signal from the appropriate FrontUnivOut output. The FrontUnivOut output source signal can be configured as described in Section~\ref{sec:Outputs}, using mappings from Table~\ref{tab:mappings}. The delay can be configured from 2200 ps to 12430 ps, with 10 ps resolution. 
@@ -656,9 +670,17 @@ Series 300 of event receivers (eg. EVR-VME-300, EVR-PCIe-300) are able to receiv
 \item
   \textbf{DlyCompensation-Enabled-Sel}=\emph{1} : \texttt{Enable (1)} or \texttt{disable (0)} the delay compensation.
 \item 
-  \textbf{DlyCompensation-Target-SP}=\emph{0} : Target delay compensation value in [ns].
+  \textbf{DlyCompensation-Target-SP}=\emph{1000} : Target delay compensation value in [ns].
+\item 
+  \textbf{DlyCompensation-Source}=\emph{""} :  Points to a record which will be used to set target delay compensation value for this EVR. If not specified, remote setting of delay compensation target value is not used.
 \end{itemize}
 
+\subsubsection{Getting target delay compensation from external record}
+When there are many event receivers in the timing network, it is convenient if target delay compensation can be set for all the event receivers to the same value at the same time. In order to use this functionality, let \texttt{DlyCompensation-Source} macro in the substitution file point to the record which will be used to set target delay compensation value for EVRs in the timing network. Assuming this record is \texttt{SIN-CVME-TIMAST-TMA:EvrDC-SP}, the substitution file macro looks like this:
+\begin{verbatim}
+	DlyCompensation-Source="SIN-CVME-TIMAST-TMA:EvrDC-SP"
+\end{verbatim}
+Target delay compensation of this EVR will be automatically updated to \texttt{SIN-CVME-TIMAST-TMA:EvrDC-SP} value, whenever it changes. In order to disable automatic update simply set \texttt{DISA} field of \newline\texttt{\$(SYS)-\$(DEVICE):DlyCompensation-Source-I} record to \texttt{1}.
 
 \subsection{Time stamping mechanism}\label{sec:Time stamping mechanism}
 \begin{quote}
@@ -850,6 +872,8 @@ A heartbeat monitor is provided to receive heartbeat events from the timing netw
 \item 
 	\texttt{evrMrmApp/Db/evr-pcie-300.substitutions} is an EVR form factor specific substitution file used to generate the form factor specific template file for EVR-PCIe-300. It is automatically generated when building the project.
 \item 
+	\texttt{evrMrmApp/Db/evr-pcie-300DC.substitutions} is an EVR form factor specific substitution file used to generate the form factor specific template file for EVR-PCIe-300DC (PCIe version of EVR with delay compensation). It is automatically generated when building the project.
+\item 
 	\texttt{evrMrmApp/Db/evr-cpci-230.substitutions} is an EVR form factor specific substitution file used to generate the form factor specific template file for EVR-cPCI-230. It is automatically generated when building the project.
 \end{itemize}
 
@@ -859,6 +883,8 @@ A heartbeat monitor is provided to receive heartbeat events from the timing netw
 	\texttt{evrMrmApp/opi/EVR/start\_EVR.sh} is a script used to launch the caQtDM~\cite{caqtdm} EVR GUI.
 \item 
 	\texttt{evrMrmApp/opi/EVR/start\_EVR-health.sh} is a script used to launch the caQtDM~\cite{caqtdm} EVR health monitor GUI.
+\item 
+	\texttt{evrMrmApp/opi/EVR} folder contains caQtDM~\cite{caqtdm} GUI.
 \item 
 	\texttt{evrMrmApp/opi/medm} folder contains deprecated medm~\cite{medm} GUIs (they do not work due to many database changes).
 \end{itemize}
@@ -1128,6 +1154,13 @@ The output contains :
 	\item Indication whether the last completed reading and flashing commands were successful (commands can be issued through EPICS records or through iocsh functions). If no read or write operations were issued yet, the indication states \texttt{not successful}.
 \end{itemize}
 
+In addition to the functions described above, an iocsh variable \texttt{mrfioc2\_flashDebug} is used to set the verbosity level of debug messages that are printed to the iocsh when using flashing functions. Setting the variable to value \texttt{0} shows the least information, where setting it to \texttt{255} shows the most information.
+
+\paragraph{Example:} Set debug messages verbosity to 3 from the iocsh:
+\begin{verbatim}
+var mrfioc2_flashDebug 3
+\end{verbatim}
+
 \subsection{Using EPICS records for accessing the flash memory}
 A template file \texttt{flash.template} contains records that expose flash memory access. It be loaded by adding the following lines to the EVR (or EVG) substitution file:
 \begin{verbatim}
@@ -1228,9 +1261,14 @@ There is a caQtDM~\cite{caqtdm} GUI for the Event Generator and Event Receiver a
 \begin{verbatim}
 	-d <EVR name> ......... set the event receiver / timing card name 
 	                        (default:EVR0)
+	
 	-f <form factor> ...... choose the event receiver form factor 
 	                        (default: VME-300)
-	                        Choices: VME, PCIe, VME-300
+	                        Choices: VME, PCIe, VME-300, PCIe-300DC
+	
+	-n .................... Do not attach to existing caQtDM. 
+	                        Open new one instead
+		
 	-h    ................. shows the options and usage
 \end{verbatim}
 

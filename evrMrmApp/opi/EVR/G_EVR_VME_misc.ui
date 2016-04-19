@@ -13,13 +13,13 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="caRelatedDisplay" name="carelateddisplay_4">
+  <widget class="caRelatedDisplay" name="carelateddisplay_5">
    <property name="geometry">
     <rect>
-     <x>210</x>
+     <x>230</x>
      <y>40</y>
-     <width>221</width>
-     <height>31</height>
+     <width>171</width>
+     <height>25</height>
     </rect>
    </property>
    <property name="background">
@@ -30,7 +30,7 @@
     </color>
    </property>
    <property name="labels">
-    <string notr="true">Data buffer</string>
+    <string notr="true">Data buffer status overview</string>
    </property>
    <property name="files">
     <string notr="true">G_EVR_$(FF)_dbuf.ui</string>

@@ -6,30 +6,222 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>636</width>
-    <height>466</height>
+    <width>676</width>
+    <height>477</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QLabel" name="label">
+  <widget class="QScrollArea" name="scrollArea">
    <property name="geometry">
     <rect>
-     <x>170</x>
-     <y>70</y>
-     <width>261</width>
-     <height>17</height>
+     <x>0</x>
+     <y>0</y>
+     <width>671</width>
+     <height>471</height>
     </rect>
    </property>
-   <property name="text">
-    <string>This form factor does not have outputs</string>
+   <property name="widgetResizable">
+    <bool>true</bool>
    </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
-   </property>
+   <widget class="QWidget" name="scrollAreaWidgetContents">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>-429</y>
+      <width>654</width>
+      <height>3650</height>
+     </rect>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>0</width>
+      <height>3650</height>
+     </size>
+    </property>
+    <widget class="QWidget" name="verticalLayoutWidget">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>661</width>
+       <height>1000</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="caInclude" name="cainclude_579">
+        <property name="macro">
+         <string notr="true">ID=0, P=RearOut, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVG_output-manySources.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="caInclude" name="cainclude_580">
+        <property name="macro">
+         <string notr="true">ID=1, P=RearOut, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVG_output-manySources.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="caInclude" name="cainclude_581">
+        <property name="macro">
+         <string notr="true">ID=2, P=RearOut, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVG_output-manySources.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="caInclude" name="cainclude_582">
+        <property name="macro">
+         <string notr="true">ID=3, P=RearOut, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVG_output-manySources.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="caInclude" name="cainclude_583">
+        <property name="macro">
+         <string notr="true">ID=4, P=RearOut, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVG_output-manySources.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="caInclude" name="cainclude_584">
+        <property name="macro">
+         <string notr="true">ID=5, P=RearOut, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVG_output-manySources.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="caInclude" name="cainclude_585">
+        <property name="macro">
+         <string notr="true">ID=6, P=RearOut, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVG_output-manySources.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="caInclude" name="cainclude_586">
+        <property name="macro">
+         <string notr="true">ID=7, P=RearOut, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVG_output-manySources.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="caInclude" name="cainclude_587">
+        <property name="macro">
+         <string notr="true">ID=8, P=RearOut, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVG_output-manySources.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="caInclude" name="cainclude_588">
+        <property name="macro">
+         <string notr="true">ID=9, P=RearOut, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVG_output-manySources.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="caInclude" name="cainclude_589">
+        <property name="macro">
+         <string notr="true">ID=10, P=RearOut, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVG_output-manySources.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="caInclude" name="cainclude_590">
+        <property name="macro">
+         <string notr="true">ID=11, P=RearOut, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVG_output-manySources.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="caInclude" name="cainclude_591">
+        <property name="macro">
+         <string notr="true">ID=12, P=RearOut, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVG_output-manySources.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="caInclude" name="cainclude_592">
+        <property name="macro">
+         <string notr="true">ID=13, P=RearOut, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVG_output-manySources.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="caInclude" name="cainclude_593">
+        <property name="macro">
+         <string notr="true">ID=14, P=RearOut, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVG_output-manySources.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="caInclude" name="cainclude_594">
+        <property name="macro">
+         <string notr="true">ID=15, P=RearOut, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVG_output-manySources.ui</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </widget>
   </widget>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>caInclude</class>
+   <extends>QWidget</extends>
+   <header>caInclude</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

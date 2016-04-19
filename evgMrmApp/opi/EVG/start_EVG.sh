@@ -4,6 +4,7 @@ set -o errexit
 SYS=""
 DEVICE="EVG0"
 FF="VME-300"
+ATTACH="-attach"
 
 usage()
 {
@@ -13,10 +14,11 @@ usage()
     echo "    -d <EVG name>        Event Generator / timing card name (default: $EVG)"
     echo "    -f <form factor>     EVR form factor (default: $FF)"
     echo "                         Choices: VME, VME-300"
+    echo "    -n                   Do not attach to existing caQtDM. Open new one instead"
     echo "    -h                   This help"
 }
 
-while getopts ":s:d:f:h" o; do
+while getopts ":s:d:f:nh" o; do
     case "${o}" in
         s)
             SYS=${OPTARG}
@@ -26,6 +28,9 @@ while getopts ":s:d:f:h" o; do
             ;;
         f)
             FF=${OPTARG}
+            ;;
+        n)
+            ATTACH=""
             ;;
         h)
             usage
@@ -55,5 +60,4 @@ if [ $FF != "VME" ] && [ $FF != "VME-300" ]; then
 fi
 
 macro="SYS=$SYS,DEVICE=$DEVICE,FF=$FF"
-caqtdm -attach -macro "$macro" G_EVG_main.ui &
-#echo caqtdm -attach -macro "$macro" G_EVG_main.ui &
+caqtdm -$ATTACH -macro "$macro" G_EVG_main.ui &

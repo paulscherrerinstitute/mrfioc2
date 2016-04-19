@@ -7,7 +7,8 @@
 enum evgOutputType {
     NoneOut = 0,
     FrontOut,
-    UnivOut
+    UnivOut,
+    RearOut
 };
 
 class evgOutput : public mrf::ObjectInst<evgOutput> {
@@ -19,7 +20,7 @@ public:
     /* locking done internally */
     virtual void lock() const{};
     virtual void unlock() const{};
-    
+
     void setSource(epicsUInt16);
     epicsUInt16 getSource() const;
 

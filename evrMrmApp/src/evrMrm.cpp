@@ -216,7 +216,7 @@ try{
         nIFP=1;
         break;
     case formFactor_VME64:
-        if(ver >= 200){  //This is for vme300
+        if(ver >= 0x200){  //This is for vme300
             nOFP=0;
             nCML=4; // FP univ out 6-9 are CML
             nOFPDly=4;
@@ -240,6 +240,9 @@ try{
         break;
     case formFactor_PCIe:
         nOFPUV=16;
+        if(deviceInfo.series == series_300DC) {
+            nPS = 8;
+        }
         break;
     default:
         printf("Unknown EVR form factor %d\n",v);
@@ -252,12 +255,25 @@ try{
     // Special output for mapping bus interrupt
     //outputs[std::make_pair(OutputInt,0)]=new EvrOutput(base+U16_IRQPulseMap);
 
+    //inputs.resize(nIFP+nOFPUV+nORB);
     inputs.resize(nIFP);
     for(size_t i=0; i<nIFP; i++){
         std::ostringstream name;
         name<<id<<":FPIn"<<i;
         inputs[i]=new EvrInput(name.str(), base,i);
     }
+
+    /*for(size_t i=0; i<nOFPUV; i++){
+        std::ostringstream name;
+        name<<id<<":FPUnivIn"<<i;
+        inputs[i+nIFP]=new EvrInput(name.str(), base,i);
+    }
+
+    for(size_t i=0; i<nORB; i++){
+        std::ostringstream name;
+        name<<id<<":FPRearIn"<<i;
+        inputs[i+nIFP+nOFPUV]=new EvrInput(name.str(), base,i);
+    }*/
 
     for(size_t i=0; i<nOFP; i++){
         std::ostringstream name;
@@ -524,6 +540,11 @@ EVRMRM::formFactorStr(){
     }
 
     return text;
+}
+
+deviceInfoT
+EVRMRM::getDeviceInfo(){
+    return deviceInfo;
 }
 
 bool
@@ -992,7 +1013,7 @@ EVRMRM::convertTS(epicsTimeStamp* ts)
     }
 
     // 1 sec. reset is late
-    if(ts->nsec>=1000000000) {
+    if(ts->nsec>=1000000000) {  // TODO: isn't this in ticks? Shouldn't it be converted to nsec before comparing to '1 second'?
         SCOPED_LOCK(evrLock);
         timestampValid=0;
         lastInvalidTimestamp=ts->secPastEpoch;
@@ -1139,7 +1160,9 @@ EVRMRM::enableIRQ(void)
 
     if(getFormFactor() != formFactor_VME64 ){
         EVR_DEBUG(2,"Enabling PCIe interrupts: 0x%x",shadowIRQEna);
-        devPCIEnableInterrupt( (const epicsPCIDevice*)(this->isrLinuxPvt) );
+        if(devPCIEnableInterrupt((const epicsPCIDevice*)this->isrLinuxPvt)) {
+            errlogPrintf("Failed to enable PCIe interrupt.  Stuck...\n");
+        }
     }
 
     epicsInterruptUnlock(key);
@@ -1154,7 +1177,7 @@ EVRMRM::isr_pci(void *arg) {
 
     EVR_DEBUG(5,"Re-enabling IRQs");
     if(devPCIEnableInterrupt((const epicsPCIDevice*)evr->isrLinuxPvt)) {
-        printf("Failed to re-enable interrupt.  Stuck...\n");
+        errlogPrintf("Failed to re-enable interrupt.  Stuck...\n");
     }
 }
 
@@ -1180,7 +1203,7 @@ EVRMRM::isr(void *arg)
 
     epicsUInt32 active=flags&evr->shadowIRQEna;
 
-    EVR_INFO(4,"ISR start, flags 0x%x",flags);
+    EVR_INFO(4,"ISR start, flags 0x%x (active: 0x%x)", flags, active);
 
     if(!active)
         return;
@@ -1237,7 +1260,7 @@ EVRMRM::isr(void *arg)
     // Ensure IRQFlags is written before returning.
     evrMrmIsrFlagsTrashCan=READ32(evr->base, IRQFlag);
 
-    EVR_INFO(4,"ISR ended, IRQEnable 0x%x",evr->shadowIRQEna);
+    EVR_INFO(4,"ISR ended, IRQEnable 0x%x, flags: 0x%x",evr->shadowIRQEna, flags);
 
 }
 

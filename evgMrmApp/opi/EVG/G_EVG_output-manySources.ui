@@ -1,0 +1,489 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Form</class>
+ <widget class="QWidget" name="Form">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>646</width>
+    <height>55</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="QFrame" name="frame">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>642</width>
+     <height>50</height>
+    </rect>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::StyledPanel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Raised</enum>
+   </property>
+   <widget class="QLabel" name="label_14">
+    <property name="geometry">
+     <rect>
+      <x>9</x>
+      <y>22</y>
+      <width>91</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Active Source</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+    </property>
+   </widget>
+   <widget class="caMenu" name="camenu_2">
+    <property name="geometry">
+     <rect>
+      <x>240</x>
+      <y>20</y>
+      <width>110</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(212, 219, 157);</string>
+    </property>
+    <property name="channel" stdset="0">
+     <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Src-Misc-SP</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_16">
+    <property name="geometry">
+     <rect>
+      <x>399</x>
+      <y>1</y>
+      <width>91</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>DBus source</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_15">
+    <property name="geometry">
+     <rect>
+      <x>259</x>
+      <y>1</y>
+      <width>91</width>
+      <height>19</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Other sources</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_17">
+    <property name="geometry">
+     <rect>
+      <x>530</x>
+      <y>1</y>
+      <width>91</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Mxc source</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="caMenu" name="camenu_3">
+    <property name="geometry">
+     <rect>
+      <x>509</x>
+      <y>20</y>
+      <width>121</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(212, 219, 157);</string>
+    </property>
+    <property name="channel" stdset="0">
+     <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Src-Mxc-SP</string>
+    </property>
+   </widget>
+   <widget class="caMenu" name="camenu_4">
+    <property name="geometry">
+     <rect>
+      <x>380</x>
+      <y>20</y>
+      <width>110</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(212, 219, 157);</string>
+    </property>
+    <property name="channel" stdset="0">
+     <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Src-DBus-SP</string>
+    </property>
+   </widget>
+   <widget class="caLabel" name="calabel">
+    <property name="geometry">
+     <rect>
+      <x>1</x>
+      <y>1</y>
+      <width>101</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(236, 236, 236, 255);</string>
+    </property>
+    <property name="text">
+     <string>$(P)$(ID)</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="Line" name="line">
+    <property name="geometry">
+     <rect>
+      <x>220</x>
+      <y>2</y>
+      <width>20</width>
+      <height>46</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
+    </property>
+   </widget>
+   <widget class="caFrame" name="caframe_dbus_2">
+    <property name="geometry">
+     <rect>
+      <x>380</x>
+      <y>1</y>
+      <width>19</width>
+      <height>19</height>
+     </rect>
+    </property>
+    <property name="macro">
+     <string notr="true">CHAN=$(SYS)-$(DEVICE):$(P)$(ID)-Src-DBus-RB</string>
+    </property>
+    <property name="visibility">
+     <enum>caFrame::Calc</enum>
+    </property>
+    <property name="visibilityCalc">
+     <string notr="true">A=B&amp;&amp;A&lt;40&amp;&amp;A&gt;31</string>
+    </property>
+    <property name="channel" stdset="0">
+     <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Src-RB</string>
+    </property>
+    <property name="channelB">
+     <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Src-DBus-RB.RVAL</string>
+    </property>
+    <widget class="caLed" name="caled_8">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>1</y>
+       <width>16</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="falseColor">
+      <color>
+       <red>0</red>
+       <green>255</green>
+       <blue>0</blue>
+      </color>
+     </property>
+     <property name="trueColor">
+      <color>
+       <red>0</red>
+       <green>255</green>
+       <blue>0</blue>
+      </color>
+     </property>
+     <property name="undefinedColor">
+      <color>
+       <red>0</red>
+       <green>255</green>
+       <blue>0</blue>
+      </color>
+     </property>
+    </widget>
+   </widget>
+   <widget class="caFrame" name="caframe_mxc_2">
+    <property name="geometry">
+     <rect>
+      <x>510</x>
+      <y>1</y>
+      <width>19</width>
+      <height>19</height>
+     </rect>
+    </property>
+    <property name="macro">
+     <string notr="true">CHAN=$(SYS)-$(DEVICE):$(P)$(ID)-Src-Mxc-RB</string>
+    </property>
+    <property name="visibility">
+     <enum>caFrame::Calc</enum>
+    </property>
+    <property name="visibilityCalc">
+     <string notr="true">A=B&amp;&amp;A&gt;=40&amp;&amp;A&lt;=47</string>
+    </property>
+    <property name="channel" stdset="0">
+     <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Src-RB</string>
+    </property>
+    <property name="channelB">
+     <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Src-Mxc-RB.RVAL</string>
+    </property>
+    <widget class="caLed" name="caled_9">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>1</y>
+       <width>16</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="falseColor">
+      <color>
+       <red>0</red>
+       <green>255</green>
+       <blue>0</blue>
+      </color>
+     </property>
+     <property name="trueColor">
+      <color>
+       <red>0</red>
+       <green>255</green>
+       <blue>0</blue>
+      </color>
+     </property>
+     <property name="undefinedColor">
+      <color>
+       <red>0</red>
+       <green>255</green>
+       <blue>0</blue>
+      </color>
+     </property>
+    </widget>
+   </widget>
+   <widget class="caFrame" name="caframe_other_2">
+    <property name="geometry">
+     <rect>
+      <x>240</x>
+      <y>1</y>
+      <width>19</width>
+      <height>19</height>
+     </rect>
+    </property>
+    <property name="macro">
+     <string notr="true">CHAN=$(SYS)-$(DEVICE):$(P)$(ID)-Src-Misc-RB</string>
+    </property>
+    <property name="visibility">
+     <enum>caFrame::Calc</enum>
+    </property>
+    <property name="visibilityCalc">
+     <string notr="true">A=B&amp;&amp;(A==48||A==62||A==63)</string>
+    </property>
+    <property name="channel" stdset="0">
+     <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Src-RB</string>
+    </property>
+    <property name="channelB">
+     <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Src-Misc-RB.RVAL</string>
+    </property>
+    <widget class="caLed" name="caled_7">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>1</y>
+       <width>16</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="falseColor">
+      <color>
+       <red>0</red>
+       <green>255</green>
+       <blue>0</blue>
+      </color>
+     </property>
+     <property name="trueColor">
+      <color>
+       <red>0</red>
+       <green>255</green>
+       <blue>0</blue>
+      </color>
+     </property>
+     <property name="undefinedColor">
+      <color>
+       <red>0</red>
+       <green>255</green>
+       <blue>0</blue>
+      </color>
+     </property>
+    </widget>
+   </widget>
+   <widget class="caFrame" name="caframe_other">
+    <property name="geometry">
+     <rect>
+      <x>110</x>
+      <y>20</y>
+      <width>111</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="macro">
+     <string notr="true">CHAN=$(SYS)-$(DEVICE):$(P)$(ID)-Src-Misc-RB</string>
+    </property>
+    <property name="visibility">
+     <enum>caFrame::Calc</enum>
+    </property>
+    <property name="visibilityCalc">
+     <string notr="true">A=B&amp;&amp;(A==48||A==62||A==63)</string>
+    </property>
+    <property name="channel" stdset="0">
+     <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Src-RB</string>
+    </property>
+    <property name="channelB">
+     <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Src-Misc-RB.RVAL</string>
+    </property>
+    <widget class="caLineEdit" name="calineedit_5">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>90</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="channel" stdset="0">
+      <string notr="true">$(CHAN)</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="caFrame" name="caframe_dbus">
+    <property name="geometry">
+     <rect>
+      <x>110</x>
+      <y>20</y>
+      <width>111</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="macro">
+     <string notr="true">CHAN=$(SYS)-$(DEVICE):$(P)$(ID)-Src-DBus-RB</string>
+    </property>
+    <property name="visibility">
+     <enum>caFrame::Calc</enum>
+    </property>
+    <property name="visibilityCalc">
+     <string notr="true">A=B&amp;&amp;A&lt;40&amp;&amp;A&gt;31</string>
+    </property>
+    <property name="channel" stdset="0">
+     <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Src-RB</string>
+    </property>
+    <property name="channelB">
+     <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Src-DBus-RB.RVAL</string>
+    </property>
+    <widget class="caLineEdit" name="calineedit_2">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>90</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="channel" stdset="0">
+      <string notr="true">$(CHAN)</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="caFrame" name="caframe_mxc">
+    <property name="geometry">
+     <rect>
+      <x>110</x>
+      <y>20</y>
+      <width>111</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="macro">
+     <string notr="true">CHAN=$(SYS)-$(DEVICE):$(P)$(ID)-Src-Mxc-RB</string>
+    </property>
+    <property name="visibility">
+     <enum>caFrame::Calc</enum>
+    </property>
+    <property name="visibilityCalc">
+     <string notr="true">A=B&amp;&amp;A&gt;=40&amp;&amp;A&lt;=47</string>
+    </property>
+    <property name="channel" stdset="0">
+     <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Src-RB</string>
+    </property>
+    <property name="channelB">
+     <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Src-Mxc-RB.RVAL</string>
+    </property>
+    <widget class="caLineEdit" name="calineedit_4">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>90</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="channel" stdset="0">
+      <string notr="true">$(CHAN)</string>
+     </property>
+    </widget>
+   </widget>
+  </widget>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>caMenu</class>
+   <extends>QComboBox</extends>
+   <header>caMenu</header>
+  </customwidget>
+  <customwidget>
+   <class>caFrame</class>
+   <extends>QFrame</extends>
+   <header>caFrame</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>caLabel</class>
+   <extends>QLabel</extends>
+   <header>caLabel</header>
+  </customwidget>
+  <customwidget>
+   <class>caLed</class>
+   <extends>QWidget</extends>
+   <header>caLed</header>
+  </customwidget>
+  <customwidget>
+   <class>caLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>caLineEdit</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

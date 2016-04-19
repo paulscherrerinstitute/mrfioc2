@@ -12,7 +12,7 @@
  */
 extern "C" {
     extern int mrfioc2_flashDebug;
-    #define infoPrintf(level,M, ...) if(mrfioc2_flashDebug >= level && mrfioc2_flashDebug > 0) fprintf(stderr, "mrfioc2_flashInfo: " M,##__VA_ARGS__)
+    #define infoPrintf(level,M, ...) if(mrfioc2_flashDebug >= level) fprintf(stderr, "mrfioc2_flashInfo: " M,##__VA_ARGS__)
 }
 //#define dbgPrintf(level,M, ...) if(mrfioc2_flashDebug >= level && mrfioc2_flashDebug > 0) fprintf(stderr, "mrfioc2_flashDebug: (%s:%d) " M, __FILE__, __LINE__, ##__VA_ARGS__)
 

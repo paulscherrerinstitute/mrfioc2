@@ -6,333 +6,20 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>703</width>
-    <height>465</height>
+    <width>435</width>
+    <height>365</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QGroupBox" name="groupBox">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>10</y>
-     <width>411</width>
-     <height>151</height>
-    </rect>
-   </property>
-   <property name="title">
-    <string>Delay compensation</string>
-   </property>
-   <widget class="QLabel" name="label_2">
-    <property name="geometry">
-     <rect>
-      <x>40</x>
-      <y>30</y>
-      <width>61</width>
-      <height>17</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Target</string>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_3">
-    <property name="geometry">
-     <rect>
-      <x>40</x>
-      <y>60</y>
-      <width>61</width>
-      <height>17</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Path</string>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_4">
-    <property name="geometry">
-     <rect>
-      <x>220</x>
-      <y>60</y>
-      <width>61</width>
-      <height>17</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Internal</string>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_5">
-    <property name="geometry">
-     <rect>
-      <x>40</x>
-      <y>90</y>
-      <width>61</width>
-      <height>17</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Status</string>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-    </property>
-   </widget>
-   <widget class="caLineEdit" name="calineedit_16">
-    <property name="geometry">
-     <rect>
-      <x>220</x>
-      <y>30</y>
-      <width>101</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-    </property>
-    <property name="channel" stdset="0">
-     <string notr="true">$(SYS)-$(DEVICE):DlyCompensation-Target-RB</string>
-    </property>
-    <property name="unitsEnabled">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="caTextEntry" name="catextentry_4">
-    <property name="geometry">
-     <rect>
-      <x>110</x>
-      <y>30</y>
-      <width>101</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="channel" stdset="0">
-     <string notr="true">$(SYS)-$(DEVICE):DlyCompensation-Target-SP</string>
-    </property>
-    <property name="background">
-     <color>
-      <red>212</red>
-      <green>219</green>
-      <blue>157</blue>
-     </color>
-    </property>
-    <property name="colorMode">
-     <enum>caLineEdit::Static</enum>
-    </property>
-   </widget>
-   <widget class="caLineEdit" name="calineedit_17">
-    <property name="geometry">
-     <rect>
-      <x>110</x>
-      <y>60</y>
-      <width>101</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-    </property>
-    <property name="channel" stdset="0">
-     <string notr="true">$(SYS)-$(DEVICE):DlyCompensation-Path-RB</string>
-    </property>
-    <property name="unitsEnabled">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="caLineEdit" name="calineedit_18">
-    <property name="geometry">
-     <rect>
-      <x>290</x>
-      <y>60</y>
-      <width>101</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-    </property>
-    <property name="channel" stdset="0">
-     <string notr="true">$(SYS)-$(DEVICE):DlyCompensation-Internal-RB</string>
-    </property>
-    <property name="unitsEnabled">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="caLineEdit" name="calineedit_19">
-    <property name="geometry">
-     <rect>
-      <x>110</x>
-      <y>90</y>
-      <width>71</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-    </property>
-    <property name="channel" stdset="0">
-     <string notr="true">$(SYS)-$(DEVICE):DlyCompensation-Status-RB</string>
-    </property>
-    <property name="unitsEnabled">
-     <bool>true</bool>
-    </property>
-    <property name="formatType">
-     <enum>caLineEdit::hexadecimal</enum>
-    </property>
-   </widget>
-   <widget class="caLineEdit" name="calineedit_21">
-    <property name="geometry">
-     <rect>
-      <x>220</x>
-      <y>119</y>
-      <width>81</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-    </property>
-    <property name="channel" stdset="0">
-     <string notr="true">$(SYS)-$(DEVICE):DlyCompensation-Enabled-RB</string>
-    </property>
-    <property name="unitsEnabled">
-     <bool>true</bool>
-    </property>
-   </widget>
-   <widget class="caMenu" name="camenu_3">
-    <property name="geometry">
-     <rect>
-      <x>110</x>
-      <y>117</y>
-      <width>101</width>
-      <height>25</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: rgb(212, 219, 157);</string>
-    </property>
-    <property name="channel" stdset="0">
-     <string notr="true">$(SYS)-$(DEVICE):DlyCompensation-Enabled-Sel</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_6">
-    <property name="geometry">
-     <rect>
-      <x>30</x>
-      <y>120</y>
-      <width>71</width>
-      <height>17</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Enabled</string>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-    </property>
-   </widget>
-  </widget>
-  <widget class="QLabel" name="label">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>181</y>
-     <width>101</width>
-     <height>17</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>PLL Bandwidth</string>
-   </property>
-  </widget>
-  <widget class="QGroupBox" name="groupBox_2">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>220</y>
-     <width>391</width>
-     <height>91</height>
-    </rect>
-   </property>
-   <property name="title">
-    <string>Distributed bus bits status</string>
-   </property>
-   <widget class="caByte" name="cabyte_2">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>30</y>
-      <width>291</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="channel" stdset="0">
-     <string notr="true">$(SYS)-$(DEVICE):DBus-Status-I</string>
-    </property>
-    <property name="direction">
-     <enum>caByte::Left</enum>
-    </property>
-    <property name="startBit">
-     <number>0</number>
-    </property>
-    <property name="endBit">
-     <number>7</number>
-    </property>
-   </widget>
-  </widget>
-  <widget class="caMenu" name="camenu_2">
-   <property name="geometry">
-    <rect>
-     <x>120</x>
-     <y>178</y>
-     <width>71</width>
-     <height>25</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">background-color: rgb(212, 219, 157);</string>
-   </property>
-   <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE):PLL-Bandwidth-Sel</string>
-   </property>
-  </widget>
-  <widget class="caLineEdit" name="calineedit_20">
-   <property name="geometry">
-    <rect>
-     <x>200</x>
-     <y>180</y>
-     <width>71</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-   </property>
-   <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE):PLL-Bandwidth-RB</string>
-   </property>
-   <property name="unitsEnabled">
-    <bool>true</bool>
-   </property>
-  </widget>
   <widget class="caRelatedDisplay" name="carelateddisplay_4">
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>330</y>
-     <width>221</width>
-     <height>31</height>
+     <y>10</y>
+     <width>171</width>
+     <height>25</height>
     </rect>
    </property>
    <property name="background">
@@ -343,7 +30,7 @@
     </color>
    </property>
    <property name="labels">
-    <string notr="true">Data buffer</string>
+    <string notr="true">Data buffer status overview</string>
    </property>
    <property name="files">
     <string notr="true">G_EVR_$(FF)_dbuf.ui</string>
@@ -351,6 +38,379 @@
    <property name="args">
     <string notr="true">SYS=$(SYS),DEVICE=$(DEVICE),FF=$(FF)</string>
    </property>
+  </widget>
+  <widget class="caFrame" name="caframe">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>50</y>
+     <width>421</width>
+     <height>311</height>
+    </rect>
+   </property>
+   <property name="visibility">
+    <enum>caFrame::Calc</enum>
+   </property>
+   <property name="visibilityCalc">
+    <string notr="true">A&gt;=0x200</string>
+   </property>
+   <property name="channel" stdset="0">
+    <string notr="true">$(SYS)-$(DEVICE):FwVer-I</string>
+   </property>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>191</y>
+      <width>101</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>PLL Bandwidth</string>
+    </property>
+   </widget>
+   <widget class="QGroupBox" name="groupBox_2">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>230</y>
+      <width>391</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>Distributed bus bits status</string>
+    </property>
+    <widget class="caByte" name="cabyte_2">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>30</y>
+       <width>291</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="channel" stdset="0">
+      <string notr="true">$(SYS)-$(DEVICE):DBus-Status-I</string>
+     </property>
+     <property name="direction">
+      <enum>caByte::Left</enum>
+     </property>
+     <property name="startBit">
+      <number>0</number>
+     </property>
+     <property name="endBit">
+      <number>7</number>
+     </property>
+    </widget>
+   </widget>
+   <widget class="caLineEdit" name="calineedit_20">
+    <property name="geometry">
+     <rect>
+      <x>190</x>
+      <y>190</y>
+      <width>71</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+    </property>
+    <property name="channel" stdset="0">
+     <string notr="true">$(SYS)-$(DEVICE):PLL-Bandwidth-RB</string>
+    </property>
+    <property name="unitsEnabled">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="caMenu" name="camenu_2">
+    <property name="geometry">
+     <rect>
+      <x>110</x>
+      <y>188</y>
+      <width>71</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(212, 219, 157);</string>
+    </property>
+    <property name="channel" stdset="0">
+     <string notr="true">$(SYS)-$(DEVICE):PLL-Bandwidth-Sel</string>
+    </property>
+   </widget>
+   <widget class="QGroupBox" name="groupBox">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>411</width>
+      <height>171</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>Delay compensation</string>
+    </property>
+    <widget class="QLabel" name="label_2">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>51</y>
+       <width>61</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Target</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_3">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>81</y>
+       <width>61</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Path</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_4">
+     <property name="geometry">
+      <rect>
+       <x>220</x>
+       <y>81</y>
+       <width>61</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Internal</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_5">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>111</y>
+       <width>61</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Status</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="caLineEdit" name="calineedit_16">
+     <property name="geometry">
+      <rect>
+       <x>220</x>
+       <y>51</y>
+       <width>101</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+     </property>
+     <property name="channel" stdset="0">
+      <string notr="true">$(SYS)-$(DEVICE):DlyCompensation-Target-RB</string>
+     </property>
+     <property name="unitsEnabled">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="caTextEntry" name="catextentry_4">
+     <property name="geometry">
+      <rect>
+       <x>110</x>
+       <y>51</y>
+       <width>101</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="channel" stdset="0">
+      <string notr="true">$(SYS)-$(DEVICE):DlyCompensation-Target-SP</string>
+     </property>
+     <property name="background">
+      <color>
+       <red>212</red>
+       <green>219</green>
+       <blue>157</blue>
+      </color>
+     </property>
+     <property name="colorMode">
+      <enum>caLineEdit::Static</enum>
+     </property>
+    </widget>
+    <widget class="caLineEdit" name="calineedit_17">
+     <property name="geometry">
+      <rect>
+       <x>110</x>
+       <y>81</y>
+       <width>101</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+     </property>
+     <property name="channel" stdset="0">
+      <string notr="true">$(SYS)-$(DEVICE):DlyCompensation-Path-RB</string>
+     </property>
+     <property name="unitsEnabled">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="caLineEdit" name="calineedit_18">
+     <property name="geometry">
+      <rect>
+       <x>290</x>
+       <y>81</y>
+       <width>111</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+     </property>
+     <property name="channel" stdset="0">
+      <string notr="true">$(SYS)-$(DEVICE):DlyCompensation-Internal-RB</string>
+     </property>
+     <property name="unitsEnabled">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="caLineEdit" name="calineedit_19">
+     <property name="geometry">
+      <rect>
+       <x>110</x>
+       <y>111</y>
+       <width>71</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+     </property>
+     <property name="channel" stdset="0">
+      <string notr="true">$(SYS)-$(DEVICE):DlyCompensation-Status-RB</string>
+     </property>
+     <property name="unitsEnabled">
+      <bool>true</bool>
+     </property>
+     <property name="formatType">
+      <enum>caLineEdit::hexadecimal</enum>
+     </property>
+    </widget>
+    <widget class="caLineEdit" name="calineedit_21">
+     <property name="geometry">
+      <rect>
+       <x>220</x>
+       <y>140</y>
+       <width>81</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+     </property>
+     <property name="channel" stdset="0">
+      <string notr="true">$(SYS)-$(DEVICE):DlyCompensation-Enabled-RB</string>
+     </property>
+     <property name="unitsEnabled">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="caMenu" name="camenu_3">
+     <property name="geometry">
+      <rect>
+       <x>110</x>
+       <y>138</y>
+       <width>101</width>
+       <height>25</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(212, 219, 157);</string>
+     </property>
+     <property name="channel" stdset="0">
+      <string notr="true">$(SYS)-$(DEVICE):DlyCompensation-Enabled-Sel</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_6">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>141</y>
+       <width>71</width>
+       <height>17</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Enabled</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+    <widget class="caToggleButton" name="catogglebutton">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>25</y>
+       <width>201</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Get target value from record:</string>
+     </property>
+     <property name="channel" stdset="0">
+      <string notr="true">$(SYS)-$(DEVICE):DlyCompensation-Source-I.DISA</string>
+     </property>
+     <property name="trueValue">
+      <string>0</string>
+     </property>
+     <property name="falseValue">
+      <string>1</string>
+     </property>
+    </widget>
+    <widget class="caLineEdit" name="calineedit_22">
+     <property name="geometry">
+      <rect>
+       <x>220</x>
+       <y>25</y>
+       <width>181</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+     </property>
+     <property name="channel" stdset="0">
+      <string notr="true">$(SYS)-$(DEVICE):DlyCompensation-Source-I.INPA</string>
+     </property>
+     <property name="unitsEnabled">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </widget>
   </widget>
  </widget>
  <customwidgets>
@@ -368,6 +428,17 @@
    <class>caTextEntry</class>
    <extends>caLineEdit</extends>
    <header>caTextEntry</header>
+  </customwidget>
+  <customwidget>
+   <class>caToggleButton</class>
+   <extends>QCheckBox</extends>
+   <header>caToggleButton</header>
+  </customwidget>
+  <customwidget>
+   <class>caFrame</class>
+   <extends>QFrame</extends>
+   <header>caFrame</header>
+   <container>1</container>
   </customwidget>
   <customwidget>
    <class>caLineEdit</class>

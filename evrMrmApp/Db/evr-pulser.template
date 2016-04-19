@@ -42,6 +42,7 @@ record(ao, "$(SYS)-$(DEVICE):Pul$(ID)-Delay-SP") {
   field(LINR, "LINEAR")
   field(ESLO, "1e6")
   field(PREC, "3")
+  field(HOPR, "0x3FFFFFFFFFF")
   field(LOPR, "0")
   field(FLNK, "$(SYS)-$(DEVICE):Pul$(ID)-Delay-RB")
   info(autosaveFields_pass0, "VAL EGU ESLO PREC HOPR LOPR DRVL DRVH")
@@ -50,7 +51,7 @@ record(ao, "$(SYS)-$(DEVICE):Pul$(ID)-Delay-SP") {
 record(ai, "$(SYS)-$(DEVICE):Pul$(ID)-Delay-RB") {
   field(DTYP, "Obj Prop double")
   field(INP , "@OBJ=$(DEVICE):Pul$(ID), PROP=Delay")
-  field(VAL , 0)
+  field(VAL , "0")
   field(EGU , "us")
   field(LINR, "LINEAR")
   field(ESLO, "1e6")
@@ -58,7 +59,7 @@ record(ai, "$(SYS)-$(DEVICE):Pul$(ID)-Delay-RB") {
   field(FLNK, "$(SYS)-$(DEVICE):Pul$(ID)-Delay-Raw-RB")
 }
 
-record(longin, "$(SYS)-$(DEVICE):Pul$(ID)-Delay-Raw-RB") {
+record(ai, "$(SYS)-$(DEVICE):Pul$(ID)-Delay-Raw-RB") {
   field(DTYP, "Obj Prop uint32")
   field(INP , "@OBJ=$(DEVICE):Pul$(ID), PROP=Delay")
   field(EGU , "cnts")
@@ -78,6 +79,7 @@ record(ao, "$(SYS)-$(DEVICE):Pul$(ID)-Width-SP") {
   field(LINR, "LINEAR")
   field(ESLO, "1e6")
   field(PREC, "3")
+  field(HOPR, "0x3FFFFFFFFFF")
   field(LOPR, "0")
   field(FLNK, "$(SYS)-$(DEVICE):Pul$(ID)-Width-RB")
   info(autosaveFields_pass0, "VAL EGU ESLO PREC HOPR LOPR DRVL DRVH")
@@ -86,7 +88,7 @@ record(ao, "$(SYS)-$(DEVICE):Pul$(ID)-Width-SP") {
 record(ai, "$(SYS)-$(DEVICE):Pul$(ID)-Width-RB") {
   field(DTYP, "Obj Prop double")
   field(INP , "@OBJ=$(DEVICE):Pul$(ID), PROP=Width")
-  field(VAL , 0)
+  field(VAL , "0")
   field(EGU , "us")
   field(LINR, "LINEAR")
   field(ESLO, "1e6")
@@ -94,7 +96,7 @@ record(ai, "$(SYS)-$(DEVICE):Pul$(ID)-Width-RB") {
   field(FLNK, "$(SYS)-$(DEVICE):Pul$(ID)-Width-Raw-RB")
 }
 
-record(longin, "$(SYS)-$(DEVICE):Pul$(ID)-Width-Raw-RB") {
+record(ai, "$(SYS)-$(DEVICE):Pul$(ID)-Width-Raw-RB") {
   field(DTYP, "Obj Prop uint32")
   field(INP , "@OBJ=$(DEVICE):Pul$(ID), PROP=Width")
   field(PINI, "YES")
@@ -153,7 +155,7 @@ record(mbboDirect, "$(SYS)-$(DEVICE):Pul$(ID)-Gate-Mask-SP") {
   field(PINI, "YES")
   field(NOBT, "16")
   field(DESC, "Pulser gate mask")
-  field(VAL , "$(Pul$(ID)-Gate-Mask-SP\=0)")
+  field(RVAL, "$(Pul$(ID)-Gate-Mask-SP\=0)")
   field(FLNK, "$(SYS)-$(DEVICE):Pul$(ID)-Gate-Mask-RB")
 }
 
@@ -169,7 +171,7 @@ record(mbboDirect, "$(SYS)-$(DEVICE):Pul$(ID)-Gate-Enable-SP") {
   field(PINI, "YES")
   field(NOBT, "16")
   field(DESC, "Pulser gate enable")
-  field(VAL , "$(Pul$(ID)-Gate-Enable-SP\=0)")
+  field(RVAL, "$(Pul$(ID)-Gate-Enable-SP\=0)")
   field(FLNK, "$(SYS)-$(DEVICE):Pul$(ID)-Gate-Enable-RB")
 }
 
@@ -177,4 +179,24 @@ record(mbbiDirect, "$(SYS)-$(DEVICE):Pul$(ID)-Gate-Enable-RB") {
   field(DTYP, "Obj Prop uint16")
   field(NOBT, "16")
   field(INP , "@OBJ=$(DEVICE):Pul$(ID), PROP=Gate enable")
+}
+
+
+# Pulse generator software set / reset
+record(bo, "$(SYS)-$(DEVICE):Pul$(ID)-SetReset-Sel") {
+  field(DESC, "Software set/reset")
+  field(DTYP, "Obj Prop bool")
+  field(OUT , "@OBJ=$(DEVICE):Pul$(ID), PROP=Sw set reset")
+  field(VAL , "0")
+  field(ZNAM, "Reset")
+  field(ONAM, "Set")
+}
+
+# Pulser output state (logic high, logic low)
+record(bi, "$(SYS)-$(DEVICE):Pul$(ID)-Out-I") {
+  field(DESC, "Output state")
+  field(DTYP, "Obj Prop bool")
+  field(INP , "@OBJ=$(DEVICE):Pul$(ID), PROP=Output")
+  field(ZNAM, "Low")
+  field(ONAM, "High")
 }

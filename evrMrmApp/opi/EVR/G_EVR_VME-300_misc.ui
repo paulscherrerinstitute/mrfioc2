@@ -17,9 +17,9 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>10</y>
+     <y>50</y>
      <width>411</width>
-     <height>151</height>
+     <height>171</height>
     </rect>
    </property>
    <property name="title">
@@ -29,7 +29,7 @@
     <property name="geometry">
      <rect>
       <x>40</x>
-      <y>30</y>
+      <y>51</y>
       <width>61</width>
       <height>17</height>
      </rect>
@@ -45,7 +45,7 @@
     <property name="geometry">
      <rect>
       <x>40</x>
-      <y>60</y>
+      <y>81</y>
       <width>61</width>
       <height>17</height>
      </rect>
@@ -61,7 +61,7 @@
     <property name="geometry">
      <rect>
       <x>220</x>
-      <y>60</y>
+      <y>81</y>
       <width>61</width>
       <height>17</height>
      </rect>
@@ -77,7 +77,7 @@
     <property name="geometry">
      <rect>
       <x>40</x>
-      <y>90</y>
+      <y>111</y>
       <width>61</width>
       <height>17</height>
      </rect>
@@ -93,7 +93,7 @@
     <property name="geometry">
      <rect>
       <x>220</x>
-      <y>30</y>
+      <y>51</y>
       <width>101</width>
       <height>20</height>
      </rect>
@@ -112,7 +112,7 @@
     <property name="geometry">
      <rect>
       <x>110</x>
-      <y>30</y>
+      <y>51</y>
       <width>101</width>
       <height>20</height>
      </rect>
@@ -135,7 +135,7 @@
     <property name="geometry">
      <rect>
       <x>110</x>
-      <y>60</y>
+      <y>81</y>
       <width>101</width>
       <height>20</height>
      </rect>
@@ -154,8 +154,8 @@
     <property name="geometry">
      <rect>
       <x>290</x>
-      <y>60</y>
-      <width>101</width>
+      <y>81</y>
+      <width>111</width>
       <height>20</height>
      </rect>
     </property>
@@ -173,7 +173,7 @@
     <property name="geometry">
      <rect>
       <x>110</x>
-      <y>90</y>
+      <y>111</y>
       <width>71</width>
       <height>20</height>
      </rect>
@@ -195,7 +195,7 @@
     <property name="geometry">
      <rect>
       <x>220</x>
-      <y>119</y>
+      <y>140</y>
       <width>81</width>
       <height>20</height>
      </rect>
@@ -214,7 +214,7 @@
     <property name="geometry">
      <rect>
       <x>110</x>
-      <y>117</y>
+      <y>138</y>
       <width>101</width>
       <height>25</height>
      </rect>
@@ -230,7 +230,7 @@
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>120</y>
+      <y>141</y>
       <width>71</width>
       <height>17</height>
      </rect>
@@ -242,12 +242,53 @@
      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
     </property>
    </widget>
+   <widget class="caToggleButton" name="catogglebutton">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>25</y>
+      <width>201</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Get target value from record:</string>
+    </property>
+    <property name="channel" stdset="0">
+     <string notr="true">$(SYS)-$(DEVICE):DlyCompensation-Source-I.DISA</string>
+    </property>
+    <property name="trueValue">
+     <string>0</string>
+    </property>
+    <property name="falseValue">
+     <string>1</string>
+    </property>
+   </widget>
+   <widget class="caLineEdit" name="calineedit_22">
+    <property name="geometry">
+     <rect>
+      <x>220</x>
+      <y>25</y>
+      <width>181</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+    </property>
+    <property name="channel" stdset="0">
+     <string notr="true">$(SYS)-$(DEVICE):DlyCompensation-Source-I.INPA</string>
+    </property>
+    <property name="unitsEnabled">
+     <bool>true</bool>
+    </property>
+   </widget>
   </widget>
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>181</y>
+     <y>241</y>
      <width>101</width>
      <height>17</height>
     </rect>
@@ -260,7 +301,7 @@
    <property name="geometry">
     <rect>
      <x>120</x>
-     <y>178</y>
+     <y>238</y>
      <width>71</width>
      <height>25</height>
     </rect>
@@ -276,7 +317,7 @@
    <property name="geometry">
     <rect>
      <x>200</x>
-     <y>180</y>
+     <y>240</y>
      <width>71</width>
      <height>20</height>
     </rect>
@@ -295,7 +336,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>220</y>
+     <y>280</y>
      <width>391</width>
      <height>111</height>
     </rect>
@@ -352,13 +393,13 @@
     </property>
    </widget>
   </widget>
-  <widget class="caRelatedDisplay" name="carelateddisplay_4">
+  <widget class="caRelatedDisplay" name="carelateddisplay_5">
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>350</y>
-     <width>221</width>
-     <height>31</height>
+     <y>10</y>
+     <width>171</width>
+     <height>25</height>
     </rect>
    </property>
    <property name="background">
@@ -369,7 +410,7 @@
     </color>
    </property>
    <property name="labels">
-    <string notr="true">Data buffer</string>
+    <string notr="true">Data buffer status overview</string>
    </property>
    <property name="files">
     <string notr="true">G_EVR_$(FF)_dbuf.ui</string>
@@ -394,6 +435,11 @@
    <class>caTextEntry</class>
    <extends>caLineEdit</extends>
    <header>caTextEntry</header>
+  </customwidget>
+  <customwidget>
+   <class>caToggleButton</class>
+   <extends>QCheckBox</extends>
+   <header>caToggleButton</header>
   </customwidget>
   <customwidget>
    <class>caLineEdit</class>

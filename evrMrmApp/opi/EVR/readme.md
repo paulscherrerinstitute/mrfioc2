@@ -7,9 +7,14 @@ from this folder.
 
 Script options:
 
- - -s <system name>     The system/project name
- - -d <EVR name>        Event Receiver / timing card name (default: EVR0)
- - -h                   This help
+ - -s <system name\> ..... The system/project name
+ - -d <EVR name\>    ..... Event Receiver / timing card name (default: EVR0)
+ - -f <form factor\> ..... Choose the event receiver form factor (default: VME-300)
+ 
+	                     Choices: VME, PCIe, VME-300, PCIe-300DC
+
+ - -n ..... Do not attach to existing caQtDM. Open new one instead
+ - -h ..... This help
 
 
 ## EVR health monitoring
@@ -22,6 +27,7 @@ Script options:
 
  - -s <system name>     The system/project name
  - -d <EVR name>        Event Receiver /timing card name (default: EVR0)
+ - -n                   Do not attach to existing caQtDM. Open new one instead
  - -h                   This help
 
 

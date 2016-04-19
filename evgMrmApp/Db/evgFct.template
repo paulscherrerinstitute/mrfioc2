@@ -60,11 +60,21 @@ record(mbbiDirect, "$(SYS)-$(DEVICE):FCT-status-I") {
   field(SCAN, "1 second")
 }
 
-record(longout, "$(SYS)-$(DEVICE):FCT-ClearViolation-SP") {
+record(calcout, "$(SYS)-$(DEVICE):FCT-ClrVioSrc-I") {
+  field(INPA, "$(FCT-ClrVioSrc\=) CP")
+  field(CALC, "VAL")
+  field(DISV, "1")
+  field(DISA, "0")
+  field(VAL , "255")
+  field(OOPT, "Every Time")
+  field(OUT , "$(SYS)-$(DEVICE):FCT-ClearViolation-SP PP")
+}
+
+record(mbboDirect, "$(SYS)-$(DEVICE):FCT-ClearViolation-SP") {
   field(DTYP, "Obj Prop uint16")
   field(OUT , "@OBJ=$(DEVICE):FCT, PROP=Violation")
   field(DESC, "Clear link violation")
-  field(FLNK, "$(SYS)-$(DEVICE):FCT-Violation-I")
+  field(NOBT, "8")
 }
 
 record(mbbiDirect, "$(SYS)-$(DEVICE):FCT-Violation-I") {

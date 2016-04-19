@@ -29,7 +29,7 @@
      id="namedview6101"
      showgrid="false"
      inkscape:zoom="1.4328386"
-     inkscape:cx="299.27246"
+     inkscape:cx="300.66829"
      inkscape:cy="36.861387"
      inkscape:window-x="0"
      inkscape:window-y="25"
@@ -2994,26 +2994,26 @@
     <text
        xml:space="preserve"
        style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-       x="223.13954"
-       y="348.24127"
+       x="207.90506"
+       y="434.39502"
        id="text2989-3-6-6"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan2991-1-1-1"
-         x="223.13954"
-         y="348.24127"
-         style="font-size:12px;font-weight:bold">Pulse mode</tspan></text>
+         x="207.90506"
+         y="434.39502"
+         style="font-size:12px;font-weight:bold">Waveform mode</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-       x="216.29398"
-       y="392.03232"
+       x="219.78355"
+       y="347.71521"
        id="text2989-3-6-6-8"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan2991-1-1-1-1"
-         x="216.29398"
-         y="392.03232"
+         x="219.78355"
+         y="347.71521"
          style="font-size:12px;font-weight:bold">Pattern mode</tspan></text>
     <rect
        style="fill:none;stroke:#000000;stroke-width:1.41261363"
@@ -3025,14 +3025,14 @@
     <text
        xml:space="preserve"
        style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-       x="205.8051"
-       y="433.74411"
+       x="209.29468"
+       y="391.427"
        id="text2989-3-6-6-9"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan2991-1-1-1-2"
-         x="205.8051"
-         y="433.74411"
+         x="209.29468"
+         y="391.427"
          style="font-size:12px;font-weight:bold">Frequency mode</tspan></text>
     <rect
        style="fill:none;stroke:#000000;stroke-width:1.41261363"

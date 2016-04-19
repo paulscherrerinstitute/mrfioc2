@@ -130,6 +130,7 @@ public:
     epicsUInt32 fpgaFirmware();
     formFactor getFormFactor();
     std::string formFactorStr();
+    deviceInfoT getDeviceInfo();
 
     //! Firmware Version
     epicsUInt32 version() const;

@@ -60,7 +60,7 @@ goto finish
     echo     -s [system name]     The system/project name
     echo     -d [EVR name]        Event Receiver / timing card name (default: %DEVICE%)
     echo     -f [form factor]     EVR form factor (default: %FF%)
-    echo                          Choices: VME, PCIe, VME-300
+    echo                          Choices: VME, PCIe, VME-300, PCIe-300DC
     echo     -h                   This help
 
 :finish

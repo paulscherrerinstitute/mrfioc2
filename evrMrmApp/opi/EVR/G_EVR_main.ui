@@ -165,7 +165,7 @@
     <widget class="caInclude" name="cainclude_17">
      <property name="geometry">
       <rect>
-       <x>0</x>
+       <x>1</x>
        <y>20</y>
        <width>131</width>
        <height>111</height>
@@ -175,7 +175,7 @@
       <string notr="true">SYS=$(SYS),DEVICE=$(DEVICE)</string>
      </property>
      <property name="filename" stdset="0">
-      <string notr="true">G_EVR_$(FF)_main-status.ui</string>
+      <string notr="true">G_EVR_main-status.ui</string>
      </property>
     </widget>
     <zorder>cainclude_6</zorder>

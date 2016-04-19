@@ -4,6 +4,7 @@ set -o errexit
 SYS=""
 DEVICE="EVR0"
 FF="VME-300"
+ATTACH="-attach"
 
 usage()
 {
@@ -13,10 +14,11 @@ usage()
     echo "    -d <EVR name>        Event Receiver / timing card name (default: $EVR)"
     echo "    -f <form factor>     EVR form factor (default: $FF)"
     echo "                         Choices: VME, PCIe, VME-300"
+    echo "    -n                   Do not attach to existing caQtDM. Open new one instead"
     echo "    -h                   This help"
 }
 
-while getopts ":s:d:f:h" o; do
+while getopts ":s:d:f:nh" o; do
     case "${o}" in
         s)
             SYS=${OPTARG}
@@ -26,6 +28,9 @@ while getopts ":s:d:f:h" o; do
             ;;
         f)
             FF=${OPTARG}
+            ;;
+        n)
+            ATTACH=""
             ;;
         h)
             usage
@@ -48,12 +53,11 @@ if [ -z $SYS ]; then
     exit 1
 fi
 
-if [ $FF != "VME" ] && [ $FF != "PCIe" ] && [ $FF != "VME-300" ]; then
+if [ $FF != "VME" ] && [ $FF != "PCIe" ] && [ $FF != "VME-300" ]&& [ $FF != "PCIe-300DC" ]; then
     echo "Invalid form factor selected: $FF"
-    echo "        Available choices: VME, VME-300, PCIe"
+    echo "        Available choices: VME, VME-300, PCIe, PCIe-300DC"
     exit 1
 fi
 
 macro="SYS=$SYS,DEVICE=$DEVICE,FF=$FF"
-caqtdm -attach -macro "$macro" G_EVR_main.ui &
-#echo caqtdm -attach -macro "$macro" G_EVR_main.ui &
+caqtdm $ATTACH -macro "$macro" G_EVR_main.ui &

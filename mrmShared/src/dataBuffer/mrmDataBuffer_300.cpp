@@ -78,7 +78,10 @@ bool mrmDataBuffer_300::send(epicsUInt8 startSegment, epicsUInt16 length, epicsU
     }
 
     /* Send data */
-    if (!waitWhileTxRunning()) return false;
+    if (!waitWhileTxRunning()) {
+        dbgPrintf(1, "Data sending skipped...waiting while Tx running took too long.\n");
+        return false;
+    }
 
     // Using big endian write (instead of memcopy for example), because the data is always in big endian on the network. Thus we always
     // need to write using big endian.
@@ -176,11 +179,6 @@ void mrmDataBuffer_300::receive()
                 m_users[i]->user->updateSegment(segment, m_rx_buff, length);
             }
         }
-    }
-
-    // TODO: is this really needed? Registers get written when intreset is set/removed
-    for(i=0; i<4; i++) {        // set which segments will trigger interrupt when data is received
-        nat_iowrite32(base+DataBuffer_SegmentIRQ + 4 * i, m_irq_flags[i]);
     }
 }
 

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>675</width>
-    <height>677</height>
+    <height>682</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -76,104 +76,11 @@
      </color>
     </property>
    </widget>
-   <widget class="QLabel" name="label">
-    <property name="geometry">
-     <rect>
-      <x>5</x>
-      <y>70</y>
-      <width>121</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Firmware version</string>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-    </property>
-   </widget>
-   <widget class="caLineEdit" name="calineedit">
-    <property name="geometry">
-     <rect>
-      <x>135</x>
-      <y>70</y>
-      <width>71</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="channel" stdset="0">
-     <string notr="true">$(SYS)-$(DEVICE):FwVer-I</string>
-    </property>
-    <property name="formatType">
-     <enum>caLineEdit::hexadecimal</enum>
-    </property>
-   </widget>
-   <widget class="caLineEdit" name="calineedit_3">
-    <property name="geometry">
-     <rect>
-      <x>135</x>
-      <y>90</y>
-      <width>71</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="channel" stdset="0">
-     <string notr="true">$(SYS)-$(DEVICE):Timestamp-RB</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_5">
-    <property name="geometry">
-     <rect>
-      <x>5</x>
-      <y>90</y>
-      <width>121</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Timestamp</string>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-    </property>
-   </widget>
-   <widget class="caLineEdit" name="calineedit_4">
-    <property name="geometry">
-     <rect>
-      <x>135</x>
-      <y>110</y>
-      <width>71</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="channel" stdset="0">
-     <string notr="true">$(SYS)-$(DEVICE):DbusStatus-RB</string>
-    </property>
-    <property name="formatType">
-     <enum>caLineEdit::hexadecimal</enum>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_7">
-    <property name="geometry">
-     <rect>
-      <x>5</x>
-      <y>110</y>
-      <width>121</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>DBus status</string>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-    </property>
-   </widget>
    <widget class="caInclude" name="cainclude">
     <property name="geometry">
      <rect>
       <x>470</x>
-      <y>50</y>
+      <y>45</y>
       <width>185</width>
       <height>95</height>
      </rect>
@@ -189,8 +96,8 @@
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>170</y>
-      <width>661</width>
+      <y>175</y>
+      <width>671</width>
       <height>503</height>
      </rect>
     </property>
@@ -353,7 +260,7 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>661</width>
+        <width>671</width>
         <height>471</height>
        </rect>
       </property>
@@ -804,9 +711,9 @@
    <widget class="QLabel" name="label_8">
     <property name="geometry">
      <rect>
-      <x>5</x>
-      <y>140</y>
-      <width>121</width>
+      <x>220</x>
+      <y>145</y>
+      <width>81</width>
       <height>20</height>
      </rect>
     </property>
@@ -820,9 +727,9 @@
    <widget class="caLineEdit" name="calineedit_12">
     <property name="geometry">
      <rect>
-      <x>135</x>
-      <y>140</y>
-      <width>131</width>
+      <x>310</x>
+      <y>145</y>
+      <width>141</width>
       <height>20</height>
      </rect>
     </property>
@@ -864,6 +771,95 @@
     <property name="filename" stdset="0">
      <string notr="true">G_EVG_$(FF)_dlyCompensation.ui</string>
     </property>
+   </widget>
+   <widget class="QWidget" name="formLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>5</x>
+      <y>65</y>
+      <width>211</width>
+      <height>91</height>
+     </rect>
+    </property>
+    <layout class="QFormLayout" name="formLayout">
+     <item row="0" column="0">
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>Firmware version</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="caLineEdit" name="calineedit">
+       <property name="channel" stdset="0">
+        <string notr="true">$(SYS)-$(DEVICE):FwVer-I</string>
+       </property>
+       <property name="formatType">
+        <enum>caLineEdit::hexadecimal</enum>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="label_3">
+       <property name="text">
+        <string>Driver version</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="label_5">
+       <property name="text">
+        <string>Timestamp</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0">
+      <widget class="QLabel" name="label_7">
+       <property name="text">
+        <string>DBus status</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="caLineEdit" name="calineedit_2">
+       <property name="channel" stdset="0">
+        <string notr="true">$(SYS)-$(DEVICE):SwVer-I</string>
+       </property>
+       <property name="formatType">
+        <enum>caLineEdit::hexadecimal</enum>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="caLineEdit" name="calineedit_3">
+       <property name="channel" stdset="0">
+        <string notr="true">$(SYS)-$(DEVICE):Timestamp-RB</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="caLineEdit" name="calineedit_4">
+       <property name="channel" stdset="0">
+        <string notr="true">$(SYS)-$(DEVICE):DbusStatus-RB</string>
+       </property>
+       <property name="formatType">
+        <enum>caLineEdit::hexadecimal</enum>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </widget>
   </widget>
  </widget>
