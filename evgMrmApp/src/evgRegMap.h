@@ -303,10 +303,6 @@
 #define EVG_FCT_STATUS_STATUS_mask      0x00FF0000
 #define EVG_FCT_STATUS_STATUS_shift     16
 
-/*
- * Control register flags
- */
-#define EVG_FCT_CONTROL_VIOLATION_start 0x00000001  // clear violation on port X
 
 
 #ifndef  EVG_CONSTANTS

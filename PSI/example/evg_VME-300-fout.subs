@@ -5,6 +5,8 @@ file "$(mrfioc2_TEMPLATES=db)/evg-vme-300.db"
     {
          DlyCompensation-Beacon-Sel=0, # 0 = Disable, 1 = Enable : Delay compensation beacon generator
          DlyCompensation-Master-Sel=0, # 0 = Disable, 1 = Enable : Master enable for delay compensation
+         FCT-ClrVioSrc="",             # when a record referenced here is processed, link violations on all ports will be cleared. (default: empty)
+                                       # Recommended setting for SwissFEL is SIN-CVME-TIMAST-TMA:EvmClrLnkVio-Cmd
 
          AcTrig-Phase-SP=0.0,   #0-25.5 : EVG AC Phase Shifter
          AcTrig-Divider-SP=0,   #0-255 : EVG AC Divider
