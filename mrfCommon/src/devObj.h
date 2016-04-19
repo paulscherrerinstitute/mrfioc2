@@ -111,8 +111,9 @@ long init_record_empty(void *)
 }
 
 static inline
-long init_record_return2(void *)
+long init_record_return2(dbCommon *pcom)
 {
+  pcom->sevr = 0;
   return 2;
 }
 
