@@ -443,7 +443,7 @@ record(calcout, "$(SYS)-$(DEVICE):DlyCompensation-Source-I") {
   field(INPA, "$(DlyCompensation-Source\=) CP")
   field(CALC, "A")
   field(DISV, "1")
-  field(DISA, "0")
+  field(DISA, "$(DlyCompensation-Source-Disa\=0)")
   field(OUT , "$(SYS)-$(DEVICE):DlyCompensation-Target-SP PP")
 }
 
