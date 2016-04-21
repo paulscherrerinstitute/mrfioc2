@@ -123,7 +123,7 @@ try {
 
     {
         scopedLock<mrf::Object> g(*priv->O);
-        priv->P->set(val);
+        priv->P->set((T)val);
 
         if (!priv->rbv)
             return 0;

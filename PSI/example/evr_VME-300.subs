@@ -55,6 +55,7 @@ file "$(mrfioc2_TEMPLATES=db)/evr-vme-300.db"
 		DlyCompensation-Target-SP=1000,	# Delay compensation value in [ns]. Should be set to max(path + delta) of all receivers in the timing system. This value can also be retrieved from an external record (see startup script example).
 		DlyCompensation-Source="",      # delay compensation target value is sourced from the record referenced here. (default: empty)
 		                                # Recommended setting for SwissFEL is SIN-CVME-TIMAST-TMA:EvrDC-SP
+		DlyCompensation-Source-Disa=0,  #0 = Disabled, 1 = Enabled: enables or disables sourcing the delay compensation target value from record specified with 'DlyCompensation-Source' macro
 
 		## Prescalers
 		PS0-Div-SP=2, 			#2-4294967295 :Integer divisor between the Event Clock and the sub-unit output.

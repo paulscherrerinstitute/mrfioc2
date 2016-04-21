@@ -155,7 +155,7 @@ record(mbboDirect, "$(SYS)-$(DEVICE):Pul$(ID)-Gate-Mask-SP") {
   field(PINI, "YES")
   field(NOBT, "16")
   field(DESC, "Pulser gate mask")
-  field(RVAL, "$(Pul$(ID)-Gate-Mask-SP\=0)")
+  field(VAL,  "$(Pul$(ID)-Gate-Mask-SP\=0)")
   field(FLNK, "$(SYS)-$(DEVICE):Pul$(ID)-Gate-Mask-RB")
 }
 
@@ -171,7 +171,7 @@ record(mbboDirect, "$(SYS)-$(DEVICE):Pul$(ID)-Gate-Enable-SP") {
   field(PINI, "YES")
   field(NOBT, "16")
   field(DESC, "Pulser gate enable")
-  field(RVAL, "$(Pul$(ID)-Gate-Enable-SP\=0)")
+  field(VAL,  "$(Pul$(ID)-Gate-Enable-SP\=0)")
   field(FLNK, "$(SYS)-$(DEVICE):Pul$(ID)-Gate-Enable-RB")
 }
 
