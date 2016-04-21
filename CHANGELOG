@@ -1,5 +1,10 @@
 For detailed changelog inspect commits at https://git.psi.ch/epics_drivers/mrfioc2/commits/master
 
+2.7.13 : Wed 20 Apr 2016:
+	- EVR health monitoring update
+	- sourcing target delay compensation for EVRs can now be disabled from the substitution file
+	- bug fix, where pulser gates were not set correctly (due to change in device support handling)
+
 2.7.12 : Tue 19 Apr 2016:
 	- EVG-300 series now supports more output sources (with some improved error handling). Because of more output sources, the database changed comparing to 230 series.
 	- substitution file updates: 
