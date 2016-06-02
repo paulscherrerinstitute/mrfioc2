@@ -210,38 +210,6 @@
      <bool>true</bool>
     </property>
    </widget>
-   <widget class="caMenu" name="camenu_3">
-    <property name="geometry">
-     <rect>
-      <x>110</x>
-      <y>138</y>
-      <width>101</width>
-      <height>25</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: rgb(212, 219, 157);</string>
-    </property>
-    <property name="channel" stdset="0">
-     <string notr="true">$(SYS)-$(DEVICE):DlyCompensation-Enabled-Sel</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_6">
-    <property name="geometry">
-     <rect>
-      <x>30</x>
-      <y>141</y>
-      <width>71</width>
-      <height>17</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Enabled</string>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-    </property>
-   </widget>
    <widget class="caToggleButton" name="catogglebutton">
     <property name="geometry">
      <rect>
@@ -281,6 +249,52 @@
     </property>
     <property name="unitsEnabled">
      <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="caChoice" name="cachoice">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>140</y>
+      <width>191</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="toolTip">
+     <string>Enable or disable delay compensation</string>
+    </property>
+    <property name="channel" stdset="0">
+     <string notr="true">$(SYS)-$(DEVICE):DlyCompensation-Enabled-Sel</string>
+    </property>
+    <property name="foreground">
+     <color>
+      <red>0</red>
+      <green>0</green>
+      <blue>0</blue>
+     </color>
+    </property>
+    <property name="background">
+     <color>
+      <red>212</red>
+      <green>219</green>
+      <blue>157</blue>
+     </color>
+    </property>
+    <property name="bordercolor">
+     <color>
+      <red>0</red>
+      <green>0</green>
+      <blue>0</blue>
+     </color>
+    </property>
+    <property name="colorMode">
+     <enum>caChoice::Static</enum>
+    </property>
+    <property name="stackingMode" stdset="0">
+     <enum>caChoice::Column</enum>
+    </property>
+    <property name="endBit">
+     <number>1</number>
     </property>
    </widget>
   </widget>
@@ -425,6 +439,11 @@
    <class>caMenu</class>
    <extends>QComboBox</extends>
    <header>caMenu</header>
+  </customwidget>
+  <customwidget>
+   <class>caChoice</class>
+   <extends>QWidget</extends>
+   <header>caChoice</header>
   </customwidget>
   <customwidget>
    <class>caRelatedDisplay</class>

@@ -75,6 +75,13 @@ record(mbboDirect, "$(SYS)-$(DEVICE):FCT-ClearViolation-SP") {
   field(OUT , "@OBJ=$(DEVICE):FCT, PROP=Violation")
   field(DESC, "Clear link violation")
   field(NOBT, "8")
+  field(FLNK, "$(SYS)-$(DEVICE):FCT-ClearViolation_")
+}
+
+record(longout, "$(SYS)-$(DEVICE):FCT-ClearViolation_") {
+  field(DESC, "Reset Violation value after applying it")
+  field(OUT , "$(SYS)-$(DEVICE):FCT-ClearViolation-SP NPP")
+  field(VAL,  "0")
 }
 
 record(mbbiDirect, "$(SYS)-$(DEVICE):FCT-Violation-I") {
