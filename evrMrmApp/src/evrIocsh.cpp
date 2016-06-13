@@ -1018,15 +1018,84 @@ static void mrmEvrLoopbackCallFunc(const iocshArgBuf *args)
 }
 
 
+extern "C"
+void evrMrmRead(const char* id, size_t offset)
+{
+	mrf::Object *obj = mrf::Object::getObject(id);
+	if (!obj)
+		return;
+	EVRMRM *card = dynamic_cast<EVRMRM*>(obj);
+	if (!card){
+		return;
+	}
+
+	printf("0x%0x: 0x%x\n", offset, nat_ioread32(card->base + offset));
+}
+
+extern "C"
+void evrMrmWrite(const char* id, size_t offset, epicsUInt32 value)
+{
+	mrf::Object *obj = mrf::Object::getObject(id);
+	if (!obj)
+		return;
+	EVRMRM *card = dynamic_cast<EVRMRM*>(obj);
+	if (!card){
+		return;
+	}
+
+	evrMrmRead(id, offset);
+	nat_iowrite32(card->base + offset, value);
+	evrMrmRead(id, offset);
+}
+
+/********** Read device memory  *******/
+
+static const iocshArg mrmDataBufferArg0_evrMrmRead = { "Device", iocshArgString };
+static const iocshArg mrmDataBufferArg1_evrMrmRead = { "offset", iocshArgInt };
+//static const iocshArg mrmDataBufferArg2_evrMrmRead = { "length", iocshArgInt };
+
+static const iocshArg * const mrmDataBufferArgs_evrMrmRead[2] = { &mrmDataBufferArg0_evrMrmRead, &mrmDataBufferArg1_evrMrmRead };
+static const iocshFuncDef mrmDataBufferDef_evrMrmRead = { "mrmEvrMrmRead", 2, mrmDataBufferArgs_evrMrmRead };
+
+
+static void mrmDataBufferFunc_evrMrmRead(const iocshArgBuf *args) {
+	epicsUInt32 offset = args[1].ival;
+	//epicsUInt32 length = args[2].ival;
+	evrMrmRead(args[0].sval, offset);
+}
+
+/******************/
+
+/********** Write device memory  *******/
+
+static const iocshArg mrmDataBufferArg0_evrMrmWrite = { "Device", iocshArgString };
+static const iocshArg mrmDataBufferArg1_evrMrmWrite = { "offset", iocshArgInt };
+static const iocshArg mrmDataBufferArg2_evrMrmWrite = { "value", iocshArgInt };
+
+static const iocshArg * const mrmDataBufferArgs_evrMrmWrite[3] = { &mrmDataBufferArg0_evrMrmWrite, &mrmDataBufferArg1_evrMrmWrite, &mrmDataBufferArg2_evrMrmWrite };
+static const iocshFuncDef mrmDataBufferDef_evrMrmWrite = { "mrmEvrMrmWrite", 3, mrmDataBufferArgs_evrMrmWrite };
+
+
+static void mrmDataBufferFunc_evrMrmWrite(const iocshArgBuf *args) {
+	epicsUInt32 offset = args[1].ival;
+	epicsUInt32 value = args[2].ival;
+
+	evrMrmWrite(args[0].sval, offset, value);
+}
+
+/******************/
+
 static
 void mrmsetupreg()
 {
-    initHookRegister(&inithooks);
-    iocshRegister(&mrmEvrSetupPCIFuncDef,mrmEvrSetupPCICallFunc);
-    iocshRegister(&mrmEvrSetupVMEFuncDef,mrmEvrSetupVMECallFunc);
-    iocshRegister(&mrmEvrDumpMapFuncDef,mrmEvrDumpMapCallFunc);
-    iocshRegister(&mrmEvrForwardFuncDef,mrmEvrForwardCallFunc);
-    iocshRegister(&mrmEvrLoopbackFuncDef,mrmEvrLoopbackCallFunc);
+	initHookRegister(&inithooks);
+	iocshRegister(&mrmEvrSetupPCIFuncDef, mrmEvrSetupPCICallFunc);
+	iocshRegister(&mrmEvrSetupVMEFuncDef, mrmEvrSetupVMECallFunc);
+	iocshRegister(&mrmEvrDumpMapFuncDef, mrmEvrDumpMapCallFunc);
+	iocshRegister(&mrmEvrForwardFuncDef, mrmEvrForwardCallFunc);
+	iocshRegister(&mrmEvrLoopbackFuncDef, mrmEvrLoopbackCallFunc);
+	iocshRegister(&mrmDataBufferDef_evrMrmRead, mrmDataBufferFunc_evrMrmRead);
+	iocshRegister(&mrmDataBufferDef_evrMrmWrite, mrmDataBufferFunc_evrMrmWrite);
 }
 
 
