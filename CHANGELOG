@@ -1,5 +1,9 @@
 For detailed changelog inspect commits at https://git.psi.ch/epics_drivers/mrfioc2/commits/master
 
+2.7.14 : Tue 21 Jun 2016:
+	- EVG clear port violation: bux fix where clear violation value was never reset to 0
+	- GUI: Display for delay compensation enable/disable changed
+
 2.7.13 : Wed 20 Apr 2016:
 	- EVR health monitoring update
 	- sourcing target delay compensation for EVRs can now be disabled from the substitution file
