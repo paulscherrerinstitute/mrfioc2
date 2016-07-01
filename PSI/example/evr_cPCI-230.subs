@@ -16,55 +16,75 @@ file "$(mrfioc2_TEMPLATES=db)/evr-cpci-230.db"
 			
 
 		## Pulsers
+		Pul0-Name-I="Pulser 0"	#Description of the pulser. Maximum 40 characters allowed!
+		Pul0-Name-I.DESC=""		#Secondary description of the pulser. Maximum 40 characters allowed!
 		Pul0-Ena-Sel=1,			#0 = Disabled, 1 = Enabled
 		Pul0-Polarity-Sel=0,   	#0 = Active High, 1 = Active Low
 		Pul0-Delay-SP=100,		#Pulse delay in us (range depends on prescaler selection and event clock)
 		Pul0-Width-SP=10,		#Pulse width in us (range depends on prescaler selection and event clock)
 		Pul0-Prescaler-SP=1,   	#0-65535 : Pulser prescaler
 
+		Pul1-Name-I="Pulser 1"	#Description of the pulser. Maximum 40 characters allowed!
+		Pul1-Name-I.DESC=""		#Secondary description of the pulser. Maximum 40 characters allowed!
 		Pul1-Ena-Sel=1,			#0 = Disabled, 1 = Enabled
 		Pul1-Polarity-Sel=0,   	#0 = Active High, 1 = Active Low
 		Pul1-Delay-SP=0,		#Pulse delay in us (range depends on prescaler selection and event clock)
 		Pul1-Width-SP=10,		#Pulse width in us (range depends on prescaler selection and event clock)
 		Pul1-Prescaler-SP=1,   	#0-65535 : Pulser prescaler
 
+		Pul2-Name-I="Pulser 2"	#Description of the pulser. Maximum 40 characters allowed!
+		Pul2-Name-I.DESC=""		#Secondary description of the pulser. Maximum 40 characters allowed!
 		Pul2-Ena-Sel=1,			#0 = Disabled, 1 = Enabled
 		Pul2-Polarity-Sel=0,  	#0 = Active High, 1 = Active Low
 		Pul2-Delay-SP=0,		#Pulse delay in us (range depends on prescaler selection and event clock)
 		Pul2-Width-SP=0,		#Pulse width in us (range depends on prescaler selection and event clock)
 		Pul2-Prescaler-SP=1, 	#0-65535 : Pulser prescaler
 
+		Pul3-Name-I="Pulser 3"	#Description of the pulser. Maximum 40 characters allowed!
+		Pul3-Name-I.DESC=""		#Secondary description of the pulser. Maximum 40 characters allowed!
 		Pul3-Ena-Sel=1,			#0 = Disabled, 1 = Enabled
 		Pul3-Polarity-Sel=0,   	#0 = Active High, 1 = Active Low
 		Pul3-Delay-SP=0,		#Pulse delay in us (range depends on prescaler selection and event clock)
 		Pul3-Width-SP=0,		#Pulse width in us (range depends on prescaler selection and event clock)
 		Pul3-Prescaler-SP=1,   	#0-65535 : Pulser prescaler
 
+		Pul4-Name-I="Pulser 4"	#Description of the pulser. Maximum 40 characters allowed!
+		Pul4-Name-I.DESC=""		#Secondary description of the pulser. Maximum 40 characters allowed!
 		Pul4-Ena-Sel=1,			#0 = Disabled, 1 = Enabled
 		Pul4-Polarity-Sel=0,   	#0 = Active High, 1 = Active Low
 		Pul4-Delay-SP=0,		#Pulse delay in us 
 		Pul4-Width-SP=0,		#0-65535 : Width in us
 
+		Pul5-Name-I="Pulser 5"	#Description of the pulser. Maximum 40 characters allowed!
+		Pul5-Name-I.DESC=""		#Secondary description of the pulser. Maximum 40 characters allowed!
 		Pul5-Ena-Sel=1,			#0 = Disabled, 1 = Enabled
 		Pul5-Polarity-Sel=0,   	#0 = Active High, 1 = Active Low
 		Pul5-Delay-SP=0,		#Pulse delay in us 
 		Pul5-Width-SP=0,		#0-65535 : Width in us
 
+		Pul6-Name-I="Pulser 6"	#Description of the pulser. Maximum 40 characters allowed!
+		Pul6-Name-I.DESC=""		#Secondary description of the pulser. Maximum 40 characters allowed!
 		Pul6-Ena-Sel=1,			#0 = Disabled, 1 = Enabled
 		Pul6-Polarity-Sel=0,   	#0 = Active High, 1 = Active Low
 		Pul6-Delay-SP=0,		#Pulse delay in us 
 		Pul6-Width-SP=0,		#0-65535 : Width in us
 
+		Pul7-Name-I="Pulser 7"	#Description of the pulser. Maximum 40 characters allowed!
+		Pul7-Name-I.DESC=""		#Secondary description of the pulser. Maximum 40 characters allowed!
 		Pul7-Ena-Sel=1,			#0 = Disabled, 1 = Enabled
 		Pul7-Polarity-Sel=0,   	#0 = Active High, 1 = Active Low
 		Pul7-Delay-SP=0,		#Pulse delay in us 
 		Pul7-Width-SP=0,		#0-65535 : Width in us
 
+		Pul8-Name-I="Pulser 8"	#Description of the pulser. Maximum 40 characters allowed!
+		Pul8-Name-I.DESC=""		#Secondary description of the pulser. Maximum 40 characters allowed!
 		Pul8-Ena-Sel=1,			#0 = Disabled, 1 = Enabled
 		Pul8-Polarity-Sel=0,   	#0 = Active High, 1 = Active Low
 		Pul8-Delay-SP=0,		#Pulse delay in us 
 		Pul8-Width-SP=0,		#0-65535 : Width in us
 
+		Pul9-Name-I="Pulser 9"	#Description of the pulser. Maximum 40 characters allowed!
+		Pul9-Name-I.DESC=""		#Secondary description of the pulser. Maximum 40 characters allowed!
 		Pul9-Ena-Sel=1,			#0 = Disabled, 1 = Enabled
 		Pul9-Polarity-Sel=0,   	#0 = Active High, 1 = Active Low
 		Pul9-Delay-SP=0,		#Pulse delay in us 
@@ -122,18 +142,26 @@ file "$(mrfioc2_TEMPLATES=db)/evr-cpci-230.db"
 		# 62	Force High
 
 		# Universal outputs, Slot 0
-		FrontUnivOut0-Ena-SP=1, 	# Default to enabled
-		FrontUnivOut0-Src-SP=63,  	# Defaults to Force low (if enabled -> Ena-SP)
+		FrontUnivOut0-Name-I=""			# Description of the output. Maximum 40 characters allowed!
+		FrontUnivOut0-Name-I.DESC=""	# Secondary description of the output. Maximum 40 characters allowed!
+		FrontUnivOut0-Ena-SP=1, 		# Default to enabled
+		FrontUnivOut0-Src-SP=63,  		# Defaults to Force low (if enabled -> Ena-SP)
 
-		FrontUnivOut1-Ena-SP=1, 	# Default to enabled
-		FrontUnivOut1-Src-SP=63,  	# Defaults to Force low (if enabled -> Ena-SP)
+		FrontUnivOut1-Name-I=""			# Description of the output. Maximum 40 characters allowed!
+		FrontUnivOut1-Name-I.DESC=""	# Secondary description of the output. Maximum 40 characters allowed!
+		FrontUnivOut1-Ena-SP=1, 		# Default to enabled
+		FrontUnivOut1-Src-SP=63,  		# Defaults to Force low (if enabled -> Ena-SP)
 
 		# Universal outputs, Slot 1
-		FrontUnivOut2-Ena-SP=1, 	# Default to enabled
-		FrontUnivOut2-Src-SP=63,  	# Defaults to Force low (if enabled -> Ena-SP)
+		FrontUnivOut2-Name-I=""			# Description of the output. Maximum 40 characters allowed!
+		FrontUnivOut2-Name-I.DESC=""	# Secondary description of the output. Maximum 40 characters allowed!
+		FrontUnivOut2-Ena-SP=1, 		# Default to enabled
+		FrontUnivOut2-Src-SP=63,  		# Defaults to Force low (if enabled -> Ena-SP)
 
-		FrontUnivOut3-Ena-SP=1, 	# Default to enabled
-		FrontUnivOut3-Src-SP=63,  	# Defaults to Force low (if enabled -> Ena-SP)
+		FrontUnivOut3-Name-I=""			# Description of the output. Maximum 40 characters allowed!
+		FrontUnivOut3-Name-I.DESC=""	# Secondary description of the output. Maximum 40 characters allowed!
+		FrontUnivOut3-Ena-SP=1, 		# Default to enabled
+		FrontUnivOut3-Src-SP=63,  		# Defaults to Force low (if enabled -> Ena-SP)
 
      }
  }
