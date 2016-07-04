@@ -200,3 +200,10 @@ record(bi, "$(SYS)-$(DEVICE):Pul$(ID)-Out-I") {
   field(ZNAM, "Low")
   field(ONAM, "High")
 }
+
+# Record to hold user description of the pulser.
+# The desc field can hold secondary description
+record(stringin, "$(SYS)-$(DEVICE):Pul$(ID)-Name-I") {
+  field(DESC, "$(Pul$(ID)-Name-I.DESC\=)")
+  field(VAL,  "$(Pul$(ID)-Name-I\=Pulser $(ID))")
+}

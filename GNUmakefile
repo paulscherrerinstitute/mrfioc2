@@ -177,6 +177,8 @@ dbexpand:
 	msi -I evrMrmApp/Db/ -I mrmShared/Db/ -S evrMrmApp/Db/evr-vme-300.substitutions 	-o evrMrmApp/Db/evr-vme-300.db
 	msi -I evrMrmApp/Db/ -I mrmShared/Db/ -S evrMrmApp/Db/evr-vme-230.substitutions 	-o evrMrmApp/Db/evr-vme-230.db
 
-
+gui: 
+	PSI/installScreens.sh evrMrmApp/opi/EVR/
+	PSI/installScreens.sh evgMrmApp/opi/EVG/
 
 

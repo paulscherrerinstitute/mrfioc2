@@ -111,6 +111,8 @@ file "$(mrfioc2_TEMPLATES=db)/evr-vme-300.db"
 		FPIn1-DBus-Sel=0,		#1 = Bit 0, 2 = Bit 1, 4 = Bit 2, 8 = Bit 3, 16 = Bit 4, 32 = Bit 5, 64 = Bit 6, 128 = Bit 7 : DBus bits are OR-ed with this value and sent out
 
 		## Pulsers
+		Pul0-Name-I="Pulser 0"		#Description of the pulser. Maximum 40 characters allowed!
+		Pul0-Name-I.DESC=""			#Secondary description of the pulser. Maximum 40 characters allowed!
 		Pul0-Ena-Sel=1,				#0 = Disabled, 1 = Enabled
 		Pul0-Polarity-Sel=0,   		#0 = Active High, 1 = Active Low
 		Pul0-Delay-SP=0,			#Pulse delay in us (range depends on prescaler selection and event clock)
@@ -119,6 +121,8 @@ file "$(mrfioc2_TEMPLATES=db)/evr-vme-300.db"
 		Pul0-Gate-Mask-SP=0x0,		#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will mask this pulser
 		Pul0-Gate-Enable-SP=0x0,	#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will enable this pulser
 
+		Pul1-Name-I="Pulser 1"		#Description of the pulser. Maximum 40 characters allowed!
+		Pul1-Name-I.DESC=""			#Secondary description of the pulser. Maximum 40 characters allowed!
 		Pul1-Ena-Sel=1,				#0 = Disabled, 1 = Enabled
 		Pul1-Polarity-Sel=0,   		#0 = Active High, 1 = Active Low
 		Pul1-Delay-SP=0,			#Pulse delay in us  (range depends on prescaler selection and event clock)
@@ -127,6 +131,8 @@ file "$(mrfioc2_TEMPLATES=db)/evr-vme-300.db"
 		Pul1-Gate-Mask-SP=0x0,		#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will mask this pulser
 		Pul1-Gate-Enable-SP=0x0,	#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will enable this pulser
 
+		Pul2-Name-I="Pulser 2"		#Description of the pulser. Maximum 40 characters allowed!
+		Pul2-Name-I.DESC=""			#Secondary description of the pulser. Maximum 40 characters allowed!
 		Pul2-Ena-Sel=1,				#0 = Disabled, 1 = Enabled
 		Pul2-Polarity-Sel=0,  		#0 = Active High, 1 = Active Low
 		Pul2-Delay-SP=0,			#Pulse delay in us  (range depends on prescaler selection and event clock)
@@ -135,6 +141,8 @@ file "$(mrfioc2_TEMPLATES=db)/evr-vme-300.db"
 		Pul2-Gate-Mask-SP=0x0,		#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will mask this pulser
 		Pul2-Gate-Enable-SP=0x0,	#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will enable this pulser
 
+		Pul3-Name-I="Pulser 3"		#Description of the pulser. Maximum 40 characters allowed!
+		Pul3-Name-I.DESC=""			#Secondary description of the pulser. Maximum 40 characters allowed!
 		Pul3-Ena-Sel=1,				#0 = Disabled, 1 = Enabled
 		Pul3-Polarity-Sel=0,   		#0 = Active High, 1 = Active Low
 		Pul3-Delay-SP=0,			#Pulse delay in us  (range depends on prescaler selection and event clock)
@@ -143,6 +151,8 @@ file "$(mrfioc2_TEMPLATES=db)/evr-vme-300.db"
 		Pul3-Gate-Mask-SP=0x0,		#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will mask this pulser
 		Pul3-Gate-Enable-SP=0x0,	#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will enable this pulser
 
+		Pul4-Name-I="Pulser 4"		#Description of the pulser. Maximum 40 characters allowed!
+		Pul4-Name-I.DESC=""			#Secondary description of the pulser. Maximum 40 characters allowed!
 		Pul4-Ena-Sel=1,				#0 = Disabled, 1 = Enabled
 		Pul4-Polarity-Sel=0,   		#0 = Active High, 1 = Active Low
 		Pul4-Delay-SP=0,			#Pulse delay in us 
@@ -150,6 +160,8 @@ file "$(mrfioc2_TEMPLATES=db)/evr-vme-300.db"
 		Pul4-Gate-Mask-SP=0x0,		#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will mask this pulser
 		Pul4-Gate-Enable-SP=0x0,	#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will enable this pulser
 
+		Pul5-Name-I="Pulser 5"		#Description of the pulser. Maximum 40 characters allowed!
+		Pul5-Name-I.DESC=""			#Secondary description of the pulser. Maximum 40 characters allowed!
 		Pul5-Ena-Sel=1,				#0 = Disabled, 1 = Enabled
 		Pul5-Polarity-Sel=0,   		#0 = Active High, 1 = Active Low
 		Pul5-Delay-SP=0,			#Pulse delay in us 
@@ -157,6 +169,8 @@ file "$(mrfioc2_TEMPLATES=db)/evr-vme-300.db"
 		Pul5-Gate-Mask-SP=0x0,		#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will mask this pulser
 		Pul5-Gate-Enable-SP=0x0,	#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will enable this pulser
 
+		Pul6-Name-I="Pulser 6"		#Description of the pulser. Maximum 40 characters allowed!
+		Pul6-Name-I.DESC=""			#Secondary description of the pulser. Maximum 40 characters allowed!
 		Pul6-Ena-Sel=1,				#0 = Disabled, 1 = Enabled
 		Pul6-Polarity-Sel=0,   		#0 = Active High, 1 = Active Low
 		Pul6-Delay-SP=0,			#Pulse delay in us 
@@ -164,6 +178,8 @@ file "$(mrfioc2_TEMPLATES=db)/evr-vme-300.db"
 		Pul6-Gate-Mask-SP=0x0,		#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will mask this pulser
 		Pul6-Gate-Enable-SP=0x0,	#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will enable this pulser
 
+		Pul7-Name-I="Pulser 7"		#Description of the pulser. Maximum 40 characters allowed!
+		Pul7-Name-I.DESC=""			#Secondary description of the pulser. Maximum 40 characters allowed!
 		Pul7-Ena-Sel=1,				#0 = Disabled, 1 = Enabled
 		Pul7-Polarity-Sel=0,   		#0 = Active High, 1 = Active Low
 		Pul7-Delay-SP=0,			#Pulse delay in us 
@@ -171,6 +187,8 @@ file "$(mrfioc2_TEMPLATES=db)/evr-vme-300.db"
 		Pul7-Gate-Mask-SP=0x0,		#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will mask this pulser
 		Pul7-Gate-Enable-SP=0x0,	#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will enable this pulser
 
+		Pul8-Name-I="Pulser 8"		#Description of the pulser. Maximum 40 characters allowed!
+		Pul8-Name-I.DESC=""			#Secondary description of the pulser. Maximum 40 characters allowed!
 		Pul8-Ena-Sel=1,				#0 = Disabled, 1 = Enabled
 		Pul8-Polarity-Sel=0,   		#0 = Active High, 1 = Active Low
 		Pul8-Delay-SP=0,			#Pulse delay in us 
@@ -178,6 +196,8 @@ file "$(mrfioc2_TEMPLATES=db)/evr-vme-300.db"
 		Pul8-Gate-Mask-SP=0x0,		#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will mask this pulser
 		Pul8-Gate-Enable-SP=0x0,	#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will enable this pulser
 
+		Pul9-Name-I="Pulser 9"		#Description of the pulser. Maximum 40 characters allowed!
+		Pul9-Name-I.DESC=""			#Secondary description of the pulser. Maximum 40 characters allowed!
 		Pul9-Ena-Sel=1,				#0 = Disabled, 1 = Enabled
 		Pul9-Polarity-Sel=0,   		#0 = Active High, 1 = Active Low
 		Pul9-Delay-SP=0,			#Pulse delay in us 
@@ -185,6 +205,8 @@ file "$(mrfioc2_TEMPLATES=db)/evr-vme-300.db"
 		Pul9-Gate-Mask-SP=0x0,		#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will mask this pulser
 		Pul9-Gate-Enable-SP=0x0,	#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will enable this pulser
 
+		Pul10-Name-I="Pulser 10"	#Description of the pulser. Maximum 40 characters allowed!
+		Pul10-Name-I.DESC=""		#Secondary description of the pulser. Maximum 40 characters allowed!
 		Pul10-Ena-Sel=1,			#0 = Disabled, 1 = Enabled
 		Pul10-Polarity-Sel=0,  		#0 = Active High, 1 = Active Low
 		Pul10-Delay-SP=0,			#Pulse delay in us 
@@ -192,6 +214,8 @@ file "$(mrfioc2_TEMPLATES=db)/evr-vme-300.db"
 		Pul10-Gate-Mask-SP=0x0,		#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will mask this pulser
 		Pul10-Gate-Enable-SP=0x0,	#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will enable this pulser
 
+		Pul11-Name-I="Pulser 11"	#Description of the pulser. Maximum 40 characters allowed!
+		Pul11-Name-I.DESC=""		#Secondary description of the pulser. Maximum 40 characters allowed!
 		Pul11-Ena-Sel=1,			#0 = Disabled, 1 = Enabled
 		Pul11-Polarity-Sel=0,  		#0 = Active High, 1 = Active Low
 		Pul11-Delay-SP=0,			#Pulse delay in us 
@@ -199,6 +223,8 @@ file "$(mrfioc2_TEMPLATES=db)/evr-vme-300.db"
 		Pul11-Gate-Mask-SP=0x0,		#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will mask this pulser
 		Pul11-Gate-Enable-SP=0x0,	#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will enable this pulser
 
+		Pul12-Name-I="Pulser 12"	#Description of the pulser. Maximum 40 characters allowed!
+		Pul12-Name-I.DESC=""		#Secondary description of the pulser. Maximum 40 characters allowed!
 		Pul12-Ena-Sel=1,			#0 = Disabled, 1 = Enabled
 		Pul12-Polarity-Sel=0,  		#0 = Active High, 1 = Active Low
 		Pul12-Delay-SP=0,			#Pulse delay in us 
@@ -206,6 +232,8 @@ file "$(mrfioc2_TEMPLATES=db)/evr-vme-300.db"
 		Pul12-Gate-Mask-SP=0x0,		#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will mask this pulser
 		Pul12-Gate-Enable-SP=0x0,	#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will enable this pulser
 
+		Pul13-Name-I="Pulser 13"		#Description of the pulser. Maximum 40 characters allowed!
+		Pul13-Name-I.DESC=""			#Secondary description of the pulser. Maximum 40 characters allowed!
 		Pul13-Ena-Sel=1,			#0 = Disabled, 1 = Enabled
 		Pul13-Polarity-Sel=0,  		#0 = Active High, 1 = Active Low
 		Pul13-Delay-SP=0,			#Pulse delay in us 
@@ -213,6 +241,8 @@ file "$(mrfioc2_TEMPLATES=db)/evr-vme-300.db"
 		Pul13-Gate-Mask-SP=0x0,		#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will mask this pulser
 		Pul13-Gate-Enable-SP=0x0,	#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will enable this pulser
 
+		Pul14-Name-I="Pulser 14"	#Description of the pulser. Maximum 40 characters allowed!
+		Pul14-Name-I.DESC=""		#Secondary description of the pulser. Maximum 40 characters allowed!
 		Pul14-Ena-Sel=1,			#0 = Disabled, 1 = Enabled
 		Pul14-Polarity-Sel=0,  		#0 = Active High, 1 = Active Low
 		Pul14-Delay-SP=0,			#Pulse delay in us 
@@ -220,6 +250,8 @@ file "$(mrfioc2_TEMPLATES=db)/evr-vme-300.db"
 		Pul14-Gate-Mask-SP=0x0,		#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will mask this pulser
 		Pul14-Gate-Enable-SP=0x0,	#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will enable this pulser
 
+		Pul15-Name-I="Pulser 15"	#Description of the pulser. Maximum 40 characters allowed!
+		Pul15-Name-I.DESC=""		#Secondary description of the pulser. Maximum 40 characters allowed!
 		Pul15-Ena-Sel=1,			#0 = Disabled, 1 = Enabled
 		Pul15-Polarity-Sel=0,  		#0 = Active High, 1 = Active Low
 		Pul15-Delay-SP=0,			#Pulse delay in us 
@@ -227,6 +259,8 @@ file "$(mrfioc2_TEMPLATES=db)/evr-vme-300.db"
 		Pul15-Gate-Mask-SP=0x0,		#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will mask this pulser
 		Pul15-Gate-Enable-SP=0x0,	#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will enable this pulser
 
+		Pul16-Name-I="Pulser 16"	#Description of the pulser. Maximum 40 characters allowed!
+		Pul16-Name-I.DESC=""		#Secondary description of the pulser. Maximum 40 characters allowed!
 		Pul16-Ena-Sel=1,			#0 = Disabled, 1 = Enabled
 		Pul16-Polarity-Sel=0,  		#0 = Active High, 1 = Active Low
 		Pul16-Delay-SP=0,			#Pulse delay in us 
@@ -234,6 +268,8 @@ file "$(mrfioc2_TEMPLATES=db)/evr-vme-300.db"
 		Pul16-Gate-Mask-SP=0x0,		#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will mask this pulser
 		Pul16-Gate-Enable-SP=0x0,	#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will enable this pulser
 
+		Pul17-Name-I="Pulser 17"	#Description of the pulser. Maximum 40 characters allowed!
+		Pul17-Name-I.DESC=""		#Secondary description of the pulser. Maximum 40 characters allowed!
 		Pul17-Ena-Sel=1,			#0 = Disabled, 1 = Enabled
 		Pul17-Polarity-Sel=0,  		#0 = Active High, 1 = Active Low
 		Pul17-Delay-SP=0,			#Pulse delay in us 
@@ -241,6 +277,8 @@ file "$(mrfioc2_TEMPLATES=db)/evr-vme-300.db"
 		Pul17-Gate-Mask-SP=0x0,		#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will mask this pulser
 		Pul17-Gate-Enable-SP=0x0,	#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will enable this pulser
 
+		Pul18-Name-I="Pulser 18"	#Description of the pulser. Maximum 40 characters allowed!
+		Pul18-Name-I.DESC=""		#Secondary description of the pulser. Maximum 40 characters allowed!
 		Pul18-Ena-Sel=1,			#0 = Disabled, 1 = Enabled
 		Pul18-Polarity-Sel=0,  		#0 = Active High, 1 = Active Low
 		Pul18-Delay-SP=0,			#Pulse delay in us 
@@ -248,6 +286,8 @@ file "$(mrfioc2_TEMPLATES=db)/evr-vme-300.db"
 		Pul18-Gate-Mask-SP=0x0,		#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will mask this pulser
 		Pul18-Gate-Enable-SP=0x0,	#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will enable this pulser
 
+		Pul19-Name-I="Pulser 19"	#Description of the pulser. Maximum 40 characters allowed!
+		Pul19-Name-I.DESC=""		#Secondary description of the pulser. Maximum 40 characters allowed!
 		Pul19-Ena-Sel=1,			#0 = Disabled, 1 = Enabled
 		Pul19-Polarity-Sel=0,  		#0 = Active High, 1 = Active Low
 		Pul19-Delay-SP=0,			#Pulse delay in us 
@@ -255,6 +295,8 @@ file "$(mrfioc2_TEMPLATES=db)/evr-vme-300.db"
 		Pul19-Gate-Mask-SP=0x0,		#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will mask this pulser
 		Pul19-Gate-Enable-SP=0x0,	#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will enable this pulser
 
+		Pul20-Name-I="Pulser 20"	#Description of the pulser. Maximum 40 characters allowed!
+		Pul20-Name-I.DESC=""		#Secondary description of the pulser. Maximum 40 characters allowed!
 		Pul20-Ena-Sel=1,			#0 = Disabled, 1 = Enabled
 		Pul20-Polarity-Sel=0,  		#0 = Active High, 1 = Active Low
 		Pul20-Delay-SP=0,			#Pulse delay in us 
@@ -262,6 +304,8 @@ file "$(mrfioc2_TEMPLATES=db)/evr-vme-300.db"
 		Pul20-Gate-Mask-SP=0x0,		#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will mask this pulser
 		Pul20-Gate-Enable-SP=0x0,	#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will enable this pulser
 
+		Pul21-Name-I="Pulser 21"	#Description of the pulser. Maximum 40 characters allowed!
+		Pul21-Name-I.DESC=""		#Secondary description of the pulser. Maximum 40 characters allowed!
 		Pul21-Ena-Sel=1,			#0 = Disabled, 1 = Enabled
 		Pul21-Polarity-Sel=0,  		#0 = Active High, 1 = Active Low
 		Pul21-Delay-SP=0,			#Pulse delay in us 
@@ -269,6 +313,8 @@ file "$(mrfioc2_TEMPLATES=db)/evr-vme-300.db"
 		Pul21-Gate-Mask-SP=0x0,		#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will mask this pulser
 		Pul21-Gate-Enable-SP=0x0,	#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will enable this pulser
 
+		Pul22-Name-I="Pulser 0"		#Description of the pulser. Maximum 40 characters allowed!
+		Pul22-Name-I.DESC=""		#Secondary description of the pulser. Maximum 40 characters allowed!
 		Pul22-Ena-Sel=1,			#0 = Disabled, 1 = Enabled
 		Pul22-Polarity-Sel=0,  		#0 = Active High, 1 = Active Low
 		Pul22-Delay-SP=0,			#Pulse delay in us 
@@ -276,6 +322,8 @@ file "$(mrfioc2_TEMPLATES=db)/evr-vme-300.db"
 		Pul22-Gate-Mask-SP=0x0,		#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will mask this pulser
 		Pul22-Gate-Enable-SP=0x0,	#0-15 : Selects which gate will enable this pulser
 
+		Pul23-Name-I="Pulser 0"		#Description of the pulser. Maximum 40 characters allowed!
+		Pul23-Name-I.DESC=""		#Secondary description of the pulser. Maximum 40 characters allowed!
 		Pul23-Ena-Sel=1,			#0 = Disabled, 1 = Enabled
 		Pul23-Polarity-Sel=0,  		#0 = Active High, 1 = Active Low
 		Pul23-Delay-SP=0,			#Pulse delay in us 
@@ -284,9 +332,20 @@ file "$(mrfioc2_TEMPLATES=db)/evr-vme-300.db"
 		Pul23-Gate-Enable-SP=0x0,	#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will enable this pulser
 
 		# Gates 0-3
+		Pul28-Name-I="Gate 0"	#Description of the gated pulser. Maximum 40 characters allowed!
+		Pul28-Name-I.DESC=""	#Secondary description of the gated pulser. Maximum 40 characters allowed!
 		Pul28-Ena-Sel=1,		#0 = Disabled, 1 = Enabled
+
+		Pul29-Name-I="Gate 1"	#Description of the gated pulser. Maximum 40 characters allowed!
+		Pul29-Name-I.DESC=""	#Secondary description of the gated pulser. Maximum 40 characters allowed!
 		Pul29-Ena-Sel=1,		#0 = Disabled, 1 = Enabled
+
+		Pul30-Name-I="Gate 2"	#Description of the gated pulser. Maximum 40 characters allowed!
+		Pul30-Name-I.DESC=""	#Secondary description of the gated pulser. Maximum 40 characters allowed!
 		Pul30-Ena-Sel=1,		#0 = Disabled, 1 = Enabled
+
+		Pul31-Name-I="Gate 3"	#Description of the gated pulser. Maximum 40 characters allowed!
+		Pul31-Name-I.DESC=""	#Secondary description of the gated pulser. Maximum 40 characters allowed!
 		Pul31-Ena-Sel=1,		#0 = Disabled, 1 = Enabled
 		
 		## Front panel outputs
@@ -335,31 +394,45 @@ file "$(mrfioc2_TEMPLATES=db)/evr-vme-300.db"
 		# 62	Force High
 
 		# Universal Outputs
+		FrontUnivOut0-Name-I=""			# Description of the output. Maximum 40 characters allowed!
+		FrontUnivOut0-Name-I.DESC=""	# Secondary description of the output. Maximum 40 characters allowed!
 		FrontUnivOut0-Ena-SP=1, 		# Default to enabled
 		FrontUnivOut0-Src-SP=63,  		# Defaults to Force low (if enabled -> Ena-SP)
 		FrontUnivOut0-Src2-SP=63,		# Defaults to Force low (if enabled -> Ena-SP)
 
+		FrontUnivOut1-Name-I=""			# Description of the output. Maximum 40 characters allowed!
+		FrontUnivOut1-Name-I.DESC=""	# Secondary description of the output. Maximum 40 characters allowed!
 		FrontUnivOut1-Ena-SP=1, 		# Default to enabled
 		FrontUnivOut1-Src-SP=63,  		# Defaults to Force low (if enabled -> Ena-SP)
 		FrontUnivOut1-Src2-SP=63,		# Defaults to Force low (if enabled -> Ena-SP)
 
+		FrontUnivOut2-Name-I=""			# Description of the output. Maximum 40 characters allowed!
+		FrontUnivOut2-Name-I.DESC=""	# Secondary description of the output. Maximum 40 characters allowed!
 		FrontUnivOut2-Ena-SP=1, 		# Default to enabled
 		FrontUnivOut2-Src-SP=63,  		# Defaults to Force low (if enabled -> Ena-SP)
 		FrontUnivOut2-Src2-SP=63,		# Defaults to Force low (if enabled -> Ena-SP)
 
+		FrontUnivOut3-Name-I=""			# Description of the output. Maximum 40 characters allowed!
+		FrontUnivOut3-Name-I.DESC=""	# Secondary description of the output. Maximum 40 characters allowed!
 		FrontUnivOut3-Ena-SP=1, 		# Default to enabled
 		FrontUnivOut3-Src-SP=63,  		# Defaults to Force low (if enabled -> Ena-SP)
 		FrontUnivOut3-Src2-SP=63,		# Defaults to Force low (if enabled -> Ena-SP)
 
+		FrontUnivOut4-Name-I=""			# Description of the output. Maximum 40 characters allowed!
+		FrontUnivOut4-Name-I.DESC=""	# Secondary description of the output. Maximum 40 characters allowed!
 		FrontUnivOut4-Ena-SP=1, 		# Default to enabled
 		FrontUnivOut4-Src-SP=63,  		# Defaults to Force low (if enabled -> Ena-SP)
 		FrontUnivOut4-Src2-SP=63,		# Defaults to Force low (if enabled -> Ena-SP)
 
+		FrontUnivOut5-Name-I=""			# Description of the output. Maximum 40 characters allowed!
+		FrontUnivOut5-Name-I.DESC=""	# Secondary description of the output. Maximum 40 characters allowed!
 		FrontUnivOut5-Ena-SP=1, 		# Default to enabled
 		FrontUnivOut5-Src-SP=63,  		# Defaults to Force low (if enabled -> Ena-SP)
 		FrontUnivOut5-Src2-SP=63,		# Defaults to Force low (if enabled -> Ena-SP)
 
 		# CML outputs
+		FrontUnivOut6-Name-I=""			# Description of the output. Maximum 40 characters allowed!
+		FrontUnivOut6-Name-I.DESC=""	# Secondary description of the output. Maximum 40 characters allowed!
 		FrontUnivOut6-Ena-SP=1, 		# Default to enabled
 		FrontUnivOut6-Src-SP=63,  		# Defaults to Force low (if enabled -> Ena-SP)
 		FrontUnivOut6-Src2-SP=63,		# Defaults to Force low (if enabled -> Ena-SP)
@@ -388,6 +461,8 @@ file "$(mrfioc2_TEMPLATES=db)/evr-vme-300.db"
 		CML0-WfCalc:Delay-SP=16, 		# For waveform mode: Delay of the square wave pattern in ns
 		CML0-WfCalc:Width-SP=50, 		# For waveform mode: Width of the square wave pattern in ns
 
+		FrontUnivOut7-Name-I=""			# Description of the output. Maximum 40 characters allowed!
+		FrontUnivOut7-Name-I.DESC=""	# Secondary description of the output. Maximum 40 characters allowed!
 		FrontUnivOut7-Ena-SP=1, 		# Default to enabled
 		FrontUnivOut7-Src-SP=63,  		# Defaults to Force low (if enabled -> Ena-SP)
 		FrontUnivOut7-Src2-SP=63,		# Defaults to Force low (if enabled -> Ena-SP)
@@ -416,6 +491,8 @@ file "$(mrfioc2_TEMPLATES=db)/evr-vme-300.db"
 		CML1-WfCalc:Delay-SP=16, 		# For waveform mode: Delay of the square wave pattern in ns
 		CML1-WfCalc:Width-SP=50, 		# For waveform mode: Width of the square wave pattern in ns
 
+		FrontUnivOut8-Name-I=""			# Description of the output. Maximum 40 characters allowed!
+		FrontUnivOut8-Name-I.DESC=""	# Secondary description of the output. Maximum 40 characters allowed!
 		FrontUnivOut8-Ena-SP=1, 		# Default to enabled
 		FrontUnivOut8-Src-SP=63,  		# Defaults to Force low (if enabled -> Ena-SP)
 		FrontUnivOut8-Src2-SP=63,		# Defaults to Force low (if enabled -> Ena-SP)
@@ -444,6 +521,8 @@ file "$(mrfioc2_TEMPLATES=db)/evr-vme-300.db"
 		CML2-WfCalc:Delay-SP=16, 	# For waveform mode: Delay of the square wave pattern in ns
 		CML2-WfCalc:Width-SP=50, 	# For waveform mode: Width of the square wave pattern in ns
 
+		FrontUnivOut9-Name-I=""			# Description of the output. Maximum 40 characters allowed!
+		FrontUnivOut9-Name-I.DESC=""	# Secondary description of the output. Maximum 40 characters allowed!
 		FrontUnivOut9-Ena-SP=1, 		# Default to enabled
 		FrontUnivOut9-Src-SP=63,  		# Defaults to Force low (if enabled -> Ena-SP)
 		FrontUnivOut9-Src2-SP=63,		# Defaults to Force low (if enabled -> Ena-SP)
@@ -474,66 +553,98 @@ file "$(mrfioc2_TEMPLATES=db)/evr-vme-300.db"
 
 
 		# Transition board outputs
+		RearUniv0-Name-I=""			# Description of the output. Maximum 40 characters allowed!
+		RearUniv0-Name-I.DESC=""	# Secondary description of the output. Maximum 40 characters allowed!
 		RearUniv0-Ena-SP=1, 	 	# Default to enabled	
 		RearUniv0-Src-SP=63,  		# Defaults to Force low (if enabled -> Ena-SP)
 		RearUniv0-Src2-SP=63,  		# Defaults to Force low (if enabled -> Ena-SP)
 	
+		RearUniv1-Name-I=""			# Description of the output. Maximum 40 characters allowed!
+		RearUniv1-Name-I.DESC=""	# Secondary description of the output. Maximum 40 characters allowed!
 		RearUniv1-Ena-SP=1, 		# Default to enabled
 		RearUniv1-Src-SP=63,  		# Defaults to Force low (if enabled -> Ena-SP)
 		RearUniv1-Src2-SP=63,  		# Defaults to Force low (if enabled -> Ena-SP)
 	
+		RearUniv2-Name-I=""			# Description of the output. Maximum 40 characters allowed!
+		RearUniv2-Name-I.DESC=""	# Secondary description of the output. Maximum 40 characters allowed!
 		RearUniv2-Ena-SP=1, 		# Default to enabled
 		RearUniv2-Src-SP=63,  		# Defaults to Force low (if enabled -> Ena-SP)
 		RearUniv2-Src2-SP=63,  		# Defaults to Force low (if enabled -> Ena-SP)
 	
+		RearUniv3-Name-I=""			# Description of the output. Maximum 40 characters allowed!
+		RearUniv3-Name-I.DESC=""	# Secondary description of the output. Maximum 40 characters allowed!
 		RearUniv3-Ena-SP=1, 		# Default to enabled
 		RearUniv3-Src-SP=63,  		# Defaults to Force low (if enabled -> Ena-SP)
 		RearUniv3-Src2-SP=63,  		# Defaults to Force low (if enabled -> Ena-SP)
 	
+		RearUniv4-Name-I=""			# Description of the output. Maximum 40 characters allowed!
+		RearUniv4-Name-I.DESC=""	# Secondary description of the output. Maximum 40 characters allowed!
 		RearUniv4-Ena-SP=1, 		# Default to enabled
 		RearUniv4-Src-SP=63,  		# Defaults to Force low (if enabled -> Ena-SP)
 		RearUniv4-Src2-SP=63,  		# Defaults to Force low (if enabled -> Ena-SP)
 	
+		RearUniv5-Name-I=""			# Description of the output. Maximum 40 characters allowed!
+		RearUniv5-Name-I.DESC=""	# Secondary description of the output. Maximum 40 characters allowed!
 		RearUniv5-Ena-SP=1, 		# Default to enabled
 		RearUniv5-Src-SP=63,  		# Defaults to Force low (if enabled -> Ena-SP)
 		RearUniv5-Src2-SP=63,  		# Defaults to Force low (if enabled -> Ena-SP)
 	
+		RearUniv6-Name-I=""			# Description of the output. Maximum 40 characters allowed!
+		RearUniv6-Name-I.DESC=""	# Secondary description of the output. Maximum 40 characters allowed!
 		RearUniv6-Ena-SP=1, 		# Default to enabled
 		RearUniv6-Src-SP=63,  		# Defaults to Force low (if enabled -> Ena-SP)
 		RearUniv6-Src2-SP=63,  		# Defaults to Force low (if enabled -> Ena-SP)
 	
+		RearUniv7-Name-I=""			# Description of the output. Maximum 40 characters allowed!
+		RearUniv7-Name-I.DESC=""	# Secondary description of the output. Maximum 40 characters allowed!
 		RearUniv7-Ena-SP=1, 		# Default to enabled
 		RearUniv7-Src-SP=63,  		# Defaults to Force low (if enabled -> Ena-SP)
 		RearUniv7-Src2-SP=63,  		# Defaults to Force low (if enabled -> Ena-SP)
 	
+		RearUniv8-Name-I=""			# Description of the output. Maximum 40 characters allowed!
+		RearUniv8-Name-I.DESC=""	# Secondary description of the output. Maximum 40 characters allowed!
 		RearUniv8-Ena-SP=1, 		# Default to enabled
 		RearUniv8-Src-SP=63,  		# Defaults to Force low (if enabled -> Ena-SP)
 		RearUniv8-Src2-SP=63,  		# Defaults to Force low (if enabled -> Ena-SP)
 	
+		RearUniv9-Name-I=""			# Description of the output. Maximum 40 characters allowed!
+		RearUniv9-Name-I.DESC=""	# Secondary description of the output. Maximum 40 characters allowed!
 		RearUniv9-Ena-SP=1, 		# Default to enabled
 		RearUniv9-Src-SP=63,  		# Defaults to Force low (if enabled -> Ena-SP)
 		RearUniv9-Src2-SP=63,  		# Defaults to Force low (if enabled -> Ena-SP)
 	
+		RearUniv10-Name-I=""		# Description of the output. Maximum 40 characters allowed!
+		RearUniv10-Name-I.DESC=""	# Secondary description of the output. Maximum 40 characters allowed!
 		RearUniv10-Ena-SP=1, 		# Default to enabled
 		RearUniv10-Src-SP=63, 		# Defaults to Force low (if enabled -> Ena-SP)
 		RearUniv10-Src2-SP=63,  	# Defaults to Force low (if enabled -> Ena-SP)
 	
+		RearUniv11-Name-I=""		# Description of the output. Maximum 40 characters allowed!
+		RearUniv11-Name-I.DESC=""	# Secondary description of the output. Maximum 40 characters allowed!
 		RearUniv11-Ena-SP=1, 		# Default to enabled
 		RearUniv11-Src-SP=63, 		# Defaults to Force low (if enabled -> Ena-SP)
 		RearUniv11-Src2-SP=63,  	# Defaults to Force low (if enabled -> Ena-SP)
 	
+		RearUniv12-Name-I=""		# Description of the output. Maximum 40 characters allowed!
+		RearUniv12-Name-I.DESC=""	# Secondary description of the output. Maximum 40 characters allowed!
 		RearUniv12-Ena-SP=1, 		# Default to enabled
 		RearUniv12-Src-SP=63, 		# Defaults to Force low (if enabled -> Ena-SP)
 		RearUniv12-Src2-SP=63,  	# Defaults to Force low (if enabled -> Ena-SP)
 	
+		RearUniv13-Name-I=""		# Description of the output. Maximum 40 characters allowed!
+		RearUniv13-Name-I.DESC=""	# Secondary description of the output. Maximum 40 characters allowed!
 		RearUniv13-Ena-SP=1, 		# Default to enabled
 		RearUniv13-Src-SP=63,  		# Defaults to Force low (if enabled -> Ena-SP)
 		RearUniv13-Src2-SP=63, 		# Defaults to Force low (if enabled -> Ena-SP)
 	
+		RearUniv14-Name-I=""		# Description of the output. Maximum 40 characters allowed!
+		RearUniv14-Name-I.DESC=""	# Secondary description of the output. Maximum 40 characters allowed!
 		RearUniv14-Ena-SP=1, 		# Default to enabled
 		RearUniv14-Src-SP=63,  		# Defaults to Force low (if enabled -> Ena-SP)
 		RearUniv14-Src2-SP=63,  	# Defaults to Force low (if enabled -> Ena-SP)
 	
+		RearUniv15-Name-I=""		# Description of the output. Maximum 40 characters allowed!
+		RearUniv15-Name-I.DESC=""	# Secondary description of the output. Maximum 40 characters allowed!
 		RearUniv15-Ena-SP=1, 		# Default to enabled
 		RearUniv15-Src-SP=63,  		# Defaults to Force low (if enabled -> Ena-SP)
 		RearUniv15-Src2-SP=63,  	# Defaults to Force low (if enabled -> Ena-SP)

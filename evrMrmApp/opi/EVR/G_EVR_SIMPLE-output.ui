@@ -1,0 +1,708 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Dialog</class>
+ <widget class="QDialog" name="Dialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>114</width>
+    <height>112</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <widget class="caLineEdit" name="calineedit_6">
+   <property name="geometry">
+    <rect>
+     <x>1</x>
+     <y>21</y>
+     <width>109</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>CH NAME</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+   <property name="channel" stdset="0">
+    <string notr="true">$(IOC):$(CHAN)-Name-I</string>
+   </property>
+  </widget>
+  <widget class="caLed" name="caled">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>47</y>
+     <width>21</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="channel" stdset="0">
+    <string notr="true">$(IOC):$(CHAN)-Ena-SP</string>
+   </property>
+   <property name="falseColor">
+    <color>
+     <red>255</red>
+     <green>0</green>
+     <blue>0</blue>
+    </color>
+   </property>
+   <property name="trueColor">
+    <color>
+     <red>0</red>
+     <green>255</green>
+     <blue>0</blue>
+    </color>
+   </property>
+  </widget>
+  <widget class="caMessageButton" name="camessagebutton_3">
+   <property name="geometry">
+    <rect>
+     <x>75</x>
+     <y>45</y>
+     <width>31</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>OFF</string>
+   </property>
+   <property name="channel" stdset="0">
+    <string notr="true">$(IOC):$(CHAN)-Ena-SP</string>
+   </property>
+   <property name="label">
+    <string notr="true">OFF</string>
+   </property>
+   <property name="pressMessage">
+    <string notr="true">0</string>
+   </property>
+  </widget>
+  <widget class="caMessageButton" name="camessagebutton_4">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>45</y>
+     <width>31</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>ON</string>
+   </property>
+   <property name="channel" stdset="0">
+    <string notr="true">$(IOC):$(CHAN)-Ena-SP</string>
+   </property>
+   <property name="label">
+    <string notr="true">ON</string>
+   </property>
+   <property name="pressMessage">
+    <string notr="true">1</string>
+   </property>
+  </widget>
+  <widget class="caGraphics" name="cagraphics_2">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>111</width>
+     <height>107</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="caLabel" name="calabel">
+   <property name="geometry">
+    <rect>
+     <x>1</x>
+     <y>1</y>
+     <width>109</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>$(CHAN)</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+   <property name="background">
+    <color>
+     <red>192</red>
+     <green>192</green>
+     <blue>192</blue>
+    </color>
+   </property>
+  </widget>
+  <widget class="caGraphics" name="cagraphics">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>40</y>
+     <width>111</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="foreground">
+    <color>
+     <red>170</red>
+     <green>0</green>
+     <blue>0</blue>
+    </color>
+   </property>
+   <property name="fillstyle" stdset="0">
+    <enum>caGraphics::Filled</enum>
+   </property>
+   <property name="visibility">
+    <enum>caGraphics::Calc</enum>
+   </property>
+   <property name="visibilityCalc">
+    <string notr="true">A=0</string>
+   </property>
+   <property name="channel" stdset="0">
+    <string notr="true">$(IOC):$(CHAN)-Src-RB</string>
+   </property>
+  </widget>
+  <widget class="caGraphics" name="cagraphics_3">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>40</y>
+     <width>111</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="foreground">
+    <color>
+     <red>0</red>
+     <green>85</green>
+     <blue>0</blue>
+    </color>
+   </property>
+   <property name="fillstyle" stdset="0">
+    <enum>caGraphics::Filled</enum>
+   </property>
+   <property name="visibility">
+    <enum>caGraphics::Calc</enum>
+   </property>
+   <property name="visibilityCalc">
+    <string notr="true">A=6</string>
+   </property>
+   <property name="channel" stdset="0">
+    <string notr="true">$(IOC):$(CHAN)-Src-RB</string>
+   </property>
+  </widget>
+  <widget class="caGraphics" name="cagraphics_4">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>40</y>
+     <width>111</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="foreground">
+    <color>
+     <red>255</red>
+     <green>0</green>
+     <blue>255</blue>
+    </color>
+   </property>
+   <property name="fillstyle" stdset="0">
+    <enum>caGraphics::Filled</enum>
+   </property>
+   <property name="visibility">
+    <enum>caGraphics::Calc</enum>
+   </property>
+   <property name="visibilityCalc">
+    <string notr="true">A=13</string>
+   </property>
+   <property name="channel" stdset="0">
+    <string notr="true">$(IOC):$(CHAN)-Src-RB</string>
+   </property>
+  </widget>
+  <widget class="caGraphics" name="cagraphics_5">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>40</y>
+     <width>111</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="foreground">
+    <color>
+     <red>0</red>
+     <green>170</green>
+     <blue>0</blue>
+    </color>
+   </property>
+   <property name="fillstyle" stdset="0">
+    <enum>caGraphics::Filled</enum>
+   </property>
+   <property name="visibility">
+    <enum>caGraphics::Calc</enum>
+   </property>
+   <property name="visibilityCalc">
+    <string notr="true">A=5</string>
+   </property>
+   <property name="channel" stdset="0">
+    <string notr="true">$(IOC):$(CHAN)-Src-RB</string>
+   </property>
+  </widget>
+  <widget class="caGraphics" name="cagraphics_6">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>40</y>
+     <width>111</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="foreground">
+    <color>
+     <red>0</red>
+     <green>85</green>
+     <blue>127</blue>
+    </color>
+   </property>
+   <property name="fillstyle" stdset="0">
+    <enum>caGraphics::Filled</enum>
+   </property>
+   <property name="visibility">
+    <enum>caGraphics::Calc</enum>
+   </property>
+   <property name="visibilityCalc">
+    <string notr="true">A=8</string>
+   </property>
+   <property name="channel" stdset="0">
+    <string notr="true">$(IOC):$(CHAN)-Src-RB</string>
+   </property>
+  </widget>
+  <widget class="caGraphics" name="cagraphics_7">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>40</y>
+     <width>111</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="foreground">
+    <color>
+     <red>0</red>
+     <green>0</green>
+     <blue>127</blue>
+    </color>
+   </property>
+   <property name="fillstyle" stdset="0">
+    <enum>caGraphics::Filled</enum>
+   </property>
+   <property name="visibility">
+    <enum>caGraphics::Calc</enum>
+   </property>
+   <property name="visibilityCalc">
+    <string notr="true">A=12</string>
+   </property>
+   <property name="channel" stdset="0">
+    <string notr="true">$(IOC):$(CHAN)-Src-RB</string>
+   </property>
+  </widget>
+  <widget class="caGraphics" name="cagraphics_8">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>40</y>
+     <width>111</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="foreground">
+    <color>
+     <red>0</red>
+     <green>170</green>
+     <blue>127</blue>
+    </color>
+   </property>
+   <property name="fillstyle" stdset="0">
+    <enum>caGraphics::Filled</enum>
+   </property>
+   <property name="visibility">
+    <enum>caGraphics::Calc</enum>
+   </property>
+   <property name="visibilityCalc">
+    <string notr="true">A=7</string>
+   </property>
+   <property name="channel" stdset="0">
+    <string notr="true">$(IOC):$(CHAN)-Src-RB</string>
+   </property>
+  </widget>
+  <widget class="caGraphics" name="cagraphics_9">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>40</y>
+     <width>111</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="foreground">
+    <color>
+     <red>170</red>
+     <green>0</green>
+     <blue>127</blue>
+    </color>
+   </property>
+   <property name="fillstyle" stdset="0">
+    <enum>caGraphics::Filled</enum>
+   </property>
+   <property name="visibility">
+    <enum>caGraphics::Calc</enum>
+   </property>
+   <property name="visibilityCalc">
+    <string notr="true">A=15</string>
+   </property>
+   <property name="channel" stdset="0">
+    <string notr="true">$(IOC):$(CHAN)-Src-RB</string>
+   </property>
+  </widget>
+  <widget class="caGraphics" name="cagraphics_10">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>40</y>
+     <width>111</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="foreground">
+    <color>
+     <red>0</red>
+     <green>170</green>
+     <blue>255</blue>
+    </color>
+   </property>
+   <property name="fillstyle" stdset="0">
+    <enum>caGraphics::Filled</enum>
+   </property>
+   <property name="visibility">
+    <enum>caGraphics::Calc</enum>
+   </property>
+   <property name="visibilityCalc">
+    <string notr="true">A=9</string>
+   </property>
+   <property name="channel" stdset="0">
+    <string notr="true">$(IOC):$(CHAN)-Src-RB</string>
+   </property>
+  </widget>
+  <widget class="caGraphics" name="cagraphics_11">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>40</y>
+     <width>111</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="foreground">
+    <color>
+     <red>0</red>
+     <green>0</green>
+     <blue>255</blue>
+    </color>
+   </property>
+   <property name="fillstyle" stdset="0">
+    <enum>caGraphics::Filled</enum>
+   </property>
+   <property name="visibility">
+    <enum>caGraphics::Calc</enum>
+   </property>
+   <property name="visibilityCalc">
+    <string notr="true">A=11</string>
+   </property>
+   <property name="channel" stdset="0">
+    <string notr="true">$(IOC):$(CHAN)-Src-RB</string>
+   </property>
+  </widget>
+  <widget class="caGraphics" name="cagraphics_12">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>40</y>
+     <width>111</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="foreground">
+    <color>
+     <red>255</red>
+     <green>0</green>
+     <blue>0</blue>
+    </color>
+   </property>
+   <property name="fillstyle" stdset="0">
+    <enum>caGraphics::Filled</enum>
+   </property>
+   <property name="visibility">
+    <enum>caGraphics::Calc</enum>
+   </property>
+   <property name="visibilityCalc">
+    <string notr="true">A=1</string>
+   </property>
+   <property name="channel" stdset="0">
+    <string notr="true">$(IOC):$(CHAN)-Src-RB</string>
+   </property>
+  </widget>
+  <widget class="caGraphics" name="cagraphics_13">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>40</y>
+     <width>111</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="foreground">
+    <color>
+     <red>170</red>
+     <green>0</green>
+     <blue>255</blue>
+    </color>
+   </property>
+   <property name="fillstyle" stdset="0">
+    <enum>caGraphics::Filled</enum>
+   </property>
+   <property name="visibility">
+    <enum>caGraphics::Calc</enum>
+   </property>
+   <property name="visibilityCalc">
+    <string notr="true">A=14</string>
+   </property>
+   <property name="channel" stdset="0">
+    <string notr="true">$(IOC):$(CHAN)-Src-RB</string>
+   </property>
+  </widget>
+  <widget class="caGraphics" name="cagraphics_14">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>40</y>
+     <width>111</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="foreground">
+    <color>
+     <red>255</red>
+     <green>255</green>
+     <blue>0</blue>
+    </color>
+   </property>
+   <property name="fillstyle" stdset="0">
+    <enum>caGraphics::Filled</enum>
+   </property>
+   <property name="visibility">
+    <enum>caGraphics::Calc</enum>
+   </property>
+   <property name="visibilityCalc">
+    <string notr="true">A=3</string>
+   </property>
+   <property name="channel" stdset="0">
+    <string notr="true">$(IOC):$(CHAN)-Src-RB</string>
+   </property>
+  </widget>
+  <widget class="caGraphics" name="cagraphics_15">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>40</y>
+     <width>111</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="foreground">
+    <color>
+     <red>255</red>
+     <green>170</green>
+     <blue>0</blue>
+    </color>
+   </property>
+   <property name="fillstyle" stdset="0">
+    <enum>caGraphics::Filled</enum>
+   </property>
+   <property name="visibility">
+    <enum>caGraphics::Calc</enum>
+   </property>
+   <property name="visibilityCalc">
+    <string notr="true">A=2</string>
+   </property>
+   <property name="channel" stdset="0">
+    <string notr="true">$(IOC):$(CHAN)-Src-RB</string>
+   </property>
+  </widget>
+  <widget class="caGraphics" name="cagraphics_16">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>40</y>
+     <width>111</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="foreground">
+    <color>
+     <red>170</red>
+     <green>255</green>
+     <blue>255</blue>
+    </color>
+   </property>
+   <property name="fillstyle" stdset="0">
+    <enum>caGraphics::Filled</enum>
+   </property>
+   <property name="visibility">
+    <enum>caGraphics::Calc</enum>
+   </property>
+   <property name="visibilityCalc">
+    <string notr="true">A=10</string>
+   </property>
+   <property name="channel" stdset="0">
+    <string notr="true">$(IOC):$(CHAN)-Src-RB</string>
+   </property>
+  </widget>
+  <widget class="caGraphics" name="cagraphics_17">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>40</y>
+     <width>111</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="foreground">
+    <color>
+     <red>85</red>
+     <green>255</green>
+     <blue>127</blue>
+    </color>
+   </property>
+   <property name="fillstyle" stdset="0">
+    <enum>caGraphics::Filled</enum>
+   </property>
+   <property name="visibility">
+    <enum>caGraphics::Calc</enum>
+   </property>
+   <property name="visibilityCalc">
+    <string notr="true">A=4</string>
+   </property>
+   <property name="channel" stdset="0">
+    <string notr="true">$(IOC):$(CHAN)-Src-RB</string>
+   </property>
+  </widget>
+  <widget class="caLineEdit" name="calineedit_7">
+   <property name="geometry">
+    <rect>
+     <x>1</x>
+     <y>90</y>
+     <width>109</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>CABLE DESC</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+   <property name="channel" stdset="0">
+    <string notr="true">$(IOC):$(CHAN)-Name-I.DESC</string>
+   </property>
+  </widget>
+  <widget class="caTextEntry" name="catextentry">
+   <property name="geometry">
+    <rect>
+     <x>60</x>
+     <y>70</y>
+     <width>41</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="channel" stdset="0">
+    <string notr="true">$(IOC):$(CHAN)-Src-SP</string>
+   </property>
+  </widget>
+  <widget class="caLabel" name="calabel_2">
+   <property name="geometry">
+    <rect>
+     <x>7</x>
+     <y>70</y>
+     <width>41</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>SRC:</string>
+   </property>
+  </widget>
+  <zorder>cagraphics_3</zorder>
+  <zorder>cagraphics_10</zorder>
+  <zorder>cagraphics_9</zorder>
+  <zorder>cagraphics_12</zorder>
+  <zorder>cagraphics_5</zorder>
+  <zorder>cagraphics_14</zorder>
+  <zorder>cagraphics_13</zorder>
+  <zorder>cagraphics_8</zorder>
+  <zorder>cagraphics_6</zorder>
+  <zorder>cagraphics_11</zorder>
+  <zorder>cagraphics_4</zorder>
+  <zorder>cagraphics_7</zorder>
+  <zorder>cagraphics_16</zorder>
+  <zorder>cagraphics_15</zorder>
+  <zorder>cagraphics_17</zorder>
+  <zorder>cagraphics_2</zorder>
+  <zorder>cagraphics</zorder>
+  <zorder>calineedit_6</zorder>
+  <zorder>caled</zorder>
+  <zorder>camessagebutton_3</zorder>
+  <zorder>camessagebutton_4</zorder>
+  <zorder>calabel</zorder>
+  <zorder>calineedit_7</zorder>
+  <zorder>catextentry</zorder>
+  <zorder>calabel_2</zorder>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>caTextEntry</class>
+   <extends>caLineEdit</extends>
+   <header>caTextEntry</header>
+  </customwidget>
+  <customwidget>
+   <class>caMessageButton</class>
+   <extends>QPushButton</extends>
+   <header>caMessageButton</header>
+  </customwidget>
+  <customwidget>
+   <class>caLabel</class>
+   <extends>QLabel</extends>
+   <header>caLabel</header>
+  </customwidget>
+  <customwidget>
+   <class>caGraphics</class>
+   <extends>QWidget</extends>
+   <header>caGraphics</header>
+  </customwidget>
+  <customwidget>
+   <class>caLed</class>
+   <extends>QWidget</extends>
+   <header>caLed</header>
+  </customwidget>
+  <customwidget>
+   <class>caLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>caLineEdit</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>
