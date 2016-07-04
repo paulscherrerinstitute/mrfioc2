@@ -1,5 +1,10 @@
 For detailed changelog inspect commits at https://git.psi.ch/epics_drivers/mrfioc2/commits/master
 
+2.7.15 : Mon 4 Jul 2016:
+	- added basic screen for EVRs (pulsers and outputs control) together with new start_EVR-simple.sh script. Pulsers and outputs now have a record for description (*-Name-I). Warning! Outputs had a simmilar record, which is now removed!
+	- EVR: added iocsh functions mrmEvrMrmRead and mrmEvrMrmWrite for direct access to the memory area
+	- PSI: Added makefile support for installing GUIs
+
 2.7.14 : Tue 21 Jun 2016:
 	- EVG clear port violation: bux fix where clear violation value was never reset to 0
 	- GUI: Display for delay compensation enable/disable changed
