@@ -44,12 +44,12 @@ public:
     void flash(const char *bitfile, size_t offset);
 
     /**
-     * @brief read will read the flash chip memory from a specified offset to the end of the flash chip memory into a file
+     * @brief readToFile will read the flash chip memory from a specified offset to the end of the flash chip memory into a file
      * Throws exceptions (std::invalid_argument or std::runtime_error).
      * @param bitfile is the file to write the flash chip content to
      * @param offset is the offset from the beginning of the flash chip memory to start reading from
      */
-    void read(const char *bitfile, size_t offset);
+    void readToFile(const char *bitfile, size_t offset);
 
     /**
      * @brief getPageSize returns the configured size of one page in the flash chip
@@ -127,6 +127,14 @@ private:
     void write(epicsUInt8 data);
 
     /**
+     * @brief read will read the content of the flash chip to a user supplied buffer, starting at flash chip memory offset and reading length bytes.
+     * @param buffer is a user supplied buffer to read flash chip content into
+     * @param offset is the offset from the beginning of the flash chip memory to start reading from
+     * @param length is the amount of bytes that should be read from the flash chip. Actual amount read is written back when the function finishes.
+     */
+    void read(void *buffer, size_t offset, size_t *length);
+
+    /**
      * @brief waitTransmitterEmpty will wait until the SPI transmit buffer is empty
      */
     void waitTransmitterEmpty();
@@ -160,7 +168,6 @@ private:
      * @param verbosity is an optional argument that determines the verbosity level of debug statements in the function. Defaults to no output.
      */
     inline void waitForCompletition(size_t retryCount, size_t msSleep, int verbosity = 0);
-
 };
 
 #endif // MRMFLASH_H

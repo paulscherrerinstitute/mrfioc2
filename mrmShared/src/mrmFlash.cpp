@@ -18,6 +18,7 @@
 
 // Misc
 #define RETRY_COUNT             10000         // Amount of retries until we fail when waiting for SPI receiver / transmitter to be ready
+#define STOP_COMPARE_ERRORS     100           // Write this many errors when doing check that written firmware is ok in the flash chip
 
 // Flash chip commands
 #define CMD_READ_FAST              0x0B
@@ -156,9 +157,9 @@ void mrmFlash::init(bool autodetect) {
 
 
 void mrmFlash::flash(const char *bitfile, size_t offset) {
-    epicsUInt8 buf[SIZE_PAGE];
+    epicsUInt8 buf[SIZE_PAGE], *readBuffer;
     FILE *fd = NULL;
-    size_t size, readSize;
+    size_t size, readSize, fileSize;
 
 
     if(m_size_memory <= 0 || m_size_sector <= 0) {
@@ -177,8 +178,8 @@ void mrmFlash::flash(const char *bitfile, size_t offset) {
 
     // check if file is to big to be written to flash
     fseek(fd, 0L, SEEK_END);
-    size = ftell(fd);
-    if( offset + size > m_size_memory) {
+    fileSize = ftell(fd);
+    if( offset + fileSize > m_size_memory) {
         fclose(fd);
         throw std::invalid_argument("File too big to be written to this offset.");
     }
@@ -200,20 +201,50 @@ void mrmFlash::flash(const char *bitfile, size_t offset) {
 
         // start the programming of the flash memory at the 'offset' address
         infoPrintf(1, "Writing to flash....\n");
-        readSize = SIZE_PAGE - (offset % SIZE_PAGE);    // offset might not be page-alligned. First write is until the end of page. All the rest are page-alligned.
+        size_t address = offset;
+        readSize = SIZE_PAGE - (address % SIZE_PAGE);    // address might not be page-alligned. First write is until the end of page. All the rest are page-alligned.
         size = fread(buf, 1, readSize, fd); // max one page can be written at once
         readSize = SIZE_PAGE;             // consecutive reads are page-alligned
         while (size > 0) {    // write data page by page
-            pageProgram(buf, offset, size);     // use page program to write data to the flash memory
-            if((offset & 0x0000ffff) == 0) {    // Do not print in each iteration so the output is not flooded
-                infoPrintf(1,"\tWriting to address: 0x%08" FORMAT_SIZET_X "\n", offset);
+            pageProgram(buf, address, size);     // use page program to write data to the flash memory
+            if((address & 0x0000ffff) == 0) {    // Do not print in each iteration so the output is not flooded
+                infoPrintf(1, "\tWriting to address: 0x%08" FORMAT_SIZET_X "\n", address);
             }
-            offset += size;
+            address += size;
             size = fread(buf, 1, readSize, fd); // max one page can be written at once
         }
+
+        infoPrintf(1, "Reading back from flash chip...\n");
+        readBuffer = (epicsUInt8 *) malloc (fileSize * sizeof(epicsUInt8));
+        read(readBuffer, offset, &fileSize);
+
+        infoPrintf(1, "Comparing flash chip content with given firmware file...\n");
+        fseek(fd, 0L, SEEK_SET);
+        size_t stopWithErrors = 0;
+        for (size_t i = 0; i < fileSize; i++) {
+            buf[0] = fgetc(fd);
+            if(readBuffer[i] != buf[0]) {
+                infoPrintf(0, "ERROR! Source firmware file and actual content in device flash memory are different. Try to flash again!\n\tOffset: %" FORMAT_SIZET_U "\tFile content: 0x%x\t Memory content: 0x%x\n", i, buf[0], readBuffer[i]);
+                stopWithErrors++;
+                if(stopWithErrors > STOP_COMPARE_ERRORS) {
+                    infoPrintf(0, "More than %u bytes do not match between firmware file and device flash memory. Stopping with the check\n", STOP_COMPARE_ERRORS);
+                    break;
+                }
+            }
+        }
+        if (stopWithErrors > 0) {
+            infoPrintf(1, "Comparing flash chip content with given firmware file completed with some errors. Try to flash again!\n");
+            infoPrintf(1, "If you reboot the timing card in this state it will not boot-up again!!!\n");
+        }
+        else {
+            infoPrintf(1, "Comparing flash chip content with given firmware file completed successfully! Contents are the same.\n");
+        }
+        free(readBuffer);
+        // TODO we could (try to) dump readBuffer into a file in /tmp/bitfile.readback if the comparison fails
     }
     catch(std::exception&) {
         fclose(fd);
+        free(readBuffer);
         throw;
     }
 
@@ -222,11 +253,37 @@ void mrmFlash::flash(const char *bitfile, size_t offset) {
 
 }
 
-void mrmFlash::read(const char *bitfile, size_t offset) {
-    size_t i;
+void mrmFlash::readToFile(const char *bitfile, size_t offset) {
     FILE *fd;
-    epicsUInt8 buf;
-    const size_t size = m_size_memory-offset;
+    size_t length = 0;
+    epicsUInt8 *readBuffer;
+
+
+    fd = fopen(bitfile, "wb");
+    if (fd == NULL) {
+        throw std::runtime_error("Could not open file for writing the flash content to!");
+    }
+
+    try{
+        readBuffer = (epicsUInt8 *) malloc (m_size_memory * sizeof(epicsUInt8));
+        read(readBuffer, offset, &length);
+
+        if(fwrite(&readBuffer, 1, length, fd) != length){
+            throw std::runtime_error("Could not write to file! Check if there is enough disk space left on device.");
+        }
+
+        fclose(fd);
+        free(readBuffer);
+    }
+    catch(std::exception&) {
+        fclose(fd);
+        free(readBuffer);
+        throw;
+    }
+}
+
+void mrmFlash::read(void *buffer, size_t offset, size_t *length) {
+    size_t i, readLength = 0;
 
     if(m_size_memory <= 0 || m_size_sector <= 0) {
         throw std::runtime_error("Flash chip sector and memory sizes invalid. Did you run init() function?");
@@ -236,13 +293,12 @@ void mrmFlash::read(const char *bitfile, size_t offset) {
         throw std::invalid_argument("Address for reading out of bounds!");
     }
 
-//    if(offset + size > m_size_memory) {
-//        size = m_size_memory - offset;
-//    }
+    // Length to read was undefined. Use maximum available.
+    if(*length <= 0) *length = m_size_memory-offset;
 
-    fd = fopen(bitfile, "wb");
-    if (fd == NULL) {
-        throw std::runtime_error("Could not open file for writing the flash content to!");
+    if(offset + *length > m_size_memory) {
+        *length = m_size_memory - offset;
+        //throw std::invalid_argument("Length is to big to read from this offset!");
     }
 
     try {
@@ -266,11 +322,10 @@ void mrmFlash::read(const char *bitfile, size_t offset) {
         write(0);
         write(0);
 
-        for (i = 0; i < size; i++) {
-            buf = read();
-            if(fwrite(&buf, 1, 1, fd) != 1){
-                throw std::runtime_error("Could not write to file!");
-            }
+        for (i = 0; i < *length; i++) {
+            ((epicsUInt8 *)buffer)[i] = read();
+            readLength++;
+
             if((i & 0x0000ffff) == 0) {    // Do not print in each iteration so the output is not flooded
                 infoPrintf(1,"\tReading address: 0x%08" FORMAT_SIZET_X "\n", offset+i);
             }
@@ -278,12 +333,12 @@ void mrmFlash::read(const char *bitfile, size_t offset) {
         }
 
         slaveSelect(false);
-        fclose(fd);
+        *length = readLength;
         infoPrintf(1,"Reading of the flash memory done.\n");
     }
     catch(std::exception&) {
         slaveSelect(false);
-        fclose(fd);
+        *length = readLength;
         throw;
     }
 }

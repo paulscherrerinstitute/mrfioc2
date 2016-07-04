@@ -186,7 +186,7 @@ void mrmRemoteFlash::read(const char *bitfile)
 {
     try{
         infoPrintf(1, "Reading flash to %s. Starting on flash memory offset %" FORMAT_SIZET_U " [bytes]\n", bitfile, m_offset);
-        m_flash.read(bitfile, m_offset);
+        m_flash.readToFile(bitfile, m_offset);
         infoPrintf(0, "Reading procedure done.\n");
         m_read_success = true;
     }
