@@ -18,7 +18,7 @@
 
 // Misc
 #define RETRY_COUNT             10000         // Amount of retries until we fail when waiting for SPI receiver / transmitter to be ready
-#define STOP_COMPARE_ERRORS     100           // Write this many errors when doing check that written firmware is ok in the flash chip
+#define STOP_COMPARE_ERRORS     100           // Write this many errors when doing check that written firmware is ok in the flash chip, then stop.
 
 // Flash chip commands
 #define CMD_READ_FAST              0x0B
@@ -157,7 +157,7 @@ void mrmFlash::init(bool autodetect) {
 
 
 void mrmFlash::flash(const char *bitfile, size_t offset) {
-    epicsUInt8 buf[SIZE_PAGE], *readBuffer;
+    epicsUInt8 buf[SIZE_PAGE], *readBuffer = NULL;
     FILE *fd = NULL;
     size_t size, readSize, fileSize;
 
@@ -214,12 +214,14 @@ void mrmFlash::flash(const char *bitfile, size_t offset) {
             size = fread(buf, 1, readSize, fd); // max one page can be written at once
         }
 
+        infoPrintf(1, "Flash written.\n");
         infoPrintf(1, "Reading back from flash chip...\n");
         readBuffer = (epicsUInt8 *) malloc (fileSize * sizeof(epicsUInt8));
         read(readBuffer, offset, &fileSize);
 
         infoPrintf(1, "Comparing flash chip content with given firmware file...\n");
         fseek(fd, 0L, SEEK_SET);
+
         size_t stopWithErrors = 0;
         for (size_t i = 0; i < fileSize; i++) {
             buf[0] = fgetc(fd);
@@ -227,14 +229,14 @@ void mrmFlash::flash(const char *bitfile, size_t offset) {
                 infoPrintf(0, "ERROR! Source firmware file and actual content in device flash memory are different. Try to flash again!\n\tOffset: %" FORMAT_SIZET_U "\tFile content: 0x%x\t Memory content: 0x%x\n", i, buf[0], readBuffer[i]);
                 stopWithErrors++;
                 if(stopWithErrors > STOP_COMPARE_ERRORS) {
-                    infoPrintf(0, "More than %u bytes do not match between firmware file and device flash memory. Stopping with the check\n", STOP_COMPARE_ERRORS);
+                    infoPrintf(0, "More than %u bytes do not match between firmware file and device flash memory. Stopping with the check.\n", STOP_COMPARE_ERRORS);
                     break;
                 }
             }
         }
         if (stopWithErrors > 0) {
-            infoPrintf(1, "Comparing flash chip content with given firmware file completed with some errors. Try to flash again!\n");
-            infoPrintf(1, "If you reboot the timing card in this state it will not boot-up again!!!\n");
+            infoPrintf(0, "ERROR! Comparing flash chip content with given firmware file completed with some errors. Try to flash again!\n");
+            throw std::runtime_error("Flash chip content verification failed. If you reboot the timing card in this state it will not boot-up again!");
         }
         else {
             infoPrintf(1, "Comparing flash chip content with given firmware file completed successfully! Contents are the same.\n");
@@ -248,7 +250,6 @@ void mrmFlash::flash(const char *bitfile, size_t offset) {
         throw;
     }
 
-    infoPrintf(1, "Flash written.\n");
     fclose(fd);
 
 }
