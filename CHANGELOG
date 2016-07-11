@@ -1,5 +1,8 @@
 For detailed changelog inspect commits at https://git.psi.ch/epics_drivers/mrfioc2/commits/master
 
+2.7.16 : Mon 11 Jul 2016:
+	- Flashing support: added a check, which verifies that flash chip content is the same as the original bit file when uploading new firmware to the timing card
+
 2.7.15 : Mon 4 Jul 2016:
 	- added basic screen for EVRs (pulsers and outputs control) together with new start_EVR-simple.sh script. Pulsers and outputs now have a record for description (*-Name-I). Warning! Outputs had a simmilar record, which is now removed!
 	- EVR: added iocsh functions mrmEvrMrmRead and mrmEvrMrmWrite for direct access to the memory area
