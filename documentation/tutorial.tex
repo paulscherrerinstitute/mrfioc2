@@ -73,7 +73,8 @@ The following steps demonstrate how to prepare a SWIT compatible IOC application
 			touch EVR0.subs
 			cd ..
 		\end{verbatim}
-	\item \label{quickstart:copySubs} Copy the content of the substitution file  at \texttt{https://git.psi.ch/} \texttt{epics\_drivers/mrfioc2/raw/\latestDriverVersion/PSI/example/evr\_VME-300.subs} to newly created \texttt{cfg/EVR0.subs}. This substitution file can always be used as a starting point for new applications. Substitution files for other form factors are available at the same location (mrfioc2 repository in folder \texttt{PSI/example}).
+	\item \label{quickstart:copySubs} Copy the content of the substitution file  at \texttt{https://git.psi.ch/} \texttt{epics\_driver\_modules/mrfioc2/raw/\latestDriverVersion/PSI/example} 
+	\texttt{/evr\_VME-300.subs} to newly created \texttt{cfg/EVR0.subs}. This substitution file can always be used as a starting point for new applications. Substitution files for other form factors are available at the same location (mrfioc2 repository in folder \texttt{PSI/example}).
 	
 	The macro definitions in the substitution file are used to configure the EVR. All the available macros are already present in the substitution file and set to their default values, so the user can simply change the desired values. Detailed description of the substitution file is available in the EVR manual~\cite{evr_manual}.
 
@@ -83,7 +84,8 @@ The following steps demonstrate how to prepare a SWIT compatible IOC application
 			touch MTEST-VME-TIMINGTEST_startup.script
 		\end{verbatim}
 	\item 
-		Copy the content of the startup script at \texttt{https://github.psi.ch/projects/} \texttt{ED/repos/mrfioc2/browse/PSI/example/evr\_VME\_startup.script?at=\latestDriverVersion} to newly created \texttt{MTEST-VME-TIMINGTEST\_startup.script}. Startup scripts for other form factors are available at the same location (mrfioc2 repository in folder \texttt{PSI/example}).
+		Copy the content of the startup script at \texttt{https://git.psi.ch/epics\_driver} \texttt{\_modules/mrfioc2/raw/\latestDriverVersion/PSI/example}
+		\texttt{/evr\_VME\_startup.script} to newly created \texttt{MTEST-VME-TIMINGTEST\_startup.script}. Startup scripts for other form factors are available at the same location (mrfioc2 repository in folder \texttt{PSI/example}).
 
 	The startup script should look similar to:
 \begin{verbatim}
