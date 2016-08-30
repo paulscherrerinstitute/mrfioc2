@@ -28,6 +28,7 @@ For example, to set up a basic IOC for use with EVR-VME-300 timing card, user sh
 * prepare a switable IOC structure in a `TOP` folder (where `TOP` is your project folder)
 * copy [`PSI/example/evr_VME-300.subs`](PSI/example/evr_VME-300.subs) to `TOP/cfg/EVR0.subs`
 * configure parameters of the EVR by setting macros in `TOP/cfg/EVR0.subs`. Individual parameters are described in [`documentation/evr_manual.pdf`](documentation/evr_manual.pdf), and tutorials for various scenarios are available in [`documentation/tutorial.pdf`](documentation/tutorial.pdf).
+* It is important to check if macro `DlyCompensation-Source` in `TOP/cfg/EVR0.subs` points to the correct record! See the documentation next to the macro in `TOP/cfg/EVR0.subs` for details.
 * add the following to your startup script (available in [`PSI/example/evr_VME_startup.script`](PSI/example/evr_VME_startup.script)):
     
         require mrfioc2
