@@ -440,7 +440,7 @@ record(bi, "$(SYS)-$(DEVICE):DlyCompensation-Enabled-RB") {
 # This record is triggered through CP link and sets 
 # target delay compensation value based on the linked record
 record(calcout, "$(SYS)-$(DEVICE):DlyCompensation-Source-I") {
-  field(INPA, "$(DlyCompensation-Source\=SIN-TIMAST-TMA:EvrDC-SP CP)")
+  field(INPA, "SIN-TIMAST-TMA:EvrDC-SP CP")
   field(CALC, "A")
   field(DISV, "1")
   field(DISA, "$(DlyCompensation-Source-Disa\=0)")
@@ -448,7 +448,7 @@ record(calcout, "$(SYS)-$(DEVICE):DlyCompensation-Source-I") {
 }
 
 record(ao, "$(SYS)-$(DEVICE):DlyCompensation-Target-SP") {
-  field(VAL, "$(DlyCompensation-Target-SP\=5000)")
+  field(VAL, "5000")
   field(PINI, "YES")
   field(EGU, "ns")
   field(DESC, "Delay compensation target value")
@@ -528,6 +528,15 @@ record(calc, "$(SYS)-$(DEVICE):DlyCompensation-Internal-RB") {
   field(EGU, "ns")
   field(PREC, "5")
   field(CALC, "((A>>16)/B*1000)+((A & 65535)*(1000/(B*65535)))")
+}
+
+record(calc, "$(SYS)-$(DEVICE):DlyCompensation-PathInt-RB") {
+  field(DESC, "Path + internal delay compensation")
+  field(INPA, "$(SYS)-$(DEVICE):DlyCompensation-Internal-RB CP")
+  field(INPB, "$(SYS)-$(DEVICE):DlyCompensation-Path-RB CP")
+  field(EGU,  "ns")
+  field(PREC, "5")
+  field(CALC, "A+B")
 }
 
 record(longin, "$(SYS)-$(DEVICE):DlyCompensation-Status-RB") {
