@@ -25,7 +25,7 @@
 %}
 
 % latest version of the mrfioc2 device support
-\newcommand{\latestDriverVersion}{2.7.17}
+\newcommand{\latestDriverVersion}{2.7.18}
 
 
 %opening
@@ -682,7 +682,7 @@ When there are many event receivers in the timing network, it is convenient if t
 \end{verbatim}
 Target delay compensation of this EVR will be automatically updated to \texttt{SIN-CVME-TIMAST-TMA:EvrDC-SP} value, whenever it changes. In order to disable automatic update simply set \texttt{DISA} field of \newline\texttt{\$(SYS)-\$(DEVICE):DlyCompensation-Source-I} record to \texttt{1}. The same setting is also exposed as a macro in the substitution file. To disable automatic update of the target delay compensation value at IOC start-up, set the following macro in the substitution file to \texttt{0}:
 \begin{verbatim}
-	DlyCompensation-Source-Disa=0
+	DlyCompensation-Source-Disa=1
 \end{verbatim}
 
 \subsection{Time stamping mechanism}\label{sec:Time stamping mechanism}

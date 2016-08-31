@@ -1,5 +1,8 @@
 For detailed changelog inspect commits at https://git.psi.ch/epics_drivers/mrfioc2/commits/master
 
+2.7.18 : Tue 30 Avg 2016:
+	- EVR: Hard coded delay compensation target value and source record for SwissFEL. This is not a proper solution and must be fixed soon
+
 2.7.17 : Tue 30 Avg 2016:
 	- EVR delay compensation source default value now points to SwissFEL timing master record, and default delay compensation target value insreased to 5000
 
