@@ -1,0 +1,2620 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Form</class>
+ <widget class="QWidget" name="Form">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>671</width>
+    <height>722</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: rgb(218, 218, 218);</string>
+  </property>
+  <widget class="QScrollArea" name="scrollArea_3">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>671</width>
+     <height>721</height>
+    </rect>
+   </property>
+   <property name="widgetResizable">
+    <bool>true</bool>
+   </property>
+   <widget class="QWidget" name="scrollAreaWidgetContents_3">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>653</width>
+      <height>1900</height>
+     </rect>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>0</width>
+      <height>1900</height>
+     </size>
+    </property>
+    <widget class="QWidget" name="gridLayoutWidget_2">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>661</width>
+       <height>1900</height>
+      </rect>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_2">
+      <item row="0" column="0">
+       <widget class="caInclude" name="cainclude_events_00">
+        <property name="macro">
+         <string notr="true">EVT=1, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="caInclude" name="cainclude_events_01">
+        <property name="macro">
+         <string notr="true">EVT=86, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="2">
+       <widget class="caInclude" name="cainclude_events_02">
+        <property name="macro">
+         <string notr="true">EVT=171, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="caInclude" name="cainclude_events_10">
+        <property name="macro">
+         <string notr="true">EVT=2, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="caInclude" name="cainclude_events_11">
+        <property name="macro">
+         <string notr="true">EVT=87, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="2">
+       <widget class="caInclude" name="cainclude_events_12">
+        <property name="macro">
+         <string notr="true">EVT=172, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="caInclude" name="cainclude_events_20">
+        <property name="macro">
+         <string notr="true">EVT=3, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="caInclude" name="cainclude_events_21">
+        <property name="macro">
+         <string notr="true">EVT=88, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="2">
+       <widget class="caInclude" name="cainclude_events_22">
+        <property name="macro">
+         <string notr="true">EVT=173, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="caInclude" name="cainclude_events_30">
+        <property name="macro">
+         <string notr="true">EVT=4, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="caInclude" name="cainclude_events_31">
+        <property name="macro">
+         <string notr="true">EVT=89, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="2">
+       <widget class="caInclude" name="cainclude_events_32">
+        <property name="macro">
+         <string notr="true">EVT=174, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0">
+       <widget class="caInclude" name="cainclude_events_40">
+        <property name="macro">
+         <string notr="true">EVT=5, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1">
+       <widget class="caInclude" name="cainclude_events_41">
+        <property name="macro">
+         <string notr="true">EVT=90, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="2">
+       <widget class="caInclude" name="cainclude_events_42">
+        <property name="macro">
+         <string notr="true">EVT=175, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0">
+       <widget class="caInclude" name="cainclude_events_50">
+        <property name="macro">
+         <string notr="true">EVT=6, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="1">
+       <widget class="caInclude" name="cainclude_events_51">
+        <property name="macro">
+         <string notr="true">EVT=91, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="2">
+       <widget class="caInclude" name="cainclude_events_52">
+        <property name="macro">
+         <string notr="true">EVT=176, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="0">
+       <widget class="caInclude" name="cainclude_events_60">
+        <property name="macro">
+         <string notr="true">EVT=7, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="1">
+       <widget class="caInclude" name="cainclude_events_61">
+        <property name="macro">
+         <string notr="true">EVT=92, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="2">
+       <widget class="caInclude" name="cainclude_events_62">
+        <property name="macro">
+         <string notr="true">EVT=177, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="0">
+       <widget class="caInclude" name="cainclude_events_70">
+        <property name="macro">
+         <string notr="true">EVT=8, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="1">
+       <widget class="caInclude" name="cainclude_events_71">
+        <property name="macro">
+         <string notr="true">EVT=93, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="2">
+       <widget class="caInclude" name="cainclude_events_72">
+        <property name="macro">
+         <string notr="true">EVT=178, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="8" column="0">
+       <widget class="caInclude" name="cainclude_events_80">
+        <property name="macro">
+         <string notr="true">EVT=9, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="8" column="1">
+       <widget class="caInclude" name="cainclude_events_81">
+        <property name="macro">
+         <string notr="true">EVT=94, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="8" column="2">
+       <widget class="caInclude" name="cainclude_events_82">
+        <property name="macro">
+         <string notr="true">EVT=179, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="9" column="0">
+       <widget class="caInclude" name="cainclude_events_90">
+        <property name="macro">
+         <string notr="true">EVT=10, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="9" column="1">
+       <widget class="caInclude" name="cainclude_events_91">
+        <property name="macro">
+         <string notr="true">EVT=95, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="9" column="2">
+       <widget class="caInclude" name="cainclude_events_92">
+        <property name="macro">
+         <string notr="true">EVT=180, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="10" column="0">
+       <widget class="caInclude" name="cainclude_events_100">
+        <property name="macro">
+         <string notr="true">EVT=11, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="10" column="1">
+       <widget class="caInclude" name="cainclude_events_101">
+        <property name="macro">
+         <string notr="true">EVT=96, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="10" column="2">
+       <widget class="caInclude" name="cainclude_events_102">
+        <property name="macro">
+         <string notr="true">EVT=181, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="11" column="0">
+       <widget class="caInclude" name="cainclude_events_110">
+        <property name="macro">
+         <string notr="true">EVT=12, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="11" column="1">
+       <widget class="caInclude" name="cainclude_events_111">
+        <property name="macro">
+         <string notr="true">EVT=97, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="11" column="2">
+       <widget class="caInclude" name="cainclude_events_112">
+        <property name="macro">
+         <string notr="true">EVT=182, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="12" column="0">
+       <widget class="caInclude" name="cainclude_events_120">
+        <property name="macro">
+         <string notr="true">EVT=13, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="12" column="1">
+       <widget class="caInclude" name="cainclude_events_121">
+        <property name="macro">
+         <string notr="true">EVT=98, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="12" column="2">
+       <widget class="caInclude" name="cainclude_events_122">
+        <property name="macro">
+         <string notr="true">EVT=183, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="13" column="0">
+       <widget class="caInclude" name="cainclude_events_130">
+        <property name="macro">
+         <string notr="true">EVT=14, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="13" column="1">
+       <widget class="caInclude" name="cainclude_events_131">
+        <property name="macro">
+         <string notr="true">EVT=99, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="13" column="2">
+       <widget class="caInclude" name="cainclude_events_132">
+        <property name="macro">
+         <string notr="true">EVT=184, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="14" column="0">
+       <widget class="caInclude" name="cainclude_events_140">
+        <property name="macro">
+         <string notr="true">EVT=15, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="14" column="1">
+       <widget class="caInclude" name="cainclude_events_141">
+        <property name="macro">
+         <string notr="true">EVT=100, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="14" column="2">
+       <widget class="caInclude" name="cainclude_events_142">
+        <property name="macro">
+         <string notr="true">EVT=185, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="15" column="0">
+       <widget class="caInclude" name="cainclude_events_150">
+        <property name="macro">
+         <string notr="true">EVT=16, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="15" column="1">
+       <widget class="caInclude" name="cainclude_events_151">
+        <property name="macro">
+         <string notr="true">EVT=101, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="15" column="2">
+       <widget class="caInclude" name="cainclude_events_152">
+        <property name="macro">
+         <string notr="true">EVT=186, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="16" column="0">
+       <widget class="caInclude" name="cainclude_events_160">
+        <property name="macro">
+         <string notr="true">EVT=17, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="16" column="1">
+       <widget class="caInclude" name="cainclude_events_161">
+        <property name="macro">
+         <string notr="true">EVT=102, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="16" column="2">
+       <widget class="caInclude" name="cainclude_events_162">
+        <property name="macro">
+         <string notr="true">EVT=187, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="17" column="0">
+       <widget class="caInclude" name="cainclude_events_170">
+        <property name="macro">
+         <string notr="true">EVT=18, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="17" column="1">
+       <widget class="caInclude" name="cainclude_events_171">
+        <property name="macro">
+         <string notr="true">EVT=103, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="17" column="2">
+       <widget class="caInclude" name="cainclude_events_172">
+        <property name="macro">
+         <string notr="true">EVT=188, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="18" column="0">
+       <widget class="caInclude" name="cainclude_events_180">
+        <property name="macro">
+         <string notr="true">EVT=19, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="18" column="1">
+       <widget class="caInclude" name="cainclude_events_181">
+        <property name="macro">
+         <string notr="true">EVT=104, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="18" column="2">
+       <widget class="caInclude" name="cainclude_events_182">
+        <property name="macro">
+         <string notr="true">EVT=189, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="19" column="0">
+       <widget class="caInclude" name="cainclude_events_190">
+        <property name="macro">
+         <string notr="true">EVT=20, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="19" column="1">
+       <widget class="caInclude" name="cainclude_events_191">
+        <property name="macro">
+         <string notr="true">EVT=105, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="19" column="2">
+       <widget class="caInclude" name="cainclude_events_192">
+        <property name="macro">
+         <string notr="true">EVT=190, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="20" column="0">
+       <widget class="caInclude" name="cainclude_events_200">
+        <property name="macro">
+         <string notr="true">EVT=21, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="20" column="1">
+       <widget class="caInclude" name="cainclude_events_201">
+        <property name="macro">
+         <string notr="true">EVT=106, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="20" column="2">
+       <widget class="caInclude" name="cainclude_events_202">
+        <property name="macro">
+         <string notr="true">EVT=191, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="21" column="0">
+       <widget class="caInclude" name="cainclude_events_210">
+        <property name="macro">
+         <string notr="true">EVT=22, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="21" column="1">
+       <widget class="caInclude" name="cainclude_events_211">
+        <property name="macro">
+         <string notr="true">EVT=107, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="21" column="2">
+       <widget class="caInclude" name="cainclude_events_212">
+        <property name="macro">
+         <string notr="true">EVT=192, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="22" column="0">
+       <widget class="caInclude" name="cainclude_events_220">
+        <property name="macro">
+         <string notr="true">EVT=23, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="22" column="1">
+       <widget class="caInclude" name="cainclude_events_221">
+        <property name="macro">
+         <string notr="true">EVT=108, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="22" column="2">
+       <widget class="caInclude" name="cainclude_events_222">
+        <property name="macro">
+         <string notr="true">EVT=193, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="23" column="0">
+       <widget class="caInclude" name="cainclude_events_230">
+        <property name="macro">
+         <string notr="true">EVT=24, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="23" column="1">
+       <widget class="caInclude" name="cainclude_events_231">
+        <property name="macro">
+         <string notr="true">EVT=109, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="23" column="2">
+       <widget class="caInclude" name="cainclude_events_232">
+        <property name="macro">
+         <string notr="true">EVT=194, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="24" column="0">
+       <widget class="caInclude" name="cainclude_events_240">
+        <property name="macro">
+         <string notr="true">EVT=25, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="24" column="1">
+       <widget class="caInclude" name="cainclude_events_241">
+        <property name="macro">
+         <string notr="true">EVT=110, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="24" column="2">
+       <widget class="caInclude" name="cainclude_events_242">
+        <property name="macro">
+         <string notr="true">EVT=195, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="25" column="0">
+       <widget class="caInclude" name="cainclude_events_250">
+        <property name="macro">
+         <string notr="true">EVT=26, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="25" column="1">
+       <widget class="caInclude" name="cainclude_events_251">
+        <property name="macro">
+         <string notr="true">EVT=111, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="25" column="2">
+       <widget class="caInclude" name="cainclude_events_252">
+        <property name="macro">
+         <string notr="true">EVT=196, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="26" column="0">
+       <widget class="caInclude" name="cainclude_events_260">
+        <property name="macro">
+         <string notr="true">EVT=27, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="26" column="1">
+       <widget class="caInclude" name="cainclude_events_261">
+        <property name="macro">
+         <string notr="true">EVT=112, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="26" column="2">
+       <widget class="caInclude" name="cainclude_events_262">
+        <property name="macro">
+         <string notr="true">EVT=197, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="27" column="0">
+       <widget class="caInclude" name="cainclude_events_270">
+        <property name="macro">
+         <string notr="true">EVT=28, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="27" column="1">
+       <widget class="caInclude" name="cainclude_events_271">
+        <property name="macro">
+         <string notr="true">EVT=113, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="27" column="2">
+       <widget class="caInclude" name="cainclude_events_272">
+        <property name="macro">
+         <string notr="true">EVT=198, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="28" column="0">
+       <widget class="caInclude" name="cainclude_events_280">
+        <property name="macro">
+         <string notr="true">EVT=29, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="28" column="1">
+       <widget class="caInclude" name="cainclude_events_281">
+        <property name="macro">
+         <string notr="true">EVT=114, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="28" column="2">
+       <widget class="caInclude" name="cainclude_events_282">
+        <property name="macro">
+         <string notr="true">EVT=199, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="29" column="0">
+       <widget class="caInclude" name="cainclude_events_290">
+        <property name="macro">
+         <string notr="true">EVT=30, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="29" column="1">
+       <widget class="caInclude" name="cainclude_events_291">
+        <property name="macro">
+         <string notr="true">EVT=115, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="29" column="2">
+       <widget class="caInclude" name="cainclude_events_292">
+        <property name="macro">
+         <string notr="true">EVT=200, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="30" column="0">
+       <widget class="caInclude" name="cainclude_events_300">
+        <property name="macro">
+         <string notr="true">EVT=31, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="30" column="1">
+       <widget class="caInclude" name="cainclude_events_301">
+        <property name="macro">
+         <string notr="true">EVT=116, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="30" column="2">
+       <widget class="caInclude" name="cainclude_events_302">
+        <property name="macro">
+         <string notr="true">EVT=201, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="31" column="0">
+       <widget class="caInclude" name="cainclude_events_310">
+        <property name="macro">
+         <string notr="true">EVT=32, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="31" column="1">
+       <widget class="caInclude" name="cainclude_events_311">
+        <property name="macro">
+         <string notr="true">EVT=117, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="31" column="2">
+       <widget class="caInclude" name="cainclude_events_312">
+        <property name="macro">
+         <string notr="true">EVT=202, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="32" column="0">
+       <widget class="caInclude" name="cainclude_events_320">
+        <property name="macro">
+         <string notr="true">EVT=33, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="32" column="1">
+       <widget class="caInclude" name="cainclude_events_321">
+        <property name="macro">
+         <string notr="true">EVT=118, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="32" column="2">
+       <widget class="caInclude" name="cainclude_events_322">
+        <property name="macro">
+         <string notr="true">EVT=203, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="33" column="0">
+       <widget class="caInclude" name="cainclude_events_330">
+        <property name="macro">
+         <string notr="true">EVT=34, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="33" column="1">
+       <widget class="caInclude" name="cainclude_events_331">
+        <property name="macro">
+         <string notr="true">EVT=119, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="33" column="2">
+       <widget class="caInclude" name="cainclude_events_332">
+        <property name="macro">
+         <string notr="true">EVT=204, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="34" column="0">
+       <widget class="caInclude" name="cainclude_events_340">
+        <property name="macro">
+         <string notr="true">EVT=35, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="34" column="1">
+       <widget class="caInclude" name="cainclude_events_341">
+        <property name="macro">
+         <string notr="true">EVT=120, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="34" column="2">
+       <widget class="caInclude" name="cainclude_events_342">
+        <property name="macro">
+         <string notr="true">EVT=205, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="35" column="0">
+       <widget class="caInclude" name="cainclude_events_350">
+        <property name="macro">
+         <string notr="true">EVT=36, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="35" column="1">
+       <widget class="caInclude" name="cainclude_events_351">
+        <property name="macro">
+         <string notr="true">EVT=121, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="35" column="2">
+       <widget class="caInclude" name="cainclude_events_352">
+        <property name="macro">
+         <string notr="true">EVT=206, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="36" column="0">
+       <widget class="caInclude" name="cainclude_events_360">
+        <property name="macro">
+         <string notr="true">EVT=37, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="36" column="1">
+       <widget class="caInclude" name="cainclude_events_361">
+        <property name="macro">
+         <string notr="true">EVT=122, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="36" column="2">
+       <widget class="caInclude" name="cainclude_events_362">
+        <property name="macro">
+         <string notr="true">EVT=207, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="37" column="0">
+       <widget class="caInclude" name="cainclude_events_370">
+        <property name="macro">
+         <string notr="true">EVT=38, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="37" column="1">
+       <widget class="caInclude" name="cainclude_events_371">
+        <property name="macro">
+         <string notr="true">EVT=123, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="37" column="2">
+       <widget class="caInclude" name="cainclude_events_372">
+        <property name="macro">
+         <string notr="true">EVT=208, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="38" column="0">
+       <widget class="caInclude" name="cainclude_events_380">
+        <property name="macro">
+         <string notr="true">EVT=39, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="38" column="1">
+       <widget class="caInclude" name="cainclude_events_381">
+        <property name="macro">
+         <string notr="true">EVT=124, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="38" column="2">
+       <widget class="caInclude" name="cainclude_events_382">
+        <property name="macro">
+         <string notr="true">EVT=209, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="39" column="0">
+       <widget class="caInclude" name="cainclude_events_390">
+        <property name="macro">
+         <string notr="true">EVT=40, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="39" column="1">
+       <widget class="caInclude" name="cainclude_events_391">
+        <property name="macro">
+         <string notr="true">EVT=125, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="39" column="2">
+       <widget class="caInclude" name="cainclude_events_392">
+        <property name="macro">
+         <string notr="true">EVT=210, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="40" column="0">
+       <widget class="caInclude" name="cainclude_events_400">
+        <property name="macro">
+         <string notr="true">EVT=41, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="40" column="1">
+       <widget class="caInclude" name="cainclude_events_401">
+        <property name="macro">
+         <string notr="true">EVT=126, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="40" column="2">
+       <widget class="caInclude" name="cainclude_events_402">
+        <property name="macro">
+         <string notr="true">EVT=211, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="41" column="0">
+       <widget class="caInclude" name="cainclude_events_410">
+        <property name="macro">
+         <string notr="true">EVT=42, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="41" column="1">
+       <widget class="caInclude" name="cainclude_events_411">
+        <property name="macro">
+         <string notr="true">EVT=127, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="41" column="2">
+       <widget class="caInclude" name="cainclude_events_412">
+        <property name="macro">
+         <string notr="true">EVT=212, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="42" column="0">
+       <widget class="caInclude" name="cainclude_events_420">
+        <property name="macro">
+         <string notr="true">EVT=43, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="42" column="1">
+       <widget class="caInclude" name="cainclude_events_421">
+        <property name="macro">
+         <string notr="true">EVT=128, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="42" column="2">
+       <widget class="caInclude" name="cainclude_events_422">
+        <property name="macro">
+         <string notr="true">EVT=213, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="43" column="0">
+       <widget class="caInclude" name="cainclude_events_430">
+        <property name="macro">
+         <string notr="true">EVT=44, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="43" column="1">
+       <widget class="caInclude" name="cainclude_events_431">
+        <property name="macro">
+         <string notr="true">EVT=129, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="43" column="2">
+       <widget class="caInclude" name="cainclude_events_432">
+        <property name="macro">
+         <string notr="true">EVT=214, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="44" column="0">
+       <widget class="caInclude" name="cainclude_events_440">
+        <property name="macro">
+         <string notr="true">EVT=45, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="44" column="1">
+       <widget class="caInclude" name="cainclude_events_441">
+        <property name="macro">
+         <string notr="true">EVT=130, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="44" column="2">
+       <widget class="caInclude" name="cainclude_events_442">
+        <property name="macro">
+         <string notr="true">EVT=215, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="45" column="0">
+       <widget class="caInclude" name="cainclude_events_450">
+        <property name="macro">
+         <string notr="true">EVT=46, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="45" column="1">
+       <widget class="caInclude" name="cainclude_events_451">
+        <property name="macro">
+         <string notr="true">EVT=131, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="45" column="2">
+       <widget class="caInclude" name="cainclude_events_452">
+        <property name="macro">
+         <string notr="true">EVT=216, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="46" column="0">
+       <widget class="caInclude" name="cainclude_events_460">
+        <property name="macro">
+         <string notr="true">EVT=47, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="46" column="1">
+       <widget class="caInclude" name="cainclude_events_461">
+        <property name="macro">
+         <string notr="true">EVT=132, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="46" column="2">
+       <widget class="caInclude" name="cainclude_events_462">
+        <property name="macro">
+         <string notr="true">EVT=217, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="47" column="0">
+       <widget class="caInclude" name="cainclude_events_470">
+        <property name="macro">
+         <string notr="true">EVT=48, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="47" column="1">
+       <widget class="caInclude" name="cainclude_events_471">
+        <property name="macro">
+         <string notr="true">EVT=133, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="47" column="2">
+       <widget class="caInclude" name="cainclude_events_472">
+        <property name="macro">
+         <string notr="true">EVT=218, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="48" column="0">
+       <widget class="caInclude" name="cainclude_events_480">
+        <property name="macro">
+         <string notr="true">EVT=49, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="48" column="1">
+       <widget class="caInclude" name="cainclude_events_481">
+        <property name="macro">
+         <string notr="true">EVT=134, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="48" column="2">
+       <widget class="caInclude" name="cainclude_events_482">
+        <property name="macro">
+         <string notr="true">EVT=219, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="49" column="0">
+       <widget class="caInclude" name="cainclude_events_490">
+        <property name="macro">
+         <string notr="true">EVT=50, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="49" column="1">
+       <widget class="caInclude" name="cainclude_events_491">
+        <property name="macro">
+         <string notr="true">EVT=135, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="49" column="2">
+       <widget class="caInclude" name="cainclude_events_492">
+        <property name="macro">
+         <string notr="true">EVT=220, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="50" column="0">
+       <widget class="caInclude" name="cainclude_events_500">
+        <property name="macro">
+         <string notr="true">EVT=51, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="50" column="1">
+       <widget class="caInclude" name="cainclude_events_501">
+        <property name="macro">
+         <string notr="true">EVT=136, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="50" column="2">
+       <widget class="caInclude" name="cainclude_events_502">
+        <property name="macro">
+         <string notr="true">EVT=221, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="51" column="0">
+       <widget class="caInclude" name="cainclude_events_510">
+        <property name="macro">
+         <string notr="true">EVT=52, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="51" column="1">
+       <widget class="caInclude" name="cainclude_events_511">
+        <property name="macro">
+         <string notr="true">EVT=137, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="51" column="2">
+       <widget class="caInclude" name="cainclude_events_512">
+        <property name="macro">
+         <string notr="true">EVT=222, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="52" column="0">
+       <widget class="caInclude" name="cainclude_events_520">
+        <property name="macro">
+         <string notr="true">EVT=53, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="52" column="1">
+       <widget class="caInclude" name="cainclude_events_521">
+        <property name="macro">
+         <string notr="true">EVT=138, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="52" column="2">
+       <widget class="caInclude" name="cainclude_events_522">
+        <property name="macro">
+         <string notr="true">EVT=223, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="53" column="0">
+       <widget class="caInclude" name="cainclude_events_530">
+        <property name="macro">
+         <string notr="true">EVT=54, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="53" column="1">
+       <widget class="caInclude" name="cainclude_events_531">
+        <property name="macro">
+         <string notr="true">EVT=139, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="53" column="2">
+       <widget class="caInclude" name="cainclude_events_532">
+        <property name="macro">
+         <string notr="true">EVT=224, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="54" column="0">
+       <widget class="caInclude" name="cainclude_events_540">
+        <property name="macro">
+         <string notr="true">EVT=55, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="54" column="1">
+       <widget class="caInclude" name="cainclude_events_541">
+        <property name="macro">
+         <string notr="true">EVT=140, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="54" column="2">
+       <widget class="caInclude" name="cainclude_events_542">
+        <property name="macro">
+         <string notr="true">EVT=225, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="55" column="0">
+       <widget class="caInclude" name="cainclude_events_550">
+        <property name="macro">
+         <string notr="true">EVT=56, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="55" column="1">
+       <widget class="caInclude" name="cainclude_events_551">
+        <property name="macro">
+         <string notr="true">EVT=141, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="55" column="2">
+       <widget class="caInclude" name="cainclude_events_552">
+        <property name="macro">
+         <string notr="true">EVT=226, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="56" column="0">
+       <widget class="caInclude" name="cainclude_events_560">
+        <property name="macro">
+         <string notr="true">EVT=57, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="56" column="1">
+       <widget class="caInclude" name="cainclude_events_561">
+        <property name="macro">
+         <string notr="true">EVT=142, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="56" column="2">
+       <widget class="caInclude" name="cainclude_events_562">
+        <property name="macro">
+         <string notr="true">EVT=227, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="57" column="0">
+       <widget class="caInclude" name="cainclude_events_570">
+        <property name="macro">
+         <string notr="true">EVT=58, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="57" column="1">
+       <widget class="caInclude" name="cainclude_events_571">
+        <property name="macro">
+         <string notr="true">EVT=143, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="57" column="2">
+       <widget class="caInclude" name="cainclude_events_572">
+        <property name="macro">
+         <string notr="true">EVT=228, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="58" column="0">
+       <widget class="caInclude" name="cainclude_events_580">
+        <property name="macro">
+         <string notr="true">EVT=59, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="58" column="1">
+       <widget class="caInclude" name="cainclude_events_581">
+        <property name="macro">
+         <string notr="true">EVT=144, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="58" column="2">
+       <widget class="caInclude" name="cainclude_events_582">
+        <property name="macro">
+         <string notr="true">EVT=229, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="59" column="0">
+       <widget class="caInclude" name="cainclude_events_590">
+        <property name="macro">
+         <string notr="true">EVT=60, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="59" column="1">
+       <widget class="caInclude" name="cainclude_events_591">
+        <property name="macro">
+         <string notr="true">EVT=145, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="59" column="2">
+       <widget class="caInclude" name="cainclude_events_592">
+        <property name="macro">
+         <string notr="true">EVT=230, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="60" column="0">
+       <widget class="caInclude" name="cainclude_events_600">
+        <property name="macro">
+         <string notr="true">EVT=61, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="60" column="1">
+       <widget class="caInclude" name="cainclude_events_601">
+        <property name="macro">
+         <string notr="true">EVT=146, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="60" column="2">
+       <widget class="caInclude" name="cainclude_events_602">
+        <property name="macro">
+         <string notr="true">EVT=231, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="61" column="0">
+       <widget class="caInclude" name="cainclude_events_610">
+        <property name="macro">
+         <string notr="true">EVT=62, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="61" column="1">
+       <widget class="caInclude" name="cainclude_events_611">
+        <property name="macro">
+         <string notr="true">EVT=147, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="61" column="2">
+       <widget class="caInclude" name="cainclude_events_612">
+        <property name="macro">
+         <string notr="true">EVT=232, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="62" column="0">
+       <widget class="caInclude" name="cainclude_events_620">
+        <property name="macro">
+         <string notr="true">EVT=63, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="62" column="1">
+       <widget class="caInclude" name="cainclude_events_621">
+        <property name="macro">
+         <string notr="true">EVT=148, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="62" column="2">
+       <widget class="caInclude" name="cainclude_events_622">
+        <property name="macro">
+         <string notr="true">EVT=233, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="63" column="0">
+       <widget class="caInclude" name="cainclude_events_630">
+        <property name="macro">
+         <string notr="true">EVT=64, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="63" column="1">
+       <widget class="caInclude" name="cainclude_events_631">
+        <property name="macro">
+         <string notr="true">EVT=149, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="63" column="2">
+       <widget class="caInclude" name="cainclude_events_632">
+        <property name="macro">
+         <string notr="true">EVT=234, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="64" column="0">
+       <widget class="caInclude" name="cainclude_events_640">
+        <property name="macro">
+         <string notr="true">EVT=65, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="64" column="1">
+       <widget class="caInclude" name="cainclude_events_641">
+        <property name="macro">
+         <string notr="true">EVT=150, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="64" column="2">
+       <widget class="caInclude" name="cainclude_events_642">
+        <property name="macro">
+         <string notr="true">EVT=235, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="65" column="0">
+       <widget class="caInclude" name="cainclude_events_650">
+        <property name="macro">
+         <string notr="true">EVT=66, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="65" column="1">
+       <widget class="caInclude" name="cainclude_events_651">
+        <property name="macro">
+         <string notr="true">EVT=151, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="65" column="2">
+       <widget class="caInclude" name="cainclude_events_652">
+        <property name="macro">
+         <string notr="true">EVT=236, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="66" column="0">
+       <widget class="caInclude" name="cainclude_events_660">
+        <property name="macro">
+         <string notr="true">EVT=67, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="66" column="1">
+       <widget class="caInclude" name="cainclude_events_661">
+        <property name="macro">
+         <string notr="true">EVT=152, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="66" column="2">
+       <widget class="caInclude" name="cainclude_events_662">
+        <property name="macro">
+         <string notr="true">EVT=237, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="67" column="0">
+       <widget class="caInclude" name="cainclude_events_670">
+        <property name="macro">
+         <string notr="true">EVT=68, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="67" column="1">
+       <widget class="caInclude" name="cainclude_events_671">
+        <property name="macro">
+         <string notr="true">EVT=153, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="67" column="2">
+       <widget class="caInclude" name="cainclude_events_672">
+        <property name="macro">
+         <string notr="true">EVT=238, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="68" column="0">
+       <widget class="caInclude" name="cainclude_events_680">
+        <property name="macro">
+         <string notr="true">EVT=69, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="68" column="1">
+       <widget class="caInclude" name="cainclude_events_681">
+        <property name="macro">
+         <string notr="true">EVT=154, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="68" column="2">
+       <widget class="caInclude" name="cainclude_events_682">
+        <property name="macro">
+         <string notr="true">EVT=239, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="69" column="0">
+       <widget class="caInclude" name="cainclude_events_690">
+        <property name="macro">
+         <string notr="true">EVT=70, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="69" column="1">
+       <widget class="caInclude" name="cainclude_events_691">
+        <property name="macro">
+         <string notr="true">EVT=155, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="69" column="2">
+       <widget class="caInclude" name="cainclude_events_692">
+        <property name="macro">
+         <string notr="true">EVT=240, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="70" column="0">
+       <widget class="caInclude" name="cainclude_events_700">
+        <property name="macro">
+         <string notr="true">EVT=71, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="70" column="1">
+       <widget class="caInclude" name="cainclude_events_701">
+        <property name="macro">
+         <string notr="true">EVT=156, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="70" column="2">
+       <widget class="caInclude" name="cainclude_events_702">
+        <property name="macro">
+         <string notr="true">EVT=241, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="71" column="0">
+       <widget class="caInclude" name="cainclude_events_710">
+        <property name="macro">
+         <string notr="true">EVT=72, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="71" column="1">
+       <widget class="caInclude" name="cainclude_events_711">
+        <property name="macro">
+         <string notr="true">EVT=157, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="71" column="2">
+       <widget class="caInclude" name="cainclude_events_712">
+        <property name="macro">
+         <string notr="true">EVT=242, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="72" column="0">
+       <widget class="caInclude" name="cainclude_events_720">
+        <property name="macro">
+         <string notr="true">EVT=73, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="72" column="1">
+       <widget class="caInclude" name="cainclude_events_721">
+        <property name="macro">
+         <string notr="true">EVT=158, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="72" column="2">
+       <widget class="caInclude" name="cainclude_events_722">
+        <property name="macro">
+         <string notr="true">EVT=243, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="73" column="0">
+       <widget class="caInclude" name="cainclude_events_730">
+        <property name="macro">
+         <string notr="true">EVT=74, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="73" column="1">
+       <widget class="caInclude" name="cainclude_events_731">
+        <property name="macro">
+         <string notr="true">EVT=159, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="73" column="2">
+       <widget class="caInclude" name="cainclude_events_732">
+        <property name="macro">
+         <string notr="true">EVT=244, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="74" column="0">
+       <widget class="caInclude" name="cainclude_events_740">
+        <property name="macro">
+         <string notr="true">EVT=75, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="74" column="1">
+       <widget class="caInclude" name="cainclude_events_741">
+        <property name="macro">
+         <string notr="true">EVT=160, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="74" column="2">
+       <widget class="caInclude" name="cainclude_events_742">
+        <property name="macro">
+         <string notr="true">EVT=245, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="75" column="0">
+       <widget class="caInclude" name="cainclude_events_750">
+        <property name="macro">
+         <string notr="true">EVT=76, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="75" column="1">
+       <widget class="caInclude" name="cainclude_events_751">
+        <property name="macro">
+         <string notr="true">EVT=161, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="75" column="2">
+       <widget class="caInclude" name="cainclude_events_752">
+        <property name="macro">
+         <string notr="true">EVT=246, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="76" column="0">
+       <widget class="caInclude" name="cainclude_events_760">
+        <property name="macro">
+         <string notr="true">EVT=77, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="76" column="1">
+       <widget class="caInclude" name="cainclude_events_761">
+        <property name="macro">
+         <string notr="true">EVT=162, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="76" column="2">
+       <widget class="caInclude" name="cainclude_events_762">
+        <property name="macro">
+         <string notr="true">EVT=247, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="77" column="0">
+       <widget class="caInclude" name="cainclude_events_770">
+        <property name="macro">
+         <string notr="true">EVT=78, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="77" column="1">
+       <widget class="caInclude" name="cainclude_events_771">
+        <property name="macro">
+         <string notr="true">EVT=163, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="77" column="2">
+       <widget class="caInclude" name="cainclude_events_772">
+        <property name="macro">
+         <string notr="true">EVT=248, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="78" column="0">
+       <widget class="caInclude" name="cainclude_events_780">
+        <property name="macro">
+         <string notr="true">EVT=79, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="78" column="1">
+       <widget class="caInclude" name="cainclude_events_781">
+        <property name="macro">
+         <string notr="true">EVT=164, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="78" column="2">
+       <widget class="caInclude" name="cainclude_events_782">
+        <property name="macro">
+         <string notr="true">EVT=249, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="79" column="0">
+       <widget class="caInclude" name="cainclude_events_790">
+        <property name="macro">
+         <string notr="true">EVT=80, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="79" column="1">
+       <widget class="caInclude" name="cainclude_events_791">
+        <property name="macro">
+         <string notr="true">EVT=165, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="79" column="2">
+       <widget class="caInclude" name="cainclude_events_792">
+        <property name="macro">
+         <string notr="true">EVT=250, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="80" column="0">
+       <widget class="caInclude" name="cainclude_events_800">
+        <property name="macro">
+         <string notr="true">EVT=81, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="80" column="1">
+       <widget class="caInclude" name="cainclude_events_801">
+        <property name="macro">
+         <string notr="true">EVT=166, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="80" column="2">
+       <widget class="caInclude" name="cainclude_events_802">
+        <property name="macro">
+         <string notr="true">EVT=251, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="81" column="0">
+       <widget class="caInclude" name="cainclude_events_810">
+        <property name="macro">
+         <string notr="true">EVT=82, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="81" column="1">
+       <widget class="caInclude" name="cainclude_events_811">
+        <property name="macro">
+         <string notr="true">EVT=167, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="81" column="2">
+       <widget class="caInclude" name="cainclude_events_812">
+        <property name="macro">
+         <string notr="true">EVT=252, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="82" column="0">
+       <widget class="caInclude" name="cainclude_events_820">
+        <property name="macro">
+         <string notr="true">EVT=83, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="82" column="1">
+       <widget class="caInclude" name="cainclude_events_821">
+        <property name="macro">
+         <string notr="true">EVT=168, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="82" column="2">
+       <widget class="caInclude" name="cainclude_events_822">
+        <property name="macro">
+         <string notr="true">EVT=253, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="83" column="0">
+       <widget class="caInclude" name="cainclude_events_830">
+        <property name="macro">
+         <string notr="true">EVT=84, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="83" column="1">
+       <widget class="caInclude" name="cainclude_events_831">
+        <property name="macro">
+         <string notr="true">EVT=169, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="83" column="2">
+       <widget class="caInclude" name="cainclude_events_832">
+        <property name="macro">
+         <string notr="true">EVT=254, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="84" column="0">
+       <widget class="caInclude" name="cainclude_events_840">
+        <property name="macro">
+         <string notr="true">EVT=85, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="84" column="1">
+       <widget class="caInclude" name="cainclude_events_841">
+        <property name="macro">
+         <string notr="true">EVT=170, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item row="84" column="2">
+       <widget class="caInclude" name="cainclude_events_842">
+        <property name="macro">
+         <string notr="true">EVT=255, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-soft.ui</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </widget>
+  </widget>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>caInclude</class>
+   <extends>QWidget</extends>
+   <header>caInclude</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

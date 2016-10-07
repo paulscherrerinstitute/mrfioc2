@@ -13,79 +13,6 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="caLabel" name="calabel_2">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>81</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>6</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>Pulser $(PULSER)</string>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-   </property>
-   <property name="background">
-    <color alpha="128">
-     <red>255</red>
-     <green>255</green>
-     <blue>255</blue>
-    </color>
-   </property>
-   <property name="colorMode">
-    <enum>caLabel::Static</enum>
-   </property>
-   <property name="styleSheet" stdset="0">
-    <string notr="true">background-color: rgba(255, 255, 255, 128); color: rgba(0, 0, 0, 255);</string>
-   </property>
-  </widget>
-  <widget class="caTextEntry" name="catextentry_2">
-   <property name="geometry">
-    <rect>
-     <x>190</x>
-     <y>0</y>
-     <width>38</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE):Pul$(PULSER)-Evt-Trig0-SP</string>
-   </property>
-   <property name="background">
-    <color>
-     <red>212</red>
-     <green>219</green>
-     <blue>157</blue>
-    </color>
-   </property>
-   <property name="colorMode">
-    <enum>caLineEdit::Static</enum>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_11">
-   <property name="geometry">
-    <rect>
-     <x>90</x>
-     <y>0</y>
-     <width>91</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Trig on event</string>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-   </property>
-  </widget>
   <widget class="caTextEntry" name="catextentry_3">
    <property name="geometry">
     <rect>
@@ -162,6 +89,40 @@
    </property>
    <property name="alignment">
     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+   </property>
+  </widget>
+  <widget class="caLabel" name="calabel_2">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>161</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>7</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Pulser $(PULSER) - Gate $(GATE)</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+   </property>
+   <property name="background">
+    <color alpha="128">
+     <red>255</red>
+     <green>255</green>
+     <blue>255</blue>
+    </color>
+   </property>
+   <property name="colorMode">
+    <enum>caLabel::Static</enum>
+   </property>
+   <property name="styleSheet" stdset="0">
+    <string notr="true">background-color: rgba(255, 255, 255, 128); color: rgba(0, 0, 0, 255);</string>
    </property>
   </widget>
  </widget>

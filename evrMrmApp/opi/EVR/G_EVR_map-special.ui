@@ -22,14 +22,14 @@
      <height>20</height>
     </rect>
    </property>
-   <property name="styleSheet">
-    <string notr="true">background-color: rgb(236, 236, 236, 255);</string>
-   </property>
    <property name="text">
     <string>Event $(EVT)</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
+   </property>
+   <property name="styleSheet" stdset="0">
+    <string notr="true">background-color: rgba(255, 255, 255, 0); color: rgba(0, 0, 0, 255);</string>
    </property>
    <property name="visibility">
     <enum>caLabel::StaticV</enum>
@@ -52,31 +52,6 @@
    </property>
    <property name="channel" stdset="0">
     <string notr="true">$(SYS)-$(DEVICE):Evtmap-$(EVT)-DNC.DESC</string>
-   </property>
-  </widget>
-  <widget class="caLabel" name="calabel_4">
-   <property name="geometry">
-    <rect>
-     <x>90</x>
-     <y>0</y>
-     <width>81</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">background-color: rgb(236, 236, 236, 255);</string>
-   </property>
-   <property name="text">
-    <string>Not used</string>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
-   </property>
-   <property name="visibility">
-    <enum>caLabel::IfZero</enum>
-   </property>
-   <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE):Evtmap-$(EVT)-DNC</string>
    </property>
   </widget>
  </widget>

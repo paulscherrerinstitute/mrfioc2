@@ -29,8 +29,8 @@
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>-238</y>
-      <width>654</width>
+      <y>-241</y>
+      <width>653</width>
       <height>650</height>
      </rect>
     </property>
@@ -311,40 +311,40 @@
       <item>
        <widget class="caInclude" name="cainclude_303">
         <property name="macro">
-         <string notr="true">PULSER=28, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+         <string notr="true">PULSER=28,GATE=0,SYS=$(SYS),DEVICE=$(DEVICE)</string>
         </property>
         <property name="filename" stdset="0">
-         <string notr="true">G_EVR_map-pulser.ui</string>
+         <string notr="true">G_EVR_map-pulser-gate.ui</string>
         </property>
        </widget>
       </item>
       <item>
        <widget class="caInclude" name="cainclude_304">
         <property name="macro">
-         <string notr="true">PULSER=29, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+         <string notr="true">PULSER=29,GATE=1, SYS=$(SYS),DEVICE=$(DEVICE)</string>
         </property>
         <property name="filename" stdset="0">
-         <string notr="true">G_EVR_map-pulser.ui</string>
+         <string notr="true">G_EVR_map-pulser-gate.ui</string>
         </property>
        </widget>
       </item>
       <item>
        <widget class="caInclude" name="cainclude_305">
         <property name="macro">
-         <string notr="true">PULSER=30, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+         <string notr="true">PULSER=30, GATE=2, SYS=$(SYS),DEVICE=$(DEVICE)</string>
         </property>
         <property name="filename" stdset="0">
-         <string notr="true">G_EVR_map-pulser.ui</string>
+         <string notr="true">G_EVR_map-pulser-gate.ui</string>
         </property>
        </widget>
       </item>
       <item>
        <widget class="caInclude" name="cainclude_306">
         <property name="macro">
-         <string notr="true">PULSER=31, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+         <string notr="true">PULSER=31,GATE=3, SYS=$(SYS),DEVICE=$(DEVICE)</string>
         </property>
         <property name="filename" stdset="0">
-         <string notr="true">G_EVR_map-pulser.ui</string>
+         <string notr="true">G_EVR_map-pulser-gate.ui</string>
         </property>
        </widget>
       </item>

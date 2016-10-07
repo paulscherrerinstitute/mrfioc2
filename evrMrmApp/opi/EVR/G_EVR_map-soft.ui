@@ -22,14 +22,14 @@
      <height>20</height>
     </rect>
    </property>
-   <property name="styleSheet">
-    <string notr="true">background-color: rgb(236, 236, 236, 255);</string>
-   </property>
    <property name="text">
     <string>Event $(EVT)</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+   </property>
+   <property name="styleSheet" stdset="0">
+    <string notr="true">background-color: rgba(255, 255, 255, 0); color: rgba(0, 0, 0, 255);</string>
    </property>
    <property name="visibility">
     <enum>caLabel::StaticV</enum>
@@ -49,34 +49,6 @@
      <width>120</width>
      <height>20</height>
     </rect>
-   </property>
-   <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE):Event-$(EVT)-Cnt-I</string>
-   </property>
-  </widget>
-  <widget class="caLabel" name="calabel_notUsed">
-   <property name="geometry">
-    <rect>
-     <x>85</x>
-     <y>0</y>
-     <width>120</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">background-color: rgb(236, 236, 236, 255);</string>
-   </property>
-   <property name="text">
-    <string>Not used</string>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
-   </property>
-   <property name="visibility">
-    <enum>caLabel::Calc</enum>
-   </property>
-   <property name="visibilityCalc">
-    <string notr="true">A&lt;=0</string>
    </property>
    <property name="channel" stdset="0">
     <string notr="true">$(SYS)-$(DEVICE):Event-$(EVT)-Cnt-I</string>
