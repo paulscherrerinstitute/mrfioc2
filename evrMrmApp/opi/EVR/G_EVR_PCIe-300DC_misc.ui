@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>456</width>
-    <height>469</height>
+    <width>669</width>
+    <height>406</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,7 +17,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>241</y>
+     <y>201</y>
      <width>101</width>
      <height>17</height>
     </rect>
@@ -30,23 +30,23 @@
    <property name="geometry">
     <rect>
      <x>120</x>
-     <y>238</y>
+     <y>198</y>
      <width>71</width>
      <height>25</height>
     </rect>
    </property>
-   <property name="styleSheet">
-    <string notr="true">background-color: rgb(212, 219, 157);</string>
-   </property>
    <property name="channel" stdset="0">
     <string notr="true">$(SYS)-$(DEVICE):PLL-Bandwidth-Sel</string>
+   </property>
+   <property name="styleSheet" stdset="0">
+    <string notr="true"/>
    </property>
   </widget>
   <widget class="caLineEdit" name="calineedit_20">
    <property name="geometry">
     <rect>
      <x>200</x>
-     <y>240</y>
+     <y>200</y>
      <width>71</width>
      <height>20</height>
     </rect>
@@ -61,98 +61,11 @@
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QGroupBox" name="groupBox_2">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>280</y>
-     <width>391</width>
-     <height>111</height>
-    </rect>
-   </property>
-   <property name="title">
-    <string>Distributed bus bits status</string>
-   </property>
-   <widget class="caByte" name="cabyte_2">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>30</y>
-      <width>291</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="channel" stdset="0">
-     <string notr="true">$(SYS)-$(DEVICE):DBus-Status-I</string>
-    </property>
-    <property name="direction">
-     <enum>caByte::Left</enum>
-    </property>
-    <property name="startBit">
-     <number>0</number>
-    </property>
-    <property name="endBit">
-     <number>7</number>
-    </property>
-   </widget>
-   <widget class="caRelatedDisplay" name="carelateddisplay_3">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>60</y>
-      <width>221</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="background">
-     <color>
-      <red>183</red>
-      <green>157</green>
-      <blue>92</blue>
-     </color>
-    </property>
-    <property name="labels">
-     <string notr="true">Configure DBUS to pulser mapping</string>
-    </property>
-    <property name="files">
-     <string notr="true">G_EVR_$(FF)_dbus.ui</string>
-    </property>
-    <property name="args">
-     <string notr="true">SYS=$(SYS),DEVICE=$(DEVICE),FF=$(FF)</string>
-    </property>
-   </widget>
-  </widget>
-  <widget class="caRelatedDisplay" name="carelateddisplay_5">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>10</y>
-     <width>171</width>
-     <height>25</height>
-    </rect>
-   </property>
-   <property name="background">
-    <color>
-     <red>183</red>
-     <green>157</green>
-     <blue>92</blue>
-    </color>
-   </property>
-   <property name="labels">
-    <string notr="true">Data buffer status overview</string>
-   </property>
-   <property name="files">
-    <string notr="true">G_EVR_$(FF)_dbuf.ui</string>
-   </property>
-   <property name="args">
-    <string notr="true">SYS=$(SYS),DEVICE=$(DEVICE),FF=$(FF)</string>
-   </property>
-  </widget>
   <widget class="QGroupBox" name="groupBox">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>50</y>
+     <x>5</x>
+     <y>10</y>
      <width>411</width>
      <height>171</height>
     </rect>
@@ -251,6 +164,9 @@
       <width>101</width>
       <height>20</height>
      </rect>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
     </property>
     <property name="channel" stdset="0">
      <string notr="true">$(SYS)-$(DEVICE):DlyCompensation-Target-SP</string>
@@ -354,11 +270,11 @@
       <height>25</height>
      </rect>
     </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: rgb(212, 219, 157);</string>
-    </property>
     <property name="channel" stdset="0">
      <string notr="true">$(SYS)-$(DEVICE):DlyCompensation-Enabled-Sel</string>
+    </property>
+    <property name="styleSheet" stdset="0">
+     <string notr="true"/>
     </property>
    </widget>
    <widget class="QLabel" name="label_6">
@@ -416,6 +332,258 @@
     </property>
     <property name="unitsEnabled">
      <bool>true</bool>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QGroupBox" name="groupBox_3">
+   <property name="geometry">
+    <rect>
+     <x>420</x>
+     <y>10</y>
+     <width>241</width>
+     <height>341</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>Miscellaneous</string>
+   </property>
+   <widget class="caRelatedDisplay" name="carelateddisplay_6">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>70</y>
+      <width>220</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="background">
+     <color>
+      <red>183</red>
+      <green>157</green>
+      <blue>92</blue>
+     </color>
+    </property>
+    <property name="labels">
+     <string notr="true">CML outputs control</string>
+    </property>
+    <property name="files">
+     <string notr="true">G_EVR_$(FF)_out_cml.ui</string>
+    </property>
+    <property name="args">
+     <string notr="true">SYS=$(SYS),DEVICE=$(DEVICE),FF=$(FF)</string>
+    </property>
+    <property name="fontScaleMode" stdset="0">
+     <enum>EPushButton::None</enum>
+    </property>
+   </widget>
+   <widget class="caRelatedDisplay" name="carelateddisplay_7">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>30</y>
+      <width>220</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="background">
+     <color>
+      <red>183</red>
+      <green>157</green>
+      <blue>92</blue>
+     </color>
+    </property>
+    <property name="labels">
+     <string notr="true">Soft Event Counters</string>
+    </property>
+    <property name="files">
+     <string notr="true">G_EVR_map-soft_widget.ui</string>
+    </property>
+    <property name="args">
+     <string notr="true">SYS=$(SYS),DEVICE=$(DEVICE),FF=$(FF)</string>
+    </property>
+    <property name="fontScaleMode" stdset="0">
+     <enum>EPushButton::None</enum>
+    </property>
+   </widget>
+   <widget class="caRelatedDisplay" name="carelateddisplay_8">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>110</y>
+      <width>220</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="background">
+     <color>
+      <red>183</red>
+      <green>157</green>
+      <blue>92</blue>
+     </color>
+    </property>
+    <property name="labels">
+     <string notr="true">Fine Delay Module Settings</string>
+    </property>
+    <property name="files">
+     <string notr="true">G_EVR_$(FF)_out_delay.ui</string>
+    </property>
+    <property name="args">
+     <string notr="true">SYS=$(SYS),DEVICE=$(DEVICE),FF=$(FF)</string>
+    </property>
+    <property name="fontScaleMode" stdset="0">
+     <enum>EPushButton::None</enum>
+    </property>
+   </widget>
+   <widget class="caRelatedDisplay" name="carelateddisplay_9">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>150</y>
+      <width>220</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="background">
+     <color>
+      <red>183</red>
+      <green>157</green>
+      <blue>92</blue>
+     </color>
+    </property>
+    <property name="labels">
+     <string notr="true">Functions Map</string>
+    </property>
+    <property name="files">
+     <string notr="true">G_EVR_map-special_widget.ui</string>
+    </property>
+    <property name="args">
+     <string notr="true">SYS=$(SYS),DEVICE=$(DEVICE),FF=$(FF)</string>
+    </property>
+    <property name="fontScaleMode" stdset="0">
+     <enum>EPushButton::None</enum>
+    </property>
+   </widget>
+   <widget class="caRelatedDisplay" name="carelateddisplay_10">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>190</y>
+      <width>220</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="background">
+     <color>
+      <red>183</red>
+      <green>157</green>
+      <blue>92</blue>
+     </color>
+    </property>
+    <property name="labels">
+     <string notr="true">Data buffer status overview</string>
+    </property>
+    <property name="files">
+     <string notr="true">G_EVR_$(FF)_dbuf.ui</string>
+    </property>
+    <property name="args">
+     <string notr="true">SYS=$(SYS),DEVICE=$(DEVICE),FF=$(FF)</string>
+    </property>
+    <property name="fontScaleMode" stdset="0">
+     <enum>EPushButton::None</enum>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QGroupBox" name="groupBox_4">
+   <property name="geometry">
+    <rect>
+     <x>5</x>
+     <y>240</y>
+     <width>411</width>
+     <height>111</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>Distributed bus bits status</string>
+   </property>
+   <widget class="caByte" name="cabyte_3">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>30</y>
+      <width>291</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="channel" stdset="0">
+     <string notr="true">$(SYS)-$(DEVICE):DBus-Status-I</string>
+    </property>
+    <property name="direction">
+     <enum>caByte::Left</enum>
+    </property>
+    <property name="startBit">
+     <number>0</number>
+    </property>
+    <property name="endBit">
+     <number>7</number>
+    </property>
+   </widget>
+   <widget class="caRelatedDisplay" name="carelateddisplay_4">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>60</y>
+      <width>291</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="background">
+     <color>
+      <red>183</red>
+      <green>157</green>
+      <blue>92</blue>
+     </color>
+    </property>
+    <property name="labels">
+     <string notr="true">Configure DBUS to pulser mapping</string>
+    </property>
+    <property name="files">
+     <string notr="true">G_EVR_$(FF)_dbus.ui</string>
+    </property>
+    <property name="args">
+     <string notr="true">SYS=$(SYS),DEVICE=$(DEVICE),FF=$(FF)</string>
+    </property>
+    <property name="fontScaleMode" stdset="0">
+     <enum>EPushButton::None</enum>
     </property>
    </widget>
   </widget>

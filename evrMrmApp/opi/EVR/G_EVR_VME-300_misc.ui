@@ -576,7 +576,9 @@
      </rect>
     </property>
     <property name="font">
-     <font/>
+     <font>
+      <pointsize>10</pointsize>
+     </font>
     </property>
     <property name="background">
      <color>
