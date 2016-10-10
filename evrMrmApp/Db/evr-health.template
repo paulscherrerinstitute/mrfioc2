@@ -20,7 +20,8 @@ record(calc, "$(SYS)-$(DEVICE)-HEALTH:Sts-I"){
 	field(INPI, "$(SYS)-$(DEVICE)-HEALTH:SFP-Pwr-TX-I.SEVR")
 	field(INPJ, "$(SYS)-$(DEVICE)-HEALTH:SFP-Pwr-RX-I.SEVR")
 	
-	field(CALC, "A+B+C+D+E+F+G+H+I+J")
+  # A,C,E,F,G ignored, so that the output corresponds to Sts-Reason-I (T. Šuštar)
+	field(CALC, "B+D+H+I+J")  
 
 	field(HIGH,"1")
 	field(HSV,"MAJOR")
