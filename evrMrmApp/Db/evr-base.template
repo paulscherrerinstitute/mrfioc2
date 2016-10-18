@@ -440,7 +440,7 @@ record(bi, "$(SYS)-$(DEVICE):DlyCompensation-Enabled-RB") {
 # This record is triggered through CP link and sets 
 # target delay compensation value based on the linked record
 record(calcout, "$(SYS)-$(DEVICE):DlyCompensation-Source-I") {
-  field(INPA, "SIN-TIMAST-TMA:EvrDC-SP CP")
+  field(INPA, "$(DlyCompensation-Source-I\=SIN-TIMAST-TMA:EvrDC-SP CP)")
   field(CALC, "A")
   field(DISV, "1")
   field(DISA, "$(DlyCompensation-Source-Disa\=0)")

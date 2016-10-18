@@ -78,6 +78,8 @@ The following steps demonstrate how to prepare a SWIT compatible IOC application
 	
 	The macro definitions in the substitution file are used to configure the EVR. All the available macros are already present in the substitution file and set to their default values, so the user can simply change the desired values. Detailed description of the substitution file is available in the EVR manual~\cite{evr_manual}.
 
+	\item 
+		Mind when using EVRs which support delay compensation (eg. 300-series)! Make sure you set \texttt{DlyCompensation-Source-I} macro in \newline\texttt{cfg/EVR0.subs} to point to the record which you will use to set delay compensation target value for all the EVRs in the timing network. More details about this can be found in comments next to the macro in \texttt{cfg/EVR0.subs} or in EVR manual.
 	\item
 		Create a startup script named \texttt{MTEST-VME-TIMINGTEST\_startup.script} in your project folder:
 		\begin{verbatim}

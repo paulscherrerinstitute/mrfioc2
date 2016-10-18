@@ -672,17 +672,19 @@ Series 300 of event receivers (eg. EVR-VME-300, EVR-PCIe-300) are able to receiv
 \item 
   \textbf{DlyCompensation-Target-SP}=\emph{1000} : Target delay compensation value in [ns].
 \item 
-  \textbf{DlyCompensation-Source}=\emph{""} :  Points to a record which will be used to set target delay compensation value for this EVR. If not specified, remote setting of delay compensation target value is not used.
+  \textbf{DlyCompensation-Source-I}=\emph{"SIN-TIMAST-TMA:EvrDC-SP CP"} :  Points to a record which will be used to set target delay compensation value for this EVR. If set to empty, remote setting of delay compensation target value is not used. By the default the value points to a record used in PSI SwissFEL facility.
+\item 
+  \textbf{DlyCompensation-Source-Disa}=\emph{0} : \texttt{Enables (0)} or \texttt{disables (1)} sourcing the delay compensation target value from record specified with 'DlyCompensation-Source-I' macro
 \end{itemize}
 
 \subsubsection{Getting target delay compensation from external record}
-When there are many event receivers in the timing network, it is convenient if target delay compensation can be set for all the event receivers to the same value at the same time. In order to use this functionality, let \texttt{DlyCompensation-Source} macro in the substitution file point to the record which will be used to set target delay compensation value for EVRs in the timing network. Assuming this record is \texttt{SIN-CVME-TIMAST-TMA:EvrDC-SP}, the substitution file macro looks like this:
+When there are many event receivers in the timing network, it is convenient if target delay compensation can be set for all the event receivers to the same value at the same time. In order to use this functionality, let \texttt{DlyCompensation-Source-I} macro in the substitution file point to the record which will be used to set target delay compensation value for EVRs in the timing network. Assuming this record is \texttt{SIN-CVME-TIMAST-TMA:EvrDC-SP}, the substitution file macro looks like this:
 \begin{verbatim}
-	DlyCompensation-Source="SIN-CVME-TIMAST-TMA:EvrDC-SP"
+	DlyCompensation-Source-I="SIN-CVME-TIMAST-TMA:EvrDC-SP CP"
 \end{verbatim}
-Target delay compensation of this EVR will be automatically updated to \texttt{SIN-CVME-TIMAST-TMA:EvrDC-SP} value, whenever it changes. In order to disable automatic update simply set \texttt{DISA} field of \newline\texttt{\$(SYS)-\$(DEVICE):DlyCompensation-Source-I} record to \texttt{1}. The same setting is also exposed as a macro in the substitution file. To disable automatic update of the target delay compensation value at IOC start-up, set the following macro in the substitution file to \texttt{0}:
+Target delay compensation of this EVR will be automatically updated to \texttt{SIN-CVME-TIMAST-TMA:EvrDC-SP} value, whenever it changes (because we have CP link). In order to disable automatic update simply set \texttt{DISA} field of \newline\texttt{\$(SYS)-\$(DEVICE):DlyCompensation-Source-I} record to \texttt{1}. The same setting is also exposed as a macro in the substitution file. To disable automatic update of the target delay compensation value, set the following macro in the substitution file to \texttt{1}:
 \begin{verbatim}
-	DlyCompensation-Source-Disa=1
+	DlyCompensation-Source-Disa=0
 \end{verbatim}
 
 \subsection{Time stamping mechanism}\label{sec:Time stamping mechanism}
