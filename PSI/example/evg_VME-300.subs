@@ -5,7 +5,7 @@ file "$(mrfioc2_TEMPLATES=db)/evg-vme-300.db"
     {
          DlyCompensation-Beacon-Sel=0, # 0 = Disable, 1 = Enable : Delay compensation beacon generator
          DlyCompensation-Master-Sel=0, # 0 = Disable, 1 = Enable : Master enable for delay compensation
-         FCT-ClrVioSrc="",             # when a record referenced here is processed, link violations on all ports will be cleared. (default: empty)
+         FCT-ClrVioSrc="SIN-CVME-TIMAST-TMA:EvmClrLnkVio-Cmd CP",             # when a record referenced here is processed, link violations on all ports will be cleared. (default: empty)
                                        # NOTE: The value of FCT-ClrVioSrc needs to include CP to ensure the value is updated when the source changes.
                                        #       The CP can not be hidden in the template file because this would lead to an invalid input link CP when no substitution value for FCT-ClrVioSrc is provided.
                                        # Recommended setting for SwissFEL is SIN-CVME-TIMAST-TMA:EvmClrLnkVio-Cmd CP
