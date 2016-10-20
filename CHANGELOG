@@ -1,5 +1,9 @@
 For detailed changelog inspect commits at https://git.psi.ch/epics_drivers/mrfioc2/commits/master
 
+x.x.x : date
+	- EVR: changed the name of delay compensation source macro from DlyCompensation-Source to DlyCompensation-Source-I and updated default value.
+	- EVG: updated default value of clear link violation source (macro: FCT-ClrVioSrc)
+
 2.7.18 : Tue 30 Avg 2016:
 	- EVR: Hard coded delay compensation target value and source record for SwissFEL. This is not a proper solution and must be fixed soon
 
