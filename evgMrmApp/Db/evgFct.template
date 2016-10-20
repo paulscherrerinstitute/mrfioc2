@@ -61,7 +61,7 @@ record(mbbiDirect, "$(SYS)-$(DEVICE):FCT-status-I") {
 }
 
 record(calcout, "$(SYS)-$(DEVICE):FCT-ClrVioSrc-I") {
-  field(INPA, "$(FCT-ClrVioSrc\=)")
+  field(INPA, "$(FCT-ClrVioSrc\=SIN-CVME-TIMAST-TMA:EvmClrLnkVio-Cmd CP)")
   field(CALC, "VAL")
   field(DISV, "1")
   field(DISA, "0")
