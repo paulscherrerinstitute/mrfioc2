@@ -1,5 +1,8 @@
 For detailed changelog inspect commits at https://git.psi.ch/epics_drivers/mrfioc2/commits/master
 
+2.7.21 : Thu 27 Okt 2016:
+	- PSI: updated names of links pointing to master timing
+
 2.7.20 : Tue 25 Okt 2016:
 	- EVR: changed the name of delay compensation source macro from DlyCompensation-Source to DlyCompensation-Source-I and updated default value.
 	- EVG: updated default value of clear link violation source (macro: FCT-ClrVioSrc)
