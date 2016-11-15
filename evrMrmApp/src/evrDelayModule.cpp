@@ -11,6 +11,8 @@ EvrDelayModule::EvrDelayModule(const std::string& n, EVRMRM* o, size_t idx)
     :mrf::ObjectInst<EvrDelayModule>(n)
     ,N_(idx)
     ,gpio_(o->gpio())
+    ,dly0_(0)
+    ,dly1_(0)
 {
 }
 
@@ -22,7 +24,7 @@ void EvrDelayModule::setDelay0(double val)
 {
     if(val < 2.200) val = 2.200;
     if(val > 12.430)val = 12.430;
-	setDelay(true, false, (epicsUInt16)((val - 2.2) * 100 + 0.5), 0);
+    setDelay(true, false, (epicsUInt16)((val - 2.2) * 100 + 0.5), 0);
 }
 
 double EvrDelayModule::getDelay0() const
@@ -34,7 +36,7 @@ void EvrDelayModule::setDelay1(double val)
 {
     if(val < 2.200) val = 2.200;
     if(val > 12.430)val = 12.430;
-	setDelay(false, true, 0, (epicsUInt16)((val - 2.200) * 100.0 + 0.5));
+    setDelay(false, true, 0, (epicsUInt16)((val - 2.200) * 100.0 + 0.5));
 }
 
 double EvrDelayModule::getDelay1() const
@@ -103,16 +105,21 @@ void EvrDelayModule::setDelay(bool output0, bool output1, epicsUInt16 value0, ep
         //    DB3, DB2, DB1, DB0, LENA, 0, DA9, DA8,
         //    LENB, 0, DB9, DB8, DB7, DB6, DB5, DB4
 
-        if(output0){  // output 0 selected = UNIV 0 = DB
-            delay = ((value0 & 0x00f) << 12) | (value0 >> 4);
-            latch = 0x000080;
-            dly0_ = value0;
+        // if output is not provided reuse last-known value.
+        if(!output0){  // output 0 selected = UNIV 0 = DB
+            value0 = dly0_;
         }
-        if(output1){ // output 1 selected = UNIV 1 = DA
-            delay |= ((value1 & 0x0ff) << 16) | (value1 & 0x300);
-            latch |= 0x000800;
-            dly1_ = value1;
+        if(!output1){ // output 1 selected = UNIV 1 = DA
+            value1 = dly1_;
         }
+
+        delay = ((value0 & 0x00f) << 12) | (value0 >> 4);
+        latch = 0x000080;
+        dly0_ = value0;
+
+        delay |= ((value1 & 0x0ff) << 16) | (value1 & 0x300);
+        latch |= 0x000800;
+        dly1_ = value1;
 
         // we output the data, set the latches and output the data again. This is to ensure that the delay values are stable when we latch them.
         pushData(delay);
