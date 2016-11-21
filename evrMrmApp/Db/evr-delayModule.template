@@ -58,7 +58,7 @@ record(ao, "$(SYS)-$(DEVICE):UnivDlyModule$(SLOT)-Delay1-SP") {
   field( OUT , "@OBJ=$(DEVICE):UnivDlyModule$(SLOT), PROP=Delay1")
   field( EGU , "ns")
   field( PINI, "YES")
-  field( VAL , "$(Delay1-SP=2.200)")
+  field( VAL , "$(Delay1=2.200)")
   field( HOPR, "12.430")
   field( LOPR, "2.200")
   field( PREC, 2)
