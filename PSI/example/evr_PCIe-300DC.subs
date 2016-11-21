@@ -352,6 +352,44 @@ pattern { EVT,	CODE,    FLNK }
 #		{ "3",    "3",   "" }
 #}
 
+
+# This templates stores pulse ID and event received/not received information in two waveforms.
+# This way the user can inspect event arrival corelated to pulse IDs.
+#
+#
+# Mandatory macros:
+#  SYS = System name
+#  DEVICE = Event receiver / timing card name (same as mrmEvrSetupVME()) Eg. EVR0
+#  
+#  EVT = event name/number we are interested in. Eg. 6 for RF OFF beam event
+#  TRIGGER_CODE = EPICS event number, which is fired when timing event arrives. Usually the same as event number. Eg. 6 for RF OFF beam event. 
+#                 Codes configured for evr-softEvent.template can be used here.
+#  TRIGER_ACQUISITION = EPICS event number, which is fired when we want to capture event status and pulse ID. 
+#                       Usually this is near the end of the event sequence - BS read event (28).
+#                       Codes configured for evr-softEvent.template can be used here.
+#
+# Optional macros:
+#  N_SAMPLES = Number of samples the buffer for event statuses and pulse IDs will hold. Default: 1000
+#  DISABLE = Disables (1) or enables (0) acquisition of event statuses and pulse IDs. Default 0 (enabled)
+#  
+# Important records:
+#  $(SYS)-$(DEVICE):PTRN-$(EVT)-EVTBUF   -> A buffer with event statuses. 
+#                                           Each entry corresponds to one acquisition triggered by $(SYS)-$(DEVICE):PTRN-$(EVT)-EVT-TRIG record.
+#                                           Event arrival is signaled by $(SYS)-$(DEVICE):PTRN-$(EVT)-EVT-TRIG record.
+#                                           Value 0 means event $(EVT) did not arrive in the time between last and this acquisition was triggered
+#                                           Value 1 means event $(EVT) did arrive in the time between last and this acquisition was triggered
+#  $(SYS)-$(DEVICE):PTRN-$(EVT)-PIDBUF   -> Stores the current Pulse ID each time acquisition is triggered. Entry in this record can be compared to 
+#                                           entries in $(SYS)-$(DEVICE):PTRN-$(EVT)-EVTBUF to see if event did or did not arrive in this pulse ID.
+#  $(SYS)-$(DEVICE):PTRN-$(EVT)-EVT-TRIG -> Processed when TRIGGER_CODE EPICS event is received.
+#  $(SYS)-$(DEVICE):PTRN-$(EVT)-TRIG     -> Processed when TRIGER_ACQUISITION EPICS event is received.
+#  $(SYS)-$(DEVICE):PTRN-$(EVT)-DISABLE  -> see description for optional macro DISABLE.
+# 
+#file "$(mrfioc2_TEMPLATES=db)/evr-eventPatternCheck.template"{
+#pattern { EVT,	TRIGGER_CODE,	TRIGER_ACQUISITION }
+#		{ "6",    "$(EVT)",           "28"         }
+#}
+
+
 ## Mapping between hardware event code and a special function of the EVR
 ## Each event can be mapped only to one function!
 ## There are some default events, that allways trigger specific functions!

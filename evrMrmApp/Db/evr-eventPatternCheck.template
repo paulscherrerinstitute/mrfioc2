@@ -1,0 +1,98 @@
+# This templates stores pulse ID and event received/not received information in two waveforms.
+# This way the user can inspect event arrival corelated to pulse IDs.
+#
+#
+# Mandatory macros:
+#  SYS = System name
+#  DEVICE = Event receiver / timing card name (same as mrmEvrSetupVME()) Eg. EVR0
+#  
+#  EVT = event name/number we are interested in. Eg. 6 for RF OFF beam event
+#  TRIGGER_CODE = EPICS event number, which is fired when timing event arrives. Usually the same as event number. Eg. 6 for RF OFF beam event. 
+#                 Codes configured for evr-softEvent.template can be used here.
+#  TRIGER_ACQUISITION = EPICS event number, which is fired when we want to capture event status and pulse ID. 
+#                       Usually this is near the end of the event sequence.
+#                       Codes configured for evr-softEvent.template can be used here.
+#
+# Optional macros:
+#  N_SAMPLES = Number of samples the buffer for event statuses and pulse IDs will hold. Default: 1000
+#  DISABLE = Disables (1) or enables (0) acquisition of event statuses and pulse IDs. Default 0 (enabled)
+#  
+# Important records:
+#  $(SYS)-$(DEVICE):PTRN-$(EVT)-EVTBUF   -> A buffer with event statuses. 
+#                                           Each entry corresponds to one acquisition triggered by $(SYS)-$(DEVICE):PTRN-$(EVT)-EVT-TRIG record.
+#                                           Event arrival is signaled by $(SYS)-$(DEVICE):PTRN-$(EVT)-EVT-TRIG record.
+#                                           Value 0 means event $(EVT) did not arrive in the time between last and this acquisition was triggered
+#                                           Value 1 means event $(EVT) did arrive in the time between last and this acquisition was triggered
+#  $(SYS)-$(DEVICE):PTRN-$(EVT)-PIDBUF   -> Stores the current Pulse ID each time acquisition is triggered. Entry in this record can be compared to 
+#                                           entries in $(SYS)-$(DEVICE):PTRN-$(EVT)-EVTBUF to see if event did or did not arrive in this pulse ID.
+#  $(SYS)-$(DEVICE):PTRN-$(EVT)-EVT-TRIG -> Processed when TRIGGER_CODE EPICS event is received.
+#  $(SYS)-$(DEVICE):PTRN-$(EVT)-TRIG     -> Processed when TRIGER_ACQUISITION EPICS event is received.
+#  $(SYS)-$(DEVICE):PTRN-$(EVT)-DISABLE  -> see description for optional macro DISABLE.
+# 
+
+
+# Processed whenever event is received
+record(bo, "$(SYS)-$(DEVICE):PTRN-$(EVT)-EVT-TRIG") {         
+        field(DESC, "Event $(EVT) received")
+        field(EVNT, "$(TRIGGER_CODE)")
+        field(SCAN, "Event")
+        field(DOL,  "1")
+        field(OUT,  "$(SYS)-$(DEVICE):PTRN-$(EVT)-STAT PP")
+
+        field(SDIS, "$(SYS)-$(DEVICE):PTRN-$(EVT)-DISABLE")
+}
+
+# Triggers acquisition of data
+record(bo, "$(SYS)-$(DEVICE):PTRN-$(EVT)-TRIG") {
+        field(DESC, "Trigger readout")
+        field(EVNT, "$(TRIGER_ACQUISITION)")
+        field(SCAN, "Event")
+        field(VAL,  "0")
+        field(FLNK, "$(SYS)-$(DEVICE):PTRN-$(EVT)-EVTBUF")
+
+        field(SDIS, "$(SYS)-$(DEVICE):PTRN-$(EVT)-DISABLE")
+}
+
+# Saves event status (1: arrived, 0: not arrived)
+record(compress, "$(SYS)-$(DEVICE):PTRN-$(EVT)-EVTBUF") {      
+        field(DESC, "Event $(EVT) arrived(1) / not arrived(0)")   
+        field(ALG,  "Circular Buffer")
+        field(INP,  "$(SYS)-$(DEVICE):PTRN-$(EVT)-STAT.VAL NPP")
+        field(NSAM, "$(N_SAMPLES=1000)")			
+        field(FLNK, "$(SYS)-$(DEVICE):PTRN-$(EVT)-PIDBUF")			
+}
+
+# Saves pulse ID
+record(compress, "$(SYS)-$(DEVICE):PTRN-$(EVT)-PIDBUF") {
+        field(DESC, "Pulse ID synced with event status")
+        field(ALG,  "Circular Buffer")
+        field(INP,  "$(SYS)-$(DEVICE):RX-PULSEID NPP")
+        field(NSAM, "$(N_SAMPLES=1000)")			
+        field(FLNK, "$(SYS)-$(DEVICE):PTRN-$(EVT)-RESET_")			
+}
+
+# Resets event status to 0 after acquisition
+record(bo, "$(SYS)-$(DEVICE):PTRN-$(EVT)-RESET_") {
+        field(DESC, "Reset $(EVT) status")
+        field(DOL, "0")
+        field(OUT, "$(SYS)-$(DEVICE):PTRN-$(EVT)-STAT PP")
+}
+
+# This record is:
+# - reset by $(SYS)-$(DEVICE):PTRN-$(EVT)-RESET_ after acquiring data
+# - set   by $(SYS)-$(DEVICE):PTRN-$(EVT)-EVT-TRIG after event arrived
+record(bo, "$(SYS)-$(DEVICE):PTRN-$(EVT)-STAT") {
+        field(DESC, "Event arrived or not arrived")
+}
+
+
+# Enable or disable triggers / acquisition
+record(bi, "$(SYS)-$(DEVICE):PTRN-$(EVT)-DISABLE") {
+        field(DESC, "Disable acquisition")
+
+        field(ZNAM, "Enable")
+        field(ONAM, "Disable")
+
+        field(VAL,  "$(DISABLE=0)")
+        field(PINI, "YES")
+}
