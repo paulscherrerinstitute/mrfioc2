@@ -98,11 +98,11 @@
      <blue>0</blue>
     </color>
    </property>
-   <property name="plotMode">
-    <enum>caCartesianPlot::PlotNPointsAndStop</enum>
+   <property name="XaxisScaling" stdset="0">
+    <enum>caCartesianPlot::Channel</enum>
    </property>
-   <property name="countNumOrChannel" stdset="0">
-    <string notr="true">100</string>
+   <property name="YaxisScaling" stdset="0">
+    <enum>caCartesianPlot::User</enum>
    </property>
   </widget>
  </widget>
