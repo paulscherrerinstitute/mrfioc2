@@ -799,7 +799,6 @@ pattern { EVT,	CODE,    FLNK }
 #		{ "3",    "3",   "" }
 #}
 
-
 ## Mapping between hardware event code and a special function of the EVR
 ## Each event can be mapped only to one function!
 ## There are some default events, that allways trigger specific functions!

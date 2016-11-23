@@ -114,6 +114,7 @@ TEMPLATES += evrMrmApp/Db/evr-vme-230.db
 ## Fixed EVR templates
 TEMPLATES += evrMrmApp/Db/evr-softEvent.template
 TEMPLATES += evrMrmApp/Db/evr-softEvent-measure.template
+TEMPLATES += evrMrmApp/Db/evr-eventPatternCheck.template
 TEMPLATES += evrMrmApp/Db/evr-specialFunctionMap.template
 TEMPLATES += evrMrmApp/Db/evr-pulserMap.template
 TEMPLATES += evrMrmApp/Db/evr-pulserMap-dbus.template
@@ -124,6 +125,7 @@ TEMPLATES += evrMrmApp/Db/evr-health.template
 
 ## EVR helper templates for trigger switching configuration (fixed template)
 TEMPLATES += evrMrmApp/Db/evr-configTriggerSwitch.template
+
 
 ## EVR and EVG substitution files
 TEMPLATES += PSI/example/evr_VME-230.subs

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Form</class>
+ <widget class="QWidget" name="Form">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1118</width>
+    <height>230</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="caChoice" name="cachoice">
+   <property name="geometry">
+    <rect>
+     <x>120</x>
+     <y>35</y>
+     <width>150</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="channel" stdset="0">
+    <string notr="true">$(SYS)-$(DEVICE):PTRN-$(EVT)-DISABLE</string>
+   </property>
+   <property name="stackingMode" stdset="0">
+    <enum>caChoice::Column</enum>
+   </property>
+   <property name="endBit">
+    <number>1</number>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_3">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>40</y>
+     <width>101</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Acquisition</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+   </property>
+  </widget>
+  <widget class="caLabel" name="calabel">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1121</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <property name="statusTip">
+    <string>Expert</string>
+   </property>
+   <property name="text">
+    <string>Pattern check for event $(EVT): $(SYS)-$(DEVICE)</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignLeading</set>
+   </property>
+   <property name="colorMode">
+    <enum>caLabel::Default</enum>
+   </property>
+  </widget>
+  <widget class="caCartesianPlot" name="cacartesianplot">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>70</y>
+     <width>1101</width>
+     <height>151</height>
+    </rect>
+   </property>
+   <property name="TitleX">
+    <string notr="true">Pulse ID</string>
+   </property>
+   <property name="TitleY">
+    <string notr="true">Event arrived</string>
+   </property>
+   <property name="channels_1" stdset="0">
+    <string>$(SYS)-$(DEVICE):PTRN-$(EVT)-PIDBUF;$(SYS)-$(DEVICE):PTRN-$(EVT)-EVTBUF</string>
+   </property>
+   <property name="Style_1">
+    <enum>caCartesianPlot::Sticks</enum>
+   </property>
+   <property name="color_1">
+    <color>
+     <red>0</red>
+     <green>0</green>
+     <blue>0</blue>
+    </color>
+   </property>
+   <property name="XaxisScaling" stdset="0">
+    <enum>caCartesianPlot::Channel</enum>
+   </property>
+   <property name="YaxisScaling" stdset="0">
+    <enum>caCartesianPlot::User</enum>
+   </property>
+  </widget>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>caChoice</class>
+   <extends>QWidget</extends>
+   <header>caChoice</header>
+  </customwidget>
+  <customwidget>
+   <class>caLabel</class>
+   <extends>QLabel</extends>
+   <header>caLabel</header>
+  </customwidget>
+  <customwidget>
+   <class>caCartesianPlot</class>
+   <extends>QFrame</extends>
+   <header>caCartesianPlot</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>
