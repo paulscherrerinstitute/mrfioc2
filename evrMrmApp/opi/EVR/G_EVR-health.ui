@@ -6,15 +6,12 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>184</width>
-    <height>464</height>
+    <width>180</width>
+    <height>530</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
-  </property>
-  <property name="backgroundMode">
-   <enum>caFrame::Filled</enum>
+   <string>EVR health monitoring</string>
   </property>
   <widget class="QGroupBox" name="groupBox">
    <property name="geometry">
@@ -22,7 +19,7 @@
      <x>10</x>
      <y>100</y>
      <width>161</width>
-     <height>141</height>
+     <height>171</height>
     </rect>
    </property>
    <property name="title">
@@ -38,12 +35,12 @@
      </rect>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(SYS)-$(DEVICE)-HEALTH:Pll-Sts</string>
+     <string notr="true">$(SYS)-$(DEVICE):Pll-Sts</string>
     </property>
     <property name="falseColor">
      <color>
-      <red>0</red>
-      <green>255</green>
+      <red>255</red>
+      <green>0</green>
       <blue>0</blue>
      </color>
     </property>
@@ -65,7 +62,7 @@
      </rect>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(SYS)-$(DEVICE)-HEALTH:Link-Sts</string>
+     <string notr="true">$(SYS)-$(DEVICE):Link-Sts</string>
     </property>
     <property name="falseColor">
      <color>
@@ -85,33 +82,36 @@
    <widget class="caLineEdit" name="calineedit_2">
     <property name="geometry">
      <rect>
-      <x>110</x>
-      <y>110</y>
-      <width>31</width>
+      <x>100</x>
+      <y>142</y>
+      <width>51</width>
       <height>16</height>
      </rect>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(SYS)-$(DEVICE)-HEALTH:Cnt-RxErr-Rate-I</string>
+     <string notr="true">$(SYS)-$(DEVICE):Cnt-RxErr-Rate-I</string>
     </property>
     <property name="colorMode">
      <enum>caLineEdit::Alarm_Default</enum>
+    </property>
+    <property name="alarmHandling">
+     <enum>caLineEdit::onBackground</enum>
     </property>
    </widget>
    <widget class="caLineEdit" name="calineedit">
     <property name="geometry">
      <rect>
-      <x>110</x>
-      <y>80</y>
-      <width>31</width>
+      <x>100</x>
+      <y>113</y>
+      <width>51</width>
       <height>16</height>
      </rect>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(SYS)-$(DEVICE)-HEALTH:Cnt-RxErr-Rate-I</string>
+     <string notr="true">$(SYS)-$(DEVICE):Cnt-RxErr-I</string>
     </property>
     <property name="colorMode">
-     <enum>caLineEdit::Alarm_Default</enum>
+     <enum>caLineEdit::Default</enum>
     </property>
    </widget>
    <widget class="caLabel" name="calabel_2">
@@ -166,7 +166,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>110</y>
+      <y>140</y>
       <width>80</width>
       <height>20</height>
      </rect>
@@ -190,7 +190,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>80</y>
+      <y>110</y>
       <width>80</width>
       <height>20</height>
      </rect>
@@ -210,12 +210,63 @@
      <enum>Qt::PlainText</enum>
     </property>
    </widget>
+   <widget class="caLed" name="caled_3">
+    <property name="geometry">
+     <rect>
+      <x>120</x>
+      <y>80</y>
+      <width>16</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="channel" stdset="0">
+     <string notr="true">$(SYS)-$(DEVICE):CG-Sts</string>
+    </property>
+    <property name="falseColor">
+     <color>
+      <red>255</red>
+      <green>0</green>
+      <blue>0</blue>
+     </color>
+    </property>
+    <property name="trueColor">
+     <color>
+      <red>85</red>
+      <green>255</green>
+      <blue>0</blue>
+     </color>
+    </property>
+   </widget>
+   <widget class="caLabel" name="calabel_6">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>80</y>
+      <width>80</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>11</pointsize>
+     </font>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
+    <property name="text">
+     <string>Fract synth</string>
+    </property>
+    <property name="textFormat">
+     <enum>Qt::PlainText</enum>
+    </property>
+   </widget>
   </widget>
   <widget class="QGroupBox" name="groupBox_2">
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>250</y>
+     <y>280</y>
      <width>161</width>
      <height>111</height>
     </rect>
@@ -300,15 +351,18 @@
      <rect>
       <x>90</x>
       <y>21</y>
-      <width>50</width>
+      <width>61</width>
       <height>16</height>
      </rect>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(SYS)-$(DEVICE)-HEALTH:SFP-T-I</string>
+     <string notr="true">$(SYS)-$(DEVICE):SFP0-T-I</string>
     </property>
     <property name="colorMode">
      <enum>caLineEdit::Alarm_Default</enum>
+    </property>
+    <property name="alarmHandling">
+     <enum>caLineEdit::onBackground</enum>
     </property>
     <property name="unitsEnabled">
      <bool>true</bool>
@@ -319,15 +373,18 @@
      <rect>
       <x>90</x>
       <y>51</y>
-      <width>50</width>
+      <width>61</width>
       <height>16</height>
      </rect>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(SYS)-$(DEVICE)-HEALTH:SFP-Pwr-RX-I</string>
+     <string notr="true">$(SYS)-$(DEVICE):SFP0-Pwr-RX-I</string>
     </property>
     <property name="colorMode">
      <enum>caLineEdit::Alarm_Default</enum>
+    </property>
+    <property name="alarmHandling">
+     <enum>caLineEdit::onBackground</enum>
     </property>
     <property name="unitsEnabled">
      <bool>true</bool>
@@ -338,15 +395,18 @@
      <rect>
       <x>90</x>
       <y>80</y>
-      <width>50</width>
+      <width>61</width>
       <height>16</height>
      </rect>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(SYS)-$(DEVICE)-HEALTH:SFP-Pwr-TX-I</string>
+     <string notr="true">$(SYS)-$(DEVICE):SFP0-Pwr-TX-I</string>
     </property>
     <property name="colorMode">
      <enum>caLineEdit::Alarm_Default</enum>
+    </property>
+    <property name="alarmHandling">
+     <enum>caLineEdit::onBackground</enum>
     </property>
     <property name="unitsEnabled">
      <bool>true</bool>
@@ -363,10 +423,10 @@
     </rect>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE)-HEALTH:Sts-Reason-I</string>
+    <string notr="true">$(SYS)-$(DEVICE)-HEALTH:Reason-I</string>
    </property>
    <property name="colorMode">
-    <enum>caLineEdit::Static</enum>
+    <enum>caLineEdit::Alarm_Default</enum>
    </property>
    <property name="framePresent" stdset="0">
     <bool>true</bool>
@@ -381,27 +441,39 @@
    <property name="frameLineWidth" stdset="0">
     <number>1</number>
    </property>
+   <property name="alarmHandling">
+    <enum>caLineEdit::onBackground</enum>
+   </property>
   </widget>
   <widget class="caLabel" name="calabel">
    <property name="geometry">
     <rect>
-     <x>10</x>
+     <x>0</x>
      <y>0</y>
-     <width>161</width>
+     <width>181</width>
      <height>41</height>
     </rect>
    </property>
+   <property name="statusTip">
+    <string>Operation</string>
+   </property>
    <property name="text">
     <string>$(SYS)-$(DEVICE)</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+   <property name="colorMode">
+    <enum>caLabel::Default</enum>
    </property>
   </widget>
   <widget class="QGroupBox" name="groupBox_3">
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>370</y>
+     <y>400</y>
      <width>161</width>
-     <height>81</height>
+     <height>121</height>
     </rect>
    </property>
    <property name="title">
@@ -411,14 +483,14 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>50</y>
-      <width>60</width>
+      <y>69</y>
+      <width>71</width>
       <height>20</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <pointsize>9</pointsize>
+      <pointsize>11</pointsize>
      </font>
     </property>
     <property name="autoFillBackground">
@@ -436,13 +508,13 @@
      <rect>
       <x>10</x>
       <y>20</y>
-      <width>60</width>
+      <width>71</width>
       <height>20</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <pointsize>8</pointsize>
+      <pointsize>10</pointsize>
      </font>
     </property>
     <property name="autoFillBackground">
@@ -460,15 +532,15 @@
      <rect>
       <x>90</x>
       <y>21</y>
-      <width>50</width>
+      <width>61</width>
       <height>16</height>
      </rect>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(SYS)-$(DEVICE)-HEALTH:DBuf-Sum-Cs-I</string>
+     <string notr="true">$(SYS)-$(DEVICE):DBuf-Sum-Cs-I</string>
     </property>
     <property name="colorMode">
-     <enum>caLineEdit::Alarm_Default</enum>
+     <enum>caLineEdit::Default</enum>
     </property>
     <property name="unitsEnabled">
      <bool>true</bool>
@@ -478,16 +550,105 @@
     <property name="geometry">
      <rect>
       <x>90</x>
-      <y>51</y>
-      <width>50</width>
+      <y>70</y>
+      <width>61</width>
       <height>16</height>
      </rect>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(SYS)-$(DEVICE)-HEALTH:Cnt-SwOflw-I</string>
+     <string notr="true">$(SYS)-$(DEVICE):DBuf-Sum-Oflw-I</string>
+    </property>
+    <property name="colorMode">
+     <enum>caLineEdit::Default</enum>
+    </property>
+    <property name="unitsEnabled">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="caLineEdit" name="calineedit_11">
+    <property name="geometry">
+     <rect>
+      <x>90</x>
+      <y>41</y>
+      <width>61</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="channel" stdset="0">
+     <string notr="true">$(SYS)-$(DEVICE):DBuf-Sum-Cs-Rate-I</string>
     </property>
     <property name="colorMode">
      <enum>caLineEdit::Alarm_Default</enum>
+    </property>
+    <property name="alarmHandling">
+     <enum>caLineEdit::onBackground</enum>
+    </property>
+    <property name="unitsEnabled">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="caLabel" name="calabel_16">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>40</y>
+      <width>71</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Chks rate</string>
+    </property>
+    <property name="textFormat">
+     <enum>Qt::PlainText</enum>
+    </property>
+   </widget>
+   <widget class="caLabel" name="calabel_14">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>90</y>
+      <width>71</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>11</pointsize>
+     </font>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
+    <property name="text">
+     <string>Ovflw rate</string>
+    </property>
+    <property name="textFormat">
+     <enum>Qt::PlainText</enum>
+    </property>
+   </widget>
+   <widget class="caLineEdit" name="calineedit_12">
+    <property name="geometry">
+     <rect>
+      <x>90</x>
+      <y>91</y>
+      <width>61</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="channel" stdset="0">
+     <string notr="true">$(SYS)-$(DEVICE):DBuf-Sum-Oflw-Rate-I</string>
+    </property>
+    <property name="colorMode">
+     <enum>caLineEdit::Alarm_Default</enum>
+    </property>
+    <property name="alarmHandling">
+     <enum>caLineEdit::onBackground</enum>
     </property>
     <property name="unitsEnabled">
      <bool>true</bool>
