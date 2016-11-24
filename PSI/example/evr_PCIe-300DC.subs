@@ -352,6 +352,41 @@ pattern { EVT,	CODE,    FLNK }
 #		{ "3",    "3",   "" }
 #}
 
+# This templates stores pulse ID and event received/not received information in two waveforms.
+# This way the user can inspect event arrival corelated to pulse IDs.
+#
+#
+# Mandatory macros:
+#  SYS = System name
+#  DEVICE = Event receiver / timing card name (same as mrmEvrSetupVME()) Eg. EVR0
+#  
+#  EVT = event number we are interested in. Eg. 6 for RF OFF beam event
+#
+# Optional macros:
+#  TRIGER_ACQUISITION = Timing event number, which is fired when we want to capture event status and pulse ID. 
+#                       Usually this is near the end of the event sequence. Eg. BS read event. Default: 28
+#  N_SAMPLES = Number of samples the buffer for event statuses and pulse IDs will hold. Default: 200
+#  DISABLE = Disables (1) or enables (0) acquisition of event statuses and pulse IDs. Default 0 (enabled)
+#  
+# Important records:
+#  $(SYS)-$(DEVICE):PTRN-$(EVT)-EVTBUF   -> A buffer with event statuses. 
+#                                           Each entry corresponds to one acquisition triggered by $(SYS)-$(DEVICE):PTRN-$(EVT)-EVT-TRIG record.
+#                                           Event arrival is signaled by $(SYS)-$(DEVICE):PTRN-$(EVT)-EVT-TRIG record.
+#                                           Value 0 means event event EVT did not arrive in the time between last and this acquisition was triggered
+#                                           Value 1 means event event EVT did arrive in the time between last and this acquisition was triggered
+#  $(SYS)-$(DEVICE):PTRN-$(EVT)-PIDBUF   -> Stores the current Pulse ID each time acquisition is triggered. Entry in this record can be compared to 
+#                                           entries in $(SYS)-$(DEVICE):PTRN-$(EVT)-EVTBUF to see if event did or did not arrive in this pulse ID.
+#  $(SYS)-$(DEVICE):PTRN-$(EVT)-EVT-TRIG -> Processed when EVT event is received.
+#  $(SYS)-$(DEVICE):PTRN-$(EVT)-TRIG     -> Processed when TRIGER_ACQUISITION event is received.
+#  $(SYS)-$(DEVICE):PTRN-$(EVT)-DISABLE  -> see description for optional macro DISABLE.
+# 
+file "$(mrfioc2_TEMPLATES=db)/evr-eventPatternCheck.template"{
+pattern { EVT,	   TRIGER_ACQUISITION,       N_SAMPLES,    DISABLE }
+		{ "6",           "28",                 "200",        "1"   }	# RF OFF event
+		{ "11",          "28",                 "200",        "1"   }	# Laser OFF event
+		{ "15",          "28",                 "200",        "1"   }	# BPM event
+}
+
 ## Mapping between hardware event code and a special function of the EVR
 ## Each event can be mapped only to one function!
 ## There are some default events, that allways trigger specific functions!
