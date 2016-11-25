@@ -1,5 +1,10 @@
 For detailed changelog inspect commits at https://git.psi.ch/epics_drivers/mrfioc2/commits/master
 
+2.7.22 : Fri 25 Nov 2016:
+	- EVR fine delay module: bug fixed, where setting one delay output would reset the other
+	- EVR: added a template and GUI which can be used to see event pattern received on the EVR (evr-eventPatternCheck.template)
+	- EVR health monitoring update (no more doubled records, added warning for SFPs, GUI update)
+
 2.7.21 : Thu 27 Okt 2016:
 	- PSI: updated names of links pointing to master timing
 
