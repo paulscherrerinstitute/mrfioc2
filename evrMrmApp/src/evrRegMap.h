@@ -341,4 +341,18 @@
 
 #define EVR_REGMAP_SIZE 0x40000 // Total register map size = 256K
 
+
+
+//=====================
+// Sequence RAMs
+//
+#define  U32_EVR_SeqRamTS_base      0xC000  // Sequence Ram Timestamp Array Base Offset
+#define  U32_EVR_SeqRamTS(n,m)      (U32_EVR_SeqRamTS_base + (0x4000*(n)) + (8*(m)))
+
+#define  U8_EVR_SeqRamEvent_base    0xC007  // Sequence Ram Event Code Array Base Offset
+#define  U8_EVR_SeqRamEvent(n,m)    (U8_EVR_SeqRamEvent_base + (0x4000*(n)) + (8*(m)))
+
+// #define  U8_EVR_SeqRamMask_base    0xC006  // Sequence Ram Event Code Array Base Offset
+// #define  U8_EVR_SeqRamMask(n,m)    (U8_EVR_SeqRamMask_base + (0x4000*(n)) + (8*(m)))
+
 #endif /* EVRREGMAP_H */
