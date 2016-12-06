@@ -41,7 +41,7 @@ record(event, "$(SYS)-$(DEVICE):BEAMOK-LASOFF-EVT") {
         field(SCAN, "I/O Intr")
         field(INP,  "@OBJ=$(DEVICE),Code=$(LASOFF-EVT=11)")
         field(VAL,  "0")
-        field(FLNK, "(SYS)-$(DEVICE):BEAMOK-FALSE_")
+        field(FLNK, "$(SYS)-$(DEVICE):BEAMOK-FALSE_")
 }
 
 
