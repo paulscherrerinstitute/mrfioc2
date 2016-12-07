@@ -1,0 +1,72 @@
+# This template provides minimal logic required to determine if Beam is present in the current pulse 
+#
+# Mandatory macros:
+#  SYS = System name
+#  DEVICE = Event receiver / timing card name (same as mrmEvrSetupVME()) Eg. EVR0
+#
+# Optional macros:
+#  SOS-EVT = 28 Event code used by Start of Sequence event
+#  RFOFF-EVT = 6 Event code used by RF off event 
+#  LASOFF-EVT = 1 Event code used by Laser off event 
+#
+# Important records:
+#  $(SYS)-$(DEVICE):BEAMOK   -> A record that holds current state of the beam (1 for OK, 0 for NOT OK)
+
+# Processed whenever SOS event is received
+record(event, "$(SYS)-$(DEVICE):BEAMOK-SOS-EVT") {         
+        field(DESC, "SOS event")
+        field(DTYP, "EVR Event")
+        field(SCAN, "I/O Intr")
+        field(INP,  "@OBJ=$(DEVICE),Code=$(SOS-EVT=28)")
+        field(VAL,  "0")
+
+        field(FLNK, "$(SYS)-$(DEVICE):BEAMOK-TRUE_")
+}
+
+# Processed whenever RFOFF event is received
+record(event, "$(SYS)-$(DEVICE):BEAMOK-RFOFF-EVT") {         
+        field(DESC, "RF OFF event")
+        field(DTYP, "EVR Event")
+        field(SCAN, "I/O Intr")
+        field(INP,  "@OBJ=$(DEVICE),Code=$(RFOFF-EVT=6)")
+        field(VAL,  "0")
+
+        field(FLNK, "$(SYS)-$(DEVICE):BEAMOK-FALSE_")
+}
+
+# Processed whenever LASOFF event is received
+record(event, "$(SYS)-$(DEVICE):BEAMOK-LASOFF-EVT") {         
+        field(DESC, "LAS OFF event")
+        field(DTYP, "EVR Event")
+        field(SCAN, "I/O Intr")
+        field(INP,  "@OBJ=$(DEVICE),Code=$(LASOFF-EVT=11)")
+        field(VAL,  "0")
+        field(FLNK, "$(SYS)-$(DEVICE):BEAMOK-FALSE_")
+}
+
+
+# Sets beam ok status to 0 
+record(bo, "$(SYS)-$(DEVICE):BEAMOK-FALSE_") {
+        field(DESC, "Set beam OK status to false")
+        field(DOL, "0")
+        field(OUT, "$(SYS)-$(DEVICE):BEAMOK PP")
+}
+
+# Sets event status to 1 
+record(bo, "$(SYS)-$(DEVICE):BEAMOK-TRUE_") {
+        field(DESC, "Set beam OK status to true")
+        field(DOL,  "1")
+        field(OUT,  "$(SYS)-$(DEVICE):BEAMOK PP")
+}
+
+
+# Enable or disable triggers / acquisition
+record(bi, "$(SYS)-$(DEVICE):BEAMOK") {
+        field(DESC, "Beam OK flag")
+
+        field(ZNAM, "Beam NOT OK")
+        field(ONAM, "Beam OK")
+
+        field(VAL,  "0")
+        field(PINI, "YES")
+}
