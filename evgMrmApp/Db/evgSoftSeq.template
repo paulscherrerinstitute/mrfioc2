@@ -13,7 +13,7 @@ record(bo, "$(SYS)-$(DEVICE):SoftSeq-$(SEQNUM)-TsInpMode-Sel") {
     field( ZNAM, "EGU")
     field( ONAM, "TICKS")
     field( FLNK, "$(SYS)-$(DEVICE):SoftSeq-$(SEQNUM)-TsInpMode-RB")
-    info(autosaveFields_pasS$(SEQNUM), "VAL")
+    info(autosaveFields_pass1, "VAL")
 }
 
 record(bi, "$(SYS)-$(DEVICE):SoftSeq-$(SEQNUM)-TsInpMode-RB") {
@@ -51,7 +51,7 @@ record(mbbo, "$(SYS)-$(DEVICE):SoftSeq-$(SEQNUM)-TsResolution-Sel") {
     field( IVOA, "Don't drive outputs")
     field( VAL, "$(TSRES=0)")
     field( FLNK, "$(SYS)-$(DEVICE):SoftSeq-$(SEQNUM)-TsResolution-RB")
-    info(autosaveFields_pasS$(SEQNUM), "VAL")
+    info(autosaveFields_pass1, "VAL")
 }
 
 record(mbbi, "$(SYS)-$(DEVICE):SoftSeq-$(SEQNUM)-TsResolution-RB") {
@@ -158,7 +158,7 @@ record(mbbo, "$(SYS)-$(DEVICE):SoftSeq-$(SEQNUM)-RunMode-Sel") {
     field( UNSV, "INVALID")
     field( IVOA, "Don't drive outputs")
     field( VAL, "$(RUNMODE=0)" )
-    info(autosaveFields_pasS$(SEQNUM), "VAL")
+    info(autosaveFields_pass1, "VAL")
 }
 
 record(mbbi, "$(SYS)-$(DEVICE):SoftSeq-$(SEQNUM)-RunMode-RB") {
@@ -221,7 +221,7 @@ record(mbbo, "$(SYS)-$(DEVICE):SoftSeq-$(SEQNUM)-TrigSrc-Sel") {
     field( FTVL, 46)
     field( FFVL, 50)
     field( VAL, "$(TRIGSRC=0)")
-    info( autosaveFields_pasS$(SEQNUM), "VAL")
+    info( autosaveFields_pass1, "VAL")
 }
 
 record(mbbi, "$(SYS)-$(DEVICE):SoftSeq-$(SEQNUM)-TrigSrc-RB") {
@@ -356,7 +356,7 @@ record(bi, "$(SYS)-$(DEVICE):SoftSeq-$(SEQNUM)-Load-RB") {
     field( SCAN, "I/O Intr")
     field( ZNAM, "Unloaded")
     field( ONAM, "Loaded")
-    info( autosaveFields_pasS$(SEQNUM), "VAL")
+    info( autosaveFields_pass1, "VAL")
 }
 
 record(bi, "$(SYS)-$(DEVICE):SoftSeq-$(SEQNUM)-Commit-RB") {
@@ -366,7 +366,7 @@ record(bi, "$(SYS)-$(DEVICE):SoftSeq-$(SEQNUM)-Commit-RB") {
     field( SCAN, "I/O Intr")    
     field( ZNAM, "Uncommitted")
     field( ONAM, "Committed")
-    info( autosaveFields_pasS$(SEQNUM), "VAL")
+    info( autosaveFields_pass1, "VAL")
 }
 
 record(bi, "$(SYS)-$(DEVICE):SoftSeq-$(SEQNUM)-Enable-RB") {
@@ -376,7 +376,7 @@ record(bi, "$(SYS)-$(DEVICE):SoftSeq-$(SEQNUM)-Enable-RB") {
     field( ZNAM, "Disabled")
     field( ONAM, "Enabled")
     field( FLNK, "")
-    info( autosaveFields_pasS$(SEQNUM), "VAL")
+    info( autosaveFields_pass1, "VAL")
 }
 
 record(bi, "$(SYS)-$(DEVICE):SoftSeq-$(SEQNUM)-Enable-Sts") {
@@ -387,7 +387,7 @@ record(bi, "$(SYS)-$(DEVICE):SoftSeq-$(SEQNUM)-Enable-Sts") {
     field( ZNAM, "Disabled")
     field( ONAM, "Enabled")
     field( FLNK, "$(SYS)-$(DEVICE):SoftSeq-$(SEQNUM)-Enable-RB")
-    info( autosaveFields_pasS$(SEQNUM), "VAL")
+    info( autosaveFields_pass1, "VAL")
 }
 
 record(waveform, "$(SYS)-$(DEVICE):SoftSeq-$(SEQNUM)-LoadedSeq-RB") {
