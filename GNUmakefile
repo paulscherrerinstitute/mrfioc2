@@ -48,6 +48,7 @@ SOURCES+=evrMrmApp/src/os/default/irqHack.cpp
 SOURCES+=evrMrmApp/src/evrPrescaler.cpp
 SOURCES+=evrMrmApp/src/evrCML.cpp
 SOURCES+=evrMrmApp/src/evrOutput.cpp
+SOURCES+=evrMrmApp/src/evrSequencer.cpp
 SOURCES+=evgMrmApp/src/evgSequencer/evgSeqRam.cpp
 SOURCES+=evgMrmApp/src/evgSequencer/evgSoftSeq.cpp
 SOURCES+=evgMrmApp/src/evgSequencer/evgSeqRamManager.cpp

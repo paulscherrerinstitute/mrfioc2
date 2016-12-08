@@ -200,3 +200,28 @@ OBJECT_BEGIN(EvrDelayModule) {
     OBJECT_PROP2("Delay1", &EvrDelayModule::getDelay1, &EvrDelayModule::setDelay1);
 
 } OBJECT_END(EvrDelayModule)
+
+
+OBJECT_BEGIN(EvrSequencer) {
+
+    OBJECT_PROP2("Events", &EvrSequencer::getSequenceEvents, &EvrSequencer::setSequenceEvents);
+    OBJECT_PROP2("Timestamps", &EvrSequencer::getSequenceTimestamp, &EvrSequencer::setSequenceTimestamp);
+    OBJECT_PROP2("Trigger source", &EvrSequencer::getTriggerSource, &EvrSequencer::setTriggerSource);
+    OBJECT_PROP2("Run mode", &EvrSequencer::getRunModeRaw, &EvrSequencer::setRunModeRaw);
+    OBJECT_PROP2("Enable", &EvrSequencer::enabled, &EvrSequencer::enable);
+
+    OBJECT_PROP1("Soft trigger", &EvrSequencer::softTrigger);
+    OBJECT_PROP1("Commit", &EvrSequencer::commit);
+    OBJECT_PROP1("Reset", &EvrSequencer::reset);
+    //OBJECT_PROP1("Running", &EvrSequencer::running);
+
+    OBJECT_PROP1("Sequence valid", &EvrSequencer::sequenceValid);
+    OBJECT_PROP1("Sequence valid", &EvrSequencer::sequenceValidOccured);
+
+    OBJECT_PROP1("SOS", &EvrSequencer::sosCount);
+    OBJECT_PROP1("SOS", &EvrSequencer::sosOccured);
+
+    OBJECT_PROP1("EOS", &EvrSequencer::eosCount);
+    OBJECT_PROP1("EOS", &EvrSequencer::eosOccured);
+
+} OBJECT_END(EvrSequencer)

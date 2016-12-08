@@ -35,6 +35,7 @@
 #include "evrPulser.h"
 #include "evrCML.h"
 #include "evrDelayModule.h"
+#include "evrSequencer.h"
 
 #include "evrGpio.h"
 
@@ -408,6 +409,7 @@ private:
      */
     void setFormFactor();
 
+    EvrSequencer m_sequencer;
     mrmFlash m_flash;
     mrmRemoteFlash* m_remoteFlash;
     mrmDataBuffer* m_dataBuffer;

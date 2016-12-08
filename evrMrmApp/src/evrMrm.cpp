@@ -151,6 +151,7 @@ EVRMRM::EVRMRM(const std::string& n,
   ,timestampValid(0)
   ,lastInvalidTimestamp(0)
   ,lastValidTimestamp(0)
+  ,m_sequencer(n+":Sequencer", b)
   ,m_flash(b)
 {
 try{
@@ -1151,7 +1152,9 @@ EVRMRM::enableIRQ(void)
                     |IRQ_HWMapped
                     |IRQ_Event
                     |IRQ_Heartbeat
-                    |IRQ_FIFOFull;
+                    |IRQ_FIFOFull
+                    |IRQ_EOS
+                    |IRQ_SOS;
 
 
     WRITE32(base, IRQEnable, shadowIRQEna);
@@ -1208,6 +1211,12 @@ EVRMRM::isr(void *arg)
     if(!active)
         return;
 
+    if(flags&IRQ_EOS) {
+        evr->m_sequencer.eos();
+    }
+    if(flags&IRQ_SOS) {
+        evr->m_sequencer.sos();
+    }
     if(active&IRQ_RXErr){
         evr->count_recv_error++;
         scanIoRequest(evr->IRQrxError);
@@ -1253,12 +1262,14 @@ EVRMRM::isr(void *arg)
 
     WRITE32(evr->base, IRQFlag, flags);
 
+    // Ensure IRQFlags is written before returning.
+    evrMrmIsrFlagsTrashCan=READ32(evr->base, IRQFlag);
+
+
     //Only touch the bottom half of IRQEnable register to prevent race condition
     //with kernel space
     WRITE8(evr->base,IRQEnableBot,(epicsUInt8)evr->shadowIRQEna);
-
-    // Ensure IRQFlags is written before returning.
-    evrMrmIsrFlagsTrashCan=READ32(evr->base, IRQFlag);
+    WRITE8(evr->base,IRQEnableSequence,(epicsUInt8)(evr->shadowIRQEna>>0xF));
 
     EVR_INFO(4,"ISR ended, IRQEnable 0x%x, flags: 0x%x",evr->shadowIRQEna, flags);
 

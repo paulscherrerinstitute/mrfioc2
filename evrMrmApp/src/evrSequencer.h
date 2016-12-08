@@ -1,7 +1,16 @@
 #ifndef EVRSEQUENCER_H
 #define EVRSEQUENCER_H
 
-class evrSequencer
+#include <vector>
+
+#include "mrf/object.h"
+#include <epicsTypes.h>
+#include "dbScan.h"
+
+#include "mrmShared.h"
+
+
+class EvrSequencer : public mrf::ObjectInst<EvrSequencer>
 {
 public:
 
@@ -14,22 +23,14 @@ public:
         Single
     };
 
-    IOSCANPVT m_irq_sos;                    // start of sequence interrupt
-    volatile epicsUInt32 m_irq_sos_count;   // number of times SOS IRQ occured
-    IOSCANPVT m_irq_eos;                    // end of sequence interrupt
-    volatile epicsUInt32 m_irq_eos_count;   // number of times EOS IRQ occured
-    IOSCANPVT m_irq_synced;                 // IO interrupt which occurs when settings are synced to HW
-    bool m_isSynced;                        // indicates if settings need to be synced to HW
-    epicsMutex m_synced_lock;               // Protects race condition between EOS IRQ and user thread when trying to save new sequence to HW
-
-    evrSequencer();
+    EvrSequencer(const std::string& n, volatile epicsUInt8 * b);
 
     /**
      * @brief setSequenceEvents sets the events in the sequence. It needs to be commited after it is set.
      * @param waveform of events
      * @param len is the length of the waveform
      */
-    void setSequenceEvents(const char* waveform, epicsUInt32 len);
+    void setSequenceEvents(const epicsUInt16 *waveform, epicsUInt32 len);
 
     /**
      * @brief getSequenceEvents returns the currently commited events in the sequence.
@@ -37,7 +38,7 @@ public:
      * @param len is the length of the waveform
      * @return the length of the waveform (should be the same as len, or there was an error in copying data)
      */
-    epicsUInt32 getSequenceEvents(char* waveform,epicsUInt32 len) const;
+    epicsUInt32 getSequenceEvents(epicsUInt16 *waveform, epicsUInt32 len) const;
 
 
 
@@ -46,7 +47,7 @@ public:
      * @param waveform of event timestamps
      * @param len is the length of the waveform
      */
-    void setSequenceTimestamp(const char* waveform, epicsUInt32 len);
+    void setSequenceTimestamp(const double* waveform, epicsUInt32 len);
 
     /**
      * @brief getSequenceTimestamp returns the currently commited event timestamps in the sequence.
@@ -54,12 +55,12 @@ public:
      * @param len is the length of the waveform
      * @return the length of the waveform (should be the same as len, or there was an error in copying data)
      */
-    epicsUInt32 getSequenceTimestamp(char* waveform,epicsUInt32 len) const;
+    epicsUInt32 getSequenceTimestamp(double *waveform, epicsUInt32 len) const;
 
 
 
     /**
-     * @brief setTriggerSource sets how the sequence will be triggered. It needs to be commited after it is set.
+     * @brief setTriggerSource sets how the sequence will be triggered.
      * @param source is the same source mapping as used for EVR output configuration
      */
     void setTriggerSource(epicsUInt32 source);
@@ -73,10 +74,10 @@ public:
 
 
     /**
-     * @brief setRunMode sets the mode in which the sequence runs. It needs to be committed after it is set.
+     * @brief setRunMode sets the mode in which the sequence runs.
      * @param mode Normal (not single, not recycle), Auto (not single, recycle), Single (single)
      */
-    void setRunMode(enum SeqRunMode);
+    void setRunMode(enum SeqRunMode mode);
 
     /**
      * @brief getRunMode returns the currently committed mode
@@ -107,61 +108,55 @@ public:
     bool softTrigger() const;
 
     /**
-     * @brief running checks if the sequence is currently running.
-     * @return true if running, false otherwise
+     * @brief reset the sequence to start from beginning
+     * @return always true
      */
-    bool running() const;
+    bool reset() const;
 
     /**
-     * @brief commit will validate() the settings and then save() them to HW if validation is OK (on next EOS IRQ if sequence is currently running, otherwise right away)
-     * @return true if command was successfull, false otherwise (eg. error in settings)
+     * @brief commit will expand the event sequence to HW, if user provided sequence is valid.
+     * @return true if command was successfull, false otherwise (eg. user provided sequence is not valid)
      */
     bool commit() const;
 
     /**
-     * @brief stop will finish the current sequence and then stop (sets mode to single and trigger source to force low).
-     * @return always true
+     * @brief sequenceValid
+     * @return
      */
-    bool stop() const;
-
-    /**
-     * @brief isSynced is called whenever settings are saved to HW.
-     * @return always true
-     */
-    bool isSynced() const{return true;}
-    IOSCANPVT isSynced() const{return m_irq_synced;}
-
+    bool sequenceValid() const;
+    IOSCANPVT sequenceValidOccured() const{return m_sequence.irqValid;}
 
     /**
      * @brief sos should be called on start of sequence interrupt
      */
     void sos() {
-        m_irq_sos_count++;
-        scanIoRequest(m_irq_sos);
+        m_irqSosCount++;
+        scanIoRequest(m_irqSos);
     }
 
-    epicsUInt32 sosOccured() const{return m_irq_sos_count;}
-    IOSCANPVT sosOccured() const{return m_irq_sos;}
+    epicsUInt32 sosCount() const{return m_irqSosCount;}
+    IOSCANPVT sosOccured() const{return m_irqSos;}
 
     /**
      * @brief eos should be called on end of sequence interrupt
      */
     void eos() {
-        m_irq_eos_count++;
-        scanIoRequest(m_irq_eos);
-
-        if (m_synced_lock.tryLock()) {  // TODO does this throw exception?
-            if(!m_isSynced) {
-                save();
-                m_isSynced = true;
-                scanIoRequest(m_irq_synced);
-            }
-            m_synced_lock.unlock();
-        }
+        m_irqEosCount++;
+        scanIoRequest(m_irqEos);
     }
 
-    epicsUInt32 eosOccured() const{return m_irq_eos_count;}
-    IOSCANPVT eosOccured() const{return m_irq_eos;}
+    epicsUInt32 eosCount() const{return m_irqEosCount;}
+    IOSCANPVT eosOccured() const{return m_irqEos;}
+
+    /**
+     * @brief lock should be called whenever accessing this class starts
+     */
+    void lock() const{guard.lock();}
+
+    /**
+     * @brief unlock should be called whenever accessing this class is finished
+     */
+    void unlock() const{guard.unlock();}
 
 
     /** helper for EPICS object access **/
@@ -169,22 +164,42 @@ public:
     epicsUInt16 getRunModeRaw() const{return (epicsUInt16)getRunMode();}
 
 private:
-    /**
-     * @brief reset the sequence to start from beginning
-     * @return always true
-     */
-    bool reset() const;
+    volatile epicsUInt8* const base;    // start of memory-mapped address space
+
+    IOSCANPVT m_irqSos;                    // start of sequence interrupt
+    volatile epicsUInt32 m_irqSosCount;   // number of times SOS IRQ occured
+    IOSCANPVT m_irqEos;                    // end of sequence interrupt
+    volatile epicsUInt32 m_irqEosCount;   // number of times EOS IRQ occured
+
+    struct {
+        std::vector<epicsUInt8> eventCode;  // user provided event codes
+        std::vector<epicsUInt64> timestamp; // user provided timestamp (in Event Clock Ticks)
+        size_t noContinuationEvents;        // how many continuation events we need to add
+        bool userProvidedEosEvent;          // did user provide EOS event or not
+        bool valid;                         // is the current user provided sequence valid?
+        IOSCANPVT irqValid;                 // notifies EPICS record when valid status is updated
+    } m_sequence;
+
+    mutable epicsMutex guard;   // guards access to this class
 
     /**
-     * @brief validate will check if settings are ok (event and timestamp waveforms of the same length, timestamps monotonically increasing, ...)
+     * @brief running checks if the sequence is currently running.
+     * @return true if running, false otherwise
+     */
+    bool running() const;
+
+    /**
+     * @brief checkSequenceSize will check number of events and timestamps is OK
      * @return true if settings are ok, false otherwise
      */
-    bool validate();
+    bool checkSequenceSize();
 
     /**
-     * @brief save settings (trigger source, trigger mode, events with timestamps) to HW.
+     * @brief isSourceValid
+     * @param source
+     * @return
      */
-    void save();
+    bool isSourceValid(epicsUInt32 source) const;
 };
 
 #endif // EVRSEQUENCER_H
