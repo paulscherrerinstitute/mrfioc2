@@ -101,7 +101,6 @@
 /* Interrupt control register */
 #define U32_IRQEnable   0x00C
 #define U8_IRQEnableBot 0x0F   //Only 1st byte is accessed to prevent usr/kernel racer on PCIe300.
-#define U8_IRQEnableSequence 0x0E   //Only one byte is accessed to prevent usr/kernel racer on PCIe300.
 
 /* Same bits as IRQFlag plus */
 #  define IRQ_Enable    0x80000000

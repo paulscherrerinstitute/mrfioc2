@@ -409,7 +409,7 @@ private:
      */
     void setFormFactor();
 
-    EvrSequencer m_sequencer;
+    EvrSequencer *m_sequencer;
     mrmFlash m_flash;
     mrmRemoteFlash* m_remoteFlash;
     mrmDataBuffer* m_dataBuffer;

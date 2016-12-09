@@ -46,6 +46,7 @@ void EvrSequencer::setSequenceEvents(const epicsUInt16 *waveform, epicsUInt32 le
     epicsUInt8 event;
     bool sizeOK = true;
 
+    dbgPrintf(1,"\n");
     for(epicsUInt32 i=0; i<len; i++) {
         event = (epicsUInt8)waveform[i];
 
@@ -91,16 +92,18 @@ void EvrSequencer::setSequenceTimestamp(const double *waveform, epicsUInt32 len)
     epicsUInt64 timestamp;
     bool sorted = true, sizeOK = true;
 
+    dbgPrintf(1,"\n");
     for(epicsUInt32 i=0; i<len; i++) {
         timestamp = (epicsUInt64)waveform[i];   // TODO conversion from user units
         if(i < len-1 && (timestamp >= (epicsUInt64)waveform[i+1])) { // check if the timestamps are sorted and unique
-            dbgPrintf(1,"Timestamps not sorted! Timestamp at %u:%llu, timestamp at %u: %llu\n", i, timestamp, i+1, (epicsUInt64)waveform[i+1]);
+            dbgPrintf(1,"Timestamps not sorted! Timestamp at position %u is %llu, timestamp at position %u is %llu\n", i, timestamp, i+1, (epicsUInt64)waveform[i+1]);
             sorted = false;
             break;
         }
 
-        if(timestamp > 0xFFFFFFFF) {
-            m_sequence.noContinuationEvents += timestamp % 0xFFFFFFFF;
+
+        if(timestamp > 0 && timestamp > 0xFFFFFFFF) {
+            m_sequence.noContinuationEvents += (size_t)((timestamp-1) / 0xFFFFFFFF);
         }
 
         if(len + m_sequence.noContinuationEvents > MAX_SEQUENCE_SIZE) {
@@ -229,12 +232,14 @@ bool EvrSequencer::reset() const
 
 bool EvrSequencer::commit() const
 {
+    dbgPrintf(1,"\n");
     if(!m_sequence.valid) {
         dbgPrintf(1,"Sequence is not valid. Not commiting.\n");
         return false;
     }
 
     dbgPrintf(1,"Starting commit...\n");
+    reset();
 
     // by now both sizes are equal, since we did validations before.
     size_t j = 0;
@@ -303,7 +308,7 @@ bool EvrSequencer::checkSequenceSize()
     }
 
     if(!m_sequence.userProvidedEosEvent) {
-        if(m_sequence.eventCode.size() > MAX_SEQUENCE_SIZE + 1) {
+        if(m_sequence.eventCode.size() > MAX_SEQUENCE_SIZE - 1) {
             dbgPrintf(1,"Too many events (including EOS event)\n");
             m_sequence.valid = false;
         }
@@ -317,7 +322,7 @@ bool EvrSequencer::checkSequenceSize()
             }
 
             if(lastTimestamp > 0xFFFFFFFF) {
-                if(m_sequence.noContinuationEvents + m_sequence.timestamp.size() + (lastTimestamp % 0xFFFFFFFF) > MAX_SEQUENCE_SIZE) {
+                if(m_sequence.noContinuationEvents + m_sequence.timestamp.size() + (size_t)((lastTimestamp-1) / 0xFFFFFFFF) > MAX_SEQUENCE_SIZE) {
                     dbgPrintf(1,"Adding end of sequence events results in a continuation event, which results in too many timestamps\n");
                     m_sequence.valid = false;
                 }

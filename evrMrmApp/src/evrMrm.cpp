@@ -151,7 +151,6 @@ EVRMRM::EVRMRM(const std::string& n,
   ,timestampValid(0)
   ,lastInvalidTimestamp(0)
   ,lastValidTimestamp(0)
-  ,m_sequencer(n+":Sequencer", b)
   ,m_flash(b)
 {
 try{
@@ -192,6 +191,10 @@ try{
     formFactor form = getFormFactor();
 
     m_remoteFlash = new mrmRemoteFlash(n, b, deviceInfo, m_flash);
+    if(deviceInfo.series == series_300DC || deviceInfo.series == series_300) {
+        m_sequencer = new EvrSequencer(n+":Sequencer", b);
+    }
+
 
     size_t nPul=16; // number of pulsers
     size_t nPS=3;   // number of prescalers
@@ -433,6 +436,7 @@ EVRMRM::cleanup()
     }
     outputs.clear();
 
+    delete m_sequencer;
     delete m_remoteFlash;
     delete m_dataBufferObj;
     delete m_dataBuffer;
@@ -1152,10 +1156,11 @@ EVRMRM::enableIRQ(void)
                     |IRQ_HWMapped
                     |IRQ_Event
                     |IRQ_Heartbeat
-                    |IRQ_FIFOFull
-                    |IRQ_EOS
-                    |IRQ_SOS;
+                    |IRQ_FIFOFull;
 
+    if(firmwareVersion >= MIN_FW_EVR_SEQUENCER) {
+        shadowIRQEna |= IRQ_EOS | IRQ_SOS;
+    }
 
     WRITE32(base, IRQEnable, shadowIRQEna);
 
@@ -1211,11 +1216,11 @@ EVRMRM::isr(void *arg)
     if(!active)
         return;
 
-    if(flags&IRQ_EOS) {
-        evr->m_sequencer.eos();
+    if(active&IRQ_EOS) {
+        evr->m_sequencer->eos();
     }
-    if(flags&IRQ_SOS) {
-        evr->m_sequencer.sos();
+    if(active&IRQ_SOS) {
+        evr->m_sequencer->sos();
     }
     if(active&IRQ_RXErr){
         evr->count_recv_error++;
@@ -1268,8 +1273,14 @@ EVRMRM::isr(void *arg)
 
     //Only touch the bottom half of IRQEnable register to prevent race condition
     //with kernel space
-    WRITE8(evr->base,IRQEnableBot,(epicsUInt8)evr->shadowIRQEna);
-    WRITE8(evr->base,IRQEnableSequence,(epicsUInt8)(evr->shadowIRQEna>>0xF));
+    if(evr->firmwareVersion < MIN_FW_EVR_SEQUENCER) {
+        WRITE8(evr->base,IRQEnableBot,(epicsUInt8)evr->shadowIRQEna);
+    }
+    else {
+        // evr sequencer is available only on EVRs with separated PCIe enable register.
+        // Thus we can write 32 bits here.
+        WRITE32(evr->base, IRQEnable, evr->shadowIRQEna);
+    }
 
     EVR_INFO(4,"ISR ended, IRQEnable 0x%x, flags: 0x%x",evr->shadowIRQEna, flags);
 
