@@ -44,9 +44,18 @@ record(waveform, "$(SYS)-$(DEVICE):Seq-Timestamp-RB") {
   #field(FLNK, "$(SYS)-$(DEVICE):Seq-Valid-RB")
 }
 
+#record(waveform, "$(SYS)-$(DEVICE):Seq-Message-RB") {
+#  field(DTYP, "Obj Prop waveform in")
+#  field(SCAN, "I/O Intr")
+#  field(INP,  "@OBJ=$(DEVICE):Sequencer, PROP=Timestamps")
+#  field(FTVL, "CHAR")
+#  field(PINI, "YES")
+#}
+
 
 
 record(mbbo, "$(SYS)-$(DEVICE):Seq-RunMode-Sel") {
+  field(DESC, "Select run mode")
   field(DTYP, "Obj Prop uint16")
   field(OUT , "@OBJ=$(DEVICE):Sequencer, PROP=Run mode")
   field(UDF,  "0")
@@ -80,6 +89,7 @@ record(mbbo, "$(SYS)-$(DEVICE):Seq-RunMode-Sel") {
 }
 
 record(mbbi, "$(SYS)-$(DEVICE):Seq-RunMode-RB") {
+  field(DESC, "Run mode")
   field(DTYP, "Obj Prop uint16")
   field(INP , "@OBJ=$(DEVICE):Sequencer, PROP=Run mode")
   
@@ -110,6 +120,7 @@ record(mbbi, "$(SYS)-$(DEVICE):Seq-RunMode-RB") {
 
 
 record(bo, "$(SYS)-$(DEVICE):Seq-Ena-Sel") {
+  field(DESC, "Enable / disable")
   field(DTYP, "Obj Prop bool")
   field(OUT , "@OBJ=$(DEVICE):Sequencer, PROP=Enable")
   field(PINI, "YES")
@@ -122,6 +133,7 @@ record(bo, "$(SYS)-$(DEVICE):Seq-Ena-Sel") {
 }
 
 record(bi, "$(SYS)-$(DEVICE):Seq-Ena-RB") {
+  field(DESC, "Enabled / disabled")
   field(DTYP, "Obj Prop bool")
   field(INP , "@OBJ=$(DEVICE):Sequencer, PROP=Enable")
   field(ZNAM, "Disabled")
@@ -130,6 +142,7 @@ record(bi, "$(SYS)-$(DEVICE):Seq-Ena-RB") {
 }
 
 record(bi, "$(SYS)-$(DEVICE):Seq-SoftTrig-Cmd") {
+  field(DESC, "Manual trigger")
   field(DTYP, "Obj Prop bool")
   field(INP , "@OBJ=$(DEVICE):Sequencer, PROP=Soft trigger")
   field(ZNAM, "Not triggered")
@@ -145,6 +158,7 @@ record(bi, "$(SYS)-$(DEVICE):Seq-SoftTrig-Cmd") {
 #}
 
 record(bi, "$(SYS)-$(DEVICE):Seq-Reset-Cmd") {
+  field(DESC, "Reset sequence")
   field(DTYP, "Obj Prop bool")
   field(INP , "@OBJ=$(DEVICE):Sequencer, PROP=Reset")
   field(ZNAM, "Reset sequence")
@@ -153,6 +167,7 @@ record(bi, "$(SYS)-$(DEVICE):Seq-Reset-Cmd") {
 }
 
 record(bi, "$(SYS)-$(DEVICE):Seq-Commit-Cmd") {
+  field(DESC, "Write sequence to HW")
   field(DTYP, "Obj Prop bool")
   field(INP , "@OBJ=$(DEVICE):Sequencer, PROP=Commit")
   field(ZNAM, "Not commited")

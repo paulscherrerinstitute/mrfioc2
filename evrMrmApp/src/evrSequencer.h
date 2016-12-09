@@ -1,6 +1,7 @@
 #ifndef EVRSEQUENCER_H
 #define EVRSEQUENCER_H
 
+#include <stdio.h>
 #include <vector>
 
 #include "mrf/object.h"
@@ -9,6 +10,12 @@
 
 #include "mrmShared.h"
 
+/**
+ * @brief mrfioc2_sequencerDebug defines debug level (verbosity of debug printout)
+ */
+extern "C" {
+    extern int mrfioc2_sequencerDebug;
+}
 
 class EvrSequencer : public mrf::ObjectInst<EvrSequencer>
 {
@@ -126,6 +133,9 @@ public:
     bool sequenceValid() const;
     IOSCANPVT sequenceValidOccured() const{return m_sequence.irqValid;}
 
+//    std::string errorMessage() const{return m_errorMessage;}
+//    IOSCANPVT errorMessageOccured() const{return m_irqErrorMessage;}
+
     /**
      * @brief sos should be called on start of sequence interrupt
      */
@@ -170,6 +180,8 @@ private:
     volatile epicsUInt32 m_irqSosCount;   // number of times SOS IRQ occured
     IOSCANPVT m_irqEos;                    // end of sequence interrupt
     volatile epicsUInt32 m_irqEosCount;   // number of times EOS IRQ occured
+//    IOSCANPVT m_irqErrorMessage;
+//    std::string m_errorMessage;
 
     struct {
         std::vector<epicsUInt8> eventCode;  // user provided event codes
