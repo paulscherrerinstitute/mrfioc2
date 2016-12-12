@@ -6,36 +6,17 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>678</width>
-    <height>369</height>
+    <width>659</width>
+    <height>290</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="caChoice" name="cachoice">
-   <property name="geometry">
-    <rect>
-     <x>30</x>
-     <y>50</y>
-     <width>331</width>
-     <height>25</height>
-    </rect>
-   </property>
-   <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE):Seq-RunMode-Sel</string>
-   </property>
-   <property name="stackingMode" stdset="0">
-    <enum>caChoice::Column</enum>
-   </property>
-   <property name="endBit">
-    <number>2</number>
-   </property>
-  </widget>
   <widget class="caLineEdit" name="calineedit">
    <property name="geometry">
     <rect>
-     <x>430</x>
+     <x>270</x>
      <y>50</y>
      <width>100</width>
      <height>20</height>
@@ -45,30 +26,11 @@
     <string notr="true">$(SYS)-$(DEVICE):Seq-RunMode-RB</string>
    </property>
   </widget>
-  <widget class="caChoice" name="cachoice_2">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>100</y>
-     <width>181</width>
-     <height>25</height>
-    </rect>
-   </property>
-   <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE):Seq-Ena-Sel</string>
-   </property>
-   <property name="stackingMode" stdset="0">
-    <enum>caChoice::Column</enum>
-   </property>
-   <property name="endBit">
-    <number>1</number>
-   </property>
-  </widget>
   <widget class="caLineEdit" name="calineedit_2">
    <property name="geometry">
     <rect>
-     <x>430</x>
-     <y>100</y>
+     <x>270</x>
+     <y>150</y>
      <width>100</width>
      <height>20</height>
     </rect>
@@ -80,11 +42,16 @@
   <widget class="caMessageButton" name="camessagebutton">
    <property name="geometry">
     <rect>
-     <x>80</x>
-     <y>190</y>
+     <x>30</x>
+     <y>310</y>
      <width>101</width>
      <height>20</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>8</pointsize>
+    </font>
    </property>
    <property name="text">
     <string>Soft trigger</string>
@@ -95,21 +62,23 @@
    <property name="releaseMessage">
     <string notr="true">1</string>
    </property>
-   <property name="colorMode">
-    <enum>caMessageButton::Default</enum>
-   </property>
   </widget>
   <widget class="caMessageButton" name="camessagebutton_2">
    <property name="geometry">
     <rect>
-     <x>210</x>
-     <y>190</y>
+     <x>40</x>
+     <y>180</y>
      <width>101</width>
      <height>20</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <pointsize>8</pointsize>
+    </font>
+   </property>
    <property name="text">
-    <string>Reset</string>
+    <string>Stop</string>
    </property>
    <property name="channel" stdset="0">
     <string notr="true">$(SYS)-$(DEVICE):Seq-Reset-Cmd</string>
@@ -117,18 +86,20 @@
    <property name="releaseMessage">
     <string notr="true">1</string>
    </property>
-   <property name="colorMode">
-    <enum>caMessageButton::Default</enum>
-   </property>
   </widget>
   <widget class="caMessageButton" name="camessagebutton_3">
    <property name="geometry">
     <rect>
-     <x>260</x>
-     <y>220</y>
+     <x>150</x>
+     <y>120</y>
      <width>101</width>
      <height>20</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>8</pointsize>
+    </font>
    </property>
    <property name="text">
     <string>Commit</string>
@@ -139,15 +110,12 @@
    <property name="releaseMessage">
     <string notr="true">1</string>
    </property>
-   <property name="colorMode">
-    <enum>caMessageButton::Default</enum>
-   </property>
   </widget>
   <widget class="QLabel" name="label_2">
    <property name="geometry">
     <rect>
-     <x>277</x>
-     <y>240</y>
+     <x>50</x>
+     <y>90</y>
      <width>181</width>
      <height>20</height>
     </rect>
@@ -159,8 +127,8 @@
   <widget class="caLed" name="caled_2">
    <property name="geometry">
     <rect>
-     <x>460</x>
-     <y>240</y>
+     <x>230</x>
+     <y>85</y>
      <width>30</width>
      <height>30</height>
     </rect>
@@ -186,9 +154,9 @@
   <widget class="caLineEdit" name="calineedit_3">
    <property name="geometry">
     <rect>
-     <x>570</x>
-     <y>210</y>
-     <width>100</width>
+     <x>530</x>
+     <y>70</y>
+     <width>121</width>
      <height>20</height>
     </rect>
    </property>
@@ -199,35 +167,41 @@
   <widget class="QLabel" name="label_3">
    <property name="geometry">
     <rect>
-     <x>500</x>
-     <y>210</y>
-     <width>58</width>
-     <height>17</height>
+     <x>437</x>
+     <y>70</y>
+     <width>81</width>
+     <height>20</height>
     </rect>
    </property>
    <property name="text">
-    <string>SOS</string>
+    <string>SOS count</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
    </property>
   </widget>
   <widget class="QLabel" name="label_4">
    <property name="geometry">
     <rect>
-     <x>500</x>
-     <y>240</y>
-     <width>58</width>
-     <height>17</height>
+     <x>437</x>
+     <y>100</y>
+     <width>81</width>
+     <height>20</height>
     </rect>
    </property>
    <property name="text">
-    <string>EOS</string>
+    <string>EOS count</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
    </property>
   </widget>
   <widget class="caLineEdit" name="calineedit_4">
    <property name="geometry">
     <rect>
-     <x>570</x>
-     <y>240</y>
-     <width>100</width>
+     <x>530</x>
+     <y>100</y>
+     <width>121</width>
      <height>20</height>
     </rect>
    </property>
@@ -239,7 +213,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>310</y>
+     <y>230</y>
      <width>642</width>
      <height>51</height>
     </rect>
@@ -803,17 +777,114 @@
     </widget>
    </widget>
   </widget>
+  <widget class="caMenu" name="camenu_2">
+   <property name="geometry">
+    <rect>
+     <x>120</x>
+     <y>47</y>
+     <width>131</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="channel" stdset="0">
+    <string notr="true">$(SYS)-$(DEVICE):Seq-RunMode-Sel</string>
+   </property>
+   <property name="styleSheet" stdset="0">
+    <string notr="true"/>
+   </property>
+  </widget>
+  <widget class="caLabel" name="calabel_2">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>661</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Sequencer: $(SYS)-$(DEVICE)</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+   <property name="styleSheet" stdset="0">
+    <string notr="true">background-color: rgba(255, 255, 255, 0); color: rgba(0, 0, 0, 255);</string>
+   </property>
+  </widget>
+  <widget class="caMessageButton" name="camessagebutton_5">
+   <property name="geometry">
+    <rect>
+     <x>40</x>
+     <y>150</y>
+     <width>101</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Disable</string>
+   </property>
+   <property name="channel" stdset="0">
+    <string notr="true">$(SYS)-$(DEVICE):Seq-Ena-Sel</string>
+   </property>
+   <property name="releaseMessage">
+    <string notr="true">0</string>
+   </property>
+  </widget>
+  <widget class="caMessageButton" name="camessagebutton_4">
+   <property name="geometry">
+    <rect>
+     <x>150</x>
+     <y>150</y>
+     <width>101</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Enable</string>
+   </property>
+   <property name="channel" stdset="0">
+    <string notr="true">$(SYS)-$(DEVICE):Seq-Ena-Sel</string>
+   </property>
+   <property name="releaseMessage">
+    <string notr="true">1</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_5">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>50</y>
+     <width>101</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Run mode</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+   </property>
+  </widget>
+  <widget class="caLineEdit" name="calineedit_8">
+   <property name="geometry">
+    <rect>
+     <x>270</x>
+     <y>120</y>
+     <width>100</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="channel" stdset="0">
+    <string notr="true">$(SYS)-$(DEVICE):Seq-Commit-Cmd</string>
+   </property>
+  </widget>
  </widget>
  <customwidgets>
   <customwidget>
    <class>caMenu</class>
    <extends>QComboBox</extends>
    <header>caMenu</header>
-  </customwidget>
-  <customwidget>
-   <class>caChoice</class>
-   <extends>QWidget</extends>
-   <header>caChoice</header>
   </customwidget>
   <customwidget>
    <class>caMessageButton</class>

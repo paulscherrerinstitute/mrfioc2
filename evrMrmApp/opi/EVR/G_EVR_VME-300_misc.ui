@@ -600,6 +600,62 @@
      <enum>EPushButton::None</enum>
     </property>
    </widget>
+   <widget class="caFrame" name="caframe">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>230</y>
+      <width>221</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="visibility">
+     <enum>caFrame::Calc</enum>
+    </property>
+    <property name="visibilityCalc">
+     <string notr="true">A&gt;517</string>
+    </property>
+    <property name="channel" stdset="0">
+     <string notr="true">$(SYS)-$(DEVICE):FwVer-I</string>
+    </property>
+    <widget class="caRelatedDisplay" name="carelateddisplay_9">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>220</width>
+       <height>27</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
+     <property name="label">
+      <string notr="true">Sequencer</string>
+     </property>
+     <property name="background">
+      <color>
+       <red>183</red>
+       <green>157</green>
+       <blue>92</blue>
+      </color>
+     </property>
+     <property name="labels">
+      <string notr="true">Sequencer</string>
+     </property>
+     <property name="files">
+      <string notr="true">G_EVR_sequencer.ui</string>
+     </property>
+     <property name="args">
+      <string notr="true">SYS=$(SYS),DEVICE=$(DEVICE),FF=$(FF)</string>
+     </property>
+     <property name="fontScaleMode" stdset="0">
+      <enum>EPushButton::None</enum>
+     </property>
+    </widget>
+   </widget>
   </widget>
  </widget>
  <customwidgets>
@@ -627,6 +683,12 @@
    <class>caToggleButton</class>
    <extends>QCheckBox</extends>
    <header>caToggleButton</header>
+  </customwidget>
+  <customwidget>
+   <class>caFrame</class>
+   <extends>QFrame</extends>
+   <header>caFrame</header>
+   <container>1</container>
   </customwidget>
   <customwidget>
    <class>caLineEdit</class>
