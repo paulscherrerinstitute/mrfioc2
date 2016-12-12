@@ -40,10 +40,10 @@ public:
     void setSequenceEvents(const epicsUInt16 *waveform, epicsUInt32 len);
 
     /**
-     * @brief getSequenceEvents returns the currently commited events in the sequence.
+     * @brief getSequenceEvents returns the currently commited events (reads from HW) in the sequence.
      * @param waveform of commited events
      * @param len is the length of the waveform
-     * @return the length of the waveform (should be the same as len, or there was an error in copying data)
+     * @return the length of the waveform (the same as len)
      */
     epicsUInt32 getSequenceEvents(epicsUInt16 *waveform, epicsUInt32 len) const;
 
@@ -57,10 +57,10 @@ public:
     void setSequenceTimestamp(const double* waveform, epicsUInt32 len);
 
     /**
-     * @brief getSequenceTimestamp returns the currently commited event timestamps in the sequence.
+     * @brief getSequenceTimestamp returns the currently commited event timestamps (reads from HW) in the sequence.
      * @param waveform of commited event timestamps
      * @param len is the length of the waveform
-     * @return the length of the waveform (should be the same as len, or there was an error in copying data)
+     * @return the length of the waveform (the same as len)
      */
     epicsUInt32 getSequenceTimestamp(double *waveform, epicsUInt32 len) const;
 
@@ -127,8 +127,8 @@ public:
     bool commit() const;
 
     /**
-     * @brief sequenceValid
-     * @return
+     * @brief sequenceValid returns status of the user provided events and event timestamps validity
+     * @return true if user provided sequence is valid, false otherwise
      */
     bool sequenceValid() const;
     IOSCANPVT sequenceValidOccured() const{return m_sequence.irqValid;}
@@ -142,6 +142,8 @@ public:
     void sos() {
         m_irqSosCount++;
         scanIoRequest(m_irqSos);
+        epicsUInt32 reg = READ32(base, EVR_SeqRamCtrl);
+        printf("SOS enabled/running: %u/%u \n", (reg & EVR_SeqRamCtrl_ENA)>0, (reg & EVR_SeqRamCtrl_RUN)>0);
     }
 
     epicsUInt32 sosCount() const{return m_irqSosCount;}
@@ -153,6 +155,8 @@ public:
     void eos() {
         m_irqEosCount++;
         scanIoRequest(m_irqEos);
+        epicsUInt32 reg = READ32(base, EVR_SeqRamCtrl);
+        printf("EOS enabled/running: %u/%u \n", (reg & EVR_SeqRamCtrl_ENA)>0, (reg & EVR_SeqRamCtrl_RUN)>0);
     }
 
     epicsUInt32 eosCount() const{return m_irqEosCount;}
@@ -176,16 +180,16 @@ public:
 private:
     volatile epicsUInt8* const base;    // start of memory-mapped address space
 
-    IOSCANPVT m_irqSos;                    // start of sequence interrupt
+    IOSCANPVT m_irqSos;                   // start of sequence interrupt
     volatile epicsUInt32 m_irqSosCount;   // number of times SOS IRQ occured
-    IOSCANPVT m_irqEos;                    // end of sequence interrupt
+    IOSCANPVT m_irqEos;                   // end of sequence interrupt
     volatile epicsUInt32 m_irqEosCount;   // number of times EOS IRQ occured
 //    IOSCANPVT m_irqErrorMessage;
 //    std::string m_errorMessage;
 
     struct {
         std::vector<epicsUInt8> eventCode;  // user provided event codes
-        std::vector<epicsUInt64> timestamp; // user provided timestamp (in Event Clock Ticks)
+        std::vector<epicsUInt64> timestamp; // user provided timestamps (in Event Clock Ticks)
         size_t noContinuationEvents;        // how many continuation events we need to add
         bool userProvidedEosEvent;          // did user provide EOS event or not
         bool valid;                         // is the current user provided sequence valid?
@@ -201,15 +205,15 @@ private:
     bool running() const;
 
     /**
-     * @brief checkSequenceSize will check number of events and timestamps is OK
+     * @brief checkSequenceSize will check if number of events and timestamps is OK
      * @return true if settings are ok, false otherwise
      */
     bool checkSequenceSize();
 
     /**
-     * @brief isSourceValid
-     * @param source
-     * @return
+     * @brief isSourceValid checks the source variable for correct range
+     * @param source is the value to check
+     * @return true if source is valid, false otherwise
      */
     bool isSourceValid(epicsUInt32 source) const;
 };

@@ -58,7 +58,7 @@ void EvrSequencer::setSequenceEvents(const epicsUInt16 *waveform, epicsUInt32 le
             break;
         }
 
-        if(i > MAX_SEQUENCE_SIZE) {
+        if(i+1 > MAX_SEQUENCE_SIZE) {
             dbgPrintf(1,"Too many events\n");
             sizeOK = false;
             break;
@@ -103,10 +103,10 @@ void EvrSequencer::setSequenceTimestamp(const double *waveform, epicsUInt32 len)
 
 
         if(timestamp > 0 && timestamp > 0xFFFFFFFF) {
-            m_sequence.noContinuationEvents += (size_t)((timestamp-1) / 0xFFFFFFFF);
+            m_sequence.noContinuationEvents = (size_t)((timestamp-1) / 0xFFFFFFFF);
         }
 
-        if(len + m_sequence.noContinuationEvents > MAX_SEQUENCE_SIZE) {
+        if(i+1 + m_sequence.noContinuationEvents > MAX_SEQUENCE_SIZE) {
             dbgPrintf(1,"Too many timestamps (including continuation events)\n");
             sizeOK = false;
             break;
@@ -243,9 +243,9 @@ bool EvrSequencer::commit() const
 
     // by now both sizes are equal, since we did validations before.
     size_t j = 0;
-    epicsUInt64 timestamp;
+    epicsUInt64 timestamp, timestampOverflows = 0;
     for(size_t i = 0; i < m_sequence.eventCode.size(); i++, j++) {
-        timestamp = m_sequence.timestamp[i];
+        timestamp = m_sequence.timestamp[i] - timestampOverflows;
 
         // take care of continuation events
         while(timestamp > 0xFFFFFFFF) {
@@ -253,6 +253,7 @@ bool EvrSequencer::commit() const
             WRITE8(base, EVR_SeqRamEvent(0,j), 0);
 
             timestamp -= 0xFFFFFFFF;
+            timestampOverflows += 0xFFFFFFFF;
             j++;
         }
 
@@ -264,7 +265,7 @@ bool EvrSequencer::commit() const
     // note, that we know that the sizes are OK, since we did validations before.
     if(!m_sequence.userProvidedEosEvent) {
         if(m_sequence.timestamp.size() > 0) {
-            timestamp = m_sequence.timestamp.back() + TIMESTAMP_END_OF_SEQUENCE;
+            timestamp = m_sequence.timestamp.back() - timestampOverflows + TIMESTAMP_END_OF_SEQUENCE;
 
             // check if continuation events need to be inserted
             while(timestamp > 0xFFFFFFFF) {
@@ -322,7 +323,7 @@ bool EvrSequencer::checkSequenceSize()
             }
 
             if(lastTimestamp > 0xFFFFFFFF) {
-                if(m_sequence.noContinuationEvents + m_sequence.timestamp.size() + (size_t)((lastTimestamp-1) / 0xFFFFFFFF) > MAX_SEQUENCE_SIZE) {
+                if(m_sequence.timestamp.size() + (size_t)((lastTimestamp-1) / 0xFFFFFFFF) > MAX_SEQUENCE_SIZE -1) {
                     dbgPrintf(1,"Adding end of sequence events results in a continuation event, which results in too many timestamps\n");
                     m_sequence.valid = false;
                 }
@@ -338,7 +339,7 @@ bool EvrSequencer::isSourceValid(epicsUInt32 source) const
 {
     if(   (source<=63 && source>=62) ||
           (source<=47 && source>=32) ||
-          (source<=31)               ||
+          (source<=15)               ||
           (source==61)               )
     {
         return true;

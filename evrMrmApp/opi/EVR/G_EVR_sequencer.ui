@@ -77,8 +77,11 @@
      <pointsize>8</pointsize>
     </font>
    </property>
+   <property name="toolTip">
+    <string>Stops the sequence imediately and resets the timestamp counter</string>
+   </property>
    <property name="text">
-    <string>Stop</string>
+    <string>Reset</string>
    </property>
    <property name="channel" stdset="0">
     <string notr="true">$(SYS)-$(DEVICE):Seq-Reset-Cmd</string>
@@ -650,94 +653,6 @@
      </property>
     </widget>
    </widget>
-   <widget class="caMenu" name="camenu_pulser_2">
-    <property name="geometry">
-     <rect>
-      <x>330</x>
-      <y>21</y>
-      <width>91</width>
-      <height>25</height>
-     </rect>
-    </property>
-    <property name="channel" stdset="0">
-     <string notr="true">$(SYS)-$(DEVICE):Seq-Src-Pulse2-SP</string>
-    </property>
-    <property name="styleSheet" stdset="0">
-     <string notr="true"/>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_22">
-    <property name="geometry">
-     <rect>
-      <x>350</x>
-      <y>1</y>
-      <width>71</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Pulser</string>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignCenter</set>
-    </property>
-   </widget>
-   <widget class="caFrame" name="caframe_pulser_led_2">
-    <property name="geometry">
-     <rect>
-      <x>330</x>
-      <y>1</y>
-      <width>19</width>
-      <height>19</height>
-     </rect>
-    </property>
-    <property name="macro">
-     <string notr="true">CHAN=$(SYS)-$(DEVICE):Seq-Src-Pulse-RB</string>
-    </property>
-    <property name="visibility">
-     <enum>caFrame::Calc</enum>
-    </property>
-    <property name="visibilityCalc">
-     <string notr="true">A=B&amp;&amp;A&lt;32&amp;&amp;A&gt;15</string>
-    </property>
-    <property name="channel" stdset="0">
-     <string notr="true">$(SYS)-$(DEVICE):Seq-Src-RB</string>
-    </property>
-    <property name="channelB">
-     <string notr="true">$(SYS)-$(DEVICE):Seq-Src-Pulse2-RB.RVAL</string>
-    </property>
-    <widget class="caLed" name="caled_10">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>1</y>
-       <width>16</width>
-       <height>16</height>
-      </rect>
-     </property>
-     <property name="falseColor">
-      <color>
-       <red>0</red>
-       <green>255</green>
-       <blue>0</blue>
-      </color>
-     </property>
-     <property name="trueColor">
-      <color>
-       <red>0</red>
-       <green>255</green>
-       <blue>0</blue>
-      </color>
-     </property>
-     <property name="undefinedColor">
-      <color>
-       <red>0</red>
-       <green>255</green>
-       <blue>0</blue>
-      </color>
-     </property>
-    </widget>
-   </widget>
    <widget class="caFrame" name="caframe_pulser_3">
     <property name="geometry">
      <rect>
@@ -773,6 +688,126 @@
      </property>
      <property name="channel" stdset="0">
       <string notr="true">$(CHAN)</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="caFrame" name="caframe">
+    <property name="geometry">
+     <rect>
+      <x>330</x>
+      <y>0</y>
+      <width>91</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="lineWidth">
+     <number>0</number>
+    </property>
+    <property name="macro">
+     <string notr="true">SYS=$(SYS),DEVICE=$(DEVICE),FF=$(FF)</string>
+    </property>
+    <property name="background">
+     <color>
+      <red>0</red>
+      <green>0</green>
+      <blue>0</blue>
+     </color>
+    </property>
+    <property name="visibility">
+     <enum>caFrame::Calc</enum>
+    </property>
+    <property name="visibilityCalc">
+     <string notr="true">A&gt;0</string>
+    </property>
+    <property name="channel" stdset="0">
+     <string notr="true">$(SYS)-$(DEVICE):Pul16-Ena-Sel.PINI</string>
+    </property>
+    <widget class="caFrame" name="caframe_pulser_led_2">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>19</width>
+       <height>19</height>
+      </rect>
+     </property>
+     <property name="macro">
+      <string notr="true">CHAN=$(SYS)-$(DEVICE):Seq-Src-Pulse-RB</string>
+     </property>
+     <property name="visibility">
+      <enum>caFrame::Calc</enum>
+     </property>
+     <property name="visibilityCalc">
+      <string notr="true">A=B&amp;&amp;A&lt;32&amp;&amp;A&gt;15</string>
+     </property>
+     <property name="channel" stdset="0">
+      <string notr="true">$(SYS)-$(DEVICE):Seq-Src-RB</string>
+     </property>
+     <property name="channelB">
+      <string notr="true">$(SYS)-$(DEVICE):Seq-Src-Pulse2-RB.RVAL</string>
+     </property>
+     <widget class="caLed" name="caled_10">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>1</y>
+        <width>16</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="falseColor">
+       <color>
+        <red>0</red>
+        <green>255</green>
+        <blue>0</blue>
+       </color>
+      </property>
+      <property name="trueColor">
+       <color>
+        <red>0</red>
+        <green>255</green>
+        <blue>0</blue>
+       </color>
+      </property>
+      <property name="undefinedColor">
+       <color>
+        <red>0</red>
+        <green>255</green>
+        <blue>0</blue>
+       </color>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QLabel" name="label_22">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>0</y>
+       <width>71</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Pulser</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="caMenu" name="camenu_pulser_2">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>20</y>
+       <width>91</width>
+       <height>25</height>
+      </rect>
+     </property>
+     <property name="channel" stdset="0">
+      <string notr="true">$(SYS)-$(DEVICE):Seq-Src-Pulse2-SP</string>
+     </property>
+     <property name="styleSheet" stdset="0">
+      <string notr="true"/>
      </property>
     </widget>
    </widget>

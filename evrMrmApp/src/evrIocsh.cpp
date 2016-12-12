@@ -1029,7 +1029,12 @@ void mrmEvrRead(const char* id, size_t offset)
         return;
     }
 
-    printf("0x%0x: 0x%x\n", offset, nat_ioread32(card->base + offset));
+#ifdef _WIN32
+    printf("0x%0Ix: 0x%x\n", offset, nat_ioread32(card->base + offset));
+#else
+    printf("0x%0zx: 0x%x\n", offset, nat_ioread32(card->base + offset));
+#endif
+
 }
 
 extern "C"
