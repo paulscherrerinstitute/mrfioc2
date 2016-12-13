@@ -13,8 +13,6 @@ ARCH_FILTER=eldk52-e500v2 eldk42-ppc4xxFP SL%
 #ARCH_FILTER=SL%
 #ARCH_FILTER=eldk52-e500v2 SL%
 
-REQUIRED_eldk52-e500v2 = pev
-
 SOURCES+=evrMrmApp/src/support/asub.c
 SOURCES+=evrMrmApp/src/devSupport/devWfMailbox.c
 SOURCES+=evgMrmApp/src/seqnsls2.c
@@ -152,6 +150,7 @@ SCRIPTS += PSI/loadKernelModule.sh
 SCRIPTS += PSI/SL6-x86_64.cmd
 SCRIPTS += PSI/SL6-x86.cmd
 SCRIPTS += PSI/eldk42-ppc4xxFP.cmd
+SCRIPTS += PSI/eldk52-e500v2.cmd
 
 db: dbclean dbexpand
 
