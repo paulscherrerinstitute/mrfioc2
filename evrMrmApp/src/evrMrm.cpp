@@ -191,8 +191,11 @@ try{
     formFactor form = getFormFactor();
 
     m_remoteFlash = new mrmRemoteFlash(n, b, deviceInfo, m_flash);
-    if(deviceInfo.series == series_300DC || deviceInfo.series == series_300) {
+    if(deviceInfo.series == series_300DC || (deviceInfo.series == series_300 && deviceInfo.formFactor == formFactor_VME64)) {
         m_sequencer = new EvrSequencer(n+":Sequencer", b);
+    }
+    else {
+        m_sequencer = NULL;
     }
 
 
@@ -436,7 +439,9 @@ EVRMRM::cleanup()
     }
     outputs.clear();
 
-    delete m_sequencer;
+    if(m_sequencer != NULL) {
+        delete m_sequencer;
+    }
     delete m_remoteFlash;
     delete m_dataBufferObj;
     delete m_dataBuffer;
@@ -1262,8 +1267,6 @@ EVRMRM::isr(void *arg)
     }
     evr->count_hardware_irq++;
 
-    // IRQ PCIe enable flag should not be changed. Possible RACER here
-//    evr->shadowIRQEna |= (READ32(evr->base, IRQEnable));
 
     WRITE32(evr->base, IRQFlag, flags);
 
@@ -1271,8 +1274,8 @@ EVRMRM::isr(void *arg)
     evrMrmIsrFlagsTrashCan=READ32(evr->base, IRQFlag);
 
 
-    //Only touch the bottom half of IRQEnable register to prevent race condition
-    //with kernel space
+    // Only touch the bottom half of IRQEnable register
+    // to prevent race condition with kernel space
     if(evr->firmwareVersion < MIN_FW_EVR_SEQUENCER) {
         WRITE8(evr->base,IRQEnableBot,(epicsUInt8)evr->shadowIRQEna);
     }

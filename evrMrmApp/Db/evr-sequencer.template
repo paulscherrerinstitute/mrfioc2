@@ -3,7 +3,6 @@
 # Macros:
 #  SYS = System name
 #  DEVICE = Event receiver / timing card name (same as mrmEvrSetupVME()) Eg. EVR0
-#  OBJ = devObj name prefix
 #
 
 record(waveform, "$(SYS)-$(DEVICE):Seq-EvtCode-SP") {
@@ -41,17 +40,7 @@ record(waveform, "$(SYS)-$(DEVICE):Seq-Timestamp-RB") {
   field(NELM, "$(NELM=2047)")
   field(FTVL, "DOUBLE")
   field(PINI, "YES")
-  #field(FLNK, "$(SYS)-$(DEVICE):Seq-Valid-RB")
 }
-
-#record(waveform, "$(SYS)-$(DEVICE):Seq-Message-RB") {
-#  field(DTYP, "Obj Prop waveform in")
-#  field(SCAN, "I/O Intr")
-#  field(INP,  "@OBJ=$(DEVICE):Sequencer, PROP=Timestamps")
-#  field(FTVL, "CHAR")
-#  field(PINI, "YES")
-#}
-
 
 
 record(mbbo, "$(SYS)-$(DEVICE):Seq-RunMode-Sel") {
@@ -59,6 +48,7 @@ record(mbbo, "$(SYS)-$(DEVICE):Seq-RunMode-Sel") {
   field(DTYP, "Obj Prop uint16")
   field(OUT , "@OBJ=$(DEVICE):Sequencer, PROP=Run mode")
   field(UDF,  "0")
+  field(PINI, "YES")
   
   field(ZRST, "Normal")
   field(ONST, "Automatic")
@@ -83,7 +73,7 @@ record(mbbo, "$(SYS)-$(DEVICE):Seq-RunMode-Sel") {
   field(FFSV, "INVALID")
   field(UNSV, "INVALID")
   field(IVOA, "Don't drive outputs")
-  field(VAL, "$(RUNMODE=0)" )
+  field(VAL,  "$(Seq-RunMode-Sel\=0)" )
   field(FLNK, "$(SYS)-$(DEVICE):Seq-RunMode-RB")
   info(autosaveFields_pass0, "VAL")
 }
@@ -148,14 +138,6 @@ record(bi, "$(SYS)-$(DEVICE):Seq-SoftTrig-Cmd") {
   field(ZNAM, "Not triggered")
   field(ONAM, "Triggerred")
 }
-
-#record(bi, "$(SYS)-$(DEVICE):Seq-Running-RB") {
-#  field(DTYP, "Obj Prop bool")
-#  field(INP , "@OBJ=$(DEVICE):Sequencer, PROP=Running")
-#  field(SCAN, "Passive")
-#  field(ZNAM, "Not running")
-#  field(ONAM, "Running")
-#}
 
 record(bi, "$(SYS)-$(DEVICE):Seq-Reset-Cmd") {
   field(DESC, "Reset sequence")
