@@ -148,7 +148,8 @@ enum PLLBandwidth {
 #define DataBuffer_len_max  DataTxCtrl_len_mask // Maximum supported length of the data buffer
 
 #define MIN_FW_SEGMENTED_DBUFF  0x202
-
+#define MIN_FW_BOTH_DBUFF  0x206
+#define MIN_FW_EVR_SEQUENCER MIN_FW_BOTH_DBUFF
 
 ////////////////////
 /** Misc defines **/

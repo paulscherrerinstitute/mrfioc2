@@ -22,6 +22,10 @@ file "dataBuffer.template"
 {SYS="$(SYS)", DEVICE="$(DEVICE)"}
 }
 
+file "evr-sequencer.template"
+{
+{SYS="$(SYS)", DEVICE="$(DEVICE)"}
+}
 
 
 file "evr-prescaler.template"

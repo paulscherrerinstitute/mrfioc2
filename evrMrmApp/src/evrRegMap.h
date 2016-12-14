@@ -87,6 +87,8 @@
 
 /* Interrupt status register */
 #define U32_IRQFlag     0x008
+#  define IRQ_EOS       0x1000
+#  define IRQ_SOS       0x100
 #  define IRQ_LinkChg   0x40
 #  define IRQ_BufFull   0x20
 #  define IRQ_HWMapped  0x10
@@ -98,7 +100,7 @@
 
 /* Interrupt control register */
 #define U32_IRQEnable   0x00C
-#define U8_IRQEnableBot 0x00F   //Only 1st byte is accessed to prevent usr/kernel racer on PCIe300.
+#define U8_IRQEnableBot 0x0F   //Only 1st byte is accessed to prevent usr/kernel racer on PCIe300.
 
 /* Same bits as IRQFlag plus */
 #  define IRQ_Enable    0x80000000
@@ -340,5 +342,31 @@
 #define U32_SFPDIAG(N) (U32_SFPDIAG_base + (N))
 
 #define EVR_REGMAP_SIZE 0x40000 // Total register map size = 256K
+
+
+
+//=====================
+// Sequence RAMs
+//
+#define  U32_EVR_SeqRamTS_base      0xC000  // Sequence Ram Timestamp Array Base Offset
+#define  U32_EVR_SeqRamTS(n,m)      (U32_EVR_SeqRamTS_base + (0x4000*(n)) + (8*(m)))
+
+#define  U8_EVR_SeqRamEvent_base    0xC007  // Sequence Ram Event Code Array Base Offset
+#define  U8_EVR_SeqRamEvent(n,m)    (U8_EVR_SeqRamEvent_base + (0x4000*(n)) + (8*(m)))
+
+#define U32_EVR_SeqRamCtrl      0x0E0    // sequence ram control register
+#  define EVR_SeqRamCtrl_RUN        0x2000000   // running flag (read only)
+#  define EVR_SeqRamCtrl_ENA        0x1000000   // enabled flag (read only)
+#  define EVR_SeqRamCtrl_SWT        0x0200000   // software trigger (write 1 to trigger)
+#  define EVR_SeqRamCtrl_SNG        0x0100000   // mode selection: single mode
+#  define EVR_SeqRamCtrl_REC        0x0080000   // mode selection: recycle mode
+#  define EVR_SeqRamCtrl_RES        0x0040000   // write 1 to reset
+#  define EVR_SeqRamCtrl_DIS        0x0020000   // write 1 to disable
+#  define EVR_SeqRamCtrl_EN         0x0010000   // write 1 to enable/arm
+#  define EVR_SeqRamCtrl_TSEL_mask  0x00000FF   // trigger select (same mapping as for outputs)
+
+
+// #define  U8_EVR_SeqRamMask_base    0xC006  // Sequence Ram Event Code Array Base Offset
+// #define  U8_EVR_SeqRamMask(n,m)    (U8_EVR_SeqRamMask_base + (0x4000*(n)) + (8*(m)))
 
 #endif /* EVRREGMAP_H */

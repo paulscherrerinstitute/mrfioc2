@@ -191,6 +191,13 @@ try{
     formFactor form = getFormFactor();
 
     m_remoteFlash = new mrmRemoteFlash(n, b, deviceInfo, m_flash);
+    if(deviceInfo.series == series_300DC || (deviceInfo.series == series_300 && deviceInfo.formFactor == formFactor_VME64)) {
+        m_sequencer = new EvrSequencer(n+":Sequencer", b);
+    }
+    else {
+        m_sequencer = NULL;
+    }
+
 
     size_t nPul=16; // number of pulsers
     size_t nPS=3;   // number of prescalers
@@ -432,6 +439,9 @@ EVRMRM::cleanup()
     }
     outputs.clear();
 
+    if(m_sequencer != NULL) {
+        delete m_sequencer;
+    }
     delete m_remoteFlash;
     delete m_dataBufferObj;
     delete m_dataBuffer;
@@ -1153,6 +1163,9 @@ EVRMRM::enableIRQ(void)
                     |IRQ_Heartbeat
                     |IRQ_FIFOFull;
 
+    if(firmwareVersion >= MIN_FW_EVR_SEQUENCER) {
+        shadowIRQEna |= IRQ_EOS | IRQ_SOS;
+    }
 
     WRITE32(base, IRQEnable, shadowIRQEna);
 
@@ -1208,6 +1221,12 @@ EVRMRM::isr(void *arg)
     if(!active)
         return;
 
+    if(active&IRQ_EOS) {
+        evr->m_sequencer->eos();
+    }
+    if(active&IRQ_SOS) {
+        evr->m_sequencer->sos();
+    }
     if(active&IRQ_RXErr){
         evr->count_recv_error++;
         scanIoRequest(evr->IRQrxError);
@@ -1248,17 +1267,23 @@ EVRMRM::isr(void *arg)
     }
     evr->count_hardware_irq++;
 
-    // IRQ PCIe enable flag should not be changed. Possible RACER here
-//    evr->shadowIRQEna |= (READ32(evr->base, IRQEnable));
 
     WRITE32(evr->base, IRQFlag, flags);
 
-    //Only touch the bottom half of IRQEnable register to prevent race condition
-    //with kernel space
-    WRITE8(evr->base,IRQEnableBot,(epicsUInt8)evr->shadowIRQEna);
-
     // Ensure IRQFlags is written before returning.
     evrMrmIsrFlagsTrashCan=READ32(evr->base, IRQFlag);
+
+
+    // Only touch the bottom half of IRQEnable register
+    // to prevent race condition with kernel space
+    if(evr->firmwareVersion < MIN_FW_EVR_SEQUENCER) {
+        WRITE8(evr->base,IRQEnableBot,(epicsUInt8)evr->shadowIRQEna);
+    }
+    else {
+        // evr sequencer is available only on EVRs with separated PCIe enable register.
+        // Thus we can write 32 bits here.
+        WRITE32(evr->base, IRQEnable, evr->shadowIRQEna);
+    }
 
     EVR_INFO(4,"ISR ended, IRQEnable 0x%x, flags: 0x%x",evr->shadowIRQEna, flags);
 
