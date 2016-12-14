@@ -78,7 +78,7 @@
     </font>
    </property>
    <property name="toolTip">
-    <string>Stops the sequence imediately and resets the timestamp counter</string>
+    <string>Stops the sequence immediately and resets the timestamp counter</string>
    </property>
    <property name="text">
     <string>Reset</string>
@@ -103,6 +103,9 @@
     <font>
      <pointsize>8</pointsize>
     </font>
+   </property>
+   <property name="toolTip">
+    <string>Write events and timestamps to HW, if sequence entered by the user is valid</string>
    </property>
    <property name="text">
     <string>Commit</string>
@@ -856,6 +859,9 @@
      <height>20</height>
     </rect>
    </property>
+   <property name="toolTip">
+    <string>Stops the sequence immediately, without resetting the timestamp counter</string>
+   </property>
    <property name="text">
     <string>Disable</string>
    </property>
@@ -874,6 +880,9 @@
      <width>101</width>
      <height>20</height>
     </rect>
+   </property>
+   <property name="toolTip">
+    <string>Re-enables the sequence. When triggered, timestamp counter continues counting</string>
    </property>
    <property name="text">
     <string>Enable</string>

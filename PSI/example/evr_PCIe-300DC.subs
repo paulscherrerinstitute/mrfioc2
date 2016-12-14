@@ -314,8 +314,12 @@ file "$(mrfioc2_TEMPLATES=db)/evr-pcie-300DC.db"
 		FrontUnivOut15-Name-I=""		# Description of the output. Maximum 40 characters allowed!
 		FrontUnivOut15-Name-I.DESC=""	# Secondary description of the output. Maximum 40 characters allowed!
 		FrontUnivOut15-Ena-SP=1, 		# Default to enabled
-		FrontUnivOut15-Src-SP=63  		# Defaults to Force low (if enabled -> Ena-SP)
-		FrontUnivOut15-Src2-SP=63  		# Defaults to Force low (if enabled -> Ena-SP)
+		FrontUnivOut15-Src-SP=63,  		# Defaults to Force low (if enabled -> Ena-SP)
+		FrontUnivOut15-Src2-SP=63,		# Defaults to Force low (if enabled -> Ena-SP)
+
+		Seq-RunMode-Sel=0,              # 0: Normal, 1: Automatic, 2: Single. Select sequence run mode. Default is 0: Normal
+		Seq-Ena-Sel=0,                  # 0: Disabled, 1: Enabled. Enabled or disables EVR sequencer. Default is 0: Disabled
+		Seq-Src-SP=63,                  # See mapping for outputs (the table above output configuration). Sets the sequence trigger source (sequence is triggered on rising edge). Default is Force low
 
      }
  }

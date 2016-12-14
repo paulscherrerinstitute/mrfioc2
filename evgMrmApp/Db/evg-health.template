@@ -124,7 +124,7 @@ record(calc, "$(SYS)-$(DEVICE)-HEALTH:SFP_"){
   field(CALC, "MAX(A,B,C,D,E,F,G,H,I,J,K,L)+1")
 
   field(LOW,  "0")
-  field(LSV,  "INVALID")
+  field(LSV,  "MAJOR")
 
   field(HIGH, "2")
   field(HSV,  "MINOR")
@@ -149,7 +149,7 @@ record(calc, "$(SYS)-$(DEVICE)-HEALTH:SFP-I"){
   field(CALC, "MAX(MAX(A,B,C,D)+1,E)")
 
   field(LOW,  "0")
-  field(LSV,  "INVALID")
+  field(LSV,  "MAJOR")
 
   field(HIGH, "2")
   field(HSV,  "MINOR")
@@ -185,7 +185,7 @@ record(calc, "$(SYS)-$(DEVICE)-HEALTH:SFP-Rx_"){
   field(CALC, "MAX(G*A,H*B,I*C,J*D,K*E,L*F)+1")
 
   field(LOW,  "0")
-  field(LSV,  "INVALID")
+  field(LSV,  "MAJOR")
 
   field(HIGH, "2")
   field(HSV,  "MINOR")
@@ -213,7 +213,7 @@ record(calc, "$(SYS)-$(DEVICE)-HEALTH:SFP-Rx-I"){
   field(CALC, "G&&A>0?A+1:(H&&B>0?B+1:J)")
 
   field(LOW,  "0")
-  field(LSV,  "INVALID")
+  field(LSV,  "MAJOR")
 
   field(HIGH, "2")
   field(HSV,  "MINOR")
@@ -239,7 +239,7 @@ record(calc, "$(SYS)-$(DEVICE)-HEALTH:SFP0-I"){
   field(CALC, "D=1 ? MAX(A,B,C)+1 : 1")
 
   field(LOW,  "0")
-  field(LSV,  "INVALID")
+  field(LSV,  "MAJOR")
 
   field(HIGH, "2")
   field(HSV,  "MINOR")
@@ -260,11 +260,11 @@ record(calcout, "$(SYS)-$(DEVICE)-HEALTH:Reason_"){
 
 	field(INPA, "$(SYS)-$(DEVICE):EvtClk-PLL-Sts CP")
 	field(INPB, "$(SYS)-$(DEVICE)-HEALTH:Link-I")
-	field(INPC, "$(SYS)-$(DEVICE)-HEALTH:SFP-I")
-  field(INPD, "$(SYS)-$(DEVICE)-HEALTH:SFP-Rx-I")
-  field(INPE, "$(SYS)-$(DEVICE)-HEALTH:SFP0-I")
+	field(INPC, "$(SYS)-$(DEVICE)-HEALTH:SFP-I.SEVR")
+  field(INPD, "$(SYS)-$(DEVICE)-HEALTH:SFP-Rx-I.SEVR")
+  field(INPE, "$(SYS)-$(DEVICE)-HEALTH:SFP0-I.SEVR")
 	
-  field(CALC, "(E>1?E+6:(A#1?7:(B>0?B+3:(C>2?C+3:(D>2?D:(C>1?C+3:(D>1?D:1)))))))")
+  field(CALC, "(E>0?E+7:(A#1?7:(B>0?B+3:(C>1?C+4:(D>1?D+1:(C>0?C+4:(D>0?D+1:1)))))))")
 
 	field(OUT, "$(SYS)-$(DEVICE)-HEALTH:Reason-I PP")
 } 
