@@ -16,6 +16,7 @@
 #include "evrPrescaler.h"
 #include "evrCML.h"
 #include "evrDelayModule.h"
+#include "evrSequencer.h"
 
 
 
@@ -214,9 +215,6 @@ OBJECT_BEGIN(EvrSequencer) {
     OBJECT_PROP1("Commit", &EvrSequencer::commit);
     OBJECT_PROP1("Reset", &EvrSequencer::reset);
     //OBJECT_PROP1("Running", &EvrSequencer::running);
-
-//    OBJECT_PROP1("Error message", &EvrSequencer::errorMessage);
-//    OBJECT_PROP1("Error message", &EvrSequencer::errorMessageOccured);
 
     OBJECT_PROP1("Sequence valid", &EvrSequencer::sequenceValid);
     OBJECT_PROP1("Sequence valid", &EvrSequencer::sequenceValidOccured);

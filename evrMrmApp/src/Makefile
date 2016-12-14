@@ -18,6 +18,7 @@ INC += evrPrescaler.h
 INC += evrRegMap.h
 INC += evrGpio.h
 INC += evrDelayModule.h
+INC += evrSequencer.h
 
 INC += support/evrGTIF.h
 
@@ -42,6 +43,7 @@ evrMrm_SRCS += evrPrescaler.cpp
 evrMrm_SRCS += evrPulser.cpp
 evrMrm_SRCS += evrCML.cpp
 evrMrm_SRCS += evrDelayModule.cpp
+evrMrm_SRCS += evrSequencer.cpp
 
 evrMrm_SRCS += irqHack.cpp
 

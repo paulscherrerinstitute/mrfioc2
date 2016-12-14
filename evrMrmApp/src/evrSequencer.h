@@ -133,30 +133,24 @@ public:
     bool sequenceValid() const;
     IOSCANPVT sequenceValidOccured() const{return m_sequence.irqValid;}
 
-//    std::string errorMessage() const{return m_errorMessage;}
-//    IOSCANPVT errorMessageOccured() const{return m_irqErrorMessage;}
 
     /**
-     * @brief sos should be called on start of sequence interrupt
+     * @brief sos should be called on start of sequence interrupt. This code should be quick since it's a part of the ISR!
      */
     void sos() {
         m_irqSosCount++;
         scanIoRequest(m_irqSos);
-        epicsUInt32 reg = READ32(base, EVR_SeqRamCtrl);
-        printf("SOS enabled/running: %u/%u \n", (reg & EVR_SeqRamCtrl_ENA)>0, (reg & EVR_SeqRamCtrl_RUN)>0);
     }
 
     epicsUInt32 sosCount() const{return m_irqSosCount;}
     IOSCANPVT sosOccured() const{return m_irqSos;}
 
     /**
-     * @brief eos should be called on end of sequence interrupt
+     * @brief eos should be called on end of sequence interrupt. This code should be quick since it's a part of the ISR!
      */
     void eos() {
         m_irqEosCount++;
         scanIoRequest(m_irqEos);
-        epicsUInt32 reg = READ32(base, EVR_SeqRamCtrl);
-        printf("EOS enabled/running: %u/%u \n", (reg & EVR_SeqRamCtrl_ENA)>0, (reg & EVR_SeqRamCtrl_RUN)>0);
     }
 
     epicsUInt32 eosCount() const{return m_irqEosCount;}
@@ -184,8 +178,6 @@ private:
     volatile epicsUInt32 m_irqSosCount;   // number of times SOS IRQ occured
     IOSCANPVT m_irqEos;                   // end of sequence interrupt
     volatile epicsUInt32 m_irqEosCount;   // number of times EOS IRQ occured
-//    IOSCANPVT m_irqErrorMessage;
-//    std::string m_errorMessage;
 
     struct {
         std::vector<epicsUInt8> eventCode;  // user provided event codes

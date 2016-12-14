@@ -50,17 +50,17 @@ void EvrSequencer::setSequenceEvents(const epicsUInt16 *waveform, epicsUInt32 le
     for(epicsUInt32 i=0; i<len; i++) {
         event = (epicsUInt8)waveform[i];
 
-        // check if user provided end of sequence event
-        if(event == EVENT_END_OF_SEQUENCE) {
-            dbgPrintf(1,"EOS event detected\n");
-            m_sequence.userProvidedEosEvent = true;
-            m_sequence.eventCode.push_back(event);
+        if(i >= MAX_SEQUENCE_SIZE) {
+            dbgPrintf(1,"Too many events\n");
+            sizeOK = false;
             break;
         }
 
-        if(i+1 > MAX_SEQUENCE_SIZE) {
-            dbgPrintf(1,"Too many events\n");
-            sizeOK = false;
+        // check if user provided end of sequence event
+        if(event == EVENT_END_OF_SEQUENCE) {
+            dbgPrintf(1,"EOS event detected. New event array size: %u\n", i+1);
+            m_sequence.userProvidedEosEvent = true;
+            m_sequence.eventCode.push_back(event);
             break;
         }
 
@@ -96,7 +96,8 @@ void EvrSequencer::setSequenceTimestamp(const double *waveform, epicsUInt32 len)
     for(epicsUInt32 i=0; i<len; i++) {
         timestamp = (epicsUInt64)waveform[i];   // TODO conversion from user units
         if(i < len-1 && (timestamp >= (epicsUInt64)waveform[i+1])) { // check if the timestamps are sorted and unique
-            dbgPrintf(1,"Timestamps not sorted! Timestamp at position %u is %llu, timestamp at position %u is %llu\n", i, timestamp, i+1, (epicsUInt64)waveform[i+1]);
+            dbgPrintf(1,"Timestamps not sorted! Timestamp at position %u is %llu, timestamp at position %u is %llu.\n", i, timestamp, i+1, (epicsUInt64)waveform[i+1]);
+            dbgPrintf(1,"Timestamps array truncated with size %u\n", i);
             sorted = false;
             break;
         }
@@ -107,7 +108,8 @@ void EvrSequencer::setSequenceTimestamp(const double *waveform, epicsUInt32 len)
         }
 
         if(i+1 + m_sequence.noContinuationEvents > MAX_SEQUENCE_SIZE) {
-            dbgPrintf(1,"Too many timestamps (including continuation events)\n");
+            dbgPrintf(1,"Too many timestamps (including %" FORMAT_SIZET_U " continuation events)\n", m_sequence.noContinuationEvents);
+            dbgPrintf(1,"Timestamps array truncated with size %u\n", i);
             sizeOK = false;
             break;
         }
@@ -201,7 +203,7 @@ void EvrSequencer::enable(bool ena)
 
 bool EvrSequencer::enabled() const
 {
-    return READ32(base, EVR_SeqRamCtrl) & EVR_SeqRamCtrl_ENA;
+    return (READ32(base, EVR_SeqRamCtrl) & EVR_SeqRamCtrl_ENA) > 0;
 }
 
 bool EvrSequencer::softTrigger() const
@@ -219,8 +221,8 @@ bool EvrSequencer::softTrigger() const
 
 bool EvrSequencer::running() const
 {
-    dbgPrintf(1,"Sequence running: %u\n", (bool)(READ32(base, EVR_SeqRamCtrl) & EVR_SeqRamCtrl_RUN));
-    return READ32(base, EVR_SeqRamCtrl) & EVR_SeqRamCtrl_RUN;
+    dbgPrintf(1,"Sequence running: %u\n", (READ32(base, EVR_SeqRamCtrl) & EVR_SeqRamCtrl_RUN) > 0);
+    return (READ32(base, EVR_SeqRamCtrl) & EVR_SeqRamCtrl_RUN) > 0;
 }
 
 bool EvrSequencer::reset() const
@@ -252,12 +254,12 @@ bool EvrSequencer::commit() const
             WRITE32(base, EVR_SeqRamTS(0,j), 0xFFFFFFFF);
             WRITE8(base, EVR_SeqRamEvent(0,j), 0);
 
-            timestamp -= 0xFFFFFFFF;
-            timestampOverflows += 0xFFFFFFFF;
+            timestamp -= (epicsUInt64)0xFFFFFFFF;
+            timestampOverflows += (epicsUInt64)0xFFFFFFFF;
             j++;
         }
 
-        WRITE32(base, EVR_SeqRamTS(0,j), timestamp);
+        WRITE32(base, EVR_SeqRamTS(0,j), (epicsUInt32)timestamp);   // writing 32 bits is OK, because continuation events are already handled
         WRITE8(base, EVR_SeqRamEvent(0,j), m_sequence.eventCode[i]);
     }
 
@@ -272,10 +274,10 @@ bool EvrSequencer::commit() const
                 WRITE32(base, EVR_SeqRamTS(0,j), 0xFFFFFFFF);
                 WRITE8(base, EVR_SeqRamEvent(0,j), 0);
 
-                timestamp -= 0xFFFFFFFF;
+                timestamp -= (epicsUInt64)0xFFFFFFFF;
                 j++;
             }
-            WRITE32(base, EVR_SeqRamTS(0,j), timestamp);
+            WRITE32(base, EVR_SeqRamTS(0,j), (epicsUInt32)timestamp);   // writing 32 bits is OK, because continuation events are already handled
             WRITE8(base, EVR_SeqRamEvent(0,j), EVENT_END_OF_SEQUENCE);
         }
         else {
@@ -298,11 +300,11 @@ bool EvrSequencer::checkSequenceSize()
 {
     if(m_sequence.eventCode.size() > m_sequence.timestamp.size()) {
         m_sequence.valid = false;
-        dbgPrintf(1,"Sequence not valid: there is more events than timestamps\n");
+        dbgPrintf(1,"Sequence not valid: there is more events(%"FORMAT_SIZET_U") than timestamps(%"FORMAT_SIZET_U")\n", m_sequence.eventCode.size(), m_sequence.timestamp.size());
     }
     else if(m_sequence.eventCode.size() < m_sequence.timestamp.size()) {
         m_sequence.valid = false;
-        dbgPrintf(1,"Sequence not valid: there is more timestamps than events\n");
+        dbgPrintf(1,"Sequence not valid: there is more timestamps(%"FORMAT_SIZET_U") than events(%"FORMAT_SIZET_U")\n", m_sequence.timestamp.size(), m_sequence.eventCode.size());
     }
     else {
         m_sequence.valid = true;
