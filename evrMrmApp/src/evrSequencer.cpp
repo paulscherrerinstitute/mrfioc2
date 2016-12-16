@@ -341,7 +341,7 @@ bool EvrSequencer::isSourceValid(epicsUInt32 source) const
 {
     if(   (source<=63 && source>=62) ||
           (source<=47 && source>=32) ||
-          (source<=15)               ||
+          (source<=23)               ||
           (source==61)               )
     {
         return true;
