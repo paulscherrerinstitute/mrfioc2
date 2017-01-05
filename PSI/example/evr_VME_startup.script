@@ -1,6 +1,3 @@
-# Available macros:
-# eldk52-e500v2_require macro is used to load aditional module using 'require' command for eldk52-e500v2 architecture. (default: pev)
-# 
 require mrfioc2
 
 ##########################
