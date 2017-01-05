@@ -1,10 +1,11 @@
-For detailed changelog inspect commits at https://git.psi.ch/epics_drivers/mrfioc2/commits/master
+For detailed changelog inspect commits at https://git.psi.ch/epics_driver_modules/mrfioc2/commits/master
 
-2.7.23_RC2 : Fri 16 Dec 2016:
-	- EVR sequencer support (starting from firmware version 0x207)
+2.7.23 : Thu 5 Jan 2017:
+	- EVR sequencer support added (starting from firmware version 0x207, or its development version counterpart - 0x206)
 	- EVG health monitoring bug fix, where removing SFPs would show incorrect overall status
+	- EVR iocsh memory read and write function names updated (mrmEvrRead, mrmEvrWrite)
 	- PSI specific: added template (loaded by default) which indicates if machine beam is currently OK or not.
-	- PSI specific: removed build-time dependancy on pev driver for eldk52-e500v2 arhitecture. Added macro eldk52-e500v2_require to the require command, where user can select which driver to load for eldk52-e500v2 arhitecture using require command. Macro's default value is set to 'pev'.
+	- PSI specific: removed build-time dependancy on pev driver for eldk52-e500v2 arhitecture. 'pev' driver is no longer loaded by default on IOC startup
 
 2.7.22 : Fri 25 Nov 2016:
 	- EVR fine delay module: bug fixed, where setting one delay output would reset the other
