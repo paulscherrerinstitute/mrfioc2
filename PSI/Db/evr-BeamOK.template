@@ -52,7 +52,7 @@ record(bo, "$(SYS)-$(DEVICE):BEAMOK-FALSE_") {
         field(OUT, "$(SYS)-$(DEVICE):BEAMOK PP")
 }
 
-# Sets event status to 1 
+# Sets beam ok status to 1 
 record(bo, "$(SYS)-$(DEVICE):BEAMOK-TRUE_") {
         field(DESC, "Set beam OK status to true")
         field(DOL,  "1")
@@ -60,7 +60,7 @@ record(bo, "$(SYS)-$(DEVICE):BEAMOK-TRUE_") {
 }
 
 
-# Enable or disable triggers / acquisition
+# Is beam OK or not?
 record(bi, "$(SYS)-$(DEVICE):BEAMOK") {
         field(DESC, "Beam OK flag")
 
