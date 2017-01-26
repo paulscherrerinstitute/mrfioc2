@@ -290,6 +290,7 @@
 #define U32_fct_upstreamDC      0x010   // upstream data compensation delay value
 #define U32_fct_fifoDC          0x014   // receive FIFO data compensation delay value
 #define U32_fct_internalDC      0x018   // FCT internal datapath data compensation delay value
+#define U32_fct_topologyID      0x02C   // Timing node topology ID
 #define U32_fct_portDC_base     0x040   // downstream link port loop delay value
 #define U32_fct_portDC(n)       (U32_fct_portDC_base + (4*(n)))
 

@@ -14,6 +14,7 @@ public:
     virtual void lock() const{};
     virtual void unlock() const{};
 
+    epicsUInt32 getTopologyId() const;
 
     epicsUInt32 getUpstreamDC() const;
     epicsUInt32 getFIFODC() const;

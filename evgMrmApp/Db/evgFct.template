@@ -235,3 +235,10 @@ record(calc, "$(SYS)-$(DEVICE):FCT-Port8DC-I") {
   field(PREC, "3")
   field(CALC, "((A>>16)/B*1000)+((A & 65535)*(1000/(B*65535)))")
 }
+
+record(longin, "$(SYS)-$(DEVICE):FCT-TopologyID-I") {
+  field(DTYP, "Obj Prop uint32")
+  field(INP , "@OBJ=$(DEVICE):FCT, PROP=Topology ID")
+  field(DESC, "Node topology ID")
+  field(SCAN, "10 second")
+}
