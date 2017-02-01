@@ -152,6 +152,10 @@ EVRMRM::EVRMRM(const std::string& n,
   ,lastInvalidTimestamp(0)
   ,lastValidTimestamp(0)
   ,m_flash(b)
+  ,m_dataBuffer_230(NULL)
+  ,m_dataBuffer_300(NULL)
+  ,m_dataBufferObj_230(NULL)
+  ,m_dataBufferObj_300(NULL)
 {
 try{
     epicsUInt32 v, evr,ver;
@@ -354,14 +358,22 @@ try{
     }
 
     if(ver < MIN_FW_SEGMENTED_DBUFF) {
-        m_dataBuffer = new mrmDataBuffer_230(n.c_str(), base, U32_DataTxCtrlEvr, U32_DataRxCtrlEvr, U32_DataTxBaseEvr, U32_DataRxBaseEvr);
-    } else {
-        m_dataBuffer = new mrmDataBuffer_300(n.c_str(), base, U32_DataTxCtrlEvr, U32_DataRxCtrlEvr, U32_DataTxBaseEvr, U32_DataRxBaseEvr);
-    }
-    m_dataBuffer->registerRxComplete(&EVRMRM::dataBufferRxComplete, this);
-    CBINIT(&dataBufferRx_cb, priorityHigh, &mrmDataBuffer::handleDataBufferRxIRQ, &*m_dataBuffer);
+        m_dataBuffer_230 = new mrmDataBuffer_230(n.c_str(), base, U32_DataTxCtrlEvr, U32_DataRxCtrlEvr, U32_DataTxBaseEvr, U32_DataRxBaseEvr);
 
-   m_dataBufferObj = new mrmDataBufferObj(n, *m_dataBuffer);
+        m_dataBuffer_230->registerRxComplete(&EVRMRM::dataBufferRxComplete, this);
+        CBINIT(&dataBufferRx_cb_230, priorityHigh, &mrmDataBuffer::handleDataBufferRxIRQ, &*m_dataBuffer_230);
+
+        m_dataBufferObj_230 = new mrmDataBufferObj(n, *m_dataBuffer_230);
+
+    } else {
+        m_dataBuffer_300 = new mrmDataBuffer_300(n.c_str(), base, U32_DataTxCtrlEvr, U32_DataRxCtrlEvr, U32_DataTxBaseEvr, U32_DataRxBaseEvr);
+
+        m_dataBuffer_300->registerRxComplete(&EVRMRM::dataBufferRxComplete, this);
+        CBINIT(&dataBufferRx_cb_300, priorityHigh, &mrmDataBuffer::handleDataBufferRxIRQ, &*m_dataBuffer_300);
+
+        m_dataBufferObj_300 = new mrmDataBufferObj(n, *m_dataBuffer_300);
+    }
+
 
 
     SCOPED_LOCK(evrLock);
@@ -443,8 +455,10 @@ EVRMRM::cleanup()
         delete m_sequencer;
     }
     delete m_remoteFlash;
-    delete m_dataBufferObj;
-    delete m_dataBuffer;
+    delete m_dataBufferObj_230;
+    delete m_dataBufferObj_300;
+    delete m_dataBuffer_230;
+    delete m_dataBuffer_300;
 
 #define CLEANVEC(TYPE, VAR) \
     for(TYPE::iterator it=VAR.begin(); it!=VAR.end(); ++it) \
@@ -1144,11 +1158,6 @@ mrmRemoteFlash *EVRMRM::getRemoteFlash()
     return m_remoteFlash;
 }
 
-mrmDataBuffer *EVRMRM::getDataBuffer()
-{
-    return m_dataBuffer;
-}
-
 void
 EVRMRM::enableIRQ(void)
 {
@@ -1158,6 +1167,7 @@ EVRMRM::enableIRQ(void)
                     |IRQ_PCIee
                     |IRQ_RXErr
                     |IRQ_BufFull
+                    |IRQ_SegDBuff
                     |IRQ_HWMapped
                     |IRQ_Event
                     |IRQ_Heartbeat
@@ -1235,14 +1245,18 @@ EVRMRM::isr(void *arg)
         callbackRequest(&evr->poll_link_cb);
     }
     if(active&IRQ_BufFull){
-         evr->shadowIRQEna &= ~IRQ_BufFull; // interrupt is re-enabled in the dataBufferRxComplete() callback
+        evr->shadowIRQEna &= ~IRQ_BufFull; // interrupt is re-enabled in the dataBufferRxComplete() callback
 
-        /* 230 series hardware (and firmware versions < MIN_FW_SEGMENTED_DBUFF) only.
-        * Silence interrupt. DataRxCtrl_stop is actually Rx acknowledge, so we need to write to it in order to clear it.
-        */
-        if (evr->firmwareVersion < MIN_FW_SEGMENTED_DBUFF) BITSET(NAT,32,evr->base, DataRxCtrlEvr, DataRxCtrl_stop);
+        // Silence interrupt. DataRxCtrl_stop is actually Rx acknowledge, so we need to write to it in order to clear it.
+        BITSET(NAT,32,evr->base, DataRxCtrlEvr, DataRxCtrl_stop);
 
-        callbackRequest(&evr->dataBufferRx_cb);
+        callbackRequest(&evr->dataBufferRx_cb_230);
+    }
+    if(active&IRQ_SegDBuff){
+        if(&evr->m_dataBufferObj_300 != NULL) {
+            evr->shadowIRQEna &= ~IRQ_BufFull; // interrupt is re-enabled in the dataBufferRxComplete() callback
+            callbackRequest(&evr->dataBufferRx_cb_300);
+        }
     }
     if(active&IRQ_HWMapped){
         evr->shadowIRQEna &= ~IRQ_HWMapped;
@@ -1425,13 +1439,21 @@ EVRMRM::drain_fifo()
     EVR_INFO(1,"FIFO task exiting\n");
 }
 
-void EVRMRM::dataBufferRxComplete(void *vptr)
+void EVRMRM::dataBufferRxComplete(mrmDataBuffer *dataBuffer, void *vptr)
 {
     EVRMRM *evr=static_cast<EVRMRM*>(vptr);
 
     int iflags=epicsInterruptLock();
 
-    evr->shadowIRQEna |= IRQ_BufFull;
+    if(dataBuffer == evr->m_dataBuffer_230) {
+        evr->shadowIRQEna |= IRQ_BufFull;
+    }
+    else if(dataBuffer == evr->m_dataBuffer_300) {
+        evr->shadowIRQEna |= IRQ_SegDBuff;
+    }
+    else {
+        epicsPrintf("Callback received for re-enabling non-existant data buffer interrupt\n");  // this should never happen...
+    }
     WRITE8(evr->base,IRQEnableBot,(epicsUInt8)evr->shadowIRQEna);
 
     epicsInterruptUnlock(iflags);

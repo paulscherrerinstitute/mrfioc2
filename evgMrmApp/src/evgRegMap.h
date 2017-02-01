@@ -51,6 +51,7 @@
 // Data Buffer and Distributed Data Bus Control
 //
 #define  U32_DataTxCtrlEvg      0x0020  // Data Buffer Control Register
+#define  U32_DataTxCtrlEvg_seg  0x001C  // Data Buffer Control Register for firmware version 207+ (segmented data buffer)
 #define  U32_DBusSrc            0x0024  // Distributed Data Bus Mapping Register
 
 //=====================
@@ -159,7 +160,9 @@
 // Data Buffer Area
 //
 #define  U8_DataTxBaseEvg       0x0800  // Data Buffer Array Base Offset
+#define  U8_DataTxBaseEvg_seg   0x2000  // Data Buffer Array Base Offset for firmware version 207+ (segmented data buffer)
 #define  U8_DataBuffer(n)       (U8_DataTxBaseEvg + n)
+#define  U8_DataBuffer_seg(n)   (U8_DataTxBaseEvg_seg + n) // TODO
 
 //=====================
 // SFP Transceiver EEPROM and diagnostics

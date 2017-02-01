@@ -12,6 +12,7 @@ INC += dataBuffer/mrmDataBuffer_300.h
 INC += dataBuffer/mrmDataBuffer_230.h
 INC += dataBuffer/mrmDataBufferUser.h
 INC += dataBuffer/mrmDataBufferObj.h
+INC += dataBuffer/mrmDataBufferType.h
 
 DBD += mrmShared.dbd
 

@@ -28,7 +28,8 @@ extern "C" {
 #define TX_WAIT_MAX_ITERATIONS 1000     // guard against infinite loop when waiting for Tx to complete / waiting while Tx is running.
 
 
-static std::map<std::string, mrmDataBuffer*> data_buffers;
+static std::map<std::string, mrmDataBuffer*> data_buffers[2];
+const char *mrmDataBuffer::type_string[] = {"230", "300"};
 
 mrmDataBuffer::mrmDataBuffer(const char * parentName,
                              volatile epicsUInt8 *parentBaseAddress,
@@ -61,7 +62,7 @@ mrmDataBuffer::mrmDataBuffer(const char * parentName,
     // init interest flags
     setInterest(NULL, NULL);
 
-    data_buffers[parentName] = this;
+    data_buffers[m_type][parentName] = this;
 }
 
 mrmDataBuffer::~mrmDataBuffer() {
@@ -271,16 +272,16 @@ void mrmDataBuffer::handleDataBufferRxIRQ(CALLBACK *cb) {
     parent->receive();
 
     if(parent->rx_complete_callback.fptr != NULL){
-        parent->rx_complete_callback.fptr(parent->rx_complete_callback.pvt);
+        parent->rx_complete_callback.fptr(parent, parent->rx_complete_callback.pvt);
     }
 }
 
-mrmDataBuffer* mrmDataBuffer::getDataBufferFromDevice(const char *device) {
+mrmDataBuffer* mrmDataBuffer::getDataBufferFromDevice(const char *device, mrmDataBufferType::type_t type) {
     // locking not needed because all data buffer instances are created before someone can use them
 
-    if(data_buffers.count(device)){
+    /*if(data_buffers[type].count(device)){
         return data_buffers[device];
-    }
+    }*/
 
     return NULL;
 }
@@ -295,6 +296,11 @@ epicsUInt32 mrmDataBuffer::getChecksumCount(epicsUInt32 **checksumCount)
 {
     *checksumCount = m_checksum_count;
     return (epicsUInt32)(sizeof (m_checksum_count) / sizeof (epicsUInt32));
+}
+
+mrmDataBufferType::type_t mrmDataBuffer::getType()
+{
+    return m_type;
 }
 
 

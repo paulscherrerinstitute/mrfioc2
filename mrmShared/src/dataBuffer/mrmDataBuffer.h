@@ -8,6 +8,9 @@
 #include <epicsMutex.h>
 #include <callback.h>
 
+#include "mrmDataBufferType.h"
+
+
 class mrmDataBufferUser;    // Windows: use forward decleration to avoid export problems for mrmDataBufferUser class
 
 #ifdef _WIN32
@@ -34,6 +37,9 @@ extern "C"{
  */
 class epicsShareClass mrmDataBuffer {
 public:
+
+    static const char *type_string[];
+
     mrmDataBuffer(const char *parentName,
                   volatile epicsUInt8 *parentBaseAddress,
                   epicsUInt32 controlRegisterTx,
@@ -45,7 +51,7 @@ public:
     /**
      * Definition of a callback function. Used in registerRxComplete()
      */
-    typedef void(*rxCompleteCallback_t)(void* pvt);
+    typedef void(*rxCompleteCallback_t)(mrmDataBuffer *dataBuffer, void* pvt);
 
     /**
      * @brief enableRx is used to enable or disable receiving for this data buffer
@@ -129,7 +135,7 @@ public:
      */
     static void handleDataBufferRxIRQ(CALLBACK*);
 
-    static mrmDataBuffer* getDataBufferFromDevice(const char *device);
+    static mrmDataBuffer* getDataBufferFromDevice(const char *device, mrmDataBufferType::type_t type);
 
     /**
      * @brief getOverflowCount sets the pointer to the internal counter for overflows on each segment. Use the pointer for reading only!
@@ -144,6 +150,8 @@ public:
      * @return number of items in the couter array (number of segments)
      */
     epicsUInt32 getChecksumCount(epicsUInt32 **checksumCount);
+
+    mrmDataBufferType::type_t getType();
 
     // test functions (used from mrmDataBuffer_test.cpp)
     void setSegmentIRQ(epicsUInt8 i, epicsUInt32 mask);
@@ -180,6 +188,8 @@ protected:
         epicsUInt32 segments[4];        // segment mask in which the user is interested
     };
     std::vector<Users*> m_users;        // a list of users who are accessing the data buffer
+
+    mrmDataBufferType::type_t m_type;  // data buffer type id
 
     /**
      * @brief waitWhileTxRunning is busy waiting while data buffer transmission is running (pools the TXRUN bit)

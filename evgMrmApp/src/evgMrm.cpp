@@ -49,7 +49,11 @@ evgMrm::evgMrm(const std::string& id, deviceInfoT &devInfo, volatile epicsUInt8*
     m_softEvt(id+":SoftEvt", pReg),
     m_flash(pReg),
     m_seqRamMgr(this),
-    m_softSeqMgr(this)
+    m_softSeqMgr(this),
+    m_dataBuffer_230(NULL),
+    m_dataBuffer_300(NULL),
+    m_dataBufferObj_230(NULL),
+    m_dataBufferObj_300(NULL)
 {
     try{
 
@@ -161,12 +165,13 @@ evgMrm::evgMrm(const std::string& id, deviceInfoT &devInfo, volatile epicsUInt8*
         }
 
         if(version < MIN_FW_SEGMENTED_DBUFF){
-            m_dataBuffer = new mrmDataBuffer_230(id.c_str(), pReg, U32_DataTxCtrlEvg, 0, U8_DataTxBaseEvg, 0);
+            m_dataBuffer_230 = new mrmDataBuffer_230(id.c_str(), pReg, U32_DataTxCtrlEvg, 0, U8_DataTxBaseEvg, 0);
+            m_dataBufferObj_230 = new mrmDataBufferObj(id.c_str(), *m_dataBuffer_230);
         } else {
-            m_dataBuffer = new mrmDataBuffer_300(id.c_str(), pReg, U32_DataTxCtrlEvg, 0, U8_DataTxBaseEvg, 0);
+            m_dataBuffer_300 = new mrmDataBuffer_300(id.c_str(), pReg, U32_DataTxCtrlEvg, 0, U8_DataTxBaseEvg, 0);
+            m_dataBufferObj_300 = new mrmDataBufferObj(id.c_str(), *m_dataBuffer_300);
         }
 
-        m_dataBufferObj = new mrmDataBufferObj(id.c_str(), *m_dataBuffer);
 
         /*
          * Swtiched order of creation for m_timerEvent and m_wdTimer.
@@ -223,8 +228,10 @@ evgMrm::~evgMrm() {
         delete m_sfp[i];
 
     delete m_remoteFlash;
-    delete m_dataBufferObj;
-    delete m_dataBuffer;
+    delete m_dataBufferObj_230;
+    delete m_dataBufferObj_300;
+    delete m_dataBuffer_230;
+    delete m_dataBuffer_300;
 }
 
 void
@@ -840,11 +847,6 @@ std::vector<SFP *>* evgMrm::getSFP(){
 mrmRemoteFlash *evgMrm::getRemoteFlash()
 {
     return m_remoteFlash;
-}
-
-mrmDataBuffer *evgMrm::getDataBuffer()
-{
-    return m_dataBuffer;
 }
 
 namespace {

@@ -131,7 +131,6 @@ public:
     std::vector<SFP *> *getSFP();
 
     mrmRemoteFlash* getRemoteFlash();
-    mrmDataBuffer* getDataBuffer();
 
     typedef std::map< std::pair<epicsUInt32, InputType>, evgInput*> Input_t;
     Input_t                       m_input;  // TODO the rest of the sub-units are private...(evgSeqRam needs this)
@@ -197,8 +196,10 @@ private:
 
     std::vector<SFP*>             m_sfp;    // upstream + fanout transceivers. Transceiver indexed 0 is upstream transceiver.
 
-    mrmDataBuffer*                m_dataBuffer;
-    mrmDataBufferObj*             m_dataBufferObj;
+    mrmDataBuffer*                m_dataBuffer_230;
+    mrmDataBuffer*                m_dataBuffer_300;
+    mrmDataBufferObj*             m_dataBufferObj_230;
+    mrmDataBufferObj*             m_dataBufferObj_300;
 
     /**
      * @brief setFormFactor sets the internal m_deviceInfo.formFactor based on the content of the device registers

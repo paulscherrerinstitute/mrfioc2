@@ -129,10 +129,11 @@ enum PLLBandwidth {
 #define DataTxCtrl_len_mask 0x0007fc
 
 
-#define DataBuffer_SegmentIRQ       0x780   //4x32 bit
-#define DataBufferFlags_cheksum     0x7A0   //4x32 bit, each bit for one segment. 0 = Checksum OK
-#define DataBufferFlags_overflow    0x7C0   //4x32 bit, each bit for one segment.
-#define DataBufferFlags_rx          0x7E0   //4x32 bit
+#define DataBuffer_SegmentIRQ       0x8F80   //4x32 bit
+#define DataBufferFlags_cheksum     0x8FA0   //4x32 bit, each bit for one segment. 0 = Checksum OK
+#define DataBufferFlags_overflow    0x8FC0   //4x32 bit, each bit for one segment.
+#define DataBufferFlags_rx          0x8FE0   //4x32 bit
+#define DataBuffer_RXSize(N) (4*N+0x8800) // 128 registers which contain segment received length
 
 
 // Rx control register offsets

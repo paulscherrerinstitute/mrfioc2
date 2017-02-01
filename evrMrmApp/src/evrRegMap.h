@@ -89,6 +89,7 @@
 #define U32_IRQFlag     0x008
 #  define IRQ_EOS       0x1000
 #  define IRQ_SOS       0x100
+#  define IRQ_SegDBuff  0x80
 #  define IRQ_LinkChg   0x40
 #  define IRQ_BufFull   0x20
 #  define IRQ_HWMapped  0x10
@@ -118,10 +119,13 @@
 // Data buffer
 #define U32_DataRxCtrlEvr  0x020
 #define U32_DataTxCtrlEvr  0x024
+#define U32_DataTxCtrlEvr_seg  0x028
 #define U32_DataRxBaseEvr  0x0800
+#define U32_DataRxBaseEvr_seg  0x9000
 #define U32_DataTxBaseEvr  0x1800
 /* 0 <= N <= 0x7ff */
 #define U32_DataRx(N)      (U32_DataRxBaseEvr + (N))
+#define U32_DataRx_seg(N)  (U32_DataRxBaseEvr_seg + (N))    // TODO
 #define U32_DataTx(N)      (U32_DataTxBaseEvr + (N))
 
 // Firmware register is defined in mrmShared.h

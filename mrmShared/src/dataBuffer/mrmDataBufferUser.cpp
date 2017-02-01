@@ -11,7 +11,6 @@
 #include "mrmDataBufferUser.h"
 
 
-
 mrmDataBufferUser::mrmDataBufferUser() {
     epicsUInt32 i;
 
@@ -29,7 +28,7 @@ mrmDataBufferUser::mrmDataBufferUser() {
     m_strict_mode = false;
 }
 
-bool mrmDataBufferUser::init(const char* deviceName, size_t userOffset, bool strictMode, unsigned int userUpdateThreadPriority) {
+bool mrmDataBufferUser::init(const char* deviceName, mrmDataBufferType::type_t type, size_t userOffset, bool strictMode, unsigned int userUpdateThreadPriority) {
     if (m_data_buffer != NULL) {
         errlogPrintf("Data buffer for %s already initialized.\n", deviceName);
         return false;
@@ -40,7 +39,7 @@ bool mrmDataBufferUser::init(const char* deviceName, size_t userOffset, bool str
         return false;
     }
 
-    m_data_buffer = mrmDataBuffer::getDataBufferFromDevice(deviceName);
+    m_data_buffer = mrmDataBuffer::getDataBufferFromDevice(deviceName, type);
     if(m_data_buffer == NULL) {
         errlogPrintf("Data buffer for %s not found.\n", deviceName);
         return false;

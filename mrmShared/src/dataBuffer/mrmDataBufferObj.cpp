@@ -7,7 +7,7 @@ const char *mrmDataBufferObj::OBJECT_NAME = ":DataBuffer"; // appended to device
 
 
 mrmDataBufferObj::mrmDataBufferObj(const std::string &parentName, mrmDataBuffer &dataBuffer):
-    mrf::ObjectInst<mrmDataBufferObj>(parentName+OBJECT_NAME),
+    mrf::ObjectInst<mrmDataBufferObj>(parentName+OBJECT_NAME+mrmDataBuffer::type_string[dataBuffer.getType()]),
     m_data_buffer(dataBuffer)
 {
 }

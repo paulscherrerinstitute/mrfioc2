@@ -88,6 +88,7 @@ DBDS+=mrmShared/src/mrmShared.dbd
 
 # external data buffer support (eg. mrfioc2_regDev)
 HEADERS+=mrmShared/src/dataBuffer/mrmDataBufferUser.h
+HEADERS+=mrmShared/src/dataBuffer/mrmDataBufferType.h
 
 # TESTS
 #SOURCES+=mrmShared/src/dataBuffer/tests/mrmDataBuffer_test.cpp

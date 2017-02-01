@@ -30,6 +30,7 @@ mrmDataBuffer_300::mrmDataBuffer_300(const char *parentName,
                   dataRegisterRx)
 {
     enableRx(true);
+    m_type = mrmDataBufferType::type_300;
 }
 
 void mrmDataBuffer_300::enableRx(bool en)
