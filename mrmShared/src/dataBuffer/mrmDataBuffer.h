@@ -41,6 +41,7 @@ public:
     static const char *type_string[];
 
     mrmDataBuffer(const char *parentName,
+                  mrmDataBufferType::type_t type,
                   volatile epicsUInt8 *parentBaseAddress,
                   epicsUInt32 controlRegisterTx,
                   epicsUInt32 controlRegisterRx,

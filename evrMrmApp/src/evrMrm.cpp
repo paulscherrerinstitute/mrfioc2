@@ -357,16 +357,15 @@ try{
         CBINIT(&events[i].done, priorityLow, &EVRMRM::sentinel_done , &events[i]);
     }
 
-    if(ver < MIN_FW_SEGMENTED_DBUFF) {
-        m_dataBuffer_230 = new mrmDataBuffer_230(n.c_str(), base, U32_DataTxCtrlEvr, U32_DataRxCtrlEvr, U32_DataTxBaseEvr, U32_DataRxBaseEvr);
+    m_dataBuffer_230 = new mrmDataBuffer_230(n.c_str(), base, U32_DataTxCtrlEvr, U32_DataRxCtrlEvr, U32_DataTxBaseEvr, U32_DataRxBaseEvr);
 
-        m_dataBuffer_230->registerRxComplete(&EVRMRM::dataBufferRxComplete, this);
-        CBINIT(&dataBufferRx_cb_230, priorityHigh, &mrmDataBuffer::handleDataBufferRxIRQ, &*m_dataBuffer_230);
+    m_dataBuffer_230->registerRxComplete(&EVRMRM::dataBufferRxComplete, this);
+    CBINIT(&dataBufferRx_cb_230, priorityHigh, &mrmDataBuffer::handleDataBufferRxIRQ, &*m_dataBuffer_230);
 
-        m_dataBufferObj_230 = new mrmDataBufferObj(n, *m_dataBuffer_230);
+    m_dataBufferObj_230 = new mrmDataBufferObj(n, *m_dataBuffer_230);
 
-    } else {
-        m_dataBuffer_300 = new mrmDataBuffer_300(n.c_str(), base, U32_DataTxCtrlEvr, U32_DataRxCtrlEvr, U32_DataTxBaseEvr, U32_DataRxBaseEvr);
+    if(ver >= MIN_FW_300_SERIES) {
+        m_dataBuffer_300 = new mrmDataBuffer_300(n.c_str(), base, U32_DataTxCtrlEvr_seg, U32_DataRxCtrlEvr, U32_DataTxBaseEvr, U32_DataRxBaseEvr_seg);
 
         m_dataBuffer_300->registerRxComplete(&EVRMRM::dataBufferRxComplete, this);
         CBINIT(&dataBufferRx_cb_300, priorityHigh, &mrmDataBuffer::handleDataBufferRxIRQ, &*m_dataBuffer_300);
@@ -1173,7 +1172,7 @@ EVRMRM::enableIRQ(void)
                     |IRQ_Heartbeat
                     |IRQ_FIFOFull;
 
-    if(firmwareVersion >= MIN_FW_EVR_SEQUENCER) {
+    if(firmwareVersion >= MIN_FW_300_SERIES) {
         shadowIRQEna |= IRQ_EOS | IRQ_SOS;
     }
 
@@ -1254,7 +1253,7 @@ EVRMRM::isr(void *arg)
     }
     if(active&IRQ_SegDBuff){
         if(&evr->m_dataBufferObj_300 != NULL) {
-            evr->shadowIRQEna &= ~IRQ_BufFull; // interrupt is re-enabled in the dataBufferRxComplete() callback
+            evr->shadowIRQEna &= ~IRQ_SegDBuff; // interrupt is re-enabled in the dataBufferRxComplete() callback
             callbackRequest(&evr->dataBufferRx_cb_300);
         }
     }
@@ -1290,7 +1289,7 @@ EVRMRM::isr(void *arg)
 
     // Only touch the bottom half of IRQEnable register
     // to prevent race condition with kernel space
-    if(evr->firmwareVersion < MIN_FW_EVR_SEQUENCER) {
+    if(evr->firmwareVersion < MIN_FW_300_SERIES) {
         WRITE8(evr->base,IRQEnableBot,(epicsUInt8)evr->shadowIRQEna);
     }
     else {

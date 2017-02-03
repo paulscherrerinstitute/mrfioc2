@@ -1,27 +1,27 @@
 # Data buffer status
 # 
 # Other records:
-# $(SYS)-$(DEVICE):DBuf-SupportsRx-I : Indicates if this device supports data buffer reception
+# $(SYS)-$(DEVICE):DBuf$(ID)-SupportsRx-I : Indicates if this device supports data buffer reception
 # 
 
 # Checksum
-record(waveform, "$(SYS)-$(DEVICE):DBuf-Cnt-Cs-I") {
+record(waveform, "$(SYS)-$(DEVICE):DBuf$(ID)-Cnt-Cs-I") {
   field(DESC, "Get checksum count for each segment")
   field(DTYP, "Obj Prop waveform in")
-  field(INP , "@OBJ=$(DEVICE):DataBuffer, PROP=ChecksumCount")
+  field(INP , "@OBJ=$(DEVICE):DataBuffer$(TYPE), PROP=ChecksumCount")
   field(SCAN, "2 second")
   field(FTVL, "ULONG")
   field(NELM, "128")
 }
 
-record(longin, "$(SYS)-$(DEVICE):DBuf-Sum-Cs-I") {
+record(longin, "$(SYS)-$(DEVICE):DBuf$(ID)-Sum-Cs-I") {
   field(DESC, "Checksum counts summed")
   field(DTYP, "Obj Prop uint32")
   field(SCAN, "2 second")
-  field(INP , "@OBJ=$(DEVICE):DataBuffer, PROP=ChecksumCountSum")
+  field(INP , "@OBJ=$(DEVICE):DataBuffer$(TYPE), PROP=ChecksumCountSum")
 }
 
-record(calc, "$(SYS)-$(DEVICE):DBuf-Sum-Cs-Rate-I") {
+record(calc, "$(SYS)-$(DEVICE):DBuf$(ID)-Sum-Cs-Rate-I") {
   field(DESC, "Counts overflows in time interval")
   field(SCAN, "10 second")
   field(CALC, "A-B")
@@ -29,37 +29,37 @@ record(calc, "$(SYS)-$(DEVICE):DBuf-Sum-Cs-Rate-I") {
   field(HHSV, "MAJOR")
   field(LOLO, "-1")
   field(LLSV, "MAJOR")
-  field(INPA, "$(SYS)-$(DEVICE):DBuf-Sum-Cs-I")
-  field(INPB, "$(SYS)-$(DEVICE):DBuf-Sum-Cs")
-  field(FLNK, "$(SYS)-$(DEVICE):DBuf-Sum-Cs")
+  field(INPA, "$(SYS)-$(DEVICE):DBuf$(ID)-Sum-Cs-I")
+  field(INPB, "$(SYS)-$(DEVICE):DBuf$(ID)-Sum-Cs")
+  field(FLNK, "$(SYS)-$(DEVICE):DBuf$(ID)-Sum-Cs")
 }
 
-record(longin, "$(SYS)-$(DEVICE):DBuf-Sum-Cs"){
+record(longin, "$(SYS)-$(DEVICE):DBuf$(ID)-Sum-Cs"){
   field(DESC, "Checksum counts in previous interval")
   field(SCAN, "Passive")
   field(PINI, "YES")
-  field(INP,  "$(SYS)-$(DEVICE):DBuf-Sum-Cs-I")
+  field(INP,  "$(SYS)-$(DEVICE):DBuf$(ID)-Sum-Cs-I")
 }
 
 
 # Overflow
-record(waveform, "$(SYS)-$(DEVICE):DBuf-Cnt-Oflw-I") {
+record(waveform, "$(SYS)-$(DEVICE):DBuf$(ID)-Cnt-Oflw-I") {
   field(DESC, "Get overflow count for each segment")
   field(DTYP, "Obj Prop waveform in")
-  field(INP , "@OBJ=$(DEVICE):DataBuffer, PROP=OverflowCount")
+  field(INP , "@OBJ=$(DEVICE):DataBuffer$(TYPE), PROP=OverflowCount")
   field(SCAN, "2 second")
   field(FTVL, "ULONG")
   field(NELM, "128")
 }
 
-record(longin, "$(SYS)-$(DEVICE):DBuf-Sum-Oflw-I") {
+record(longin, "$(SYS)-$(DEVICE):DBuf$(ID)-Sum-Oflw-I") {
   field(DESC, "Overflow counts summed")
   field(DTYP, "Obj Prop uint32")
   field(SCAN, "2 second")
-  field(INP , "@OBJ=$(DEVICE):DataBuffer, PROP=OverflowCount")
+  field(INP , "@OBJ=$(DEVICE):DataBuffer$(TYPE), PROP=OverflowCount")
 }
 
-record(calc, "$(SYS)-$(DEVICE):DBuf-Sum-Oflw-Rate-I") {
+record(calc, "$(SYS)-$(DEVICE):DBuf$(ID)-Sum-Oflw-Rate-I") {
   field(DESC, "Counts overflows in time interval")
   field(SCAN, "10 second")
   field(CALC, "A-B")
@@ -67,50 +67,50 @@ record(calc, "$(SYS)-$(DEVICE):DBuf-Sum-Oflw-Rate-I") {
   field(HHSV, "MAJOR")
   field(LOLO, "-1")
   field(LLSV, "MAJOR")
-  field(INPA, "$(SYS)-$(DEVICE):DBuf-Sum-Oflw-I")
-  field(INPB, "$(SYS)-$(DEVICE):DBuf-Sum-Oflw_")
-  field(FLNK, "$(SYS)-$(DEVICE):DBuf-Sum-Oflw_")
+  field(INPA, "$(SYS)-$(DEVICE):DBuf$(ID)-Sum-Oflw-I")
+  field(INPB, "$(SYS)-$(DEVICE):DBuf$(ID)-Sum-Oflw_")
+  field(FLNK, "$(SYS)-$(DEVICE):DBuf$(ID)-Sum-Oflw_")
 }
 
-record(longin, "$(SYS)-$(DEVICE):DBuf-Sum-Oflw_"){
+record(longin, "$(SYS)-$(DEVICE):DBuf$(ID)-Sum-Oflw_"){
   field(DESC, "Overflow counts in previous interval")
   field(SCAN, "Passive")
   field(PINI, "YES")
-  field(INP,  "$(SYS)-$(DEVICE):DBuf-Sum-Oflw-I")
+  field(INP,  "$(SYS)-$(DEVICE):DBuf$(ID)-Sum-Oflw-I")
 }
 
 
 # Other
-record(bi, "$(SYS)-$(DEVICE):DBuf-SupportsRx-I") {
+record(bi, "$(SYS)-$(DEVICE):DBuf$(ID)-SupportsRx-I") {
   field(DESC, "Device supports reception")
   field(PINI, "YES")
   field(DTYP, "Obj Prop bool")
-  field(INP , "@OBJ=$(DEVICE):DataBuffer, PROP=SupportsRx")
+  field(INP , "@OBJ=$(DEVICE):DataBuffer$(TYPE), PROP=SupportsRx")
 }
 
-record(bi, "$(SYS)-$(DEVICE):DBuf-SupportsTx-I") {
+record(bi, "$(SYS)-$(DEVICE):DBuf$(ID)-SupportsTx-I") {
   field(DESC, "Device supports transmission")
   field(PINI, "YES")
   field(DTYP, "Obj Prop bool")
-  field(INP , "@OBJ=$(DEVICE):DataBuffer, PROP=SupportsTx")
+  field(INP , "@OBJ=$(DEVICE):DataBuffer$(TYPE), PROP=SupportsTx")
 }
 
 # This is for 230 series only. Has no effect on 300 series.
-record(bo, "$(SYS)-$(DEVICE):DBuf-Mode-Sel") {
+record(bo, "$(SYS)-$(DEVICE):DBuf$(ID)-Mode-Sel") {
   field(DESC, "Downstream data mode")
   field(DTYP, "Obj Prop bool")
-  field(OUT , "@OBJ=$(DEVICE):DataBuffer, PROP=EnableRx")
+  field(OUT , "@OBJ=$(DEVICE):DataBuffer$(TYPE), PROP=EnableRx")
   field(ZNAM, "DBus only")
   field(ONAM, "DBus+Data Buffer")
-  field(FLNK, "$(SYS)-$(DEVICE):DBuf-Mode-RB")
+  field(FLNK, "$(SYS)-$(DEVICE):DBuf$(ID)-Mode-RB")
   field(PINI, "YES")
   field(VAL , "$(DBuf-Mode-Sel\=1)")
 }
 
-record(bi, "$(SYS)-$(DEVICE):DBuf-Mode-RB") {
+record(bi, "$(SYS)-$(DEVICE):DBuf$(ID)-Mode-RB") {
   field(DESC, "Downstream data mode")
   field(DTYP, "Obj Prop bool")
-  field(INP , "@OBJ=$(DEVICE):DataBuffer, PROP=EnableRx")
+  field(INP , "@OBJ=$(DEVICE):DataBuffer$(TYPE), PROP=EnableRx")
   field(PINI, "YES")
   field(ZNAM, "DBus only")
   field(ONAM, "DBus+Data Buffer")

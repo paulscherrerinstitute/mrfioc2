@@ -23,6 +23,7 @@ mrmDataBuffer_300::mrmDataBuffer_300(const char *parentName,
                                      epicsUInt32 dataRegisterTx,
                                      epicsUInt32 dataRegisterRx):
     mrmDataBuffer(parentName,
+                  mrmDataBufferType::type_300,
                   parentBaseAddress,
                   controlRegisterTx,
                   controlRegisterRx,
@@ -30,7 +31,6 @@ mrmDataBuffer_300::mrmDataBuffer_300(const char *parentName,
                   dataRegisterRx)
 {
     enableRx(true);
-    m_type = mrmDataBufferType::type_300;
 }
 
 void mrmDataBuffer_300::enableRx(bool en)
@@ -187,7 +187,7 @@ bool mrmDataBuffer_300::overflowOccured() {
     bool overflow = false;
     epicsUInt16 i, segment;
 
-    m_overflows[0] &= 0x7FFFFFFF;  // we don't care about segment 0 == delay compensation
+    m_overflows[3] &= 0xFFFFFFFE;  // we don't care about segment 127 == delay compensation
     for (i=0; i<4; i++) {
         segment = 0;
         while (m_overflows[i] !=0 ) {   // overflow occured.
@@ -208,7 +208,7 @@ bool mrmDataBuffer_300::checksumError() {   // DBCS bit is not checked, since se
     bool checksum = false;
     epicsUInt16 i, segment;
 
-    m_checksums[0] &= 0x7FFFFFFF;  // we don't care about segment 0 == delay compensation
+    m_checksums[3] &= 0xFFFFFFFE;  // we don't care about segment 127 == delay compensation
     for (i=0; i<4; i++) {
         segment = 0;
         while (m_checksums[i] !=0 ) {   // checksum occured.

@@ -23,6 +23,7 @@ mrmDataBuffer_230::mrmDataBuffer_230(const char *parentName,
                                      epicsUInt32 dataRegisterTx,
                                      epicsUInt32 dataRegisterRx):
     mrmDataBuffer(parentName,
+                  mrmDataBufferType::type_230,
                   parentBaseAddress,
                   controlRegisterTx,
                   controlRegisterRx,
@@ -30,7 +31,6 @@ mrmDataBuffer_230::mrmDataBuffer_230(const char *parentName,
                   dataRegisterRx)
 {
     enableRx(true);
-    m_type = mrmDataBufferType::type_230;
 }
 
 void mrmDataBuffer_230::enableRx(bool en)

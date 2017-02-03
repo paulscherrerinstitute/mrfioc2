@@ -31,7 +31,7 @@ extern "C" {
 static std::map<std::string, mrmDataBuffer*> data_buffers[2];
 const char *mrmDataBuffer::type_string[] = {"230", "300"};
 
-mrmDataBuffer::mrmDataBuffer(const char * parentName,
+mrmDataBuffer::mrmDataBuffer(const char * parentName, mrmDataBufferType::type_t type,
                              volatile epicsUInt8 *parentBaseAddress,
                              epicsUInt32 controlRegisterTx,
                              epicsUInt32 controlRegisterRx,
@@ -42,6 +42,7 @@ mrmDataBuffer::mrmDataBuffer(const char * parentName,
     ,ctrlRegRx(controlRegisterRx)
     ,dataRegTx(dataRegisterTx)
     ,dataRegRx(dataRegisterRx)
+    ,m_type(type)
 {
     epicsUInt16 i;
 
@@ -279,9 +280,9 @@ void mrmDataBuffer::handleDataBufferRxIRQ(CALLBACK *cb) {
 mrmDataBuffer* mrmDataBuffer::getDataBufferFromDevice(const char *device, mrmDataBufferType::type_t type) {
     // locking not needed because all data buffer instances are created before someone can use them
 
-    /*if(data_buffers[type].count(device)){
-        return data_buffers[device];
-    }*/
+    if(data_buffers[type].count(device)){
+        return data_buffers[type][device];
+    }
 
     return NULL;
 }

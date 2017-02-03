@@ -164,11 +164,11 @@ evgMrm::evgMrm(const std::string& id, deviceInfoT &devInfo, volatile epicsUInt8*
             m_fct = 0;
         }
 
-        if(version < MIN_FW_SEGMENTED_DBUFF){
-            m_dataBuffer_230 = new mrmDataBuffer_230(id.c_str(), pReg, U32_DataTxCtrlEvg, 0, U8_DataTxBaseEvg, 0);
-            m_dataBufferObj_230 = new mrmDataBufferObj(id.c_str(), *m_dataBuffer_230);
-        } else {
-            m_dataBuffer_300 = new mrmDataBuffer_300(id.c_str(), pReg, U32_DataTxCtrlEvg, 0, U8_DataTxBaseEvg, 0);
+
+        m_dataBuffer_230 = new mrmDataBuffer_230(id.c_str(), pReg, U32_DataTxCtrlEvg, 0, U8_DataTxBaseEvg, 0);
+        m_dataBufferObj_230 = new mrmDataBufferObj(id.c_str(), *m_dataBuffer_230);
+        if(version >= MIN_FW_300_SERIES){
+            m_dataBuffer_300 = new mrmDataBuffer_300(id.c_str(), pReg, U32_DataTxCtrlEvg_seg, 0, U8_DataTxBaseEvg_seg, 0);
             m_dataBufferObj_300 = new mrmDataBufferObj(id.c_str(), *m_dataBuffer_300);
         }
 
