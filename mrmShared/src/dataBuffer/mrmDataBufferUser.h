@@ -58,9 +58,10 @@ public:
      * @param length is the length from the offset to register to
      * @param fptr is the callback function to invoke when data buffer on registered addresses is updated
      * @param pvt is pointer to the callback function private structure
+     * @param the ID of the iterest we want to update, or 0 for new registation
      * @return the ID of the registered interest or 0 on error
      */
-    size_t registerInterest(size_t offset, size_t length, dataBufferRxCallback_t fptr, void* pvt);
+    size_t registerInterest(size_t offset, size_t length, dataBufferRxCallback_t fptr, void* pvt, size_t interestId=0);
 
     /**
      * @brief removeInterest Remove previously registred interest

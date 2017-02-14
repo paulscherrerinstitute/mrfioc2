@@ -101,10 +101,10 @@ mrmDataBufferUser::~mrmDataBufferUser()
     }
 }
 
-size_t mrmDataBufferUser::registerInterest(size_t offset, size_t length, dataBufferRxCallback_t fptr, void *pvt) {
+size_t mrmDataBufferUser::registerInterest(size_t offset, size_t length, dataBufferRxCallback_t fptr, void *pvt, size_t interestId) {
     RxCallback *cb = NULL;
-    size_t id;
-    epicsUInt16 segment, i, segmentOffset, noOfSegmentsUpdated;
+    epicsUInt16 segment, segmentOffset, noOfSegmentsUpdated;
+    size_t i;
 
     epicsGuard<epicsMutex> g(m_rx_lock);
 
@@ -137,24 +137,38 @@ size_t mrmDataBufferUser::registerInterest(size_t offset, size_t length, dataBuf
     }
 
 
-    if (m_rx_callbacks.size() > 0) {
-        cb = m_rx_callbacks.back();
-        id = cb->id + 1;
-        if(id <= 0) {   // id overflowed
-            errlogPrintf("Maximum number of registered interests reached. Canceled operation.\n");
-            return 0;
+    // handle ID selection
+    if (interestId == 0) {    // create new ID
+        size_t id;
+
+        if (m_rx_callbacks.size() > 0) {
+            cb = m_rx_callbacks.back();
+            id = cb->id + 1;
+            if(id <= 0) {   // id overflowed
+                errlogPrintf("Maximum number of registered interests reached. Canceled operation.\n");
+                return 0;
+            }
+        } else id = 1;  // this is the first ID. We start with 1...
+
+        cb = new RxCallback;
+        cb->fptr = fptr;
+        cb->pvt = pvt;
+        cb->id = id;
+
+        for (i=0; i<4; i++) {
+            cb->segments[i] = 0;
         }
-    } else id = 1;  // this is the first ID. We start with 1...
-
-
-    cb = new RxCallback;
-    cb->fptr = fptr;
-    cb->pvt = pvt;
-    cb->id = id;
-
-    for (i=0; i<4; i++) {
-        cb->segments[i] = 0;
     }
+    else {  // select existing ID
+        for (i=0; i<m_rx_callbacks.size(); i++){
+            if (m_rx_callbacks[i]->id == interestId) {   // found a callback with specified ID
+                cb = m_rx_callbacks[i];
+                break;
+            }
+        }
+        if(cb == NULL) return 0;
+    }
+
 
     segment = (epicsUInt16)(offset / DataBuffer_segment_length);
     segmentOffset = (epicsUInt16)(offset - segment * DataBuffer_segment_length);
@@ -166,11 +180,11 @@ size_t mrmDataBufferUser::registerInterest(size_t offset, size_t length, dataBuf
         m_segments_interested[i / 32] |= cb->segments[i / 32];  // mark segment interest in global segment mask
     }
 
-    m_rx_callbacks.push_back(cb);
+    if (interestId == 0) m_rx_callbacks.push_back(cb);
 
     m_data_buffer->setInterest(this, m_segments_interested);
 
-    return id;
+    return cb->id;
 }
 
 bool mrmDataBufferUser::removeInterest(size_t id) {
@@ -198,7 +212,6 @@ bool mrmDataBufferUser::removeInterest(size_t id) {
                     m_segments_interested[j] |= m_rx_callbacks[i]->segments[j];
                 }
             }
-
         }
         m_data_buffer->setInterest(this, m_segments_interested);
     } else {
