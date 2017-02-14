@@ -31,21 +31,27 @@ mrmDataBuffer_300::mrmDataBuffer_300(const char *parentName,
                   dataRegisterRx)
 {
     enableRx(true);
+    errlogPrintf("Data buffer 300: %s\n", parentName);
 }
 
 void mrmDataBuffer_300::enableRx(bool en)
 {
-    epicsUInt32 reg;
+    if(en) {
+        clearFlags(base+DataBufferFlags_rx);    // clear Rx flags (and consequently checksum+overflow flags)
 
-    if(supportsRx() && en) {
-        epicsGuard<epicsMutex> g(m_rx_lock);
-        reg = nat_ioread32(base+ctrlRegRx);
-
-        reg |= DataRxCtrl_mode|DataRxCtrl_rx; // Set mode to DBUS+data buffer and set up buffer for reception
-        nat_iowrite32(base+ctrlRegRx, reg);
-
-        clearFlags(base+DataBufferFlags_rx);    // also clear Rx flags (and consequently checksum+overflow flags)
+        m_enabledRx = true;
+        if(rx_complete_callback.fptr != NULL){
+            rx_complete_callback.fptr(this, rx_complete_callback.pvt);
+        }
     }
+    else {
+        m_enabledRx = false;
+    }
+}
+
+bool mrmDataBuffer_300::enabledRx()
+{
+    return mrmDataBuffer::enabledRx();
 }
 
 bool mrmDataBuffer_300::send(epicsUInt8 startSegment, epicsUInt16 length, epicsUInt8 *data){
@@ -105,12 +111,12 @@ bool mrmDataBuffer_300::send(epicsUInt8 startSegment, epicsUInt16 length, epicsU
 
 }
 
-void mrmDataBuffer_300::receive()
+void mrmDataBuffer_300::receive1()
 {
     epicsUInt16 i, segment, length;
 
     for(i=0; i<4; i++) {
-        m_checksums[i] = nat_ioread32(base+DataBufferFlags_cheksum + 4 * i);
+        m_checksums[i] = nat_ioread32(base+DataBufferFlags_checksum + 4 * i);
     }
     for(i=0; i<4; i++) {
         m_overflows[i] = nat_ioread32(base+DataBufferFlags_overflow + 4 * i);
@@ -180,6 +186,135 @@ void mrmDataBuffer_300::receive()
                 m_users[i]->user->updateSegment(segment, m_rx_buff, length);
             }
         }
+    }
+}
+
+
+#include "string.h"
+void mrmDataBuffer_300::receive()
+{
+    epicsUInt16 i;
+
+    for(i=0; i<4; i++) {
+        m_checksums[i] = nat_ioread32(base+DataBufferFlags_checksum + 4 * i);
+    }
+    for(i=0; i<4; i++) {
+        m_overflows[i] = nat_ioread32(base+DataBufferFlags_overflow + 4 * i);
+    }
+    for(i=0; i<4; i++) {
+        m_rx_flags[i]  = nat_ioread32(base+DataBufferFlags_rx + 4 * i);
+    }
+    m_rx_flags[3] &= 0xFFFFFFFE;    // we don't care about the last segment == delay compensation data
+
+    // copy over individual segment lengths. Last one is delay conpensation so we don't copy it.
+    size_t sizeofUInt32 = sizeof(epicsUInt32);
+    for(size_t addr=0; addr<127; addr++) {
+        *(epicsUInt32*)(m_rx_length+addr) = be_ioread32(base + DataBuffer_RXSize(0) + addr*sizeofUInt32);
+    }
+
+    if(mrfioc2_dataBufferDebug >= 5){
+        printFlags("Segment", base+DataBuffer_SegmentIRQ);
+        printFlags("Checksum", (epicsUInt8 *)m_checksums);
+        printFlags("Overflow", (epicsUInt8 *)m_overflows);
+        printFlags("Rx", (epicsUInt8 *)m_rx_flags);
+    }
+
+    if(checksumError()) {
+        // clear Rx flags for the checkum errors
+        for(i=0; i<4; i++) {
+            nat_iowrite32(base+DataBufferFlags_rx + 4 * i, m_checksums[i]);
+            m_rx_flags[i] &= ~m_checksums[i];
+        }
+    }
+
+    if(overflowOccured()) {
+        // clear overflow flags for the overflowed data
+        for(i=0; i<4; i++) {
+            nat_iowrite32(base+DataBufferFlags_overflow + 4 * i, m_overflows[i]);
+        }
+    }
+
+    handleConsecutiveSegments(&mrmDataBuffer_300::copyDataLocally);
+
+    for(i=0; i<4; i++) {
+        m_overflows[i] = nat_ioread32(base+DataBufferFlags_overflow + 4 * i);   // update overflow flags
+    }
+    for(i=0; i<4; i++) {
+        nat_iowrite32(base+DataBufferFlags_rx + 4 * i, m_rx_flags[i]);          // clear Rx flags for the data we have just received
+    }
+
+    // we do not check if overflowed data has maybe overwritten the next valid received segment.
+    // This can happen if overflowed data length is greater than original data length
+    if(overflowOccured()) {
+        for(i=0; i<4; i++) {
+            m_rx_flags[i] &= ~m_overflows[i];
+        }
+    }
+
+    handleConsecutiveSegments(&mrmDataBuffer_300::copyDataToUser);
+}
+
+void mrmDataBuffer_300::handleConsecutiveSegments(consecutiveSegmentFunct_t fptr) {
+    epicsUInt16 startSegment=0, thisSegment=0, nextSegment = 0, nextSegmentIndex = 0, i;
+    epicsUInt32 length=0;
+
+    for(i=0; i<4; i++) {
+        epicsUInt32 rxFlag = m_rx_flags[i];
+        while(rxFlag != 0) {
+            dbgPrintf(5, "Handling segment %d, which is ", thisSegment);
+            if(rxFlag & 0x80000000) {    // segment received
+                if(length == 0) {   // we don't have consecutive segments
+                    startSegment = thisSegment;
+                    dbgPrintf(5, "not ");
+                }
+                dbgPrintf(5, "consecutive (length=%u)\n", length);
+                length += m_rx_length[thisSegment];
+                nextSegment = thisSegment + ((m_rx_length[thisSegment] / DataBuffer_segment_length));
+                nextSegmentIndex = nextSegment / 32;
+                nextSegment -= nextSegmentIndex*32;
+
+                dbgPrintf(5, "Next segment %u has index %u and offset %u (segment %u + length %u). 0x%x OR 0x80000000\n", thisSegment + ((m_rx_length[thisSegment] / DataBuffer_segment_length)), nextSegmentIndex, nextSegment, thisSegment, m_rx_length[thisSegment], (m_rx_flags[nextSegmentIndex] << nextSegment) );
+                if(nextSegmentIndex < 4 && nextSegment <= 32) {
+                    if(!((m_rx_flags[nextSegmentIndex] << nextSegment) & 0x80000000 )) {    // we don't have consecutive segments. Send the data and move on
+                        dbgPrintf(5, "Calling fptr...\n");
+                        (this->*fptr)(startSegment, length);
+                        length = 0;
+                    }
+                    rxFlag = m_rx_flags[nextSegmentIndex];
+                    rxFlag <<= nextSegment;
+                    thisSegment = nextSegmentIndex*32 + nextSegment;
+                    dbgPrintf(5, "Going to next segment %u with flag 0x%x and length %u\n", thisSegment, rxFlag, length);
+                }
+                else {
+                    // exit loop
+                    i = 0xFFFF;
+                    rxFlag = 0;
+                }
+            }
+            else {  // segment not received. Check the next one
+                length = 0;
+                rxFlag <<= 1;
+                thisSegment++;
+                dbgPrintf(5, "not interesting. Going to next segment %u with flag [%u]0x%x and length %u\n", thisSegment, i, rxFlag, length);
+            }
+        }
+    }
+}
+
+void mrmDataBuffer_300::copyDataLocally(epicsUInt16 startSegment, epicsUInt32 length)
+{
+    epicsUInt32 addr;
+
+    for(addr=startSegment*DataBuffer_segment_length; addr<length+startSegment*DataBuffer_segment_length; addr+=4) {
+        *(epicsUInt32*)(m_rx_buff+addr) = be_ioread32(base + dataRegRx + addr);
+    }
+}
+
+void mrmDataBuffer_300::copyDataToUser(epicsUInt16 startSegment, epicsUInt32 length)
+{
+    epicsUInt16 i;
+    for(i=0; i<m_users.size(); i++) {
+        m_users[i]->user->updateSegment(startSegment, m_rx_buff, length);
     }
 }
 

@@ -365,7 +365,7 @@ try{
     m_dataBufferObj_230 = new mrmDataBufferObj(n, *m_dataBuffer_230);
 
     if(ver >= MIN_FW_300_SERIES) {
-        m_dataBuffer_300 = new mrmDataBuffer_300(n.c_str(), base, U32_DataTxCtrlEvr_seg, U32_DataRxCtrlEvr, U32_DataTxBaseEvr, U32_DataRxBaseEvr_seg);
+        m_dataBuffer_300 = new mrmDataBuffer_300(n.c_str(), base, U32_DataTxCtrlEvr_seg, 0, U32_DataTxBaseEvr, U32_DataRxBaseEvr_seg);
 
         m_dataBuffer_300->registerRxComplete(&EVRMRM::dataBufferRxComplete, this);
         CBINIT(&dataBufferRx_cb_300, priorityHigh, &mrmDataBuffer::handleDataBufferRxIRQ, &*m_dataBuffer_300);
