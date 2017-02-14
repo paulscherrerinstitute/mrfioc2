@@ -123,6 +123,7 @@
 #define U32_DataRxBaseEvr  0x0800
 #define U32_DataRxBaseEvr_seg  0x9000
 #define U32_DataTxBaseEvr  0x1800
+#define U32_DataTxBaseEvr_seg  0xA000
 /* 0 <= N <= 0x7ff */
 #define U32_DataRx(N)      (U32_DataRxBaseEvr + (N))
 #define U32_DataRx_seg(N)  (U32_DataRxBaseEvr_seg + (N))    // TODO
