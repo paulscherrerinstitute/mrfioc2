@@ -69,7 +69,7 @@ evgMrm::evgMrm(const std::string& id, deviceInfoT &devInfo, volatile epicsUInt8*
         epicsUInt32 version;
 
         version = getFwVersionID();
-        if(version >= 200){
+        if(version >= MIN_FW_300_SERIES){
             numFrontOut = 0;
             numUnivOut = 0;
             numFrontInp = 3;

@@ -770,20 +770,23 @@ EVRMRM::clockSet(double freq)
         // of the synthesiser which will cause a glitch.
         // Don't change the control word unless needed.
 
+        epicsUInt16 newudiv=(epicsUInt16)freq;  // USecDiv is accessed as a 32 bit register, but only 16 are used.
+        WRITE32(base, USecDiv, newudiv);        // uSedDiv must be written before fract synth (see section 3.2 Programmable Reference clock in the documentation)
+
         WRITE32(base, FracDiv, newfrac);
 
         eventClock=FracSynthAnalyze(READ32(base, FracDiv),
                                     fracref,0)*1e6;
     }
+/*
 
-    // USecDiv is accessed as a 32 bit register, but
-    // only 16 are used.
     epicsUInt16 oldudiv=READ32(base, USecDiv);
     epicsUInt16 newudiv=(epicsUInt16)freq;
 
     if(newudiv!=oldudiv){
         WRITE32(base, USecDiv, newudiv);
     }
+    */
 }
 
 epicsUInt32
