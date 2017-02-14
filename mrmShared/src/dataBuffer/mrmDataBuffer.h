@@ -64,7 +64,7 @@ public:
      * @brief enabledRx tells if the data buffer reception is enabled
      * @return true if enabled, false if disabled
      */
-    bool enabledRx();
+    virtual bool enabledRx();
 
     /**
      * @brief enableTx is used to enable or disable transmission for this data buffer
@@ -156,8 +156,6 @@ public:
 
     // test functions (used from mrmDataBuffer_test.cpp)
     void setSegmentIRQ(epicsUInt8 i, epicsUInt32 mask);
-    void ctrlReceive();
-    void stop();
     void printRegs();
     void setRx(epicsUInt8 i, epicsUInt32 mask);
     void read(size_t offset, size_t length);
@@ -182,6 +180,8 @@ protected:
 
     epicsUInt32 m_overflow_count[128];  // count the total number of overflows that occured for each segment (4*32 = 128 segments)
     epicsUInt32 m_checksum_count[128];  // count the total number of checksum errors that occured for each segment (4*32 = 128 segments)
+    epicsUInt32 m_rx_length[128];       // stores the received segment size (data length)
+    bool        m_enabledRx;            // is reception enabled?
 
     //Registered users
     struct Users{

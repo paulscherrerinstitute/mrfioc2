@@ -79,12 +79,6 @@ mrmDataBuffer::~mrmDataBuffer() {
     // data_buffers are destroyed when the app is destroyed...
 }
 
-bool mrmDataBuffer::enabledRx()
-{
-    if(supportsRx()) return (nat_ioread32(base + ctrlRegRx) & DataRxCtrl_mode) != 0;    // check if in DBUS+data buffer mode
-    return 0;
-}
-
 void mrmDataBuffer::enableTx(bool en)
 {
     epicsUInt32 reg, mask;
@@ -111,7 +105,7 @@ bool mrmDataBuffer::enabledTx()
 
 bool mrmDataBuffer::supportsRx()
 {
-    return (ctrlRegRx > 0) && (dataRegRx > 0);
+    return (dataRegRx > 0);
 }
 
 bool mrmDataBuffer::supportsTx()
@@ -268,12 +262,15 @@ void mrmDataBuffer::handleDataBufferRxIRQ(CALLBACK *cb) {
     mrmDataBuffer* parent = static_cast<mrmDataBuffer*>(vptr);
 
 
-    epicsGuard<epicsMutex> g(parent->m_rx_lock);
+    if(parent->enabledRx()) {
 
-    parent->receive();
+        parent->m_rx_lock.lock();
+        parent->receive();
+        parent->m_rx_lock.unlock();
 
-    if(parent->rx_complete_callback.fptr != NULL){
-        parent->rx_complete_callback.fptr(parent, parent->rx_complete_callback.pvt);
+        if(parent->rx_complete_callback.fptr != NULL){
+            parent->rx_complete_callback.fptr(parent, parent->rx_complete_callback.pvt);
+        }
     }
 }
 
@@ -363,28 +360,10 @@ void mrmDataBuffer::setRx(epicsUInt8 i, epicsUInt32 mask)
     printFlags("Rx b", base+DataBufferFlags_rx);
 }
 
-void mrmDataBuffer::ctrlReceive()
-{
-    epicsUInt32 reg = nat_ioread32(base+ctrlRegRx);
-    printf("Ctrl: %x\n", reg);
-    nat_iowrite32(base+ctrlRegRx, reg|DataRxCtrl_rx);
-    printf("Ctrl: %x\n", nat_ioread32(base+ctrlRegRx));
-    printf("\n");
-}
-
-void mrmDataBuffer::stop()
-{
-    epicsUInt32 reg = nat_ioread32(base+ctrlRegRx);
-    printf("Ctrl: %x\n", reg);
-    nat_iowrite32(base+ctrlRegRx, reg|DataRxCtrl_stop);
-    printf("Ctrl: %x\n", nat_ioread32(base+ctrlRegRx));
-    printf("\n");
-}
-
 void mrmDataBuffer::printRegs()
 {
     printFlags("Segment", base+DataBuffer_SegmentIRQ);
-    printFlags("Checksum", base + DataBufferFlags_cheksum);
+    printFlags("Checksum", base + DataBufferFlags_checksum);
     printFlags("Overflow", base + DataBufferFlags_overflow);
     printFlags("Rx", base + DataBufferFlags_rx);
 }
