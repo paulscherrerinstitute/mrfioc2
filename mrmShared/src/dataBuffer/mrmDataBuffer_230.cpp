@@ -31,6 +31,7 @@ mrmDataBuffer_230::mrmDataBuffer_230(const char *parentName,
                   dataRegisterRx)
 {
     enableRx(true);
+    errlogPrintf("Data buffer 230: %s\n", parentName);
 }
 
 void mrmDataBuffer_230::enableRx(bool en)

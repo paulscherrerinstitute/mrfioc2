@@ -46,7 +46,7 @@ bool mrmDataBufferUser::init(const char* deviceName, mrmDataBufferType::type_t t
 
     m_data_buffer = mrmDataBuffer::getDataBufferFromDevice(deviceName, type);
     if(m_data_buffer == NULL) {
-        errlogPrintf("Data buffer type %s for %s not found.\n", mrmDataBuffer::type_string[type], deviceName);
+        errlogPrintf("Data buffer type %s for %s not found.\n", mrmDataBufferType::type_string[type], deviceName);
         return false;
     }
 

@@ -38,8 +38,6 @@ extern "C"{
 class epicsShareClass mrmDataBuffer {
 public:
 
-    static const char *type_string[];
-
     mrmDataBuffer(const char *parentName,
                   mrmDataBufferType::type_t type,
                   volatile epicsUInt8 *parentBaseAddress,
@@ -55,10 +53,10 @@ public:
     typedef void(*rxCompleteCallback_t)(mrmDataBuffer *dataBuffer, void* pvt);
 
     /**
-     * @brief enableRx is used to enable or disable receiving for this data buffer
+     * @brief enableRx is used to enable or disable receiving for this data buffer.
      * @param en enables receiving when true, disables when false
      */
-    virtual void enableRx(bool en) = 0;
+    virtual void enableRx(bool en);
 
     /**
      * @brief enabledRx tells if the data buffer reception is enabled
@@ -209,13 +207,13 @@ protected:
     void printBinary(const char *preface, epicsUInt32 n);
     void printFlags(const char *preface, volatile epicsUInt8* flagRegister);
 
-private:
     struct RxCompleteCallback{
         rxCompleteCallback_t fptr;  // callback function pointer
         void* pvt;                  // callback private
     } rx_complete_callback;
 
-    /**
+private:
+        /**
      * @brief calcMaxInterestedLength Uses m_irq_flags to set new value for m_max_length
      */
     void calcMaxInterestedLength();

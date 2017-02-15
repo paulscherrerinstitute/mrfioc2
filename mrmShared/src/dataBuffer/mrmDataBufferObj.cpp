@@ -7,7 +7,7 @@ const char *mrmDataBufferObj::OBJECT_NAME = ":DataBuffer"; // appended to device
 
 
 mrmDataBufferObj::mrmDataBufferObj(const std::string &parentName, mrmDataBuffer &dataBuffer):
-    mrf::ObjectInst<mrmDataBufferObj>(parentName+OBJECT_NAME+mrmDataBuffer::type_string[dataBuffer.getType()]),
+    mrf::ObjectInst<mrmDataBufferObj>(parentName+OBJECT_NAME+mrmDataBufferType::type_string[dataBuffer.getType()]),
     m_data_buffer(dataBuffer)
 {
 }
@@ -92,7 +92,7 @@ void mrmDataBufferObj::report() const
     m_data_buffer.getChecksumCount(&checksum);
     epicsUInt32 i;
 
-    printf("\tData buffer type: %s\n", m_data_buffer.type_string[m_data_buffer.getType()]);
+    printf("\tData buffer type: %s\n", mrmDataBufferType::type_string[m_data_buffer.getType()]);
 
     if(m_data_buffer.getType() > mrmDataBufferType::type_230) {
         printf("\tSegment\tOverflow count\tChecksum count\n");
@@ -188,12 +188,12 @@ static void mrmDataBufferObjFunc_report(const iocshArgBuf *args) {
     printf("Report for %s data buffer\n", device.c_str());
     device.append(mrmDataBufferObj::OBJECT_NAME);
 
-    for(size_t i=0; i<=mrmDataBufferType::type_last; i++) {
-        std::string deviceName = device + mrmDataBuffer::type_string[i];
+    for(size_t i=mrmDataBufferType::type_first; i<=mrmDataBufferType::type_last; i++) {
+        std::string deviceName = device + mrmDataBufferType::type_string[i];
 
         mrmDataBufferObj* dataBuffer = dynamic_cast<mrmDataBufferObj*>(mrf::Object::getObject(deviceName.c_str()));
         if(!dataBuffer){
-            printf("Device <%s> with %s series data buffer does not exist!\n", args[0].sval, mrmDataBuffer::type_string[i]);
+            printf("Device <%s> with %s series data buffer does not exist!\n", args[0].sval, mrmDataBufferType::type_string[i]);
             return;
         }
 

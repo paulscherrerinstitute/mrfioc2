@@ -29,7 +29,7 @@ extern "C" {
 
 
 static std::map<std::string, mrmDataBuffer*> data_buffers[2];
-const char *mrmDataBuffer::type_string[] = {"230", "300"};
+const char* const mrmDataBufferType::type_string[] = {"230", "300"};    // declared in mrmDataBufferType.h
 
 mrmDataBuffer::mrmDataBuffer(const char * parentName, mrmDataBufferType::type_t type,
                              volatile epicsUInt8 *parentBaseAddress,
@@ -77,6 +77,21 @@ mrmDataBuffer::~mrmDataBuffer() {
     setInterest(NULL, NULL);
 
     // data_buffers are destroyed when the app is destroyed...
+}
+
+void mrmDataBuffer::enableRx(bool en)
+{
+    m_enabledRx = en;
+}
+
+bool mrmDataBuffer::enabledRx()
+{
+    if(supportsRx()){
+        return m_enabledRx;
+    }
+    else{
+        return false;
+    }
 }
 
 void mrmDataBuffer::enableTx(bool en)
@@ -348,16 +363,16 @@ void mrmDataBuffer::printBinary(const char *preface, epicsUInt32 n) {
 
 void mrmDataBuffer::setSegmentIRQ(epicsUInt8 i, epicsUInt32 mask)
 {
-    //printFlags("Segment a", base+DataBuffer_SegmentIRQ);
+    printFlags("Segment flags before", base+DataBuffer_SegmentIRQ);
     nat_iowrite32(base+DataBuffer_SegmentIRQ + 4*i, mask);
-    //printFlags("Segment b", base+DataBuffer_SegmentIRQ);
+    printFlags("Segment flags after", base+DataBuffer_SegmentIRQ);
 }
 
 void mrmDataBuffer::setRx(epicsUInt8 i, epicsUInt32 mask)
 {
-    printFlags("Rx a", base+DataBufferFlags_rx);
+    printFlags("Rx flags before", base+DataBufferFlags_rx);
     nat_iowrite32(base+DataBufferFlags_rx + 4*i, mask);
-    printFlags("Rx b", base+DataBufferFlags_rx);
+    printFlags("Rx flags after", base+DataBufferFlags_rx);
 }
 
 void mrmDataBuffer::printRegs()
