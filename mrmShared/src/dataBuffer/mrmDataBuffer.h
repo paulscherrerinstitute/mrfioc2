@@ -23,7 +23,7 @@ class mrmDataBufferUser;    // Windows: use forward decleration to avoid export 
 
 
 /**
- * @brief drvMrfiocDataBufferDebug Defines debug level (verbosity of debug printout)
+ * @brief drvMrfiocDataBufferDebug Defines debug level (verbosity of debug printout). When >= 5 it will also print out consecutive segment checking for 300 series data reception.
  */
 extern "C"{
     extern int mrfioc2_dataBufferDebug;
@@ -179,7 +179,7 @@ protected:
     epicsUInt32 m_overflow_count[128];  // count the total number of overflows that occured for each segment (4*32 = 128 segments)
     epicsUInt32 m_checksum_count[128];  // count the total number of checksum errors that occured for each segment (4*32 = 128 segments)
     epicsUInt32 m_rx_length[128];       // stores the received segment size (data length)
-    bool        m_enabledRx;            // is reception enabled?
+    bool        m_enabled_rx;           // is reception enabled?
 
     //Registered users
     struct Users{

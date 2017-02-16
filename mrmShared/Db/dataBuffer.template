@@ -95,13 +95,12 @@ record(bi, "$(SYS)-$(DEVICE):DBuf$(ID)-SupportsTx-I") {
   field(INP , "@OBJ=$(DEVICE):DataBuffer$(TYPE), PROP=SupportsTx")
 }
 
-# This is for 230 series only. Has no effect on 300 series.
 record(bo, "$(SYS)-$(DEVICE):DBuf$(ID)-Mode-Sel") {
   field(DESC, "Downstream data mode")
   field(DTYP, "Obj Prop bool")
   field(OUT , "@OBJ=$(DEVICE):DataBuffer$(TYPE), PROP=EnableRx")
-  field(ZNAM, "DBus only")
-  field(ONAM, "DBus+Data Buffer")
+  field(ZNAM, "DBus only")  # Disable
+  field(ONAM, "DBus+Data Buffer") # Enable
   field(FLNK, "$(SYS)-$(DEVICE):DBuf$(ID)-Mode-RB")
   field(PINI, "YES")
   field(VAL , "$(DBuf-Mode-Sel\=1)")

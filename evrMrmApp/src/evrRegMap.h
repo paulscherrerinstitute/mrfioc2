@@ -126,7 +126,7 @@
 #define U32_DataTxBaseEvr_seg  0xA000
 /* 0 <= N <= 0x7ff */
 #define U32_DataRx(N)      (U32_DataRxBaseEvr + (N))
-#define U32_DataRx_seg(N)  (U32_DataRxBaseEvr_seg + (N))    // TODO
+#define U32_DataRx_seg(N)  (U32_DataRxBaseEvr_seg + (N))
 #define U32_DataTx(N)      (U32_DataTxBaseEvr + (N))
 
 // Firmware register is defined in mrmShared.h

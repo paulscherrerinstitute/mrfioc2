@@ -74,7 +74,7 @@ static void mrmDataBufferFunc_put(const iocshArgBuf *args) {
 
 /********** Send data buffer  *******/
 // Sends out the buffer from 'offset' to 'offset'+'length'. Data should be previously filled with mrmDataBufferPut.
-// When negative 'offset' is used, zeroes are send.
+// When negative 'offset' is used, zeroes are send. When negative length is used, all segments are sent (except last one)
 
 static const iocshArg mrmDataBufferSendArg0 = { "Device", iocshArgString };
 static const iocshArg mrmDataBufferSendArg1 = { "Type [230, 300]"  , iocshArgString };
@@ -94,8 +94,14 @@ static void mrmDataBufferFunc_send(const iocshArgBuf *args) {
    if(offset<0){ // send all zeroes
        epicsUInt8 zeroData[0x0007ff] = { 0 };
        dataBuffer->send(0, 0x0007fc, zeroData);
-   } else {
-       length += offset - ((offset / 16) * 16);
+   }
+   else if(length < 0) {    // send on all segments (except data buffer one)
+       length = 16;
+       for(epicsUInt8 i = 0; i<128; i++) {
+           dataBuffer->send(i, (epicsUInt16)length, &data[i * 16]);
+       }
+   }
+   else {
        printf("Sending using segment %d and length %d\n", offset / 16, length);
        dataBuffer->send((epicsUInt8)offset / 16, (epicsUInt16)length, &data[(offset / 16) * 16]);
    }

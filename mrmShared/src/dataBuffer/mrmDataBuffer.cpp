@@ -81,13 +81,13 @@ mrmDataBuffer::~mrmDataBuffer() {
 
 void mrmDataBuffer::enableRx(bool en)
 {
-    m_enabledRx = en;
+    m_enabled_rx = en;
 }
 
 bool mrmDataBuffer::enabledRx()
 {
     if(supportsRx()){
-        return m_enabledRx;
+        return m_enabled_rx;
     }
     else{
         return false;
@@ -277,7 +277,7 @@ void mrmDataBuffer::handleDataBufferRxIRQ(CALLBACK *cb) {
     mrmDataBuffer* parent = static_cast<mrmDataBuffer*>(vptr);
 
 
-    if(parent->enabledRx()) {
+    if(parent->m_enabled_rx) {
 
         parent->m_rx_lock.lock();
         parent->receive();

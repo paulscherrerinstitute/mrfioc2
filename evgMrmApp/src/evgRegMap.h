@@ -162,7 +162,7 @@
 #define  U8_DataTxBaseEvg       0x0800  // Data Buffer Array Base Offset
 #define  U8_DataTxBaseEvg_seg   0x2000  // Data Buffer Array Base Offset for firmware version 207+ (segmented data buffer)
 #define  U8_DataBuffer(n)       (U8_DataTxBaseEvg + n)
-#define  U8_DataBuffer_seg(n)   (U8_DataTxBaseEvg_seg + n) // TODO
+#define  U8_DataBuffer_seg(n)   (U8_DataTxBaseEvg_seg + n)
 
 //=====================
 // SFP Transceiver EEPROM and diagnostics

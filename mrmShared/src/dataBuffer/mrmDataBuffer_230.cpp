@@ -30,8 +30,7 @@ mrmDataBuffer_230::mrmDataBuffer_230(const char *parentName,
                   dataRegisterTx,
                   dataRegisterRx)
 {
-    enableRx(true);
-    errlogPrintf("Data buffer 230: %s\n", parentName);
+    printf("Initialized %s data buffer type: 230\n", parentName);
 }
 
 void mrmDataBuffer_230::enableRx(bool en)
@@ -49,9 +48,9 @@ void mrmDataBuffer_230::enableRx(bool en)
             }
         } else {
             reg |= DataRxCtrl_stop;    // stop reception
-            reg &= ~DataRxCtrl_mode;   // set mode to DBUS only (no effect on firmware 200+)
+            reg &= ~DataRxCtrl_mode;   // set mode to DBUS only
         }
-        m_enabledRx = en;
+        m_enabled_rx = en;
         nat_iowrite32(base+ctrlRegRx, reg);
     }
 }
