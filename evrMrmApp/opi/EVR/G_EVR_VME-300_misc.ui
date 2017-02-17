@@ -588,7 +588,7 @@
      </color>
     </property>
     <property name="labels">
-     <string notr="true">Data buffer status overview</string>
+     <string notr="true">Data buffer 300 status overview</string>
     </property>
     <property name="files">
      <string notr="true">G_EVR_$(FF)_dbuf.ui</string>
@@ -678,7 +678,7 @@
      </color>
     </property>
     <property name="labels">
-     <string notr="true">Data buffer status overview</string>
+     <string notr="true">Data buffer 230 status overview</string>
     </property>
     <property name="files">
      <string notr="true">G_EVR_$(FF)_dbuf.ui</string>
