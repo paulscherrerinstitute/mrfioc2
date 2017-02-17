@@ -174,7 +174,6 @@ protected:
     epicsUInt32 m_overflows[4];         // stores the received overflow flag register
     epicsUInt32 m_rx_flags[4];          // stores the received segment flags register
     epicsUInt32 m_irq_flags[4];         // used to set the segment IRQ flags register
-    epicsUInt16 m_max_length;           // maximum buffer length that we are interested in (based on m_irq_flags)
 
     epicsUInt32 m_overflow_count[128];  // count the total number of overflows that occured for each segment (4*32 = 128 segments)
     epicsUInt32 m_checksum_count[128];  // count the total number of checksum errors that occured for each segment (4*32 = 128 segments)
@@ -213,11 +212,6 @@ protected:
     } rx_complete_callback;
 
 private:
-        /**
-     * @brief calcMaxInterestedLength Uses m_irq_flags to set new value for m_max_length
-     */
-    void calcMaxInterestedLength();
-
     /**
      * @brief receive is invoked by handleDataBufferRxIRQ. Function implementations are in separate classes.
      */

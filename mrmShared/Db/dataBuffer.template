@@ -103,7 +103,7 @@ record(bo, "$(SYS)-$(DEVICE):DBuf$(ID)-Mode-Sel") {
   field(ONAM, "DBus+Data Buffer") # Enable
   field(FLNK, "$(SYS)-$(DEVICE):DBuf$(ID)-Mode-RB")
   field(PINI, "YES")
-  field(VAL , "$(DBuf-Mode-Sel\=1)")
+  field(VAL , "$(DBuf$(ID)-Mode-Sel\=1)")
 }
 
 record(bi, "$(SYS)-$(DEVICE):DBuf$(ID)-Mode-RB") {

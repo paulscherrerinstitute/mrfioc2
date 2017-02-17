@@ -193,8 +193,6 @@ void mrmDataBuffer::removeUser(mrmDataBufferUser *user)
 
     }
 
-    calcMaxInterestedLength();
-
     for(i=0; i<4; i++) {        // set which segments will trigger interrupt when data is received
         nat_iowrite32(base+DataBuffer_SegmentIRQ + 4 * i, m_irq_flags[i]);
     }
@@ -225,7 +223,6 @@ void mrmDataBuffer::setInterest(mrmDataBufferUser *user, epicsUInt32 *interest)
         }
     }
 
-    calcMaxInterestedLength();
     for(i=0; i<4; i++) {        // set which segments will trigger interrupt when data is received
         nat_iowrite32(base+DataBuffer_SegmentIRQ + 4 * i, m_irq_flags[i]);
     }
@@ -243,31 +240,6 @@ void mrmDataBuffer::clearFlags(volatile epicsUInt8 *flagRegister) {
     for(i=0; i<=12; i+=4) {
         nat_iowrite32(flagRegister+i, 0xFFFFFFFF);
     }
-}
-
-void mrmDataBuffer::calcMaxInterestedLength()
-{
-    epicsInt16 j, bits;
-    epicsUInt32 irqFlags;
-
-    for (j=3; j>=0; j--) {  // search from the end
-        irqFlags = m_irq_flags[j];
-        bits = 32;
-        while(bits && irqFlags) {   // skip if irqFlags are all 0
-            if (irqFlags & 0x1) {   // we found an irq flag == this is the furthest segment we are interested in
-                m_max_length = j * 32 * DataBuffer_segment_length + bits * DataBuffer_segment_length;
-                j = -1;   // end the for loop
-                bits = 0;  // end the while loop
-            }
-            else {  // no flag yet
-                irqFlags >>= 1;
-                bits--;
-            }
-        }
-    }
-    if (m_max_length > DataBuffer_len_max) m_max_length = DataBuffer_len_max;
-
-    dbgPrintf(1, "Fetching max %d bytes from the data buffer\n", m_max_length);
 }
 
 

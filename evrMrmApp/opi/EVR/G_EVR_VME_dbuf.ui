@@ -39,7 +39,7 @@
       </rect>
      </property>
      <property name="channel" stdset="0">
-      <string notr="true">$(SYS)-$(DEVICE):DBuf-Sum-Oflw-I</string>
+      <string notr="true">$(SYS)-$(DEVICE):DBuf$(ID)-Sum-Oflw-I</string>
      </property>
     </widget>
     <widget class="caLineEdit" name="calineedit_11">
@@ -52,7 +52,7 @@
       </rect>
      </property>
      <property name="channel" stdset="0">
-      <string notr="true">$(SYS)-$(DEVICE):DBuf-Sum-Oflw-Rate-I</string>
+      <string notr="true">$(SYS)-$(DEVICE):DBuf$(ID)-Sum-Oflw-Rate-I</string>
      </property>
      <property name="colorMode">
       <enum>caLineEdit::Alarm_Default</enum>
@@ -119,7 +119,7 @@
       </rect>
      </property>
      <property name="channel" stdset="0">
-      <string notr="true">$(SYS)-$(DEVICE):DBuf-Sum-Oflw-Rate-I.SCAN</string>
+      <string notr="true">$(SYS)-$(DEVICE):DBuf$(ID)-Sum-Oflw-Rate-I.SCAN</string>
      </property>
     </widget>
     <widget class="QLabel" name="label_21">
@@ -148,7 +148,7 @@
       </rect>
      </property>
      <property name="channel" stdset="0">
-      <string notr="true">$(SYS)-$(DEVICE):DBuf-Sum-Cs-I</string>
+      <string notr="true">$(SYS)-$(DEVICE):DBuf$(ID)-Sum-Cs-I</string>
      </property>
     </widget>
     <zorder>label_21</zorder>
@@ -201,7 +201,7 @@
       </rect>
      </property>
      <property name="channel" stdset="0">
-      <string notr="true">$(SYS)-$(DEVICE):DBuf-SupportsRx-I</string>
+      <string notr="true">$(SYS)-$(DEVICE):DBuf$(ID)-SupportsRx-I</string>
      </property>
      <property name="falseColor">
       <color>
@@ -235,7 +235,7 @@
       </rect>
      </property>
      <property name="channel" stdset="0">
-      <string notr="true">$(SYS)-$(DEVICE):DBuf-SupportsTx-I</string>
+      <string notr="true">$(SYS)-$(DEVICE):DBuf$(ID)-SupportsTx-I</string>
      </property>
      <property name="falseColor">
       <color>
@@ -317,7 +317,7 @@
       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
      </property>
      <property name="channel" stdset="0">
-      <string notr="true">$(SYS)-$(DEVICE):DBuf-Mode-RB</string>
+      <string notr="true">$(SYS)-$(DEVICE):DBuf$(ID)-Mode-RB</string>
      </property>
     </widget>
     <widget class="caChoice" name="cachoice">
@@ -330,7 +330,7 @@
       </rect>
      </property>
      <property name="channel" stdset="0">
-      <string notr="true">$(SYS)-$(DEVICE):DBuf-Mode-Sel</string>
+      <string notr="true">$(SYS)-$(DEVICE):DBuf$(ID)-Mode-Sel</string>
      </property>
      <property name="foreground">
       <color>

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1023</width>
-    <height>398</height>
+    <height>454</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -21,7 +21,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>130</y>
+      <y>190</y>
       <width>1001</width>
       <height>121</height>
      </rect>
@@ -39,7 +39,7 @@
       </rect>
      </property>
      <property name="channel" stdset="0">
-      <string notr="true">$(SYS)-$(DEVICE):DBuf-Cnt-Oflw-I</string>
+      <string notr="true">$(SYS)-$(DEVICE):DBuf$(ID)-Cnt-Oflw-I</string>
      </property>
      <property name="numberOfRows">
       <number>4</number>
@@ -1239,7 +1239,7 @@
       </rect>
      </property>
      <property name="channel" stdset="0">
-      <string notr="true">$(SYS)-$(DEVICE):DBuf-Sum-Oflw-I</string>
+      <string notr="true">$(SYS)-$(DEVICE):DBuf$(ID)-Sum-Oflw-I</string>
      </property>
     </widget>
     <widget class="QLabel" name="label_18">
@@ -1284,7 +1284,7 @@
       </rect>
      </property>
      <property name="channel" stdset="0">
-      <string notr="true">$(SYS)-$(DEVICE):DBuf-Sum-Oflw-Rate-I</string>
+      <string notr="true">$(SYS)-$(DEVICE):DBuf$(ID)-Sum-Oflw-Rate-I</string>
      </property>
      <property name="colorMode">
       <enum>caLineEdit::Alarm_Default</enum>
@@ -1319,7 +1319,7 @@
       </rect>
      </property>
      <property name="channel" stdset="0">
-      <string notr="true">$(SYS)-$(DEVICE):DBuf-Sum-Cs-Rate-I.SCAN</string>
+      <string notr="true">$(SYS)-$(DEVICE):DBuf$(ID)-Sum-Cs-Rate-I.SCAN</string>
      </property>
     </widget>
     <widget class="QLabel" name="label_20">
@@ -1364,7 +1364,7 @@
       </rect>
      </property>
      <property name="channel" stdset="0">
-      <string notr="true">$(SYS)-$(DEVICE):DBuf-Sum-Oflw-Rate-I.SCAN</string>
+      <string notr="true">$(SYS)-$(DEVICE):DBuf$(ID)-Sum-Oflw-Rate-I.SCAN</string>
      </property>
     </widget>
     <widget class="caLineEdit" name="calineedit_12">
@@ -1377,7 +1377,7 @@
       </rect>
      </property>
      <property name="channel" stdset="0">
-      <string notr="true">$(SYS)-$(DEVICE):DBuf-Sum-Cs-Rate-I</string>
+      <string notr="true">$(SYS)-$(DEVICE):DBuf$(ID)-Sum-Cs-Rate-I</string>
      </property>
      <property name="colorMode">
       <enum>caLineEdit::Alarm_Default</enum>
@@ -1412,7 +1412,7 @@
       </rect>
      </property>
      <property name="channel" stdset="0">
-      <string notr="true">$(SYS)-$(DEVICE):DBuf-Sum-Cs-I</string>
+      <string notr="true">$(SYS)-$(DEVICE):DBuf$(ID)-Sum-Cs-I</string>
      </property>
     </widget>
     <zorder>label_23</zorder>
@@ -1439,21 +1439,21 @@
       <height>20</height>
      </rect>
     </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: rgb(236, 236, 236, 255);</string>
-    </property>
     <property name="text">
      <string>$(SYS)-$(DEVICE): Data buffer information</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
     </property>
+    <property name="styleSheet" stdset="0">
+     <string notr="true">background-color: rgba(255, 255, 255, 0); color: rgba(0, 0, 0, 255);</string>
+    </property>
    </widget>
    <widget class="QGroupBox" name="groupBox_4">
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>260</y>
+      <y>320</y>
       <width>1001</width>
       <height>121</height>
      </rect>
@@ -1471,7 +1471,7 @@
       </rect>
      </property>
      <property name="channel" stdset="0">
-      <string notr="true">$(SYS)-$(DEVICE):DBuf-Cnt-Cs-I</string>
+      <string notr="true">$(SYS)-$(DEVICE):DBuf$(ID)-Cnt-Cs-I</string>
      </property>
      <property name="numberOfRows">
       <number>4</number>
@@ -2639,7 +2639,7 @@
       </rect>
      </property>
      <property name="channel" stdset="0">
-      <string notr="true">$(SYS)-$(DEVICE):DBuf-SupportsRx-I</string>
+      <string notr="true">$(SYS)-$(DEVICE):DBuf$(ID)-SupportsRx-I</string>
      </property>
      <property name="falseColor">
       <color>
@@ -2673,7 +2673,7 @@
       </rect>
      </property>
      <property name="channel" stdset="0">
-      <string notr="true">$(SYS)-$(DEVICE):DBuf-SupportsTx-I</string>
+      <string notr="true">$(SYS)-$(DEVICE):DBuf$(ID)-SupportsTx-I</string>
      </property>
      <property name="falseColor">
       <color>
@@ -2730,9 +2730,86 @@
      </property>
     </widget>
    </widget>
+   <widget class="QGroupBox" name="groupBox">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>130</y>
+      <width>441</width>
+      <height>50</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>Enable / disable data buffer reception</string>
+    </property>
+    <widget class="caLineEdit" name="calineedit_8">
+     <property name="geometry">
+      <rect>
+       <x>230</x>
+       <y>25</y>
+       <width>151</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+     </property>
+     <property name="channel" stdset="0">
+      <string notr="true">$(SYS)-$(DEVICE):DBuf$(ID)-Mode-RB</string>
+     </property>
+    </widget>
+    <widget class="caChoice" name="cachoice_2">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>25</y>
+       <width>191</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="channel" stdset="0">
+      <string notr="true">$(SYS)-$(DEVICE):DBuf$(ID)-Mode-Sel</string>
+     </property>
+     <property name="foreground">
+      <color>
+       <red>0</red>
+       <green>0</green>
+       <blue>0</blue>
+      </color>
+     </property>
+     <property name="background">
+      <color>
+       <red>212</red>
+       <green>219</green>
+       <blue>157</blue>
+      </color>
+     </property>
+     <property name="bordercolor">
+      <color>
+       <red>0</red>
+       <green>0</green>
+       <blue>0</blue>
+      </color>
+     </property>
+     <property name="colorMode">
+      <enum>caChoice::Static</enum>
+     </property>
+     <property name="stackingMode" stdset="0">
+      <enum>caChoice::Column</enum>
+     </property>
+     <property name="endBit">
+      <number>1</number>
+     </property>
+    </widget>
+   </widget>
   </widget>
  </widget>
  <customwidgets>
+  <customwidget>
+   <class>caChoice</class>
+   <extends>QWidget</extends>
+   <header>caChoice</header>
+  </customwidget>
   <customwidget>
    <class>caLabel</class>
    <extends>QLabel</extends>

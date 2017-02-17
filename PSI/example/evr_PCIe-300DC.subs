@@ -19,6 +19,9 @@ file "$(mrfioc2_TEMPLATES=db)/evr-pcie-300DC.db"
 		                                # Recommended setting for SwissFEL is SIN-TIMAST-TMA:EvrDC-SP CP
 		DlyCompensation-Source-Disa=0,  #0 = Enabled, 1 = Disabled: enables or disables sourcing the delay compensation target value from record specified with 'DlyCompensation-Source-I' macro
 
+		DBuf-Mode-Sel=1,		#1 = Enabled, 0 = Disabled: enables or disables data buffer type 300 reception. Default: 1
+		DBuf230-Mode-Sel=1,		#0 = DBus only (data buffer reception disabled), 1 = DBus+Data Buffer (data buffer reception enabled) : Downstream data mode for 230 series data buffer. Default: 1
+
 		## Prescalers
 		PS0-Div-SP=2, 			#2-4294967295 :Integer divisor between the Event Clock and the sub-unit output.
 		PS0-PulserMap-L-SP=0,	#0-65535 :Trigger a pulser on prescaler rising edge. Pulsers 0-15 are bit-wise selectable

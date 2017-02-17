@@ -177,7 +177,7 @@ void mrmDataBuffer_300::receive()
 }
 
 void mrmDataBuffer_300::handleConsecutiveSegments(consecutiveSegmentFunct_t fptr) {
-    epicsUInt16 startSegment=0, thisSegment=0, nextSegment = 0, nextSegmentIndex = 0, i;
+    epicsUInt16 startSegment=0, thisSegment=0, nextSegment = 0, nextSegmentIndex = 0;
     epicsUInt32 length=0;
 
     for(nextSegmentIndex=0; nextSegmentIndex<4; nextSegmentIndex++) {
@@ -216,7 +216,7 @@ void mrmDataBuffer_300::handleConsecutiveSegments(consecutiveSegmentFunct_t fptr
                 length = 0;
                 rxFlag <<= 1;
                 thisSegment++;
-                dbgPrintf(5, "not interesting. Going to next segment %u with flag [%u]0x%x and length %u\n", thisSegment, i, rxFlag, length);
+                dbgPrintf(5, "not interesting. Going to next segment %u with flag [%u]0x%x and length %u\n", thisSegment, nextSegmentIndex, rxFlag, length);
             }
         }
     }
