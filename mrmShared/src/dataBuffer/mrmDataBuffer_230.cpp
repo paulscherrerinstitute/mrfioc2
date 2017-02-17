@@ -53,6 +53,9 @@ void mrmDataBuffer_230::enableRx(bool en)
         m_enabled_rx = en;
         nat_iowrite32(base+ctrlRegRx, reg);
     }
+    else {
+        m_enabled_rx = false;
+    }
 }
 
 bool mrmDataBuffer_230::enabledRx()

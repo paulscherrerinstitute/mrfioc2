@@ -35,7 +35,7 @@ mrmDataBuffer_300::mrmDataBuffer_300(const char *parentName,
 
 void mrmDataBuffer_300::enableRx(bool en)
 {
-    if(en) {
+    if(supportsRx() && en) {
         clearFlags(base+DataBufferFlags_rx);    // clear Rx flags (and consequently checksum+overflow flags)
 
         m_enabled_rx = true;
