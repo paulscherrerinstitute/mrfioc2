@@ -39,7 +39,7 @@ goto paramError
 
 :F
     shift /1
-    set TMA=%1
+    set FF=%1
     goto next
 
 :H
