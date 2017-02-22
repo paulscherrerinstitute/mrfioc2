@@ -23,6 +23,7 @@ mrmShared_SRCS += mrmDataBuffer_300.cpp
 mrmShared_SRCS += mrmDataBuffer_230.cpp
 mrmShared_SRCS += mrmDataBufferUser.cpp
 mrmShared_SRCS += mrmDataBufferObj.cpp
+mrmShared_SRCS += mrmDataBufferType.cpp
 mrmShared_SRCS += sfp.cpp
 mrmShared_SRCS += mrmFlash.cpp
 mrmShared_SRCS += mrmRemoteFlash.cpp

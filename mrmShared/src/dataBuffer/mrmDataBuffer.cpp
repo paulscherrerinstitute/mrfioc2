@@ -29,7 +29,6 @@ extern "C" {
 
 
 static std::map<std::string, mrmDataBuffer*> data_buffers[2];
-const char* const mrmDataBufferType::type_string[] = {"230", "300"};    // declared in mrmDataBufferType.h
 
 mrmDataBuffer::mrmDataBuffer(const char * parentName, mrmDataBufferType::type_t type,
                              volatile epicsUInt8 *parentBaseAddress,
