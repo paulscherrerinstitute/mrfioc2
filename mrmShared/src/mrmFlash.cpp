@@ -17,7 +17,7 @@
 #include "mrmFlash.h"
 
 // Misc
-#define RETRY_COUNT             10000         // Amount of retries until we fail when waiting for SPI receiver / transmitter to be ready
+#define RETRY_COUNT             100000        // Amount of retries until we fail when waiting for SPI receiver / transmitter to be ready
 #define STOP_COMPARE_ERRORS     100           // Write this many errors when doing check that written firmware is ok in the flash chip, then stop.
 
 // Flash chip commands
