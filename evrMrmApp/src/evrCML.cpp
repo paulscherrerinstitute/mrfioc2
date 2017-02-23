@@ -31,7 +31,7 @@ EvrCML::EvrCML(const std::string& n, size_t i, EVRMRM& o, outkind k, formFactor 
   ,kind(k)
 {
     epicsUInt32 version = o.version();
-    if(f==formFactor_CPCIFULL || version > MIN_FW_300_SERIES){
+    if(f==formFactor_CPCIFULL || version >= MIN_FW_300_SERIES){
         mult = 40;
         wordlen = 2;
     }else{

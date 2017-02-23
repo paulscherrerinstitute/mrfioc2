@@ -71,7 +71,8 @@ void EvrOutput::setSource2(epicsUInt32 v)
     }
 
     if(deviceInfo.series == series_230 || deviceInfo.series == series_unknown) {
-        throw std::out_of_range("Hardware does not support second output source selection");
+        //throw std::out_of_range("Hardware does not support second output source selection");
+        return;
     }
 
     shadowSource2 = v;
