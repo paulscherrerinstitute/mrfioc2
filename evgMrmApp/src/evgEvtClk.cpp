@@ -103,8 +103,9 @@ evgEvtClk::setFracSynFreq(epicsFloat64 freq) {
             uSecDivider = (epicsUInt16)freq;
         }
 
-        WRITE32(m_pReg, FracSynthWord, controlWord);
+        // uSedDiv must be written before fract synth (see section 3.2 Programmable Reference clock in the documentation)
         WRITE16(m_pReg, uSecDiv, uSecDivider);
+        WRITE32(m_pReg, FracSynthWord, controlWord);
     }
 
     m_fracSynFreq = FracSynthAnalyze(READ32(m_pReg, FracSynthWord), 24.0, 0);

@@ -551,7 +551,7 @@
      <enum>EPushButton::None</enum>
     </property>
    </widget>
-   <widget class="caRelatedDisplay" name="carelateddisplay_9">
+   <widget class="caRelatedDisplay" name="carelateddisplay_10">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -579,7 +579,7 @@
      <string notr="true">G_EVR_$(FF)_dbuf.ui</string>
     </property>
     <property name="args">
-     <string notr="true">SYS=$(SYS),DEVICE=$(DEVICE),FF=$(FF)</string>
+     <string notr="true">SYS=$(SYS),DEVICE=$(DEVICE),FF=$(FF),ID=</string>
     </property>
     <property name="fontScaleMode" stdset="0">
      <enum>EPushButton::None</enum>

@@ -27,6 +27,10 @@ evgFct::~evgFct() {
 
 }
 
+epicsUInt32
+evgFct::getTopologyId() const{
+    return READ32(m_fctReg, fct_topologyID);
+}
 
 epicsUInt32
 evgFct::getUpstreamDC() const{

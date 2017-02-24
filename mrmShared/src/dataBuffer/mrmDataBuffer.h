@@ -8,6 +8,9 @@
 #include <epicsMutex.h>
 #include <callback.h>
 
+#include "mrmDataBufferType.h"
+
+
 class mrmDataBufferUser;    // Windows: use forward decleration to avoid export problems for mrmDataBufferUser class
 
 #ifdef _WIN32
@@ -20,7 +23,7 @@ class mrmDataBufferUser;    // Windows: use forward decleration to avoid export 
 
 
 /**
- * @brief drvMrfiocDataBufferDebug Defines debug level (verbosity of debug printout)
+ * @brief drvMrfiocDataBufferDebug Defines debug level (verbosity of debug printout). When >= 5 it will also print out consecutive segment checking for 300 series data reception.
  */
 extern "C"{
     extern int mrfioc2_dataBufferDebug;
@@ -34,7 +37,9 @@ extern "C"{
  */
 class epicsShareClass mrmDataBuffer {
 public:
+
     mrmDataBuffer(const char *parentName,
+                  mrmDataBufferType::type_t type,
                   volatile epicsUInt8 *parentBaseAddress,
                   epicsUInt32 controlRegisterTx,
                   epicsUInt32 controlRegisterRx,
@@ -45,19 +50,19 @@ public:
     /**
      * Definition of a callback function. Used in registerRxComplete()
      */
-    typedef void(*rxCompleteCallback_t)(void* pvt);
+    typedef void(*rxCompleteCallback_t)(mrmDataBuffer *dataBuffer, void* pvt);
 
     /**
-     * @brief enableRx is used to enable or disable receiving for this data buffer
+     * @brief enableRx is used to enable or disable receiving for this data buffer.
      * @param en enables receiving when true, disables when false
      */
-    virtual void enableRx(bool en) = 0;
+    virtual void enableRx(bool en);
 
     /**
      * @brief enabledRx tells if the data buffer reception is enabled
      * @return true if enabled, false if disabled
      */
-    bool enabledRx();
+    virtual bool enabledRx();
 
     /**
      * @brief enableTx is used to enable or disable transmission for this data buffer
@@ -129,7 +134,7 @@ public:
      */
     static void handleDataBufferRxIRQ(CALLBACK*);
 
-    static mrmDataBuffer* getDataBufferFromDevice(const char *device);
+    static mrmDataBuffer* getDataBufferFromDevice(const char *device, mrmDataBufferType::type_t type);
 
     /**
      * @brief getOverflowCount sets the pointer to the internal counter for overflows on each segment. Use the pointer for reading only!
@@ -145,10 +150,10 @@ public:
      */
     epicsUInt32 getChecksumCount(epicsUInt32 **checksumCount);
 
+    mrmDataBufferType::type_t getType();
+
     // test functions (used from mrmDataBuffer_test.cpp)
     void setSegmentIRQ(epicsUInt8 i, epicsUInt32 mask);
-    void ctrlReceive();
-    void stop();
     void printRegs();
     void setRx(epicsUInt8 i, epicsUInt32 mask);
     void read(size_t offset, size_t length);
@@ -169,10 +174,11 @@ protected:
     epicsUInt32 m_overflows[4];         // stores the received overflow flag register
     epicsUInt32 m_rx_flags[4];          // stores the received segment flags register
     epicsUInt32 m_irq_flags[4];         // used to set the segment IRQ flags register
-    epicsUInt16 m_max_length;           // maximum buffer length that we are interested in (based on m_irq_flags)
 
     epicsUInt32 m_overflow_count[128];  // count the total number of overflows that occured for each segment (4*32 = 128 segments)
     epicsUInt32 m_checksum_count[128];  // count the total number of checksum errors that occured for each segment (4*32 = 128 segments)
+    epicsUInt32 m_rx_length[128];       // stores the received segment size (data length)
+    bool        m_enabled_rx;           // is reception enabled?
 
     //Registered users
     struct Users{
@@ -180,6 +186,8 @@ protected:
         epicsUInt32 segments[4];        // segment mask in which the user is interested
     };
     std::vector<Users*> m_users;        // a list of users who are accessing the data buffer
+
+    mrmDataBufferType::type_t m_type;  // data buffer type id
 
     /**
      * @brief waitWhileTxRunning is busy waiting while data buffer transmission is running (pools the TXRUN bit)
@@ -198,17 +206,12 @@ protected:
     void printBinary(const char *preface, epicsUInt32 n);
     void printFlags(const char *preface, volatile epicsUInt8* flagRegister);
 
-private:
     struct RxCompleteCallback{
         rxCompleteCallback_t fptr;  // callback function pointer
         void* pvt;                  // callback private
     } rx_complete_callback;
 
-    /**
-     * @brief calcMaxInterestedLength Uses m_irq_flags to set new value for m_max_length
-     */
-    void calcMaxInterestedLength();
-
+private:
     /**
      * @brief receive is invoked by handleDataBufferRxIRQ. Function implementations are in separate classes.
      */

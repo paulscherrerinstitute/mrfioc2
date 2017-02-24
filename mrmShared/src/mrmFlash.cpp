@@ -17,7 +17,7 @@
 #include "mrmFlash.h"
 
 // Misc
-#define RETRY_COUNT             10000         // Amount of retries until we fail when waiting for SPI receiver / transmitter to be ready
+#define RETRY_COUNT             100000        // Amount of retries until we fail when waiting for SPI receiver / transmitter to be ready
 #define STOP_COMPARE_ERRORS     100           // Write this many errors when doing check that written firmware is ok in the flash chip, then stop.
 
 // Flash chip commands
@@ -574,7 +574,7 @@ void mrmFlash::waitTransmitterEmpty() {
 
     while(!(READ32(m_base, SpiCtrl) & SpiCtrl_tmt) && (i < RETRY_COUNT)) {
         i++;
-        // removed epicsThreadSleep because it takes too long on windows
+        epicsThreadSleep(0);
     }
 
     if (i >= RETRY_COUNT) {
@@ -587,7 +587,7 @@ void mrmFlash::waitTransmitterReady() {
 
     while(!(READ32(m_base, SpiCtrl) & SpiCtrl_trdy) && (i < RETRY_COUNT)) {
       i++;
-      // removed epicsThreadSleep because it takes too long on windows
+      epicsThreadSleep(0);
     }
 
     if (i >= RETRY_COUNT) {
@@ -600,7 +600,7 @@ void mrmFlash::waitReceiverReady() {
 
     while(!(READ32(m_base, SpiCtrl) & SpiCtrl_rrdy) && (i < RETRY_COUNT)) {
         i++;
-        // removed epicsThreadSleep because it takes too long on windows
+        epicsThreadSleep(0);
     }
 
     if (i >= RETRY_COUNT) {

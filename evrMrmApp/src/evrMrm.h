@@ -278,7 +278,6 @@ public:
 #endif
 
     mrmRemoteFlash* getRemoteFlash();
-    mrmDataBuffer* getDataBuffer();
 
     const std::string id;
     volatile unsigned char * const base;
@@ -373,8 +372,9 @@ private:
     eventCode events[256];
 
     // Buffer received
-    static void dataBufferRxComplete(void *vptr);
-    CALLBACK dataBufferRx_cb;
+    static void dataBufferRxComplete(mrmDataBuffer *dataBuffer, void *vptr);
+    CALLBACK dataBufferRx_cb_230;
+    CALLBACK dataBufferRx_cb_300;
 
     // Called when the Event Log is stopped
     CALLBACK drain_log_cb;
@@ -412,8 +412,10 @@ private:
     EvrSequencer *m_sequencer;
     mrmFlash m_flash;
     mrmRemoteFlash* m_remoteFlash;
-    mrmDataBuffer* m_dataBuffer;
-    mrmDataBufferObj *m_dataBufferObj;
+    mrmDataBuffer* m_dataBuffer_230;
+    mrmDataBuffer* m_dataBuffer_300;
+    mrmDataBufferObj *m_dataBufferObj_230;
+    mrmDataBufferObj *m_dataBufferObj_300;
 
 }; // class EVRMRM
 

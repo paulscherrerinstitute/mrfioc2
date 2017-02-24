@@ -18,10 +18,21 @@ public:
      * @param en when true enables reception, otherwise does nothing
      */
     void enableRx(bool en);
+    bool enabledRx();
 
 private:
+    typedef void(mrmDataBuffer_300::*consecutiveSegmentFunct_t)(epicsUInt16 startSegment, epicsUInt32 length);
+
     bool send(epicsUInt8 startSegment, epicsUInt16 length, epicsUInt8 *data);
+    void receive1();
+
+    /**
+     * @brief receive see mrmDataBuffer description. This function does not handle data that is overlapping.
+     */
     void receive();
+    void handleConsecutiveSegments(consecutiveSegmentFunct_t fptr);
+    inline void copyDataLocally(epicsUInt16 startSegment, epicsUInt32 length);
+    inline void copyDataToUser(epicsUInt16 startSegment, epicsUInt32 length);
 
     /**
      * @brief overflowOccured checks if the overflow flag is set for any segment

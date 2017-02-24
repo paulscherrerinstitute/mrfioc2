@@ -59,9 +59,6 @@ EvrPulser::enable(bool s)
 void
 EvrPulser::setDelayRaw(epicsUInt32 v)
 {
-    epicsUInt64 val = (epicsUInt64)v;   // convert double to something that can hold value this big
-    val &= 0xFFFFFFFF;  // make sure it's a 32-bit unsigned value
-
     WRITE32(owner.base, PulserDely(id), v);
 }
 
@@ -97,9 +94,6 @@ EvrPulser::delay() const
 void
 EvrPulser::setWidthRaw(epicsUInt32 v)
 {
-    epicsUInt64 val = (epicsUInt64)v;   // convert double to something that can hold value this big
-    val &= 0xFFFFFFFF;  // make sure it's a 32-bit unsigned value
-
     WRITE32(owner.base, PulserWdth(id), v);
 }
 

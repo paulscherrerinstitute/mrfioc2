@@ -7,6 +7,7 @@
 #include <epicsEvent.h>
 #include <epicsThread.h>
 
+#include "mrmDataBufferType.h"
 
 #ifdef _WIN32
 /**
@@ -44,12 +45,12 @@ public:
     /**
      * @brief init will connect to the data buffer based on device name. Throws exception if it does not succeed.
      * @param deviceName is the name of the device which holds the data buffer (eg. EVR0, EVG0, ...)
-     * @param userOffset sets m_user_offset. When not provided it defaults to 16 (size of the first segment in segmented data buffer).
+     * @param userOffset sets m_user_offset. When not provided it defaults to 0.
      * @param strictMode sets m_strict_mode. When not provided it defaults to false.
      * @param userUpdateThreadPriority sets the priority at which the user update thread will run. Defaults to epicsThreadPriorityLow.
      * @return true on success, false otherwise
      */
-    bool init(const char* deviceName, size_t userOffset = 16, bool strictMode = false, unsigned int userUpdateThreadPriority = epicsThreadPriorityLow);
+    bool init(const char* deviceName, mrmDataBufferType::type_t type, size_t userOffset = 0, bool strictMode = false, unsigned int userUpdateThreadPriority = epicsThreadPriorityLow);
 
     /**
      * @brief registerInterest Register callback for part (or whole) data buffer.
@@ -57,9 +58,10 @@ public:
      * @param length is the length from the offset to register to
      * @param fptr is the callback function to invoke when data buffer on registered addresses is updated
      * @param pvt is pointer to the callback function private structure
+     * @param the ID of the iterest we want to update, or 0 for new registation
      * @return the ID of the registered interest or 0 on error
      */
-    size_t registerInterest(size_t offset, size_t length, dataBufferRxCallback_t fptr, void* pvt);
+    size_t registerInterest(size_t offset, size_t length, dataBufferRxCallback_t fptr, void* pvt, size_t interestId=0);
 
     /**
      * @brief removeInterest Remove previously registred interest

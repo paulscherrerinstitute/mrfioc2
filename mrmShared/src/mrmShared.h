@@ -129,10 +129,11 @@ enum PLLBandwidth {
 #define DataTxCtrl_len_mask 0x0007fc
 
 
-#define DataBuffer_SegmentIRQ       0x780   //4x32 bit
-#define DataBufferFlags_cheksum     0x7A0   //4x32 bit, each bit for one segment. 0 = Checksum OK
-#define DataBufferFlags_overflow    0x7C0   //4x32 bit, each bit for one segment.
-#define DataBufferFlags_rx          0x7E0   //4x32 bit
+#define DataBuffer_SegmentIRQ       0x8F80   // 4x32 bit
+#define DataBufferFlags_checksum     0x8FA0   // 4x32 bit, each bit for one segment. 0 = Checksum OK
+#define DataBufferFlags_overflow    0x8FC0   // 4x32 bit, each bit for one segment.
+#define DataBufferFlags_rx          0x8FE0   // 4x32 bit
+#define DataBuffer_RXSize(N)   (4*N+0x8800)  // 128x32 bit registers which contain segment received length
 
 
 // Rx control register offsets
@@ -147,9 +148,7 @@ enum PLLBandwidth {
 #define DataBuffer_segment_length 16    // Length of a single segment in a segmented data buffer
 #define DataBuffer_len_max  DataTxCtrl_len_mask // Maximum supported length of the data buffer
 
-#define MIN_FW_SEGMENTED_DBUFF  0x202
-#define MIN_FW_BOTH_DBUFF  0x206
-#define MIN_FW_EVR_SEQUENCER MIN_FW_BOTH_DBUFF
+#define MIN_FW_300_SERIES  0x207
 
 ////////////////////
 /** Misc defines **/

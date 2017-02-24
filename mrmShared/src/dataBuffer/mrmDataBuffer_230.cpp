@@ -23,13 +23,14 @@ mrmDataBuffer_230::mrmDataBuffer_230(const char *parentName,
                                      epicsUInt32 dataRegisterTx,
                                      epicsUInt32 dataRegisterRx):
     mrmDataBuffer(parentName,
+                  mrmDataBufferType::type_230,
                   parentBaseAddress,
                   controlRegisterTx,
                   controlRegisterRx,
                   dataRegisterTx,
                   dataRegisterRx)
 {
-    enableRx(true);
+    printf("Initialized %s data buffer type: 230\n", parentName);
 }
 
 void mrmDataBuffer_230::enableRx(bool en)
@@ -41,12 +42,26 @@ void mrmDataBuffer_230::enableRx(bool en)
         reg = nat_ioread32(base+ctrlRegRx);
         if(en) {
             reg |= DataRxCtrl_mode|DataRxCtrl_rx; // Set mode to DBUS+data buffer and set up buffer for reception
+
+            if(rx_complete_callback.fptr != NULL){
+                rx_complete_callback.fptr(this, rx_complete_callback.pvt);
+            }
         } else {
             reg |= DataRxCtrl_stop;    // stop reception
-            reg &= ~DataRxCtrl_mode;   // set mode to DBUS only (no effect on firmware 200+)
+            reg &= ~DataRxCtrl_mode;   // set mode to DBUS only
         }
+        m_enabled_rx = en;
         nat_iowrite32(base+ctrlRegRx, reg);
     }
+    else {
+        m_enabled_rx = false;
+    }
+}
+
+bool mrmDataBuffer_230::enabledRx()
+{
+    if(supportsRx()) return (nat_ioread32(base + ctrlRegRx) & DataRxCtrl_mode) != 0;    // check if in DBUS+data buffer mode
+    return false;
 }
 
 bool mrmDataBuffer_230::send(epicsUInt8 startSegment, epicsUInt16 length, epicsUInt8 *data){

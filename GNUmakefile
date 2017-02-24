@@ -30,6 +30,7 @@ SOURCES+=mrmShared/src/dataBuffer/mrmDataBuffer_300.cpp
 SOURCES+=mrmShared/src/dataBuffer/mrmDataBuffer_230.cpp
 SOURCES+=mrmShared/src/dataBuffer/mrmDataBufferUser.cpp
 SOURCES+=mrmShared/src/dataBuffer/mrmDataBufferObj.cpp
+SOURCES+=mrmShared/src/dataBuffer/mrmDataBufferType.cpp
 
 SOURCES+=evrMrmApp/src/devSupport/devEvrStringIO.cpp
 SOURCES+=evrMrmApp/src/devSupport/devEvrPulserMapping.cpp
@@ -88,6 +89,7 @@ DBDS+=mrmShared/src/mrmShared.dbd
 
 # external data buffer support (eg. mrfioc2_regDev)
 HEADERS+=mrmShared/src/dataBuffer/mrmDataBufferUser.h
+HEADERS+=mrmShared/src/dataBuffer/mrmDataBufferType.h
 
 # TESTS
 #SOURCES+=mrmShared/src/dataBuffer/tests/mrmDataBuffer_test.cpp

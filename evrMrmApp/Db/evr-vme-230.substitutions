@@ -19,7 +19,7 @@ file "sfp.template"
 
 file "dataBuffer.template"
 {
-{SYS="$(SYS)", DEVICE="$(DEVICE)"}
+{SYS="$(SYS)", DEVICE="$(DEVICE)", TYPE="230", ID=""}
 }
 
 file "evr-prescaler.template"

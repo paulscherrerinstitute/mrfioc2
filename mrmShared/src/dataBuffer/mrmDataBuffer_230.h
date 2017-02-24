@@ -16,6 +16,7 @@ public:
 
 
     void enableRx(bool en);
+    bool enabledRx();
 
 private:
     bool send(epicsUInt8 startSegment, epicsUInt16 length, epicsUInt8 *data);

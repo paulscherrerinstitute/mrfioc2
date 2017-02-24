@@ -28,9 +28,9 @@ extern "C" {
 #define TX_WAIT_MAX_ITERATIONS 1000     // guard against infinite loop when waiting for Tx to complete / waiting while Tx is running.
 
 
-static std::map<std::string, mrmDataBuffer*> data_buffers;
+static std::map<std::string, mrmDataBuffer*> data_buffers[2];
 
-mrmDataBuffer::mrmDataBuffer(const char * parentName,
+mrmDataBuffer::mrmDataBuffer(const char * parentName, mrmDataBufferType::type_t type,
                              volatile epicsUInt8 *parentBaseAddress,
                              epicsUInt32 controlRegisterTx,
                              epicsUInt32 controlRegisterRx,
@@ -41,6 +41,7 @@ mrmDataBuffer::mrmDataBuffer(const char * parentName,
     ,ctrlRegRx(controlRegisterRx)
     ,dataRegTx(dataRegisterTx)
     ,dataRegRx(dataRegisterRx)
+    ,m_type(type)
 {
     epicsUInt16 i;
 
@@ -61,7 +62,7 @@ mrmDataBuffer::mrmDataBuffer(const char * parentName,
     // init interest flags
     setInterest(NULL, NULL);
 
-    data_buffers[parentName] = this;
+    data_buffers[m_type][parentName] = this;
 }
 
 mrmDataBuffer::~mrmDataBuffer() {
@@ -77,10 +78,19 @@ mrmDataBuffer::~mrmDataBuffer() {
     // data_buffers are destroyed when the app is destroyed...
 }
 
+void mrmDataBuffer::enableRx(bool en)
+{
+    m_enabled_rx = en;
+}
+
 bool mrmDataBuffer::enabledRx()
 {
-    if(supportsRx()) return (nat_ioread32(base + ctrlRegRx) & DataRxCtrl_mode) != 0;    // check if in DBUS+data buffer mode
-    return 0;
+    if(supportsRx()){
+        return m_enabled_rx;
+    }
+    else{
+        return false;
+    }
 }
 
 void mrmDataBuffer::enableTx(bool en)
@@ -109,7 +119,7 @@ bool mrmDataBuffer::enabledTx()
 
 bool mrmDataBuffer::supportsRx()
 {
-    return (ctrlRegRx > 0) && (dataRegRx > 0);
+    return (dataRegRx > 0);
 }
 
 bool mrmDataBuffer::supportsTx()
@@ -182,8 +192,6 @@ void mrmDataBuffer::removeUser(mrmDataBufferUser *user)
 
     }
 
-    calcMaxInterestedLength();
-
     for(i=0; i<4; i++) {        // set which segments will trigger interrupt when data is received
         nat_iowrite32(base+DataBuffer_SegmentIRQ + 4 * i, m_irq_flags[i]);
     }
@@ -214,7 +222,6 @@ void mrmDataBuffer::setInterest(mrmDataBufferUser *user, epicsUInt32 *interest)
         }
     }
 
-    calcMaxInterestedLength();
     for(i=0; i<4; i++) {        // set which segments will trigger interrupt when data is received
         nat_iowrite32(base+DataBuffer_SegmentIRQ + 4 * i, m_irq_flags[i]);
     }
@@ -234,31 +241,6 @@ void mrmDataBuffer::clearFlags(volatile epicsUInt8 *flagRegister) {
     }
 }
 
-void mrmDataBuffer::calcMaxInterestedLength()
-{
-    epicsInt16 j, bits;
-    epicsUInt32 irqFlags;
-
-    for (j=3; j>=0; j--) {  // search from the end
-        irqFlags = m_irq_flags[j];
-        bits = 32;
-        while(bits && irqFlags) {   // skip if irqFlags are all 0
-            if (irqFlags & 0x1) {   // we found an irq flag == this is the furthest segment we are interested in
-                m_max_length = j * 32 * DataBuffer_segment_length + bits * DataBuffer_segment_length;
-                j = -1;   // end the for loop
-                bits = 0;  // end the while loop
-            }
-            else {  // no flag yet
-                irqFlags >>= 1;
-                bits--;
-            }
-        }
-    }
-    if (m_max_length > DataBuffer_len_max) m_max_length = DataBuffer_len_max;
-
-    dbgPrintf(1, "Fetching max %d bytes from the data buffer\n", m_max_length);
-}
-
 
 void mrmDataBuffer::handleDataBufferRxIRQ(CALLBACK *cb) {
     void *vptr;
@@ -266,20 +248,23 @@ void mrmDataBuffer::handleDataBufferRxIRQ(CALLBACK *cb) {
     mrmDataBuffer* parent = static_cast<mrmDataBuffer*>(vptr);
 
 
-    epicsGuard<epicsMutex> g(parent->m_rx_lock);
+    if(parent->m_enabled_rx) {
 
-    parent->receive();
+        parent->m_rx_lock.lock();
+        parent->receive();
+        parent->m_rx_lock.unlock();
 
-    if(parent->rx_complete_callback.fptr != NULL){
-        parent->rx_complete_callback.fptr(parent->rx_complete_callback.pvt);
+        if(parent->rx_complete_callback.fptr != NULL){
+            parent->rx_complete_callback.fptr(parent, parent->rx_complete_callback.pvt);
+        }
     }
 }
 
-mrmDataBuffer* mrmDataBuffer::getDataBufferFromDevice(const char *device) {
+mrmDataBuffer* mrmDataBuffer::getDataBufferFromDevice(const char *device, mrmDataBufferType::type_t type) {
     // locking not needed because all data buffer instances are created before someone can use them
 
-    if(data_buffers.count(device)){
-        return data_buffers[device];
+    if(data_buffers[type].count(device)){
+        return data_buffers[type][device];
     }
 
     return NULL;
@@ -295,6 +280,11 @@ epicsUInt32 mrmDataBuffer::getChecksumCount(epicsUInt32 **checksumCount)
 {
     *checksumCount = m_checksum_count;
     return (epicsUInt32)(sizeof (m_checksum_count) / sizeof (epicsUInt32));
+}
+
+mrmDataBufferType::type_t mrmDataBuffer::getType()
+{
+    return m_type;
 }
 
 
@@ -344,40 +334,22 @@ void mrmDataBuffer::printBinary(const char *preface, epicsUInt32 n) {
 
 void mrmDataBuffer::setSegmentIRQ(epicsUInt8 i, epicsUInt32 mask)
 {
-    //printFlags("Segment a", base+DataBuffer_SegmentIRQ);
+    printFlags("Segment flags before", base+DataBuffer_SegmentIRQ);
     nat_iowrite32(base+DataBuffer_SegmentIRQ + 4*i, mask);
-    //printFlags("Segment b", base+DataBuffer_SegmentIRQ);
+    printFlags("Segment flags after", base+DataBuffer_SegmentIRQ);
 }
 
 void mrmDataBuffer::setRx(epicsUInt8 i, epicsUInt32 mask)
 {
-    printFlags("Rx a", base+DataBufferFlags_rx);
+    printFlags("Rx flags before", base+DataBufferFlags_rx);
     nat_iowrite32(base+DataBufferFlags_rx + 4*i, mask);
-    printFlags("Rx b", base+DataBufferFlags_rx);
-}
-
-void mrmDataBuffer::ctrlReceive()
-{
-    epicsUInt32 reg = nat_ioread32(base+ctrlRegRx);
-    printf("Ctrl: %x\n", reg);
-    nat_iowrite32(base+ctrlRegRx, reg|DataRxCtrl_rx);
-    printf("Ctrl: %x\n", nat_ioread32(base+ctrlRegRx));
-    printf("\n");
-}
-
-void mrmDataBuffer::stop()
-{
-    epicsUInt32 reg = nat_ioread32(base+ctrlRegRx);
-    printf("Ctrl: %x\n", reg);
-    nat_iowrite32(base+ctrlRegRx, reg|DataRxCtrl_stop);
-    printf("Ctrl: %x\n", nat_ioread32(base+ctrlRegRx));
-    printf("\n");
+    printFlags("Rx flags after", base+DataBufferFlags_rx);
 }
 
 void mrmDataBuffer::printRegs()
 {
     printFlags("Segment", base+DataBuffer_SegmentIRQ);
-    printFlags("Checksum", base + DataBufferFlags_cheksum);
+    printFlags("Checksum", base + DataBufferFlags_checksum);
     printFlags("Overflow", base + DataBufferFlags_overflow);
     printFlags("Rx", base + DataBufferFlags_rx);
 }

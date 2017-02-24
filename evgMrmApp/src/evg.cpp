@@ -84,4 +84,5 @@ OBJECT_BEGIN(evgFct) {
     OBJECT_PROP1("LoopDelay port6", &evgFct::getPort6DelayValue);
     OBJECT_PROP1("LoopDelay port7", &evgFct::getPort7DelayValue);
     OBJECT_PROP1("LoopDelay port8", &evgFct::getPort8DelayValue);
+    OBJECT_PROP1("Topology ID", &evgFct::getTopologyId);
 } OBJECT_END(evgFct)
