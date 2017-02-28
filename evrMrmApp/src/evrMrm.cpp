@@ -518,6 +518,15 @@ EVRMRM::version() const
     return (v&FWVersion_ver_mask)>>FWVersion_ver_shift;
 }
 
+epicsUInt32
+EVRMRM::versionFull() const
+{
+    epicsUInt32 v = READ32(base, FWVersion);
+    epicsUInt32 majorVersion = (v&FWVersion_ver_mask)>>FWVersion_ver_shift;
+
+    return (majorVersion << 8) + ((v&FWVersion_verMinor_mask)>>FWVersion_verMinor_shift);
+}
+
 formFactor
 EVRMRM::getFormFactor(){
     return deviceInfo.formFactor;

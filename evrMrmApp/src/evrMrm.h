@@ -135,6 +135,7 @@ public:
 
     //! Firmware Version
     epicsUInt32 version() const;
+    epicsUInt32 versionFull() const;
 
     //! Software Version -> from version.h
     std::string versionSw() const;

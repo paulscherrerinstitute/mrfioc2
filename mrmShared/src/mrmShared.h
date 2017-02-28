@@ -100,7 +100,8 @@ enum PLLBandwidth {
 #  define FWVersion_form_shift 24
 #  define FWVersion_ver_mask  0x0000FFFF
 #  define FWVersion_ver_shift  0
-#  define FWVersion_zero_mask 0x00FF0000
+#  define FWVersion_verMinor_mask  0x00FF0000
+#  define FWVersion_verMinor_shift  16
 
 
 //=====================
