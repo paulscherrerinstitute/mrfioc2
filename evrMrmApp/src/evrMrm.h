@@ -313,7 +313,7 @@ public:
     epicsUInt32 dbusToPulserMapping7() const{return dbusToPulserMapping(7);}
 
     /*@}*/
-
+CALLBACK runISR_cb;
 private:
 
     epicsUInt32 firmwareVersion;
@@ -376,6 +376,8 @@ private:
     static void dataBufferRxComplete(mrmDataBuffer *dataBuffer, void *vptr);
     CALLBACK dataBufferRx_cb_230;
     CALLBACK dataBufferRx_cb_300;
+
+    static void runISR(CALLBACK *cb);
 
     // Called when the Event Log is stopped
     CALLBACK drain_log_cb;

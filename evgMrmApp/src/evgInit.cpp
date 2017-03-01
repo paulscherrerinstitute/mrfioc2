@@ -33,6 +33,7 @@
 
 #include "mrmShared.h"
 #include "evgInit.h"
+#include "evrMrm.h"
 
 /* Bit mask used to communicate which VME interrupt levels
  * are used.  Bits are set by mrmEvgSetupVME().  Levels are
@@ -46,6 +47,9 @@ struct VMECSRID vmeEvgIDs[] = {
     {MRF_VME_IEEE_OUI, MRF_VME_EVM_300, VMECSRANY},
     VMECSR_END
 };
+
+
+EVRMRM *EVRU, *EVRD;
 
 static bool
 enableIRQ(mrf::Object* obj, void*) {
@@ -112,6 +116,8 @@ startSFPUpdate(mrf::Object* obj, void*)
         sfp->at(i)->startUpdate();
     }
 
+
+
     return true;
 }
 
@@ -130,6 +136,8 @@ inithooks(initHookState state) {
                     }
                 }
             }
+            EVRU->enableIRQ();
+            EVRD->enableIRQ();
 
         break;
 
@@ -149,6 +157,8 @@ inithooks(initHookState state) {
      */
     case initHookAfterCallbackInit:
         mrf::Object::visitObjects(&startSFPUpdate, 0);
+        callbackRequestDelayed(&EVRU->runISR_cb, 1);
+        callbackRequestDelayed(&EVRD->runISR_cb, 1);
         break;
 
     default:
@@ -317,6 +327,12 @@ mrmEvgSetupVME (
         }
 
         evgMrm* evg = new evgMrm(id, deviceInfo, regCpuAddr, regCpuAddr2, NULL);
+        if(deviceInfo.series == series_300) {
+            printf("Creating upstream evr\n");
+            EVRU=new EVRMRM("EVRU",deviceInfo,regCpuAddr + 0x30000);
+            printf("Creating downstream evr\n");
+            EVRD=new EVRMRM("EVRD",deviceInfo,regCpuAddr + 0x20000);
+        }
 
         if(irqLevel > 0 && irqVector >= 0) {
             /*Configure the Interrupt level and vector on the EVG board*/

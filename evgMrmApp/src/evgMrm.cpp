@@ -73,7 +73,7 @@ evgMrm::evgMrm(const std::string& id, deviceInfoT &devInfo, volatile epicsUInt8*
             numFrontOut = 0;
             numUnivOut = 0;
             numFrontInp = 3;
-            numUnivInp = 0;
+            numUnivInp = 10;
             numRearOut = 16;
         }
 
@@ -443,6 +443,8 @@ evgMrm::isr_vme(void* arg) {
     epicsUInt32 flags = READ32(evg->m_pReg, IrqFlag);
     epicsUInt32 enable = READ32(evg->m_pReg, IrqEnable);
     epicsUInt32 active = flags & enable;
+
+    printf("EVG ISR: IRQ flags = 0x%x\n", flags);
 
     // This skips extra work with a shared interrupt.
     if(!active)

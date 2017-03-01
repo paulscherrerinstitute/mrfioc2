@@ -52,6 +52,16 @@ pattern { SYS,      DEVICE,      OBJ,       ID,  PPS,  DBUSOBJ}
         {"$(SYS)", "$(DEVICE)", "RearInp",  13,  0,    "Dbus"}
         {"$(SYS)", "$(DEVICE)", "RearInp",  14,  0,    "Dbus"}
         {"$(SYS)", "$(DEVICE)", "RearInp",  15,  0,    "Dbus"}
+        {"$(SYS)", "$(DEVICE)", "UnivInp",  0,   0,    "Dbus"}
+        {"$(SYS)", "$(DEVICE)", "UnivInp",  1,   0,    "Dbus"}
+        {"$(SYS)", "$(DEVICE)", "UnivInp",  2,   0,    "Dbus"}
+        {"$(SYS)", "$(DEVICE)", "UnivInp",  3,   0,    "Dbus"}
+        {"$(SYS)", "$(DEVICE)", "UnivInp",  4,   0,    "Dbus"}
+        {"$(SYS)", "$(DEVICE)", "UnivInp",  5,   0,    "Dbus"}
+        {"$(SYS)", "$(DEVICE)", "UnivInp",  6,   0,    "Dbus"}
+        {"$(SYS)", "$(DEVICE)", "UnivInp",  7,   0,    "Dbus"}
+        {"$(SYS)", "$(DEVICE)", "UnivInp",  8,   0,    "Dbus"}
+        {"$(SYS)", "$(DEVICE)", "UnivInp",  9,   0,    "Dbus"}
 }
 
 file evgOutput300.template {

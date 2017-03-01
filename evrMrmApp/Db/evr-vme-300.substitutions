@@ -91,6 +91,14 @@ file "evr-in.template"
 file "evr-out.template"
 {pattern
 { SYS,      DEVICE,      OBJ,    		 	ID,   DESC}
+{"$(SYS)", "$(DEVICE)", "FrontOut",     	0,   "FP0"}
+{"$(SYS)", "$(DEVICE)", "FrontOut",     	1,   "FP1"}
+{"$(SYS)", "$(DEVICE)", "FrontOut",     	2,   "FP2"}
+{"$(SYS)", "$(DEVICE)", "FrontOut",     	3,   "FP3"}
+{"$(SYS)", "$(DEVICE)", "FrontOut",     	4,   "FP4"}
+{"$(SYS)", "$(DEVICE)", "FrontOut",     	5,   "FP5"}
+{"$(SYS)", "$(DEVICE)", "FrontOut",     	6,   "FP6"}
+{"$(SYS)", "$(DEVICE)", "FrontOut",     	7,   "FP7"}
 {"$(SYS)", "$(DEVICE)", "FrontUnivOut", 	0,   "UNIV0"}
 {"$(SYS)", "$(DEVICE)", "FrontUnivOut", 	1,   "UNIV1"}
 {"$(SYS)", "$(DEVICE)", "FrontUnivOut", 	2,   "UNIV2"}

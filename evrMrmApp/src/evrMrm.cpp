@@ -181,11 +181,11 @@ try{
     CBINIT(&drain_log_cb   , priorityMedium, &EVRMRM::drain_log , this);
     CBINIT(&poll_link_cb   , priorityMedium, &EVRMRM::poll_link , this);
 
-    if(ver>=5) {
+    /*if(ver>=5) {
         std::ostringstream name;
         name<<id<<":SFP0";
         sfp.reset(new SFP(name.str(), base + U32_SFPEEPROM_base));
-    }
+    }*/
 
     /*
      * Create subunit instances
@@ -194,7 +194,7 @@ try{
     setFormFactor();  // updates deviceInfo.formFactor
     formFactor form = getFormFactor();
 
-    m_remoteFlash = new mrmRemoteFlash(n, b, deviceInfo, m_flash);
+    //m_remoteFlash = new mrmRemoteFlash(n, b, deviceInfo, m_flash);
     if(deviceInfo.series == series_300DC || (deviceInfo.series == series_300 && deviceInfo.formFactor == formFactor_VME64)) {
         m_sequencer = new EvrSequencer(n+":Sequencer", b);
     }
@@ -228,7 +228,7 @@ try{
         break;
     case formFactor_VME64:
         if(ver >= MIN_FW_300_SERIES){  //This is for vme300
-            nOFP=0;
+            nOFP=7;
             nCML=4; // FP univ out 6-9 are CML
             nOFPDly=4;
             nOFPUV=10;
@@ -374,7 +374,7 @@ try{
     }
 
 
-
+    CBINIT(&runISR_cb, priorityMedium, &EVRMRM::runISR, this);
     SCOPED_LOCK(evrLock);
 
     memset(_mapped, 0, sizeof(_mapped));
@@ -400,8 +400,8 @@ try{
     // Except for Prescaler reset, which is set with a record
     specialSetMap(MRF_EVENT_RST_PRESCALERS, 100, false);
 
-    eventClock=FracSynthAnalyze(READ32(base, FracDiv),
-                                fracref,0)*1e6;
+    //eventClock=FracSynthAnalyze(READ32(base, FracDiv),fracref,0)*1e6;
+    eventClock=142800000;
 
     shadowCounterPS=READ32(base, CounterPS);
 
@@ -428,6 +428,14 @@ try{
 }
 }
 
+void EVRMRM::runISR(CALLBACK *cb) {
+    void *vptr;
+    callbackGetUser(vptr,cb);
+    EVRMRM* evr = static_cast<EVRMRM*>(vptr);
+
+    evr->isr(vptr);
+    callbackRequestDelayed(&evr->runISR_cb, 0.1); // poll in 100ms
+}
 
 
 EVRMRM::~EVRMRM()
@@ -784,8 +792,8 @@ EVRMRM::clockSet(double freq)
 
         WRITE32(base, FracDiv, newfrac);
 
-        eventClock=FracSynthAnalyze(READ32(base, FracDiv),
-                                    fracref,0)*1e6;
+        //eventClock=FracSynthAnalyze(READ32(base, FracDiv), fracref,0)*1e6;
+        eventClock=142800000;
     }
 /*
 
@@ -1237,7 +1245,7 @@ EVRMRM::isr(void *arg)
 
     epicsUInt32 active=flags&evr->shadowIRQEna;
 
-    EVR_INFO(4,"ISR start, flags 0x%x (active: 0x%x)", flags, active);
+    EVR_INFO(4,"%s ISR start, flags 0x%x (active: 0x%x)", evr->id.c_str(), flags, active);
 
     if(!active)
         return;
@@ -1310,7 +1318,7 @@ EVRMRM::isr(void *arg)
         WRITE32(evr->base, IRQEnable, evr->shadowIRQEna);
     }
 
-    EVR_INFO(4,"ISR ended, IRQEnable 0x%x, flags: 0x%x",evr->shadowIRQEna, flags);
+    EVR_INFO(4,"%s ISR ended, IRQEnable 0x%x, flags: 0x%x", evr->id.c_str(), evr->shadowIRQEna, flags);
 
 }
 
@@ -1364,7 +1372,7 @@ EVRMRM::drain_fifo()
 
         epicsUInt32 status;
 
-        EVR_EVENT_INFO(1,"Draining FIFO!\n");
+        EVR_EVENT_INFO(1,"Draining %s FIFO!\n", id.c_str());
         // Bound the number of events taken from the FIFO
         // at one time.
         for(i=0; i<512; i++) {
