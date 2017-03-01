@@ -122,11 +122,13 @@ long get_ioint_info_statusChange(int dir,dbCommon* prec,IOSCANPVT* io)
 
 EVRMRM::EVRMRM(const std::string& n,
                deviceInfoT &devInfo,
-               volatile epicsUInt8* b)
+               volatile epicsUInt8* b,
+               volatile epicsUInt8* evgBase)
   :mrf::ObjectInst<EVRMRM>(n)
   ,evrLock()
   ,id(n)
   ,base(b)
+  ,evgBaseAddress(evgBase)
   ,count_recv_error(0)
   ,count_hardware_irq(0)
   ,count_heartbeat(0)
@@ -181,12 +183,6 @@ try{
     CBINIT(&drain_log_cb   , priorityMedium, &EVRMRM::drain_log , this);
     CBINIT(&poll_link_cb   , priorityMedium, &EVRMRM::poll_link , this);
 
-    if(ver>=5) {
-        std::ostringstream name;
-        name<<id<<":SFP0";
-        sfp.reset(new SFP(name.str(), base + U32_SFPEEPROM_base));
-    }
-
     /*
      * Create subunit instances
      */
@@ -194,8 +190,22 @@ try{
     setFormFactor();  // updates deviceInfo.formFactor
     formFactor form = getFormFactor();
 
-    m_remoteFlash = new mrmRemoteFlash(n, b, deviceInfo, m_flash);
-    if(deviceInfo.series == series_300DC || (deviceInfo.series == series_300 && deviceInfo.formFactor == formFactor_VME64)) {
+    if(ver>=5 && deviceInfo.formFactor != formFactor_embedded) {
+        std::ostringstream name;
+        name<<id<<":SFP0";
+        sfp.reset(new SFP(name.str(), base + U32_SFPEEPROM_base));
+    }
+
+    if(form != formFactor_embedded) {
+        m_remoteFlash = new mrmRemoteFlash(n, b, deviceInfo, m_flash);
+    }
+    else {
+        m_remoteFlash = NULL;
+    }
+
+    if(      deviceInfo.series == series_300DC ||
+            (deviceInfo.series == series_300 && (deviceInfo.formFactor == formFactor_VME64 ||
+                                                 deviceInfo.formFactor == formFactor_embedded))) {
         m_sequencer = new EvrSequencer(n+":Sequencer", b);
     }
     else {
@@ -225,6 +235,12 @@ try{
     case formFactor_PMC:
         nOFP=3;
         nIFP=1;
+        break;
+    case formFactor_embedded:
+        nOFP = 8;
+        nIFP = 8;
+        nPul = 32;
+        nPS  = 8;
         break;
     case formFactor_VME64:
         if(ver >= MIN_FW_300_SERIES){  //This is for vme300
@@ -400,8 +416,12 @@ try{
     // Except for Prescaler reset, which is set with a record
     specialSetMap(MRF_EVENT_RST_PRESCALERS, 100, false);
 
-    eventClock=FracSynthAnalyze(READ32(base, FracDiv),
-                                fracref,0)*1e6;
+    if(form == formFactor_embedded) {
+        eventClock=FracSynthAnalyze(READ32(evgBaseAddress, FracDiv), fracref, 0)*1e6;
+    }
+    else {
+        eventClock=FracSynthAnalyze(READ32(base, FracDiv), fracref, 0)*1e6;
+    }
 
     shadowCounterPS=READ32(base, CounterPS);
 
@@ -453,7 +473,9 @@ EVRMRM::cleanup()
     if(m_sequencer != NULL) {
         delete m_sequencer;
     }
-    delete m_remoteFlash;
+    if(m_remoteFlash != NULL) {
+        delete m_remoteFlash;
+    }
     delete m_dataBufferObj_230;
     delete m_dataBufferObj_300;
     delete m_dataBuffer_230;
@@ -565,6 +587,10 @@ EVRMRM::formFactorStr(){
 
     case formFactor_VME64:
         text = "VME 64";
+        break;
+
+    case formFactor_embedded:
+        text = "Embedded EVR";
         break;
 
     default:
@@ -757,10 +783,17 @@ EVRMRM::specialSetMap(epicsUInt32 code, epicsUInt32 func,bool v)
 void
 EVRMRM::clockSet(double freq)
 {
+    if(deviceInfo.formFactor == formFactor_embedded) {
+        SCOPED_LOCK(evrLock);
+        eventClock = freq;
+        printf("Set %s clock to %f\n", id.c_str(), freq);
+        return;
+    }
+
     double err;
     // Set both the fractional synthesiser and microsecond
     // divider.
-    printf("Set EVR clock %f\n",freq);
+    printf("Set %s clock to %f\n", id.c_str(), freq);
 
     freq/=1e6;
 
@@ -787,21 +820,17 @@ EVRMRM::clockSet(double freq)
         eventClock=FracSynthAnalyze(READ32(base, FracDiv),
                                     fracref,0)*1e6;
     }
-/*
-
-    epicsUInt16 oldudiv=READ32(base, USecDiv);
-    epicsUInt16 newudiv=(epicsUInt16)freq;
-
-    if(newudiv!=oldudiv){
-        WRITE32(base, USecDiv, newudiv);
-    }
-    */
 }
 
 epicsUInt32
 EVRMRM::uSecDiv() const
 {
-    return READ32(base, USecDiv);
+    if(deviceInfo.formFactor == formFactor_embedded) {
+        return READ32(evgBaseAddress, USecDiv);
+    }
+    else {
+        return READ32(base, USecDiv);
+    }
 }
 
 bool
@@ -839,6 +868,8 @@ EVRMRM::setPllBandwidth(PLLBandwidth pllBandwidth)
     epicsUInt32 clkCtrl;
     epicsUInt32 bw;
 
+    // TODO does not make sense in embedded evr?
+
     if(pllBandwidth > PLLBandwidth_MAX){
         throw std::out_of_range("PLL bandwith you selected is not available.");
     }
@@ -856,6 +887,7 @@ PLLBandwidth
 EVRMRM::pllBandwidth() const
 {
     epicsUInt32 bw;
+    // TODO does not make sense in embedded evr?
 
     bw = (READ32(base, ClkCtrl) & ClkCtrl_bwsel);
     bw = bw >> ClkCtrl_bwsel_shift;
@@ -1192,7 +1224,7 @@ EVRMRM::enableIRQ(void)
 
     EVR_DEBUG(2,"Enabling interrupts: 0x%x",shadowIRQEna);
 
-    if(getFormFactor() != formFactor_VME64 ){
+    if(getFormFactor() != formFactor_VME64 && getFormFactor() != formFactor_embedded ){
         EVR_DEBUG(2,"Enabling PCIe interrupts: 0x%x",shadowIRQEna);
         if(devPCIEnableInterrupt((const epicsPCIDevice*)this->isrLinuxPvt)) {
             errlogPrintf("Failed to enable PCIe interrupt.  Stuck...\n");
@@ -1608,10 +1640,12 @@ void EVRMRM::setFormFactor()
      *
      * Changed by: jkrasna
      */
-    if(form <= formFactor_PCIe){
-        deviceInfo.formFactor = (formFactor)form;
-    }
-    else{
-        deviceInfo.formFactor = formFactor_unknown;
+    if(deviceInfo.formFactor != formFactor_embedded) {
+        if(form <= formFactor_last){
+            deviceInfo.formFactor = (formFactor)form;
+        }
+        else{
+            deviceInfo.formFactor = formFactor_unknown;
+        }
     }
 }

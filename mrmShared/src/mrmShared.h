@@ -41,7 +41,9 @@ enum formFactor {
   formFactor_CRIO=3,
   formFactor_CPCIFULL=4, // 6U
   formFactor_PXIe=6,
-  formFactor_PCIe=7
+  formFactor_PCIe=7,
+  formFactor_embedded=20,
+  formFactor_last = formFactor_embedded
 };
 
 enum deviceSeries {
@@ -150,6 +152,7 @@ enum PLLBandwidth {
 #define DataBuffer_len_max  DataTxCtrl_len_mask // Maximum supported length of the data buffer
 
 #define MIN_FW_300_SERIES  0x207
+#define START_FW_300_SERIES  0x200
 
 ////////////////////
 /** Misc defines **/

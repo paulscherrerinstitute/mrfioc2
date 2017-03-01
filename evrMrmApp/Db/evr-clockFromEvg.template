@@ -1,0 +1,9 @@
+# This record is used in embedded EVRs to forward clock settings
+# of parent EVG for internal EVR use
+
+record(ao, "$(SYS)-$(DEVICE)-FwdEvgClk_") {
+  field(OMSL,"closed_loop")
+
+  field(DOL, "$(SYS)-$(DEVICE_PARENT):EvtClk-Frequency-RB CP")
+  field(OUT, "$(SYS)-$(DEVICE):Link-Clk-SP PP")
+}

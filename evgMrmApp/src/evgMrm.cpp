@@ -45,7 +45,7 @@ evgMrm::evgMrm(const std::string& id, deviceInfoT &devInfo, volatile epicsUInt8*
     m_fctReg(fctReg),
     m_deviceInfo(devInfo),
     m_acTrig(id+":AcTrig", pReg),
-    m_evtClk(id+":EvtClk", pReg),
+    m_evtClk(id+":EvtClk", pReg, this),
     m_softEvt(id+":SoftEvt", pReg),
     m_flash(pReg),
     m_seqRamMgr(this),
@@ -158,7 +158,7 @@ evgMrm::evgMrm(const std::string& id, deviceInfoT &devInfo, volatile epicsUInt8*
 
         m_remoteFlash = new mrmRemoteFlash(id, pReg, m_deviceInfo, m_flash);
 
-        if(version >= EVG_FCT_MIN_FIRMWARE && m_fctReg > 0){
+        if(version >= MIN_FW_300_SERIES && m_fctReg > 0){
             m_fct = new evgFct(id, m_fctReg, &m_sfp); // fanout SFP modules are initialized here
         } else{
             m_fct = 0;
@@ -314,6 +314,11 @@ evgMrm::getFormFactorStr(){
 std::string
 evgMrm::getSwVersion() const {
     return MRF_VERSION;
+}
+
+deviceInfoT evgMrm::getDeviceInfo() const
+{
+    return m_deviceInfo;
 }
 
 epicsUInt16

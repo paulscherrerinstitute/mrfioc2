@@ -282,7 +282,7 @@ mrmEvgSetupVME (
 
 
         /* Set the base address of Register Map for function 2, if we have the right firmware version  */
-        if(version >= EVG_FCT_MIN_FIRMWARE) {
+        if(version >= MIN_FW_300_SERIES) {
             deviceInfo.series = series_300;
             CSRSetBase(csrCpuAddr, 2, vmeAddress+EVG_REGMAP_SIZE, VME_AM_STD_SUP_DATA);
             {

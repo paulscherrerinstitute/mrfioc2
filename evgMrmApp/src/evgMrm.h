@@ -75,6 +75,7 @@ public:
     formFactor getFormFactor();
     std::string getFormFactorStr();
     std::string getSwVersion() const;
+    deviceInfoT getDeviceInfo() const;
 
     void enable(bool);
     bool enabled() const;

@@ -35,6 +35,7 @@
 #include <epicsExport.h>
 
 #include "evrIocsh.h"
+#include "evgMrm.h"
 
 // for htons() et al.
 #ifdef _WIN32
@@ -503,7 +504,7 @@ mrmEvrSetupPCI(const char* id,      // Card Identifier
 
         // Install ISR
 
-        EVRMRM *receiver=new EVRMRM(id,deviceInfo,evr);
+        EVRMRM *receiver=new EVRMRM(id,deviceInfo,evr, NULL);
 
         void *arg=receiver;
     #if  defined(__linux__) || defined(_WIN32)
@@ -771,7 +772,7 @@ mrmEvrSetupVME(const char* id,      // Card Identifier
 
         NAT_WRITE32(evr, IRQEnable, 0); // Disable interrupts
 
-        EVRMRM *receiver=new EVRMRM(id, deviceInfo, evr);
+        EVRMRM *receiver=new EVRMRM(id, deviceInfo, evr, NULL);
 
         if(level>0 && vector>=0) {
             CSRWrite8(user_csr+UCSR_IRQ_LEVEL,  level&0x7);
@@ -1056,15 +1057,14 @@ void mrmEvrWrite(const char* id, size_t offset, epicsUInt32 value)
 
 /********** Read device memory  *******/
 
-static const iocshArg mrmDataBufferArg0_mrmEvrRead = { "Device", iocshArgString };
-static const iocshArg mrmDataBufferArg1_mrmEvrRead = { "offset", iocshArgInt };
-//static const iocshArg mrmDataBufferArg2_mrmEvrRead = { "length", iocshArgInt };
+static const iocshArg mrmEvrReadArg0 = { "Device", iocshArgString };
+static const iocshArg mrmEvrReadArg1 = { "offset", iocshArgInt };
 
-static const iocshArg * const mrmDataBufferArgs_mrmEvrRead[2] = { &mrmDataBufferArg0_mrmEvrRead, &mrmDataBufferArg1_mrmEvrRead };
-static const iocshFuncDef mrmDataBufferDef_mrmEvrRead = { "mrmEvrRead", 2, mrmDataBufferArgs_mrmEvrRead };
+static const iocshArg * const mrmEvrReadArgs[2] = { &mrmEvrReadArg0, &mrmEvrReadArg1 };
+static const iocshFuncDef mrmEvrReadFuncDef = { "mrmEvrRead", 2, mrmEvrReadArgs };
 
 
-static void mrmDataBufferFunc_mrmEvrRead(const iocshArgBuf *args) {
+static void mrmEvrReadFunc(const iocshArgBuf *args) {
     epicsUInt32 offset = args[1].ival;
     //epicsUInt32 length = args[2].ival;
     mrmEvrRead(args[0].sval, offset);
@@ -1074,19 +1074,75 @@ static void mrmDataBufferFunc_mrmEvrRead(const iocshArgBuf *args) {
 
 /********** Write device memory  *******/
 
-static const iocshArg mrmDataBufferArg0_mrmEvrWrite = { "Device", iocshArgString };
-static const iocshArg mrmDataBufferArg1_mrmEvrWrite = { "offset", iocshArgInt };
-static const iocshArg mrmDataBufferArg2_mrmEvrWrite = { "value", iocshArgInt };
+static const iocshArg mrmEvrWriteArg0 = { "Device", iocshArgString };
+static const iocshArg mrmEvrWriteArg1 = { "offset", iocshArgInt };
+static const iocshArg mrmEvrWriteArg2 = { "value", iocshArgInt };
 
-static const iocshArg * const mrmDataBufferArgs_mrmEvrWrite[3] = { &mrmDataBufferArg0_mrmEvrWrite, &mrmDataBufferArg1_mrmEvrWrite, &mrmDataBufferArg2_mrmEvrWrite };
-static const iocshFuncDef mrmDataBufferDef_mrmEvrWrite = { "mrmEvrWrite", 3, mrmDataBufferArgs_mrmEvrWrite };
+static const iocshArg * const mrmEvrWriteArgs[3] = { &mrmEvrWriteArg0, &mrmEvrWriteArg1, &mrmEvrWriteArg2 };
+static const iocshFuncDef mrmEvrWriteFuncDef = { "mrmEvrWrite", 3, mrmEvrWriteArgs };
 
 
-static void mrmDataBufferFunc_mrmEvrWrite(const iocshArgBuf *args) {
+static void mrmEvrWriteFunc(const iocshArgBuf *args) {
     epicsUInt32 offset = args[1].ival;
     epicsUInt32 value = args[2].ival;
 
     mrmEvrWrite(args[0].sval, offset, value);
+}
+
+/******************/
+
+/********** Create embedded EVR on EVG  *******/
+
+static const iocshArg mrmEvrSetupEmbeddedArg0 = { "Device name", iocshArgString };
+static const iocshArg mrmEvrSetupEmbeddedArg1 = { "Parent device name", iocshArgString };
+static const iocshArg mrmEvrSetupEmbeddedArg2 = { "Type [upstream, downstream]", iocshArgString };
+
+static const iocshArg * const mrmEvrSetupEmbeddedArgs[3] = { &mrmEvrSetupEmbeddedArg0, &mrmEvrSetupEmbeddedArg1, &mrmEvrSetupEmbeddedArg2 };
+static const iocshFuncDef mrmEvrSetupEmbeddedFuncDef = { "mrmEvrSetupEmbedded", 3, mrmEvrSetupEmbeddedArgs };
+
+
+static void mrmEvrSetupEmbeddedCallFunc(const iocshArgBuf *args) {
+    char *evrName = args[0].sval;
+    char *evgName = args[1].sval;
+    evgMrm *evg;
+    EVRMRM *evr;
+    mrf::Object *obj;
+    deviceInfoT deviceInfo;
+    size_t memoryOffset;
+
+    if(strcmp("upstream", args[2].sval) == 0 || strtol(args[2].sval, NULL, 10) != 0) {
+        memoryOffset = 0x30000;
+    }
+    else if(strcmp("downstream", args[2].sval) == 0 || strtol(args[2].sval, NULL, 10) != 1) {
+        memoryOffset = 0x20000;
+    }
+    else {
+        errlogPrintf("Device type %s not supported. Choices are:\n - upstream or 0\n- downstream or 1\n", args[2].sval);
+        return;
+    }
+
+    obj = mrf::Object::getObject(evgName);
+    if(!obj) {
+        errlogPrintf("Event generator %s does not exist\n", evgName);
+        return;
+    }
+    evg = dynamic_cast<evgMrm*>(obj);
+    if(!evg) {
+        errlogPrintf("Device named %s is not an event generator\n", evgName);
+        return;
+    }
+
+    obj = mrf::Object::getObject(evrName);
+    if(obj) {
+        errlogPrintf("Event receiver %s already exist\n", evrName);
+        return;
+    }
+
+    deviceInfo = evg->getDeviceInfo();
+    // TODO check if the EVG supports embedded EVR
+    deviceInfo.formFactor = formFactor_embedded;
+
+    evr = new EVRMRM(evrName, deviceInfo, evg->getRegAddr() + memoryOffset, evg->getRegAddr());
 }
 
 /******************/
@@ -1097,11 +1153,12 @@ void mrmsetupreg()
     initHookRegister(&inithooks);
     iocshRegister(&mrmEvrSetupPCIFuncDef, mrmEvrSetupPCICallFunc);
     iocshRegister(&mrmEvrSetupVMEFuncDef, mrmEvrSetupVMECallFunc);
+    iocshRegister(&mrmEvrSetupEmbeddedFuncDef, mrmEvrSetupEmbeddedCallFunc);
     iocshRegister(&mrmEvrDumpMapFuncDef, mrmEvrDumpMapCallFunc);
     iocshRegister(&mrmEvrForwardFuncDef, mrmEvrForwardCallFunc);
     iocshRegister(&mrmEvrLoopbackFuncDef, mrmEvrLoopbackCallFunc);
-    iocshRegister(&mrmDataBufferDef_mrmEvrRead, mrmDataBufferFunc_mrmEvrRead);
-    iocshRegister(&mrmDataBufferDef_mrmEvrWrite, mrmDataBufferFunc_mrmEvrWrite);
+    iocshRegister(&mrmEvrWriteFuncDef, mrmEvrWriteFunc);
+    iocshRegister(&mrmEvrReadFuncDef, mrmEvrReadFunc);
 }
 
 

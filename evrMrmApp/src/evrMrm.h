@@ -116,7 +116,7 @@ public:
     mutable epicsMutex evrLock;
 
 
-    EVRMRM(const std::string& n, deviceInfoT &devInfo, volatile epicsUInt8 *);
+    EVRMRM(const std::string& n, deviceInfoT &devInfo, volatile epicsUInt8 *, volatile epicsUInt8 *evgBase);
 
     ~EVRMRM();
 private:
@@ -282,6 +282,7 @@ public:
 
     const std::string id;
     volatile unsigned char * const base;
+    volatile unsigned char * const evgBaseAddress;
     std::auto_ptr<SFP> sfp;
 
     /**\defgroup devhelp Device Support Helpers

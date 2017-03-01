@@ -594,26 +594,26 @@ file "$(mrfioc2_TEMPLATES=db)/evg-vme-300.db"
 }
 
 ##EVG soft sequences (we need 2 for ping-pong loader)
-file "$(mrfioc2_TEMPLATES=db)/evgSoftSeq.template"
-{
-    {
-          SEQNUM    = 1,
-          NELM      = 2047,
-          TSINPMODE = 0,         ## 0 = EGU, 1 = Ticks
-          TSRES     = 2,         ## 0 = Seconds, 1 = Miliseconds, 2 = Microseconds, 3 = Nanoseconds
-          TRIGSRC   = 1,         ## 0 = None, 1-8 = Mxc0-7, 9 = AC, 10 = Soft, 11 = Front0, 12 = Front1, 13 = Univ0, 14 = Univ1, 15 = Univ2,
-          RUNMODE   = 2          ## 0 = Normal, 1 = Automatic, 2 = Single
-        }
-
-        {
-          SEQNUM    = 2,
-          NELM      = 2047,
-          TSINPMODE = 0,         ## 0 = EGU, 1 = Ticks
-          TSRES     = 2,         ## 0 = Seconds, 1 = Miliseconds, 2 = Microseconds, 3 = Nanoseconds
-          TRIGSRC   = 1,         ## 0 = None, 1-8 = Mxc0-7, 9 = AC, 10 = Soft, 11 = Front0, 12 = Front1, 13 = Univ0, 14 = Univ1, 15 = Univ2,
-          RUNMODE   = 2          ## 0 = Normal, 1 = Automatic, 2 = Single
-        }
-}
+#file "$(mrfioc2_TEMPLATES=db)/evgSoftSeq.template"
+#{
+#    {
+#          SEQNUM    = 1,
+#          NELM      = 2047,
+#          TSINPMODE = 0,         ## 0 = EGU, 1 = Ticks
+#          TSRES     = 2,         ## 0 = Seconds, 1 = Miliseconds, 2 = Microseconds, 3 = Nanoseconds
+#          TRIGSRC   = 1,         ## 0 = None, 1-8 = Mxc0-7, 9 = AC, 10 = Soft, 11 = Front0, 12 = Front1, 13 = Univ0, 14 = Univ1, 15 = Univ2,
+#          RUNMODE   = 2          ## 0 = Normal, 1 = Automatic, 2 = Single
+#        }
+#
+#        {
+#          SEQNUM    = 2,
+#          NELM      = 2047,
+#          TSINPMODE = 0,         ## 0 = EGU, 1 = Ticks
+#          TSRES     = 2,         ## 0 = Seconds, 1 = Miliseconds, 2 = Microseconds, 3 = Nanoseconds
+#          TRIGSRC   = 1,         ## 0 = None, 1-8 = Mxc0-7, 9 = AC, 10 = Soft, 11 = Front0, 12 = Front1, 13 = Univ0, 14 = Univ1, 15 = Univ2,
+#          RUNMODE   = 2          ## 0 = Normal, 1 = Automatic, 2 = Single
+#        }
+#}
 
 ## Health monitoring
 ## Template for monitoring health status of the device

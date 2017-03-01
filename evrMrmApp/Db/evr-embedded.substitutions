@@ -1,0 +1,119 @@
+# Record set for a EVR-VME-300
+#
+# Macros:
+#  DEVICE = Event receiver / timing card name (same as mrmEvrSetupVME()) Eg. EVR0
+#  SYS = System name (ie SR-TM)
+#
+
+file "evr-base.template"
+{pattern
+{ SYS,      DEVICE,     EVNT1HZ}
+{"$(SYS)", "$(DEVICE)", 125}
+}
+
+
+file "dataBuffer.template"
+{
+{SYS="$(SYS)", DEVICE="$(DEVICE)", TYPE="230", ID=$(TYPE)}
+{SYS="$(SYS)", DEVICE="$(DEVICE)", TYPE="300", ID=""}
+}
+
+file "evr-sequencer.template"
+{
+{SYS="$(SYS)", DEVICE="$(DEVICE)"}
+}
+
+
+file "evr-prescaler.template"
+{pattern
+{ SYS,      DEVICE,     ID, MAX}
+{"$(SYS)", "$(DEVICE)", 0, "0xffffffff"}
+{"$(SYS)", "$(DEVICE)", 1, "0xffffffff"}
+{"$(SYS)", "$(DEVICE)", 2, "0xffffffff"}
+{"$(SYS)", "$(DEVICE)", 3, "0xffffffff"}
+{"$(SYS)", "$(DEVICE)", 4, "0xffffffff"}
+{"$(SYS)", "$(DEVICE)", 5, "0xffffffff"}
+{"$(SYS)", "$(DEVICE)", 6, "0xffffffff"}
+{"$(SYS)", "$(DEVICE)", 7, "0xffffffff"}
+}
+
+# Pulse generators w/o a prescaler set NOPS=1
+file "evr-pulser.template"
+{pattern
+{ SYS,      DEVICE,     ID,  DMAX,       WMAX,          PMAX,  NOPS}
+{"$(SYS)", "$(DEVICE)", 0,  "0xffffffff", "0xffffffff", "0xffff", 0}
+{"$(SYS)", "$(DEVICE)", 1,  "0xffffffff", "0xffffffff", "0xffff", 0}
+{"$(SYS)", "$(DEVICE)", 2,  "0xffffffff", "0xffffffff", "0xffff", 0}
+{"$(SYS)", "$(DEVICE)", 3,  "0xffffffff", "0xffffffff", "0xffff", 0}
+{"$(SYS)", "$(DEVICE)", 4,  "0xffffffff", "0xffff",     "1",      1}
+{"$(SYS)", "$(DEVICE)", 5,  "0xffffffff", "0xffff",     "1",      1}
+{"$(SYS)", "$(DEVICE)", 6,  "0xffffffff", "0xffff",     "1",      1}
+{"$(SYS)", "$(DEVICE)", 7,  "0xffffffff", "0xffff",     "1",      1}
+{"$(SYS)", "$(DEVICE)", 8,  "0xffffffff", "0xffff",     "1",      1}
+{"$(SYS)", "$(DEVICE)", 9,  "0xffffffff", "0xffff",     "1",      1}
+{"$(SYS)", "$(DEVICE)", 10, "0xffffffff", "0xffff",     "1",      1}
+{"$(SYS)", "$(DEVICE)", 11, "0xffffffff", "0xffff",     "1",      1}
+{"$(SYS)", "$(DEVICE)", 12, "0xffffffff", "0xffff",     "1",      1}
+{"$(SYS)", "$(DEVICE)", 13, "0xffffffff", "0xffff",     "1",      1}
+{"$(SYS)", "$(DEVICE)", 14, "0xffffffff", "0xffff",     "1",      1}
+{"$(SYS)", "$(DEVICE)", 15, "0xffffffff", "0xffff",     "1",      1}
+{"$(SYS)", "$(DEVICE)", 16, "0xffffffff", "0xffff",     "1",      1}
+{"$(SYS)", "$(DEVICE)", 17, "0xffffffff", "0xffff",     "1",      1}
+{"$(SYS)", "$(DEVICE)", 18, "0xffffffff", "0xffff",     "1",      1}
+{"$(SYS)", "$(DEVICE)", 19, "0xffffffff", "0xffff",     "1",      1}
+{"$(SYS)", "$(DEVICE)", 20, "0xffffffff", "0xffff",     "1",      1}
+{"$(SYS)", "$(DEVICE)", 21, "0xffffffff", "0xffff",     "1",      1}
+{"$(SYS)", "$(DEVICE)", 22, "0xffffffff", "0xffff",     "1",      1}
+{"$(SYS)", "$(DEVICE)", 23, "0xffffffff", "0xffff",     "1",      1}
+# Gates
+{"$(SYS)", "$(DEVICE)", 28, "0",          "0",          "1",      1}
+{"$(SYS)", "$(DEVICE)", 29, "0",          "0",          "1",      1}
+{"$(SYS)", "$(DEVICE)", 30, "0",          "0",          "1",      1}
+{"$(SYS)", "$(DEVICE)", 31, "0",          "0",          "1",      1}
+}
+
+## Form factor specific
+file "evr-in.template"
+{pattern
+{ SYS,      DEVICE,     ID,  DESC}
+{"$(SYS)", "$(DEVICE)", 0,  "IN0 (embedded)"}
+{"$(SYS)", "$(DEVICE)", 1,  "IN1 (embedded)"}
+{"$(SYS)", "$(DEVICE)", 2,  "IN1 (embedded)"}
+{"$(SYS)", "$(DEVICE)", 3,  "IN1 (embedded)"}
+{"$(SYS)", "$(DEVICE)", 4,  "IN1 (embedded)"}
+{"$(SYS)", "$(DEVICE)", 5,  "IN1 (embedded)"}
+{"$(SYS)", "$(DEVICE)", 6,  "IN1 (embedded)"}
+{"$(SYS)", "$(DEVICE)", 7,  "IN1 (embedded)"}
+}
+
+
+file "evr-out.template"
+{pattern
+{ SYS,      DEVICE,      OBJ,    		 	ID,   DESC}
+{"$(SYS)", "$(DEVICE)", "FrontOut", 	0,   "OUT0 (embedded)"}
+{"$(SYS)", "$(DEVICE)", "FrontOut", 	1,   "OUT1 (embedded)"}
+{"$(SYS)", "$(DEVICE)", "FrontOut", 	2,   "OUT2 (embedded)"}
+{"$(SYS)", "$(DEVICE)", "FrontOut", 	3,   "OUT3 (embedded)"}
+{"$(SYS)", "$(DEVICE)", "FrontOut", 	4,   "OUT4 (embedded)"}
+{"$(SYS)", "$(DEVICE)", "FrontOut", 	5,   "OUT5 (embedded)"}
+{"$(SYS)", "$(DEVICE)", "FrontOut", 	6,   "OUT6 (embedded)"}
+{"$(SYS)", "$(DEVICE)", "FrontOut", 	7,   "OUT7 (embedded)"}
+}
+
+file "evr-pulserMap-dbus.template"
+{pattern
+{ SYS,      DEVICE,     ID}
+{"$(SYS)", "$(DEVICE)", 0}
+{"$(SYS)", "$(DEVICE)", 1}
+{"$(SYS)", "$(DEVICE)", 2}
+{"$(SYS)", "$(DEVICE)", 3}
+{"$(SYS)", "$(DEVICE)", 4}
+{"$(SYS)", "$(DEVICE)", 5}
+{"$(SYS)", "$(DEVICE)", 6}
+{"$(SYS)", "$(DEVICE)", 7}
+}
+
+file "evr-clockFromEvg.template"
+{
+{SYS="$(SYS)", DEVICE="$(DEVICE)", DEVICE_PARENT="$(DEVICE_PARENT)"}
+}

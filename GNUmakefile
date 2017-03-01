@@ -111,6 +111,7 @@ TEMPLATES += evrMrmApp/Db/evr-pcie-300.db
 TEMPLATES += evrMrmApp/Db/evr-pcie-300DC.db
 TEMPLATES += evrMrmApp/Db/evr-vme-300.db
 TEMPLATES += evrMrmApp/Db/evr-vme-230.db
+TEMPLATES += evrMrmApp/Db/evr-embedded.db
 
 ## Fixed EVR templates
 TEMPLATES += evrMrmApp/Db/evr-softEvent.template
@@ -134,6 +135,7 @@ TEMPLATES += PSI/example/evr_VME-300.subs
 TEMPLATES += PSI/example/evr_cPCI-230.subs
 TEMPLATES += PSI/example/evr_PCIe-300.subs
 TEMPLATES += PSI/example/evr_PCIe-300DC.subs
+TEMPLATES += PSI/example/evr_embedded.subs
 TEMPLATES += PSI/example/evg_VME-230.subs
 TEMPLATES += PSI/example/evg_VME-300.subs
 TEMPLATES += PSI/example/evg_VME-300-fout.subs
@@ -148,6 +150,7 @@ TEMPLATES += PSI/Db/evr-BeamOK.template
 ## GENERIC STARTUP SCRIPTS ##
 SCRIPTS += PSI/mrfioc2_evr-PCIe.cmd
 SCRIPTS += PSI/mrfioc2_evr-VME.cmd
+SCRIPTS += PSI/mrfioc2_evr-embedded.cmd
 SCRIPTS += PSI/mrfioc2_evg-VME.cmd
 
 ## SCRIPTS FOR LOADING KERNEL MODULES
@@ -168,6 +171,7 @@ dbclean:
 	rm -f evrMrmApp/Db/evr-pcie-300.db
 	rm -f evrMrmApp/Db/evr-vme-300.db
 	rm -f evrMrmApp/Db/evr-vme-230.db
+	rm -f evrMrmApp/Db/evr-embedded.db
 
 dbexpand: 
 	
@@ -182,6 +186,7 @@ dbexpand:
 	msi -I evrMrmApp/Db/ -I mrmShared/Db/ -S evrMrmApp/Db/evr-pcie-300DC.substitutions 	-o evrMrmApp/Db/evr-pcie-300DC.db
 	msi -I evrMrmApp/Db/ -I mrmShared/Db/ -S evrMrmApp/Db/evr-vme-300.substitutions 	-o evrMrmApp/Db/evr-vme-300.db
 	msi -I evrMrmApp/Db/ -I mrmShared/Db/ -S evrMrmApp/Db/evr-vme-230.substitutions 	-o evrMrmApp/Db/evr-vme-230.db
+	msi -I evrMrmApp/Db/ -I mrmShared/Db/ -S evrMrmApp/Db/evr-embedded.substitutions 	-o evrMrmApp/Db/evr-embedded.db
 
 gui: 
 	PSI/installScreens.sh evrMrmApp/opi/EVR/
