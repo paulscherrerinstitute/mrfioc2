@@ -44,23 +44,52 @@ record(event, "$(SYS)-$(DEVICE):BEAMOK-LASOFF-EVT") {
         field(FLNK, "$(SYS)-$(DEVICE):BEAMOK-FALSE_")
 }
 
+# Processed whenever RF fire 1 event is received
+record(event, "$(SYS)-$(DEVICE):BEAMOK-RFFIRE1-EVT") {         
+        field(DESC, "RF fire 1 event")
+        field(DTYP, "EVR Event")
+        field(SCAN, "I/O Intr")
+        field(INP,  "@OBJ=$(DEVICE),Code=$(RFFIRE1-EVT=1)")
+        field(VAL,  "0")
+        field(FLNK, "$(SYS)-$(DEVICE):BEAMOK-CALC")
+}
+
+record(calcout,"$(SYS)-$(DEVICE):BEAMOK-CALC") {             
+  field(DESC,"decides for BeamOk/Nok")                         
+  field(INPA,"$(SYS)-$(DEVICE):BEAMOK_")	 
+  field(OOPT,"On Change")                             
+  field(CALC,"A")                             
+  field(OUT,"$(SYS)-$(DEVICE):BEAMOK PP")                             
+}
+
 
 # Sets beam ok status to 0 
 record(bo, "$(SYS)-$(DEVICE):BEAMOK-FALSE_") {
         field(DESC, "Set beam OK status to false")
         field(DOL, "0")
-        field(OUT, "$(SYS)-$(DEVICE):BEAMOK PP")
+        field(OUT, "$(SYS)-$(DEVICE):BEAMOK_ PP")
 }
 
-# Sets beam ok status to 1 
+# Sets event status to 1 
 record(bo, "$(SYS)-$(DEVICE):BEAMOK-TRUE_") {
         field(DESC, "Set beam OK status to true")
         field(DOL,  "1")
-        field(OUT,  "$(SYS)-$(DEVICE):BEAMOK PP")
+        field(OUT,  "$(SYS)-$(DEVICE):BEAMOK_ PP")
 }
 
 
-# Is beam OK or not?
+# Beam internal state
+record(bi, "$(SYS)-$(DEVICE):BEAMOK_") {
+        field(DESC, "Beam internal state")
+
+        field(ZNAM, "Beam NOT OK")
+        field(ONAM, "Beam OK")
+
+        field(VAL,  "0")
+        field(PINI, "YES")
+}
+
+# Enable or disable triggers / acquisition
 record(bi, "$(SYS)-$(DEVICE):BEAMOK") {
         field(DESC, "Beam OK flag")
 
