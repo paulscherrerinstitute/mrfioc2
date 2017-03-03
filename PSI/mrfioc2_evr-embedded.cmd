@@ -10,4 +10,4 @@ dbLoadRecords $(mrfioc2_TEMPLATES)/evr-BeamOK.template,"SYS=$(SYS),DEVICE=$(DEVI
 
 
 ## Health monitoring: 
-dbLoadRecords "$(mrfioc2_TEMPLATES=db)/evr-health.template", "SYS=$(SYS),DEVICE=$(DEVICE=EVR0)"
+#dbLoadRecords "$(mrfioc2_TEMPLATES=db)/evr-health.template", "SYS=$(SYS),DEVICE=$(DEVICE=EVR0)"
