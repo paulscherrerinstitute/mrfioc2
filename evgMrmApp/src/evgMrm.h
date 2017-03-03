@@ -58,7 +58,7 @@ class wdTimer;
 
 enum ALARM_TS {TS_ALARM_NONE, TS_ALARM_MINOR, TS_ALARM_MAJOR};
 
-class evgMrm : public mrf::ObjectInst<evgMrm> {
+class epicsShareClass evgMrm : public mrf::ObjectInst<evgMrm> {
 public:
     evgMrm(const std::string& id, deviceInfoT& devInfo, volatile epicsUInt8* const, volatile epicsUInt8* const, const epicsPCIDevice* pciDevice);
     ~evgMrm();

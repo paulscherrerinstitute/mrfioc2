@@ -14,9 +14,9 @@
 evgEvtClk::evgEvtClk(const std::string& name, volatile epicsUInt8* const pReg, evgMrm *evg):
 mrf::ObjectInst<evgEvtClk>(name),
 m_pReg(pReg),
+m_parent(evg),
 m_RFref(0.0f),
 m_fracSynFreq(0.0f),
-m_parent(evg),
 m_fwVersion(evg->getFwVersion())
 {
 }

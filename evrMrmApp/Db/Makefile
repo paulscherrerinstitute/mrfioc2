@@ -15,6 +15,7 @@ DB += evr-pcie-300.db
 DB += evr-pcie-300DC.db
 DB += evr-vme-300.db
 DB += evr-vme-230.db
+DB += evr-embedded.db
 # DB += evr-pmc-230.db
 
 

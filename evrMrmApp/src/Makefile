@@ -50,7 +50,7 @@ evrMrm_SRCS += irqHack.cpp
 evrMrm_SRCS += evrGpio.cpp
 
 ifeq ($(OS),Windows_NT)
-evrMrm_LIBS += mrfCommon mrmShared epicspci epicsvme $(EPICS_BASE_IOC_LIBS)
+evrMrm_LIBS += evgMrm mrfCommon mrmShared epicspci epicsvme $(EPICS_BASE_IOC_LIBS)
 endif
 
 #=============================

@@ -28,10 +28,20 @@
 #include <devLibPCI.h>
 #include "plx9030.h"
 
-#include <epicsExport.h>
 #include "evgRegMap.h"
-
 #include "mrmShared.h"
+
+// we do not want to __declspec(dllimport) functions inside the same DLL
+// this is done to avoid warning LNK4049 on Windows
+#ifdef _DLL
+    #undef _DLL
+    #include "evgMrm.h"
+    #define _DLL
+#else
+    #include "evgMrm.h"
+#endif
+
+#include <epicsExport.h>
 #include "evgInit.h"
 
 /* Bit mask used to communicate which VME interrupt levels

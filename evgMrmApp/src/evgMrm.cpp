@@ -25,6 +25,7 @@
 #include <rtems/bspIo.h>
 #endif //__rtems__
 
+#include <epicsExport.h>
 #include "evgMrm.h"
 
 

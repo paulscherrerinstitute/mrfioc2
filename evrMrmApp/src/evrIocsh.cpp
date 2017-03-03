@@ -32,10 +32,6 @@
 #include "mrfcsr.h"
 #include "mrfpci.h"
 
-#include <epicsExport.h>
-
-#include "evrIocsh.h"
-#include "evgMrm.h"
 
 // for htons() et al.
 #ifdef _WIN32
@@ -45,6 +41,11 @@
 #include "evrRegMap.h"
 #include "plx9030.h"
 #include "plx9056.h"
+
+#include "evgMrm.h"
+#include <epicsExport.h>
+#include "evrIocsh.h"
+
 
 #ifdef _WIN32
  #define strtok_r(strToken,strDelimit,lasts ) (*(lasts) = strtok((strToken),(strDelimit)))
