@@ -23,7 +23,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>PLL lock</string>
+    <string>Fract synth OK</string>
    </property>
   </widget>
   <widget class="caLed" name="caled_4">
@@ -141,14 +141,11 @@
      <height>18</height>
     </rect>
    </property>
-   <property name="toolTip">
-    <string>Is the EVR's local oscilator phase locked with the phase of the EVG's oscilator.</string>
-   </property>
    <property name="rectangular">
     <bool>false</bool>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE):Pll-Sts</string>
+    <string notr="true">$(SYS)-$(DEVICE):CG-Sts</string>
    </property>
    <property name="falseColor">
     <color>
@@ -185,7 +182,7 @@
     <enum>caFrame::Calc</enum>
    </property>
    <property name="visibilityCalc">
-    <string notr="true">A&gt;=0x200</string>
+    <string notr="true">A&gt;=0x20000</string>
    </property>
    <property name="channel" stdset="0">
     <string notr="true">$(SYS)-$(DEVICE):FwVer-I</string>
@@ -200,7 +197,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Fract synth OK</string>
+     <string>PLL lock</string>
     </property>
    </widget>
    <widget class="caLed" name="caled_3">
@@ -219,7 +216,7 @@
      <bool>false</bool>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(SYS)-$(DEVICE):CG-Sts</string>
+     <string notr="true">$(SYS)-$(DEVICE):Pll-Sts</string>
     </property>
     <property name="falseColor">
      <color>

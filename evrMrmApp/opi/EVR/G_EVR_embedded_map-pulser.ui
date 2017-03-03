@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Form</class>
+ <widget class="QWidget" name="Form">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>675</width>
+    <height>414</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="QScrollArea" name="scrollArea">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>671</width>
+     <height>411</height>
+    </rect>
+   </property>
+   <property name="widgetResizable">
+    <bool>true</bool>
+   </property>
+   <widget class="QWidget" name="scrollAreaWidgetContents">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>-241</y>
+      <width>653</width>
+      <height>650</height>
+     </rect>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>0</width>
+      <height>650</height>
+     </size>
+    </property>
+    <widget class="QWidget" name="verticalLayoutWidget">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>9</y>
+       <width>641</width>
+       <height>521</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <property name="spacing">
+       <number>2</number>
+      </property>
+      <item>
+       <widget class="caInclude" name="cainclude_25">
+        <property name="macro">
+         <string notr="true">PULSER=0, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-pulser.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="caInclude" name="cainclude_290">
+        <property name="macro">
+         <string notr="true">PULSER=1, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-pulser.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="caInclude" name="cainclude_22">
+        <property name="macro">
+         <string notr="true">PULSER=2, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-pulser.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="caInclude" name="cainclude_27">
+        <property name="macro">
+         <string notr="true">PULSER=3, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-pulser.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="caInclude" name="cainclude_287">
+        <property name="macro">
+         <string notr="true">PULSER=4, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-pulser.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="caInclude" name="cainclude_31">
+        <property name="macro">
+         <string notr="true">PULSER=5, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-pulser.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="caInclude" name="cainclude_28">
+        <property name="macro">
+         <string notr="true">PULSER=6, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-pulser.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="caInclude" name="cainclude_29">
+        <property name="macro">
+         <string notr="true">PULSER=7, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-pulser.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="caInclude" name="cainclude_26">
+        <property name="macro">
+         <string notr="true">PULSER=8, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-pulser.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="caInclude" name="cainclude_23">
+        <property name="macro">
+         <string notr="true">PULSER=9, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-pulser.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="caInclude" name="cainclude_32">
+        <property name="macro">
+         <string notr="true">PULSER=10, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-pulser.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="caInclude" name="cainclude_30">
+        <property name="macro">
+         <string notr="true">PULSER=11, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-pulser.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="caInclude" name="cainclude_24">
+        <property name="macro">
+         <string notr="true">PULSER=12, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-pulser.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="caInclude" name="cainclude_286">
+        <property name="macro">
+         <string notr="true">PULSER=13, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-pulser.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="caInclude" name="cainclude_289">
+        <property name="macro">
+         <string notr="true">PULSER=14, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-pulser.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="caInclude" name="cainclude_288">
+        <property name="macro">
+         <string notr="true">PULSER=15, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-pulser.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="caInclude" name="cainclude_291">
+        <property name="macro">
+         <string notr="true">PULSER=16, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-pulser.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="caInclude" name="cainclude_292">
+        <property name="macro">
+         <string notr="true">PULSER=17, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-pulser.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="caInclude" name="cainclude_293">
+        <property name="macro">
+         <string notr="true">PULSER=18, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-pulser.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="caInclude" name="cainclude_294">
+        <property name="macro">
+         <string notr="true">PULSER=19, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-pulser.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="caInclude" name="cainclude_295">
+        <property name="macro">
+         <string notr="true">PULSER=20, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-pulser.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="caInclude" name="cainclude_296">
+        <property name="macro">
+         <string notr="true">PULSER=21, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-pulser.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="caInclude" name="cainclude_297">
+        <property name="macro">
+         <string notr="true">PULSER=22, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-pulser.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="caInclude" name="cainclude_298">
+        <property name="macro">
+         <string notr="true">PULSER=23, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-pulser.ui</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+    <widget class="QWidget" name="verticalLayoutWidget_2">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>550</y>
+       <width>641</width>
+       <height>81</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <property name="spacing">
+       <number>2</number>
+      </property>
+      <item>
+       <widget class="caInclude" name="cainclude_303">
+        <property name="macro">
+         <string notr="true">PULSER=28,GATE=0,SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-pulser-gate.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="caInclude" name="cainclude_304">
+        <property name="macro">
+         <string notr="true">PULSER=29,GATE=1, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-pulser-gate.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="caInclude" name="cainclude_305">
+        <property name="macro">
+         <string notr="true">PULSER=30, GATE=2, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-pulser-gate.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="caInclude" name="cainclude_306">
+        <property name="macro">
+         <string notr="true">PULSER=31,GATE=3, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_map-pulser-gate.ui</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </widget>
+  </widget>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>caInclude</class>
+   <extends>QWidget</extends>
+   <header>caInclude</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

@@ -3,7 +3,7 @@ setlocal
 set s_flag=0
 set SYS=""
 set DEVICE="EVR0"
-set FF="PCIe"
+set FF="PCIe-300DC"
 
 
 
@@ -60,7 +60,7 @@ goto finish
     echo     -s [system name]     The system/project name
     echo     -d [EVR name]        Event Receiver / timing card name (default: %DEVICE%)
     echo     -f [form factor]     EVR form factor (default: %FF%)
-    echo                          Choices: VME, PCIe, VME-300, PCIe-300DC
+    echo                          Choices: VME, PCIe, VME-300, PCIe-300DC, embedded
     echo     -h                   This help
 
 :finish

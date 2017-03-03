@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Form</class>
+ <widget class="QWidget" name="Form">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>670</width>
+    <height>447</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="QScrollArea" name="scrollArea_2">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>10</y>
+     <width>671</width>
+     <height>431</height>
+    </rect>
+   </property>
+   <property name="widgetResizable">
+    <bool>true</bool>
+   </property>
+   <widget class="QWidget" name="scrollAreaWidgetContents_2">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>-331</y>
+      <width>654</width>
+      <height>850</height>
+     </rect>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>0</width>
+      <height>850</height>
+     </size>
+    </property>
+    <widget class="QWidget" name="verticalLayoutWidget_2">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>671</width>
+       <height>821</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <item>
+       <widget class="caInclude" name="cainclude">
+        <property name="macro">
+         <string notr="true">ID=0, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_input.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="caInclude" name="cainclude_2">
+        <property name="macro">
+         <string notr="true">ID=1, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_input.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="caInclude" name="cainclude_2">
+        <property name="macro">
+         <string notr="true">ID=2, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_input.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="caInclude" name="cainclude_2">
+        <property name="macro">
+         <string notr="true">ID=3, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_input.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="caInclude" name="cainclude_2">
+        <property name="macro">
+         <string notr="true">ID=4, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_input.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="caInclude" name="cainclude_2">
+        <property name="macro">
+         <string notr="true">ID=5, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_input.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="caInclude" name="cainclude_2">
+        <property name="macro">
+         <string notr="true">ID=6, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_input.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="caInclude" name="cainclude_2">
+        <property name="macro">
+         <string notr="true">ID=7, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVR_input.ui</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </widget>
+  </widget>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>caInclude</class>
+   <extends>QWidget</extends>
+   <header>caInclude</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>
