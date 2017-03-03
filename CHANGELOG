@@ -1,5 +1,6 @@
 For detailed changelog inspect commits at https://git.psi.ch/epics_driver_modules/mrfioc2/commits/master
 
+
 2.8.0 : not tagged yet
 	- breaking compabitility because support for firmware version 0x200 - 0x206 was removed. First supported version for 300 series hardware is now 0x207
 	- EVR sequencer soft triggering enabled
@@ -7,6 +8,9 @@ For detailed changelog inspect commits at https://git.psi.ch/epics_driver_module
 	- EVG topology ID register exposed as a record
 	- Flashing: increased timeouts and functions which wait for SPI have sleep with zero time added
 	- Data buffer: 300 and 230 data buffer type (starting with firmware 0x207) running at the same time supported on the 300 series timing cards
+
+2.7.24 : Fri 3 Mar 2017:
+	- Beam OK mechanism updated
 
 2.7.23 : Thu 5 Jan 2017:
 	- EVR sequencer support added (starting from firmware version 0x207, or its development version counterpart - 0x206)
