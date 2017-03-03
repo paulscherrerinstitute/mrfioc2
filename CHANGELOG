@@ -1,5 +1,8 @@
 For detailed changelog inspect commits at https://git.psi.ch/epics_driver_modules/mrfioc2/commits/master
 
+2.7.24 : Fri 3 Mar 2017:
+	- Beam OK mechanism updated
+
 2.7.23 : Thu 5 Jan 2017:
 	- EVR sequencer support added (starting from firmware version 0x207, or its development version counterpart - 0x206)
 	- EVG health monitoring bug fix, where removing SFPs would show incorrect overall status
