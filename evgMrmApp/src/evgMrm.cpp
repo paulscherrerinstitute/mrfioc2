@@ -73,7 +73,7 @@ evgMrm::evgMrm(const std::string& id, deviceInfoT &devInfo, volatile epicsUInt8*
             numFrontOut = 0;
             numUnivOut = 0;
             numFrontInp = 3;
-            numUnivInp = 0;
+            numUnivInp = 16;
             numRearOut = 16;
         }
 

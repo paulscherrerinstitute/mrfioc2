@@ -29,15 +29,15 @@
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>0</y>
+      <y>-2360</y>
       <width>644</width>
-      <height>2600</height>
+      <height>4650</height>
      </rect>
     </property>
     <property name="minimumSize">
      <size>
       <width>0</width>
-      <height>2600</height>
+      <height>4650</height>
      </size>
     </property>
     <widget class="QWidget" name="verticalLayoutWidget">
@@ -246,6 +246,178 @@
        <widget class="caInclude" name="cainclude_6">
         <property name="macro">
          <string notr="true">ID=FrontInp2, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVG_input_sequenceMask.ui</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+    <widget class="QWidget" name="verticalLayoutWidget_3">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>2540</y>
+       <width>571</width>
+       <height>2091</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_3">
+      <item>
+       <widget class="caInclude" name="cainclude_23">
+        <property name="macro">
+         <string notr="true">ID=UnivInp0, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVG_input_sequenceMask.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="caInclude" name="cainclude_24">
+        <property name="macro">
+         <string notr="true">ID=UnivInp1, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVG_input_sequenceMask.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="caInclude" name="cainclude_25">
+        <property name="macro">
+         <string notr="true">ID=UnivInp2, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVG_input_sequenceMask.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="caInclude" name="cainclude_26">
+        <property name="macro">
+         <string notr="true">ID=UnivInp3, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVG_input_sequenceMask.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="caInclude" name="cainclude_27">
+        <property name="macro">
+         <string notr="true">ID=UnivInp4, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVG_input_sequenceMask.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="caInclude" name="cainclude_28">
+        <property name="macro">
+         <string notr="true">ID=UnivInp5, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVG_input_sequenceMask.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="caInclude" name="cainclude_29">
+        <property name="macro">
+         <string notr="true">ID=UnivInp6, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVG_input_sequenceMask.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="caInclude" name="cainclude_30">
+        <property name="macro">
+         <string notr="true">ID=UnivInp7, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVG_input_sequenceMask.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="caInclude" name="cainclude_31">
+        <property name="macro">
+         <string notr="true">ID=UnivInp8, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVG_input_sequenceMask.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="caInclude" name="cainclude_32">
+        <property name="macro">
+         <string notr="true">ID=UnivInp9, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVG_input_sequenceMask.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="caInclude" name="cainclude_33">
+        <property name="macro">
+         <string notr="true">ID=UnivInp10, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVG_input_sequenceMask.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="caInclude" name="cainclude_34">
+        <property name="macro">
+         <string notr="true">ID=UnivInp11, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVG_input_sequenceMask.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="caInclude" name="cainclude_35">
+        <property name="macro">
+         <string notr="true">ID=UnivInp12, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVG_input_sequenceMask.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="caInclude" name="cainclude_36">
+        <property name="macro">
+         <string notr="true">ID=UnivInp13, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVG_input_sequenceMask.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="caInclude" name="cainclude_37">
+        <property name="macro">
+         <string notr="true">ID=UnivInp14, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+        </property>
+        <property name="filename" stdset="0">
+         <string notr="true">G_EVG_input_sequenceMask.ui</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="caInclude" name="cainclude_38">
+        <property name="macro">
+         <string notr="true">ID=UnivInp15, SYS=$(SYS),DEVICE=$(DEVICE)</string>
         </property>
         <property name="filename" stdset="0">
          <string notr="true">G_EVG_input_sequenceMask.ui</string>

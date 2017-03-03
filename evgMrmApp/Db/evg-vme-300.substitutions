@@ -36,6 +36,22 @@ pattern { SYS,      DEVICE,      OBJ,       ID,  PPS,  DBUSOBJ}
         {"$(SYS)", "$(DEVICE)", "FrontInp", 0,   1,    "Dbus"}
         {"$(SYS)", "$(DEVICE)", "FrontInp", 1,   2,    "Dbus"}
         {"$(SYS)", "$(DEVICE)", "FrontInp", 2,   3,    "Dbus"}
+        {"$(SYS)", "$(DEVICE)", "UnivInp",  0,   0,    "Dbus"}
+        {"$(SYS)", "$(DEVICE)", "UnivInp",  1,   0,    "Dbus"}
+        {"$(SYS)", "$(DEVICE)", "UnivInp",  2,   0,    "Dbus"}
+        {"$(SYS)", "$(DEVICE)", "UnivInp",  3,   0,    "Dbus"}
+        {"$(SYS)", "$(DEVICE)", "UnivInp",  4,   0,    "Dbus"}
+        {"$(SYS)", "$(DEVICE)", "UnivInp",  5,   0,    "Dbus"}
+        {"$(SYS)", "$(DEVICE)", "UnivInp",  6,   0,    "Dbus"}
+        {"$(SYS)", "$(DEVICE)", "UnivInp",  7,   0,    "Dbus"}
+        {"$(SYS)", "$(DEVICE)", "UnivInp",  8,   0,    "Dbus"}
+        {"$(SYS)", "$(DEVICE)", "UnivInp",  9,   0,    "Dbus"}
+        {"$(SYS)", "$(DEVICE)", "UnivInp",  10,  0,    "Dbus"}
+        {"$(SYS)", "$(DEVICE)", "UnivInp",  11,  0,    "Dbus"}
+        {"$(SYS)", "$(DEVICE)", "UnivInp",  12,  0,    "Dbus"}
+        {"$(SYS)", "$(DEVICE)", "UnivInp",  13,  0,    "Dbus"}
+        {"$(SYS)", "$(DEVICE)", "UnivInp",  14,  0,    "Dbus"}
+        {"$(SYS)", "$(DEVICE)", "UnivInp",  15,  0,    "Dbus"}
         {"$(SYS)", "$(DEVICE)", "RearInp",  0,   0,    "Dbus"}
         {"$(SYS)", "$(DEVICE)", "RearInp",  1,   0,    "Dbus"}
         {"$(SYS)", "$(DEVICE)", "RearInp",  2,   0,    "Dbus"}
