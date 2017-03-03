@@ -20,8 +20,8 @@ To set up an IOC application for EVR we need to set up a startup script and a su
     * example startup script ([`evg_VME_startup.script`](PSI/example/evg_VME_startup.script))
     * example substitution files ([`evg_VME-230.subs`](PSI/example/evg_VME-230.subs), [`evg_VME-300.subs`](PSI/example/evg_VME-300.subs), [`evg_VME-300-fout.subs`](PSI/example/evg_VME-300-fout.subs))
 * EVR
-    * example startup scripts ([`evr_VME_startup.script`](PSI/example/evr_VME_startup.script), [`evr_PCIe_startup.script`](PSI/example/evr_PCIe_startup.script))
-    * example substitution files ([`evr_cPCI-230.subs`](PSI/example/evr_cPCI-230.subs), [`evr_PCIe-300.subs`](PSI/example/evr_PCIe-300.subs), [`evr_PCIe-300DC.subs`](PSI/example/evr_PCIe-300DC.subs), [`evr_VME-230.subs`](PSI/example/evr_VME-230.subs), [`evr_VME-300.subs`](PSI/example/evr_VME-300.subs))
+    * example startup scripts ([`evr_VME_startup.script`](PSI/example/evr_VME_startup.script), [`evr_PCIe_startup.script`](PSI/example/evr_PCIe_startup.script),  [`evr_embedded_startup.script`](PSI/example/evr_embedded_startup.script))
+    * example substitution files ([`evr_cPCI-230.subs`](PSI/example/evr_cPCI-230.subs), [`evr_PCIe-300.subs`](PSI/example/evr_PCIe-300.subs), [`evr_PCIe-300DC.subs`](PSI/example/evr_PCIe-300DC.subs), [`evr_VME-230.subs`](PSI/example/evr_VME-230.subs), [`evr_VME-300.subs`](PSI/example/evr_VME-300.subs), [`evr_embedded.subs`](PSI/example/evr_embedded.subs))
 
 For example, to set up a basic IOC for use with EVR-VME-300 timing card, user should:
 
@@ -126,19 +126,21 @@ Example substitution files and startup scripts are available in the [`PSI/exampl
 * EVR PCIe-300: PCIe-300 form factor event receiver. (tested and working with firmware version 7. Not everything works with firmware versions >=0x200 - check known issues)
 * EVR PCIe-300DC: PCIE-300 form factor event receiver with newer hardware and delay compensation support. (check known issues)
 * EVR cPCI-230: cPCI-230 form factor event receiver (not tested, no GUI)
+* Embedded EVR in EVG VME-300
 
-mrfioc2 driver supports official hardware firmware versions up to and including 204.
+mrfioc2 driver supports official hardware firmware versions up to and including 209, where only flashing is supported on versions 200 - 208.
 Minimal supported firmware version for:
 
-* EVG is 3,
+* EVG is 0x3,
 * EVR-PCIe-300DC is 0x204,
-* EVR-PCIe-300 is 3,
-* VME form factor EVR 4.
+* EVR-PCIe-300 is 0x3,
+* VME form factor EVR 0x4.
+* embedded EVR is 0x208
 
 ## Known issues
 * firmware version 204:
-    * issue with data buffer receptions skips observed. Problem was tracked down to hardware issue on the sending side.
-    * EVR-VME-300 rear outputs: mapping two sources to an output does not work
+    * [fixed in revision 1] issue with data buffer receptions skips observed. Problem was tracked down to hardware issue on the sending side.
+    * [fixed in revision 1] EVR-VME-300 rear outputs: mapping two sources to an output does not work
     * data buffer sending does not work if delay compensation is disabled.
     * EVR-PCIe-300DC inputs not tested
     * EVR-PCIe-300 not tested with this version
