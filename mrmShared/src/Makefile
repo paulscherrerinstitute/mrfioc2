@@ -13,6 +13,7 @@ INC += dataBuffer/mrmDataBuffer_230.h
 INC += dataBuffer/mrmDataBufferUser.h
 INC += dataBuffer/mrmDataBufferObj.h
 INC += dataBuffer/mrmDataBufferType.h
+INC += mrmDeviceInfo.h
 
 DBD += mrmShared.dbd
 
@@ -27,6 +28,7 @@ mrmShared_SRCS += mrmDataBufferType.cpp
 mrmShared_SRCS += sfp.cpp
 mrmShared_SRCS += mrmFlash.cpp
 mrmShared_SRCS += mrmRemoteFlash.cpp
+mrmShared_SRCS += mrmDeviceInfo.cpp
 
 ifeq ($(OS),Windows_NT)
 mrmShared_LIBS += mrfCommon $(EPICS_BASE_IOC_LIBS)

@@ -9,6 +9,7 @@
 #include <mrfFracSynth.h>
 
 #include "evgRegMap.h"
+#include "mrmDeviceInfo.h"
 #include "evgMrm.h"
 
 evgEvtClk::evgEvtClk(const std::string& name, volatile epicsUInt8* const pReg, evgMrm *evg):
@@ -17,7 +18,7 @@ m_pReg(pReg),
 m_parent(evg),
 m_RFref(0.0f),
 m_fracSynFreq(0.0f),
-m_fwVersion(evg->getFwVersion())
+m_deviceInfo(evg->getDeviceInfo())
 {
 }
 
@@ -156,7 +157,7 @@ void
 evgEvtClk::setSource (epicsUInt16 source) {
     epicsUInt8 clkReg, regMap = 0;
 
-    if ((RFClockReference) source >= RFClockReference_PXIe100 && m_fwVersion < MIN_FW_300_SERIES ) {
+    if ((RFClockReference) source >= RFClockReference_PXIe100 && m_deviceInfo->getFirmwareId() < mrmDeviceInfo::firmwareId_delayCompensation) {
         throw std::out_of_range("RF clock source you selected is not supported in this firmware version.");
     }
 

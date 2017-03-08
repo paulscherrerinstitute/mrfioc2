@@ -28,6 +28,7 @@
 #include <devLibPCI.h>
 #include "plx9030.h"
 
+#include "mrmDeviceInfo.h"
 #include "evgRegMap.h"
 #include "mrmShared.h"
 
@@ -166,33 +167,36 @@ inithooks(initHookState state) {
     }
 }
 
-epicsUInt32 checkVersion(volatile epicsUInt8 *base, unsigned int required) {
-#ifndef __linux__
-    epicsUInt32 junk;
-    if(devReadProbe(sizeof(junk), (volatile void*)(base+U32_FWVersion), (void*)&junk)) {
-        throw std::runtime_error("Failed to read from MRM registers (but could read CSR registers)\n");
+mrmDeviceInfo::resultT checkVersion(mrmDeviceInfo *deviceInfo) {
+    epicsPrintf("Firmware version register: 0x%08x\n", deviceInfo->getFirmwareRegister());
+    epicsPrintf("Firmware version: 0x%08x\n", deviceInfo->getFirmwareVersion());
+
+    mrmDeviceInfo::resultT result = deviceInfo->isDeviceSupported(mrmDeviceInfo::deviceType_generator);
+    if(result != mrmDeviceInfo::result_OK) {
+        switch(result) {
+        case mrmDeviceInfo::result_deviceTypeError:
+            errlogPrintf("Found device type 0x%x which does not correspond to EVG (type 0x%x).\n", deviceInfo->getDeviceType(), mrmDeviceInfo::deviceType_generator);
+            break;
+
+        case mrmDeviceInfo::result_firmwareRegisterError:
+            errlogPrintf("Content of the firmware register could not be parsed.\n");
+            break;
+
+        case mrmDeviceInfo::result_firmwareVersionError:
+            errlogPrintf("This firmware version is not supported by the driver!\n\t"
+                         "You may still flash the device with supported firmware.\n\t"
+                         "Minimal supported firmware version is 0x%x\n", deviceInfo->getMinSupportedFwVersion());
+            break;
+
+        default:
+            errlogPrintf("Unknown error while checking firmware version\n");
+        }
     }
-#endif
-    epicsUInt32 type, ver;
-    epicsUInt32 v = READ32(base, FWVersion);
-
-    epicsPrintf("FPGA version: %08x\n", v);
-
-    type = v >> FWVersion_type_shift;
-
-    if(type != 0x2){
-        errlogPrintf("Found type %x which does not correspond to EVG type 0x2.\n", type);
-        return 0;
+    else {
+        epicsPrintf("Minimal supported firmware version for %s is 0x%x\n", deviceInfo->getDeviceDescription().c_str(), deviceInfo->getMinSupportedFwVersion());
     }
 
-    ver = v & FWVersion_ver_mask;
-
-    if(ver < required) {
-        errlogPrintf("Firmware version >= %x is required got %x\n", required,ver);
-        return 0;
-    }
-
-    return ver;
+    return result;
 }
 
 extern "C"
@@ -208,16 +212,14 @@ mrmEvgSetupVME (
     volatile epicsUInt8* regCpuAddr = 0;
     volatile epicsUInt8* regCpuAddr2 = 0; //function 2 of regmap (fanout/concentrator specifics)
     struct VMECSRID info;
-    deviceInfoT deviceInfo;
+    mrmDeviceInfo::busConfigurationVmeT bus;
 
     info.board = 0; info.revision = 0; info.vendor = 0;
 
-    deviceInfo.bus.busType = busType_vme;
-    deviceInfo.bus.vme.slot = slot;
-    deviceInfo.bus.vme.address = vmeAddress;
-    deviceInfo.bus.vme.irqLevel = irqLevel;
-    deviceInfo.bus.vme.irqVector = irqVector;
-    deviceInfo.series = series_unknown;
+    bus.slot = slot;
+    bus.address = vmeAddress;
+    bus.irqLevel = irqLevel;
+    bus.irqVector = irqVector;
 
 
     int status; // a variable to hold function return statuses
@@ -277,11 +279,21 @@ mrmEvgSetupVME (
             return -1;
         }
 
+        #ifndef __linux__
+            epicsUInt32 junk;
+            if(devReadProbe(sizeof(junk), (volatile void*)(regCpuAddr+U32_FWVersion), (void*)&junk)) {
+                throw std::runtime_error("Failed to read from MRM registers (but could read CSR registers)\n");
+            }
+        #endif
 
-        epicsUInt32 version = checkVersion(regCpuAddr, 0x3);
-        epicsPrintf("Firmware version: %08x\n", version);
+        mrmDeviceInfo *deviceInfo = new mrmDeviceInfo(regCpuAddr);
+        deviceInfo->setBusConfigurationVme(bus);
 
-        if(version == 0){
+        mrmDeviceInfo::resultT versionCheckResult = checkVersion(deviceInfo);
+        if(versionCheckResult == mrmDeviceInfo::result_firmwareVersionError) {
+            errlogPrintf("Firmware version error detected. Continuing loading of the driver.\n");
+        }
+        else if(versionCheckResult != mrmDeviceInfo::result_OK) {
             if(ignoreVersion) {
                 epicsPrintf("Ignoring version error.\n");
             }
@@ -292,8 +304,7 @@ mrmEvgSetupVME (
 
 
         /* Set the base address of Register Map for function 2, if we have the right firmware version  */
-        if(version >= MIN_FW_300_SERIES) {
-            deviceInfo.series = series_300;
+        if(deviceInfo->getFirmwareId() == mrmDeviceInfo::firmwareId_delayCompensation) {
             CSRSetBase(csrCpuAddr, 2, vmeAddress+EVG_REGMAP_SIZE, VME_AM_STD_SUP_DATA);
             {
                 epicsUInt32 temp=CSRRead32((csrCpuAddr) + CSR_FN_ADER(2));
@@ -322,13 +333,10 @@ mrmEvgSetupVME (
                 return -1;
             }
         }
-        else {
-            deviceInfo.series = series_230;
-        }
 
-        evgMrm* evg = new evgMrm(id, deviceInfo, regCpuAddr, regCpuAddr2, NULL);
+        evgMrm* evg = new evgMrm(id, *deviceInfo, regCpuAddr, regCpuAddr2, NULL);
 
-        if(irqLevel > 0 && irqVector >= 0) {
+        if(!ignoreVersion && irqLevel > 0 && irqVector >= 0) {
             /*Configure the Interrupt level and vector on the EVG board*/
             CSRWrite8(csrCpuAddr + UCSR_DEFAULT_OFFSET + UCSR_IRQ_LEVEL, irqLevel&0x7);
             CSRWrite8(csrCpuAddr + UCSR_DEFAULT_OFFSET + UCSR_IRQ_VECTOR, irqVector&0xff);
@@ -356,6 +364,10 @@ mrmEvgSetupVME (
                 return -1;
             }
         }
+        else {
+            epicsPrintf("Not connecting interrupts.\n");
+        }
+
     } catch(std::exception& e) {
         errlogPrintf("Error: %s\n",e.what());
         errlogFlush();
@@ -423,13 +435,11 @@ mrmEvgSetupPCI (
         int f,   				// Function number
         bool ignoreVersion)     // Ignore errors due to kernel module and firmware version checks
 {
-    deviceInfoT deviceInfo;
+    mrmDeviceInfo::busConfigurationPciT bus;
 
-    deviceInfo.bus.busType = busType_pci;
-    deviceInfo.bus.pci.bus = b;
-    deviceInfo.bus.pci.device = d;
-    deviceInfo.bus.pci.function = f;
-    deviceInfo.series = series_unknown;
+    bus.bus = b;
+    bus.device = d;
+    bus.function = f;
 
     try {
         if (mrf::Object::getObject(id)) {
@@ -481,11 +491,22 @@ mrmEvgSetupPCI (
         plxCtrl = plxCtrl & ~LAS0BRD_ENDIAN;
         LE_WRITE32(BAR_plx,LAS0BRD,plxCtrl);
 
+        #ifndef __linux__
+            epicsUInt32 junk;
+            if(devReadProbe(sizeof(junk), (volatile void*)(BAR_evg+U32_FWVersion), (void*)&junk)) {
+                throw std::runtime_error("Failed to read from MRM registers (but could read CSR registers)\n");
+            }
+        #endif
 
-        epicsUInt32 version = checkVersion(BAR_evg, 0x3);
-        epicsPrintf("Firmware version: %08x\n", version);
+        // Set up device info and check if device is supported (firmware version check)
+        mrmDeviceInfo *deviceInfo = new mrmDeviceInfo(BAR_evg);
+        deviceInfo->setBusConfigurationPci(bus);
 
-        if(version == 0) {
+        mrmDeviceInfo::resultT versionCheckResult = checkVersion(deviceInfo);
+        if(versionCheckResult == mrmDeviceInfo::result_firmwareVersionError) {
+            errlogPrintf("Firmware version error detected. Continuing loading of the driver.\n");
+        }
+        else if(versionCheckResult != mrmDeviceInfo::result_OK) {
             if(ignoreVersion) {
                 epicsPrintf("Ignoring version error.\n");
             }
@@ -494,7 +515,7 @@ mrmEvgSetupPCI (
             }
         }
 
-        evgMrm* evg = new evgMrm(id, deviceInfo, BAR_evg, 0, cur);
+        evgMrm* evg = new evgMrm(id, *deviceInfo, BAR_evg, 0, cur);
 
         evg->getSeqRamMgr()->getSeqRam(0)->disable();
         evg->getSeqRamMgr()->getSeqRam(1)->disable();
@@ -822,36 +843,38 @@ reportCard(mrf::Object* obj, void* arg) {
         return true;
     }
 
-    epicsPrintf("EVG: %s     \n", evg->getId().c_str());
-    epicsPrintf("\tFPGA Version: %08x (firmware: %x)\n", evg->getFwVersion(), evg->getFwVersionID());
-    epicsPrintf("\tForm factor: %s\n", evg->getFormFactorStr().c_str());
+    mrmDeviceInfo *deviceInfo = evg->getDeviceInfo();
 
-    bus_configuration *bus = evg->getBusConfiguration();
-    if(bus->busType == busType_vme){
+    epicsPrintf("EVG: %s     \n", evg->getId().c_str());
+    epicsPrintf("\tFPGA Version: %08x (firmware: %x)\n", deviceInfo->getFirmwareRegister(), deviceInfo->getFirmwareVersion());
+    epicsPrintf("\tDescription: %s\n", deviceInfo->getDeviceDescription().c_str());
+
+    mrmDeviceInfo::busConfigurationT bus = deviceInfo->getBusConfiguration();
+    if(bus.busType == mrmDeviceInfo::busType_vme){
         struct VMECSRID vmeDev;
         vmeDev.board = 0; vmeDev.revision = 0; vmeDev.vendor = 0;
-        volatile unsigned char* csrAddr = devCSRTestSlot(vmeEvgIDs, bus->vme.slot, &vmeDev);
+        volatile unsigned char* csrAddr = devCSRTestSlot(vmeEvgIDs, bus.vme.slot, &vmeDev);
         if(csrAddr){
             epicsUInt32 ader = CSRRead32(csrAddr + CSR_FN_ADER(1));
-            epicsPrintf("\tVME configured slot: %d\n", bus->vme.slot);
-            epicsPrintf("\tVME configured A24 address 0x%08x\n", bus->vme.address);
+            epicsPrintf("\tVME configured slot: %d\n", bus.vme.slot);
+            epicsPrintf("\tVME configured A24 address 0x%08x\n", bus.vme.address);
             epicsPrintf("\tVME ADER: base address=0x%x\taddress modifier=0x%x\n", ader>>8, (ader&0xFF)>>2);
-            epicsPrintf("\tVME IRQ Level %x (configured to %x)\n", CSRRead8(csrAddr + UCSR_DEFAULT_OFFSET + UCSR_IRQ_LEVEL), bus->vme.irqLevel);
-            epicsPrintf("\tVME IRQ Vector %x (configured to %x)\n", CSRRead8(csrAddr + UCSR_DEFAULT_OFFSET + UCSR_IRQ_VECTOR), bus->vme.irqVector);
+            epicsPrintf("\tVME IRQ Level %x (configured to %x)\n", CSRRead8(csrAddr + UCSR_DEFAULT_OFFSET + UCSR_IRQ_LEVEL), bus.vme.irqLevel);
+            epicsPrintf("\tVME IRQ Vector %x (configured to %x)\n", CSRRead8(csrAddr + UCSR_DEFAULT_OFFSET + UCSR_IRQ_VECTOR), bus.vme.irqVector);
             if(*level>1) epicsPrintf("\tVME card vendor: 0x%08x\n", vmeDev.vendor);
             if(*level>1) epicsPrintf("\tVME card board: 0x%08x\n", vmeDev.board);
             if(*level>1) epicsPrintf("\tVME card revision: 0x%08x\n", vmeDev.revision);
             if(*level>1) epicsPrintf("\tVME CSR address: %p\n", csrAddr);
         }else{
-            epicsPrintf("\tCard not detected in configured slot %d\n", bus->vme.slot);
+            epicsPrintf("\tCard not detected in configured slot %d\n", bus.vme.slot);
         }
     }
-    else if(bus->busType == busType_pci){
+    else if(bus.busType == mrmDeviceInfo::busType_pci){
         const epicsPCIDevice *pciDev;
-        if(!devPCIFindBDF(mrmevgs, bus->pci.bus, bus->pci.device, bus->pci.function, &pciDev, 0)){
-            epicsPrintf("\tPCI configured bus: 0x%08x\n", bus->pci.bus);
-            epicsPrintf("\tPCI configured device: 0x%08x\n", bus->pci.device);
-            epicsPrintf("\tPCI configured function: 0x%08x\n", bus->pci.function);
+        if(!devPCIFindBDF(mrmevgs, bus.pci.bus, bus.pci.device, bus.pci.function, &pciDev, 0)){
+            epicsPrintf("\tPCI configured bus: 0x%08x\n", bus.pci.bus);
+            epicsPrintf("\tPCI configured device: 0x%08x\n", bus.pci.device);
+            epicsPrintf("\tPCI configured function: 0x%08x\n", bus.pci.function);
             epicsPrintf("\tPCI IRQ: %u\n", pciDev->irq);
             if(*level>1) epicsPrintf("\tPCI class: 0x%08x, revision: 0x%x, sub device: 0x%x, sub vendor: 0x%x\n", pciDev->id.pci_class, pciDev->id.revision, pciDev->id.sub_device, pciDev->id.sub_vendor);
 

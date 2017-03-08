@@ -31,7 +31,7 @@
 
 #include "mrfcsr.h"
 #include "mrfpci.h"
-
+#include "mrmDeviceInfo.h"
 
 // for htons() et al.
 #ifdef _WIN32
@@ -171,15 +171,17 @@ bool reportCard(mrf::Object* obj, void* raw)
         return true;
     }
 
+    mrmDeviceInfo *deviceInfo = evr->getDeviceInfo();
+
     epicsPrintf("EVR: %s\n",obj->name().c_str());
-    epicsPrintf("\tFPGA Version: %08x (firmware: %x)\n", evr->fpgaFirmware(), evr->version());
-    epicsPrintf("\tForm factor: %s\n", evr->formFactorStr().c_str());
+    epicsPrintf("\tFPGA Version: %08x (firmware: %x)\n", deviceInfo->getFirmwareRegister(), deviceInfo->getFirmwareVersion());
+    epicsPrintf("\tDescription: %s\n", deviceInfo->getDeviceDescription().c_str());
     epicsPrintf("\tClock: %.6f MHz\n",evr->clock()*1e-6);
 
-    bus_configuration *bus = evr->getBusConfiguration();
-    if(bus->busType == busType_vme){
+    mrmDeviceInfo::busConfigurationT bus = deviceInfo->getBusConfiguration();
+    if(bus.busType == mrmDeviceInfo::busType_vme){
         struct VMECSRID vmeDev;
-        volatile unsigned char* csrAddr = devCSRTestSlot(vmeevrs, bus->vme.slot, &vmeDev);
+        volatile unsigned char* csrAddr = devCSRTestSlot(vmeevrs, bus.vme.slot, &vmeDev);
         if(csrAddr){
             epicsUInt32 ader = CSRRead32(csrAddr + CSR_FN_ADER(2));
             size_t user_offset=CSRRead24(csrAddr+CR_BEG_UCSR);
@@ -189,25 +191,25 @@ bool reportCard(mrf::Object* obj, void* raw)
                          (( user_offset & 0x0000ff00 )       ) |
                          (( user_offset & 0x000000ff ) << 16 );
 
-            epicsPrintf("\tVME configured slot: %d\n", bus->vme.slot);
-            epicsPrintf("\tVME configured A32 address 0x%08x\n", bus->vme.address);
+            epicsPrintf("\tVME configured slot: %d\n", bus.vme.slot);
+            epicsPrintf("\tVME configured A32 address 0x%08x\n", bus.vme.address);
             epicsPrintf("\tVME ADER: base address=0x%x\taddress modifier=0x%x\n", ader>>8, (ader&0xFF)>>2);
-            epicsPrintf("\tVME IRQ Level %x (configured to %x)\n", CSRRead8(csrAddr + user_offset + UCSR_IRQ_LEVEL), bus->vme.irqLevel);
-            epicsPrintf("\tVME IRQ Vector %x (configured to %x)\n", CSRRead8(csrAddr + user_offset + UCSR_IRQ_VECTOR), bus->vme.irqVector);
+            epicsPrintf("\tVME IRQ Level %x (configured to %x)\n", CSRRead8(csrAddr + user_offset + UCSR_IRQ_LEVEL), bus.vme.irqLevel);
+            epicsPrintf("\tVME IRQ Vector %x (configured to %x)\n", CSRRead8(csrAddr + user_offset + UCSR_IRQ_VECTOR), bus.vme.irqVector);
             if(*level>1) epicsPrintf("\tVME card vendor: 0x%08x\n", vmeDev.vendor);
             if(*level>1) epicsPrintf("\tVME card board: 0x%08x\n", vmeDev.board);
             if(*level>1) epicsPrintf("\tVME card revision: 0x%08x\n", vmeDev.revision);
             if(*level>1) epicsPrintf("\tVME CSR address: %p\n", csrAddr);
         }else{
-            epicsPrintf("\tCard not detected in configured slot %d\n", bus->vme.slot);
+            epicsPrintf("\tCard not detected in configured slot %d\n", bus.vme.slot);
         }
     }
-    else if(bus->busType == busType_pci){
+    else if(bus.busType == mrmDeviceInfo::busType_pci){
         const epicsPCIDevice *pciDev;
-        if(!devPCIFindBDF(mrmevrs, bus->pci.bus, bus->pci.device, bus->pci.function, &pciDev, 0)){
-            epicsPrintf("\tPCI configured bus: 0x%08x\n", bus->pci.bus);
-            epicsPrintf("\tPCI configured device: 0x%08x\n", bus->pci.device);
-            epicsPrintf("\tPCI configured function: 0x%08x\n", bus->pci.function);
+        if(!devPCIFindBDF(mrmevrs, bus.pci.bus, bus.pci.device, bus.pci.function, &pciDev, 0)){
+            epicsPrintf("\tPCI configured bus: 0x%08x\n", bus.pci.bus);
+            epicsPrintf("\tPCI configured device: 0x%08x\n", bus.pci.device);
+            epicsPrintf("\tPCI configured function: 0x%08x\n", bus.pci.function);
             epicsPrintf("\tPCI IRQ: %u\n", pciDev->irq);
             if(*level>1) epicsPrintf("\tPCI class: 0x%08x, revision: 0x%x, sub device: 0x%x, sub vendor: 0x%x\n", pciDev->id.pci_class, pciDev->id.revision, pciDev->id.sub_device, pciDev->id.sub_vendor);
 
@@ -239,29 +241,37 @@ long report(int level)
 }
 
 static
-epicsUInt32 checkVersion(volatile epicsUInt8 *base, unsigned int required)
+mrmDeviceInfo::resultT checkVersion(mrmDeviceInfo *deviceInfo)
 {
-    epicsUInt32 v = READ32(base, FWVersion), type, ver;
+    epicsPrintf("Firmware version register: 0x%08x\n", deviceInfo->getFirmwareRegister());
+    epicsPrintf("Firmware version: 0x%08x\n", deviceInfo->getFirmwareVersion());
 
-    epicsPrintf("FPGA version 0x%08x\n", v);
+    mrmDeviceInfo::resultT result = deviceInfo->isDeviceSupported(mrmDeviceInfo::deviceType_receiver);
+    if(result != mrmDeviceInfo::result_OK) {
+        switch(result) {
+        case mrmDeviceInfo::result_deviceTypeError:
+            errlogPrintf("Found device type 0x%x which does not correspond to EVR (type 0x%x).\n", deviceInfo->getDeviceType(), mrmDeviceInfo::deviceType_receiver);
+            break;
 
-    type=v&FWVersion_type_mask;
-    type>>=FWVersion_type_shift;
+        case mrmDeviceInfo::result_firmwareRegisterError:
+            errlogPrintf("Content of the firmware register could not be parsed.\n");
+            break;
 
-    if(type!=0x1){
-        errlogPrintf("Found type %x which does not correspond to EVR type 0x1.\n", type);
-        return 0;
+        case mrmDeviceInfo::result_firmwareVersionError:
+            errlogPrintf("This firmware version is not supported by the driver!\n\t"
+                         "You may still flash the device with supported firmware.\n\t"
+                         "Minimal supported firmware version is 0x%x\n", deviceInfo->getMinSupportedFwVersion());
+            break;
+
+        default:
+            errlogPrintf("Unknown error while checking firmware version\n");
+        }
+    }
+    else {
+        epicsPrintf("Minimal supported firmware version for %s is 0x%x\n", deviceInfo->getDeviceDescription().c_str(), deviceInfo->getMinSupportedFwVersion());
     }
 
-    ver=v&FWVersion_ver_mask;
-    ver>>=FWVersion_ver_shift;
-
-    if(ver<required) {
-        errlogPrintf("Firmware version >=%x is required\n", required);
-        return 0;
-    }
-
-    return ver;
+    return result;
 }
 
 #ifdef __linux__
@@ -307,14 +317,10 @@ mrmEvrSetupPCI(const char* id,      // Card Identifier
                int f,               // Function number
                bool ignoreVersion)  // Ignore errors due to kernel module and firmware version checks
 {
-    deviceInfoT deviceInfo;
-
-    deviceInfo.bus.busType = busType_pci;
-    deviceInfo.bus.pci.bus = b;
-    deviceInfo.bus.pci.device = d;
-    deviceInfo.bus.pci.function = f;
-    deviceInfo.series = series_unknown;
-
+    mrmDeviceInfo::busConfigurationPciT bus;
+    bus.bus = b;
+    bus.device = d;
+    bus.function = f;
 
     volatile epicsUInt8 *plx = 0, *evr = 0; // base addressed for plx/evr bar
 
@@ -344,14 +350,6 @@ mrmEvrSetupPCI(const char* id,      // Card Identifier
 
         epicsPrintf("Device %s  %x:%x.%x\n", id, cur->bus, cur->device, cur->function);
         epicsPrintf("Using IRQ %u\n",cur->irq);
-
-
-        if(cur->id.device == PCI_DEVICE_ID_EC_30){
-            deviceInfo.series = series_300;
-        }
-        else if(cur->id.device == PCI_DEVICE_ID_XILINX){
-            deviceInfo.series = series_300DC;
-        }
 
 
         /*
@@ -485,10 +483,15 @@ mrmEvrSetupPCI(const char* id,      // Card Identifier
         }
 
 
-        epicsUInt32 version = checkVersion(evr, 0x3);
-        epicsPrintf("Firmware version: %08x\n", version);
+        // Set up device info and check if device is supported (firmware version check)
+        mrmDeviceInfo *deviceInfo = new mrmDeviceInfo(evr);
+        deviceInfo->setBusConfigurationPci(bus);
 
-        if(version == 0) {
+        mrmDeviceInfo::resultT versionCheckResult = checkVersion(deviceInfo);
+        if(versionCheckResult == mrmDeviceInfo::result_firmwareVersionError) {
+            errlogPrintf("Firmware version error detected. Continuing loading of the driver.\n");
+        }
+        else if(versionCheckResult != mrmDeviceInfo::result_OK) {
             if(ignoreVersion) {
                 epicsPrintf("Ignoring version error.\n");
             }
@@ -497,15 +500,13 @@ mrmEvrSetupPCI(const char* id,      // Card Identifier
             }
         }
 
-
-
         // Acknowledge missed interrupts
         //TODO: This avoids a spurious FIFO Full
         NAT_WRITE32(evr, IRQFlag, NAT_READ32(evr, IRQFlag));
 
         // Install ISR
 
-        EVRMRM *receiver=new EVRMRM(id,deviceInfo,evr, NULL);
+        EVRMRM *receiver=new EVRMRM(id,*deviceInfo,evr, NULL);
 
         void *arg=receiver;
     #if  defined(__linux__) || defined(_WIN32)
@@ -674,14 +675,11 @@ mrmEvrSetupVME(const char* id,      // Card Identifier
                bool ignoreVersion)  // Ignore errors due to firmware checks
 {
 
-    deviceInfoT deviceInfo;
-
-    deviceInfo.bus.busType = busType_vme;
-    deviceInfo.bus.vme.slot = slot;
-    deviceInfo.bus.vme.address = base;
-    deviceInfo.bus.vme.irqLevel = level;
-    deviceInfo.bus.vme.irqVector = vector;
-    deviceInfo.series = series_unknown;
+    mrmDeviceInfo::busConfigurationVmeT bus;
+    bus.slot = slot;
+    bus.address = base;
+    bus.irqLevel = level;
+    bus.irqVector = vector;
 
 
     volatile unsigned char* evr;    // base address for the card
@@ -743,22 +741,21 @@ mrmEvrSetupVME(const char* id,      // Card Identifier
         }
 
 
-        epicsUInt32 version = checkVersion(evr, 0x4);
-        epicsPrintf("Firmware version: %08x\n", version);
+        // Set up device info and check if device is supported (firmware version check)
+        mrmDeviceInfo *deviceInfo = new mrmDeviceInfo(evr);
+        deviceInfo->setBusConfigurationVme(bus);
 
-        if(version == 0) {
+        mrmDeviceInfo::resultT versionCheckResult = checkVersion(deviceInfo);
+        if(versionCheckResult == mrmDeviceInfo::result_firmwareVersionError) {
+            errlogPrintf("Firmware version error detected. Continuing loading of the driver.\n");
+        }
+        else if(versionCheckResult != mrmDeviceInfo::result_OK) {
             if(ignoreVersion) {
                 epicsPrintf("Ignoring version error.\n");
             }
             else {
                 return -1;
             }
-        }
-        else if (version < 0x200) {
-            deviceInfo.series = series_230;
-        }
-        else {
-            deviceInfo.series = series_300;
         }
 
 
@@ -773,9 +770,9 @@ mrmEvrSetupVME(const char* id,      // Card Identifier
 
         NAT_WRITE32(evr, IRQEnable, 0); // Disable interrupts
 
-        EVRMRM *receiver=new EVRMRM(id, deviceInfo, evr, NULL);
+        EVRMRM *receiver=new EVRMRM(id, *deviceInfo, evr, NULL);
 
-        if(level>0 && vector>=0) {
+        if(!ignoreVersion && level>0 && vector>=0) {
             CSRWrite8(user_csr+UCSR_IRQ_LEVEL,  level&0x7);
             CSRWrite8(user_csr+UCSR_IRQ_VECTOR, vector&0xff);
 
@@ -800,6 +797,9 @@ mrmEvrSetupVME(const char* id,      // Card Identifier
             }
 
             // Interrupts will be enabled during iocInit()
+        }
+        else {
+            epicsPrintf("Not connecting interrupts.\n");
         }
 
     } catch(std::exception& e) {
@@ -1106,9 +1106,8 @@ static void mrmEvrSetupEmbeddedCallFunc(const iocshArgBuf *args) {
     char *evrName = args[0].sval;
     char *evgName = args[1].sval;
     evgMrm *evg;
-    EVRMRM *evr;
     mrf::Object *obj;
-    deviceInfoT deviceInfo;
+    mrmDeviceInfo *deviceInfo;
     size_t memoryOffset;
 
     if(strcmp("upstream", args[2].sval) == 0 || strtol(args[2].sval, NULL, 10) != 0) {
@@ -1140,10 +1139,16 @@ static void mrmEvrSetupEmbeddedCallFunc(const iocshArgBuf *args) {
     }
 
     deviceInfo = evg->getDeviceInfo();
-    // TODO check if the EVG supports embedded EVR
-    deviceInfo.formFactor = formFactor_embedded;
+    if(deviceInfo->getFirmwareId() != mrmDeviceInfo::firmwareId_delayCompensation) {
+        errlogPrintf("%s: %s does not support embedded EVRs, because it does not have delay compensation firmware\n", evgName, deviceInfo->getDeviceDescription().c_str());
+        return;
+    }
 
-    evr = new EVRMRM(evrName, deviceInfo, evg->getRegAddr() + memoryOffset, evg->getRegAddr());
+    deviceInfo = new mrmDeviceInfo(evg->getRegAddr() + memoryOffset);
+    deviceInfo->setEmbeddedFormFactor();
+    checkVersion(deviceInfo);
+
+    new EVRMRM(evrName, *deviceInfo, evg->getRegAddr() + memoryOffset, evg->getRegAddr());
 }
 
 /******************/

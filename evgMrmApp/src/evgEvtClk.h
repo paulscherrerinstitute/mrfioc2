@@ -17,6 +17,7 @@ enum RFClockReference {
 };
 
 class evgMrm;
+class mrmDeviceInfo;
 
 class evgEvtClk : public mrf::ObjectInst<evgEvtClk> {
 public:
@@ -55,7 +56,7 @@ private:
     evgMrm *                   m_parent;
     epicsFloat64               m_RFref;       // In MHz
     epicsFloat64               m_fracSynFreq; // In MHz
-    epicsUInt32                m_fwVersion;
+    mrmDeviceInfo*             m_deviceInfo;
 };
 
 #endif //EVG_EVTCLK_H

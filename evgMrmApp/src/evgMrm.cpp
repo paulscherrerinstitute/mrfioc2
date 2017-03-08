@@ -32,7 +32,7 @@
 #define evgAllowedTsGitter 0.5f
 
 
-evgMrm::evgMrm(const std::string& id, deviceInfoT &devInfo, volatile epicsUInt8* const pReg, volatile epicsUInt8* const fctReg, const epicsPCIDevice *pciDevice):
+evgMrm::evgMrm(const std::string& id, mrmDeviceInfo &devInfo, volatile epicsUInt8* const pReg, volatile epicsUInt8* const fctReg, const epicsPCIDevice *pciDevice):
     mrf::ObjectInst<evgMrm>(id),
     irqStop0_queued(0),
     irqStop1_queued(0),
@@ -58,6 +58,20 @@ evgMrm::evgMrm(const std::string& id, deviceInfoT &devInfo, volatile epicsUInt8*
 {
     try{
 
+        // issue a warning if device is not detected correctly
+        if(m_deviceInfo.isDeviceSupported(mrmDeviceInfo::deviceType_generator) != mrmDeviceInfo::result_OK) {
+            epicsPrintf("\n\n"
+                        "----------------------------------- WARNING -----------------------------------\n"
+                        "This device is not supported, but initialization will happen anyway:\n"
+                        "- only flash the device if you know what you are doing!\n"
+                        "- it is recommended that you do not use other functions than flashing the device\n"
+                        "- if the driver crashes, try to start it up with 'ignoreVersion' flag,\n"
+                        "  which also disables interrupts\n"
+                        "- check previous output for a hint why this device is not supported\n"
+                        "----------------------------------- WARNING -----------------------------------\n\n\n");
+        }
+
+
         epicsUInt16 numMxc = 8;
         epicsUInt16 numEvtTrig = 8;
         epicsUInt16 numDbusBit = 8;
@@ -67,18 +81,14 @@ evgMrm::evgMrm(const std::string& id, deviceInfoT &devInfo, volatile epicsUInt8*
         epicsUInt16 numUnivInp = 4;
         epicsUInt16 numRearInp = 16;
         epicsUInt16 numRearOut = 0;
-        epicsUInt32 version;
 
-        version = getFwVersionID();
-        if(version >= MIN_FW_300_SERIES){
+        if(m_deviceInfo.getFirmwareId() == mrmDeviceInfo::firmwareId_delayCompensation){
             numFrontOut = 0;
             numUnivOut = 0;
             numFrontInp = 3;
             numUnivInp = 16;
             numRearOut = 16;
         }
-
-        setFormFactor();  // updates deviceInfo.formFactor
 
         printf("Sub-units:\n"
                " FrontInp: %u, FrontOut: %u\n"
@@ -159,7 +169,7 @@ evgMrm::evgMrm(const std::string& id, deviceInfoT &devInfo, volatile epicsUInt8*
 
         m_remoteFlash = new mrmRemoteFlash(id, pReg, m_deviceInfo, m_flash);
 
-        if(version >= MIN_FW_300_SERIES && m_fctReg > 0){
+        if(m_deviceInfo.getFirmwareId() == mrmDeviceInfo::firmwareId_delayCompensation && m_fctReg > 0){
             m_fct = new evgFct(id, m_fctReg, &m_sfp); // fanout SFP modules are initialized here
         } else{
             m_fct = 0;
@@ -168,7 +178,7 @@ evgMrm::evgMrm(const std::string& id, deviceInfoT &devInfo, volatile epicsUInt8*
 
         m_dataBuffer_230 = new mrmDataBuffer_230(id.c_str(), pReg, U32_DataTxCtrlEvg, 0, U8_DataTxBaseEvg, 0);
         m_dataBufferObj_230 = new mrmDataBufferObj(id.c_str(), *m_dataBuffer_230);
-        if(version >= MIN_FW_300_SERIES){
+        if(m_deviceInfo.getFirmwareId() == mrmDeviceInfo::firmwareId_delayCompensation){
             m_dataBuffer_300 = new mrmDataBuffer_300(id.c_str(), pReg, U32_DataTxCtrlEvg_seg, 0, U8_DataTxBaseEvg_seg, 0);
             m_dataBufferObj_300 = new mrmDataBufferObj(id.c_str(), *m_dataBuffer_300);
         }
@@ -233,6 +243,7 @@ evgMrm::~evgMrm() {
     delete m_dataBufferObj_300;
     delete m_dataBuffer_230;
     delete m_dataBuffer_300;
+    delete &m_deviceInfo;
 }
 
 void
@@ -255,61 +266,7 @@ evgMrm::getRegAddr() const {
 
 epicsUInt32
 evgMrm::getFwVersion() const {
-    return READ32(m_pReg, FWVersion);
-}
-
-epicsUInt32
-evgMrm::getFwVersionID(){
-    epicsUInt32 ver = getFwVersion();
-
-    ver &= FWVersion_ver_mask;
-
-    return ver;
-}
-
-formFactor
-evgMrm::getFormFactor(){
-    return m_deviceInfo.formFactor;
-}
-
-std::string
-evgMrm::getFormFactorStr(){
-    std::string text;
-
-    switch(getFormFactor()){
-    case formFactor_CPCI:
-        text = "CompactPCI 3U";
-        break;
-
-    case formFactor_CPCIFULL:
-        text = "CompactPCI 6U";
-        break;
-
-    case formFactor_CRIO:
-        text = "CompactRIO";
-        break;
-
-    case formFactor_PCIe:
-        text = "PCIe";
-        break;
-
-    case formFactor_PXIe:
-        text = "PXIe";
-        break;
-
-    case formFactor_PMC:
-        text = "PMC";
-        break;
-
-    case formFactor_VME64:
-        text = "VME 64";
-        break;
-
-    default:
-        text = "Unknown form factor";
-    }
-
-    return text;
+    return m_deviceInfo.getFirmwareVersion();
 }
 
 std::string
@@ -317,9 +274,9 @@ evgMrm::getSwVersion() const {
     return MRF_VERSION;
 }
 
-deviceInfoT evgMrm::getDeviceInfo() const
+mrmDeviceInfo *evgMrm::getDeviceInfo()
 {
-    return m_deviceInfo;
+    return &m_deviceInfo;
 }
 
 epicsUInt16
@@ -841,11 +798,6 @@ evgMrm::getTimerEvent() {
     return m_timerEvent;
 }
 
-bus_configuration *evgMrm::getBusConfiguration()
-{
-    return &m_deviceInfo.bus;
-}
-
 std::vector<SFP *>* evgMrm::getSFP(){
     return &m_sfp;
 }
@@ -865,31 +817,6 @@ void evgMrm::show(int lvl)
     ss.lvl = lvl;
     m_softSeqMgr.visit(ss);
 }
-
-void
-evgMrm::setFormFactor(){
-    epicsUInt32 form = getFwVersion();
-
-    form &= FWVersion_form_mask;
-    form >>= FWVersion_form_shift;
-
-    /**
-     * Removing 'formFactor_CPCI <= form' from the if condition since
-     * 'form' is unsigned and 'formFactor_CPCI' is 0. 'form' can never
-     * be less than 0 which makes this comparison always true and
-     * therefore superfluous.
-     *
-     * Changed by: jkrasna
-     */
-    if(form <= formFactor_PCIe){
-        m_deviceInfo.formFactor = (formFactor)form;
-    }
-    else{
-        m_deviceInfo.formFactor = formFactor_unknown;
-    }
-}
-
-
 
 
 /*********************************/

@@ -24,7 +24,7 @@ OBJECT_BEGIN(EVRMRM) {
 
     OBJECT_PROP1("Model", &EVRMRM::model);
 
-    OBJECT_PROP1("Version", &EVRMRM::versionFull);
+    OBJECT_PROP1("Version", &EVRMRM::versionFw);
     OBJECT_PROP1("Sw Version", &EVRMRM::versionSw);
 
     OBJECT_PROP1("Position", &EVRMRM::position);

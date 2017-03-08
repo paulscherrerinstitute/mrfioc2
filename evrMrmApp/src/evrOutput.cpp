@@ -10,6 +10,7 @@
 
 
 //#include <epicsMMIO.h>
+#include "mrmDeviceInfo.h"
 #include "evrRegMap.h"
 #include "evrMrm.h"
 
@@ -70,7 +71,7 @@ void EvrOutput::setSource2(epicsUInt32 v)
         throw std::out_of_range("Mapping code is out of range");
     }
 
-    if(deviceInfo.series == series_230 || deviceInfo.series == series_unknown) {
+    if(deviceInfo->getFirmwareId() != mrmDeviceInfo::firmwareId_delayCompensation) {
         //throw std::out_of_range("Hardware does not support second output source selection");
         return;
     }
@@ -177,7 +178,7 @@ bool EvrOutput::isSourceValid(epicsUInt32 source) const
     if( ( (source<=63 && source>=62) ||
           (source<=47 && source>=32) ||
           (source<=31) )        ||
-        (deviceInfo.formFactor == formFactor_PCIe && source == 61)
+        (deviceInfo->getFormFactor() == mrmDeviceInfo::formFactor_PCIe && deviceInfo->getFirmwareId() == mrmDeviceInfo::firmwareId_delayCompensation && source == 61)
     ) {
         return true;
     }
