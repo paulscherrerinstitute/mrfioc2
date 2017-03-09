@@ -511,11 +511,16 @@ std::string
 EVRMRM::position() const
 {
     std::ostringstream position;
-    mrmDeviceInfo::busConfigurationT bus = m_deviceInfo.getBusConfiguration();
+    if(m_deviceInfo.getFormFactor() == mrmDeviceInfo::formFactor_embedded) {
+        position << "Embedded";
+    }
+    else {
+        mrmDeviceInfo::busConfigurationT bus = m_deviceInfo.getBusConfiguration();
 
-    if     (bus.busType == mrmDeviceInfo::busType_pci) position << bus.pci.bus << ":" << bus.pci.device << "." << bus.pci.function;
-    else if(bus.busType == mrmDeviceInfo::busType_vme) position << "Slot #" << bus.vme.slot;
-    else position << "Unknown position";
+        if     (bus.busType == mrmDeviceInfo::busType_pci) position << bus.pci.bus << ":" << bus.pci.device << "." << bus.pci.function;
+        else if(bus.busType == mrmDeviceInfo::busType_vme) position << "Slot #" << bus.vme.slot;
+        else position << "Unknown position";
+    }
 
     return position.str();
 }

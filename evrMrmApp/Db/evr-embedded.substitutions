@@ -113,7 +113,7 @@ file "evr-pulserMap-dbus.template"
 {"$(SYS)", "$(DEVICE)", 7}
 }
 
-file "evr-clockFromEvg.template"
+file "evr-embeddedSpecial.template"
 {
 {SYS="$(SYS)", DEVICE="$(DEVICE)", DEVICE_PARENT="$(DEVICE_PARENT)"}
 }

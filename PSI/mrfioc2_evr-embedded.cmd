@@ -8,6 +8,3 @@ dbLoadTemplate $(EVR_SUBS=cfg/$(DEVICE=EVR0).subs),"SYS=$(SYS),DEVICE=$(DEVICE=E
 ## PSI specific templates
 dbLoadRecords $(mrfioc2_TEMPLATES)/evr-BeamOK.template,"SYS=$(SYS),DEVICE=$(DEVICE=EVR0)"
 
-
-## Health monitoring: 
-#dbLoadRecords "$(mrfioc2_TEMPLATES=db)/evr-health.template", "SYS=$(SYS),DEVICE=$(DEVICE=EVR0)"
