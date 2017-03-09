@@ -119,26 +119,32 @@ Example substitution files and startup scripts are available in the [`PSI/exampl
 ## Supported hardware
 
 * EVG VME-230: VME-230 form factor event generator. (tested and working)
-* EVG VME-300: VME-300 form factor event master / event generator.  (tested, check known issues)
+* EVG VME-300: VME-300 form factor event master / event generator.  (check known issues)
 * EVG cPCI-230: cPCI-230 form factor event generator (not tested, no GUI)
 * EVR VME-230: VME-230 form factor event receiver. (tested and working)
-* EVR VME-300: VME-300 form factor event receiver.  (tested, check known issues)
-* EVR PCIe-300: PCIe-300 form factor event receiver. (tested and working with firmware version 7. Not everything works with firmware versions >=0x200 - check known issues)
-* EVR PCIe-300DC: PCIE-300 form factor event receiver with newer hardware and delay compensation support. (check known issues)
+* EVR VME-300: VME-300 form factor event receiver.  (check known issues)
+* EVR PCIe-300: PCIe-300 form factor event receiver. (tested and working)
+* EVR PCIe-300DC: PCIe-300 form factor event receiver with newer hardware and delay compensation support. (check known issues)
 * EVR cPCI-230: cPCI-230 form factor event receiver (not tested, no GUI)
-* Embedded EVR in EVG VME-300
+* Embedded EVR in EVG VME-300 (no interrupt support, check known issues)
 
-mrfioc2 driver supports official hardware firmware versions up to and including 209, where only flashing is supported on versions 200 - 208.
-Minimal supported firmware version for:
+mrfioc2 driver supports  the following official hardware firmware versions:
+* for delay compensation capable hardware:
+    * EVG VME-300 firmware version 0x20701 or greater
+    * EVR VME-300 firmware version 0x20706 or greater
+    * EVR PCIe-300DC firmware version 0x20706 or greater
+    * Embedded EVR firmware version 0x20700 or greater
+* for modular register map capable hardware (firmware versions below 0x20000):
+    * EVG VME-230, EVG cPCI-230 firmware version 0x3 or greater
+    * EVR PCIe-300, EVR cPCI-230 firmware version 0x3 or greater
+    * EVR VME-230 firmware version 0x4 or greater
 
-* EVG is 0x3,
-* EVR-PCIe-300DC is 0x204,
-* EVR-PCIe-300 is 0x3,
-* VME form factor EVR 0x4.
-* embedded EVR is 0x208
+When non-supported firmware is detected, the driver still loads and offers ability to flash the device. Be warned, that improperly flashing the device might render it unusable, specially if errors at boot-up are present! For more information inspect the [`evr_manual.pdf`](documentation/evr_manual.pdf) available in the [`documentation`](documentation) folder.
+
 
 ## Known issues
-* firmware version 204:
+* latest firmware release was not yet tested in detail
+* [not supported] firmware version 204:
     * [fixed in revision 1] issue with data buffer receptions skips observed. Problem was tracked down to hardware issue on the sending side.
     * [fixed in revision 1] EVR-VME-300 rear outputs: mapping two sources to an output does not work
     * data buffer sending does not work if delay compensation is disabled.
@@ -146,7 +152,7 @@ Minimal supported firmware version for:
     * EVR-PCIe-300 not tested with this version
     * EVG-VME-300 event clock source 'recovered / 2' does not fully work yet (problem with events/data buffer reception and delay compensation calculation)
     * EVG-VME-300 event clock source 'internal fanout, external upstream' was not fully tested.
-* 300-series hardware with firmware version 202:
+* [not supported] 300-series hardware with firmware version 202:
     * some EVR-PCIe-300 devices with firmware version 202 do not work at 142.876 MHz event clock. They were tested, and were working, at 125 MHz event clock.
     * mapping two output sources to one output was not tested on EVR-PCIe-300 devices.
     * data buffer sending does not work if delay compensation is disabled.
@@ -154,7 +160,6 @@ Minimal supported firmware version for:
     * CML: only frequency mode works, since hardware addresses which store patterns are currently not accessible.
     * EVM-VME-300: Input registers for FrontInp0 and FrontInp2 are linked together in hardware. Awaiting firmware fix.
     * EVR-PCIe-300 inputs not tested
-* sending the data buffer upstream does not work on EVR-VME-300 and was not tested on other cards.
 
 ## Dependencies
 
