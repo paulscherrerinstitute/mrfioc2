@@ -2,12 +2,15 @@ For detailed changelog inspect commits at https://git.psi.ch/epics_driver_module
 
 
 2.8.0 : not tagged yet
-	- breaking compabitility because support for firmware version 0x200 - 0x206 was removed. First supported version for 300 series hardware is now 0x207
+	- breaking compabitility because support for firmware version 0x200 - 0x206 was removed. First supported version for delay compensation hardware is now 0x207
 	- EVR sequencer soft triggering enabled
 	- EVR batch file for opening GUI on windows bug fix
 	- EVG topology ID register exposed as a record
 	- Flashing: increased timeouts and functions which wait for SPI have sleep with zero time added
 	- Data buffer: 300 and 230 data buffer type (starting with firmware 0x207) running at the same time supported on the 300 series timing cards
+	- embedded EVRs in EVM added
+	- firmware version extended to also include subrelease ID
+	- when correct firmware version is not detected, the driver still loads with a big warning message. User has the ability to try to flash correct firmware in this mode.
 
 2.7.24 : Fri 3 Mar 2017:
 	- Beam OK mechanism updated

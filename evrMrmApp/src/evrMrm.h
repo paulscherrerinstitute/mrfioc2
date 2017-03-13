@@ -14,6 +14,7 @@
 #define MRMDATABUFFEROBJ_H_LEVEL2
 #define MRMREMOTEFLASH_H_LEVEL2
 #define SFP_H_LEVEL2
+#define MRMDEVICEINFO_H_LEVEL2
 
 #include <string>
 #include <vector>
@@ -41,6 +42,7 @@
 
 #include "sfp.h"
 
+#include "mrmDeviceInfo.h"
 #include "mrmFlash.h"
 #include "mrmRemoteFlash.h"
 #include "dataBuffer/mrmDataBuffer_300.h"
@@ -116,7 +118,7 @@ public:
     mutable epicsMutex evrLock;
 
 
-    EVRMRM(const std::string& n, deviceInfoT &devInfo, volatile epicsUInt8 *);
+    EVRMRM(const std::string& n, mrmDeviceInfo &devInfo, volatile epicsUInt8 *, volatile epicsUInt8 *evgBase);
 
     ~EVRMRM();
 private:
@@ -128,20 +130,16 @@ public:
 
     //! Hardware model
     epicsUInt32 model() const;
-    epicsUInt32 fpgaFirmware();
-    formFactor getFormFactor();
-    std::string formFactorStr();
-    deviceInfoT getDeviceInfo();
+    epicsUInt32 versionFw() const;
+    mrmDeviceInfo* getDeviceInfo();
 
     //! Firmware Version
-    epicsUInt32 version() const;
 
     //! Software Version -> from version.h
     std::string versionSw() const;
 
     //! Position of EVR device in enclosure.
     std::string position() const;
-    bus_configuration* getBusConfiguration();
 
 
     bool enabled() const;
@@ -281,6 +279,7 @@ public:
 
     const std::string id;
     volatile unsigned char * const base;
+    volatile unsigned char * const evgBaseAddress;
     std::auto_ptr<SFP> sfp;
 
     /**\defgroup devhelp Device Support Helpers
@@ -339,7 +338,7 @@ private:
 
     // Set by ctor, not changed after
 
-    deviceInfoT deviceInfo;
+    mrmDeviceInfo m_deviceInfo;
 
     typedef std::vector<EvrInput*> inputs_t;
     inputs_t inputs;
@@ -403,11 +402,6 @@ private:
     void _unmap(epicsUInt8 evt, epicsUInt8 func) { _mapped[evt] &= ~( 1<<(func) );}
     bool _ismap(epicsUInt8 evt, epicsUInt8 func) const { return (_mapped[evt] & 1<<(func)) != 0; }
 
-
-    /**
-     * @brief setFormFactor sets the internal m_deviceInfo.formFactor based on the content of the device registers
-     */
-    void setFormFactor();
 
     EvrSequencer *m_sequencer;
     mrmFlash m_flash;

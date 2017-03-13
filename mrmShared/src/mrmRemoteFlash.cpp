@@ -3,13 +3,15 @@
 
 #include <errlog.h>
 #include "iocsh.h"
+#include "mrmDeviceInfo.h"
+
 #include <epicsExport.h>
 #include "mrmRemoteFlash.h"
 
 const char *mrmRemoteFlash::OBJECT_NAME = ":Flash"; // appended to device name for use in mrfioc2 object model
 
 
-mrmRemoteFlash::mrmRemoteFlash(const std::string &parentName, volatile epicsUInt8 *parentBaseAddress, deviceInfoT &deviceInfo, mrmFlash &flash):
+mrmRemoteFlash::mrmRemoteFlash(const std::string &parentName, volatile epicsUInt8 *parentBaseAddress, mrmDeviceInfo &deviceInfo, mrmFlash &flash):
     mrf::ObjectInst<mrmRemoteFlash>(parentName+OBJECT_NAME),
     m_base(parentBaseAddress),
     m_flash_success(false),
@@ -19,11 +21,11 @@ mrmRemoteFlash::mrmRemoteFlash(const std::string &parentName, volatile epicsUInt
     try{
         m_flash.init(true);
 
-        switch(deviceInfo.formFactor){
-            case formFactor_CPCI:
-            case formFactor_CPCIFULL:
-            case formFactor_PCIe:
-                if(deviceInfo.series == series_300DC){
+        switch(deviceInfo.getFormFactor()){
+            case mrmDeviceInfo::formFactor_CPCI:
+            case mrmDeviceInfo::formFactor_CPCIFULL:
+            case mrmDeviceInfo::formFactor_PCIe:
+                if(deviceInfo.getFirmwareId() == mrmDeviceInfo::firmwareId_delayCompensation){
                     m_offset = 0;
                 }
                 else{
@@ -32,7 +34,7 @@ mrmRemoteFlash::mrmRemoteFlash(const std::string &parentName, volatile epicsUInt
                 m_offsetValid = true;
                 break;
 
-            case formFactor_VME64:
+            case mrmDeviceInfo::formFactor_VME64:
                 m_offset = 0;
                 m_offsetValid = true;
                 break;

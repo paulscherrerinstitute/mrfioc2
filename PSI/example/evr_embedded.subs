@@ -1,0 +1,677 @@
+# Record set for an easy configuration of pulsers for trigger switching between normal and switched mode
+#
+# Important records:
+# $(SYS)-$(DEVICE):TS$(ID)-Event-SP           -> Event number that triggers the pulsers
+# $(SYS)-$(DEVICE):TS$(ID)-Pul-Norm-Width-SP  -> The width in [us] of the pulse to be outputted in normal mode
+# $(SYS)-$(DEVICE):TS$(ID)-Pul-Norm-Delay-SP  -> The delay in [us] of the pulse to be outputted in normal mode
+# $(SYS)-$(DEVICE):TS$(ID)-Pul-Sw-Width-SP    -> The width in [us] of the pulse to be outputted in switched mode
+# $(SYS)-$(DEVICE):TS$(ID)-Pul-Sw-Delay-SP    -> The delay in [us] of the pulse to be outputted in switched mode
+# $(SYS)-$(DEVICE):TS$(ID)-Sim-Sel            -> Normal mode or simulate switched mode. Useful for testing purposes.
+# $(SYS)-$(DEVICE):TS$(ID)-Gate-Set-SP        -> Set event number that sets the pulser gate
+# $(SYS)-$(DEVICE):TS$(ID)-Gate-Reset-SP      -> Set event number that resets the pulser gate
+# 
+# Mandatory macros:
+#  SYS = System name
+#  DEVICE = Event receiver / timing card name (same as mrmEvrSetupVME()) Eg. EVR0
+#  
+#  Event          = Event number that triggers the pulsers
+#  Pul-Norm-Width = The width of the pulse to be outputted in normal mode
+#  Pul-Norm-Delay = The delay of the pulse to be outputted in normal mode
+#  Pul-Sw-Width   = The width of the pulse to be outputted in switched mode
+#  Pul-Sw-Delay   = The delay of the pulse to be outputted in switched mode.
+#  Output         = Name of the output where the pulse is routed. Eg. FrontUnivOut0, FrontUnivOut1,..., RearUniv0, RearUniv1, ...
+#  
+# Optional macros:
+#  Pul-Norm-ID       = ID of the pulser used for normal mode. Default: Pulser 22
+#  Pul-Sw-ID         = ID of the pulser used for switched mode. Default: Pulser 23
+#  Gate-Pul-ID       = Pulser ID that represents the gate to use. Default: 28 = Pulser 28 -> Gate 0
+#                      Gate = 28 : Pulser 28 -> Gate 0
+#                      Gate = 29 : Pulser 29 -> Gate 1
+#                      Gate = 30 : Pulser 30 -> Gate 2
+#                      Gate = 31 : Pulser 31 -> Gate 3
+#  Set-Evt   = Id of the event that gates pulser Pul-Sw-ID to the Output. Default: 6 = RF OFF beam event in SwissFEL
+#  Reset-Evt = Id of the event that gates pulser Pul-Norm-ID to the Output. Default: 38 = Start of sequence event (SOS) in SwissFEL
+#  
+#file "$(mrfioc2_TEMPLATES=db)/evr-configTriggerSwitch.template"{
+#pattern { ID,  Event,  Pul-Norm-Width, Pul-Norm-Delay, Pul-Sw-Width, Pul-Sw-Delay, Output,           Pul-Norm-ID, Pul-Sw-ID}
+#        { "0", "1",    "40",           "40",           "40",         "80",        "FrontUnivOut0",  "20",        "21"  }
+#        { "1", "2",    "50",           "60",           "70",         "80",        "RearUniv0",      "22",        "23"  }
+#}
+
+
+file "$(mrfioc2_TEMPLATES=db)/evr-embedded.db"
+{
+    {
+    
+		## Delay compensation
+		DlyCompensation-Enabled-Sel=1,	#0 = Disabled, 1 = Enabled: Enables or disables delay compensation
+		DlyCompensation-Target-SP=5000,	# Delay compensation value in [ns]. Should be set to max(path + someDelta) of all receivers in the timing system. This value can also be retrieved from an external record (see macro below).
+		DlyCompensation-Source-I="SIN-TIMAST-TMA:EvrDC-SP CP",      # delay compensation target value is sourced from the record referenced here.
+										# this value must be set the same for all EVRs in the timing network. This is why we have a single record which acts as a source for all EVRs in the same timing network.
+		                                # NOTE: The value of DlyCompensation-Source-I needs to include CP to ensure the value is updated when the source changes.
+		                                #       The CP can not be hidden in the template file because this would lead to an invalid input link CP when no substitution value for DlyCompensation-Source-I is provided.
+		                                # Recommended setting for SwissFEL is SIN-TIMAST-TMA:EvrDC-SP CP
+		DlyCompensation-Source-Disa=0,  #0 = Enabled, 1 = Disabled: enables or disables sourcing the delay compensation target value from record specified with 'DlyCompensation-Source-I' macro
+
+		DBuf-Mode-Sel=1,		#1 = Enabled, 0 = Disabled: enables or disables data buffer type 300 reception. Default: 1
+		DBuf230-Mode-Sel=1,		#0 = DBus only (data buffer reception disabled), 1 = DBus+Data Buffer (data buffer reception enabled) : Downstream data mode for 230 series data buffer. Default: 1
+
+		## Prescalers
+		PS0-Div-SP=2, 			#2-4294967295 :Integer divisor between the Event Clock and the sub-unit output.
+		PS0-PulserMap-L-SP=0,	#0-65535 :Trigger a pulser on prescaler rising edge. Pulsers 0-15 are bit-wise selectable
+		PS0-PulserMap-H-SP=0,	#0-255   :Trigger a pulser on prescaler rising edge. Pulsers 16-23 are bit-wise selectable
+		PS1-Div-SP=2, 			#2-4294967295 :Integer divisor between the Event Clock and the sub-unit output.
+		PS1-PulserMap-L-SP=0,	#0-65535 :Trigger a pulser on prescaler rising edge. Pulsers 0-15 are bit-wise selectable
+		PS1-PulserMap-H-SP=0,	#0-255   :Trigger a pulser on prescaler rising edge. Pulsers 16-23 are bit-wise selectable
+		PS2-Div-SP=2, 			#2-4294967295 :Integer divisor between the Event Clock and the sub-unit output.
+		PS2-PulserMap-L-SP=0,	#0-65535 :Trigger a pulser on prescaler rising edge. Pulsers 0-15 are bit-wise selectable
+		PS2-PulserMap-H-SP=0,	#0-255   :Trigger a pulser on prescaler rising edge. Pulsers 16-23 are bit-wise selectable
+		PS3-Div-SP=2, 			#2-4294967295 :Integer divisor between the Event Clock and the sub-unit output.
+		PS3-PulserMap-L-SP=0,	#0-65535 :Trigger a pulser on prescaler rising edge. Pulsers 0-15 are bit-wise selectable
+		PS3-PulserMap-H-SP=0,	#0-255   :Trigger a pulser on prescaler rising edge. Pulsers 16-23 are bit-wise selectable
+		PS4-Div-SP=2, 			#2-4294967295 :Integer divisor between the Event Clock and the sub-unit output.
+		PS4-PulserMap-L-SP=0,	#0-65535 :Trigger a pulser on prescaler rising edge. Pulsers 0-15 are bit-wise selectable
+		PS4-PulserMap-H-SP=0,	#0-255   :Trigger a pulser on prescaler rising edge. Pulsers 16-23 are bit-wise selectable
+		PS5-Div-SP=2, 			#2-4294967295 :Integer divisor between the Event Clock and the sub-unit output.
+		PS5-PulserMap-L-SP=0,	#0-65535 :Trigger a pulser on prescaler rising edge. Pulsers 0-15 are bit-wise selectable
+		PS5-PulserMap-H-SP=0,	#0-255   :Trigger a pulser on prescaler rising edge. Pulsers 16-23 are bit-wise selectable
+		PS6-Div-SP=2, 			#2-4294967295 :Integer divisor between the Event Clock and the sub-unit output.
+		PS6-PulserMap-L-SP=0,	#0-65535 :Trigger a pulser on prescaler rising edge. Pulsers 0-15 are bit-wise selectable
+		PS6-PulserMap-H-SP=0,	#0-255   :Trigger a pulser on prescaler rising edge. Pulsers 16-23 are bit-wise selectable
+		PS7-Div-SP=2, 			#2-4294967295 :Integer divisor between the Event Clock and the sub-unit output.
+		PS7-PulserMap-L-SP=0,	#0-65535 :Trigger a pulser on prescaler rising edge. Pulsers 0-15 are bit-wise selectable
+		PS7-PulserMap-H-SP=0,	#0-255   :Trigger a pulser on prescaler rising edge. Pulsers 16-23 are bit-wise selectable
+			
+		## Distributed bus
+		PulserMap-Dbus0-SP=0,	#0-16777215 :Trigger a pulser on DBus bit rising edge. Pulsers 0-23 are bit-wise selectable
+		PulserMap-Dbus1-SP=0,	#0-16777215 :Trigger a pulser on DBus bit rising edge. Pulsers 0-23 are bit-wise selectable
+		PulserMap-Dbus2-SP=0,	#0-16777215 :Trigger a pulser on DBus bit rising edge. Pulsers 0-23 are bit-wise selectable
+		PulserMap-Dbus3-SP=0,	#0-16777215 :Trigger a pulser on DBus bit rising edge. Pulsers 0-23 are bit-wise selectable
+		PulserMap-Dbus4-SP=0,	#0-16777215 :Trigger a pulser on DBus bit rising edge. Pulsers 0-23 are bit-wise selectable
+		PulserMap-Dbus5-SP=0,	#0-16777215 :Trigger a pulser on DBus bit rising edge. Pulsers 0-23 are bit-wise selectable
+		PulserMap-Dbus6-SP=0,	#0-16777215 :Trigger a pulser on DBus bit rising edge. Pulsers 0-23 are bit-wise selectable
+		PulserMap-Dbus7-SP=0,	#0-16777215 :Trigger a pulser on DBus bit rising edge. Pulsers 0-23 are bit-wise selectable
+
+		## Front panel inputs
+		FPIn0-Lvl-Sel=1,		#0 = Active Low, 1 = Active High : Active Level
+		FPIn0-Edge-Sel=1,		#0 = Active Falling, 1 = Active Rising: Active Edge
+		FPIn0-Trig-Ext-Sel=0,	#0 = Off,	1 = Level, 	2 = Edge : External mode trigger type
+		FPIn0-Code-Ext-SP=0,	#0-255 : Event code that triggers this input
+		FPIn0-Trig-Back-Sel=0,	#0 = Off,	1 = Level, 	2 = Edge : Backwards mode trigger type
+		FPIn0-Code-Back-SP=0,	#0-255 : Event code that triggers this input
+		FPIn0-DBus-Sel=0,		#1 = Bit 0, 2 = Bit 1, 4 = Bit 2, 8 = Bit 3, 16 = Bit 4, 32 = Bit 5, 64 = Bit 6, 128 = Bit 7 : DBus bits are OR-ed with this value and sent out
+
+		FPIn1-Lvl-Sel=1,		#0 = Active Low, 1 = Active High : Active Level
+		FPIn1-Edge-Sel=1,		#0 = Active Falling, 1 = Active Rising: Active Edge
+		FPIn1-Trig-Ext-Sel=0,	#0 = Off,	1 = Level, 	2 = Edge : External mode trigger type
+		FPIn1-Code-Ext-SP=0,	#0-255 : Event code that triggers this input
+		FPIn1-Trig-Back-Sel=0,	#0 = Off,	1 = Level, 	2 = Edge : Backwards mode trigger type
+		FPIn1-Code-Back-SP=0,	#0-255 : Event code that triggers this input
+		FPIn1-DBus-Sel=0,		#1 = Bit 0, 2 = Bit 1, 4 = Bit 2, 8 = Bit 3, 16 = Bit 4, 32 = Bit 5, 64 = Bit 6, 128 = Bit 7 : DBus bits are OR-ed with this value and sent out
+
+		FPIn2-Lvl-Sel=1,		#0 = Active Low, 1 = Active High : Active Level
+		FPIn2-Edge-Sel=1,		#0 = Active Falling, 1 = Active Rising: Active Edge
+		FPIn2-Trig-Ext-Sel=0,	#0 = Off,	1 = Level, 	2 = Edge : External mode trigger type
+		FPIn2-Code-Ext-SP=0,	#0-255 : Event code that triggers this input
+		FPIn2-Trig-Back-Sel=0,	#0 = Off,	1 = Level, 	2 = Edge : Backwards mode trigger type
+		FPIn2-Code-Back-SP=0,	#0-255 : Event code that triggers this input
+		FPIn2-DBus-Sel=0,		#1 = Bit 0, 2 = Bit 1, 4 = Bit 2, 8 = Bit 3, 16 = Bit 4, 32 = Bit 5, 64 = Bit 6, 128 = Bit 7 : DBus bits are OR-ed with this value and sent out
+
+		FPIn3-Lvl-Sel=1,		#0 = Active Low, 1 = Active High : Active Level
+		FPIn3-Edge-Sel=1,		#0 = Active Falling, 1 = Active Rising: Active Edge
+		FPIn3-Trig-Ext-Sel=0,	#0 = Off,	1 = Level, 	2 = Edge : External mode trigger type
+		FPIn3-Code-Ext-SP=0,	#0-255 : Event code that triggers this input
+		FPIn3-Trig-Back-Sel=0,	#0 = Off,	1 = Level, 	2 = Edge : Backwards mode trigger type
+		FPIn3-Code-Back-SP=0,	#0-255 : Event code that triggers this input
+		FPIn3-DBus-Sel=0,		#1 = Bit 0, 2 = Bit 1, 4 = Bit 2, 8 = Bit 3, 16 = Bit 4, 32 = Bit 5, 64 = Bit 6, 128 = Bit 7 : DBus bits are OR-ed with this value and sent out
+
+		FPIn4-Lvl-Sel=1,		#0 = Active Low, 1 = Active High : Active Level
+		FPIn4-Edge-Sel=1,		#0 = Active Falling, 1 = Active Rising: Active Edge
+		FPIn4-Trig-Ext-Sel=0,	#0 = Off,	1 = Level, 	2 = Edge : External mode trigger type
+		FPIn4-Code-Ext-SP=0,	#0-255 : Event code that triggers this input
+		FPIn4-Trig-Back-Sel=0,	#0 = Off,	1 = Level, 	2 = Edge : Backwards mode trigger type
+		FPIn4-Code-Back-SP=0,	#0-255 : Event code that triggers this input
+		FPIn4-DBus-Sel=0,		#1 = Bit 0, 2 = Bit 1, 4 = Bit 2, 8 = Bit 3, 16 = Bit 4, 32 = Bit 5, 64 = Bit 6, 128 = Bit 7 : DBus bits are OR-ed with this value and sent out
+
+		FPIn5-Lvl-Sel=1,		#0 = Active Low, 1 = Active High : Active Level
+		FPIn5-Edge-Sel=1,		#0 = Active Falling, 1 = Active Rising: Active Edge
+		FPIn5-Trig-Ext-Sel=0,	#0 = Off,	1 = Level, 	2 = Edge : External mode trigger type
+		FPIn5-Code-Ext-SP=0,	#0-255 : Event code that triggers this input
+		FPIn5-Trig-Back-Sel=0,	#0 = Off,	1 = Level, 	2 = Edge : Backwards mode trigger type
+		FPIn5-Code-Back-SP=0,	#0-255 : Event code that triggers this input
+		FPIn5-DBus-Sel=0,		#1 = Bit 0, 2 = Bit 1, 4 = Bit 2, 8 = Bit 3, 16 = Bit 4, 32 = Bit 5, 64 = Bit 6, 128 = Bit 7 : DBus bits are OR-ed with this value and sent out
+
+		FPIn6-Lvl-Sel=1,		#0 = Active Low, 1 = Active High : Active Level
+		FPIn6-Edge-Sel=1,		#0 = Active Falling, 1 = Active Rising: Active Edge
+		FPIn6-Trig-Ext-Sel=0,	#0 = Off,	1 = Level, 	2 = Edge : External mode trigger type
+		FPIn6-Code-Ext-SP=0,	#0-255 : Event code that triggers this input
+		FPIn6-Trig-Back-Sel=0,	#0 = Off,	1 = Level, 	2 = Edge : Backwards mode trigger type
+		FPIn6-Code-Back-SP=0,	#0-255 : Event code that triggers this input
+		FPIn6-DBus-Sel=0,		#1 = Bit 0, 2 = Bit 1, 4 = Bit 2, 8 = Bit 3, 16 = Bit 4, 32 = Bit 5, 64 = Bit 6, 128 = Bit 7 : DBus bits are OR-ed with this value and sent out
+
+		FPIn7-Lvl-Sel=1,		#0 = Active Low, 1 = Active High : Active Level
+		FPIn7-Edge-Sel=1,		#0 = Active Falling, 1 = Active Rising: Active Edge
+		FPIn7-Trig-Ext-Sel=0,	#0 = Off,	1 = Level, 	2 = Edge : External mode trigger type
+		FPIn7-Code-Ext-SP=0,	#0-255 : Event code that triggers this input
+		FPIn7-Trig-Back-Sel=0,	#0 = Off,	1 = Level, 	2 = Edge : Backwards mode trigger type
+		FPIn7-Code-Back-SP=0,	#0-255 : Event code that triggers this input
+		FPIn7-DBus-Sel=0,		#1 = Bit 0, 2 = Bit 1, 4 = Bit 2, 8 = Bit 3, 16 = Bit 4, 32 = Bit 5, 64 = Bit 6, 128 = Bit 7 : DBus bits are OR-ed with this value and sent out
+
+		## Pulsers
+		Pul0-Name-I="Pulser 0"		#Description of the pulser. Maximum 40 characters allowed!
+		Pul0-Name-I.DESC=""			#Secondary description of the pulser. Maximum 40 characters allowed!
+		Pul0-Ena-Sel=1,				#0 = Disabled, 1 = Enabled
+		Pul0-Polarity-Sel=0,   		#0 = Active High, 1 = Active Low
+		Pul0-Delay-SP=0,			#Pulse delay in us (range depends on prescaler selection and event clock)
+		Pul0-Width-SP=0,			#Pulse width in us (range depends on prescaler selection and event clock)
+		Pul0-Prescaler-SP=1,   		#0-65535 : Pulser prescaler
+		Pul0-Gate-Mask-SP=0x0,		#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will mask this pulser
+		Pul0-Gate-Enable-SP=0x0,	#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will enable this pulser
+
+		Pul1-Name-I="Pulser 1"		#Description of the pulser. Maximum 40 characters allowed!
+		Pul1-Name-I.DESC=""			#Secondary description of the pulser. Maximum 40 characters allowed!
+		Pul1-Ena-Sel=1,				#0 = Disabled, 1 = Enabled
+		Pul1-Polarity-Sel=0,   		#0 = Active High, 1 = Active Low
+		Pul1-Delay-SP=0,			#Pulse delay in us  (range depends on prescaler selection and event clock)
+		Pul1-Width-SP=0,			#Pulse width in us (range depends on prescaler selection and event clock)
+		Pul1-Prescaler-SP=1,   		#0-65535 : Pulser prescaler
+		Pul1-Gate-Mask-SP=0x0,		#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will mask this pulser
+		Pul1-Gate-Enable-SP=0x0,	#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will enable this pulser
+
+		Pul2-Name-I="Pulser 2"		#Description of the pulser. Maximum 40 characters allowed!
+		Pul2-Name-I.DESC=""			#Secondary description of the pulser. Maximum 40 characters allowed!
+		Pul2-Ena-Sel=1,				#0 = Disabled, 1 = Enabled
+		Pul2-Polarity-Sel=0,  		#0 = Active High, 1 = Active Low
+		Pul2-Delay-SP=0,			#Pulse delay in us  (range depends on prescaler selection and event clock)
+		Pul2-Width-SP=0,			#Pulse width in us (range depends on prescaler selection and event clock)
+		Pul2-Prescaler-SP=1, 		#0-65535 : Pulser prescaler
+		Pul2-Gate-Mask-SP=0x0,		#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will mask this pulser
+		Pul2-Gate-Enable-SP=0x0,	#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will enable this pulser
+
+		Pul3-Name-I="Pulser 3"		#Description of the pulser. Maximum 40 characters allowed!
+		Pul3-Name-I.DESC=""			#Secondary description of the pulser. Maximum 40 characters allowed!
+		Pul3-Ena-Sel=1,				#0 = Disabled, 1 = Enabled
+		Pul3-Polarity-Sel=0,   		#0 = Active High, 1 = Active Low
+		Pul3-Delay-SP=0,			#Pulse delay in us  (range depends on prescaler selection and event clock)
+		Pul3-Width-SP=0,			#Pulse width in us (range depends on prescaler selection and event clock)
+		Pul3-Prescaler-SP=1,   		#0-65535 : Pulser prescaler
+		Pul3-Gate-Mask-SP=0x0,		#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will mask this pulser
+		Pul3-Gate-Enable-SP=0x0,	#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will enable this pulser
+
+		Pul4-Name-I="Pulser 4"		#Description of the pulser. Maximum 40 characters allowed!
+		Pul4-Name-I.DESC=""			#Secondary description of the pulser. Maximum 40 characters allowed!
+		Pul4-Ena-Sel=1,				#0 = Disabled, 1 = Enabled
+		Pul4-Polarity-Sel=0,   		#0 = Active High, 1 = Active Low
+		Pul4-Delay-SP=0,			#Pulse delay in us 
+		Pul4-Width-SP=0,			#Pulse width in us
+		Pul4-Gate-Mask-SP=0x0,		#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will mask this pulser
+		Pul4-Gate-Enable-SP=0x0,	#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will enable this pulser
+
+		Pul5-Name-I="Pulser 5"		#Description of the pulser. Maximum 40 characters allowed!
+		Pul5-Name-I.DESC=""			#Secondary description of the pulser. Maximum 40 characters allowed!
+		Pul5-Ena-Sel=1,				#0 = Disabled, 1 = Enabled
+		Pul5-Polarity-Sel=0,   		#0 = Active High, 1 = Active Low
+		Pul5-Delay-SP=0,			#Pulse delay in us 
+		Pul5-Width-SP=0,			#Pulse width in us
+		Pul5-Gate-Mask-SP=0x0,		#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will mask this pulser
+		Pul5-Gate-Enable-SP=0x0,	#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will enable this pulser
+
+		Pul6-Name-I="Pulser 6"		#Description of the pulser. Maximum 40 characters allowed!
+		Pul6-Name-I.DESC=""			#Secondary description of the pulser. Maximum 40 characters allowed!
+		Pul6-Ena-Sel=1,				#0 = Disabled, 1 = Enabled
+		Pul6-Polarity-Sel=0,   		#0 = Active High, 1 = Active Low
+		Pul6-Delay-SP=0,			#Pulse delay in us 
+		Pul6-Width-SP=0,			#Pulse width in us
+		Pul6-Gate-Mask-SP=0x0,		#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will mask this pulser
+		Pul6-Gate-Enable-SP=0x0,	#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will enable this pulser
+
+		Pul7-Name-I="Pulser 7"		#Description of the pulser. Maximum 40 characters allowed!
+		Pul7-Name-I.DESC=""			#Secondary description of the pulser. Maximum 40 characters allowed!
+		Pul7-Ena-Sel=1,				#0 = Disabled, 1 = Enabled
+		Pul7-Polarity-Sel=0,   		#0 = Active High, 1 = Active Low
+		Pul7-Delay-SP=0,			#Pulse delay in us 
+		Pul7-Width-SP=0,			#Pulse width in us
+		Pul7-Gate-Mask-SP=0x0,		#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will mask this pulser
+		Pul7-Gate-Enable-SP=0x0,	#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will enable this pulser
+
+		Pul8-Name-I="Pulser 8"		#Description of the pulser. Maximum 40 characters allowed!
+		Pul8-Name-I.DESC=""			#Secondary description of the pulser. Maximum 40 characters allowed!
+		Pul8-Ena-Sel=1,				#0 = Disabled, 1 = Enabled
+		Pul8-Polarity-Sel=0,   		#0 = Active High, 1 = Active Low
+		Pul8-Delay-SP=0,			#Pulse delay in us 
+		Pul8-Width-SP=0,			#Pulse width in us
+		Pul8-Gate-Mask-SP=0x0,		#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will mask this pulser
+		Pul8-Gate-Enable-SP=0x0,	#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will enable this pulser
+
+		Pul9-Name-I="Pulser 9"		#Description of the pulser. Maximum 40 characters allowed!
+		Pul9-Name-I.DESC=""			#Secondary description of the pulser. Maximum 40 characters allowed!
+		Pul9-Ena-Sel=1,				#0 = Disabled, 1 = Enabled
+		Pul9-Polarity-Sel=0,   		#0 = Active High, 1 = Active Low
+		Pul9-Delay-SP=0,			#Pulse delay in us 
+		Pul9-Width-SP=0,			#Pulse width in us
+		Pul9-Gate-Mask-SP=0x0,		#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will mask this pulser
+		Pul9-Gate-Enable-SP=0x0,	#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will enable this pulser
+
+		Pul10-Name-I="Pulser 10"	#Description of the pulser. Maximum 40 characters allowed!
+		Pul10-Name-I.DESC=""		#Secondary description of the pulser. Maximum 40 characters allowed!
+		Pul10-Ena-Sel=1,			#0 = Disabled, 1 = Enabled
+		Pul10-Polarity-Sel=0,  		#0 = Active High, 1 = Active Low
+		Pul10-Delay-SP=0,			#Pulse delay in us 
+		Pul10-Width-SP=0,			#Pulse width in us
+		Pul10-Gate-Mask-SP=0x0,		#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will mask this pulser
+		Pul10-Gate-Enable-SP=0x0,	#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will enable this pulser
+
+		Pul11-Name-I="Pulser 11"	#Description of the pulser. Maximum 40 characters allowed!
+		Pul11-Name-I.DESC=""		#Secondary description of the pulser. Maximum 40 characters allowed!
+		Pul11-Ena-Sel=1,			#0 = Disabled, 1 = Enabled
+		Pul11-Polarity-Sel=0,  		#0 = Active High, 1 = Active Low
+		Pul11-Delay-SP=0,			#Pulse delay in us 
+		Pul11-Width-SP=0,			#Pulse width in us
+		Pul11-Gate-Mask-SP=0x0,		#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will mask this pulser
+		Pul11-Gate-Enable-SP=0x0,	#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will enable this pulser
+
+		Pul12-Name-I="Pulser 12"	#Description of the pulser. Maximum 40 characters allowed!
+		Pul12-Name-I.DESC=""		#Secondary description of the pulser. Maximum 40 characters allowed!
+		Pul12-Ena-Sel=1,			#0 = Disabled, 1 = Enabled
+		Pul12-Polarity-Sel=0,  		#0 = Active High, 1 = Active Low
+		Pul12-Delay-SP=0,			#Pulse delay in us 
+		Pul12-Width-SP=0,			#Pulse width in us
+		Pul12-Gate-Mask-SP=0x0,		#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will mask this pulser
+		Pul12-Gate-Enable-SP=0x0,	#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will enable this pulser
+
+		Pul13-Name-I="Pulser 13"		#Description of the pulser. Maximum 40 characters allowed!
+		Pul13-Name-I.DESC=""			#Secondary description of the pulser. Maximum 40 characters allowed!
+		Pul13-Ena-Sel=1,			#0 = Disabled, 1 = Enabled
+		Pul13-Polarity-Sel=0,  		#0 = Active High, 1 = Active Low
+		Pul13-Delay-SP=0,			#Pulse delay in us 
+		Pul13-Width-SP=0,			#Pulse width in us
+		Pul13-Gate-Mask-SP=0x0,		#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will mask this pulser
+		Pul13-Gate-Enable-SP=0x0,	#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will enable this pulser
+
+		Pul14-Name-I="Pulser 14"	#Description of the pulser. Maximum 40 characters allowed!
+		Pul14-Name-I.DESC=""		#Secondary description of the pulser. Maximum 40 characters allowed!
+		Pul14-Ena-Sel=1,			#0 = Disabled, 1 = Enabled
+		Pul14-Polarity-Sel=0,  		#0 = Active High, 1 = Active Low
+		Pul14-Delay-SP=0,			#Pulse delay in us 
+		Pul14-Width-SP=0,			#Pulse width in us
+		Pul14-Gate-Mask-SP=0x0,		#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will mask this pulser
+		Pul14-Gate-Enable-SP=0x0,	#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will enable this pulser
+
+		Pul15-Name-I="Pulser 15"	#Description of the pulser. Maximum 40 characters allowed!
+		Pul15-Name-I.DESC=""		#Secondary description of the pulser. Maximum 40 characters allowed!
+		Pul15-Ena-Sel=1,			#0 = Disabled, 1 = Enabled
+		Pul15-Polarity-Sel=0,  		#0 = Active High, 1 = Active Low
+		Pul15-Delay-SP=0,			#Pulse delay in us 
+		Pul15-Width-SP=0,			#Pulse width in us
+		Pul15-Gate-Mask-SP=0x0,		#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will mask this pulser
+		Pul15-Gate-Enable-SP=0x0,	#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will enable this pulser
+
+		Pul16-Name-I="Pulser 16"	#Description of the pulser. Maximum 40 characters allowed!
+		Pul16-Name-I.DESC=""		#Secondary description of the pulser. Maximum 40 characters allowed!
+		Pul16-Ena-Sel=1,			#0 = Disabled, 1 = Enabled
+		Pul16-Polarity-Sel=0,  		#0 = Active High, 1 = Active Low
+		Pul16-Delay-SP=0,			#Pulse delay in us 
+		Pul16-Width-SP=0,			#Pulse width in us
+		Pul16-Gate-Mask-SP=0x0,		#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will mask this pulser
+		Pul16-Gate-Enable-SP=0x0,	#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will enable this pulser
+
+		Pul17-Name-I="Pulser 17"	#Description of the pulser. Maximum 40 characters allowed!
+		Pul17-Name-I.DESC=""		#Secondary description of the pulser. Maximum 40 characters allowed!
+		Pul17-Ena-Sel=1,			#0 = Disabled, 1 = Enabled
+		Pul17-Polarity-Sel=0,  		#0 = Active High, 1 = Active Low
+		Pul17-Delay-SP=0,			#Pulse delay in us 
+		Pul17-Width-SP=0,			#Pulse width in us
+		Pul17-Gate-Mask-SP=0x0,		#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will mask this pulser
+		Pul17-Gate-Enable-SP=0x0,	#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will enable this pulser
+
+		Pul18-Name-I="Pulser 18"	#Description of the pulser. Maximum 40 characters allowed!
+		Pul18-Name-I.DESC=""		#Secondary description of the pulser. Maximum 40 characters allowed!
+		Pul18-Ena-Sel=1,			#0 = Disabled, 1 = Enabled
+		Pul18-Polarity-Sel=0,  		#0 = Active High, 1 = Active Low
+		Pul18-Delay-SP=0,			#Pulse delay in us 
+		Pul18-Width-SP=0,			#Pulse width in us
+		Pul18-Gate-Mask-SP=0x0,		#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will mask this pulser
+		Pul18-Gate-Enable-SP=0x0,	#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will enable this pulser
+
+		Pul19-Name-I="Pulser 19"	#Description of the pulser. Maximum 40 characters allowed!
+		Pul19-Name-I.DESC=""		#Secondary description of the pulser. Maximum 40 characters allowed!
+		Pul19-Ena-Sel=1,			#0 = Disabled, 1 = Enabled
+		Pul19-Polarity-Sel=0,  		#0 = Active High, 1 = Active Low
+		Pul19-Delay-SP=0,			#Pulse delay in us 
+		Pul19-Width-SP=0,			#Pulse width in us
+		Pul19-Gate-Mask-SP=0x0,		#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will mask this pulser
+		Pul19-Gate-Enable-SP=0x0,	#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will enable this pulser
+
+		Pul20-Name-I="Pulser 20"	#Description of the pulser. Maximum 40 characters allowed!
+		Pul20-Name-I.DESC=""		#Secondary description of the pulser. Maximum 40 characters allowed!
+		Pul20-Ena-Sel=1,			#0 = Disabled, 1 = Enabled
+		Pul20-Polarity-Sel=0,  		#0 = Active High, 1 = Active Low
+		Pul20-Delay-SP=0,			#Pulse delay in us 
+		Pul20-Width-SP=0,			#Pulse width in us
+		Pul20-Gate-Mask-SP=0x0,		#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will mask this pulser
+		Pul20-Gate-Enable-SP=0x0,	#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will enable this pulser
+
+		Pul21-Name-I="Pulser 21"	#Description of the pulser. Maximum 40 characters allowed!
+		Pul21-Name-I.DESC=""		#Secondary description of the pulser. Maximum 40 characters allowed!
+		Pul21-Ena-Sel=1,			#0 = Disabled, 1 = Enabled
+		Pul21-Polarity-Sel=0,  		#0 = Active High, 1 = Active Low
+		Pul21-Delay-SP=0,			#Pulse delay in us 
+		Pul21-Width-SP=0,			#Pulse width in us
+		Pul21-Gate-Mask-SP=0x0,		#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will mask this pulser
+		Pul21-Gate-Enable-SP=0x0,	#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will enable this pulser
+
+		Pul22-Name-I="Pulser 0"		#Description of the pulser. Maximum 40 characters allowed!
+		Pul22-Name-I.DESC=""		#Secondary description of the pulser. Maximum 40 characters allowed!
+		Pul22-Ena-Sel=1,			#0 = Disabled, 1 = Enabled
+		Pul22-Polarity-Sel=0,  		#0 = Active High, 1 = Active Low
+		Pul22-Delay-SP=0,			#Pulse delay in us 
+		Pul22-Width-SP=0,			#Pulse width in us
+		Pul22-Gate-Mask-SP=0x0,		#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will mask this pulser
+		Pul22-Gate-Enable-SP=0x0,	#0-15 : Selects which gate will enable this pulser
+
+		Pul23-Name-I="Pulser 0"		#Description of the pulser. Maximum 40 characters allowed!
+		Pul23-Name-I.DESC=""		#Secondary description of the pulser. Maximum 40 characters allowed!
+		Pul23-Ena-Sel=1,			#0 = Disabled, 1 = Enabled
+		Pul23-Polarity-Sel=0,  		#0 = Active High, 1 = Active Low
+		Pul23-Delay-SP=0,			#Pulse delay in us 
+		Pul23-Width-SP=0,			#Pulse width in us
+		Pul23-Gate-Mask-SP=0x0,		#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will mask this pulser
+		Pul23-Gate-Enable-SP=0x0,	#0x0 = No masking, 0x1 = gate 0, 0x2 = gate 1, 0x4 = gate 2, 0x8 = gate 3 : Selects which gate will enable this pulser
+
+		# Gates 0-3
+		Pul28-Name-I="Gate 0"	#Description of the gated pulser. Maximum 40 characters allowed!
+		Pul28-Name-I.DESC=""	#Secondary description of the gated pulser. Maximum 40 characters allowed!
+		Pul28-Ena-Sel=1,		#0 = Disabled, 1 = Enabled
+
+		Pul29-Name-I="Gate 1"	#Description of the gated pulser. Maximum 40 characters allowed!
+		Pul29-Name-I.DESC=""	#Secondary description of the gated pulser. Maximum 40 characters allowed!
+		Pul29-Ena-Sel=1,		#0 = Disabled, 1 = Enabled
+
+		Pul30-Name-I="Gate 2"	#Description of the gated pulser. Maximum 40 characters allowed!
+		Pul30-Name-I.DESC=""	#Secondary description of the gated pulser. Maximum 40 characters allowed!
+		Pul30-Ena-Sel=1,		#0 = Disabled, 1 = Enabled
+
+		Pul31-Name-I="Gate 3"	#Description of the gated pulser. Maximum 40 characters allowed!
+		Pul31-Name-I.DESC=""	#Secondary description of the gated pulser. Maximum 40 characters allowed!
+		Pul31-Ena-Sel=1,		#0 = Disabled, 1 = Enabled
+		
+		## Front panel outputs
+		# Available -Src-SP choices:
+		# 0 	Pulser 0
+		# 1 	Pulser 1
+		# 2 	Pulser 2
+		# 3 	Pulser 3
+		# 4 	Pulser 4
+		# 5 	Pulser 5
+		# 6 	Pulser 6
+		# 7 	Pulser 7
+		# 8 	Pulser 8
+		# 9 	Pulser 9
+		# 10 	Pulser 10
+		# 11 	Pulser 11
+		# 12 	Pulser 12
+		# 13 	Pulser 13
+		# 14 	Pulser 14
+		# 15 	Pulser 15
+		# 16 	Pulser 16
+		# 17 	Pulser 17
+		# 18 	Pulser 18
+		# 19 	Pulser 19
+		# 20 	Pulser 20
+		# 21 	Pulser 21
+		# 22 	Pulser 22
+		# 23 	Pulser 23
+		# 32	DBus 0
+		# 33	DBus 1
+		# 34	DBus 2
+		# 35	DBus 3
+		# 36	DBus 4
+		# 37	DBus 5	
+		# 38	DBus 6
+		# 39	Dbus 7
+		# 40	Prescaler 0
+		# 41	Prescaler 1
+		# 42	Prescaler 2
+		# 43	Prescaler 3
+		# 44	Prescaler 4
+		# 45	Prescaler 5
+		# 46	Prescaler 6
+		# 47	Prescaler 7
+		# 63	Force Low
+		# 62	Force High
+
+		# Front Outputs
+		FrontOut0-Name-I=""			# Description of the output. Maximum 40 characters allowed!
+		FrontOut0-Name-I.DESC=""	# Secondary description of the output. Maximum 40 characters allowed!
+		FrontOut0-Ena-SP=1, 		# Default to enabled
+		FrontOut0-Src-SP=63,  		# Defaults to Force low (if enabled -> Ena-SP)
+		FrontOut0-Src2-SP=63,		# Defaults to Force low (if enabled -> Ena-SP)
+
+		FrontOut1-Name-I=""			# Description of the output. Maximum 40 characters allowed!
+		FrontOut1-Name-I.DESC=""	# Secondary description of the output. Maximum 40 characters allowed!
+		FrontOut1-Ena-SP=1, 		# Default to enabled
+		FrontOut1-Src-SP=63,  		# Defaults to Force low (if enabled -> Ena-SP)
+		FrontOut1-Src2-SP=63,		# Defaults to Force low (if enabled -> Ena-SP)
+
+		FrontOut2-Name-I=""			# Description of the output. Maximum 40 characters allowed!
+		FrontOut2-Name-I.DESC=""	# Secondary description of the output. Maximum 40 characters allowed!
+		FrontOut2-Ena-SP=1, 		# Default to enabled
+		FrontOut2-Src-SP=63,  		# Defaults to Force low (if enabled -> Ena-SP)
+		FrontOut2-Src2-SP=63,		# Defaults to Force low (if enabled -> Ena-SP)
+
+		FrontOut3-Name-I=""			# Description of the output. Maximum 40 characters allowed!
+		FrontOut3-Name-I.DESC=""	# Secondary description of the output. Maximum 40 characters allowed!
+		FrontOut3-Ena-SP=1, 		# Default to enabled
+		FrontOut3-Src-SP=63,  		# Defaults to Force low (if enabled -> Ena-SP)
+		FrontOut3-Src2-SP=63,		# Defaults to Force low (if enabled -> Ena-SP)
+
+		FrontOut4-Name-I=""			# Description of the output. Maximum 40 characters allowed!
+		FrontOut4-Name-I.DESC=""	# Secondary description of the output. Maximum 40 characters allowed!
+		FrontOut4-Ena-SP=1, 		# Default to enabled
+		FrontOut4-Src-SP=63,  		# Defaults to Force low (if enabled -> Ena-SP)
+		FrontOut4-Src2-SP=63,		# Defaults to Force low (if enabled -> Ena-SP)
+
+		FrontOut5-Name-I=""			# Description of the output. Maximum 40 characters allowed!
+		FrontOut5-Name-I.DESC=""	# Secondary description of the output. Maximum 40 characters allowed!
+		FrontOut5-Ena-SP=1, 		# Default to enabled
+		FrontOut5-Src-SP=63,  		# Defaults to Force low (if enabled -> Ena-SP)
+		FrontOut5-Src2-SP=63,		# Defaults to Force low (if enabled -> Ena-SP)
+
+		FrontOut6-Name-I=""			# Description of the output. Maximum 40 characters allowed!
+		FrontOut6-Name-I.DESC=""	# Secondary description of the output. Maximum 40 characters allowed!
+		FrontOut6-Ena-SP=1, 		# Default to enabled
+		FrontOut6-Src-SP=63,  		# Defaults to Force low (if enabled -> Ena-SP)
+		FrontOut6-Src2-SP=63,		# Defaults to Force low (if enabled -> Ena-SP)
+
+		FrontOut7-Name-I=""			# Description of the output. Maximum 40 characters allowed!
+		FrontOut7-Name-I.DESC=""	# Secondary description of the output. Maximum 40 characters allowed!
+		FrontOut7-Ena-SP=1, 		# Default to enabled
+		FrontOut7-Src-SP=63,  		# Defaults to Force low (if enabled -> Ena-SP)
+		FrontOut7-Src2-SP=63,		# Defaults to Force low (if enabled -> Ena-SP)
+
+		Seq-RunMode-Sel=0,          # 0: Normal, 1: Automatic, 2: Single. Select sequence run mode. Default is 0: Normal
+		Seq-Ena-Sel=0,              # 0: Disabled, 1: Enabled. Enabled or disables EVR sequencer. Default is 0: Disabled
+		Seq-Src-SP=63,              # See mapping for outputs (the table above output configuration). Sets the sequence trigger source (sequence is triggered on rising edge). 
+		                            # Value 61 can be selected in addition to the table above and it represents a soft trigger.
+		                            # Default is Force low
+     }
+ }
+
+
+## Control for mapping a pulse geneator to an event code in hardware.
+## Each pulser-function combination can be mapped to multiple events.
+## Available functions:
+##		- Trig : causes a received event to trigger a pulser. A pulse based on pulser polarity, delay and width will be outputted.
+##		- Set  : causes a received event to force a pulser into set state(based on pulser polarity).
+##		- Reset: causes a received event to force a pulser into reset state(based on pulser polarity).
+## Gated pulsers only have 'Set' and 'Reset' functions.
+#
+## Pulser polarity defines the pulser set and reset state:
+##		- Active high: Output is logic high in set state and logic low in reset state
+##		- Active low: Output is logic low in set state and logic high in reset state
+#
+# Macros:
+#  SYS = system name (auto expanded by parent)
+#  DEVICE = Event receiver / timing card name (same as mrmEvrSetupVME()) Eg. EVR0. (auto expanded by parent)
+#  PID = Pulser ID #
+#  F = Pulse generator function
+#    Choices are: "Trig", "Set", "Reset"
+#  EVT = Initial event code
+#  ID = Mappings must have unique ID for each PID-F combination.
+#    Only mappings with ID=0 are displayed in the GUI
+#    
+file "$(mrfioc2_TEMPLATES=db)/evr-pulserMap.template"{
+pattern {PID   F,      EVT, ID}
+        {0,    Trig,   0,   0 }
+        {1,    Trig,   0,   0 }
+        {2,    Trig,   0,   0 }
+        {3,    Trig,   0,   0 }
+        {4,    Trig,   0,   0 }
+        {5,    Trig,   0,   0 }
+        {6,    Trig,   0,   0 }
+        {7,    Trig,   0,   0 }
+        {8,    Trig,   0,   0 }
+        {9,    Trig,   0,   0 }
+        {10,   Trig,   0,   0 }
+        {11,   Trig,   0,   0 }
+        {12,   Trig,   0,   0 }
+        {13,   Trig,   0,   0 }
+        {14,   Trig,   0,   0 }
+        {15,   Trig,   0,   0 }
+        {16,   Trig,   0,   0 }
+        {17,   Trig,   0,   0 }
+        {18,   Trig,   0,   0 }
+        {19,   Trig,   0,   0 }
+        {20,   Trig,   0,   0 }
+        {21,   Trig,   0,   0 }
+        {22,   Trig,   0,   0 }
+        {23,   Trig,   0,   0 }
+
+
+        {0,    Set,   0,   0 }
+        {1,    Set,   0,   0 }
+        {2,    Set,   0,   0 }
+        {3,    Set,   0,   0 }
+        {4,    Set,   0,   0 }
+        {5,    Set,   0,   0 }
+        {6,    Set,   0,   0 }
+        {7,    Set,   0,   0 }
+        {8,    Set,   0,   0 }
+        {9,    Set,   0,   0 }
+        {10,   Set,   0,   0 }
+        {11,   Set,   0,   0 }
+        {12,   Set,   0,   0 }
+        {13,   Set,   0,   0 }
+        {14,   Set,   0,   0 }
+        {15,   Set,   0,   0 }
+        {16,   Set,   0,   0 }
+        {17,   Set,   0,   0 }
+        {18,   Set,   0,   0 }
+        {19,   Set,   0,   0 }
+        {20,   Set,   0,   0 }
+        {21,   Set,   0,   0 }
+        {22,   Set,   0,   0 }
+        {23,   Set,   0,   0 }
+        {28,   Set,   0,   0 }	# Gate 0
+        {29,   Set,   0,   0 }	# Gate 1
+        {30,   Set,   0,   0 }	# Gate 2
+        {31,   Set,   0,   0 }	# Gate 3
+
+
+        {0,    Reset,   0,   0 }
+        {1,    Reset,   0,   0 }
+        {2,    Reset,   0,   0 }
+        {3,    Reset,   0,   0 }
+        {4,    Reset,   0,   0 }
+        {5,    Reset,   0,   0 }
+        {6,    Reset,   0,   0 }
+        {7,    Reset,   0,   0 }
+        {8,    Reset,   0,   0 }
+        {9,    Reset,   0,   0 }
+        {10,   Reset,   0,   0 }
+        {11,   Reset,   0,   0 }
+        {12,   Reset,   0,   0 }
+        {13,   Reset,   0,   0 }
+        {14,   Reset,   0,   0 }
+        {15,   Reset,   0,   0 }
+        {16,   Reset,   0,   0 }
+        {17,   Reset,   0,   0 }
+        {18,   Reset,   0,   0 }
+        {19,   Reset,   0,   0 }
+        {20,   Reset,   0,   0 }
+        {21,   Reset,   0,   0 }
+        {22,   Reset,   0,   0 }
+        {23,   Reset,   0,   0 }
+        {28,   Reset,   0,   0 }	# Gate 0
+        {29,   Reset,   0,   0 }	# Gate 1
+        {30,   Reset,   0,   0 }	# Gate 2
+        {31,   Reset,   0,   0 }	# Gate 3
+}
+
+
+## Mapping between hardware event code and a software (EPICS) database event
+## In addition to firing an EPICS database event on each occurance of hardware event, a counter for the specific EVT is increased.
+#
+# Macros:
+#  SYS = System name (auto expanded by parent)
+#  DEVICE = Event receiver / timing card name (same as mrmEvrSetupVME()) Eg. EVR0. (auto expanded by parent)
+#  EVT = Event code (hardware). Set EVT=0 to disable.
+#  CODE = EPICS database event number (software)
+#  FLNK = If provided, forward links to the record after all records from this template are processed
+#
+file "$(mrfioc2_TEMPLATES=db)/evr-softEvent.template"{
+pattern { EVT,	CODE,    FLNK }
+		{ "1",    "1",   "" }
+		{ "2",    "2",   "" }
+		{ "3",    "3",   "" }
+}
+# If you want to enable measuring the jitter on received events comment out the previous substitution and use this one instead
+# 
+# Additinal macros:
+#  HIST_LEN = number of histogram bins created from frequency measurements. Default 200.
+#  HIST_ULIM = histogram upper limit. Default 12.
+#  HIST_LLIM = histogram lower limit. Default 8.
+# 
+# NOTE: make sure your system supports the 'histogram' record before using this template!
+#  
+#file "$(mrfioc2_TEMPLATES=db)/evr-softEvent-measure.template"{
+#pattern { EVT,	CODE,    FLNK }
+#		{ "1",    "1",   "" }
+#		{ "2",    "2",   "" }
+#		{ "3",    "3",   "" }
+#}
+
+# This templates stores pulse ID and event received/not received information in two waveforms.
+# This way the user can inspect event arrival corelated to pulse IDs.
+#
+#
+# Mandatory macros:
+#  SYS = System name
+#  DEVICE = Event receiver / timing card name (same as mrmEvrSetupVME()) Eg. EVR0
+#  
+#  EVT = event number we are interested in. Eg. 6 for RF OFF beam event
+#
+# Optional macros:
+#  TRIGER_ACQUISITION = Timing event number, which is fired when we want to capture event status and pulse ID. 
+#                       Usually this is near the end of the event sequence. Eg. BS read event. Default: 28
+#  N_SAMPLES = Number of samples the buffer for event statuses and pulse IDs will hold. Default: 200
+#  DISABLE = Disables (1) or enables (0) acquisition of event statuses and pulse IDs. Default 0 (enabled)
+#  
+# Important records:
+#  $(SYS)-$(DEVICE):PTRN-$(EVT)-EVTBUF   -> A buffer with event statuses. 
+#                                           Each entry corresponds to one acquisition triggered by $(SYS)-$(DEVICE):PTRN-$(EVT)-EVT-TRIG record.
+#                                           Event arrival is signaled by $(SYS)-$(DEVICE):PTRN-$(EVT)-EVT-TRIG record.
+#                                           Value 0 means event event EVT did not arrive in the time between last and this acquisition was triggered
+#                                           Value 1 means event event EVT did arrive in the time between last and this acquisition was triggered
+#  $(SYS)-$(DEVICE):PTRN-$(EVT)-PIDBUF   -> Stores the current Pulse ID each time acquisition is triggered. Entry in this record can be compared to 
+#                                           entries in $(SYS)-$(DEVICE):PTRN-$(EVT)-EVTBUF to see if event did or did not arrive in this pulse ID.
+#  $(SYS)-$(DEVICE):PTRN-$(EVT)-EVT-TRIG -> Processed when EVT event is received.
+#  $(SYS)-$(DEVICE):PTRN-$(EVT)-TRIG     -> Processed when TRIGER_ACQUISITION event is received.
+#  $(SYS)-$(DEVICE):PTRN-$(EVT)-DISABLE  -> see description for optional macro DISABLE.
+# 
+file "$(mrfioc2_TEMPLATES=db)/evr-eventPatternCheck.template"{
+pattern { EVT,	   TRIGER_ACQUISITION,       N_SAMPLES,    DISABLE }
+		{ "6",           "28",                 "200",        "1"   }	# RF OFF event
+		{ "11",          "28",                 "200",        "1"   }	# Laser OFF event
+		{ "15",          "28",                 "200",        "1"   }	# BPM event
+}

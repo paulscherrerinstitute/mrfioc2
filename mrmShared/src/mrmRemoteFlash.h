@@ -22,10 +22,12 @@
 #include <epicsMutex.h>
 #include "mrf/object.h"
 
+class mrmDeviceInfo;
+
 class epicsShareClass mrmRemoteFlash : public mrf::ObjectInst<mrmRemoteFlash>
 {
 public:
-    mrmRemoteFlash(const std::string& parentName, volatile epicsUInt8* parentBaseAddress, deviceInfoT& deviceInfo, mrmFlash &flash);
+    mrmRemoteFlash(const std::string& parentName, volatile epicsUInt8* parentBaseAddress, mrmDeviceInfo &deviceInfo, mrmFlash &flash);
     static const char *OBJECT_NAME;
 
     /* locking done internally */

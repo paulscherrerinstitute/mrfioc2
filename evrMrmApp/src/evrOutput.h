@@ -18,6 +18,7 @@
 #include "mrmShared.h"
 
 class EVRMRM;
+class mrmDeviceInfo;
 
 enum OutputType {
   OutputInt=0, //!< Internal
@@ -73,7 +74,7 @@ private:
   bool isEnabled;
   epicsUInt32 shadowSource;
   epicsUInt32 shadowSource2;
-  deviceInfoT deviceInfo;
+  mrmDeviceInfo *deviceInfo;
 
 
   virtual epicsUInt32 sourceInternal() const;

@@ -9,14 +9,17 @@
 #include <mrfFracSynth.h>
 
 #include "evgRegMap.h"
+#include "mrmDeviceInfo.h"
+#include "evgMrm.h"
 
-#define EVG_MIN_FIRMWARE_REDUCECLK 0x204
-
-evgEvtClk::evgEvtClk(const std::string& name, volatile epicsUInt8* const pReg):
+evgEvtClk::evgEvtClk(const std::string& name, volatile epicsUInt8* const pReg, evgMrm *evg):
 mrf::ObjectInst<evgEvtClk>(name),
 m_pReg(pReg),
+m_parent(evg),
 m_RFref(0.0f),
-m_fracSynFreq(0.0f) {
+m_fracSynFreq(0.0f),
+m_deviceInfo(evg->getDeviceInfo())
+{
 }
 
 evgEvtClk::~evgEvtClk() {
@@ -40,6 +43,7 @@ evgEvtClk::getFrequency() const {
             return getRFFreq()/getRFDiv();
             break;
     }
+
 }
 
 void
@@ -152,16 +156,9 @@ evgEvtClk::getPLLBandwidth() const {
 void
 evgEvtClk::setSource (epicsUInt16 source) {
     epicsUInt8 clkReg, regMap = 0;
-    epicsUInt32 version;
 
-    version = READ32(m_pReg, FWVersion);
-    version &= FWVersion_ver_mask;
-
-    if ((RFClockReference) source >= RFClockReference_PXIe100 && version < EVG_FCT_MIN_FIRMWARE ) {
-        throw std::out_of_range("RF clock source you selected does not exist in this firmware version.");
-    }
-    else if ((RFClockReference) source >= RFClockReference_ExtDownrate && version < EVG_MIN_FIRMWARE_REDUCECLK ) {
-        throw std::out_of_range("RF clock source you selected does not exist in this firmware version.");
+    if ((RFClockReference) source >= RFClockReference_PXIe100 && m_deviceInfo->getFirmwareId() < mrmDeviceInfo::firmwareId_delayCompensation) {
+        throw std::out_of_range("RF clock source you selected is not supported in this firmware version.");
     }
 
     switch ((RFClockReference) source) {

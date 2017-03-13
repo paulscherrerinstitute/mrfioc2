@@ -1,0 +1,35 @@
+# This record is used in embedded EVRs to forward clock settings
+# of parent EVG for internal EVR use
+
+record(ao, "$(SYS)-$(DEVICE)-FwdEvgClk_") {
+  field(OMSL,"closed_loop")
+
+  field(DOL, "$(SYS)-$(DEVICE_PARENT):EvtClk-Frequency-RB CP")
+  field(OUT, "$(SYS)-$(DEVICE):Link-Clk-SP PP")
+}
+
+# The following records server as a dummy placeholder in order for
+# health monitoring and GUI to work properly
+record(ai, "$(SYS)-$(DEVICE):SFP0-T-I") {
+  field(DESC, "Tranceiver Temperature")
+  field(INP,  "0")
+  field(EGU , "C")
+  field(PREC, "1")
+  field(PINI, "YES")
+}
+
+record(ai, "$(SYS)-$(DEVICE):SFP0-Pwr-TX-I") {
+  field(DESC, "Tranceiver Output Power")
+  field(INP,  "0")
+  field(EGU , "uW")
+  field(PREC, "1")
+  field(PINI, "YES")
+}
+
+record(ai, "$(SYS)-$(DEVICE):SFP0-Pwr-RX-I") {
+  field(DESC, "Tranceiver Input Power")
+  field(INP,  "0")
+  field(EGU , "uW")
+  field(PREC, "1")
+  field(PINI, "YES")
+}

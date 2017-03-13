@@ -8,6 +8,7 @@
 #define MRMDATABUFFEROBJ_H_LEVEL2
 #define MRMREMOTEFLASH_H_LEVEL2
 #define SFP_H_LEVEL2
+#define MRMDEVICEINFO_H_LEVEL2
 
 #include <vector>
 #include <map>
@@ -42,6 +43,7 @@
 #include "sfp.h"
 #include "evgFct.h"
 
+#include "mrmDeviceInfo.h"
 #include "mrmFlash.h"
 #include "mrmRemoteFlash.h"
 #include "dataBuffer/mrmDataBufferObj.h"
@@ -58,9 +60,9 @@ class wdTimer;
 
 enum ALARM_TS {TS_ALARM_NONE, TS_ALARM_MINOR, TS_ALARM_MAJOR};
 
-class evgMrm : public mrf::ObjectInst<evgMrm> {
+class epicsShareClass evgMrm : public mrf::ObjectInst<evgMrm> {
 public:
-    evgMrm(const std::string& id, deviceInfoT& devInfo, volatile epicsUInt8* const, volatile epicsUInt8* const, const epicsPCIDevice* pciDevice);
+    evgMrm(const std::string& id, mrmDeviceInfo& devInfo, volatile epicsUInt8* const, volatile epicsUInt8* const, const epicsPCIDevice* pciDevice);
     ~evgMrm();
 
     /* locking done internally */
@@ -72,9 +74,9 @@ public:
     volatile epicsUInt8* getRegAddr() const;
     epicsUInt32 getFwVersion() const;
     epicsUInt32 getFwVersionID();
-    formFactor getFormFactor();
-    std::string getFormFactorStr();
+    mrmDeviceInfo::formFactorT getFormFactor();
     std::string getSwVersion() const;
+    mrmDeviceInfo* getDeviceInfo();
 
     void enable(bool);
     bool enabled() const;
@@ -127,7 +129,6 @@ public:
     evgSeqRamMgr* getSeqRamMgr();
     evgSoftSeqMgr* getSoftSeqMgr();
     epicsEvent* getTimerEvent();
-    bus_configuration* getBusConfiguration();
     std::vector<SFP *> *getSFP();
 
     mrmRemoteFlash* getRemoteFlash();
@@ -163,7 +164,7 @@ private:
     const std::string             m_id;
     volatile epicsUInt8* const    m_pReg;   // EVG function register map
     volatile epicsUInt8* const    m_fctReg; // FCT function register map
-    deviceInfoT                   m_deviceInfo;
+    mrmDeviceInfo                 m_deviceInfo;
 
     evgAcTrig                     m_acTrig;
     evgEvtClk                     m_evtClk;

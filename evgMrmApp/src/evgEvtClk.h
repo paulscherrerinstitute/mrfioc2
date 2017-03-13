@@ -16,9 +16,12 @@ enum RFClockReference {
     RFClockReference_RecoverHalved   // recovered clock /2 decimate mode, event rate is halved
 };
 
+class evgMrm;
+class mrmDeviceInfo;
+
 class evgEvtClk : public mrf::ObjectInst<evgEvtClk> {
 public:
-    evgEvtClk(const std::string&, volatile epicsUInt8* const);
+    evgEvtClk(const std::string&, volatile epicsUInt8* const, evgMrm *evg);
     ~evgEvtClk();
 
     /* locking done internally */
@@ -50,8 +53,10 @@ public:
 
 private:
     volatile epicsUInt8* const m_pReg;
+    evgMrm *                   m_parent;
     epicsFloat64               m_RFref;       // In MHz
     epicsFloat64               m_fracSynFreq; // In MHz
+    mrmDeviceInfo*             m_deviceInfo;
 };
 
 #endif //EVG_EVTCLK_H

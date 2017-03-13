@@ -14,13 +14,15 @@
 #include <recGbl.h>
 #include <errlog.h>
 
+#include "evgMrm.h"
+
 #include <epicsExport.h>
 
 #include "devObj.h"
 
 #include <evgInit.h>
 
-static long 
+static long
 init_record(dbCommon *pRec, DBLINK* lnk) {
     long ret = 0;
 
@@ -28,7 +30,7 @@ init_record(dbCommon *pRec, DBLINK* lnk) {
         errlogPrintf("ERROR: Hardware link not VME_IO : %s\n", pRec->name);
         return S_db_badField;
     }
-    
+
     try {
         std::string parm(lnk->value.vmeio.parm);
         pRec->dpvt = mrf::Object::getObject(parm);
@@ -46,7 +48,7 @@ init_record(dbCommon *pRec, DBLINK* lnk) {
 
 /**     Initialization     **/
 /*returns: (0,2)=>(success,success no convert) 0==2    */
-static long 
+static long
 init_bo(boRecord* pbo) {
     long ret = init_record((dbCommon*)pbo, &pbo->out);
     if(ret == 0)
@@ -56,7 +58,7 @@ init_bo(boRecord* pbo) {
 }
 
 /*returns: (-1,0)=>(failure,success)*/
-static long 
+static long
 init_si(stringinRecord* psi) {
     return init_record((dbCommon*)psi, &psi->inp);
 }
@@ -84,7 +86,7 @@ write_bo_resetMxc(boRecord* pbo) {
 }
 
 /*returns: (-1,0)=>(failure,success)*/
-static long 
+static long
 read_si_ts(stringinRecord* psi) {
     long ret = 0;
 
@@ -94,7 +96,7 @@ read_si_ts(stringinRecord* psi) {
             throw std::runtime_error("Device pvt field not initialized");
 
         epicsTime ts = evg->getTimestamp();
-        ts.strftime(psi->val, sizeof(psi->val), 
+        ts.strftime(psi->val, sizeof(psi->val),
                                                  "%a, %d %b %Y %H:%M:%S");
 
         switch(evg->m_alarmTimestamp) {
@@ -122,7 +124,7 @@ read_si_ts(stringinRecord* psi) {
     return ret;
 }
 
-static long 
+static long
 get_ioint_info(int cmd, stringinRecord *psi, IOSCANPVT *ppvt) {
 
     /**
@@ -144,7 +146,7 @@ get_ioint_info(int cmd, stringinRecord *psi, IOSCANPVT *ppvt) {
 }
 
 /*returns: (-1,0)=>(failure,success)*/
-static long 
+static long
 write_bo_syncTS(boRecord* pbo) {
     long ret = 0;
 

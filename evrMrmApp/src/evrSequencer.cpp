@@ -36,6 +36,8 @@ EvrSequencer::EvrSequencer(const std::string& n, volatile epicsUInt8 * b)
     m_sequence.userProvidedEosEvent = false;
     m_sequence.timestamp.reserve(MAX_SEQUENCE_SIZE);
     m_sequence.eventCode.reserve(MAX_SEQUENCE_SIZE);
+
+    printf("Initialized %s\n", n.c_str());
 }
 
 void EvrSequencer::setSequenceEvents(const epicsUInt16 *waveform, epicsUInt32 len)

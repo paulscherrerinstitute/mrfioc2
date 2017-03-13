@@ -15,13 +15,16 @@
 #include <devSup.h>
 #include <dbAccess.h>
 #include <errlog.h>
+
+#include "evgMrm.h"
+#include "evgRegMap.h"
+
 #include <epicsExport.h>
 #include <errlog.h>
 
 #include "devObj.h"
 
-#include "evgInit.h"
-#include "evgRegMap.h"
+
 
 struct Pvt {
     evgMrm* evg;
@@ -29,7 +32,7 @@ struct Pvt {
 };
 
 /**     Initialization    **/
-static long 
+static long
 init_wf_pvt (dbCommon *pRec) {
     long ret = 0;
     waveformRecord* pwf = (waveformRecord*)pRec;
@@ -38,7 +41,7 @@ init_wf_pvt (dbCommon *pRec) {
         errlogPrintf("ERROR: Hardware link not VME_IO : %s\n", pwf->name);
         return S_db_badField;
     }
-    
+
     try {
         std::string parm(pwf->inp.value.vmeio.parm);
         evgMrm* evg = dynamic_cast<evgMrm*>(mrf::Object::getObject(parm));
@@ -69,7 +72,7 @@ init_wf_pvt (dbCommon *pRec) {
     return ret;
 }
 
-static long 
+static long
 init_record(dbCommon *pRec, DBLINK* lnk) {
     long ret = 0;
 
@@ -77,7 +80,7 @@ init_record(dbCommon *pRec, DBLINK* lnk) {
         errlogPrintf("ERROR: Hardware link not VME_IO : %s\n", pRec->name);
         return S_db_badField;
     }
-    
+
     try {
         std::string parm(lnk->value.vmeio.parm);
         evgMrm* evg = dynamic_cast<evgMrm*>(mrf::Object::getObject(parm));
@@ -106,7 +109,7 @@ init_record(dbCommon *pRec, DBLINK* lnk) {
 }
 
 /*returns: (-1,0)=>(failure,success)*/
-static long 
+static long
 init_si(stringinRecord* psi) {
     return init_record((dbCommon*)psi, &psi->inp);
 }
@@ -123,7 +126,7 @@ init_mbbo(mbboRecord* pmbbo) {
     epicsStatus ret = init_record((dbCommon*)pmbbo, &pmbbo->out);
     if(ret == 0)
         ret = 2;
-    
+
     return ret;
 }
 
@@ -134,16 +137,16 @@ init_mbbi(mbbiRecord* pmbbi) {
 }
 
 /*returns:(0,2)=>(success,success no convert*/
-static long 
+static long
 init_bo(boRecord* pbo) {
     epicsStatus ret = init_record((dbCommon*)pbo, &pbo->out);
     if(ret == 0)
         ret = 2;
-    
+
     return ret;
 }
 
-static long 
+static long
 init_bi(biRecord* pbi) {
     return init_record((dbCommon*)pbi, &pbi->inp);
 }
@@ -178,7 +181,7 @@ get_ioint_info_pvt(int cmd, dbCommon *pwf, IOSCANPVT *ppvt) {
     return 0;
 }
 
-static long 
+static long
 get_ioint_info(int cmd, dbCommon *pRec, IOSCANPVT *ppvt) {
 
     /**
@@ -198,7 +201,7 @@ get_ioint_info(int cmd, dbCommon *pRec, IOSCANPVT *ppvt) {
     return 0;
 }
 
-static long 
+static long
 get_ioint_info_err(int cmd, dbCommon *pRec, IOSCANPVT *ppvt) {
 
     /**
@@ -445,7 +448,7 @@ read_wf_timestamp(waveformRecord* pwf) {
                 bptr[i] = timestamp[i] * pow(10.0,(int) timeScaler) / evtClk;
         }
 
-		pwf->nord = (epicsUInt32)timestamp.size();
+        pwf->nord = (epicsUInt32)timestamp.size();
     } catch(std::runtime_error& e) {
         errlogPrintf("ERROR: %s : %s\n", e.what(), pwf->name);
         ret = S_dev_noDevice;
@@ -458,7 +461,7 @@ read_wf_timestamp(waveformRecord* pwf) {
 }
 
 /*returns: (-1,0)=>(failure,success)*/
-static long 
+static long
 write_wf_eventCode(waveformRecord* pwf) {
     long ret = 0;
 
@@ -481,7 +484,7 @@ write_wf_eventCode(waveformRecord* pwf) {
 }
 
 /*returns: (-1,0)=>(failure,success)*/
-static long 
+static long
 read_wf_eventCode(waveformRecord* pwf) {
     long ret = 0;
 
@@ -496,7 +499,7 @@ read_wf_eventCode(waveformRecord* pwf) {
         for(unsigned int i = 0; i < eventCode.size(); i++)
             bptr[i] = eventCode[i];
 
-		pwf->nord = (epicsUInt32)eventCode.size();
+        pwf->nord = (epicsUInt32)eventCode.size();
 
     } catch(std::runtime_error& e) {
         errlogPrintf("ERROR: %s : %s\n", e.what(), pwf->name);
@@ -505,7 +508,7 @@ read_wf_eventCode(waveformRecord* pwf) {
         errlogPrintf("ERROR: %s : %s\n", e.what(), pwf->name);
         ret = S_db_noMemory;
     }
-    
+
     return ret;
 }
 
@@ -581,7 +584,7 @@ write_mbbo_runMode(mbboRecord* pmbbo) {
         errlogPrintf("ERROR: %s : %s\n", e.what(), pmbbo->name);
         ret = S_db_noMemory;
     }
-    
+
     return ret;
 }
 
@@ -605,7 +608,7 @@ read_mbbi_runMode(mbbiRecord* pmbbi) {
         errlogPrintf("ERROR: %s : %s\n", e.what(), pmbbi->name);
         ret = S_db_noMemory;
     }
-    
+
     return ret;
 }
 
@@ -633,7 +636,7 @@ write_mbbo_trigSrc(mbboRecord* pmbbo) {
 }
 
 /*returns: (0,2)=>(success,success no convert)*/
-static long 
+static long
 read_mbbi_trigSrc(mbbiRecord* pmbbi) {
     long ret = 0;
 
@@ -656,7 +659,7 @@ read_mbbi_trigSrc(mbbiRecord* pmbbi) {
 }
 
 /*returns: (-1,0)=>(failure,success)*/
-static long 
+static long
 write_bo_loadSeq(boRecord* pbo) {
     long ret = 0;
     evgSoftSeq* seq = 0;
@@ -686,7 +689,7 @@ write_bo_loadSeq(boRecord* pbo) {
 }
 
 /*returns: (-1,0)=>(failure,success)*/
-static long 
+static long
 write_bo_unloadSeq(boRecord* pbo) {
     long ret = 0;
     evgSoftSeq* seq = 0;
@@ -716,7 +719,7 @@ write_bo_unloadSeq(boRecord* pbo) {
 }
 
 /*returns: (-1,0)=>(failure,success)*/
-static long 
+static long
 write_bo_commitSeq(boRecord* pbo) {
     long ret = 0;
     evgSoftSeq* seq = 0;
@@ -746,7 +749,7 @@ write_bo_commitSeq(boRecord* pbo) {
 }
 
 /*returns: (-1,0)=>(failure,success)*/
-static long 
+static long
 write_bo_enableSeq(boRecord* pbo) {
     long ret = 0;
     evgSoftSeq* seq = 0;
@@ -776,7 +779,7 @@ write_bo_enableSeq(boRecord* pbo) {
 }
 
 /*returns: (-1,0)=>(failure,success)*/
-static long 
+static long
 write_bo_disableSeq(boRecord* pbo) {
     long ret = 0;
     evgSoftSeq* seq = 0;
@@ -801,12 +804,12 @@ write_bo_disableSeq(boRecord* pbo) {
         errlogPrintf("ERROR: %s : %s\n", e.what(), pbo->name);
         ret = S_db_noMemory;
     }
-    
+
     return ret;
 }
 
 /*returns: (-1,0)=>(failure,success)*/
-static long 
+static long
 write_bo_abortSeq(boRecord* pbo) {
     long ret = 0;
     evgSoftSeq* seq = 0;
@@ -835,7 +838,7 @@ write_bo_abortSeq(boRecord* pbo) {
 }
 
 /*returns: (-1,0)=>(failure,success)*/
-static long 
+static long
 write_bo_pauseSeq(boRecord* pbo) {
     long ret = 0;
     evgSoftSeq* seq = 0;
@@ -864,7 +867,7 @@ write_bo_pauseSeq(boRecord* pbo) {
 }
 
 /*returns: (-1,0)=>(failure,success)*/
-static long 
+static long
 write_bo_softTrig(boRecord* pbo) {
     long ret = 0;
 
@@ -895,7 +898,7 @@ write_bo_softTrig(boRecord* pbo) {
 }
 
 /*(0,2)=> success and convert, don't convert)*/
-static long 
+static long
 read_bi_loadStatus(biRecord* pbi) {
     long ret = 2;
 
@@ -919,7 +922,7 @@ read_bi_loadStatus(biRecord* pbi) {
 }
 
 /*(0,2)=> success and convert, don't convert)*/
-static long 
+static long
 read_bi_enaStatus(biRecord* pbi) {
     long ret = 2;
 
@@ -943,7 +946,7 @@ read_bi_enaStatus(biRecord* pbi) {
 }
 
 /*(0,2)=> success and convert, don't convert)*/
-static long 
+static long
 read_bi_commitStatus(biRecord* pbi) {
     long ret = 2;
 
@@ -976,7 +979,7 @@ init_wf_loadedSeq(waveformRecord* pwf) {
         errlogPrintf("ERROR: Hardware link not VME_IO : %s\n", pwf->name);
         return S_db_badField;
     }
-    
+
     try {
         std::string parm(pwf->inp.value.vmeio.parm);
         evgMrm* evg = dynamic_cast<evgMrm*>(mrf::Object::getObject(parm));
@@ -1001,7 +1004,7 @@ init_wf_loadedSeq(waveformRecord* pwf) {
 }
 
 /*returns: (-1,0)=>(failure,success)*/
-static long 
+static long
 read_wf_loadedSeq(waveformRecord* pwf) {
     long ret = 0;
 

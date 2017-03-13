@@ -21,7 +21,7 @@
 #include "evrMrm.h"
 #include "evrCML.h"
 
-EvrCML::EvrCML(const std::string& n, size_t i, EVRMRM& o, outkind k, formFactor f)
+EvrCML::EvrCML(const std::string& n, size_t i, EVRMRM& o, outkind k)
   :mrf::ObjectInst<EvrCML>(n)
   ,base(o.base)
   ,N(i)
@@ -29,9 +29,9 @@ EvrCML::EvrCML(const std::string& n, size_t i, EVRMRM& o, outkind k, formFactor 
   ,shadowEnable(0)
   ,shadowWaveformlength(0)
   ,kind(k)
+  ,deviceInfo(o.getDeviceInfo())
 {
-    epicsUInt32 version = o.version();
-    if(f==formFactor_CPCIFULL || version >= MIN_FW_300_SERIES){
+    if(deviceInfo->getFormFactor() == mrmDeviceInfo::formFactor_CPCIFULL || deviceInfo->getFirmwareId() == mrmDeviceInfo::firmwareId_delayCompensation) {
         mult = 40;
         wordlen = 2;
     }else{

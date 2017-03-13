@@ -20,6 +20,7 @@
 #include "mrmShared.h"
 
 class EVRMRM;
+class mrmDeviceInfo;
 
 enum cmlMode {
   cmlModeOrig,
@@ -40,7 +41,7 @@ public:
       patternLow
     };
 
-    EvrCML(const std::string&, size_t, EVRMRM&, outkind, formFactor);
+    EvrCML(const std::string&, size_t, EVRMRM&, outkind);
     ~EvrCML();
 
     void lock() const;
@@ -129,6 +130,7 @@ private:
     void syncPattern(pattern);
 
     outkind kind;
+    mrmDeviceInfo* deviceInfo;
 };
 
 #endif // EVRCML_H_INC
