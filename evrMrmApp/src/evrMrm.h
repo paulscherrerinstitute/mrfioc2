@@ -165,7 +165,9 @@ public:
     void setDelayCompensationTarget(epicsUInt32 target);
     epicsUInt32 delayCompensationRxValue() const;
     epicsUInt32 delayCompensationIntValue() const;
-    epicsUInt32 delayCompensationStatus() const;
+    bool delayCompensationLocked() const;
+    epicsUInt16 delayCompensationPathValid() const;
+    epicsUInt16 delayCompensationDelaySetting() const;
 
     /** Hook to handle general event mapping table manipulation.
      *  Allows 'special' events only (ie heartbeat, log, led, etc)

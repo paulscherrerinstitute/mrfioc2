@@ -539,11 +539,54 @@ record(calc, "$(SYS)-$(DEVICE):DlyCompensation-PathInt-RB") {
   field(CALC, "A+B")
 }
 
-record(longin, "$(SYS)-$(DEVICE):DlyCompensation-Status-RB") {
-  field(DTYP, "Obj Prop uint32")
-  field(INP , "@OBJ=$(DEVICE), PROP=dc s")
+record(bi, "$(SYS)-$(DEVICE):DlyCompensation-Status-RB") {
+  field(DTYP, "Obj Prop bool")
+  field(INP , "@OBJ=$(DEVICE), PROP=dc locked")
   field(DESC, "Delay compensation status")
-  field(SCAN, "1 second")
+  field(SCAN, "5 second")
+  field(ZNAM, "Unlocked")
+  field(ONAM, "Locked to set value")
+  field(ZSV , "MAJOR")
+
+  field(FLNK, "$(SYS)-$(DEVICE):DlyCompensation-PDV-RB")
+}
+
+record(mbbi, "$(SYS)-$(DEVICE):DlyCompensation-PDV-RB") {
+  field(DTYP, "Obj Prop uint16")
+  field(INP , "@OBJ=$(DEVICE), PROP=dc path delay valid")
+  field(DESC, "Path delay status")
+
+  field(ZRST, "Not valid")
+  field(ONST, "Valid: coarse acquisition")
+  field(TWST, "Valid: fine acquisition")
+
+  field(ZRVL, "0")
+  field(ONVL, "1")
+  field(TWVL, "3")
+
+  field(UNSV, "INVALID")
+  field(ZRSV, "MAJOR")
+
+  field(FLNK, "$(SYS)-$(DEVICE):DlyCompensation-DVS-RB")
+}
+
+
+record(mbbi, "$(SYS)-$(DEVICE):DlyCompensation-DVS-RB") {
+  field(DTYP, "Obj Prop uint16")
+  field(INP , "@OBJ=$(DEVICE), PROP=dc delay setting status")
+  field(DESC, "Delay value status")
+
+  field(ZRST, "Valid")
+  field(ONST, "Target too small")
+  field(TWST, "Target too big")
+
+  field(ZRVL, "0")
+  field(ONVL, "1")
+  field(TWVL, "2")
+
+  field(UNSV, "INVALID")
+  field(ONSV, "MAJOR")
+  field(TWSV, "MAJOR")
 }
 
 # DBus status
