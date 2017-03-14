@@ -3,8 +3,8 @@
 #include <iostream>
 #include <stdexcept>
 
-#include <mrfCommonIO.h>    
-#include <mrfCommon.h> 
+#include <mrfCommonIO.h>
+#include <mrfCommon.h>
 
 #include "evgRegMap.h"
 
@@ -57,16 +57,62 @@ evgAcTrig::getBypass() const {
 
 
 void
-evgAcTrig::setSyncSrc(bool syncSrc) {
-    if(syncSrc)
-        BITSET8(m_pReg, AcTrigControl, EVG_AC_TRIG_SYNC);
-    else
-        BITCLR8(m_pReg, AcTrigControl, EVG_AC_TRIG_SYNC);
+evgAcTrig::setSyncSrc(triggerSourceT syncSrc) {
+    epicsUInt8 reg = READ8(m_pReg, AcTrigControl);
+
+    reg &= ~EVG_AC_TRIG_SYNC_MASK;
+
+    switch(syncSrc) {
+    case trigSrc_eventClock:
+        reg |= EVG_AC_TRIG_SYNC_EVTCLK;
+        break;
+
+    case trigSrc_mxc7:
+        reg |= EVG_AC_TRIG_SYNC_MXC7;
+        break;
+
+    case trigSrc_fpin1:
+        reg |= EVG_AC_TRIG_SYNC_FPIN1;
+        break;
+
+    case trigSrc_fpin2:
+        reg |= EVG_AC_TRIG_SYNC_FPIN2;
+        break;
+
+    default:
+        throw std::runtime_error("EVG: Trying to set invalid AC trigger source. Ignoring.");
+    }
+
+    WRITE8(m_pReg, AcTrigControl, reg);
 }
 
-bool
-evgAcTrig::getSyncSrc() const {
-    return READ8(m_pReg, AcTrigControl) & EVG_AC_TRIG_SYNC;
+evgAcTrig::triggerSourceT evgAcTrig::getSyncSrc() const {
+    epicsUInt8 reg = READ8(m_pReg, AcTrigControl);
+    reg &= EVG_AC_TRIG_SYNC_MASK;
+    triggerSourceT trigSrc;
+
+    switch(reg) {
+    case EVG_AC_TRIG_SYNC_EVTCLK:
+        trigSrc = trigSrc_eventClock;
+        break;
+
+    case EVG_AC_TRIG_SYNC_MXC7:
+        trigSrc = trigSrc_mxc7;
+        break;
+
+    case EVG_AC_TRIG_SYNC_FPIN1:
+        trigSrc = trigSrc_fpin1;
+        break;
+
+    case EVG_AC_TRIG_SYNC_FPIN2:
+        trigSrc = trigSrc_fpin2;
+        break;
+
+    default:
+        throw std::runtime_error("EVG: Invalid AC trigger source read-back");
+    }
+
+    return trigSrc;
 }
 
 void

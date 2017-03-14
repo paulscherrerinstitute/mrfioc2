@@ -9,6 +9,13 @@ public:
     evgAcTrig(const std::string&, volatile epicsUInt8* const);
     ~evgAcTrig();
 
+    typedef enum trigSrc {
+        trigSrc_eventClock,
+        trigSrc_mxc7,
+        trigSrc_fpin1,
+        trigSrc_fpin2
+    } triggerSourceT;
+
     /* locking done internally */
     virtual void lock() const{};
     virtual void unlock() const{};
@@ -22,11 +29,15 @@ public:
     void setBypass(bool);
     bool getBypass() const;
 
-    void setSyncSrc(bool);
-    bool getSyncSrc() const;
+    void setSyncSrc(triggerSourceT);
+    triggerSourceT getSyncSrc() const;
 
     void setTrigEvtMap(epicsUInt16, bool);
     epicsUInt32 getTrigEvtMap() const;
+
+    /** helper for EPICS object access **/
+    void setSyncSrcEpics(epicsUInt16 r){setSyncSrc((triggerSourceT)r);}
+    epicsUInt16 getSyncSrcEpics() const{return (epicsUInt16)getSyncSrc();}
 
 private:
     volatile epicsUInt8* const m_pReg;

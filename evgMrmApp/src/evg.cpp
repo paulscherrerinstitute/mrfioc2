@@ -15,7 +15,7 @@ OBJECT_BEGIN(evgAcTrig) {
     OBJECT_PROP2("Divider", &evgAcTrig::getDivider, &evgAcTrig::setDivider);
     OBJECT_PROP2("Phase",   &evgAcTrig::getPhase,   &evgAcTrig::setPhase);
     OBJECT_PROP2("Bypass",  &evgAcTrig::getBypass,  &evgAcTrig::setBypass);
-    OBJECT_PROP2("SyncSrc", &evgAcTrig::getSyncSrc, &evgAcTrig::setSyncSrc);
+    OBJECT_PROP2("SyncSrc", &evgAcTrig::getSyncSrcEpics, &evgAcTrig::setSyncSrcEpics);
 } OBJECT_END(evgAcTrig)
 
 OBJECT_BEGIN(evgDbus) {

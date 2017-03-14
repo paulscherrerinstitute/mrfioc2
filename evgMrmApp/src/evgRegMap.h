@@ -195,8 +195,12 @@
 /*    AC Trigger Register Bit Assignmen                                                           */
 /**************************************************************************************************/
 
-#define  EVG_AC_TRIG_BYP        0x02
-#define  EVG_AC_TRIG_SYNC       0x01
+#define  EVG_AC_TRIG_BYP            0x02
+#define  EVG_AC_TRIG_SYNC_MASK      0x0D
+#define  EVG_AC_TRIG_SYNC_EVTCLK    0x00
+#define  EVG_AC_TRIG_SYNC_MXC7      0x01
+#define  EVG_AC_TRIG_SYNC_FPIN1     0x05
+#define  EVG_AC_TRIG_SYNC_FPIN2     0x09
 
 /**************************************************************************************************/
 /*    Interrupt Flag Register (0x0008) and Interrupt Enable Register (0x000c) Bit Assignments     */

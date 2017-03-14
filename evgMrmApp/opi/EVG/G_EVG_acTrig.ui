@@ -255,52 +255,6 @@
      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
     </property>
    </widget>
-   <widget class="caChoice" name="cachoice_2">
-    <property name="geometry">
-     <rect>
-      <x>140</x>
-      <y>120</y>
-      <width>121</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="toolTip">
-     <string>Reverses the output polarity. When set, changes the output from normally low to normally high.</string>
-    </property>
-    <property name="channel" stdset="0">
-     <string notr="true">$(SYS)-$(DEVICE):AcTrig-SyncSrc-Sel</string>
-    </property>
-    <property name="foreground">
-     <color>
-      <red>0</red>
-      <green>0</green>
-      <blue>0</blue>
-     </color>
-    </property>
-    <property name="background">
-     <color>
-      <red>212</red>
-      <green>219</green>
-      <blue>157</blue>
-     </color>
-    </property>
-    <property name="bordercolor">
-     <color>
-      <red>0</red>
-      <green>0</green>
-      <blue>0</blue>
-     </color>
-    </property>
-    <property name="colorMode">
-     <enum>caChoice::Static</enum>
-    </property>
-    <property name="stackingMode" stdset="0">
-     <enum>caChoice::Column</enum>
-    </property>
-    <property name="endBit">
-     <number>1</number>
-    </property>
-   </widget>
    <widget class="caLineEdit" name="calineedit_10">
     <property name="geometry">
      <rect>
@@ -376,6 +330,22 @@
     </property>
     <property name="colorMode">
      <enum>caLineEdit::Alarm_Default</enum>
+    </property>
+   </widget>
+   <widget class="caMenu" name="camenu">
+    <property name="geometry">
+     <rect>
+      <x>140</x>
+      <y>120</y>
+      <width>121</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="channel" stdset="0">
+     <string notr="true">$(SYS)-$(DEVICE):AcTrig-SyncSrc-Sel</string>
+    </property>
+    <property name="styleSheet" stdset="0">
+     <string notr="true"/>
     </property>
    </widget>
   </widget>
@@ -522,6 +492,11 @@
   </widget>
  </widget>
  <customwidgets>
+  <customwidget>
+   <class>caMenu</class>
+   <extends>QComboBox</extends>
+   <header>caMenu</header>
+  </customwidget>
   <customwidget>
    <class>caChoice</class>
    <extends>QWidget</extends>
