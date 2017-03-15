@@ -27,20 +27,20 @@ variable(mrfioc2_sequencerDebug,int)
 # Func - Mapping function (string)
 #
 
-# '@C=$(C), I=$(PULIDX), Func=FUNCTIONNAME'
+# '@C=<card ID>, I=<pulser ID>, Func=FUNCTIONNAME'
 device(longout,    INST_IO, devLOEVRPulserMap, "EVR Pulser Mapping")
 
-# '@C=$(C)'
+# '@C=<card ID>'
 # or
-# '@C=$(C), Code=hweventnum'
+# '@C=<card ID>, Code=hweventnum'
 # If omitted then the current wallclock time is given
 device(stringin, INST_IO, devSIEVR, "EVR Timestamp")
 
-# '@C=$(C), Code=hweventnum'
+# '@C=<card ID>, Code=hweventnum'
 device(longout,    INST_IO, devLOEventEVR, "EVR Event")
 device(event,    INST_IO, devEVEventEVR, "EVR Event")
 
-# '@C=$(C), Func=FUNCTIONNAME'
+# '@C=<card ID>, Func=FUNCTIONNAME'
 device(longout, INST_IO, devLOEVRMap, "EVR Mapping")
 
 device(waveform, CONSTANT, devWfMailbox, "Mailbox")
