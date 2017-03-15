@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>669</width>
-    <height>406</height>
+    <height>414</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,8 +16,8 @@
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>260</y>
+     <x>430</x>
+     <y>350</y>
      <width>101</width>
      <height>17</height>
     </rect>
@@ -29,9 +29,9 @@
   <widget class="caMenu" name="camenu_2">
    <property name="geometry">
     <rect>
-     <x>120</x>
-     <y>257</y>
-     <width>71</width>
+     <x>540</x>
+     <y>347</y>
+     <width>61</width>
      <height>25</height>
     </rect>
    </property>
@@ -45,9 +45,9 @@
   <widget class="caLineEdit" name="calineedit_20">
    <property name="geometry">
     <rect>
-     <x>200</x>
-     <y>259</y>
-     <width>71</width>
+     <x>610</x>
+     <y>349</y>
+     <width>41</width>
      <height>20</height>
     </rect>
    </property>
@@ -440,7 +440,7 @@
      <x>420</x>
      <y>10</y>
      <width>241</width>
-     <height>391</height>
+     <height>321</height>
     </rect>
    </property>
    <property name="title">
@@ -711,9 +711,9 @@
    <property name="geometry">
     <rect>
      <x>5</x>
-     <y>290</y>
+     <y>310</y>
      <width>411</width>
-     <height>111</height>
+     <height>101</height>
     </rect>
    </property>
    <property name="title">
@@ -773,6 +773,114 @@
     </property>
     <property name="fontScaleMode" stdset="0">
      <enum>EPushButton::None</enum>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QGroupBox" name="groupBox_2">
+   <property name="geometry">
+    <rect>
+     <x>5</x>
+     <y>250</y>
+     <width>411</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>Soft / manual event</string>
+   </property>
+   <widget class="caLed" name="caled_2">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>25</y>
+      <width>18</width>
+      <height>18</height>
+     </rect>
+    </property>
+    <property name="toolTip">
+     <string/>
+    </property>
+    <property name="rectangular">
+     <bool>false</bool>
+    </property>
+    <property name="channel" stdset="0">
+     <string notr="true">$(SYS)-$(DEVICE):SoftEvt-Enable-RB</string>
+    </property>
+    <property name="falseColor">
+     <color>
+      <red>218</red>
+      <green>218</green>
+      <blue>218</blue>
+     </color>
+    </property>
+    <property name="trueColor">
+     <color>
+      <red>0</red>
+      <green>205</green>
+      <blue>0</blue>
+     </color>
+    </property>
+    <property name="undefinedColor">
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
+    </property>
+   </widget>
+   <widget class="caToggleButton" name="catogglebutton_2">
+    <property name="geometry">
+     <rect>
+      <x>40</x>
+      <y>25</y>
+      <width>101</width>
+      <height>18</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Enable</string>
+    </property>
+    <property name="channel" stdset="0">
+     <string notr="true">$(SYS)-$(DEVICE):SoftEvt-Enable-Sel</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_30">
+    <property name="geometry">
+     <rect>
+      <x>200</x>
+      <y>20</y>
+      <width>71</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Send event</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="caTextEntry" name="catextentry">
+    <property name="geometry">
+     <rect>
+      <x>280</x>
+      <y>20</y>
+      <width>70</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="channel" stdset="0">
+     <string notr="true">$(SYS)-$(DEVICE):SoftEvt-EvtCode-SP</string>
+    </property>
+    <property name="background">
+     <color>
+      <red>212</red>
+      <green>219</green>
+      <blue>157</blue>
+     </color>
+    </property>
+    <property name="colorMode">
+     <enum>caLineEdit::Static</enum>
     </property>
    </widget>
   </widget>

@@ -3,11 +3,6 @@ pattern { SYS,      DEVICE}
         {"$(SYS)", "$(DEVICE)"}
 }
 
-file evgSoftEvt.template {
-pattern { SYS,      DEVICE     }
-        {"$(SYS)", "$(DEVICE)" }
-}
-
 file evgAcTrig.template {
 pattern { SYS,      DEVICE     }
         {"$(SYS)", "$(DEVICE)" }
@@ -132,4 +127,9 @@ pattern { SYS,      DEVICE,     ID }
         {"$(SYS)", "$(DEVICE)", 6  }
         {"$(SYS)", "$(DEVICE)", 7  }
         {"$(SYS)", "$(DEVICE)", 8  }
+}
+
+file softEvt.template {
+pattern { SYS,      DEVICE     }
+        {"$(SYS)", "$(DEVICE)" }
 }

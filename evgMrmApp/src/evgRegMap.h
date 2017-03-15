@@ -39,15 +39,6 @@
 #define  U8_AcTrigEvtMap        0x0017  // AC Trigger Input To Trigger Event Mapping
 
 //=====================
-// Software Event Control Registers
-//
-#define  U8_SwEventControl      0x001A  // Software Event Control Register
-#define  U8_SwEventCode         0x001B  // Software Event Code Register
-
-#define  SW_EVT_ENABLE          0x01
-#define  SW_EVT_PEND            0x02
-
-//=====================
 // Data Buffer and Distributed Data Bus Control
 //
 #define  U32_DataTxCtrlEvg      0x0020  // Data Buffer Control Register

@@ -32,6 +32,7 @@ SOURCES+=mrmShared/src/dataBuffer/mrmDataBufferUser.cpp
 SOURCES+=mrmShared/src/dataBuffer/mrmDataBufferObj.cpp
 SOURCES+=mrmShared/src/dataBuffer/mrmDataBufferType.cpp
 SOURCES+=mrmShared/src/mrmDeviceInfo.cpp
+SOURCES+=mrmShared/src/mrmSoftEvent.cpp
 
 SOURCES+=evrMrmApp/src/devSupport/devEvrStringIO.cpp
 SOURCES+=evrMrmApp/src/devSupport/devEvrPulserMapping.cpp
@@ -55,7 +56,6 @@ SOURCES+=evgMrmApp/src/evgSequencer/evgSeqRamManager.cpp
 SOURCES+=evgMrmApp/src/evgSequencer/evgSoftSeqManager.cpp
 SOURCES+=evgMrmApp/src/evgOutput.cpp
 SOURCES+=evgMrmApp/src/evgEvtClk.cpp
-SOURCES+=evgMrmApp/src/evgSoftEvt.cpp
 SOURCES+=evgMrmApp/src/evgTrigEvt.cpp
 SOURCES+=evgMrmApp/src/devSupport/devEvgDbus.cpp
 SOURCES+=evgMrmApp/src/devSupport/devEvgTrigEvt.cpp

@@ -153,6 +153,7 @@ EVRMRM::EVRMRM(const std::string& n,
   ,timestampValid(0)
   ,lastInvalidTimestamp(0)
   ,lastValidTimestamp(0)
+  ,m_softEvt(n+":SoftEvt", b)
   ,m_flash(b)
   ,m_dataBuffer_230(NULL)
   ,m_dataBuffer_300(NULL)

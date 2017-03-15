@@ -97,3 +97,8 @@ file "evr-pulserMap-dbus.template"
 {"$(SYS)", "$(DEVICE)", 6}
 {"$(SYS)", "$(DEVICE)", 7}
 }
+
+file softEvt.template {
+pattern { SYS,      DEVICE     }
+        {"$(SYS)", "$(DEVICE)" }
+}

@@ -11,7 +11,6 @@ INC += evgMrm.h
 INC += evgRegMap.h
 INC += evgAcTrig.h
 INC += evgEvtClk.h
-INC += evgSoftEvt.h
 INC += evgTrigEvt.h
 INC += evgMxc.h
 INC += evgDbus.h
@@ -37,8 +36,6 @@ evgMrm_SRCS += devEvgMrm.cpp
 evgMrm_SRCS += evgAcTrig.cpp
 
 evgMrm_SRCS += evgEvtClk.cpp
-
-evgMrm_SRCS += evgSoftEvt.cpp
 
 evgMrm_SRCS += evgTrigEvt.cpp
 evgMrm_SRCS += devEvgTrigEvt.cpp

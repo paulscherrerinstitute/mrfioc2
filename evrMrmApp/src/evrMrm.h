@@ -15,6 +15,7 @@
 #define MRMREMOTEFLASH_H_LEVEL2
 #define SFP_H_LEVEL2
 #define MRMDEVICEINFO_H_LEVEL2
+#define MRMSOFTEVENT_H_LEVEL2
 
 #include <string>
 #include <vector>
@@ -41,7 +42,7 @@
 #include "evrGpio.h"
 
 #include "sfp.h"
-
+#include "mrmSoftEvent.h"
 #include "mrmDeviceInfo.h"
 #include "mrmFlash.h"
 #include "mrmRemoteFlash.h"
@@ -406,6 +407,7 @@ private:
 
 
     EvrSequencer *m_sequencer;
+    mrmSoftEvent m_softEvt;
     mrmFlash m_flash;
     mrmRemoteFlash* m_remoteFlash;
     mrmDataBuffer* m_dataBuffer_230;
