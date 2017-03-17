@@ -13,7 +13,7 @@ file "$(mrfioc2_TEMPLATES=db)/evg-vme-300.db"
          AcTrig-Phase-SP=0.0,   #0-25.5 : EVG AC Phase Shifter
          AcTrig-Divider-SP=0,   #0-255 : EVG AC Divider
          AcTrig-Bypass-Sel=1,   #0 = Off, 1 = On : Bypass AC divider and Phase shifter
-         AcTrig-SyncSrc-Sel=1,  #0 = EvtClk, 1 = Mxc7 : Sync to Event Clock or Mxc7
+         AcTrig-SyncSrc-Sel=1,  #0 = EvtClk, 1 = Mxc7, 2 = Front IN 1, 3 = Front IN 2 : Select what AC will be synced to
          AcTrig-TrigSrc0-SP=0,  #0 = Disable, 1 = Enable: Map to event trigger
          AcTrig-TrigSrc1-SP=0,  #0 = Disable, 1 = Enable: Map to event trigger
          AcTrig-TrigSrc2-SP=0,  #0 = Disable, 1 = Enable: Map to event trigger
