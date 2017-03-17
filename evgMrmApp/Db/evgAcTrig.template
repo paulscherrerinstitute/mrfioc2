@@ -77,25 +77,48 @@ record(bi, "$(SYS)-$(DEVICE):AcTrig-Bypass-RB") {
     field( ONAM, "On")
 }
 
-record(bo, "$(SYS)-$(DEVICE):AcTrig-SyncSrc-Sel") {
-    field( DESC, "Sync to Event Clock or Mxc7")
-    field( DTYP, "Obj Prop bool")
-    field( OUT,  "@OBJ=$(DEVICE):AcTrig, PROP=SyncSrc")
+record(mbbo, "$(SYS)-$(DEVICE):AcTrig-SyncSrc-Sel") {
+    field(DTYP, "Obj Prop uint16")
+    field( OUT , "@OBJ=$(DEVICE):AcTrig, PROP=SyncSrc")
+    field( ZRST, "Event clock")
+    field( ONST, "MXC 7")
+    field( TWST, "Front IN 1")
+    field( THST, "Front IN 2")
+    field( ZRVL, 0)
+    field( ONVL, 1)
+    field( TWVL, 2)
+    field( THVL, 3)
+    field( FRSV, "INVALID")
+    field( FVSV, "INVALID")
+    field( SXSV, "INVALID")
+    field( SVSV, "INVALID")
+    field( EISV, "INVALID")
+    field( NISV, "INVALID")
+    field( TESV, "INVALID")
+    field( ELSV, "INVALID")
+    field( TVSV, "INVALID")
+    field( TTSV, "INVALID")
+    field( FTSV, "INVALID")
+    field( FFSV, "INVALID")
+    field( UNSV, "INVALID")
+    field( IVOA, "Don't drive outputs")
     field( PINI, "YES")
-    field( VAL , "$(AcTrig-SyncSrc-Sel\=1)")
-    field( UDF,  "0")
-    field( ZNAM, "Event Clk")
-    field( ONAM, "Mxc7")
+    field( VAL,  "$(AcTrig-SyncSrc-Sel\=1)")
     field( FLNK, "$(SYS)-$(DEVICE):AcTrig-SyncSrc-RB")
-    info( autosaveFields_pass0, "VAL")
+    info(autosaveFields_pass0, "VAL")
 }
 
-record(bi, "$(SYS)-$(DEVICE):AcTrig-SyncSrc-RB") {
-    field( DESC, "Sync to Event Clock or Mxc7")
-    field( DTYP, "Obj Prop bool")
-    field( INP,  "@OBJ=$(DEVICE):AcTrig, PROP=SyncSrc")
-    field( ZNAM, "Event Clk")
-    field( ONAM, "Mxc7")
+record(mbbi, "$(SYS)-$(DEVICE):AcTrig-SyncSrc-RB") {
+    field( DTYP, "Obj Prop uint16")
+    field( INP , "@OBJ=$(DEVICE):AcTrig, PROP=SyncSrc")
+    field( ZRST, "Event clock")
+    field( ONST, "MXC 7")
+    field( TWST, "Front IN 1")
+    field( THST, "Front IN 2")
+    field( ZRVL, 0)
+    field( ONVL, 1)
+    field( TWVL, 2)
+    field( THVL, 3)
 }
 
 record(bo, "$(SYS)-$(DEVICE):AcTrig-TrigSrc0-SP") {

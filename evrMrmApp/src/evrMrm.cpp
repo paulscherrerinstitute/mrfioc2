@@ -153,6 +153,7 @@ EVRMRM::EVRMRM(const std::string& n,
   ,timestampValid(0)
   ,lastInvalidTimestamp(0)
   ,lastValidTimestamp(0)
+  ,m_softEvt(n+":SoftEvt", b)
   ,m_flash(b)
   ,m_dataBuffer_230(NULL)
   ,m_dataBuffer_300(NULL)
@@ -604,8 +605,10 @@ void
 EVRMRM::setDelayCompensationEnabled(bool enabled){
     if(enabled){
         BITCLR(NAT,32, base, Control, Control_dlyComp_disable);
+        BITSET(NAT,32, base, Control, Control_dlyComp_enable);
     }else{
         BITSET(NAT, 32, base, Control, Control_dlyComp_disable);
+        BITCLR(NAT, 32, base, Control, Control_dlyComp_enable);
     }
 }
 
@@ -634,9 +637,19 @@ EVRMRM::delayCompensationIntValue() const{
     return READ32(base, DCIntValue);
 }
 
-epicsUInt32
-EVRMRM::delayCompensationStatus() const{
-    return READ32(base, DCStatus);
+bool
+EVRMRM::delayCompensationLocked() const{
+    return READ16(base, DCStatus) && DCStatus_locked;
+}
+
+epicsUInt16 EVRMRM::delayCompensationPathValid() const
+{
+    return (READ16(base, DCStatus) & DCStatus_pathDelayValid) >> DCStatus_pathDelayValid_shift;
+}
+
+epicsUInt16 EVRMRM::delayCompensationDelaySetting() const
+{
+    return (READ16(base, DCStatus) & DCStatus_delaySetting) >> DCStatus_delaySetting_shift;
 }
 
 bool

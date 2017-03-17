@@ -39,15 +39,6 @@
 #define  U8_AcTrigEvtMap        0x0017  // AC Trigger Input To Trigger Event Mapping
 
 //=====================
-// Software Event Control Registers
-//
-#define  U8_SwEventControl      0x001A  // Software Event Control Register
-#define  U8_SwEventCode         0x001B  // Software Event Code Register
-
-#define  SW_EVT_ENABLE          0x01
-#define  SW_EVT_PEND            0x02
-
-//=====================
 // Data Buffer and Distributed Data Bus Control
 //
 #define  U32_DataTxCtrlEvg      0x0020  // Data Buffer Control Register
@@ -195,8 +186,12 @@
 /*    AC Trigger Register Bit Assignmen                                                           */
 /**************************************************************************************************/
 
-#define  EVG_AC_TRIG_BYP        0x02
-#define  EVG_AC_TRIG_SYNC       0x01
+#define  EVG_AC_TRIG_BYP            0x02
+#define  EVG_AC_TRIG_SYNC_MASK      0x0D
+#define  EVG_AC_TRIG_SYNC_EVTCLK    0x00
+#define  EVG_AC_TRIG_SYNC_MXC7      0x01
+#define  EVG_AC_TRIG_SYNC_FPIN1     0x05
+#define  EVG_AC_TRIG_SYNC_FPIN2     0x09
 
 /**************************************************************************************************/
 /*    Interrupt Flag Register (0x0008) and Interrupt Enable Register (0x000c) Bit Assignments     */

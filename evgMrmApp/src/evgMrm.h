@@ -9,6 +9,7 @@
 #define MRMREMOTEFLASH_H_LEVEL2
 #define SFP_H_LEVEL2
 #define MRMDEVICEINFO_H_LEVEL2
+#define MRMSOFTEVENT_H_LEVEL2
 
 #include <vector>
 #include <map>
@@ -30,7 +31,6 @@
 
 #include "evgAcTrig.h"
 #include "evgEvtClk.h"
-#include "evgSoftEvt.h"
 #include "evgTrigEvt.h"
 #include "evgMxc.h"
 #include "evgDbus.h"
@@ -42,7 +42,7 @@
 #include "mrmShared.h"
 #include "sfp.h"
 #include "evgFct.h"
-
+#include "mrmSoftEvent.h"
 #include "mrmDeviceInfo.h"
 #include "mrmFlash.h"
 #include "mrmRemoteFlash.h"
@@ -119,7 +119,7 @@ public:
     /**    Access    functions     **/
     evgAcTrig* getAcTrig();
     evgEvtClk* getEvtClk();
-    evgSoftEvt* getSoftEvt();
+    mrmSoftEvent* getSoftEvt();
     evgTrigEvt* getTrigEvt(epicsUInt32);
     evgMxc* getMuxCounter(epicsUInt32);
     evgDbus* getDbus(epicsUInt32);
@@ -168,7 +168,7 @@ private:
 
     evgAcTrig                     m_acTrig;
     evgEvtClk                     m_evtClk;
-    evgSoftEvt                    m_softEvt;
+    mrmSoftEvent                  m_softEvt;
 
     mrmFlash                      m_flash;
     mrmRemoteFlash*               m_remoteFlash;

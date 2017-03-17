@@ -56,6 +56,7 @@
 // General control register is defined in mrmShared.h (U32_Control)
 #  define Control_enable            0x80000000
 #  define Control_dlyComp_disable   0x00100000
+#  define Control_dlyComp_enable    0x00400000
 #  define Control_evtfwd            0x40000000
 
 /* Loopback 0 - normal, 1 - connects local tx to local rx */
@@ -165,7 +166,12 @@
 #define U32_DCTarget    0x0B0   /* Delay Compensation Target Value */
 #define U32_DCRxValue   0x0B4   /* Delay Compensation Transmission Path Delay Value */
 #define U32_DCIntValue  0x0B8   /* Delay Compensation Internal Delay Value */
-#define U32_DCStatus    0x0BC   /* Delay Compensation Status Register */
+#define U16_DCStatus    0x0BE   /* Delay Compensation Status Register */
+#  define DCStatus_pathDelayValid 0x0300
+#  define DCStatus_delaySetting   0x000C
+#  define DCStatus_locked         0x0001
+#  define DCStatus_pathDelayValid_shift 8
+#  define DCStatus_delaySetting_shift   2
 
 #define U32_ScalerN     0x100
 #  define ScalerMax 8

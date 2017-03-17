@@ -7,6 +7,7 @@ include $(TOP)/configure/CONFIG
 DB += flash.template
 DB += sfp.template
 DB += dataBuffer.template
+DB += softEvt.template
 
 
 include $(TOP)/configure/RULES

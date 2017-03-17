@@ -733,8 +733,7 @@ evgMrm::getAcTrig() {
     return &m_acTrig;
 }
 
-evgSoftEvt*
-evgMrm::getSoftEvt() {
+mrmSoftEvent *evgMrm::getSoftEvt() {
     return &m_softEvt;
 }
 

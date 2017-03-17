@@ -11,6 +11,10 @@ For detailed changelog inspect commits at https://git.psi.ch/epics_driver_module
 	- embedded EVRs in EVM added
 	- firmware version extended to also include subrelease ID
 	- when correct firmware version is not detected, the driver still loads with a big warning message. User has the ability to try to flash correct firmware in this mode.
+	- EVG: Added new sources for AC trigger
+	- EVR: delay compensation status and enable updated based on new firmware
+	- Soft event functionality moved to mrmShared and enabled for EVRs
+	- EVR dbd file update. Some examples included macros, whch some EPICS build systems will try to resolve and fail. Thus the macros have been replaced with a description
 
 2.7.24 : Fri 3 Mar 2017:
 	- Beam OK mechanism updated

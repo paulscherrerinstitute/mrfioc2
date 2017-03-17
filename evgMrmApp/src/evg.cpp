@@ -4,7 +4,6 @@
 #include "evgAcTrig.h"
 #include "evgDbus.h"
 #include "evgInput.h"
-#include "evgSoftEvt.h"
 #include "evgTrigEvt.h"
 #include "evgMxc.h"
 #include "evgEvtClk.h"
@@ -15,7 +14,7 @@ OBJECT_BEGIN(evgAcTrig) {
     OBJECT_PROP2("Divider", &evgAcTrig::getDivider, &evgAcTrig::setDivider);
     OBJECT_PROP2("Phase",   &evgAcTrig::getPhase,   &evgAcTrig::setPhase);
     OBJECT_PROP2("Bypass",  &evgAcTrig::getBypass,  &evgAcTrig::setBypass);
-    OBJECT_PROP2("SyncSrc", &evgAcTrig::getSyncSrc, &evgAcTrig::setSyncSrc);
+    OBJECT_PROP2("SyncSrc", &evgAcTrig::getSyncSrcEpics, &evgAcTrig::setSyncSrcEpics);
 } OBJECT_END(evgAcTrig)
 
 OBJECT_BEGIN(evgDbus) {
@@ -48,11 +47,6 @@ OBJECT_BEGIN(evgMxc) {
 OBJECT_BEGIN(evgOutput) {
     OBJECT_PROP2("Source", &evgOutput::getSource, &evgOutput::setSource);
 } OBJECT_END(evgOutput)
-
-OBJECT_BEGIN(evgSoftEvt) {
-    OBJECT_PROP2("Enable",  &evgSoftEvt::enabled,    &evgSoftEvt::enable);
-    OBJECT_PROP2("EvtCode", &evgSoftEvt::getEvtCode, &evgSoftEvt::setEvtCode);
-} OBJECT_END(evgSoftEvt)
 
 OBJECT_BEGIN(evgTrigEvt) {
     OBJECT_PROP2("Enable",  &evgTrigEvt::enabled,    &evgTrigEvt::enable);

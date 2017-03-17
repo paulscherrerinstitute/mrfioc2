@@ -59,7 +59,9 @@ OBJECT_BEGIN(EVRMRM) {
     OBJECT_PROP2("dc tv", &EVRMRM::delayCompensationTarget, &EVRMRM::setDelayCompensationTarget);
     OBJECT_PROP1("dc tpd", &EVRMRM::delayCompensationRxValue);
     OBJECT_PROP1("dc id", &EVRMRM::delayCompensationIntValue);
-    OBJECT_PROP1("dc s", &EVRMRM::delayCompensationStatus);
+    OBJECT_PROP1("dc path delay valid", &EVRMRM::delayCompensationPathValid);
+    OBJECT_PROP1("dc delay setting status", &EVRMRM::delayCompensationDelaySetting);
+    OBJECT_PROP1("dc locked", &EVRMRM::delayCompensationLocked);
 
     OBJECT_PROP1("CG Lock Status", &EVRMRM::cgLocked);
     OBJECT_PROP1("PLL Lock Status", &EVRMRM::pllLocked);
