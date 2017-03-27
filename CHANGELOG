@@ -1,7 +1,7 @@
 For detailed changelog inspect commits at https://git.psi.ch/epics_driver_modules/mrfioc2/commits/master
 
 
-2.8.0 : not tagged yet
+2.8.0_RC3 : Mon 27 Mar 2017:
 	- breaking compabitility because support for firmware version 0x200 - 0x206 was removed. First supported version for delay compensation hardware is now 0x207
 	- EVR sequencer soft triggering enabled
 	- EVR batch file for opening GUI on windows bug fix
