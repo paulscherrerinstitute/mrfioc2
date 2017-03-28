@@ -66,6 +66,7 @@ OBJECT_BEGIN(EVRMRM) {
     OBJECT_PROP1("CG Lock Status", &EVRMRM::cgLocked);
     OBJECT_PROP1("PLL Lock Status", &EVRMRM::pllLocked);
     OBJECT_PROP2("PLL Bandwidth", &EVRMRM::pllBandwidthRaw, &EVRMRM::setPllBandwidthRaw);
+    OBJECT_PROP2("Event Clock Mode", &EVRMRM::evtClkModeRaw, &EVRMRM::setEvtClkModeRaw);
 
     OBJECT_PROP1("Interrupt Count", &EVRMRM::irqCount);
 

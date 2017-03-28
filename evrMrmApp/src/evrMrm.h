@@ -57,6 +57,14 @@ enum TSSource {
   TSSourceDBus4=2
 };
 
+enum EvtClkMode {
+  ECModeUpFallBackSame = 0,
+  ECModeFracSynt,
+  ECModeUpFallBackFracSynt,
+  ECModeUpFallBackStop,
+  ECModeMax = ECModeUpFallBackStop
+};
+
 //! @brief Helper to allow one class to have several runable methods
 template<class C,void (C::*Method)()>
 class epicsThreadRunableMethod : public epicsThreadRunable
@@ -192,6 +200,8 @@ public:
     bool pllLocked() const;
     void setPllBandwidth(PLLBandwidth pllBandwidth);
     PLLBandwidth pllBandwidth() const;
+    void setEvtClkMode(EvtClkMode evtClkMode);
+    EvtClkMode evtClkMode() const;
 
     epicsUInt32 irqCount() const{return count_hardware_irq;}
 
@@ -295,6 +305,9 @@ public:
 
     void setPllBandwidthRaw(epicsUInt16 r){setPllBandwidth((PLLBandwidth)r);}
     epicsUInt16 pllBandwidthRaw() const{return (epicsUInt16)pllBandwidth();}
+
+    void setEvtClkModeRaw(epicsUInt16 r) {setEvtClkMode((EvtClkMode)r);}
+    epicsUInt16 evtClkModeRaw() const {return (epicsUInt16)evtClkMode();}
 
     void setDbusToPulserMapping0(epicsUInt32 pulsers){setDbusToPulserMapping(0, pulsers);}
     epicsUInt32 dbusToPulserMapping0() const{return dbusToPulserMapping(0);}

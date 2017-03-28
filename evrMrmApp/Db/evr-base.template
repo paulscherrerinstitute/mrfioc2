@@ -288,6 +288,48 @@ record(mbbi, "$(SYS)-$(DEVICE):PLL-Bandwidth-RB") {
   field( FRVL, "4")
 }
 
+record(mbbo, "$(SYS)-$(DEVICE):EvtClkMode-Sel") {
+  field( DTYP, "Obj Prop uint16")
+  field( OUT , "@OBJ=$(DEVICE), PROP=Event Clock Mode")
+  field( PINI, "YES")
+  field( VAL,  "$(EvtClkMode-Sel\=0)")
+  field( ZRST, "UpStrm FB:same")
+  field( ONST, "FracSy")
+  field( TWST, "UpStrm FB:FracSy")
+  field( THST, "UpStrm FB:stop")
+  field( ZRVL, "0")
+  field( ONVL, "1")
+  field( TWVL, "2")
+  field( THVL, "3")
+  field( FRSV, "INVALID")
+  field( FVSV, "INVALID")
+  field( SXSV, "INVALID")
+  field( SVSV, "INVALID")
+  field( EISV, "INVALID")
+  field( NISV, "INVALID")
+  field( TESV, "INVALID")
+  field( ELSV, "INVALID")
+  field( TVSV, "INVALID")
+  field( TTSV, "INVALID")
+  field( FTSV, "INVALID")
+  field( FFSV, "INVALID")
+  field( UNSV, "INVALID")
+  field( FLNK, "$(SYS)-$(DEVICE):EvtClkMode-RB")
+  info(autosaveFields_pass0, "VAL")
+}
+
+record(mbbi, "$(SYS)-$(DEVICE):EvtClkMode-RB") {
+  field( DTYP, "Obj Prop uint16")
+  field( INP , "@OBJ=$(DEVICE), PROP=Event Clock Mode")
+  field( ZRST, "UpStrm FB:same")
+  field( ONST, "FracSy")
+  field( TWST, "UpStrm FB:FracSy")
+  field( THST, "UpStrm FB:stop")
+  field( ZRVL, "0")
+  field( ONVL, "1")
+  field( TWVL, "2")
+  field( THVL, "3")
+}
 
 record(longin, "$(SYS)-$(DEVICE):HwType-I") {
   field(DTYP, "Obj Prop uint32")
