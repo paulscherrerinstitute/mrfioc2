@@ -49,6 +49,7 @@ file "$(mrfioc2_TEMPLATES=db)/evr-vme-300.db"
 		Time-Src-Sel=0, 		#0 = Event clk, 1 = Mapped codes, 2 = DBus4 : Source for timestamping clock.
 		Time-Clock-SP=0.0,		#50-150 : Timestamp tick rate (MHz)
 		PLL-Bandwidth-Sel=4,	#0 = HM, 1 = HL, 2 = MH, 3 = MM, 4 = ML: PLL Bandwidth Select (see Silicon Labs Si5317 datasheet)
+		EvtClkMode-Sel=0,		#0 = "upstream fallback=same frequency", 1 = "fractional synthesizer", 2 = "upstream fallback=fractional synthesizer", 3 = "upstream fallback=stop"
 
 		## Delay compensation
 		DlyCompensation-Enabled-Sel=1,	#0 = Disabled, 1 = Enabled: Enables or disables delay compensation

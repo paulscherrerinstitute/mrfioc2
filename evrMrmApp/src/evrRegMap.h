@@ -138,6 +138,8 @@
 
 #define U32_ClkCtrl     0x050
 #  define ClkCtrl_cglock        0x00000200  /* Micrel SY87739L locked (read-only) */
+#  define ClkCtrl_clkmd         0x06000000  /* Event clock mode */
+#  define ClkCtrl_clkmd_shift   25
 #  define ClkCtrl_bwsel         0x70000000  /* PLL Bandwidth Select (see Silicon Labs Si5317 datasheet) */
 #  define ClkCtrl_bwsel_shift   28
 #  define ClkCtrl_plllock       0x80000000  /* Clock cleaner PLL Locked (read only) */

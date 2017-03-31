@@ -389,22 +389,25 @@
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>430</x>
-     <y>351</y>
-     <width>101</width>
+     <x>300</x>
+     <y>345</y>
+     <width>103</width>
      <height>17</height>
     </rect>
    </property>
    <property name="text">
     <string>PLL Bandwidth</string>
    </property>
+   <property name="alignment">
+    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+   </property>
   </widget>
   <widget class="caMenu" name="camenu_2">
    <property name="geometry">
     <rect>
-     <x>540</x>
-     <y>348</y>
-     <width>61</width>
+     <x>412</x>
+     <y>343</y>
+     <width>135</width>
      <height>25</height>
     </rect>
    </property>
@@ -418,9 +421,9 @@
   <widget class="caLineEdit" name="calineedit_20">
    <property name="geometry">
     <rect>
-     <x>610</x>
-     <y>350</y>
-     <width>41</width>
+     <x>560</x>
+     <y>345</y>
+     <width>99</width>
      <height>20</height>
     </rect>
    </property>
@@ -439,7 +442,7 @@
     <rect>
      <x>5</x>
      <y>300</y>
-     <width>411</width>
+     <width>271</width>
      <height>101</height>
     </rect>
    </property>
@@ -451,7 +454,7 @@
      <rect>
       <x>10</x>
       <y>30</y>
-      <width>291</width>
+      <width>250</width>
       <height>20</height>
      </rect>
     </property>
@@ -473,7 +476,7 @@
      <rect>
       <x>10</x>
       <y>60</y>
-      <width>291</width>
+      <width>249</width>
       <height>27</height>
      </rect>
     </property>
@@ -883,6 +886,57 @@
      <enum>caLineEdit::Static</enum>
     </property>
    </widget>
+  </widget>
+  <widget class="caMenu" name="camenu_3">
+   <property name="geometry">
+    <rect>
+     <x>411</x>
+     <y>374</y>
+     <width>136</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="channel" stdset="0">
+    <string notr="true">$(SYS)-$(DEVICE):EvtClkMode-Sel</string>
+   </property>
+   <property name="styleSheet" stdset="0">
+    <string notr="true"/>
+   </property>
+  </widget>
+  <widget class="caLineEdit" name="calineedit_24">
+   <property name="geometry">
+    <rect>
+     <x>560</x>
+     <y>376</y>
+     <width>100</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+   </property>
+   <property name="channel" stdset="0">
+    <string notr="true">$(SYS)-$(DEVICE):EvtClkMode-RB</string>
+   </property>
+   <property name="unitsEnabled">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_8">
+   <property name="geometry">
+    <rect>
+     <x>289</x>
+     <y>376</y>
+     <width>115</width>
+     <height>17</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Event clock mode</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+   </property>
   </widget>
  </widget>
  <customwidgets>

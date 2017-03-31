@@ -832,6 +832,36 @@ EVRMRM::pllBandwidth() const
     return (PLLBandwidth)bw;
 }
 
+void
+EVRMRM::setEvtClkMode(EvtClkMode evtClkMode)
+{
+  epicsUInt32 reg;
+  epicsUInt32 mode;
+
+  if (evtClkMode > ECModeMax) {
+    throw std::out_of_range("Event clock mode you selected is not available.");
+  }
+
+  mode = (epicsUInt32) evtClkMode;
+  mode <<= ClkCtrl_clkmd_shift;
+
+  reg = READ32(base, ClkCtrl);
+  reg &= ~ClkCtrl_clkmd;
+  reg |= mode;
+
+  WRITE32(base, ClkCtrl, reg);
+}
+
+EvtClkMode
+EVRMRM::evtClkMode() const
+{
+  epicsUInt32 mode;
+
+  mode = (READ32(base, ClkCtrl) & ClkCtrl_clkmd) >> ClkCtrl_clkmd_shift;
+
+  return (EvtClkMode) mode;
+}
+
 bool
 EVRMRM::linkStatus() const
 {
