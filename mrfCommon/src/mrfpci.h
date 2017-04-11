@@ -32,7 +32,7 @@
 #define PCI_DEVICE_ID_MRF_PXIEVR_230   0x10e6   /* PCI Device ID for MRF PXI-EVR-230              */
 #define PCI_DEVICE_ID_MRF_EVRTG_300    0x192c   /* PCI Device ID for MRF PCI-EVRTG-300            */
 #define PCI_DEVICE_ID_MRF_EVRTG_300E   0x172c   /* PCI Device ID for MRF PCI-EVRTG-300            */
-#define PCI_DEVICE_ID_MRF_EVR_300DC    0x132c   /* PCI Device ID for MRF PCI-EVR-300DC            */
+#define PCI_DEVICE_ID_MRF_EVR_300DC    0x172c   /* PCI Device ID for MRF PCI-EVR-300DC            */
 
 #define PCI_DEVICE_ID_MRF_PXIEVG230    0x20E6   /* PCI Device ID for MRF PXI-EVG-230              */
 

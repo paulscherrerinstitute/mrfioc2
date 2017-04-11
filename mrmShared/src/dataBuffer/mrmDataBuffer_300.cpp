@@ -129,9 +129,10 @@ void mrmDataBuffer_300::receive()
     // copy over individual segment lengths. Last one is delay conpensation so we don't copy it. Not using eg. memcopy because of endianess!
     size_t typeSize = sizeof(epicsUInt32);
     for(size_t addr=0; addr<127; addr++) {
-        m_rx_length[addr] = be_ioread32(base + DataBuffer_RXSize(0) + addr*typeSize);
+        m_rx_length[addr] = nat_ioread32(base + DataBuffer_RXSize(0) + addr*typeSize);
         m_rx_length[addr] = ((m_rx_length[addr] + DataBuffer_segment_length -1) / DataBuffer_segment_length) * DataBuffer_segment_length; // round the lengths up to full segments
     }
+
 
     if(mrfioc2_dataBufferDebug >= 5){
         printFlags("Segment", base+DataBuffer_SegmentIRQ);

@@ -9,6 +9,8 @@
 
 #include "evgRegMap.h"
 
+#define U16_zero 0
+
 evgOutput::evgOutput(const std::string& name, const epicsUInt32 num,
                      const evgOutputType type, volatile epicsUInt8* const pOutReg):
 mrf::ObjectInst<evgOutput>(name),
@@ -23,10 +25,10 @@ evgOutput::~evgOutput() {
 
 void
 evgOutput::setSource(epicsUInt16 map) {
-    nat_iowrite16(m_pOutReg, map);
+    WRITE16(m_pOutReg, zero, map);
 }
 
 epicsUInt16
 evgOutput::getSource() const {
-    return nat_ioread16(m_pOutReg);
+    return READ16(m_pOutReg, zero);
 }

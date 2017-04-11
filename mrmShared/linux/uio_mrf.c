@@ -46,7 +46,7 @@ MODULE_PARM_DESC(interfaceversion, "User space interface version");
 /* PCIe-EVR-300 */
 #define PCI_SUBDEVICE_ID_PCIE_EVR_300       0x172c
 /* PCIe-EVR-300DC */
-#define PCI_SUBDEVICE_ID_PCIE_EVR_300DC     0x132c
+#define PCI_SUBDEVICE_ID_PCIE_EVR_300DC     0x172c
 
 /************************ Compatability ****************************/
 
