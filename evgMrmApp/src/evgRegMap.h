@@ -135,6 +135,12 @@
 #define  U32_FrontInMap(n)         (U32_FrontInMap_base + (4*(n)))
 
 //=====================
+// Front Panel Input Phase Monitoring Registers
+//
+#define U32_FrontInPhaseMon_base 0x0520
+#define U32_FrontInPhaseMon(n)   (U32_FrontInPhaseMon_base + (4*(n)))
+
+//=====================
 // Front Panel Universal Input Mapping Registers
 //
 #define  U32_UnivInMap_base     0x0540  // Front Univ Input Port Mapping Register
@@ -275,6 +281,17 @@
 #define  EVG_INP_SEQ_ENABLE       0x0E000000
 #define  EVG_INP_SEQ_ENABLE_shift 24
 
+/**************************************************************************************************/
+/* Front Panel Input Phase Monitoring Register                                                    */
+/**************************************************************************************************/
+#define EVG_FPInPhMon_PHCLR_mask  0x80000000
+#define EVG_FPInPhMon_PHCLR_shift 31
+#define EVG_FPInPhMon_PHSEL_mask  0x03000000
+#define EVG_FPInPhMon_PHSEL_shift 24
+#define EVG_FPInPhMon_PHFE_mask   0x00000F00
+#define EVG_FPInPhMon_PHFE_shift  8
+#define EVG_FPInPhMon_PHRE_mask   0x0000000F
+#define EVG_FPInPhMon_PHRE_shift  0
 
 /**************************************************************************************************/
 /* FCT Function Register map                                                                                          */

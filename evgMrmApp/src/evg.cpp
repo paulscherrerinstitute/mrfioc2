@@ -37,6 +37,13 @@ OBJECT_BEGIN(evgInput) {
     OBJECT_PROP2("Sequence enable", &evgInput::getSeqEnable, &evgInput::setSeqEnable);
 } OBJECT_END(evgInput)
 
+OBJECT_BEGIN(evgPhaseMonSel) {
+    OBJECT_PROP1("Phase Rising Edge", &evgPhaseMonSel::getRiEdgeRaw);
+    OBJECT_PROP1("Phase Falling Edge", &evgPhaseMonSel::getFaEdgeRaw);
+    OBJECT_PROP2("Phase Monitor Reset", &evgPhaseMonSel::getMonReset, &evgPhaseMonSel::setMonReset);
+    OBJECT_PROP2("Phase Select", &evgPhaseMonSel::getPhaseSelRaw, &evgPhaseMonSel::setPhaseSelRaw);
+} OBJECT_END(evgPhaseMonSel)
+
 OBJECT_BEGIN(evgMxc) {
     OBJECT_PROP1("Status",    &evgMxc::getStatus);
     OBJECT_PROP2("Polarity",  &evgMxc::getPolarity,  &evgMxc::setPolarity);

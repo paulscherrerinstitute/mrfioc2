@@ -29,8 +29,8 @@
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>-2360</y>
-      <width>644</width>
+      <y>0</y>
+      <width>641</width>
       <height>4650</height>
      </rect>
     </property>
@@ -426,10 +426,192 @@
       </item>
      </layout>
     </widget>
+    <widget class="QLabel" name="label_2">
+     <property name="geometry">
+      <rect>
+       <x>585</x>
+       <y>23</y>
+       <width>55</width>
+       <height>73</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Phase monitor and select</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="caRelatedDisplay" name="carelateddisplay_12">
+     <property name="geometry">
+      <rect>
+       <x>588</x>
+       <y>97</y>
+       <width>46</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>9</pointsize>
+      </font>
+     </property>
+     <property name="label">
+      <string notr="true"/>
+     </property>
+     <property name="background">
+      <color>
+       <red>183</red>
+       <green>157</green>
+       <blue>92</blue>
+      </color>
+     </property>
+     <property name="labels">
+      <string notr="true">open</string>
+     </property>
+     <property name="files">
+      <string notr="true">G_EVG_Phase-Monitoring.ui</string>
+     </property>
+     <property name="args">
+      <string notr="true">SYS=$(SYS),DEVICE=$(DEVICE),OBJ=FrontInp,ID=0</string>
+     </property>
+     <property name="fontScaleMode" stdset="0">
+      <enum>EPushButton::None</enum>
+     </property>
+     <property name="stackingMode" stdset="0">
+      <enum>caRowColMenu::Row</enum>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_3">
+     <property name="geometry">
+      <rect>
+       <x>588</x>
+       <y>156</y>
+       <width>55</width>
+       <height>73</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Phase monitor and select</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="caRelatedDisplay" name="carelateddisplay_13">
+     <property name="geometry">
+      <rect>
+       <x>591</x>
+       <y>230</y>
+       <width>46</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>9</pointsize>
+      </font>
+     </property>
+     <property name="label">
+      <string notr="true"/>
+     </property>
+     <property name="background">
+      <color>
+       <red>183</red>
+       <green>157</green>
+       <blue>92</blue>
+      </color>
+     </property>
+     <property name="labels">
+      <string notr="true">open</string>
+     </property>
+     <property name="files">
+      <string notr="true">G_EVG_Phase-Monitoring.ui</string>
+     </property>
+     <property name="args">
+      <string notr="true">SYS=$(SYS),DEVICE=$(DEVICE),OBJ=FrontInp,ID=1</string>
+     </property>
+     <property name="fontScaleMode" stdset="0">
+      <enum>EPushButton::None</enum>
+     </property>
+     <property name="stackingMode" stdset="0">
+      <enum>caRowColMenu::Row</enum>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_4">
+     <property name="geometry">
+      <rect>
+       <x>588</x>
+       <y>289</y>
+       <width>55</width>
+       <height>73</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Phase monitor and select</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="caRelatedDisplay" name="carelateddisplay_14">
+     <property name="geometry">
+      <rect>
+       <x>591</x>
+       <y>363</y>
+       <width>46</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>9</pointsize>
+      </font>
+     </property>
+     <property name="label">
+      <string notr="true"/>
+     </property>
+     <property name="background">
+      <color>
+       <red>183</red>
+       <green>157</green>
+       <blue>92</blue>
+      </color>
+     </property>
+     <property name="labels">
+      <string notr="true">open</string>
+     </property>
+     <property name="files">
+      <string notr="true">G_EVG_Phase-Monitoring.ui</string>
+     </property>
+     <property name="args">
+      <string notr="true">SYS=$(SYS),DEVICE=$(DEVICE),OBJ=FrontInp,ID=2</string>
+     </property>
+     <property name="fontScaleMode" stdset="0">
+      <enum>EPushButton::None</enum>
+     </property>
+     <property name="stackingMode" stdset="0">
+      <enum>caRowColMenu::Row</enum>
+     </property>
+    </widget>
    </widget>
   </widget>
  </widget>
  <customwidgets>
+  <customwidget>
+   <class>caRelatedDisplay</class>
+   <extends>QWidget</extends>
+   <header>caRelatedDisplay</header>
+  </customwidget>
   <customwidget>
    <class>caInclude</class>
    <extends>QWidget</extends>
