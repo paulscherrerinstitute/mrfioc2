@@ -226,3 +226,13 @@ record(bo, "$(SYS)-$(DEVICE):$(OBJ)$(ID)-DbusSrc7-SP") {
     field( VAL, "$($(OBJ)$(ID)-DbusSrc7-SP\=0)")
     info( autosaveFields_pass0, "VAL")
 }
+
+## Signal state
+record(bi, "$(SYS)-$(DEVICE):$(OBJ)$(ID)-Sig-Sts") {
+    field( DESC, "Signal state")
+    field( DTYP, "Obj Prop bool")
+    field( INP , "@OBJ=$(DEVICE):$(OBJ)$(ID), PROP=Signal State")
+    field( ZNAM, "Off")
+    field( ONAM, "On")
+}
+

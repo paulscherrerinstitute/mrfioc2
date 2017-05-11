@@ -19,8 +19,8 @@ enum InputType {
 
 class evgInput : public mrf::ObjectInst<evgInput> {
 public:
-    evgInput(const std::string&, const epicsUInt32, const InputType,
-             volatile epicsUInt8* const);
+    evgInput(const std::string& name, const epicsUInt32 num,
+        const InputType type, volatile epicsUInt8* const pBase);
     ~evgInput();
 
     /* no locking. There is only database access to theese functions. */
@@ -48,9 +48,12 @@ public:
     void setTrigEvtMap(epicsUInt16, bool);
     bool getTrigEvtMap(epicsUInt16) const;
 
+    bool getSignalState() const;
+
 private:
-    const epicsUInt32          m_num;
-    const InputType            m_type;
-    volatile epicsUInt8* const m_pInReg;
+    const epicsUInt32    m_num;
+    const InputType      m_type;
+    volatile epicsUInt8* m_pStateReg;
+    volatile epicsUInt8* m_pMapReg;
 };
 #endif //EVG_INPUT_H

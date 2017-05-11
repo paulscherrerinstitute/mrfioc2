@@ -51,6 +51,13 @@
 // defined in mrmShared.h
 
 //=====================
+// Input Signal State Registers
+//
+#define  U32_FPInput            0x0040  // Front Panel Input state register
+#define  U32_UnivInput          0x0044  // Universal Input state register
+#define  U32_TBInput            0x0048  // Transition Board Input state register
+
+//=====================
 // Event Clock Control
 //
 #define  U16_uSecDiv            0x004e  // Event Clock Freq Rounded to Nearest 1 MHz
