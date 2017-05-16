@@ -131,3 +131,7 @@ evgPhaseMonSel::PhSel evgPhaseMonSel::getPhaseSel() const {
     return (PhSel) reg;
 }
 
+bool evgPhaseMonSel::isDBusOnRiEdge() const {
+    return (nat_ioread32(m_pPhReg) & EVG_FPInPhMon_DBPH_mask);
+}
+

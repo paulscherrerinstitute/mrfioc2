@@ -56,6 +56,7 @@ public:
     void setPhaseSel(PhSel phSel);
     PhSel getPhaseSel() const;
 
+    bool isDBusOnRiEdge() const;
 private:
     volatile epicsUInt8* const m_pPhReg;
 };

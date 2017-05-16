@@ -154,3 +154,13 @@ record(mbbi, "$(SYS)-$(DEVICE):$(OBJ)$(ID)-Ph-RB") {
     field( UNSV, "MAJOR")
 }
 
+record(bi, "$(SYS)-$(DEVICE):$(OBJ)$(ID)-DBusPhase-Sts") {
+    field( DESC, "Phase of DBUS with respect to i/p sig")
+    field( PINI, "YES")
+    field( SCAN, "$($(OBJ)$(ID)-DBusPhSRate\=\"1 second\")")
+    field( DTYP, "Obj Prop bool")
+    field( INP, "@OBJ=$(DEVICE):$(OBJ)PhaseMonSel$(ID), PROP=DBUS Phase")
+    field( ZNAM, "in phase with input")
+    field( ONAM, "out of phase")
+}
+

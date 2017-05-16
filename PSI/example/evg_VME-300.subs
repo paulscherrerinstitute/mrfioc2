@@ -108,10 +108,13 @@ file "$(mrfioc2_TEMPLATES=db)/evg-vme-300.db"
          # Front Inputs Phase Monitoring
          FrontInp0-PhMonSRate="1 second", # Scan rate of monitoring records
          FrontInp0-Ph-Sel=0,              # 0=@0, 1=@90, 2=@180, 3=@270 degree : Phase for sampling input signal
+         FrontInp0-DBusPhSRate="1 second" # Scan rate of DBus phase status
          FrontInp1-PhMonSRate="1 second", # Scan rate of monitoring records
          FrontInp1-Ph-Sel=0,              # 0=@0, 1=@90, 2=@180, 3=@270 degree : Phase for sampling input signal
+         FrontInp1-DBusPhSRate="1 second" # Scan rate of DBus phase status
          FrontInp2-PhMonSRate="1 second", # Scan rate of monitoring records
          FrontInp2-Ph-Sel=0,              # 0=@0, 1=@90, 2=@180, 3=@270 degree : Phase for sampling input signal
+         FrontInp2-DBusPhSRate="1 second" # Scan rate of DBus phase status
          
          # Rear Inputs
          RearInp0-EnaIrq-Sel=0,  #0 = Disabled, 1 = Enabled : Enable External Input IRQ (1PPS input)

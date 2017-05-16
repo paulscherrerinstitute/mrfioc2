@@ -55,7 +55,7 @@
 //
 #define  U16_uSecDiv            0x004e  // Event Clock Freq Rounded to Nearest 1 MHz
 #define  U8_ClockSource         0x0050  // Event Clock Control Register (also Source select (Internal, RF Input,...))
-#define  U8_RfDiv               0x0051  // RF Input Divider
+#define  U8_RfDiv               0x0051  // DBus phase toggle and RF Input Divider
 #define  U16_ClockStatus        0x0052  // Event Clock Status
 
 //=====================
@@ -229,6 +229,8 @@
 #define  EVG_CLK_PLLLOCK        0x80
 #define  EVG_CLK_BW             0x70        /* PLL Bandwidth Select (see Silicon Labs Si5317 datasheet) */
 #define  EVG_CLK_BW_shift       4
+#define  EVG_CLK_PH_TOGG_mask   0x80
+#define  EVG_CLK_PH_TOGG_shift     7
 
 /**************************************************************************************************/
 /*    Sequence RAM Control Register (0x0070, 0x0074) Bit Assignments                              */
@@ -286,6 +288,8 @@
 /**************************************************************************************************/
 #define EVG_FPInPhMon_PHCLR_mask  0x80000000
 #define EVG_FPInPhMon_PHCLR_shift 31
+#define EVG_FPInPhMon_DBPH_mask   0x40000000
+#define EVG_FPInPhMon_DBPH_shift  30
 #define EVG_FPInPhMon_PHSEL_mask  0x03000000
 #define EVG_FPInPhMon_PHSEL_shift 24
 #define EVG_FPInPhMon_PHFE_mask   0x00000F00

@@ -247,3 +247,18 @@ evgEvtClk::getSource() const {
     return source;
 }
 
+void evgEvtClk::setToggleDBus(bool bit) {
+    epicsUInt8 regVal;
+
+    regVal = READ8(m_pReg, RfDiv);
+
+    regVal &= ~EVG_CLK_PH_TOGG_mask;
+    regVal |= bit << EVG_CLK_PH_TOGG_shift;
+
+    WRITE8(m_pReg, RfDiv, regVal);
+}
+
+bool evgEvtClk::getToggleDBus() const {
+  return READ8(m_pReg, RfDiv) & EVG_CLK_PH_TOGG_mask;
+}
+

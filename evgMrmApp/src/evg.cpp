@@ -29,6 +29,7 @@ OBJECT_BEGIN(evgEvtClk) {
     OBJECT_PROP2("PLL Bandwidth",  &evgEvtClk::getPLLBandwidthRaw,  &evgEvtClk::setPLLBandwidthRaw);
     OBJECT_PROP2("FracSynFreq",    &evgEvtClk::getFracSynFreq, &evgEvtClk::setFracSynFreq);
     OBJECT_PROP1("Frequency",      &evgEvtClk::getFrequency);
+    OBJECT_PROP2("Cmd Toggle DBus", &evgEvtClk::getToggleDBus, &evgEvtClk::setToggleDBus);
 } OBJECT_END(evgEvtClk)
 
 OBJECT_BEGIN(evgInput) {
@@ -42,6 +43,7 @@ OBJECT_BEGIN(evgPhaseMonSel) {
     OBJECT_PROP1("Phase Falling Edge", &evgPhaseMonSel::getFaEdgeRaw);
     OBJECT_PROP2("Phase Monitor Reset", &evgPhaseMonSel::getMonReset, &evgPhaseMonSel::setMonReset);
     OBJECT_PROP2("Phase Select", &evgPhaseMonSel::getPhaseSelRaw, &evgPhaseMonSel::setPhaseSelRaw);
+    OBJECT_PROP1("DBUS Phase", &evgPhaseMonSel::isDBusOnRiEdge);
 } OBJECT_END(evgPhaseMonSel)
 
 OBJECT_BEGIN(evgMxc) {

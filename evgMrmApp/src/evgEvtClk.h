@@ -47,6 +47,9 @@ public:
     void setSource(epicsUInt16 source);
     epicsUInt16 getSource() const;
 
+    void setToggleDBus(bool bit);
+    bool getToggleDBus() const;
+
     /** helper for object access **/
     void setPLLBandwidthRaw(epicsUInt16 r){setPLLBandwidth((PLLBandwidth)r);}
     epicsUInt16 getPLLBandwidthRaw() const{return (epicsUInt16)getPLLBandwidth();}
