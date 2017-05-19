@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>672</width>
+    <width>675</width>
     <height>416</height>
    </rect>
   </property>
@@ -29,8 +29,8 @@
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>-1941</y>
-      <width>654</width>
+      <y>0</y>
+      <width>651</width>
       <height>2350</height>
      </rect>
     </property>
@@ -40,204 +40,27 @@
       <height>2350</height>
      </size>
     </property>
-
-    <widget class="QWidget" name="verticalLayoutWidget">
+    <widget class="caInclude" name="cainclude_10">
      <property name="geometry">
       <rect>
-       <x>10</x>
-       <y>10</y>
-       <width>641</width>
-       <height>2321</height>
+       <x>-1</x>
+       <y>2</y>
+       <width>639</width>
+       <height>285</height>
       </rect>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout">
-      <item>
-      <widget class="caInclude" name="cainclude_10">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>10</y>
-         <width>631</width>
-         <height>285</height>
-        </rect>
-       </property>
-       <property name="macro">
-        <string notr="true">ID=0, SYS=$(SYS),DEVICE=$(DEVICE)</string>
-       </property>
-       <property name="filename" stdset="0">
-        <string notr="true">G_EVR_prescaler-withPulserTrigger16.ui</string>
-       </property>
-       <property name="visibility">
-        <enum>caInclude::StaticV</enum>
-       </property>
-       <property name="channel" stdset="0">
-        <string notr="true"/>
-       </property>
-      </widget>
-    </item><item>
-      <widget class="caInclude" name="cainclude_11">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>300</y>
-         <width>631</width>
-         <height>285</height>
-        </rect>
-       </property>
-       <property name="macro">
-        <string notr="true">ID=1, SYS=$(SYS),DEVICE=$(DEVICE)</string>
-       </property>
-       <property name="filename" stdset="0">
-        <string notr="true">G_EVR_prescaler-withPulserTrigger16.ui</string>
-       </property>
-       <property name="visibility">
-        <enum>caInclude::StaticV</enum>
-       </property>
-       <property name="channel" stdset="0">
-        <string notr="true"/>
-       </property>
-      </widget>
-    </item><item>
-      <widget class="caInclude" name="cainclude_12">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>590</y>
-         <width>631</width>
-         <height>285</height>
-        </rect>
-       </property>
-       <property name="macro">
-        <string notr="true">ID=2, SYS=$(SYS),DEVICE=$(DEVICE)</string>
-       </property>
-       <property name="filename" stdset="0">
-        <string notr="true">G_EVR_prescaler-withPulserTrigger16.ui</string>
-       </property>
-       <property name="visibility">
-        <enum>caInclude::StaticV</enum>
-       </property>
-       <property name="channel" stdset="0">
-        <string notr="true"/>
-       </property>
-      </widget>
-    </item><item>
-      <widget class="caInclude" name="cainclude_13">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>880</y>
-         <width>631</width>
-         <height>285</height>
-        </rect>
-       </property>
-       <property name="macro">
-        <string notr="true">ID=3, SYS=$(SYS),DEVICE=$(DEVICE)</string>
-       </property>
-       <property name="filename" stdset="0">
-        <string notr="true">G_EVR_prescaler-withPulserTrigger16.ui</string>
-       </property>
-       <property name="visibility">
-        <enum>caInclude::StaticV</enum>
-       </property>
-       <property name="channel" stdset="0">
-        <string notr="true"/>
-       </property>
-      </widget>
-    </item><item>
-      <widget class="caInclude" name="cainclude_14">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>1170</y>
-         <width>631</width>
-         <height>285</height>
-        </rect>
-       </property>
-       <property name="macro">
-        <string notr="true">ID=4, SYS=$(SYS),DEVICE=$(DEVICE)</string>
-       </property>
-       <property name="filename" stdset="0">
-        <string notr="true">G_EVR_prescaler-withPulserTrigger16.ui</string>
-       </property>
-       <property name="visibility">
-        <enum>caInclude::StaticV</enum>
-       </property>
-       <property name="channel" stdset="0">
-        <string notr="true"/>
-       </property>
-      </widget>
-    </item><item>
-      <widget class="caInclude" name="cainclude_15">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>1460</y>
-         <width>631</width>
-         <height>285</height>
-        </rect>
-       </property>
-       <property name="macro">
-        <string notr="true">ID=5, SYS=$(SYS),DEVICE=$(DEVICE)</string>
-       </property>
-       <property name="filename" stdset="0">
-        <string notr="true">G_EVR_prescaler-withPulserTrigger16.ui</string>
-       </property>
-       <property name="visibility">
-        <enum>caInclude::StaticV</enum>
-       </property>
-       <property name="channel" stdset="0">
-        <string notr="true"/>
-       </property>
-      </widget>
-    </item><item>
-      <widget class="caInclude" name="cainclude_16">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>2040</y>
-         <width>631</width>
-         <height>285</height>
-        </rect>
-       </property>
-       <property name="macro">
-        <string notr="true">ID=6, SYS=$(SYS),DEVICE=$(DEVICE)</string>
-       </property>
-       <property name="filename" stdset="0">
-        <string notr="true">G_EVR_prescaler-withPulserTrigger16.ui</string>
-       </property>
-       <property name="visibility">
-        <enum>caInclude::StaticV</enum>
-       </property>
-       <property name="channel" stdset="0">
-        <string notr="true"/>
-       </property>
-      </widget>
-    </item><item>
-      <widget class="caInclude" name="cainclude_17">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>1750</y>
-         <width>631</width>
-         <height>285</height>
-        </rect>
-       </property>
-       <property name="macro">
-        <string notr="true">ID=7, SYS=$(SYS),DEVICE=$(DEVICE)</string>
-       </property>
-       <property name="filename" stdset="0">
-        <string notr="true">G_EVR_prescaler-withPulserTrigger16.ui</string>
-       </property>
-       <property name="visibility">
-        <enum>caInclude::StaticV</enum>
-       </property>
-       <property name="channel" stdset="0">
-        <string notr="true"/>
-       </property>
-      </widget>
-
-      </item>
-     </layout>
+     <property name="macro">
+      <string notr="true">ID=0, SYS=$(SYS),DEVICE=$(DEVICE);ID=1, SYS=$(SYS),DEVICE=$(DEVICE);ID=2, SYS=$(SYS),DEVICE=$(DEVICE);ID=3, SYS=$(SYS),DEVICE=$(DEVICE);ID=4, SYS=$(SYS),DEVICE=$(DEVICE);ID=5, SYS=$(SYS),DEVICE=$(DEVICE);ID=6, SYS=$(SYS),DEVICE=$(DEVICE);ID=7, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+     </property>
+     <property name="filename" stdset="0">
+      <string notr="true">G_EVR_prescaler-withPulserTrigger16.ui</string>
+     </property>
+     <property name="visibility">
+      <enum>caInclude::StaticV</enum>
+     </property>
+     <property name="channel" stdset="0">
+      <string notr="true"/>
+     </property>
     </widget>
    </widget>
   </widget>
