@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>676</width>
-    <height>418</height>
+    <width>675</width>
+    <height>414</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -29,8 +29,8 @@
     <property name="geometry">
      <rect>
       <x>0</x>
-      <y>-1891</y>
-      <width>654</width>
+      <y>0</y>
+      <width>651</width>
       <height>2300</height>
      </rect>
     </property>
@@ -40,177 +40,21 @@
       <height>2300</height>
      </size>
     </property>
-    <widget class="QWidget" name="verticalLayoutWidget">
+    <widget class="caInclude" name="cainclude_569">
      <property name="geometry">
       <rect>
-       <x>0</x>
-       <y>0</y>
-       <width>661</width>
-       <height>2291</height>
+       <x>2</x>
+       <y>2</y>
+       <width>659</width>
+       <height>137</height>
       </rect>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout">
-      <item>
-       <widget class="caInclude" name="cainclude_569">
-        <property name="macro">
-         <string notr="true">ID=0, P=FrontUnivOut, SYS=$(SYS),DEVICE=$(DEVICE)</string>
-        </property>
-        <property name="filename" stdset="0">
-         <string notr="true">G_EVR_out-twoSources.ui</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="caInclude" name="cainclude_570">
-        <property name="macro">
-         <string notr="true">ID=1, P=FrontUnivOut, SYS=$(SYS),DEVICE=$(DEVICE)</string>
-        </property>
-        <property name="filename" stdset="0">
-         <string notr="true">G_EVR_out-twoSources.ui</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="caInclude" name="cainclude_571">
-        <property name="macro">
-         <string notr="true">ID=2, P=FrontUnivOut, SYS=$(SYS),DEVICE=$(DEVICE)</string>
-        </property>
-        <property name="filename" stdset="0">
-         <string notr="true">G_EVR_out-twoSources.ui</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="caInclude" name="cainclude_572">
-        <property name="macro">
-         <string notr="true">ID=3, P=FrontUnivOut, SYS=$(SYS),DEVICE=$(DEVICE)</string>
-        </property>
-        <property name="filename" stdset="0">
-         <string notr="true">G_EVR_out-twoSources.ui</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="caInclude" name="cainclude_573">
-        <property name="macro">
-         <string notr="true">ID=4, P=FrontUnivOut, SYS=$(SYS),DEVICE=$(DEVICE)</string>
-        </property>
-        <property name="filename" stdset="0">
-         <string notr="true">G_EVR_out-twoSources.ui</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="caInclude" name="cainclude_574">
-        <property name="macro">
-         <string notr="true">ID=5, P=FrontUnivOut, SYS=$(SYS),DEVICE=$(DEVICE)</string>
-        </property>
-        <property name="filename" stdset="0">
-         <string notr="true">G_EVR_out-twoSources.ui</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="caInclude" name="cainclude_575">
-        <property name="macro">
-         <string notr="true">ID=6, P=FrontUnivOut, SYS=$(SYS),DEVICE=$(DEVICE)</string>
-        </property>
-        <property name="filename" stdset="0">
-         <string notr="true">G_EVR_out-twoSources.ui</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="caInclude" name="cainclude_576">
-        <property name="macro">
-         <string notr="true">ID=7, P=FrontUnivOut, SYS=$(SYS),DEVICE=$(DEVICE)</string>
-        </property>
-        <property name="filename" stdset="0">
-         <string notr="true">G_EVR_out-twoSources.ui</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="caInclude" name="cainclude_577">
-        <property name="macro">
-         <string notr="true">ID=8, P=FrontUnivOut, SYS=$(SYS),DEVICE=$(DEVICE)</string>
-        </property>
-        <property name="filename" stdset="0">
-         <string notr="true">G_EVR_out-twoSources.ui</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="caInclude" name="cainclude_578">
-        <property name="macro">
-         <string notr="true">ID=9, P=FrontUnivOut, SYS=$(SYS),DEVICE=$(DEVICE)</string>
-        </property>
-        <property name="filename" stdset="0">
-         <string notr="true">G_EVR_out-twoSources.ui</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="caInclude" name="cainclude_579">
-        <property name="macro">
-         <string notr="true">ID=10, P=FrontUnivOut, SYS=$(SYS),DEVICE=$(DEVICE)</string>
-        </property>
-        <property name="filename" stdset="0">
-         <string notr="true">G_EVR_out-twoSources.ui</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="caInclude" name="cainclude_580">
-        <property name="macro">
-         <string notr="true">ID=11, P=FrontUnivOut, SYS=$(SYS),DEVICE=$(DEVICE)</string>
-        </property>
-        <property name="filename" stdset="0">
-         <string notr="true">G_EVR_out-twoSources.ui</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="caInclude" name="cainclude_581">
-        <property name="macro">
-         <string notr="true">ID=12, P=FrontUnivOut, SYS=$(SYS),DEVICE=$(DEVICE)</string>
-        </property>
-        <property name="filename" stdset="0">
-         <string notr="true">G_EVR_out-twoSources.ui</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="caInclude" name="cainclude_582">
-        <property name="macro">
-         <string notr="true">ID=13, P=FrontUnivOut, SYS=$(SYS),DEVICE=$(DEVICE)</string>
-        </property>
-        <property name="filename" stdset="0">
-         <string notr="true">G_EVR_out-twoSources.ui</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="caInclude" name="cainclude_583">
-        <property name="macro">
-         <string notr="true">ID=14, P=FrontUnivOut, SYS=$(SYS),DEVICE=$(DEVICE)</string>
-        </property>
-        <property name="filename" stdset="0">
-         <string notr="true">G_EVR_out-twoSources.ui</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="caInclude" name="cainclude_584">
-        <property name="macro">
-         <string notr="true">ID=15, P=FrontUnivOut, SYS=$(SYS),DEVICE=$(DEVICE)</string>
-        </property>
-        <property name="filename" stdset="0">
-         <string notr="true">G_EVR_out-twoSources.ui</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
+     <property name="macro">
+      <string notr="true">ID=0, P=FrontUnivOut, SYS=$(SYS),DEVICE=$(DEVICE);ID=1, P=FrontUnivOut, SYS=$(SYS),DEVICE=$(DEVICE);ID=2, P=FrontUnivOut, SYS=$(SYS),DEVICE=$(DEVICE);ID=3, P=FrontUnivOut, SYS=$(SYS),DEVICE=$(DEVICE);ID=4, P=FrontUnivOut, SYS=$(SYS),DEVICE=$(DEVICE);ID=5, P=FrontUnivOut, SYS=$(SYS),DEVICE=$(DEVICE);ID=6, P=FrontUnivOut, SYS=$(SYS),DEVICE=$(DEVICE);ID=7, P=FrontUnivOut, SYS=$(SYS),DEVICE=$(DEVICE);ID=8, P=FrontUnivOut, SYS=$(SYS),DEVICE=$(DEVICE);ID=9, P=FrontUnivOut, SYS=$(SYS),DEVICE=$(DEVICE);ID=10, P=FrontUnivOut, SYS=$(SYS),DEVICE=$(DEVICE);ID=11, P=FrontUnivOut, SYS=$(SYS),DEVICE=$(DEVICE);ID=12, P=FrontUnivOut, SYS=$(SYS),DEVICE=$(DEVICE);ID=13, P=FrontUnivOut, SYS=$(SYS),DEVICE=$(DEVICE);ID=14, P=FrontUnivOut, SYS=$(SYS),DEVICE=$(DEVICE);ID=15, P=FrontUnivOut, SYS=$(SYS),DEVICE=$(DEVICE);;;</string>
+     </property>
+     <property name="filename" stdset="0">
+      <string notr="true">G_EVR_out-twoSources.ui</string>
+     </property>
     </widget>
    </widget>
   </widget>
