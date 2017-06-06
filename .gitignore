@@ -12,6 +12,7 @@ rtf
 .project
 .cproject
 .settings
+.cvsignore
 
 *.config
 *.creator
@@ -20,6 +21,7 @@ rtf
 *.includes
 *.configure
 *.autosave
+*.swp
 
 configure/
 evgMrmApp/Db/*.db

@@ -65,6 +65,13 @@ pattern { SYS,      DEVICE,      OBJ,       ID,  PPS,  DBUSOBJ}
         {"$(SYS)", "$(DEVICE)", "RearInp",  15,  0,    "Dbus"}
 }
 
+file evgPhaseMonSel.template {
+pattern { SYS,    DEVICE,     OBJ,      ID, SCAN_RATE_MON, PHASE_SEL}
+        {"$(SYS)", "$(DEVICE)", "FrontInp",  0, "1 second", 0}
+        {"$(SYS)", "$(DEVICE)", "FrontInp",  1, "1 second", 0}
+        {"$(SYS)", "$(DEVICE)", "FrontInp",  2, "1 second", 0}
+}
+
 file evgOutput300.template {
 pattern { SYS,      DEVICE,      OBJ,        ID }
         {"$(SYS)", "$(DEVICE)", "RearOut",   0  }

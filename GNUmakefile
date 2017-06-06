@@ -69,6 +69,7 @@ SOURCES+=evgMrmApp/src/evgAcTrig.cpp
 SOURCES+=evgMrmApp/src/evgDbus.cpp
 SOURCES+=evgMrmApp/src/evgMxc.cpp
 SOURCES+=evgMrmApp/src/evgInput.cpp
+SOURCES+=evgMrmApp/src/evgPhaseMonSel.cpp
 SOURCES+=evgMrmApp/src/evgMrm.cpp
 SOURCES+=evgMrmApp/src/evg.cpp
 SOURCES+=evgMrmApp/src/evgInit.cpp

@@ -1,0 +1,166 @@
+# This template file offers records to interact with the phase monitoring
+# functionality.
+# The phase monitoring functionality allows the user to find out
+# in which quadrant of the event clock a rising or falling edge
+# of the input signal occurred. Furthermore the user
+# can select a phase at which the input signal will be sampled.
+# 
+# The following macros are used to construct unique record names in the
+# global name space. They are mandatory:
+# SYS    = System name (e.g. SIN-CVME-TIMAST)
+# DEVICE = Device name (e.g. EVG0)
+# OBJ    = Input name (e.g. FrontInp)
+# ID     = Identification (e.g. 0)
+#
+# The phase monitoring functionality could be implemented for different types of
+# inputs and for a certain type there could be several instances.
+# OBJ describes the input type
+# ID describes the instance 
+#
+# There are records to do the following things:
+# PREFIX-PhRiEdge         : Read the event clock phase quadrant in which the
+#                           rising edge of the input signal occurred.
+# PREFIX-PhFaEdge         : Read the event clock phase quadrant in which the
+#                           falling edge of the input signal occurred.
+# PREFIX-PhMonReset-Cmd   : Reset phase monitoring functionality.
+# PREFIX-Ph-Sel           : Set event clock phase at which the input signal
+#                           shall be sampled.
+# PREFIX-Ph-RB            : Read the event clock phase at which the input
+#                           signal is sampled.
+
+record(mbbi, "$(SYS)-$(DEVICE):$(OBJ)$(ID)-PhRiEdge") {
+    field( DESC, "Phase of rising edge on i/p sig")
+    field( DTYP, "Obj Prop uint16")
+    field( INP , "@OBJ=$(DEVICE):$(OBJ)PhaseMonSel$(ID), PROP=Phase Rising Edge")
+    field( PINI, "YES")
+    field( SCAN, "$($(OBJ)$(ID)-PhMonSRate\=\"1 second\")")
+    field( ZRVL, "0x0")
+    field( ONVL, "0x7")
+    field( TWVL, "0x3")
+    field( THVL, "0x1")
+    field( FRVL, "0xF")
+    field( FVVL, "0xFFFF")
+    field( ZRST, "reset state")
+    field( ONST, "0 - 90 degree")
+    field( TWST, "90 - 180 degree")
+    field( THST, "180 - 270 degree")
+    field( FRST, "270 - 0 degree")
+    field( FVST, "invalid value")
+    field( SXSV, "MAJOR")
+    field( SVSV, "MAJOR")
+    field( EISV, "MAJOR")
+    field( NISV, "MAJOR")
+    field( TESV, "MAJOR")
+    field( ELSV, "MAJOR")
+    field( TVSV, "MAJOR")
+    field( TTSV, "MAJOR")
+    field( FTSV, "MAJOR")
+    field( FFSV, "MAJOR")
+    field( UNSV, "MAJOR")
+}
+
+record(mbbi, "$(SYS)-$(DEVICE):$(OBJ)$(ID)-PhFaEdge") {
+    field( DESC, "Phase of falling edge on i/p sig")
+    field( DTYP, "Obj Prop uint16")
+    field( INP , "@OBJ=$(DEVICE):$(OBJ)PhaseMonSel$(ID), PROP=Phase Falling Edge")
+    field( PINI, "YES")
+    field( SCAN, "$($(OBJ)$(ID)-PhMonSRate\=\"1 second\")")
+    field( ZRVL, "0xF")
+    field( ONVL, "0x8")
+    field( TWVL, "0xC")
+    field( THVL, "0xE")
+    field( FRVL, "0x0")
+    field( FVVL, "0xFFFF")
+    field( ZRST, "reset state")
+    field( ONST, "0 - 90 degree")
+    field( TWST, "90 - 180 degree")
+    field( THST, "180 - 270 degree")
+    field( FRST, "270 - 0 degree")
+    field( FVST, "invalid value")
+    field( SXSV, "MAJOR")
+    field( SVSV, "MAJOR")
+    field( EISV, "MAJOR")
+    field( NISV, "MAJOR")
+    field( TESV, "MAJOR")
+    field( ELSV, "MAJOR")
+    field( TVSV, "MAJOR")
+    field( TTSV, "MAJOR")
+    field( FTSV, "MAJOR")
+    field( FFSV, "MAJOR")
+    field( UNSV, "MAJOR")
+}
+
+record(bo, "$(SYS)-$(DEVICE):$(OBJ)$(ID)-PhMonReset-Cmd") {
+    field( DESC, "Reset phase monitoring")
+    field( DTYP, "Obj Prop bool")
+    field( OUT , "@OBJ=$(DEVICE):$(OBJ)PhaseMonSel$(ID), PROP=Phase Monitor Reset")
+    field( ZNAM, "dummy")
+    field( ONAM, "dummy")
+}
+
+record(mbbo, "$(SYS)-$(DEVICE):$(OBJ)$(ID)-Ph-Sel") {
+    field( DESC, "Event clock phase to sample i/p sig")
+    field( DTYP, "Obj Prop uint16")
+    field( OUT , "@OBJ=$(DEVICE):$(OBJ)PhaseMonSel$(ID), PROP=Phase Select")
+    field( VAL , "$($(OBJ)$(ID)-Ph-Sel\=0)")
+    field( PINI, "YES")
+    field( ZRVL, "0")
+    field( ONVL, "1")
+    field( TWVL, "2")
+    field( THVL, "3")
+    field( ZRST, "at 0 degree")
+    field( ONST, "at 90 degree")
+    field( TWST, "at 180 degree")
+    field( THST, "at 270 degree")
+    field( FRSV, "MAJOR")
+    field( FVSV, "MAJOR")
+    field( SXSV, "MAJOR")
+    field( SVSV, "MAJOR")
+    field( EISV, "MAJOR")
+    field( NISV, "MAJOR")
+    field( TESV, "MAJOR")
+    field( ELSV, "MAJOR")
+    field( TVSV, "MAJOR")
+    field( TTSV, "MAJOR")
+    field( FTSV, "MAJOR")
+    field( FFSV, "MAJOR")
+    field( FLNK, "$(SYS)-$(DEVICE):$(OBJ)$(ID)-Ph-RB")
+}
+
+record(mbbi, "$(SYS)-$(DEVICE):$(OBJ)$(ID)-Ph-RB") {
+    field( DESC, "Event clock phase used to sample i/p sig")
+    field( DTYP, "Obj Prop uint16")
+    field( INP , "@OBJ=$(DEVICE):$(OBJ)PhaseMonSel$(ID), PROP=Phase Select")
+    field( ZRVL, "0")
+    field( ONVL, "1")
+    field( TWVL, "2")
+    field( THVL, "3")
+    field( ZRST, "at 0 degree")
+    field( ONST, "at 90 degree")
+    field( TWST, "at 180 degree")
+    field( THST, "at 270 degree")
+    field( FRSV, "MAJOR")
+    field( FVSV, "MAJOR")
+    field( SXSV, "MAJOR")
+    field( SVSV, "MAJOR")
+    field( EISV, "MAJOR")
+    field( NISV, "MAJOR")
+    field( TESV, "MAJOR")
+    field( ELSV, "MAJOR")
+    field( TVSV, "MAJOR")
+    field( TTSV, "MAJOR")
+    field( FTSV, "MAJOR")
+    field( FFSV, "MAJOR")
+    field( UNSV, "MAJOR")
+}
+
+record(bi, "$(SYS)-$(DEVICE):$(OBJ)$(ID)-DBusPhase-Sts") {
+    field( DESC, "Phase of DBUS with respect to i/p sig")
+    field( PINI, "YES")
+    field( SCAN, "$($(OBJ)$(ID)-DBusPhSRate\=\"1 second\")")
+    field( DTYP, "Obj Prop bool")
+    field( INP, "@OBJ=$(DEVICE):$(OBJ)PhaseMonSel$(ID), PROP=DBUS Phase")
+    field( ZNAM, "in phase with input")
+    field( ONAM, "out of phase")
+}
+

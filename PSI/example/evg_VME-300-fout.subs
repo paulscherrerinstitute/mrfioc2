@@ -13,7 +13,7 @@ file "$(mrfioc2_TEMPLATES=db)/evg-vme-300.db"
          AcTrig-Phase-SP=0.0,   #0-25.5 : EVG AC Phase Shifter
          AcTrig-Divider-SP=0,   #0-255 : EVG AC Divider
          AcTrig-Bypass-Sel=1,   #0 = Off, 1 = On : Bypass AC divider and Phase shifter
-         AcTrig-SyncSrc-Sel=1,  #0 = EvtClk, 1 = Mxc7 : Sync to Event Clock or Mxc7
+         AcTrig-SyncSrc-Sel=1,  #0 = EvtClk, 1 = Mxc7, 2 = Front IN 1, 3 = Front IN 2 : Select what AC will be synced to
          AcTrig-TrigSrc0-SP=0,  #0 = Disable, 1 = Enable: Map to event trigger
          AcTrig-TrigSrc1-SP=0,  #0 = Disable, 1 = Enable: Map to event trigger
          AcTrig-TrigSrc2-SP=0,  #0 = Disable, 1 = Enable: Map to event trigger
@@ -105,6 +105,17 @@ file "$(mrfioc2_TEMPLATES=db)/evg-vme-300.db"
          FrontInp2-SeqMask-SP=0,   # Masks soft sequence events
          FrontInp2-SeqEnable-SP=0, # Enables soft sequence events
 
+         # Front Inputs Phase Monitoring
+         FrontInp0-PhMonSRate="1 second", # Scan rate of monitoring records
+         FrontInp0-Ph-Sel=0,              # 0=@0, 1=@90, 2=@180, 3=@270 degree : Phase for sampling input signal
+         FrontInp0-DBusPhSRate="1 second" # Scan rate of DBus phase status
+         FrontInp1-PhMonSRate="1 second", # Scan rate of monitoring records
+         FrontInp1-Ph-Sel=0,              # 0=@0, 1=@90, 2=@180, 3=@270 degree : Phase for sampling input signal
+         FrontInp1-DBusPhSRate="1 second" # Scan rate of DBus phase status
+         FrontInp2-PhMonSRate="1 second", # Scan rate of monitoring records
+         FrontInp2-Ph-Sel=0,              # 0=@0, 1=@90, 2=@180, 3=@270 degree : Phase for sampling input signal
+         FrontInp2-DBusPhSRate="1 second" # Scan rate of DBus phase status
+         
          # Rear Inputs
          RearInp0-EnaIrq-Sel=0,  #0 = Disabled, 1 = Enabled : Enable External Input IRQ (1PPS input)
          RearInp0-TrigSrc0-SP=0,  #0 = Disable, 1 = Enable: Map to event trigger

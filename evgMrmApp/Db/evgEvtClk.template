@@ -230,3 +230,17 @@ record(ai, "$(SYS)-$(DEVICE):EvtClk-Frequency-RB") {
     field( EGU,  "MHz")
     field( PREC, "3")
 }
+
+record(bo, "$(SYS)-$(DEVICE):DBus-PhTogg-SP") {
+  field(DESC, "DBus phase toggle")
+  field(DTYP, "Obj Prop bool")
+  field(OUT , "@OBJ=$(DEVICE):EvtClk, PROP=Cmd Toggle DBus")
+  field(FLNK, "$(SYS)-$(DEVICE):DBus-PhTogg-RB")
+}
+
+record(bi, "$(SYS)-$(DEVICE):DBus-PhTogg-RB") {
+  field(DESC, "DBus phase toggle")
+  field(DTYP, "Obj Prop bool")
+  field(INP, "@OBJ=$(DEVICE):EvtClk, PROP=Cmd Toggle DBus")
+}
+

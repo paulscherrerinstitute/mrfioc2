@@ -36,6 +36,7 @@
 #include "evgDbus.h"
 #include "evgInput.h"
 #include "evgOutput.h"
+#include "evgPhaseMonSel.h"
 #include "evgSequencer/evgSeqRamManager.h"
 #include "evgSequencer/evgSoftSeqManager.h"
 
@@ -181,6 +182,9 @@ private:
 
     typedef std::vector<evgDbus*> Dbus_t;
     Dbus_t                        m_dbus;
+
+    typedef std::map< std::pair<epicsUInt32, InputType>, evgPhaseMonSel*> PhaseMonSel_t;
+    PhaseMonSel_t                 m_phaseMonSel;
 
     typedef std::map< std::pair<epicsUInt32, evgOutputType>, evgOutput*> Output_t;
     Output_t                      m_output;

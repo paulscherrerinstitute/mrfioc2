@@ -81,6 +81,7 @@ evgMrm::evgMrm(const std::string& id, mrmDeviceInfo &devInfo, volatile epicsUInt
         epicsUInt16 numUnivInp = 4;
         epicsUInt16 numRearInp = 16;
         epicsUInt16 numRearOut = 0;
+        epicsUInt16 numFrontInpPhaseMonSel = 0;
 
         if(m_deviceInfo.getFirmwareId() == mrmDeviceInfo::firmwareId_delayCompensation){
             numFrontOut = 0;
@@ -88,15 +89,16 @@ evgMrm::evgMrm(const std::string& id, mrmDeviceInfo &devInfo, volatile epicsUInt
             numFrontInp = 3;
             numUnivInp = 16;
             numRearOut = 16;
+            numFrontInpPhaseMonSel = 3;
         }
 
         printf("Sub-units:\n"
-               " FrontInp: %u, FrontOut: %u\n"
+               " FrontInp: %u, FrontOut: %u, FrontInpPhaseMonSel: %u\n"
                " UnivInp: %u, UnivOut: %u\n"
                " RearInp: %u\n"
                " RearOut: %u\n"
                " Mxc: %u, Event triggers: %u, DBus bits: %u\n",
-               numFrontInp, numFrontOut,
+               numFrontInp, numFrontOut, numFrontInpPhaseMonSel,
                numUnivInp, numUnivOut,
                numRearInp,
                numRearOut,
@@ -126,6 +128,12 @@ evgMrm::evgMrm(const std::string& id, mrmDeviceInfo &devInfo, volatile epicsUInt
             name<<id<<":FrontInp"<<i;
             m_input[ std::pair<epicsUInt32, InputType>(i, FrontInp) ] =
                 new evgInput(name.str(), i, FrontInp, pReg + U32_FrontInMap(i));
+        }
+        for(int i = 0; i < numFrontInpPhaseMonSel; i++) {
+            std::ostringstream name;
+            name<<id<<":FrontInpPhaseMonSel"<<i;
+            m_phaseMonSel[ std::pair<epicsUInt32, InputType>(i, FrontInp) ] =
+              new evgPhaseMonSel(name.str(), pReg + U32_FrontInPhaseMon(i));
         }
 
         for(int i = 0; i < numUnivInp; i++) {
