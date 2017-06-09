@@ -62,6 +62,7 @@ OBJECT_BEGIN(EVRMRM) {
     OBJECT_PROP1("dc path delay valid", &EVRMRM::delayCompensationPathValid);
     OBJECT_PROP1("dc delay setting status", &EVRMRM::delayCompensationDelaySetting);
     OBJECT_PROP1("dc locked", &EVRMRM::delayCompensationLocked);
+    OBJECT_PROP1("Topology ID", &EVRMRM::getTopologyId);
 
     OBJECT_PROP1("CG Lock Status", &EVRMRM::cgLocked);
     OBJECT_PROP1("PLL Lock Status", &EVRMRM::pllLocked);

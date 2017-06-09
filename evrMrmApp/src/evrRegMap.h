@@ -175,6 +175,8 @@
 #  define DCStatus_pathDelayValid_shift 8
 #  define DCStatus_delaySetting_shift   2
 
+#define U32_TopologyID	0x0C0   /* Timing Node Topology ID */
+
 #define U32_ScalerN     0x100
 #  define ScalerMax 8
 /* 0 <= N <= 7 */

@@ -177,6 +177,7 @@ public:
     bool delayCompensationLocked() const;
     epicsUInt16 delayCompensationPathValid() const;
     epicsUInt16 delayCompensationDelaySetting() const;
+    epicsUInt32 getTopologyId() const;
 
     /** Hook to handle general event mapping table manipulation.
      *  Allows 'special' events only (ie heartbeat, log, led, etc)
