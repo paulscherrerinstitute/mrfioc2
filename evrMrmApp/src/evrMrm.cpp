@@ -652,6 +652,10 @@ epicsUInt16 EVRMRM::delayCompensationDelaySetting() const
     return (READ16(base, DCStatus) & DCStatus_delaySetting) >> DCStatus_delaySetting_shift;
 }
 
+epicsUInt32 EVRMRM::getTopologyId() const{
+    return READ32(base, TopologyID);
+}
+
 bool
 EVRMRM::specialMapped(epicsUInt32 code, epicsUInt32 func) const
 {

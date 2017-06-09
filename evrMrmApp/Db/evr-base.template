@@ -639,3 +639,10 @@ record(mbbiDirect, "$(SYS)-$(DEVICE):DBus-Status-I") {
   field(DESC, "DBus bits value")
   field(SCAN, ".1 second")
 }
+
+record(longin, "$(SYS)-$(DEVICE):TopologyID-I") {
+  field(DTYP, "Obj Prop uint32")
+  field(INP , "@OBJ=$(DEVICE), PROP=Topology ID")
+  field(DESC, "Node topology ID")
+  field(SCAN, "10 second")
+}
