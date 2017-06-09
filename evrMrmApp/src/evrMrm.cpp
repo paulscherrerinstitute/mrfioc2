@@ -1222,11 +1222,6 @@ EVRMRM::isr_vme(void *arg) {
     evr->isr(arg);
 }
 
-// A place to write to which will keep the read
-// at the end of the ISR from being optimized out.
-// This value should never be used anywhere else.
-volatile epicsUInt32 evrMrmIsrFlagsTrashCan;
-
 void
 EVRMRM::isr(void *arg)
 {
@@ -1294,19 +1289,17 @@ EVRMRM::isr(void *arg)
 
     WRITE32(evr->base, IRQFlag, flags);
 
-    // Ensure IRQFlags is written before returning.
-    evrMrmIsrFlagsTrashCan=READ32(evr->base, IRQFlag);
-
-
     // Only touch the bottom half of IRQEnable register
     // to prevent race condition with kernel space
     if(evr->getDeviceInfo()->getFirmwareId() < mrmDeviceInfo::firmwareId_delayCompensation) {
         WRITE8(evr->base,IRQEnableBot,(epicsUInt8)evr->shadowIRQEna);
+        (void)READ8(evr->base,IRQEnableBot); // make sure write is complete
     }
     else {
         // evr sequencer is available only on EVRs with separated PCIe enable register.
         // Thus we can write 32 bits here.
         WRITE32(evr->base, IRQEnable, evr->shadowIRQEna);
+        (void)READ32(evr->base, IRQEnable); // make sure write is complete
     }
 
     EVR_INFO(4,"ISR ended, IRQEnable 0x%x, flags: 0x%x",evr->shadowIRQEna, flags);
