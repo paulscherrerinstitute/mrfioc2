@@ -222,6 +222,13 @@
 #define  EVG_IRQ_RXVIO          0x00000001  // Receiver Violation Bit
 
 /**************************************************************************************************/
+/*    Input Signal State Registers (0x40, 0x44, 0x48)                                             */
+/**************************************************************************************************/
+#define EVG_FPIN_0_SIG_STATE    0x00000004  // 0x40, for i/p X shift X right
+#define EVG_UNIN_0_SIG_STATE    0x00008000  // 0x44, for i/p X shift X right
+#define EVG_TBIN_0_SIG_STATE    0x00008000  // 0x48, for i/p X shift X right
+
+/**************************************************************************************************/
 /*    Outgoing Event Link Clock Source Register (0x0050) Bit Assignments                          */
 /**************************************************************************************************/
 

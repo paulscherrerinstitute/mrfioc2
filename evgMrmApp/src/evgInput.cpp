@@ -187,6 +187,23 @@ evgInput::getTrigEvtMap(epicsUInt16 trigEvt) const {
 
 bool
 evgInput::getSignalState() const {
-    return (nat_ioread32(m_pStateReg) & (1 << m_num));
+    bool state = false;
+
+    switch(m_type) {
+    case FrontInp:
+        state = (nat_ioread32(m_pStateReg) & (EVG_FPIN_0_SIG_STATE >> m_num));
+        break;
+    case UnivInp:
+        state = (nat_ioread32(m_pStateReg) & (EVG_UNIN_0_SIG_STATE >> m_num));
+        break;
+    case RearInp:
+        state = (nat_ioread32(m_pStateReg) & (EVG_TBIN_0_SIG_STATE >> m_num));
+        break;
+    default:
+        throw std::runtime_error("Invalid input type");
+        break;
+    }
+
+    return state;
 }
 
