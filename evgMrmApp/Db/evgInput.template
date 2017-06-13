@@ -232,6 +232,7 @@ record(bi, "$(SYS)-$(DEVICE):$(OBJ)$(ID)-Sig-Sts") {
     field( DESC, "Signal state")
     field( DTYP, "Obj Prop bool")
     field( INP , "@OBJ=$(DEVICE):$(OBJ)$(ID), PROP=Signal State")
+    field( SCAN, "1 second")
     field( ZNAM, "Off")
     field( ONAM, "On")
 }
