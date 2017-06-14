@@ -51,6 +51,13 @@
 // defined in mrmShared.h
 
 //=====================
+// Input Signal State Registers
+//
+#define  U32_FPInput            0x0040  // Front Panel Input state register
+#define  U32_UnivInput          0x0044  // Universal Input state register
+#define  U32_TBInput            0x0048  // Transition Board Input state register
+
+//=====================
 // Event Clock Control
 //
 #define  U16_uSecDiv            0x004e  // Event Clock Freq Rounded to Nearest 1 MHz
@@ -213,6 +220,13 @@
 #define  EVG_IRQ_DBUFF          0x00000020  // Data Buffer Interrupt Bit
 #define  EVG_IRQ_FIFO           0x00000002  // Event FIFO Full Interrupt Bit
 #define  EVG_IRQ_RXVIO          0x00000001  // Receiver Violation Bit
+
+/**************************************************************************************************/
+/*    Input Signal State Registers (0x40, 0x44, 0x48)                                             */
+/**************************************************************************************************/
+#define EVG_FPIN_0_SIG_STATE    0x00000004  // 0x40, for i/p X shift X right
+#define EVG_UNIN_0_SIG_STATE    0x00008000  // 0x44, for i/p X shift X right
+#define EVG_TBIN_0_SIG_STATE    0x00008000  // 0x48, for i/p X shift X right
 
 /**************************************************************************************************/
 /*    Outgoing Event Link Clock Source Register (0x0050) Bit Assignments                          */

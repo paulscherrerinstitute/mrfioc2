@@ -85,14 +85,14 @@
       <height>20</height>
      </rect>
     </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: rgb(236, 236, 236, 255);</string>
-    </property>
     <property name="text">
      <string>$(ID)</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
+    </property>
+    <property name="styleSheet" stdset="0">
+     <string notr="true">background-color: rgba(255, 255, 255, 0); color: rgba(0, 0, 0, 255); border: 0px solid rgba(0, 0, 0, 255)</string>
     </property>
    </widget>
    <widget class="caToggleButton" name="catogglebutton_8">
@@ -386,6 +386,59 @@
     </property>
     <property name="channel" stdset="0">
      <string notr="true">$(SYS)-$(DEVICE):$(ID)-TrigSrc4-SP</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_7">
+    <property name="geometry">
+     <rect>
+      <x>433</x>
+      <y>2</y>
+      <width>80</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Signal State</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+    </property>
+   </widget>
+   <widget class="caLed" name="signalState">
+    <property name="geometry">
+     <rect>
+      <x>519</x>
+      <y>6</y>
+      <width>10</width>
+      <height>10</height>
+     </rect>
+    </property>
+    <property name="rectangular">
+     <bool>false</bool>
+    </property>
+    <property name="channel" stdset="0">
+     <string notr="true">$(SYS)-$(DEVICE):$(ID)-Sig-Sts</string>
+    </property>
+    <property name="falseColor">
+     <color>
+      <red>200</red>
+      <green>200</green>
+      <blue>200</blue>
+     </color>
+    </property>
+    <property name="trueColor">
+     <color>
+      <red>0</red>
+      <green>205</green>
+      <blue>0</blue>
+     </color>
+    </property>
+    <property name="undefinedColor">
+     <color>
+      <red>255</red>
+      <green>255</green>
+      <blue>255</blue>
+     </color>
     </property>
    </widget>
   </widget>

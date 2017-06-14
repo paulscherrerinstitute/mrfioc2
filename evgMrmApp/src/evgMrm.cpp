@@ -127,7 +127,7 @@ evgMrm::evgMrm(const std::string& id, mrmDeviceInfo &devInfo, volatile epicsUInt
             std::ostringstream name;
             name<<id<<":FrontInp"<<i;
             m_input[ std::pair<epicsUInt32, InputType>(i, FrontInp) ] =
-                new evgInput(name.str(), i, FrontInp, pReg + U32_FrontInMap(i));
+                new evgInput(name.str(), i, FrontInp, pReg);
         }
         for(int i = 0; i < numFrontInpPhaseMonSel; i++) {
             std::ostringstream name;
@@ -140,14 +140,14 @@ evgMrm::evgMrm(const std::string& id, mrmDeviceInfo &devInfo, volatile epicsUInt
             std::ostringstream name;
             name<<id<<":UnivInp"<<i;
             m_input[ std::pair<epicsUInt32, InputType>(i, UnivInp) ] =
-                new evgInput(name.str(), i, UnivInp, pReg + U32_UnivInMap(i));
+                new evgInput(name.str(), i, UnivInp, pReg);
         }
 
         for(int i = 0; i < numRearInp; i++) {
             std::ostringstream name;
             name<<id<<":RearInp"<<i;
             m_input[ std::pair<epicsUInt32, InputType>(i, RearInp) ] =
-                new evgInput(name.str(), i, RearInp, pReg + U32_RearInMap(i));
+                new evgInput(name.str(), i, RearInp, pReg);
         }
 
         for(int i = 0; i < numFrontOut; i++) {
