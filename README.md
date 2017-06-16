@@ -143,7 +143,8 @@ When non-supported firmware is detected, the driver still loads and offers abili
 
 
 ## Known issues
-* latest firmware release was not yet tested in detail
+* firmware version 207:
+    * none
 * [not supported] firmware version 204:
     * [fixed in revision 1] issue with data buffer receptions skips observed. Problem was tracked down to hardware issue on the sending side.
     * [fixed in revision 1] EVR-VME-300 rear outputs: mapping two sources to an output does not work
@@ -206,14 +207,27 @@ Building the driver on the PSI infrastructure is a bit different, since it lever
 
 The driver builds as a single library, which can be loaded using `require` to your IOC. Installation process also copies all the necessary support files (eg. templates) to the appropriate module folder. For more options inspect driver.makefile and require documentation available at the PSI wiki.
 
+## Development workflow
+
+We follow the workflow as described in [gitflow](https://www.atlassian.com/git/tutorials/comparing-workflows#gitflow-workflow).
+In a nutshell this means:
+* The `master` branch stores the official release history.
+* The `develop` branch serves as an integration branch for new features.
+* New features are implemented in a feature branch which should branch off the `develop` branch. The contributing developers should push their local feature branch to the server and issue a merge request.
+* New releases are prepared in a dedicated `release-*` branch.
+
 ## Kernel sources
 mrfioc2 driver uses a special kernel module for communication with hardware. Sources of the `mrf.ko` kernel module are available in `mrmShared/linux`.
 
 ## Authors
 
+* Roger Biffiger (roger.biffiger@psi.ch)
 * Tom Slejko (tom.slejko@cosylab.com)
 * Jure Krašna (jure.krasna@cosylab.com)
 * Sašo Skube (saso.skube@cosylab.com)
+* Babak Kalantari (babak.kalantari@psi.ch)
+* Helge Brands (helge.brands@psi.ch)
+* Dirk Zimoch (dirk.zimoch@psi.ch)
 
 Original driver developers:
 
@@ -221,4 +235,4 @@ Original driver developers:
 * Jayesh Shah (jshah@bnl.gov)
 * Eric Bjorklund (bjorklund@lanl.gov)
 
-Please send an e-mail to saso.skube@cosylab.com if anyone is missing!
+Please send an e-mail to roger.biffiger@psi.ch if anyone is missing!
