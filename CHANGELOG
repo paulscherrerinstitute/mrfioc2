@@ -1,5 +1,13 @@
 For detailed changelog inspect commits at https://git.psi.ch/epics_driver_modules/mrfioc2/commits/master
 
+3.0.0 : Fr 16 June 2017:
+  - Added support for EVG front input phase monitor and phase select feature
+  - Added support for EVG DBUS phase monitor and phase toggle feature
+  - Added support for EVR topology ID
+  - Added support for EVG input signal state
+  - Changed .ui files for EVR PCIe-300DC (macroList in caInclude instead of multiple caInclude)
+  - Fixed spurious VME interrupts bug
+  - Fixed windows build
 
 2.8.0_RC5 : Tue 11 Apr 2017:
 	- PCIe-300 delay compensation cards with new firmware version are now supported
