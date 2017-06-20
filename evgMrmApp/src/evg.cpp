@@ -9,6 +9,7 @@
 #include "evgEvtClk.h"
 #include "evgMrm.h"
 #include "evgFct.h"
+#include "evgPhaseMonSel.h"
 
 OBJECT_BEGIN(evgAcTrig) {
     OBJECT_PROP2("Divider", &evgAcTrig::getDivider, &evgAcTrig::setDivider);
