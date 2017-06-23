@@ -37,10 +37,6 @@
 #include "support/util.h"
 #include "mrf/version.h"
 
-#if defined(__linux__) || defined(_WIN32)
-#  include "devLibPCI.h"
-#endif
-
 #include <epicsExport.h>
 
 int evrDebug, evrEventDebug=0;
@@ -1197,7 +1193,7 @@ EVRMRM::enableIRQ(void)
 
     if(m_deviceInfo.getFormFactor() != mrmDeviceInfo::formFactor_VME64 && m_deviceInfo.getFormFactor() != mrmDeviceInfo::formFactor_embedded ){
         EVR_DEBUG(2,"Enabling PCIe interrupts: 0x%x",shadowIRQEna);
-        if(devPCIEnableInterrupt((const epicsPCIDevice*)this->isrLinuxPvt)) {
+        if(devPCIEnableInterrupt(this->pciDevice)) {
             errlogPrintf("Failed to enable PCIe interrupt.  Stuck...\n");
         }
     }
@@ -1213,7 +1209,7 @@ EVRMRM::isr_pci(void *arg) {
     evr->isr(arg);
 
     EVR_DEBUG(5,"Re-enabling IRQs");
-    if(devPCIEnableInterrupt((const epicsPCIDevice*)evr->isrLinuxPvt)) {
+    if(devPCIEnableInterrupt(evr->pciDevice)) {
         errlogPrintf("Failed to re-enable interrupt.  Stuck...\n");
     }
 }
