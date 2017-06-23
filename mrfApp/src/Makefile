@@ -9,7 +9,6 @@ include $(TOP)/configure/CONFIG
 # Build the IOC application
 
 PROD_IOC = mrf
-LIBRARY_IOC += mrf 
 # mrf.dbd will be created and installed
 DBD += mrf.dbd
 
