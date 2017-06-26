@@ -54,7 +54,7 @@ mrmRemoteFlash::mrmRemoteFlash(const std::string &parentName, volatile epicsUInt
 
 void mrmRemoteFlash::setOffset(size_t offset)
 {
-    if( offset < 0 || offset >= m_flash.getMemorySize()) {
+    if(offset >= m_flash.getMemorySize()) {
         throw std::invalid_argument("Trying to set out of bounds offset!");
     }
 
