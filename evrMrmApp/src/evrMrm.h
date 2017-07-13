@@ -31,6 +31,8 @@
 #include <callback.h>
 #include <epicsMutex.h>
 
+#include "devLibPCI.h"
+
 #include "evrInput.h"
 #include "evrOutput.h"
 #include "evrPrescaler.h"
@@ -285,9 +287,7 @@ public:
     static void isr(void*);
     static void isr_pci(void*);
     static void isr_vme(void*);
-#if defined(__linux__) || defined(_WIN32)
-    const void *isrLinuxPvt;
-#endif
+    const epicsPCIDevice *pciDevice;
 
     mrmRemoteFlash* getRemoteFlash();
 

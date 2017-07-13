@@ -44,7 +44,6 @@ store_value(const linkOptionDef* opt, void* user, const char* val, int options)
      *
      * Change by: jkrasna
      */
-    (void)options;
     epicsUInt32 *ival;
     unsigned long int lival;
     int *eval;
@@ -52,6 +51,7 @@ store_value(const linkOptionDef* opt, void* user, const char* val, int options)
     double *dval;
     char *sval;
     char *end;
+    (void)options;
 
     switch(opt->optType) {
     case linkOptionInt32:

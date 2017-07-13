@@ -509,9 +509,7 @@ mrmEvrSetupPCI(const char* id,      // Card Identifier
         EVRMRM *receiver=new EVRMRM(id,*deviceInfo,evr, NULL);
 
         void *arg=receiver;
-    #if  defined(__linux__) || defined(_WIN32)
-        receiver->isrLinuxPvt = (void*)cur;
-    #endif
+        receiver->pciDevice = cur;
 
         if(ignoreVersion){
             epicsPrintf("Not connecting interrupts.\n");

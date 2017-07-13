@@ -98,7 +98,7 @@ void EvrSequencer::setSequenceTimestamp(const double *waveform, epicsUInt32 len)
     for(epicsUInt32 i=0; i<len; i++) {
         timestamp = (epicsUInt64)waveform[i];   // TODO conversion from user units
         if(i < len-1 && (timestamp >= (epicsUInt64)waveform[i+1])) { // check if the timestamps are sorted and unique
-            dbgPrintf(1,"Timestamps not sorted! Timestamp at position %u is %llu, timestamp at position %u is %llu.\n", i, timestamp, i+1, (epicsUInt64)waveform[i+1]);
+            dbgPrintf(1,"Timestamps not sorted! Timestamp at position %u is %llu, timestamp at position %u is %llu.\n", i, (long long unsigned int)timestamp, i+1, (long long unsigned int)waveform[i+1]);
             dbgPrintf(1,"Timestamps array truncated with size %u\n", i);
             sorted = false;
             break;

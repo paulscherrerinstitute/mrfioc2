@@ -166,7 +166,7 @@ void mrmFlash::flash(const char *bitfile, size_t offset) {
         throw std::runtime_error("Flash chip sector and memory sizes not defined. Did you run init() function?");
     }
 
-    if(offset < 0 || offset >= m_size_memory) {
+    if(offset >= m_size_memory) {
         throw std::invalid_argument("Invalid offset for flashing.");
     }
 
@@ -290,7 +290,7 @@ void mrmFlash::read(void *buffer, size_t offset, size_t *length) {
         throw std::runtime_error("Flash chip sector and memory sizes invalid. Did you run init() function?");
     }
 
-    if( offset < 0 || offset >= m_size_memory) {
+    if(offset >= m_size_memory) {
         throw std::invalid_argument("Address for reading out of bounds!");
     }
 
@@ -454,7 +454,7 @@ void mrmFlash::bulkErase() {
 }
 
 void mrmFlash::sectorErase(size_t addr) {
-    if(addr < 0 || addr >= m_size_memory) {
+    if(addr >= m_size_memory) {
         throw std::invalid_argument("Invalid address for sector erase!");
     }
 
