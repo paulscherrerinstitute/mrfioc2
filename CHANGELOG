@@ -1,5 +1,12 @@
 For detailed changelog inspect commits at https://git.psi.ch/epics_driver_modules/mrfioc2/commits/master
 
+3.0.1 : Th 13 July 2017:
+  - Fixed windows build
+  - Fixed vanilla build
+  - Fixed compiler warnings
+  - Fixed logic error in phase monitoring functionality
+  - Fixed PCI handling for OS which is not linux nor WIN32
+
 3.0.0 : Fr 16 June 2017:
   - Added support for EVG front input phase monitor and phase select feature
   - Added support for EVG DBUS phase monitor and phase toggle feature

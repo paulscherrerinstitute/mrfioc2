@@ -84,8 +84,9 @@ bool evgPhaseMonSel::getMonReset() const {
 
     reg = nat_ioread32(m_pPhReg);
 
-    isReset = ((reg & EVG_FPInPhMon_PHRE_mask) == PhMonRi_reset) &&
-        ((reg & EVG_FPInPhMon_PHFE_mask) == PhMonFa_reset);
+    isReset = 
+      ((reg & EVG_FPInPhMon_PHRE_mask) == (PhMonRi_reset << EVG_FPInPhMon_PHRE_shift)) &&
+      ((reg & EVG_FPInPhMon_PHFE_mask) == (PhMonFa_reset << EVG_FPInPhMon_PHFE_shift));
 
     return isReset;
 }

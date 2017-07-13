@@ -17,6 +17,7 @@ INC += evgDbus.h
 INC += evgInput.h
 INC += evgOutput.h
 INC += evgFct.h
+INC += evgPhaseMonSel.h
 
 INC += evgSequencer/evgSoftSeqManager.h
 INC += evgSequencer/evgSoftSeq.h
@@ -60,6 +61,9 @@ evgMrm_SRCS += evgSeqRamManager.cpp
 
 evgMrm_SRCS += seqconst.c
 evgMrm_SRCS += seqnsls2.c
+
+evgMrm_SRCS += evgPhaseMonSel.cpp
+
 
 ifeq ($(OS),Windows_NT)
 evgMrm_LIBS += mrfCommon mrmShared epicsvme epicspci $(EPICS_BASE_IOC_LIBS)

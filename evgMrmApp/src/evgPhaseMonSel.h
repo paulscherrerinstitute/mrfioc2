@@ -6,7 +6,7 @@
 #include <epicsTypes.h>
 #include "mrf/object.h"
 
-class evgPhaseMonSel : public mrf::ObjectInst<evgPhaseMonSel> {
+class epicsShareClass evgPhaseMonSel : public mrf::ObjectInst<evgPhaseMonSel> {
 public:
     enum PhSel {
         PhSel_0Deg = 0,

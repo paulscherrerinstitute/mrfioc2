@@ -538,10 +538,7 @@ mrmEvgSetupPCI (
                 return -1;
             }
         }
-
-#ifdef __linux__
-        evg->isrLinuxPvt = (void*) cur;
-#endif
+        evg->pciDevice = cur;
 
         /*Connect Interrupt handler to isr thread*/
         if(ignoreVersion){

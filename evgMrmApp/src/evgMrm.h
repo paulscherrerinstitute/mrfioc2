@@ -143,9 +143,8 @@ public:
     CALLBACK                      irqStart1_cb;
     CALLBACK                      irqExtInp_cb;
 
-#ifdef __linux__
-    void* isrLinuxPvt;
-#endif
+    const epicsPCIDevice *pciDevice;
+
     // flags for CB rate limiting
     unsigned char irqStop0_queued;
     unsigned char irqStop1_queued;
