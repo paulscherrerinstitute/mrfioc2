@@ -30,7 +30,7 @@ evrMrm_SRCS += devEvrEvent.cpp
 evrMrm_SRCS += devEvrMapping.cpp
 evrMrm_SRCS += devEvrPulserMapping.cpp
 evrMrm_SRCS += devWfMailbox.c
-evrMrm_SRCS += asub.c
+#evrMrm_SRCS += asub.c
 evrMrm_SRCS_Linux += ntpShm.cpp
 evrMrm_SRCS_DEFAULT += ntpShmNull.cpp
 
