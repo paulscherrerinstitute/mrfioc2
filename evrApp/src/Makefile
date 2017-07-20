@@ -9,8 +9,8 @@ LIBRARY = evr
 
 SRC_DIRS += evr
 
-#DBD += evrSupport.dbd
-#
+DBD += evrSupport.dbd
+
 INC += evr/util.h
 #INC += evr/pulser.h
 #INC += evr/output.h
@@ -19,23 +19,23 @@ INC += evr/util.h
 #INC += evr/prescaler.h
 #INC += evr/evr.h
 #INC += evr/cml.h
-#
-#evr_SRCS += evr.cpp
+
+evr_SRCS += evr.cpp
 
 INC += evrGTIF.h
 evr_SRCS += evrGTIF.cpp
 
-#evr_SRCS += devEvrStringIO.cpp
-#
-#evr_SRCS += devEvrEvent.cpp
-#evr_SRCS += devEvrMapping.cpp
-#
-#evr_SRCS += devEvrPulserMapping.cpp
-#
+evr_SRCS += devEvrStringIO.cpp
+
+evr_SRCS += devEvrEvent.cpp
+evr_SRCS += devEvrMapping.cpp
+
+evr_SRCS += devEvrPulserMapping.cpp
+
 evr_SRCS += asub.c
-#evr_SRCS += devWfMailbox.c
-#
-#
+evr_SRCS += devWfMailbox.c
+
+
 evr_SRCS_Linux += ntpShm.cpp
 evr_SRCS_DEFAULT += ntpShmNull.cpp
 #

@@ -22,16 +22,15 @@ INC += evrSequencer.h
 
 #INC += support/evrGTIF.h => evrApp/src
 
-#SRC_DIRS += ../support  ../devSupport  => all sources in ../support moved to evrApp/src
-SRC_DIRS += ../devSupport 
+#SRC_DIRS += ../support  ../devSupport  => all sources moved to evrApp/src
 
 #evrMrm_SRCS += evrGTIF.cpp => evrApp/src
-evrMrm_SRCS += devEvrStringIO.cpp
-evrMrm_SRCS += devEvrEvent.cpp
-evrMrm_SRCS += devEvrMapping.cpp
-evrMrm_SRCS += devEvrPulserMapping.cpp
-evrMrm_SRCS += devWfMailbox.c
-#evrMrm_SRCS += asub.c => evrApp/src
+#evrMrm_SRCS += devEvrStringIO.cpp => evrApp/src
+#evrMrm_SRCS += devEvrEvent.cpp => evrApp/src
+#evrMrm_SRCS += devEvrMapping.cpp => evrApp/src
+#evrMrm_SRCS += devEvrPulserMapping.cpp => evrApp/src
+#evrMrm_SRCS += devWfMailbox.c => evrApp/src
+#evrMrm_SRCS += asub.c => evrApp/src => evrApp/src
 #evrMrm_SRCS_Linux += ntpShm.cpp => evrApp/src
 #evrMrm_SRCS_DEFAULT += ntpShmNull.cpp => evrApp/src
 
@@ -57,7 +56,7 @@ endif
 #=============================
 # Install the modular register map event receiver support dbd
 
-DBD += evrSupport.dbd
+#DBD += evrSupport.dbd => evrApp/src
 
 #===========================
 
