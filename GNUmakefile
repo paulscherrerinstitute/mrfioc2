@@ -17,7 +17,7 @@ ARCH_FILTER=eldk52-e500v2 eldk42-ppc4xxFP SL%
 #ARCH_FILTER=SL%
 #ARCH_FILTER=eldk52-e500v2 SL%
 
-SOURCES+=evrMrmApp/src/support/asub.c
+#SOURCES+=evrMrmApp/src/support/asub.c => evrApp/src
 SOURCES+=evrMrmApp/src/devSupport/devWfMailbox.c
 SOURCES+=evgMrmApp/src/seqnsls2.c
 SOURCES+=evgMrmApp/src/seqconst.c
@@ -40,9 +40,9 @@ SOURCES+=mrmShared/src/mrmSoftEvent.cpp
 
 SOURCES+=evrMrmApp/src/devSupport/devEvrStringIO.cpp
 SOURCES+=evrMrmApp/src/devSupport/devEvrPulserMapping.cpp
-SOURCES+=evrMrmApp/src/support/ntpShm.cpp
+#SOURCES+=evrMrmApp/src/support/ntpShm.cpp => evrApp/src
 SOURCES+=evrMrmApp/src/devSupport/devEvrEvent.cpp
-SOURCES+=evrMrmApp/src/support/evrGTIF.cpp
+#SOURCES+=evrMrmApp/src/support/evrGTIF.cpp => evrApp/src
 SOURCES+=evrMrmApp/src/evr.cpp
 SOURCES+=evrMrmApp/src/devSupport/devEvrMapping.cpp
 SOURCES+=evrMrmApp/src/evrPulser.cpp

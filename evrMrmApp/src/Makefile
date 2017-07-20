@@ -20,19 +20,20 @@ INC += evrGpio.h
 INC += evrDelayModule.h
 INC += evrSequencer.h
 
-INC += support/evrGTIF.h
+#INC += support/evrGTIF.h => evrApp/src
 
-SRC_DIRS += ../support ../devSupport 
+#SRC_DIRS += ../support  ../devSupport  => all sources in ../support moved to evrApp/src
+SRC_DIRS += ../devSupport 
 
-evrMrm_SRCS += evrGTIF.cpp
+#evrMrm_SRCS += evrGTIF.cpp => evrApp/src
 evrMrm_SRCS += devEvrStringIO.cpp
 evrMrm_SRCS += devEvrEvent.cpp
 evrMrm_SRCS += devEvrMapping.cpp
 evrMrm_SRCS += devEvrPulserMapping.cpp
 evrMrm_SRCS += devWfMailbox.c
-#evrMrm_SRCS += asub.c
-evrMrm_SRCS_Linux += ntpShm.cpp
-evrMrm_SRCS_DEFAULT += ntpShmNull.cpp
+#evrMrm_SRCS += asub.c => evrApp/src
+#evrMrm_SRCS_Linux += ntpShm.cpp => evrApp/src
+#evrMrm_SRCS_DEFAULT += ntpShmNull.cpp => evrApp/src
 
 evrMrm_SRCS += evrIocsh.c
 evrMrm_SRCS += evr.cpp

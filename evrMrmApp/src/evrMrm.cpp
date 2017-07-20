@@ -34,7 +34,7 @@
 #include "evrMrm.h"
 #include "mrmShared.h"
 
-#include "support/util.h"
+#include "evr/util.h"
 #include "mrf/version.h"
 
 #include <epicsExport.h>

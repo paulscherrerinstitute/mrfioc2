@@ -7,11 +7,11 @@ include $(TOP)/configure/CONFIG
 
 LIBRARY = evr
 
-#SRC_DIRS += evr
-#
+SRC_DIRS += evr
+
 #DBD += evrSupport.dbd
 #
-#INC += evr/util.h
+INC += evr/util.h
 #INC += evr/pulser.h
 #INC += evr/output.h
 #INC += evr/delay.h
@@ -21,10 +21,10 @@ LIBRARY = evr
 #INC += evr/cml.h
 #
 #evr_SRCS += evr.cpp
-#
-#INC += evrGTIF.h
-#evr_SRCS += evrGTIF.cpp
-#
+
+INC += evrGTIF.h
+evr_SRCS += evrGTIF.cpp
+
 #evr_SRCS += devEvrStringIO.cpp
 #
 #evr_SRCS += devEvrEvent.cpp
@@ -36,8 +36,8 @@ evr_SRCS += asub.c
 #evr_SRCS += devWfMailbox.c
 #
 #
-#evr_SRCS_Linux += ntpShm.cpp
-#evr_SRCS_DEFAULT += ntpShmNull.cpp
+evr_SRCS_Linux += ntpShm.cpp
+evr_SRCS_DEFAULT += ntpShmNull.cpp
 #
 #ifeq ($(OS),Windows_NT)
 #evr_LIBS += mrfCommon $(EPICS_BASE_IOC_LIBS)

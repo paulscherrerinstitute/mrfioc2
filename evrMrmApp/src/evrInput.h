@@ -15,7 +15,7 @@
 #include "mrf/object.h"
 #include <epicsTypes.h>
 
-#include "support/util.h"
+#include "evr/util.h"
 
 
 enum TrigMode {

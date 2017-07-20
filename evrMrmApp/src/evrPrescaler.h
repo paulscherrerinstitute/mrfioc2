@@ -14,7 +14,7 @@
 #include "mrf/object.h"
 #include <epicsTypes.h>
 
-#include "support/util.h"
+#include "evr/util.h"
 
 class EvrPrescaler : public mrf::ObjectInst<EvrPrescaler>
 {

@@ -27,7 +27,7 @@ mrf_DBD += epicsvme.dbd
 mrf_DBD += epicspci.dbd
 
 # Add all the support libraries needed by this IOC
-mrf_LIBS += evgMrm evrMrm mrmShared mrfCommon epicspci epicsvme
+mrf_LIBS += evgMrm evrMrm evr mrmShared mrfCommon epicspci epicsvme
 
 # mrf_registerRecordDeviceDriver.cpp derives from mrf.dbd
 mrf_SRCS += mrf_registerRecordDeviceDriver.cpp

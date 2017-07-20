@@ -16,7 +16,7 @@
 #include <epicsTypes.h>
 #include <string>
 
-#include "support/util.h"
+#include "evr/util.h"
 
 
 class EVRMRM;
