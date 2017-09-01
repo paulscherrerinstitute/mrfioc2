@@ -17,8 +17,16 @@ ARCH_FILTER=eldk52-e500v2 eldk42-ppc4xxFP SL%
 #ARCH_FILTER=SL%
 #ARCH_FILTER=eldk52-e500v2 SL%
 
-#SOURCES+=evrMrmApp/src/support/asub.c => evrApp/src
-SOURCES+=evrMrmApp/src/devSupport/devWfMailbox.c
+SOURCES+=evrApp/src/asub.c
+SOURCES+=evrApp/src/devEvrEvent.cpp
+SOURCES+=evrApp/src/devEvrMapping.cpp
+SOURCES+=evrApp/src/devEvrPulserMapping.cpp
+SOURCES+=evrApp/src/devEvrStringIO.cpp
+SOURCES+=evrApp/src/devWfMailbox.c
+SOURCES+=evrApp/src/evr.cpp
+SOURCES+=evrApp/src/evrGTIF.cpp
+SOURCES+=evrApp/src/ntpShm.cpp
+
 SOURCES+=evgMrmApp/src/seqnsls2.c
 SOURCES+=evgMrmApp/src/seqconst.c
 SOURCES+=mrfCommon/src/devMbboDirectSoft.c
@@ -38,13 +46,6 @@ SOURCES+=mrmShared/src/dataBuffer/mrmDataBufferType.cpp
 SOURCES+=mrmShared/src/mrmDeviceInfo.cpp
 SOURCES+=mrmShared/src/mrmSoftEvent.cpp
 
-SOURCES+=evrMrmApp/src/devSupport/devEvrStringIO.cpp
-SOURCES+=evrMrmApp/src/devSupport/devEvrPulserMapping.cpp
-#SOURCES+=evrMrmApp/src/support/ntpShm.cpp => evrApp/src
-SOURCES+=evrMrmApp/src/devSupport/devEvrEvent.cpp
-#SOURCES+=evrMrmApp/src/support/evrGTIF.cpp => evrApp/src
-SOURCES+=evrMrmApp/src/evr.cpp
-SOURCES+=evrMrmApp/src/devSupport/devEvrMapping.cpp
 SOURCES+=evrMrmApp/src/evrPulser.cpp
 SOURCES+=evrMrmApp/src/evrIocsh.cpp
 SOURCES+=evrMrmApp/src/evrMrm.cpp
@@ -88,7 +89,7 @@ SOURCES+=mrfCommon/src/devObjMBB.cpp
 SOURCES+=evrMrmApp/src/evrGpio.cpp
 SOURCES+=evrMrmApp/src/evrDelayModule.cpp
 
-DBDS+=evrMrmApp/src/evrSupport.dbd
+DBDS+=evrApp/src/evrSupport.dbd
 DBDS+=evgMrmApp/src/evgInit.dbd
 DBDS+=mrfCommon/src/mrfCommon.dbd
 DBDS+=mrmShared/src/mrmShared.dbd

@@ -103,19 +103,6 @@ extern "C" {
 static
 const double fracref=24.0; // MHz
 
-
-
-long get_ioint_info_statusChange(int dir,dbCommon* prec,IOSCANPVT* io)
-{
-    IOStatus* stat=static_cast<IOStatus*>(prec->dpvt);
-
-    if(!stat) return 1;
-
-    *io=stat->statusChange((dir != 0));
-
-    return 0;
-}
-
 EVRMRM::EVRMRM(const std::string& n,
                mrmDeviceInfo &devInfo,
                volatile epicsUInt8* b,
