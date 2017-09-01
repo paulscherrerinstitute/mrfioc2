@@ -14,6 +14,7 @@ INC += mrfFracSynth.h     # Fractional Synthesizer routines
 INC += linkoptions.h
 INC += mrfcsr.h
 INC += mrfpci.h
+INC += configurationInfo.h
 INC += plx9030.h
 INC += plx9056.h
 

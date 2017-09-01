@@ -22,13 +22,13 @@
 
 #include <stringinRecord.h>
 
-#include "evrMrm.h"
+#include "evr/evr.h"
 
 #include <stdexcept>
 #include <string>
 
 struct ts_priv {
-    EVRMRM* evr;
+    EVR* evr;
     char obj[30];
     epicsUInt32 code;
     epicsUInt32 last_bad;
@@ -63,7 +63,7 @@ try {
         errlogPrintf("%s: failed to find object '%s'\n", praw->name, priv->obj);
         return S_db_errArg;
     }
-    priv->evr=dynamic_cast<EVRMRM*>(O);
+    priv->evr=dynamic_cast<EVR*>(O);
     if(!priv->evr)
         throw std::runtime_error("Failed to lookup device");
 

@@ -48,7 +48,7 @@
 #include <iocsh.h>
 #include <initHooks.h>
 
-#include "evrMrm.h"
+#include "evr/evr.h"
 
 // NTPD itself doesn't make much attempt at synchronizing
 // but we try to do better
@@ -100,7 +100,7 @@ typedef struct {
 
     epicsUInt32 event;
 
-    EVRMRM *evr;
+    EVR *evr;
     int segid;
 
     shmSegment* seg;
@@ -280,7 +280,7 @@ void time2ntp(const char* evrname, int segid, int event)
         return;
     }
 
-    EVRMRM *evr = dynamic_cast<EVRMRM*>(obj);
+    EVR *evr = dynamic_cast<EVR*>(obj);
     if(!evr) {
         fprintf(stderr, "\"%s\" is not an EVR\n", evrname);
         return;
@@ -369,7 +369,7 @@ static long read_delta(aiRecord* prec)
 static void ntpShmReport(int)
 {
     epicsMutexMustLock(ntpShm.ntplock);
-    EVRMRM *evr=ntpShm.evr;
+    EVR *evr=ntpShm.evr;
     unsigned int ok=ntpShm.numOk,
                  fail=ntpShm.numFail;
     epicsMutexUnlock(ntpShm.ntplock);

@@ -23,13 +23,13 @@
 #include <stringinRecord.h>
 
 #include "devObj.h"
-#include "evrPulser.h"
+#include "evr/pulser.h"
 #include "linkoptions.h"
 
 #include <stdexcept>
 #include <string>
 
-/**@file devEvrPulserMapping.cpp
+/**@file devPulserMapping.cpp
  *
  * A special device support to handle arbitrary mappings in the EVR
  * mapping ram to one of the pulser units.
@@ -44,7 +44,7 @@
 
 struct map_priv {
     char obj[30];
-    EvrPulser* pulser;
+    Pulser* pulser;
     epicsUInt32 last_code;
     MapType::type func;
 };
@@ -83,7 +83,7 @@ try {
         errlogPrintf("%s: failed to find object '%s'\n", praw->name, priv->obj);
         return S_db_errArg;
     }
-    priv->pulser=dynamic_cast<EvrPulser*>(O);
+    priv->pulser=dynamic_cast<Pulser*>(O);
     if(!priv->pulser)
         throw std::runtime_error("Failed to lookup device");
 

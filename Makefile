@@ -2,8 +2,7 @@
 #Makefile at top of application tree
 TOP = .
 include $(TOP)/configure/CONFIG
-#DIRS := configure mrfCommon evrApp mrmShared evgMrmApp  evrMrmApp mrfApp iocBoot
-DIRS := configure mrfCommon evrApp # temporarily only build a sub set, other build are broken
+DIRS := configure mrfCommon evrApp mrmShared evgMrmApp  evrMrmApp mrfApp iocBoot
 
 # 3.14.10 style directory dependencies
 # previous versions will just ignore them

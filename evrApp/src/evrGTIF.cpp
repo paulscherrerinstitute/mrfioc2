@@ -22,7 +22,7 @@
 #include <epicsExport.h>
 
 #include "mrf/object.h"
-#include "evrMrm.h"
+#include "evr/evr.h"
 #include "evrGTIF.h"
 
 struct priv {
@@ -32,7 +32,7 @@ struct priv {
     priv(epicsTimeStamp *t, int e) : ok(epicsTimeERROR), ts(t), event(e) {}
 };
 
-static EVRMRM* lastSrc = 0;
+static EVR* lastSrc = 0;
 
 static epicsMutexId lastLock;
 
@@ -49,7 +49,7 @@ int EVRInitTime()
 static
 bool visitTime(mrf::Object* obj, void* raw)
 {
-    EVRMRM *evr = dynamic_cast<EVRMRM*>(obj);
+    EVR *evr = dynamic_cast<EVR*>(obj);
     if(!evr)
         return true;
 
