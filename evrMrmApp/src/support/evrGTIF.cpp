@@ -29,7 +29,12 @@ struct priv {
     int ok;
     epicsTimeStamp *ts;
     int event;
+#if (EPICS_VERSION_INT >= VERSION_INT(3,16,0,1))
+    priv(epicsTimeStamp *t, int e) : ok(S_time_unsynchronized), ts(t), event(e) {}
+#else
     priv(epicsTimeStamp *t, int e) : ok(epicsTimeERROR), ts(t), event(e) {}
+#endif
+
 };
 
 static EVRMRM* lastSrc = 0;
@@ -83,7 +88,11 @@ try {
 } catch (std::exception& e) {
     epicsMutexUnlock(lastLock);
     epicsPrintf("EVREventTime failed: %s\n", e.what());
+#if (EPICS_VERSION_INT >= VERSION_INT(3,16,0,1))
+    return S_time_unsynchronized;
+#else
     return epicsTimeERROR;
+#endif
 }
 }
 
