@@ -23,7 +23,7 @@
 
 
 EvrOutput::EvrOutput(const std::string& n, EVRMRM* o, OutputType t, size_t idx)
-    :mrf::ObjectInst<EvrOutput>(n)
+    :Output(n)
     ,owner(o)
     ,type(t)
     ,N(idx)

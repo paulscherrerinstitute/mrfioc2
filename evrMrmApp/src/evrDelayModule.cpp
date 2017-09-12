@@ -8,7 +8,7 @@
 
 
 EvrDelayModule::EvrDelayModule(const std::string& n, EVRMRM* o, size_t idx)
-    :mrf::ObjectInst<EvrDelayModule>(n)
+    :DelayModuleEvr(n)
     ,N_(idx)
     ,gpio_(o->gpio())
     ,dly0_(0)

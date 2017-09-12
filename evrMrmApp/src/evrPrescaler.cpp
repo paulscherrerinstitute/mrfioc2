@@ -18,7 +18,7 @@
 #define BIT_MASK_16_shift 16
 
 EvrPrescaler::EvrPrescaler(const std::string& n, volatile epicsUInt8 * b, size_t i)
-    :mrf::ObjectInst<EvrPrescaler>(n)
+    :PreScaler(n)
     ,base(b)
     ,id(i)
 {

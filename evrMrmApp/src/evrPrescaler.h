@@ -11,12 +11,12 @@
 #ifndef EVRPRESCALER_H_INC
 #define EVRPRESCALER_H_INC
 
-#include "mrf/object.h"
 #include <epicsTypes.h>
 
-#include "evr/util.h"
+#include "evr/prescaler.h"
+#include "evr/evr.h"
 
-class EvrPrescaler : public mrf::ObjectInst<EvrPrescaler>
+class EvrPrescaler : public PreScaler
 {
 public:
     EvrPrescaler(const std::string& n, volatile epicsUInt8 * b, size_t i);

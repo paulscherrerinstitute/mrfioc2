@@ -103,6 +103,60 @@ extern "C" {
 static
 const double fracref=24.0; // MHz
 
+OBJECT_BEGIN(EVRMRM) {
+
+    OBJECT_PROP2("dc enabled", &EVRMRM::isDelayCompensationEnabled, &EVRMRM::setDelayCompensationEnabled);
+    OBJECT_PROP2("dc tv", &EVRMRM::delayCompensationTarget, &EVRMRM::setDelayCompensationTarget);
+    OBJECT_PROP1("dc tpd", &EVRMRM::delayCompensationRxValue);
+    OBJECT_PROP1("dc id", &EVRMRM::delayCompensationIntValue);
+    OBJECT_PROP1("dc path delay valid", &EVRMRM::delayCompensationPathValid);
+    OBJECT_PROP1("dc delay setting status", &EVRMRM::delayCompensationDelaySetting);
+    OBJECT_PROP1("dc locked", &EVRMRM::delayCompensationLocked);
+    OBJECT_PROP1("Topology ID", &EVRMRM::getTopologyId);
+
+    OBJECT_PROP1("CG Lock Status", &EVRMRM::cgLocked);
+    OBJECT_PROP1("PLL Lock Status", &EVRMRM::pllLocked);
+    OBJECT_PROP2("PLL Bandwidth", &EVRMRM::pllBandwidthRaw, &EVRMRM::setPllBandwidthRaw);
+    OBJECT_PROP2("Event Clock Mode", &EVRMRM::evtClkModeRaw, &EVRMRM::setEvtClkModeRaw);
+
+    OBJECT_PROP1("Interrupt Count", &EVRMRM::irqCount);
+
+    OBJECT_PROP1("DBus status", &EVRMRM::dbus);
+    OBJECT_PROP2("DBus Pulser Map 0", &EVRMRM::dbusToPulserMapping0, &EVRMRM::setDbusToPulserMapping0);
+    OBJECT_PROP2("DBus Pulser Map 1", &EVRMRM::dbusToPulserMapping1, &EVRMRM::setDbusToPulserMapping1);
+    OBJECT_PROP2("DBus Pulser Map 2", &EVRMRM::dbusToPulserMapping2, &EVRMRM::setDbusToPulserMapping2);
+    OBJECT_PROP2("DBus Pulser Map 3", &EVRMRM::dbusToPulserMapping3, &EVRMRM::setDbusToPulserMapping3);
+    OBJECT_PROP2("DBus Pulser Map 4", &EVRMRM::dbusToPulserMapping4, &EVRMRM::setDbusToPulserMapping4);
+    OBJECT_PROP2("DBus Pulser Map 5", &EVRMRM::dbusToPulserMapping5, &EVRMRM::setDbusToPulserMapping5);
+    OBJECT_PROP2("DBus Pulser Map 6", &EVRMRM::dbusToPulserMapping6, &EVRMRM::setDbusToPulserMapping6);
+    OBJECT_PROP2("DBus Pulser Map 7", &EVRMRM::dbusToPulserMapping7, &EVRMRM::setDbusToPulserMapping7);
+
+} OBJECT_END(EVRMRM)
+
+OBJECT_BEGIN(EvrSequencer) {
+
+    OBJECT_PROP2("Events", &EvrSequencer::getSequenceEvents, &EvrSequencer::setSequenceEvents);
+    OBJECT_PROP2("Timestamps", &EvrSequencer::getSequenceTimestamp, &EvrSequencer::setSequenceTimestamp);
+    OBJECT_PROP2("Trigger source", &EvrSequencer::getTriggerSource, &EvrSequencer::setTriggerSource);
+    OBJECT_PROP2("Run mode", &EvrSequencer::getRunModeRaw, &EvrSequencer::setRunModeRaw);
+    OBJECT_PROP2("Enable", &EvrSequencer::enabled, &EvrSequencer::enable);
+
+    OBJECT_PROP1("Soft trigger", &EvrSequencer::softTrigger);
+    OBJECT_PROP1("Commit", &EvrSequencer::commit);
+    OBJECT_PROP1("Reset", &EvrSequencer::reset);
+    //OBJECT_PROP1("Running", &EvrSequencer::running);
+
+    OBJECT_PROP1("Sequence valid", &EvrSequencer::sequenceValid);
+    OBJECT_PROP1("Sequence valid", &EvrSequencer::sequenceValidOccured);
+
+    OBJECT_PROP1("SOS", &EvrSequencer::sosCount);
+    OBJECT_PROP1("SOS", &EvrSequencer::sosOccured);
+
+    OBJECT_PROP1("EOS", &EvrSequencer::eosCount);
+    OBJECT_PROP1("EOS", &EvrSequencer::eosOccured);
+
+} OBJECT_END(EvrSequencer)
+
 EVRMRM::EVRMRM(const std::string& n,
                mrmDeviceInfo &devInfo,
                volatile epicsUInt8* b,

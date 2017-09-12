@@ -18,7 +18,7 @@
 #include "evrInput.h"
 
 EvrInput::EvrInput(const std::string& n, volatile unsigned char *b, size_t i)
-  :mrf::ObjectInst<EvrInput>(n)
+  :Input(n)
   ,base(b)
   ,idx(i)
 {

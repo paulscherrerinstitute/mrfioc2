@@ -52,13 +52,6 @@
 #include "dataBuffer/mrmDataBuffer_230.h"
 #include "dataBuffer/mrmDataBufferObj.h"
 
-
-enum TSSource {
-  TSSourceInternal=0,
-  TSSourceEvent=1,
-  TSSourceDBus4=2
-};
-
 enum EvtClkMode {
   ECModeUpFallBackSame = 0,
   ECModeFracSynt,

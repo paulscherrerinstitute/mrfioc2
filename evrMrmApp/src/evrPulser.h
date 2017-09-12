@@ -16,19 +16,11 @@
 #include <epicsTypes.h>
 #include <string>
 
-#include "evr/util.h"
+#include "evr/pulser.h"
 
 
 class EVRMRM;
 
-struct MapType {
-  enum type {
-    None=0,
-    Trigger,
-    Reset,
-    Set
-  };
-};
 
 /**@brief A programmable delay unit.
  *
@@ -39,7 +31,7 @@ struct MapType {
  * Gated mode has two event codes.  One is sets the output
  * high and the second resets the output low.
  */
-class EvrPulser : public mrf::ObjectInst<EvrPulser>, public IOStatus
+class EvrPulser : public Pulser
 {
     const size_t id;
     EVRMRM& owner;

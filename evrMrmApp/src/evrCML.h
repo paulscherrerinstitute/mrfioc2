@@ -11,35 +11,17 @@
 #ifndef EVRCML_H_INC
 #define EVRCML_H_INC
 
-#include "mrf/object.h"
 #include <epicsTypes.h>
 
-#include "evr/util.h"
-
-#include "evrRegMap.h"
-#include "mrmShared.h"
+#include "evr/cml.h"
 
 class EVRMRM;
 class mrmDeviceInfo;
 
-enum cmlMode {
-  cmlModeOrig,
-  cmlModeFreq,
-  cmlModePattern,
-  cmlModeInvalid
-};
-
-class EvrCML : public mrf::ObjectInst<EvrCML>, public IOStatus
+class EvrCML : public CML
 {
 public:
     enum outkind { typeCML, typeTG300, typeTG203 };
-    enum pattern {
-      patternWaveform,
-      patternRise,
-      patternHigh,
-      patternFall,
-      patternLow
-    };
 
     EvrCML(const std::string&, size_t, EVRMRM&, outkind);
     ~EvrCML();

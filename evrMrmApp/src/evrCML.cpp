@@ -22,7 +22,7 @@
 #include "evrCML.h"
 
 EvrCML::EvrCML(const std::string& n, size_t i, EVRMRM& o, outkind k)
-  :mrf::ObjectInst<EvrCML>(n)
+  :CML(n)
   ,base(o.base)
   ,N(i)
   ,owner(o)

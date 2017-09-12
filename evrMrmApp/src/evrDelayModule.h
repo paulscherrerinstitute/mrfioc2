@@ -1,16 +1,16 @@
 #ifndef EVRDELAYMODULE_H_INC
 #define EVRDELAYMODULE_H_INC
 
-#include "mrf/object.h"
-
 #include <epicsGuard.h>
 #include <epicsTypes.h>
+
+#include "evr/delay.h"
 
 #include "evrGpio.h"
 
 class EVRMRM;
 
-class EvrDelayModule : public mrf::ObjectInst<EvrDelayModule>
+class EvrDelayModule : public DelayModuleEvr
 {
 public:
     EvrDelayModule(const std::string&, EVRMRM*, size_t);

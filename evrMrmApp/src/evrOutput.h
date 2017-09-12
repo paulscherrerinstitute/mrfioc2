@@ -11,22 +11,12 @@
 #ifndef EVROUTPUT_H_INC
 #define EVROUTPUT_H_INC
 
-#include "mrf/object.h"
 #include <epicsTypes.h>
 
-#include "evr/util.h"
-#include "mrmShared.h"
+#include "evr/output.h"
 
 class EVRMRM;
 class mrmDeviceInfo;
-
-enum OutputType {
-  OutputInt=0, //!< Internal
-  OutputFP=1,  //!< Front Panel
-  OutputFPUniv=2, //!< FP Universal
-  OutputRB=3 //!< Rear Breakout
-};
-
 
 /**
  * Controls only the single output mapping register
@@ -35,7 +25,7 @@ enum OutputType {
  * This class is reused by other subunits which
  * have identical mapping registers.
  */
-class EvrOutput : public mrf::ObjectInst<EvrOutput>, public IOStatus
+class EvrOutput : public Output
 {
 public:
   EvrOutput(const std::string& n, EVRMRM* owner, OutputType t, size_t idx);

@@ -46,6 +46,7 @@ SOURCES+=mrmShared/src/dataBuffer/mrmDataBufferType.cpp
 SOURCES+=mrmShared/src/mrmDeviceInfo.cpp
 SOURCES+=mrmShared/src/mrmSoftEvent.cpp
 
+#SOURCES+=evrMrmApp/src/evr.cpp
 SOURCES+=evrMrmApp/src/evrPulser.cpp
 SOURCES+=evrMrmApp/src/evrIocsh.cpp
 SOURCES+=evrMrmApp/src/evrMrm.cpp
@@ -55,6 +56,9 @@ SOURCES+=evrMrmApp/src/evrPrescaler.cpp
 SOURCES+=evrMrmApp/src/evrCML.cpp
 SOURCES+=evrMrmApp/src/evrOutput.cpp
 SOURCES+=evrMrmApp/src/evrSequencer.cpp
+SOURCES+=evrMrmApp/src/evrGpio.cpp
+SOURCES+=evrMrmApp/src/evrDelayModule.cpp
+
 SOURCES+=evgMrmApp/src/evgSequencer/evgSeqRam.cpp
 SOURCES+=evgMrmApp/src/evgSequencer/evgSoftSeq.cpp
 SOURCES+=evgMrmApp/src/evgSequencer/evgSeqRamManager.cpp
@@ -75,6 +79,7 @@ SOURCES+=evgMrmApp/src/evgMrm.cpp
 SOURCES+=evgMrmApp/src/evg.cpp
 SOURCES+=evgMrmApp/src/evgInit.cpp
 SOURCES+=evgMrmApp/src/evgFct.cpp
+
 SOURCES+=mrfCommon/src/mrfCommon.cpp
 SOURCES+=mrfCommon/src/devObjMBBDirect.cpp
 SOURCES+=mrfCommon/src/devObjWf.cpp
@@ -85,9 +90,6 @@ SOURCES+=mrfCommon/src/devObjString.cpp
 SOURCES+=mrfCommon/src/devObjBinary.cpp
 SOURCES+=mrfCommon/src/objectTest.cpp
 SOURCES+=mrfCommon/src/devObjMBB.cpp
-
-SOURCES+=evrMrmApp/src/evrGpio.cpp
-SOURCES+=evrMrmApp/src/evrDelayModule.cpp
 
 DBDS+=evrApp/src/evrSupport.dbd
 DBDS+=evgMrmApp/src/evgInit.dbd

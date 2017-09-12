@@ -26,7 +26,7 @@
 #include "evrPulser.h"
 
 EvrPulser::EvrPulser(const std::string& n, EVRMRM& o, size_t i)
-  :mrf::ObjectInst<EvrPulser>(n)
+  :Pulser(n)
   ,id(i)
   ,owner(o)
 {

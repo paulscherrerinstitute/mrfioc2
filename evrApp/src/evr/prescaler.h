@@ -21,13 +21,11 @@ class epicsShareClass EVR;
 class epicsShareClass PreScaler : public mrf::ObjectInst<PreScaler>, public IOStatus
 {
 public:
-  PreScaler(const std::string& n, EVR& o):mrf::ObjectInst<PreScaler>(n),owner(o){};
+  PreScaler(const std::string& n):mrf::ObjectInst<PreScaler>(n){};
   virtual ~PreScaler()=0;
 
   virtual epicsUInt32 prescaler() const=0;
   virtual void setPrescaler(epicsUInt32)=0;
-
-  EVR& owner;
 };
 
 #endif // PRESCALER_HPP_INC

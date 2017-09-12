@@ -15,15 +15,7 @@
 #include "mrf/object.h"
 #include <epicsTypes.h>
 
-#include "evr/util.h"
-
-
-enum TrigMode {
-  TrigNone=0,
-  TrigLevel=1,
-  TrigEdge=2
-};
-
+#include "evr/input.h"
 
 /**
  * Controls only the single output mapping register
@@ -32,7 +24,7 @@ enum TrigMode {
  * This class is reused by other subunits which
  * have identical mapping registers.
  */
-class EvrInput : public mrf::ObjectInst<EvrInput>, public IOStatus
+class EvrInput : public Input
 {
 public:
     EvrInput(const std::string& n, volatile epicsUInt8 *, size_t);
