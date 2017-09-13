@@ -35,7 +35,6 @@ INC += evrSequencer.h
 #evrMrm_SRCS_DEFAULT += ntpShmNull.cpp => evrApp/src
 
 evrMrm_SRCS += evrIocsh.c
-evrMrm_SRCS += evr.cpp
 evrMrm_SRCS += evrMrm.cpp
 evrMrm_SRCS += evrOutput.cpp
 evrMrm_SRCS += evrInput.cpp
