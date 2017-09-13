@@ -103,6 +103,8 @@ extern "C" {
 static
 const double fracref=24.0; // MHz
 
+// TODO BY84
+#if 0
 OBJECT_BEGIN(EVRMRM) {
 
     OBJECT_PROP2("dc enabled", &EVRMRM::isDelayCompensationEnabled, &EVRMRM::setDelayCompensationEnabled);
@@ -132,6 +134,7 @@ OBJECT_BEGIN(EVRMRM) {
     OBJECT_PROP2("DBus Pulser Map 7", &EVRMRM::dbusToPulserMapping7, &EVRMRM::setDbusToPulserMapping7);
 
 } OBJECT_END(EVRMRM)
+#endif
 
 OBJECT_BEGIN(EvrSequencer) {
 
@@ -157,11 +160,13 @@ OBJECT_BEGIN(EvrSequencer) {
 
 } OBJECT_END(EvrSequencer)
 
+// TODO BY84: busConf info is passed twice
 EVRMRM::EVRMRM(const std::string& n,
                mrmDeviceInfo &devInfo,
+               struct bus_configuration busConf,
                volatile epicsUInt8* b,
                volatile epicsUInt8* evgBase)
-  :mrf::ObjectInst<EVRMRM>(n)
+  :EVR(n, busConf)
   ,evrLock()
   ,id(n)
   ,base(b)
@@ -528,13 +533,28 @@ EVRMRM::cleanup()
     printf("complete\n");
 }
 
+// TODO BY84: harmonize between vanilla and psi
+#if 0
 epicsUInt32 EVRMRM::model() const
 {
     return m_deviceInfo.getFormFactor();
 }
+#endif
 
+std::string EVRMRM::model() const
+{
+  std::string model ("Ferrari");
+
+  return model;
+}
+
+// TODO BY84: can we get rid of one (versionFw vs version)
 epicsUInt32 EVRMRM::versionFw() const
 {
+    return m_deviceInfo.getFirmwareVersion();
+}
+
+epicsUInt32 EVRMRM::version() const {
     return m_deviceInfo.getFirmwareVersion();
 }
 
@@ -691,6 +711,12 @@ epicsUInt16 EVRMRM::delayCompensationDelaySetting() const
 
 epicsUInt32 EVRMRM::getTopologyId() const{
     return READ32(base, TopologyID);
+}
+
+// TODO: implement
+bool EVRMRM::mappedOutputState() const
+{
+  return false;
 }
 
 bool

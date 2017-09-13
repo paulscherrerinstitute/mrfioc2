@@ -506,7 +506,23 @@ mrmEvrSetupPCI(const char* id,      // Card Identifier
 
         // Install ISR
 
-        EVRMRM *receiver=new EVRMRM(id,*deviceInfo,evr, NULL);
+        // TODO BY84
+        struct bus_configuration bus_config;
+        mrmDeviceInfo::busConfigurationT bus_config_src;
+        bus_config_src = deviceInfo->getBusConfiguration();
+        bus_config.vme.slot = bus_config_src.vme.slot;
+        bus_config.vme.address = bus_config_src.vme.address;
+        bus_config.vme.irqLevel = bus_config_src.vme.irqLevel;
+        bus_config.vme.irqVector = bus_config_src.vme.irqVector;
+        bus_config.vme.position = bus_config_src.vme.position;
+
+        bus_config.pci.bus = bus_config_src.pci.bus;
+        bus_config.pci.device = bus_config_src.pci.device;
+        bus_config.pci.function = bus_config_src.pci.function;
+
+        bus_config.busType = (busType) bus_config_src.busType;
+
+        EVRMRM *receiver=new EVRMRM(id,*deviceInfo, bus_config, evr, NULL);
 
         void *arg=receiver;
         receiver->pciDevice = cur;
@@ -768,7 +784,23 @@ mrmEvrSetupVME(const char* id,      // Card Identifier
 
         NAT_WRITE32(evr, IRQEnable, 0); // Disable interrupts
 
-        EVRMRM *receiver=new EVRMRM(id, *deviceInfo, evr, NULL);
+        // TODO BY84
+        struct bus_configuration bus_config;
+        mrmDeviceInfo::busConfigurationT bus_config_src;
+        bus_config_src = deviceInfo->getBusConfiguration();
+        bus_config.vme.slot = bus_config_src.vme.slot;
+        bus_config.vme.address = bus_config_src.vme.address;
+        bus_config.vme.irqLevel = bus_config_src.vme.irqLevel;
+        bus_config.vme.irqVector = bus_config_src.vme.irqVector;
+        bus_config.vme.position = bus_config_src.vme.position;
+
+        bus_config.pci.bus = bus_config_src.pci.bus;
+        bus_config.pci.device = bus_config_src.pci.device;
+        bus_config.pci.function = bus_config_src.pci.function;
+
+        bus_config.busType = (busType) bus_config_src.busType;
+
+        EVRMRM *receiver=new EVRMRM(id, *deviceInfo, bus_config, evr, NULL);
 
         if(!ignoreVersion && level>0 && vector>=0) {
             CSRWrite8(user_csr+UCSR_IRQ_LEVEL,  level&0x7);
@@ -1146,7 +1178,23 @@ static void mrmEvrSetupEmbeddedCallFunc(const iocshArgBuf *args) {
     deviceInfo->setEmbeddedFormFactor();
     checkVersion(deviceInfo);
 
-    new EVRMRM(evrName, *deviceInfo, evg->getRegAddr() + memoryOffset, evg->getRegAddr());
+    // TODO BY84
+    struct bus_configuration bus_config;
+    mrmDeviceInfo::busConfigurationT bus_config_src;
+    bus_config_src = deviceInfo->getBusConfiguration();
+    bus_config.vme.slot = bus_config_src.vme.slot;
+    bus_config.vme.address = bus_config_src.vme.address;
+    bus_config.vme.irqLevel = bus_config_src.vme.irqLevel;
+    bus_config.vme.irqVector = bus_config_src.vme.irqVector;
+    bus_config.vme.position = bus_config_src.vme.position;
+
+    bus_config.pci.bus = bus_config_src.pci.bus;
+    bus_config.pci.device = bus_config_src.pci.device;
+    bus_config.pci.function = bus_config_src.pci.function;
+
+    bus_config.busType = (busType) bus_config_src.busType;
+
+    new EVRMRM(evrName, *deviceInfo, bus_config, evg->getRegAddr() + memoryOffset, evg->getRegAddr());
 }
 
 /******************/

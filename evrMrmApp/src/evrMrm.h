@@ -112,7 +112,7 @@ struct eventCode {
  *
  *
  */
-class epicsShareClass EVRMRM : public mrf::ObjectInst<EVRMRM>
+class epicsShareClass EVRMRM : public EVR
 {
 public:
     /** @brief Guards access to instance
@@ -122,7 +122,7 @@ public:
     mutable epicsMutex evrLock;
 
 
-    EVRMRM(const std::string& n, mrmDeviceInfo &devInfo, volatile epicsUInt8 *, volatile epicsUInt8 *evgBase);
+    EVRMRM(const std::string& n, mrmDeviceInfo &devInfo, struct bus_configuration busConf, volatile epicsUInt8 *, volatile epicsUInt8 *evgBase);
 
     ~EVRMRM();
 private:
@@ -133,11 +133,14 @@ public:
     void unlock() const{evrLock.unlock();};
 
     //! Hardware model
-    epicsUInt32 model() const;
+    //epicsUInt32 model() const; // TODO
+    virtual std::string model() const;
+
     epicsUInt32 versionFw() const;
     mrmDeviceInfo* getDeviceInfo();
 
     //! Firmware Version
+    virtual epicsUInt32 version() const;
 
     //! Software Version -> from version.h
     std::string versionSw() const;
@@ -174,6 +177,7 @@ public:
     epicsUInt16 delayCompensationDelaySetting() const;
     epicsUInt32 getTopologyId() const;
 
+    virtual bool mappedOutputState() const;
     /** Hook to handle general event mapping table manipulation.
      *  Allows 'special' events only (ie heartbeat, log, led, etc)
      *  Normal mappings (pulsers, outputs) must be made through the
