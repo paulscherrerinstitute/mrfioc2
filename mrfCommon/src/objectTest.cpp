@@ -7,6 +7,8 @@
 #include "epicsExport.h"
 
 #include "mrf/object.h"
+
+namespace {
 using namespace mrf;
 
 class mine : public ObjectInst<mine>
@@ -15,8 +17,9 @@ public:
     int ival;
     double dval;
     std::vector<double> darr;
+    unsigned count;
 
-    mine(const std::string& n) : ObjectInst<mine>(n), ival(0), dval(0.0)
+    mine(const std::string& n) : ObjectInst<mine>(n), ival(0), dval(0.0), count(0)
     {}
 
     /* no locking needed */
@@ -41,18 +44,32 @@ public:
         darr.resize(l);
         std::copy(v, v+l, darr.begin());
     }
+
+    void incr() { count++; }
 };
 
-OBJECT_BEGIN(mine)
-OBJECT_PROP2("I",   &mine::getI,    &mine::setI);
-OBJECT_PROP2("val", &mine::getI,    &mine::setI);
-OBJECT_PROP2("val", &mine::val,     &mine::setVal);
-OBJECT_PROP2("darr",&mine::getdarr, &mine::setdarr);
-OBJECT_END(mine)
-
-MAIN(objectTest)
+class other : public ObjectInst<other, mine>
 {
-    testPlan(0);
+    typedef ObjectInst<other, mine> base_t;
+public:
+    other(const std::string& n) : base_t(n) {}
+    virtual ~other() {}
+
+    int getX() const { return 42;}
+
+    static Object* buildOne(const std::string& name, const std::string& klass, const Object::create_args_t& args);
+};
+
+Object*
+other::buildOne(const std::string& name, const std::string& klass, const Object::create_args_t& args)
+{
+    return new other(name);
+}
+
+
+void testMine()
+{
+    testDiag("In testMine()");
     mine m("test");
 
     testOk1(m.getI()==0);
@@ -119,5 +136,97 @@ MAIN(objectTest)
     testOk1(p!=NULL);
     testOk1(p==o);
 
+    {
+        testOk1(m.count==0);
+        std::auto_ptr<property<void> > incr(o->getProperty<void>("incr"));
+        testOk1(incr.get()!=NULL);
+        if(incr.get()) {
+            incr->exec();
+        }
+        testOk1(m.count==1);
+    }
+}
+
+void testOther()
+{
+    testDiag("In testOther()");
+    other m("foo");
+
+    std::auto_ptr<property<double> > V=m.getProperty<double>("val");
+    testOk1(V.get()!=NULL);
+
+    std::auto_ptr<property<int> > I=m.getProperty<int>("I");
+    testOk1(I.get()!=NULL);
+
+    std::auto_ptr<property<double[1]> > A=m.getProperty<double[1]>("darr");
+    testOk1(A.get()!=NULL);
+
+    std::auto_ptr<property<int> > X=m.getProperty<int>("X");
+    testOk1(X.get()!=NULL);
+
+    if(X.get())
+        testOk1(X->get()==42);
+    else
+        testSkip(1, "NULL");
+}
+
+void testOther2()
+{
+    testDiag("In testOther2()");
+    other m("foo");
+    Object *o = &m;
+
+    std::auto_ptr<property<double> > V=o->getProperty<double>("val");
+    testOk1(V.get()!=NULL);
+
+    std::auto_ptr<property<int> > I=o->getProperty<int>("I");
+    testOk1(I.get()!=NULL);
+
+    std::auto_ptr<property<double[1]> > A=o->getProperty<double[1]>("darr");
+    testOk1(A.get()!=NULL);
+
+    std::auto_ptr<property<int> > X=o->getProperty<int>("X");
+    testOk1(X.get()!=NULL);
+}
+
+void testFactory()
+{
+    testDiag("In testFactory()");
+    other m("HelloWorld");
+
+    testOk1(Object::getObject("NoOnesHome")==NULL);
+    testOk1(Object::getObject("HelloWorld")==&m);
+
+    testOk1(Object::getCreateObject("HelloWorld", "other")==&m);
+
+    Object *built = Object::getCreateObject("AnotherOne", "other");
+    testOk1(built!=NULL);
+
+    testOk1(built==Object::getObject("AnotherOne"));
+    testOk1(built==Object::getCreateObject("AnotherOne", "other"));
+}
+
+} // namespace
+
+OBJECT_BEGIN(mine)
+OBJECT_PROP2("I",   &mine::getI,    &mine::setI);
+OBJECT_PROP2("val", &mine::getI,    &mine::setI);
+OBJECT_PROP2("val", &mine::val,     &mine::setVal);
+OBJECT_PROP2("darr",&mine::getdarr, &mine::setdarr);
+OBJECT_PROP1("incr", &mine::incr);
+OBJECT_END(mine)
+
+OBJECT_BEGIN2(other, mine)
+OBJECT_PROP1("X", &other::getX);
+OBJECT_FACTORY(other::buildOne);
+OBJECT_END(other)
+
+MAIN(objectTest)
+{
+    testPlan(39);
+    testMine();
+    testOther();
+    testOther2();
+    testFactory();
     return testDone();
 }

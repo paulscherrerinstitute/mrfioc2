@@ -112,7 +112,7 @@ struct eventCode {
  *
  *
  */
-class epicsShareClass EVRMRM : public EVR
+class epicsShareClass EVRMRM : public mrf::ObjectInst<EVRMRM, EVR>
 {
 public:
     /** @brief Guards access to instance

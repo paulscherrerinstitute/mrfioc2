@@ -46,6 +46,10 @@
 #ifndef MRF_COMMON_H
 #define MRF_COMMON_H
 
+#ifdef __cplusplus
+#include <sstream>
+#endif
+
 /**************************************************************************************************/
 /*  Include Header Files from the Common Utilities                                                */
 /**************************************************************************************************/
@@ -71,6 +75,7 @@
 
 #define MRF_NUM_EVENTS              256        /* Number of possible events                       */
 #define MRF_EVENT_FIFO_SIZE         512        /* Size of EVR/EVG event FIFO                      */
+#define MRF_MAX_DATA_BUFFER        2048        /* Maximum size of the distributed data buffer     */
 #define MRF_FRAC_SYNTH_REF         24.0        /* Fractional Synth reference frequency (MHz).     */
 #define MRF_DEF_CLOCK_SPEED       125.0        /* Default event clock speed is 125 MHz.           */
 #define MRF_SN_BYTES                  6        /* Number of bytes in serial number                */
@@ -178,6 +183,17 @@ public:
     { epicsInterruptUnlock(key); }
 };
 
+
+// inline string builder
+//  std::string X(SB()<<"test "<<4);
+struct SB {
+    std::ostringstream strm;
+    SB() {}
+    operator std::string() const { return strm.str(); }
+    template<typename T>
+    SB& operator<<(T i) { strm<<i; return *this; }
+};
+
 #endif /* __cplusplus */
 
 /**************************************************************************************************/
@@ -266,5 +282,6 @@ epicsShareFunc char *allocSNPrintf(size_t N, const char *fmt, ...) EPICS_PRINTF_
 
 #endif /*EPICS 64-bit integer types need defining*/
 #endif
+
 
 #endif

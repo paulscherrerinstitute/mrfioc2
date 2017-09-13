@@ -104,8 +104,8 @@ static
 const double fracref=24.0; // MHz
 
 // TODO BY84
-#if 0
-OBJECT_BEGIN(EVRMRM) {
+#if 1
+OBJECT_BEGIN2(EVRMRM, EVR) {
 
     OBJECT_PROP2("dc enabled", &EVRMRM::isDelayCompensationEnabled, &EVRMRM::setDelayCompensationEnabled);
     OBJECT_PROP2("dc tv", &EVRMRM::delayCompensationTarget, &EVRMRM::setDelayCompensationTarget);
@@ -166,7 +166,7 @@ EVRMRM::EVRMRM(const std::string& n,
                struct bus_configuration busConf,
                volatile epicsUInt8* b,
                volatile epicsUInt8* evgBase)
-  :EVR(n, busConf)
+  :mrf::ObjectInst<EVRMRM, EVR>(n, busConf)
   ,evrLock()
   ,id(n)
   ,base(b)
