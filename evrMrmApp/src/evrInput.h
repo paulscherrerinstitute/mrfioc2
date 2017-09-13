@@ -24,7 +24,7 @@
  * This class is reused by other subunits which
  * have identical mapping registers.
  */
-class EvrInput : public Input
+class EvrInput : public mrf::ObjectInst<EvrInput, Input>
 {
 public:
     EvrInput(const std::string& n, volatile epicsUInt8 *, size_t);

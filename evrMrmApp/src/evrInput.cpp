@@ -17,8 +17,12 @@
 #include "evrRegMap.h"
 #include "evrInput.h"
 
+OBJECT_BEGIN2(EvrInput, Input)
+    OBJECT_PROP1("State", &EvrInput::state);
+OBJECT_END(EvrInput)
+
 EvrInput::EvrInput(const std::string& n, volatile unsigned char *b, size_t i)
-  :Input(n)
+  :mrf::ObjectInst<EvrInput, Input>(n)
   ,base(b)
   ,idx(i)
 {
