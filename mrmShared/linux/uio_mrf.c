@@ -8,6 +8,17 @@
 #include <linux/proc_fs.h>
 #include <linux/seq_file.h>
 
+/* handle macros that are obsolete in 3.x kernels */
+#ifndef VM_RESERVED
+#define VM_RESERVED (VM_DONTEXPAND | VM_DONTDUMP)
+#endif
+#ifndef __devinit
+#define __devinit
+#define __devinitdata
+#define __devexit
+#define __devexit_p
+#endif
+
 #define DRV_NAME "mrf-pci"
 #define DRV_VERSION "1"
 

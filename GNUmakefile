@@ -11,7 +11,7 @@ MODULE=mrfioc2
 BUILDCLASSES=Linux
 EXCLUDE_VERSIONS=3.13 3.14.8
 # build for IFC, PPMAC, PC
-ARCH_FILTER=eldk52-e500v2 eldk42-ppc4xxFP SL%
+ARCH_FILTER=eldk52-e500v2 eldk42-ppc4xxFP SL% RHEL%
 #ARCH_FILTER=eldk42-ppc4xxFP
 #ARCH_FILTER=eldk52-e500v2
 #ARCH_FILTER=SL%
@@ -154,16 +154,7 @@ TEMPLATES += mrmShared/Db/sfp.template
 TEMPLATES += PSI/Db/evr-BeamOK.template
 
 ## GENERIC STARTUP SCRIPTS ##
-SCRIPTS += PSI/mrfioc2_evr-PCIe.cmd
-SCRIPTS += PSI/mrfioc2_evr-VME.cmd
-SCRIPTS += PSI/mrfioc2_evr-embedded.cmd
-SCRIPTS += PSI/mrfioc2_evg-VME.cmd
-
-## SCRIPTS FOR LOADING KERNEL MODULES
-SCRIPTS += PSI/loadKernelModule.sh
-SCRIPTS += PSI/SL6-x86_64.cmd
-SCRIPTS += PSI/SL6-x86.cmd
-SCRIPTS += PSI/eldk42-ppc4xxFP.cmd
+SCRIPTS += $(wildcard PSI/*.cmd PSI/*.sh)
 
 db: dbclean dbexpand
 

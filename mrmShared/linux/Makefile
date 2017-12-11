@@ -10,7 +10,7 @@ else
   KERNELDIR ?= /lib/modules/$(shell uname -r)/build
   PWD := $(shell pwd)
 
-default: modules ifc ppmac clean
+default: myclean ifc ppmac modules
 
 modules modules_install clean:
 	$(MAKE) -C $(KERNELDIR) M=$(PWD) $@
