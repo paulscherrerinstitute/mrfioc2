@@ -26,7 +26,7 @@
     <enum>EPushButton::WidthAndHeight</enum>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat:$(PAT)00_15-SP.B7</string>
+    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat_$(PAT)00_15-SP.B7</string>
    </property>
    <property name="label">
     <string notr="true">ON</string>
@@ -71,7 +71,7 @@
     <enum>EPushButton::WidthAndHeight</enum>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat:$(PAT)00_15-SP.B8</string>
+    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat_$(PAT)00_15-SP.B8</string>
    </property>
    <property name="label">
     <string notr="true">ON</string>
@@ -100,7 +100,7 @@
     <enum>EPushButton::WidthAndHeight</enum>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat:$(PAT)16_31-SP.BD</string>
+    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat_$(PAT)16_31-SP.BD</string>
    </property>
    <property name="label">
     <string notr="true">OFF</string>
@@ -129,7 +129,7 @@
     <enum>EPushButton::WidthAndHeight</enum>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat:$(PAT)00_15-SP.B9</string>
+    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat_$(PAT)00_15-SP.B9</string>
    </property>
    <property name="label">
     <string notr="true">ON</string>
@@ -158,7 +158,7 @@
     <enum>EPushButton::WidthAndHeight</enum>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat:$(PAT)16_31-SP.BC</string>
+    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat_$(PAT)16_31-SP.BC</string>
    </property>
    <property name="label">
     <string notr="true">ON</string>
@@ -184,7 +184,7 @@
     </rect>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat:$(PAT)16_31-SP</string>
+    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat_$(PAT)16_31-SP</string>
    </property>
    <property name="direction">
     <enum>caByte::Left</enum>
@@ -209,7 +209,7 @@
     <enum>EPushButton::WidthAndHeight</enum>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat:$(PAT)00_15-SP.B6</string>
+    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat_$(PAT)00_15-SP.B6</string>
    </property>
    <property name="label">
     <string notr="true">ON</string>
@@ -235,7 +235,7 @@
     </rect>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat:$(PAT)00_15-SP</string>
+    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat_$(PAT)00_15-SP</string>
    </property>
    <property name="direction">
     <enum>caByte::Left</enum>
@@ -257,7 +257,7 @@
     </rect>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat:$(PAT)00_15-SP</string>
+    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat_$(PAT)00_15-SP</string>
    </property>
    <property name="direction">
     <enum>caByte::Left</enum>
@@ -282,7 +282,7 @@
     <enum>EPushButton::WidthAndHeight</enum>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat:$(PAT)00_15-SP.B7</string>
+    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat_$(PAT)00_15-SP.B7</string>
    </property>
    <property name="label">
     <string notr="true">OFF</string>
@@ -311,7 +311,7 @@
     <enum>EPushButton::WidthAndHeight</enum>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat:$(PAT)00_15-SP.BA</string>
+    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat_$(PAT)00_15-SP.BA</string>
    </property>
    <property name="label">
     <string notr="true">ON</string>
@@ -340,7 +340,7 @@
     <enum>EPushButton::WidthAndHeight</enum>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat:$(PAT)00_15-SP.BF</string>
+    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat_$(PAT)00_15-SP.BF</string>
    </property>
    <property name="label">
     <string notr="true">ON</string>
@@ -369,7 +369,7 @@
     <enum>EPushButton::WidthAndHeight</enum>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat:$(PAT)00_15-SP.B5</string>
+    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat_$(PAT)00_15-SP.B5</string>
    </property>
    <property name="label">
     <string notr="true">OFF</string>
@@ -398,7 +398,7 @@
     <enum>EPushButton::WidthAndHeight</enum>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat:$(PAT)00_15-SP.BC</string>
+    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat_$(PAT)00_15-SP.BC</string>
    </property>
    <property name="label">
     <string notr="true">OFF</string>
@@ -427,7 +427,7 @@
     <enum>EPushButton::WidthAndHeight</enum>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat:$(PAT)00_15-SP.B4</string>
+    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat_$(PAT)00_15-SP.B4</string>
    </property>
    <property name="label">
     <string notr="true">ON</string>
@@ -456,7 +456,7 @@
     <enum>EPushButton::WidthAndHeight</enum>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat:$(PAT)00_15-SP.B6</string>
+    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat_$(PAT)00_15-SP.B6</string>
    </property>
    <property name="label">
     <string notr="true">OFF</string>
@@ -485,7 +485,7 @@
     <enum>EPushButton::WidthAndHeight</enum>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat:$(PAT)00_15-SP.BB</string>
+    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat_$(PAT)00_15-SP.BB</string>
    </property>
    <property name="label">
     <string notr="true">ON</string>
@@ -514,7 +514,7 @@
     <enum>EPushButton::WidthAndHeight</enum>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat:$(PAT)16_31-SP.BC</string>
+    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat_$(PAT)16_31-SP.BC</string>
    </property>
    <property name="label">
     <string notr="true">OFF</string>
@@ -543,7 +543,7 @@
     <enum>EPushButton::WidthAndHeight</enum>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat:$(PAT)00_15-SP.B3</string>
+    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat_$(PAT)00_15-SP.B3</string>
    </property>
    <property name="label">
     <string notr="true">OFF</string>
@@ -572,7 +572,7 @@
     <enum>EPushButton::WidthAndHeight</enum>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat:$(PAT)00_15-SP.B9</string>
+    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat_$(PAT)00_15-SP.B9</string>
    </property>
    <property name="label">
     <string notr="true">OFF</string>
@@ -601,7 +601,7 @@
     <enum>EPushButton::WidthAndHeight</enum>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat:$(PAT)00_15-SP.BB</string>
+    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat_$(PAT)00_15-SP.BB</string>
    </property>
    <property name="label">
     <string notr="true">OFF</string>
@@ -630,7 +630,7 @@
     <enum>EPushButton::WidthAndHeight</enum>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat:$(PAT)16_31-SP.BF</string>
+    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat_$(PAT)16_31-SP.BF</string>
    </property>
    <property name="label">
     <string notr="true">ON</string>
@@ -659,7 +659,7 @@
     <enum>EPushButton::WidthAndHeight</enum>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat:$(PAT)00_15-SP.BC</string>
+    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat_$(PAT)00_15-SP.BC</string>
    </property>
    <property name="label">
     <string notr="true">ON</string>
@@ -688,7 +688,7 @@
     <enum>EPushButton::WidthAndHeight</enum>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat:$(PAT)00_15-SP.B0</string>
+    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat_$(PAT)00_15-SP.B0</string>
    </property>
    <property name="label">
     <string notr="true">OFF</string>
@@ -717,7 +717,7 @@
     <enum>EPushButton::WidthAndHeight</enum>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat:$(PAT)00_15-SP.B1</string>
+    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat_$(PAT)00_15-SP.B1</string>
    </property>
    <property name="label">
     <string notr="true">ON</string>
@@ -746,7 +746,7 @@
     <enum>EPushButton::WidthAndHeight</enum>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat:$(PAT)00_15-SP.BA</string>
+    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat_$(PAT)00_15-SP.BA</string>
    </property>
    <property name="label">
     <string notr="true">OFF</string>
@@ -775,7 +775,7 @@
     <enum>EPushButton::WidthAndHeight</enum>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat:$(PAT)00_15-SP.B5</string>
+    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat_$(PAT)00_15-SP.B5</string>
    </property>
    <property name="label">
     <string notr="true">ON</string>
@@ -804,7 +804,7 @@
     <enum>EPushButton::WidthAndHeight</enum>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat:$(PAT)00_15-SP.B2</string>
+    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat_$(PAT)00_15-SP.B2</string>
    </property>
    <property name="label">
     <string notr="true">ON</string>
@@ -833,7 +833,7 @@
     <enum>EPushButton::WidthAndHeight</enum>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat:$(PAT)00_15-SP.BD</string>
+    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat_$(PAT)00_15-SP.BD</string>
    </property>
    <property name="label">
     <string notr="true">OFF</string>
@@ -862,7 +862,7 @@
     <enum>EPushButton::WidthAndHeight</enum>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat:$(PAT)00_15-SP.B1</string>
+    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat_$(PAT)00_15-SP.B1</string>
    </property>
    <property name="label">
     <string notr="true">OFF</string>
@@ -891,7 +891,7 @@
     <enum>EPushButton::WidthAndHeight</enum>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat:$(PAT)16_31-SP.BE</string>
+    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat_$(PAT)16_31-SP.BE</string>
    </property>
    <property name="label">
     <string notr="true">OFF</string>
@@ -920,7 +920,7 @@
     <enum>EPushButton::WidthAndHeight</enum>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat:$(PAT)00_15-SP.B8</string>
+    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat_$(PAT)00_15-SP.B8</string>
    </property>
    <property name="label">
     <string notr="true">OFF</string>
@@ -949,7 +949,7 @@
     <enum>EPushButton::WidthAndHeight</enum>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat:$(PAT)00_15-SP.B0</string>
+    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat_$(PAT)00_15-SP.B0</string>
    </property>
    <property name="label">
     <string notr="true">ON</string>
@@ -978,7 +978,7 @@
     <enum>EPushButton::WidthAndHeight</enum>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat:$(PAT)00_15-SP.B2</string>
+    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat_$(PAT)00_15-SP.B2</string>
    </property>
    <property name="label">
     <string notr="true">OFF</string>
@@ -1007,7 +1007,7 @@
     <enum>EPushButton::WidthAndHeight</enum>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat:$(PAT)16_31-SP.BE</string>
+    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat_$(PAT)16_31-SP.BE</string>
    </property>
    <property name="label">
     <string notr="true">ON</string>
@@ -1036,7 +1036,7 @@
     <enum>EPushButton::WidthAndHeight</enum>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat:$(PAT)00_15-SP.BE</string>
+    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat_$(PAT)00_15-SP.BE</string>
    </property>
    <property name="label">
     <string notr="true">OFF</string>
@@ -1081,7 +1081,7 @@
     <enum>EPushButton::WidthAndHeight</enum>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat:$(PAT)16_31-SP.BF</string>
+    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat_$(PAT)16_31-SP.BF</string>
    </property>
    <property name="label">
     <string notr="true">OFF</string>
@@ -1110,7 +1110,7 @@
     <enum>EPushButton::WidthAndHeight</enum>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat:$(PAT)00_15-SP.B3</string>
+    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat_$(PAT)00_15-SP.B3</string>
    </property>
    <property name="label">
     <string notr="true">ON</string>
@@ -1139,7 +1139,7 @@
     <enum>EPushButton::WidthAndHeight</enum>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat:$(PAT)00_15-SP.B4</string>
+    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat_$(PAT)00_15-SP.B4</string>
    </property>
    <property name="label">
     <string notr="true">OFF</string>
@@ -1168,7 +1168,7 @@
     <enum>EPushButton::WidthAndHeight</enum>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat:$(PAT)00_15-SP.BD</string>
+    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat_$(PAT)00_15-SP.BD</string>
    </property>
    <property name="label">
     <string notr="true">ON</string>
@@ -1197,7 +1197,7 @@
     <enum>EPushButton::WidthAndHeight</enum>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat:$(PAT)00_15-SP.BE</string>
+    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat_$(PAT)00_15-SP.BE</string>
    </property>
    <property name="label">
     <string notr="true">ON</string>
@@ -1226,7 +1226,7 @@
     <enum>EPushButton::WidthAndHeight</enum>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat:$(PAT)16_31-SP.BD</string>
+    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat_$(PAT)16_31-SP.BD</string>
    </property>
    <property name="label">
     <string notr="true">ON</string>
@@ -1255,7 +1255,7 @@
     <enum>EPushButton::WidthAndHeight</enum>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat:$(PAT)00_15-SP.BF</string>
+    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat_$(PAT)00_15-SP.BF</string>
    </property>
    <property name="label">
     <string notr="true">OFF</string>
@@ -1284,7 +1284,7 @@
     <enum>EPushButton::WidthAndHeight</enum>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat:$(PAT)16_31-SP.B6</string>
+    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat_$(PAT)16_31-SP.B6</string>
    </property>
    <property name="label">
     <string notr="true">ON</string>
@@ -1313,7 +1313,7 @@
     <enum>EPushButton::WidthAndHeight</enum>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat:$(PAT)32_39-SP.B4</string>
+    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat_$(PAT)32_39-SP.B4</string>
    </property>
    <property name="label">
     <string notr="true">OFF</string>
@@ -1342,7 +1342,7 @@
     <enum>EPushButton::WidthAndHeight</enum>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat:$(PAT)32_39-SP.B3</string>
+    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat_$(PAT)32_39-SP.B3</string>
    </property>
    <property name="label">
     <string notr="true">OFF</string>
@@ -1371,7 +1371,7 @@
     <enum>EPushButton::WidthAndHeight</enum>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat:$(PAT)16_31-SP.B5</string>
+    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat_$(PAT)16_31-SP.B5</string>
    </property>
    <property name="label">
     <string notr="true">ON</string>
@@ -1400,7 +1400,7 @@
     <enum>EPushButton::WidthAndHeight</enum>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat:$(PAT)32_39-SP.B3</string>
+    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat_$(PAT)32_39-SP.B3</string>
    </property>
    <property name="label">
     <string notr="true">ON</string>
@@ -1429,7 +1429,7 @@
     <enum>EPushButton::WidthAndHeight</enum>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat:$(PAT)16_31-SP.BB</string>
+    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat_$(PAT)16_31-SP.BB</string>
    </property>
    <property name="label">
     <string notr="true">OFF</string>
@@ -1458,7 +1458,7 @@
     <enum>EPushButton::WidthAndHeight</enum>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat:$(PAT)32_39-SP.B6</string>
+    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat_$(PAT)32_39-SP.B6</string>
    </property>
    <property name="label">
     <string notr="true">OFF</string>
@@ -1487,7 +1487,7 @@
     <enum>EPushButton::WidthAndHeight</enum>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat:$(PAT)32_39-SP.B1</string>
+    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat_$(PAT)32_39-SP.B1</string>
    </property>
    <property name="label">
     <string notr="true">OFF</string>
@@ -1513,7 +1513,7 @@
     </rect>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat:$(PAT)32_39-SP</string>
+    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat_$(PAT)32_39-SP</string>
    </property>
    <property name="direction">
     <enum>caByte::Left</enum>
@@ -1538,7 +1538,7 @@
     <enum>EPushButton::WidthAndHeight</enum>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat:$(PAT)16_31-SP.BA</string>
+    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat_$(PAT)16_31-SP.BA</string>
    </property>
    <property name="label">
     <string notr="true">ON</string>
@@ -1567,7 +1567,7 @@
     <enum>EPushButton::WidthAndHeight</enum>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat:$(PAT)32_39-SP.B1</string>
+    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat_$(PAT)32_39-SP.B1</string>
    </property>
    <property name="label">
     <string notr="true">ON</string>
@@ -1596,7 +1596,7 @@
     <enum>EPushButton::WidthAndHeight</enum>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat:$(PAT)16_31-SP.B8</string>
+    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat_$(PAT)16_31-SP.B8</string>
    </property>
    <property name="label">
     <string notr="true">OFF</string>
@@ -1641,7 +1641,7 @@
     <enum>EPushButton::WidthAndHeight</enum>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat:$(PAT)32_39-SP.B0</string>
+    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat_$(PAT)32_39-SP.B0</string>
    </property>
    <property name="label">
     <string notr="true">OFF</string>
@@ -1670,7 +1670,7 @@
     <enum>EPushButton::WidthAndHeight</enum>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat:$(PAT)32_39-SP.B5</string>
+    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat_$(PAT)32_39-SP.B5</string>
    </property>
    <property name="label">
     <string notr="true">ON</string>
@@ -1699,7 +1699,7 @@
     <enum>EPushButton::WidthAndHeight</enum>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat:$(PAT)16_31-SP.B4</string>
+    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat_$(PAT)16_31-SP.B4</string>
    </property>
    <property name="label">
     <string notr="true">OFF</string>
@@ -1728,7 +1728,7 @@
     <enum>EPushButton::WidthAndHeight</enum>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat:$(PAT)32_39-SP.B0</string>
+    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat_$(PAT)32_39-SP.B0</string>
    </property>
    <property name="label">
     <string notr="true">ON</string>
@@ -1773,7 +1773,7 @@
     <enum>EPushButton::WidthAndHeight</enum>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat:$(PAT)16_31-SP.B7</string>
+    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat_$(PAT)16_31-SP.B7</string>
    </property>
    <property name="label">
     <string notr="true">ON</string>
@@ -1802,7 +1802,7 @@
     <enum>EPushButton::WidthAndHeight</enum>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat:$(PAT)16_31-SP.B8</string>
+    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat_$(PAT)16_31-SP.B8</string>
    </property>
    <property name="label">
     <string notr="true">ON</string>
@@ -1831,7 +1831,7 @@
     <enum>EPushButton::WidthAndHeight</enum>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat:$(PAT)16_31-SP.B6</string>
+    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat_$(PAT)16_31-SP.B6</string>
    </property>
    <property name="label">
     <string notr="true">OFF</string>
@@ -1860,7 +1860,7 @@
     <enum>EPushButton::WidthAndHeight</enum>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat:$(PAT)16_31-SP.B7</string>
+    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat_$(PAT)16_31-SP.B7</string>
    </property>
    <property name="label">
     <string notr="true">OFF</string>
@@ -1889,7 +1889,7 @@
     <enum>EPushButton::WidthAndHeight</enum>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat:$(PAT)16_31-SP.B0</string>
+    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat_$(PAT)16_31-SP.B0</string>
    </property>
    <property name="label">
     <string notr="true">ON</string>
@@ -1918,7 +1918,7 @@
     <enum>EPushButton::WidthAndHeight</enum>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat:$(PAT)32_39-SP.B4</string>
+    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat_$(PAT)32_39-SP.B4</string>
    </property>
    <property name="label">
     <string notr="true">ON</string>
@@ -1947,7 +1947,7 @@
     <enum>EPushButton::WidthAndHeight</enum>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat:$(PAT)16_31-SP.B2</string>
+    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat_$(PAT)16_31-SP.B2</string>
    </property>
    <property name="label">
     <string notr="true">OFF</string>
@@ -1976,7 +1976,7 @@
     <enum>EPushButton::WidthAndHeight</enum>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat:$(PAT)32_39-SP.B2</string>
+    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat_$(PAT)32_39-SP.B2</string>
    </property>
    <property name="label">
     <string notr="true">OFF</string>
@@ -2005,7 +2005,7 @@
     <enum>EPushButton::WidthAndHeight</enum>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat:$(PAT)16_31-SP.B2</string>
+    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat_$(PAT)16_31-SP.B2</string>
    </property>
    <property name="label">
     <string notr="true">ON</string>
@@ -2034,7 +2034,7 @@
     <enum>EPushButton::WidthAndHeight</enum>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat:$(PAT)16_31-SP.B5</string>
+    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat_$(PAT)16_31-SP.B5</string>
    </property>
    <property name="label">
     <string notr="true">OFF</string>
@@ -2063,7 +2063,7 @@
     <enum>EPushButton::WidthAndHeight</enum>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat:$(PAT)32_39-SP.B5</string>
+    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat_$(PAT)32_39-SP.B5</string>
    </property>
    <property name="label">
     <string notr="true">OFF</string>
@@ -2092,7 +2092,7 @@
     <enum>EPushButton::WidthAndHeight</enum>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat:$(PAT)32_39-SP.B2</string>
+    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat_$(PAT)32_39-SP.B2</string>
    </property>
    <property name="label">
     <string notr="true">ON</string>
@@ -2121,7 +2121,7 @@
     <enum>EPushButton::WidthAndHeight</enum>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat:$(PAT)16_31-SP.B3</string>
+    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat_$(PAT)16_31-SP.B3</string>
    </property>
    <property name="label">
     <string notr="true">OFF</string>
@@ -2147,7 +2147,7 @@
     </rect>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat:$(PAT)16_31-SP</string>
+    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat_$(PAT)16_31-SP</string>
    </property>
    <property name="direction">
     <enum>caByte::Left</enum>
@@ -2172,7 +2172,7 @@
     <enum>EPushButton::WidthAndHeight</enum>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat:$(PAT)16_31-SP.B4</string>
+    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat_$(PAT)16_31-SP.B4</string>
    </property>
    <property name="label">
     <string notr="true">ON</string>
@@ -2201,7 +2201,7 @@
     <enum>EPushButton::WidthAndHeight</enum>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat:$(PAT)32_39-SP.B6</string>
+    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat_$(PAT)32_39-SP.B6</string>
    </property>
    <property name="label">
     <string notr="true">ON</string>
@@ -2230,7 +2230,7 @@
     <enum>EPushButton::WidthAndHeight</enum>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat:$(PAT)16_31-SP.B1</string>
+    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat_$(PAT)16_31-SP.B1</string>
    </property>
    <property name="label">
     <string notr="true">OFF</string>
@@ -2259,7 +2259,7 @@
     <enum>EPushButton::WidthAndHeight</enum>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat:$(PAT)16_31-SP.B1</string>
+    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat_$(PAT)16_31-SP.B1</string>
    </property>
    <property name="label">
     <string notr="true">ON</string>
@@ -2288,7 +2288,7 @@
     <enum>EPushButton::WidthAndHeight</enum>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat:$(PAT)16_31-SP.BB</string>
+    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat_$(PAT)16_31-SP.BB</string>
    </property>
    <property name="label">
     <string notr="true">ON</string>
@@ -2317,7 +2317,7 @@
     <enum>EPushButton::WidthAndHeight</enum>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat:$(PAT)16_31-SP.B3</string>
+    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat_$(PAT)16_31-SP.B3</string>
    </property>
    <property name="label">
     <string notr="true">ON</string>
@@ -2346,7 +2346,7 @@
     <enum>EPushButton::WidthAndHeight</enum>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat:$(PAT)16_31-SP.B9</string>
+    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat_$(PAT)16_31-SP.B9</string>
    </property>
    <property name="label">
     <string notr="true">OFF</string>
@@ -2375,7 +2375,7 @@
     <enum>EPushButton::WidthAndHeight</enum>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat:$(PAT)32_39-SP.B7</string>
+    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat_$(PAT)32_39-SP.B7</string>
    </property>
    <property name="label">
     <string notr="true">OFF</string>
@@ -2404,7 +2404,7 @@
     <enum>EPushButton::WidthAndHeight</enum>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat:$(PAT)16_31-SP.BA</string>
+    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat_$(PAT)16_31-SP.BA</string>
    </property>
    <property name="label">
     <string notr="true">OFF</string>
@@ -2433,7 +2433,7 @@
     <enum>EPushButton::WidthAndHeight</enum>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat:$(PAT)32_39-SP.B7</string>
+    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat_$(PAT)32_39-SP.B7</string>
    </property>
    <property name="label">
     <string notr="true">ON</string>
@@ -2462,7 +2462,7 @@
     <enum>EPushButton::WidthAndHeight</enum>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat:$(PAT)16_31-SP.B9</string>
+    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat_$(PAT)16_31-SP.B9</string>
    </property>
    <property name="label">
     <string notr="true">ON</string>
@@ -2491,7 +2491,7 @@
     <enum>EPushButton::WidthAndHeight</enum>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat:$(PAT)16_31-SP.B0</string>
+    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat_$(PAT)16_31-SP.B0</string>
    </property>
    <property name="label">
     <string notr="true">OFF</string>
@@ -2517,7 +2517,7 @@
     </rect>
    </property>
    <property name="channel" stdset="0">
-    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat:$(PAT)16_31-SP</string>
+    <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Pat_$(PAT)16_31-SP</string>
    </property>
    <property name="direction">
     <enum>caByte::Left</enum>

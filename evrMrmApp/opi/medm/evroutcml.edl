@@ -379,7 +379,7 @@ x 486
 y 105
 w 59
 h 21
-controlPv "$(ON)Freq:High-SP"
+controlPv "$(ON)Freq_High-SP"
 font "helvetica-medium-r-12.0"
 fgColor index 14
 fgAlarm
@@ -404,7 +404,7 @@ x 486
 y 135
 w 59
 h 21
-controlPv "$(ON)Freq:Low-SP"
+controlPv "$(ON)Freq_Low-SP"
 font "helvetica-medium-r-12.0"
 fgColor index 14
 fgAlarm
@@ -435,7 +435,7 @@ offColor index 3
 inconsistentColor index 5
 topShadowColor index 1
 botShadowColor index 11
-controlPv "$(ON)Freq:Lvl-SP"
+controlPv "$(ON)Freq_Lvl-SP"
 3d
 font "helvetica-medium-r-12.0"
 objType "controls"
@@ -533,12 +533,12 @@ y2Max 1
 # Trace Properties
 numTraces 2
 xPv {
-  0 "$(ON)Pat:WfX-I"
-  1 "$(ON)Pat:WfX-I"
+  0 "$(ON)Pat_WfX-I"
+  1 "$(ON)Pat_WfX-I"
 }
 yPv {
-  0 "$(ON)Pat:Wf-SP"
-  1 "$(ON)Pat:Wf-RB"
+  0 "$(ON)Pat_Wf-SP"
+  1 "$(ON)Pat_Wf-RB"
 }
 lineStyle {
   1 "dash"
@@ -567,7 +567,7 @@ x 547
 y 105
 w 20
 h 21
-controlPv "$(ON)Freq:High-SP.EGU"
+controlPv "$(ON)Freq_High-SP.EGU"
 font "helvetica-medium-r-12.0"
 fgColor index 14
 bgColor index 3
@@ -589,7 +589,7 @@ x 547
 y 135
 w 20
 h 21
-controlPv "$(ON)Freq:Low-SP.EGU"
+controlPv "$(ON)Freq_Low-SP.EGU"
 font "helvetica-medium-r-12.0"
 fgColor index 14
 bgColor index 3
@@ -661,7 +661,7 @@ x 382
 y 212
 w 19
 h 19
-controlPv "$(ON)WfCalc:Width-SP.EGU"
+controlPv "$(ON)WfCalc_Width-SP.EGU"
 font "helvetica-medium-r-12.0"
 fgColor index 14
 bgColor index 3
@@ -683,7 +683,7 @@ x 251
 y 212
 w 19
 h 19
-controlPv "$(ON)WfCalc:Delay-SP.EGU"
+controlPv "$(ON)WfCalc_Delay-SP.EGU"
 font "helvetica-medium-r-12.0"
 fgColor index 14
 bgColor index 3
@@ -743,7 +743,7 @@ x 307
 y 212
 w 69
 h 19
-controlPv "$(ON)WfCalc:Width-SP"
+controlPv "$(ON)WfCalc_Width-SP"
 font "helvetica-medium-r-12.0"
 fgColor index 14
 bgColor index 0
@@ -767,7 +767,7 @@ x 177
 y 212
 w 69
 h 19
-controlPv "$(ON)WfCalc:Delay-SP"
+controlPv "$(ON)WfCalc_Delay-SP"
 font "helvetica-medium-r-12.0"
 fgColor index 14
 bgColor index 0
@@ -817,7 +817,7 @@ offColor index 3
 inconsistentColor index 5
 topShadowColor index 1
 botShadowColor index 11
-controlPv "$(ON)WfCalc:Ena-SP"
+controlPv "$(ON)WfCalc_Ena-SP"
 3d
 font "helvetica-medium-r-12.0"
 objType "controls"
