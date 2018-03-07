@@ -105,7 +105,7 @@ record(mbboDirect, "$(SYS)-$(DEVICE):CML$(ID)-Pat_Rise00_15-SP") {
   field(NOBT, "16")
   field(OUT , "$(SYS)-$(DEVICE):CML$(ID)-Pat_Rise-ASub_.A PP")
   field(PINI, "YES")
-  field(VAL, "$(CML$(ID)-Pat_Rise00_15-SP\=0)")
+  field(VAL, "$(CML$(ID)-Pat_Rise00_15-SP\=$(CML$(ID)-Pat:Rise00_15-SP\=0))")
   info(autosaveFields_pass0, "VAL")
 }
 
@@ -115,7 +115,7 @@ record(mbboDirect, "$(SYS)-$(DEVICE):CML$(ID)-Pat_Rise16_31-SP") {
   field(NOBT, "16")
   field(OUT , "$(SYS)-$(DEVICE):CML$(ID)-Pat_Rise-ASub_.B PP")
   field(PINI, "YES")
-  field(VAL, "$(CML$(ID)-Pat_Rise16_31-SP\=0)")
+  field(VAL, "$(CML$(ID)-Pat_Rise16_31-SP\=$(CML$(ID)-Pat:Rise16_31-SP\=0))")
   info(autosaveFields_pass0, "VAL")
 }
 
@@ -126,7 +126,7 @@ record(mbboDirect, "$(SYS)-$(DEVICE):CML$(ID)-Pat_Rise32_39-SP") {
   field(SHFT, "8")
   field(OUT , "$(SYS)-$(DEVICE):CML$(ID)-Pat_Rise-ASub_.C PP")
   field(PINI, "YES")
-  field(VAL, "$(CML$(ID)-Pat_Rise32_39-SP\=0)")
+  field(VAL, "$(CML$(ID)-Pat_Rise32_39-SP\=$(CML$(ID)-Pat:Rise32_39-SP\=0))")
   info(autosaveFields_pass0, "VAL")
 }
 
@@ -160,7 +160,7 @@ record(mbboDirect, "$(SYS)-$(DEVICE):CML$(ID)-Pat_High00_15-SP") {
   field(NOBT, "16")
   field(OUT , "$(SYS)-$(DEVICE):CML$(ID)-Pat_High-ASub_.A PP")
   field(PINI, "YES")
-  field(VAL, "$(CML$(ID)-Pat_High00_15-SP\=0)")
+  field(VAL, "$(CML$(ID)-Pat_High00_15-SP\=$(CML$(ID)-Pat:High00_15-SP\=0))")
   info(autosaveFields_pass0, "VAL")
 }
 
@@ -170,7 +170,7 @@ record(mbboDirect, "$(SYS)-$(DEVICE):CML$(ID)-Pat_High16_31-SP") {
   field(NOBT, "16")
   field(OUT , "$(SYS)-$(DEVICE):CML$(ID)-Pat_High-ASub_.B PP")
   field(PINI, "YES")
-  field(VAL, "$(CML$(ID)-Pat_High16_31-SP\=0)")
+  field(VAL, "$(CML$(ID)-Pat_High16_31-SP\=$(CML$(ID)-Pat:High16_31-SP\=0))")
   info(autosaveFields_pass0, "VAL")
 }
 
@@ -181,7 +181,7 @@ record(mbboDirect, "$(SYS)-$(DEVICE):CML$(ID)-Pat_High32_39-SP") {
   field(SHFT, "8")
   field(OUT , "$(SYS)-$(DEVICE):CML$(ID)-Pat_High-ASub_.C PP")
   field(PINI, "YES")
-  field(VAL, "$(CML$(ID)-Pat_High32_39-SP\=0)")
+  field(VAL, "$(CML$(ID)-Pat_High32_39-SP\=$(CML$(ID)-Pat:High32_39-SP\=0))")
   info(autosaveFields_pass0, "VAL")
 }
 
@@ -215,7 +215,7 @@ record(mbboDirect, "$(SYS)-$(DEVICE):CML$(ID)-Pat_Fall00_15-SP") {
   field(NOBT, "16")
   field(OUT , "$(SYS)-$(DEVICE):CML$(ID)-Pat_Fall-ASub_.A PP")
   field(PINI, "YES")
-  field(VAL, "$(CML$(ID)-Pat_Fall00_15-SP\=0)")
+  field(VAL, "$(CML$(ID)-Pat_Fall00_15-SP\=$(CML$(ID)-Pat:Fall00_15-SP\=0))")
   info(autosaveFields_pass0, "VAL")
 }
 
@@ -225,7 +225,7 @@ record(mbboDirect, "$(SYS)-$(DEVICE):CML$(ID)-Pat_Fall16_31-SP") {
   field(NOBT, "16")
   field(OUT , "$(SYS)-$(DEVICE):CML$(ID)-Pat_Fall-ASub_.B PP")
   field(PINI, "YES")
-  field(VAL, "$(CML$(ID)-Pat_Fall16_31-SP\=0)")
+  field(VAL, "$(CML$(ID)-Pat_Fall16_31-SP\=$(CML$(ID)-Pat:Fall16_31-SP\=0))")
   info(autosaveFields_pass0, "VAL")
 }
 
@@ -236,7 +236,7 @@ record(mbboDirect, "$(SYS)-$(DEVICE):CML$(ID)-Pat_Fall32_39-SP") {
   field(SHFT, "8")
   field(OUT , "$(SYS)-$(DEVICE):CML$(ID)-Pat_Fall-ASub_.C PP")
   field(PINI, "YES")
-  field(VAL, "$(CML$(ID)-Pat_Fall32_39-SP\=0)")
+  field(VAL, "$(CML$(ID)-Pat_Fall32_39-SP\=$(CML$(ID)-Pat:Fall32_39-SP\=0))")
   info(autosaveFields_pass0, "VAL")
 }
 
@@ -270,7 +270,7 @@ record(mbboDirect, "$(SYS)-$(DEVICE):CML$(ID)-Pat_Low00_15-SP") {
   field(NOBT, "16")
   field(OUT , "$(SYS)-$(DEVICE):CML$(ID)-Pat_Low-ASub_.A PP")
   field(PINI, "YES")
-  field(VAL, "$(CML$(ID)-Pat_Low00_15-SP\=0)")
+  field(VAL, "$(CML$(ID)-Pat_Low00_15-SP\=$(CML$(ID)-Pat:Low00_15-SP\=0))")
   info(autosaveFields_pass0, "VAL")
 }
 
@@ -280,7 +280,7 @@ record(mbboDirect, "$(SYS)-$(DEVICE):CML$(ID)-Pat_Low16_31-SP") {
   field(NOBT, "16")
   field(OUT , "$(SYS)-$(DEVICE):CML$(ID)-Pat_Low-ASub_.B PP")
   field(PINI, "YES")
-  field(VAL, "$(CML$(ID)-Pat_Low16_31-SP\=0)")
+  field(VAL, "$(CML$(ID)-Pat_Low16_31-SP\=$(CML$(ID)-Pat:Low16_31-SP\=0))")
   info(autosaveFields_pass0, "VAL")
 }
 
@@ -291,7 +291,7 @@ record(mbboDirect, "$(SYS)-$(DEVICE):CML$(ID)-Pat_Low32_39-SP") {
   field(SHFT, "8")
   field(OUT , "$(SYS)-$(DEVICE):CML$(ID)-Pat_Low-ASub_.C PP")
   field(PINI, "YES")
-  field(VAL, "$(CML$(ID)-Pat_Low32_39-SP\=0)")
+  field(VAL, "$(CML$(ID)-Pat_Low32_39-SP\=$(CML$(ID)-Pat:Low32_39-SP\=0))")
   info(autosaveFields_pass0, "VAL")
 }
 
@@ -325,7 +325,7 @@ record(bo, "$(SYS)-$(DEVICE):CML$(ID)-Freq_Lvl-SP") {
   field(OUT, "@OBJ=$(DEVICE):CML$(ID), PROP=Freq Trig Lvl")
   field(PINI, "YES")
   field(UDF, "0")
-  field(VAL, "$(CML$(ID)-Freq_Lvl-SP\=0)")
+  field(VAL, "$(CML$(ID)-Freq_Lvl-SP\=$(CML$(ID)-Freq:Lvl-SP\=0))")
   field(ZNAM, "Active high")
   field(ONAM, "Active low")
   info(autosaveFields_pass0, "VAL")
@@ -337,7 +337,7 @@ record(ao, "$(SYS)-$(DEVICE):CML$(ID)-Freq_Init-SP") {
   field(OUT, "@OBJ=$(DEVICE):CML$(ID), PROP=Counts Init")
   field(PINI, "YES")
   field(UDF , "0")
-  field(VAL , "$(CML$(ID)-Freq_Init-SP\=0)")
+  field(VAL , "$(CML$(ID)-Freq_Init-SP\=$(CML$(ID)-Freq:Init-SP\=0))")
   field(EGU , "ns")
   field(LINR, "LINEAR")
   field(ESLO, "1e9")
@@ -362,7 +362,7 @@ record(ao, "$(SYS)-$(DEVICE):CML$(ID)-Freq_High-SP") {
   field(OUT, "@OBJ=$(DEVICE):CML$(ID), PROP=Counts High")
   field(PINI, "YES")
   field(UDF , "0")
-  field(VAL , "$(CML$(ID)-Freq_High-SP\=10)")
+  field(VAL , "$(CML$(ID)-Freq_High-SP\=$(CML$(ID)-Freq:High-SP\=10))")
   field(EGU , "ns")
   field(LINR, "LINEAR")
   field(ESLO, "1e9")
@@ -386,7 +386,7 @@ record(ao, "$(SYS)-$(DEVICE):CML$(ID)-Freq_Low-SP") {
   field(OUT, "@OBJ=$(DEVICE):CML$(ID), PROP=Counts Low")
   field(PINI, "YES")
   field(UDF , "0")
-  field(VAL , "$(CML$(ID)-Freq_Low-SP\=10)")
+  field(VAL , "$(CML$(ID)-Freq_Low-SP\=$(CML$(ID)-Freq:Low-SP\=10))")
   field(EGU , "ns")
   field(LINR, "LINEAR")
   field(ESLO, "1e9")
@@ -413,7 +413,7 @@ record(bo, "$(SYS)-$(DEVICE):CML$(ID)-Pat_WfCycle-SP") {
   field(OUT, "@OBJ=$(DEVICE):CML$(ID), PROP=Pat Recycle")
   field(PINI, "YES")
   field(UDF, "0")
-  field(VAL, "$(CML$(ID)-Pat_WfCycle-SP\=0)")
+  field(VAL, "$(CML$(ID)-Pat_WfCycle-SP\=$(CML$(ID)-Pat:WfCycle-SP\=0))")
   field(ZNAM, "Single shot")
   field(ONAM, "Loop")
   info(autosaveFields_pass0, "VAL")
@@ -470,7 +470,7 @@ record(waveform, "$(SYS)-$(DEVICE):CML$(ID)-Pat_WfX-I") {
 
 record(bo, "$(SYS)-$(DEVICE):CML$(ID)-WfCalc_Ena-SP") {
   field(DESC, "Disable calculator")
-  field(VAL, "$(CML$(ID)-WfCalc_Ena-SP\=0)")
+  field(VAL, "$(CML$(ID)-WfCalc_Ena-SP\=$(CML$(ID)-WfCalc:Ena-SP\=0))")
   field(ONAM, "Enabled")
   field(ZNAM, "Disabled")
   field(UDF , "0")
@@ -483,7 +483,7 @@ record(ao, "$(SYS)-$(DEVICE):CML$(ID)-WfCalc_Delay-SP") {
   field(OUT , "$(SYS)-$(DEVICE):CML$(ID)-WfCalc-ASub_.A PP")
   field(EGU , "ns")
   field(UDF , "0")
-  field(VAL , "$(CML$(ID)-WfCalc_Delay-SP\=16)")
+  field(VAL , "$(CML$(ID)-WfCalc_Delay-SP\=$(CML$(ID)-WfCalc:Delay-SP\=16))")
   info(autosaveFields_pass0, "VAL EGU")
 }
 
@@ -492,7 +492,7 @@ record(ao, "$(SYS)-$(DEVICE):CML$(ID)-WfCalc_Width-SP") {
   field(OUT , "$(SYS)-$(DEVICE):CML$(ID)-WfCalc-ASub_.B PP")
   field(EGU , "ns")
   field(UDF , "0")
-  field(VAL , "$(CML$(ID)-WfCalc_Width-SP\=50)")
+  field(VAL , "$(CML$(ID)-WfCalc_Width-SP\=$(CML$(ID)-WfCalc:Width-SP\=50))")
   info(autosaveFields_pass0, "VAL EGU")
 }
 
