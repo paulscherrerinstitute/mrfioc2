@@ -1188,6 +1188,7 @@ EVRMRM::enableIRQ(void)
     }
 
     WRITE32(base, IRQEnable, shadowIRQEna);
+    (void)READ32(base, IRQEnable); // make sure write is complete
 
     EVR_DEBUG(2,"Enabling interrupts: 0x%x",shadowIRQEna);
 
@@ -1246,11 +1247,16 @@ EVRMRM::isr(void *arg)
         evr->count_recv_error++;
         scanIoRequest(evr->IRQrxError);
 
+        int iflags=epicsInterruptLock();
         evr->shadowIRQEna &= ~IRQ_RXErr;
+        epicsInterruptUnlock(iflags);
+
         callbackRequest(&evr->poll_link_cb);
     }
     if(active&IRQ_BufFull){
+        int iflags=epicsInterruptLock();
         evr->shadowIRQEna &= ~IRQ_BufFull; // interrupt is re-enabled in the dataBufferRxComplete() callback
+        epicsInterruptUnlock(iflags);
 
         // Silence interrupt. DataRxCtrl_stop is actually Rx acknowledge, so we need to write to it in order to clear it.
         BITSET(NAT,32,evr->base, DataRxCtrlEvr, DataRxCtrl_stop);
@@ -1259,17 +1265,23 @@ EVRMRM::isr(void *arg)
     }
     if(active&IRQ_SegDBuff){
         if(&evr->m_dataBufferObj_300 != NULL) {
+            int iflags=epicsInterruptLock();
             evr->shadowIRQEna &= ~IRQ_SegDBuff; // interrupt is re-enabled in the dataBufferRxComplete() callback
+            epicsInterruptUnlock(iflags);
             callbackRequest(&evr->dataBufferRx_cb_300);
         }
     }
     if(active&IRQ_HWMapped){
+        int iflags=epicsInterruptLock();
         evr->shadowIRQEna &= ~IRQ_HWMapped;
+        epicsInterruptUnlock(iflags);
         //TODO: think of a way to use this feature...
     }
     if(active&IRQ_Event){
         //FIFO not-empty
+        int iflags=epicsInterruptLock();
         evr->shadowIRQEna &= ~IRQ_Event;
+        epicsInterruptUnlock(iflags);
         int wakeup=0;
         evr->drain_fifo_wakeup.trySend(&wakeup, sizeof(wakeup));
     }
@@ -1278,7 +1290,9 @@ EVRMRM::isr(void *arg)
         scanIoRequest(evr->IRQheartbeat);
     }
     if(active&IRQ_FIFOFull){
+        int iflags=epicsInterruptLock();
         evr->shadowIRQEna &= ~IRQ_FIFOFull;
+        epicsInterruptUnlock(iflags);
         int wakeup=0;
         evr->drain_fifo_wakeup.trySend(&wakeup, sizeof(wakeup));
 
@@ -1288,18 +1302,27 @@ EVRMRM::isr(void *arg)
 
 
     WRITE32(evr->base, IRQFlag, flags);
+    (void)READ32(evr->base, IRQFlag); // make sure write is complete
 
     // Only touch the bottom half of IRQEnable register
     // to prevent race condition with kernel space
     if(evr->getDeviceInfo()->getFirmwareId() < mrmDeviceInfo::firmwareId_delayCompensation) {
+        int iflags=epicsInterruptLock();
+
         WRITE8(evr->base,IRQEnableBot,(epicsUInt8)evr->shadowIRQEna);
         (void)READ8(evr->base,IRQEnableBot); // make sure write is complete
+
+        epicsInterruptUnlock(iflags);
     }
     else {
         // evr sequencer is available only on EVRs with separated PCIe enable register.
         // Thus we can write 32 bits here.
+        int iflags=epicsInterruptLock();
+
         WRITE32(evr->base, IRQEnable, evr->shadowIRQEna);
         (void)READ32(evr->base, IRQEnable); // make sure write is complete
+
+        epicsInterruptUnlock(iflags);
     }
 
     EVR_INFO(4,"ISR ended, IRQEnable 0x%x, flags: 0x%x",evr->shadowIRQEna, flags);
@@ -1425,6 +1448,7 @@ EVRMRM::drain_fifo()
         //*
         shadowIRQEna |= IRQ_Event | IRQ_FIFOFull;
         WRITE8(base,IRQEnableBot,(epicsUInt8)shadowIRQEna);
+        (void)READ8(base, IRQEnableBot); // make sure write is complete
 
         epicsInterruptUnlock(iflags);
 
@@ -1458,6 +1482,7 @@ void EVRMRM::dataBufferRxComplete(mrmDataBuffer *dataBuffer, void *vptr)
         epicsPrintf("Callback received for re-enabling non-existant data buffer interrupt\n");  // this should never happen...
     }
     WRITE8(evr->base,IRQEnableBot,(epicsUInt8)evr->shadowIRQEna);
+    (void)READ8(evr->base, IRQEnableBot); // make sure write is complete
 
     epicsInterruptUnlock(iflags);
 }
@@ -1531,6 +1556,7 @@ try {
 
         evr->shadowIRQEna |= IRQ_RXErr;
         WRITE8(evr->base,IRQEnableBot,(epicsUInt8)evr->shadowIRQEna);
+        (void)READ8(evr->base, IRQEnableBot); // make sure write is complete
 
         epicsInterruptUnlock(iflags);
     }
