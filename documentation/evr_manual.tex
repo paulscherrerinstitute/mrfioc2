@@ -329,26 +329,26 @@ Patterns are defined by one of the configurable CML modes:
 	\paragraph{Substitution file macros}
 	\begin{itemize}
 	\item
-	  \textbf{CML\#-Freq:Lvl-SP}=\emph{0} : set the starting logic level for the frequency generation. Options are:
+	  \textbf{CML\#-Freq\_Lvl-SP}=\emph{0} : set the starting logic level for the frequency generation. Options are:
 	  \begin{itemize}
 	  	\item \texttt{Active high(0)}: starting logic level is logic high
 	  	\item \texttt{Active low(1)}: starting logic level is logic low
 	  \end{itemize}
 	\item
-	  \textbf{CML\#-Freq:Init-SP}=\emph{0} : Set the initial delay between when the frequency generation is triggered and when it starts to generate a clock signal. This allows for a phase difference between the output source signal and the output signal. The value range in ns depends on the event clock. It must be in range of 1 event clock period to $65536/NBIT$ event clock periods. Assuming event clock at 142.8~MHz and \texttt{NBIT=40}, the range is 3.676~ns - 11473.126~ns.
+	  \textbf{CML\#-Freq\_Init-SP}=\emph{0} : Set the initial delay between when the frequency generation is triggered and when it starts to generate a clock signal. This allows for a phase difference between the output source signal and the output signal. The value range in ns depends on the event clock. It must be in range of 1 event clock period to $65536/NBIT$ event clock periods. Assuming event clock at 142.8~MHz and \texttt{NBIT=40}, the range is 3.676~ns - 11473.126~ns.
 	\item
-	  \textbf{CML\#-Freq:High-SP}=\emph{10} : sets the amount of time in ns the signal stays on logic high, before switching to logic low. The value range in ns depends on the event clock. It must be in range of 1 event clock period to $65536/NBIT$ event clock periods. Assuming event clock at 142.8~MHz and \texttt{NBIT=40}, the range is 3.676~ns - 11473.126~ns.
+	  \textbf{CML\#-Freq\_High-SP}=\emph{10} : sets the amount of time in ns the signal stays on logic high, before switching to logic low. The value range in ns depends on the event clock. It must be in range of 1 event clock period to $65536/NBIT$ event clock periods. Assuming event clock at 142.8~MHz and \texttt{NBIT=40}, the range is 3.676~ns - 11473.126~ns.
 	\item
-	  \textbf{CML\#-Freq:Low-SP}=\emph{10} : sets the amount of time in ns the signal stays logic low, before switching to logic high. The value range in ns depends on the event clock. It must be in range of 1 event clock period to $65536/NBIT$ event clock periods. Assuming event clock at 142.8~MHz, the range is 3.676~ns - 11473.126~ns.
+	  \textbf{CML\#-Freq\_Low-SP}=\emph{10} : sets the amount of time in ns the signal stays logic low, before switching to logic high. The value range in ns depends on the event clock. It must be in range of 1 event clock period to $65536/NBIT$ event clock periods. Assuming event clock at 142.8~MHz, the range is 3.676~ns - 11473.126~ns.
 	\end{itemize}
 \item 
 	In \textbf{waveform mode}, one can generate arbitrary bit patterns(waveforms), triggered by the output source signal(pulser, DBus signal,...). The waveform length is in multiple of \texttt{NBIT} bits (each bit is 1/\texttt{NBIT} of the event clock period), where maximum waveform length is \texttt{NBIT}x2048 bits.
-	%	  \textbf{timeline} (\emph{Pat:WfX-I}): displays the times at which an  element from the pattern will be sent out.
+	%	  \textbf{timeline} (\emph{Pat\_WfX-I}): displays the times at which an  element from the pattern will be sent out.
 		
 	\paragraph{Substitution file macros}
 	\begin{itemize}
 	\item
-	  \textbf{CML\#-Pat:WfCycle-SP}=\emph{0} : In \texttt{single shot mode(0)} the
+	  \textbf{CML\#-Pat\_WfCycle-SP}=\emph{0} : In \texttt{single shot mode(0)} the
 	  waveform is sent only once per received trigger, where in \texttt{loop mode(1)}
 	  the pattern will continuously loop after the first trigger occurred.
 	\end{itemize}
@@ -357,11 +357,11 @@ Patterns are defined by one of the configurable CML modes:
 	\paragraph{A delay calculator} has configurable \texttt{delay} and \texttt{width} macros to generate a pulse(similar to a pulser):
 	\begin{itemize}
 	\item
-	  \textbf{CML\#-WfCalc:Ena-SP}=\emph{0} : \texttt{enable(1)} and apply the waveform, or \texttt{disable(0)} the calculation.
+	  \textbf{CML\#-WfCalc\_Ena-SP}=\emph{0} : \texttt{enable(1)} and apply the waveform, or \texttt{disable(0)} the calculation.
 	\item
-	  \textbf{CML\#-WfCalc:Delay-SP}=\emph{16} : can be used to specify the time in ns between when the mode is triggered and the pulse is generated. The value range in ns depends on the event clock. It must be in range of 1 event clock period to 2048 event clock periods, which yields 0~ns - 14334~ns at 142.8~MHz event clock. The sum of \texttt{delay} and \texttt{width} must not exceed this maximum value.
+	  \textbf{CML\#-WfCalc\_Delay-SP}=\emph{16} : can be used to specify the time in ns between when the mode is triggered and the pulse is generated. The value range in ns depends on the event clock. It must be in range of 1 event clock period to 2048 event clock periods, which yields 0~ns - 14334~ns at 142.8~MHz event clock. The sum of \texttt{delay} and \texttt{width} must not exceed this maximum value.
 	\item
-	  \textbf{CML\#-WfCalc:Width-SP}=\emph{50} : can be used to specify the width of the pulse - the time the signal is stable at logic high. The value range in ns depends on the event clock.It must be in range of 1 event clock period to 2048 event clock periods, which yields 0~ns - 14334~ns at 142.8~MHz event clock. The sum of \texttt{delay} and \texttt{width} must not exceed this maximum value.
+	  \textbf{CML\#-WfCalc\_Width-SP}=\emph{50} : can be used to specify the width of the pulse - the time the signal is stable at logic high. The value range in ns depends on the event clock.It must be in range of 1 event clock period to 2048 event clock periods, which yields 0~ns - 14334~ns at 142.8~MHz event clock. The sum of \texttt{delay} and \texttt{width} must not exceed this maximum value.
 	\end{itemize}
 	
 	%\paragraph{A bunch train calculator} that generates a series of consecutive pulses with width and delay fixed to $(event clock) / 4$. As seen in Figure~\ref{fig:output_cml_bunch}, each bunch pattern consists of \texttt{NBIT/2} %logic low bits and \texttt{NBIT/2} logic high bits. A bunch train always ends with \texttt{NBIT} logic low bits.

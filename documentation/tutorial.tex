@@ -419,18 +419,18 @@ This tutorial demonstrates how to configure CML0 output of EVR-VME-300 to genera
 	    CML0-Ena-Sel=1,
 	    CML0-Pwr-Sel=1,
 	    CML0-Mode-Sel=0,
-	    CML0-Pat:Rise00_15-SP=0x0,
-	    CML0-Pat:Rise16_31-SP=0x0,
-	    CML0-Pat:Rise32_39-SP=0x0,
-	    CML0-Pat:High00_15-SP=0x0,
-	    CML0-Pat:High16_31-SP=0x0,
-	    CML0-Pat:High32_39-SP=0x0,
-	    CML0-Pat:Fall00_15-SP=0x0,
-	    CML0-Pat:Fall16_31-SP=0x0,
-	    CML0-Pat:Fall32_39-SP=0x0,
-	    CML0-Pat:Low00_15-SP=0xFFFF,
-	    CML0-Pat:Low16_31-SP=0xF000,
-	    CML0-Pat:Low32_39-SP=0x0,
+	    CML0-Pat_Rise00_15-SP=0x0,
+	    CML0-Pat_Rise16_31-SP=0x0,
+	    CML0-Pat_Rise32_39-SP=0x0,
+	    CML0-Pat_High00_15-SP=0x0,
+	    CML0-Pat_High16_31-SP=0x0,
+	    CML0-Pat_High32_39-SP=0x0,
+	    CML0-Pat_Fall00_15-SP=0x0,
+	    CML0-Pat_Fall16_31-SP=0x0,
+	    CML0-Pat_Fall32_39-SP=0x0,
+	    CML0-Pat_Low00_15-SP=0xFFFF,
+	    CML0-Pat_Low16_31-SP=0xF000,
+	    CML0-Pat_Low32_39-SP=0x0,
 	    ...
 	  }
 	}
@@ -442,18 +442,18 @@ This tutorial demonstrates how to configure CML0 output of EVR-VME-300 to genera
 		\item \texttt{MTEST-VME-TIMINGTEST-EVR0:CML0-Ena-Sel}
 		\item \texttt{MTEST-VME-TIMINGTEST-EVR0:CML0-Pwr-Sel}
 		\item \texttt{MTEST-VME-TIMINGTEST-EVR0:CML0-Mode-Sel}
-		\item \texttt{MTEST-VME-TIMINGTEST-EVR0:CML0-Pat:Rise00\_15-SP}
-		\item \texttt{MTEST-VME-TIMINGTEST-EVR0:CML0-Pat:Rise16\_31-SP}
-		\item \texttt{MTEST-VME-TIMINGTEST-EVR0:CML0-Pat:Rise32\_39-SP}
-		\item \texttt{MTEST-VME-TIMINGTEST-EVR0:CML0-Pat:High00\_15-SP}
-		\item \texttt{MTEST-VME-TIMINGTEST-EVR0:CML0-Pat:High16\_31-SP}
-		\item \texttt{MTEST-VME-TIMINGTEST-EVR0:CML0-Pat:High32\_39-SP}
-		\item \texttt{MTEST-VME-TIMINGTEST-EVR0:CML0-Pat:Fall00\_15-SP}
-		\item \texttt{MTEST-VME-TIMINGTEST-EVR0:CML0-Pat:Fall16\_31-SP}
-		\item \texttt{MTEST-VME-TIMINGTEST-EVR0:CML0-Pat:Fall32\_39-SP}
-		\item \texttt{MTEST-VME-TIMINGTEST-EVR0:CML0-Pat:Low00\_15-SP}
-		\item \texttt{MTEST-VME-TIMINGTEST-EVR0:CML0-Pat:Low16\_31-SP}
-		\item \texttt{MTEST-VME-TIMINGTEST-EVR0:CML0-Pat:Low32\_39-SP}
+		\item \texttt{MTEST-VME-TIMINGTEST-EVR0:CML0-Pat\_Rise00\_15-SP}
+		\item \texttt{MTEST-VME-TIMINGTEST-EVR0:CML0-Pat\_Rise16\_31-SP}
+		\item \texttt{MTEST-VME-TIMINGTEST-EVR0:CML0-Pat\_Rise32\_39-SP}
+		\item \texttt{MTEST-VME-TIMINGTEST-EVR0:CML0-Pat\_High00\_15-SP}
+		\item \texttt{MTEST-VME-TIMINGTEST-EVR0:CML0-Pat\_High16\_31-SP}
+		\item \texttt{MTEST-VME-TIMINGTEST-EVR0:CML0-Pat\_High32\_39-SP}
+		\item \texttt{MTEST-VME-TIMINGTEST-EVR0:CML0-Pat\_Fall00\_15-SP}
+		\item \texttt{MTEST-VME-TIMINGTEST-EVR0:CML0-Pat\_Fall16\_31-SP}
+		\item \texttt{MTEST-VME-TIMINGTEST-EVR0:CML0-Pat\_Fall32\_39-SP}
+		\item \texttt{MTEST-VME-TIMINGTEST-EVR0:CML0-Pat\_Low00\_15-SP}
+		\item \texttt{MTEST-VME-TIMINGTEST-EVR0:CML0-Pat\_Low16\_31-SP}
+		\item \texttt{MTEST-VME-TIMINGTEST-EVR0:CML0-Pat\_Low32\_39-SP}
 	\end{itemize}
 
 	\item Optionally, you can remove all the macros whose values you did not change. 
@@ -467,18 +467,18 @@ This tutorial demonstrates how to configure CML0 output of EVR-VME-300 to genera
 	\item \texttt{CML0-Ena-Sel}=1: Enable the CML0 output, which corresponds to the front panel output 6.
 	\item \texttt{CML0-Pwr-Sel}=1: Power on the CML0 output.
 	\item \texttt{CML0-Mode-Sel}=0: Select the pattern mode. Because the output source signal of the front panel output 6 is set to logic low, this mode will continuously output logic low pattern.
-	\item \texttt{CML0-Pat:Low00\_15-SP}=0xFFFF: Set logic low pattern bits 0-15. The Figure~\ref{fig:gen_evt_clk} shows that the bits 15-0 must be set as follows: \texttt{1111 1111 1111 1111}, which translates to \texttt{0xFFFF}. Each bit represents $1/40$ of the event clock period.
-	\item \texttt{CML0-Pat:Low16\_31-SP}=0xF000: Set signal low pattern bits 16-31.The Figure~\ref{fig:gen_evt_clk} shows that the bits 15-0 must be set as follows: \texttt{1111 0000 0000 0000}, which translates to \texttt{0xF000}. 
-	\item \texttt{CML0-Pat:Low16\_31-SP}=0x0: Set signal low pattern bits 32-39, as seen in Figure~\ref{fig:gen_evt_clk}. Note, that only bits 32-29 (lower 8 bits) can be used.
-	\item \texttt{CML0-Pat:Rise00\_15-SP}=0x0: Other patterns are not used, so they are set to 0.
-	\item \texttt{CML0-Pat:Rise16\_31-SP}=0x0: Other patterns are not used, so they are set to 0.
-	\item \texttt{CML0-Pat:Rise32\_39-SP}=0x0: Other patterns are not used, so they are set to 0.
-	\item \texttt{CML0-Pat:High00\_15-SP}=0x0: Other patterns are not used, so they are set to 0.
-	\item \texttt{CML0-Pat:High16\_31-SP}=0x0: Other patterns are not used, so they are set to 0.
-	\item \texttt{CML0-Pat:High32\_39-SP}=0x0: Other patterns are not used, so they are set to 0.
-	\item \texttt{CML0-Pat:Fall00\_15-SP}=0x0: Other patterns are not used, so they are set to 0.
-	\item \texttt{CML0-Pat:Fall16\_31-SP}=0x0: Other patterns are not used, so they are set to 0.
-	\item \texttt{CML0-Pat:Fall32\_39-SP}=0x0: Other patterns are not used, so they are set to 0.
+	\item \texttt{CML0-Pat\_Low00\_15-SP}=0xFFFF: Set logic low pattern bits 0-15. The Figure~\ref{fig:gen_evt_clk} shows that the bits 15-0 must be set as follows: \texttt{1111 1111 1111 1111}, which translates to \texttt{0xFFFF}. Each bit represents $1/40$ of the event clock period.
+	\item \texttt{CML0-Pat\_Low16\_31-SP}=0xF000: Set signal low pattern bits 16-31.The Figure~\ref{fig:gen_evt_clk} shows that the bits 15-0 must be set as follows: \texttt{1111 0000 0000 0000}, which translates to \texttt{0xF000}. 
+	\item \texttt{CML0-Pat\_Low16\_31-SP}=0x0: Set signal low pattern bits 32-39, as seen in Figure~\ref{fig:gen_evt_clk}. Note, that only bits 32-29 (lower 8 bits) can be used.
+	\item \texttt{CML0-Pat\_Rise00\_15-SP}=0x0: Other patterns are not used, so they are set to 0.
+	\item \texttt{CML0-Pat\_Rise16\_31-SP}=0x0: Other patterns are not used, so they are set to 0.
+	\item \texttt{CML0-Pat\_Rise32\_39-SP}=0x0: Other patterns are not used, so they are set to 0.
+	\item \texttt{CML0-Pat\_High00\_15-SP}=0x0: Other patterns are not used, so they are set to 0.
+	\item \texttt{CML0-Pat\_High16\_31-SP}=0x0: Other patterns are not used, so they are set to 0.
+	\item \texttt{CML0-Pat\_High32\_39-SP}=0x0: Other patterns are not used, so they are set to 0.
+	\item \texttt{CML0-Pat\_Fall00\_15-SP}=0x0: Other patterns are not used, so they are set to 0.
+	\item \texttt{CML0-Pat\_Fall16\_31-SP}=0x0: Other patterns are not used, so they are set to 0.
+	\item \texttt{CML0-Pat\_Fall32\_39-SP}=0x0: Other patterns are not used, so they are set to 0.
 \end{itemize}
 
 \subsection{Substitution snippet for EVR-VME-230 form factor}
@@ -493,8 +493,8 @@ The following substitution snippet can be used in case of EVR-VME-230 form facto
 	    CML0-Ena-Sel=1,
 	    CML0-Pwr-Sel=1,
 	    CML0-Mode-Sel=0,
-	    CML0-Pat:Low00_15-SP=0xFFC0,
-	    CML0-Pat:Low16_31-SP=0, 
+	    CML0-Pat\_Low00_15-SP=0xFFC0,
+	    CML0-Pat\_Low16_31-SP=0, 
 	    ...
 	  }
 	}

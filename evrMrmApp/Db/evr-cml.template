@@ -91,46 +91,46 @@ record(calcout, "$(SYS)-$(DEVICE):CML$(ID)-Res-I") {
 record(fanout, "$(SYS)-$(DEVICE):CML$(ID)-Res-FO_") {
   field(DESC, "Clock change resync")
   field(TSEL, "$(SYS)-$(DEVICE):CML$(ID)-Res-I.TIME")
-  field(LNK1, "$(SYS)-$(DEVICE):CML$(ID)-Freq:High-SP")
-  field(LNK2, "$(SYS)-$(DEVICE):CML$(ID)-Freq:Low-SP")
-  field(LNK3, "$(SYS)-$(DEVICE):CML$(ID)-Pat:WfX-ASub_")
+  field(LNK1, "$(SYS)-$(DEVICE):CML$(ID)-Freq_High-SP")
+  field(LNK2, "$(SYS)-$(DEVICE):CML$(ID)-Freq_Low-SP")
+  field(LNK3, "$(SYS)-$(DEVICE):CML$(ID)-Pat_WfX-ASub_")
   field(LNK4, "$(SYS)-$(DEVICE):CML$(ID)-WfCalc-ASub_")
 }
 
 # Rising pattern
 
-record(mbboDirect, "$(SYS)-$(DEVICE):CML$(ID)-Pat:Rise00_15-SP") {
+record(mbboDirect, "$(SYS)-$(DEVICE):CML$(ID)-Pat_Rise00_15-SP") {
   field(DTYP, "Soft and restore")
   field(DESC, "Bits 0-15")
   field(NOBT, "16")
-  field(OUT , "$(SYS)-$(DEVICE):CML$(ID)-Pat:Rise-ASub_.A PP")
+  field(OUT , "$(SYS)-$(DEVICE):CML$(ID)-Pat_Rise-ASub_.A PP")
   field(PINI, "YES")
-  field(VAL, "$(CML$(ID)-Pat:Rise00_15-SP\=0)")
+  field(VAL, "$(CML$(ID)-Pat_Rise00_15-SP\=$(CML$(ID)-Pat:Rise00_15-SP\=0))")
   info(autosaveFields_pass0, "VAL")
 }
 
-record(mbboDirect, "$(SYS)-$(DEVICE):CML$(ID)-Pat:Rise16_31-SP") {
+record(mbboDirect, "$(SYS)-$(DEVICE):CML$(ID)-Pat_Rise16_31-SP") {
   field(DTYP, "Soft and restore")
   field(DESC, "Bits 16-31")
   field(NOBT, "16")
-  field(OUT , "$(SYS)-$(DEVICE):CML$(ID)-Pat:Rise-ASub_.B PP")
+  field(OUT , "$(SYS)-$(DEVICE):CML$(ID)-Pat_Rise-ASub_.B PP")
   field(PINI, "YES")
-  field(VAL, "$(CML$(ID)-Pat:Rise16_31-SP\=0)")
+  field(VAL, "$(CML$(ID)-Pat_Rise16_31-SP\=$(CML$(ID)-Pat:Rise16_31-SP\=0))")
   info(autosaveFields_pass0, "VAL")
 }
 
-record(mbboDirect, "$(SYS)-$(DEVICE):CML$(ID)-Pat:Rise32_39-SP") {
+record(mbboDirect, "$(SYS)-$(DEVICE):CML$(ID)-Pat_Rise32_39-SP") {
   field(DTYP, "Soft and restore")
   field(DESC, "Bits 32-39")
   field(NOBT, "16")
   field(SHFT, "8")
-  field(OUT , "$(SYS)-$(DEVICE):CML$(ID)-Pat:Rise-ASub_.C PP")
+  field(OUT , "$(SYS)-$(DEVICE):CML$(ID)-Pat_Rise-ASub_.C PP")
   field(PINI, "YES")
-  field(VAL, "$(CML$(ID)-Pat:Rise32_39-SP\=0)")
+  field(VAL, "$(CML$(ID)-Pat_Rise32_39-SP\=$(CML$(ID)-Pat:Rise32_39-SP\=0))")
   info(autosaveFields_pass0, "VAL")
 }
 
-record(aSub, "$(SYS)-$(DEVICE):CML$(ID)-Pat:Rise-ASub_") {
+record(aSub, "$(SYS)-$(DEVICE):CML$(ID)-Pat_Rise-ASub_") {
   field(SNAM, "Bit Array Gen")
   field(BRSV, "INVALID")
   field( FTA, "USHORT")
@@ -138,10 +138,10 @@ record(aSub, "$(SYS)-$(DEVICE):CML$(ID)-Pat:Rise-ASub_") {
   field( FTC, "USHORT")
   field(FTVA, "UCHAR")
   field(NOVA, "$(NBIT=20)")
-  field(OUTA, "$(SYS)-$(DEVICE):CML$(ID)-Pat:Rise-SP PP")
+  field(OUTA, "$(SYS)-$(DEVICE):CML$(ID)-Pat_Rise-SP PP")
 }
 
-record(waveform, "$(SYS)-$(DEVICE):CML$(ID)-Pat:Rise-SP") {
+record(waveform, "$(SYS)-$(DEVICE):CML$(ID)-Pat_Rise-SP") {
   field(DESC, "Rising edge pattern")
   field(DTYP, "Obj Prop waveform out")
   field(INP, "@OBJ=$(DEVICE):CML$(ID), PROP=Pat Rise")
@@ -154,38 +154,38 @@ record(waveform, "$(SYS)-$(DEVICE):CML$(ID)-Pat:Rise-SP") {
 
 # High pattern
 
-record(mbboDirect, "$(SYS)-$(DEVICE):CML$(ID)-Pat:High00_15-SP") {
+record(mbboDirect, "$(SYS)-$(DEVICE):CML$(ID)-Pat_High00_15-SP") {
   field(DTYP, "Soft and restore")
   field(DESC, "Bits 0-15")
   field(NOBT, "16")
-  field(OUT , "$(SYS)-$(DEVICE):CML$(ID)-Pat:High-ASub_.A PP")
+  field(OUT , "$(SYS)-$(DEVICE):CML$(ID)-Pat_High-ASub_.A PP")
   field(PINI, "YES")
-  field(VAL, "$(CML$(ID)-Pat:High00_15-SP\=0)")
+  field(VAL, "$(CML$(ID)-Pat_High00_15-SP\=$(CML$(ID)-Pat:High00_15-SP\=0))")
   info(autosaveFields_pass0, "VAL")
 }
 
-record(mbboDirect, "$(SYS)-$(DEVICE):CML$(ID)-Pat:High16_31-SP") {
+record(mbboDirect, "$(SYS)-$(DEVICE):CML$(ID)-Pat_High16_31-SP") {
   field(DTYP, "Soft and restore")
   field(DESC, "Bits 16-31")
   field(NOBT, "16")
-  field(OUT , "$(SYS)-$(DEVICE):CML$(ID)-Pat:High-ASub_.B PP")
+  field(OUT , "$(SYS)-$(DEVICE):CML$(ID)-Pat_High-ASub_.B PP")
   field(PINI, "YES")
-  field(VAL, "$(CML$(ID)-Pat:High16_31-SP\=0)")
+  field(VAL, "$(CML$(ID)-Pat_High16_31-SP\=$(CML$(ID)-Pat:High16_31-SP\=0))")
   info(autosaveFields_pass0, "VAL")
 }
 
-record(mbboDirect, "$(SYS)-$(DEVICE):CML$(ID)-Pat:High32_39-SP") {
+record(mbboDirect, "$(SYS)-$(DEVICE):CML$(ID)-Pat_High32_39-SP") {
   field(DTYP, "Soft and restore")
   field(DESC, "Bits 32-39")
   field(NOBT, "16")
   field(SHFT, "8")
-  field(OUT , "$(SYS)-$(DEVICE):CML$(ID)-Pat:High-ASub_.C PP")
+  field(OUT , "$(SYS)-$(DEVICE):CML$(ID)-Pat_High-ASub_.C PP")
   field(PINI, "YES")
-  field(VAL, "$(CML$(ID)-Pat:High32_39-SP\=0)")
+  field(VAL, "$(CML$(ID)-Pat_High32_39-SP\=$(CML$(ID)-Pat:High32_39-SP\=0))")
   info(autosaveFields_pass0, "VAL")
 }
 
-record(aSub, "$(SYS)-$(DEVICE):CML$(ID)-Pat:High-ASub_") {
+record(aSub, "$(SYS)-$(DEVICE):CML$(ID)-Pat_High-ASub_") {
   field(SNAM, "Bit Array Gen")
   field(BRSV, "INVALID")
   field( FTA, "USHORT")
@@ -193,10 +193,10 @@ record(aSub, "$(SYS)-$(DEVICE):CML$(ID)-Pat:High-ASub_") {
   field( FTC, "USHORT")
   field(FTVA, "UCHAR")
   field(NOVA, "$(NBIT=20)")
-  field(OUTA, "$(SYS)-$(DEVICE):CML$(ID)-Pat:High-SP PP")
+  field(OUTA, "$(SYS)-$(DEVICE):CML$(ID)-Pat_High-SP PP")
 }
 
-record(waveform, "$(SYS)-$(DEVICE):CML$(ID)-Pat:High-SP") {
+record(waveform, "$(SYS)-$(DEVICE):CML$(ID)-Pat_High-SP") {
   field(DESC, "Rising edge pattern")
   field(DTYP, "Obj Prop waveform out")
   field(INP, "@OBJ=$(DEVICE):CML$(ID), PROP=Pat High")
@@ -209,38 +209,38 @@ record(waveform, "$(SYS)-$(DEVICE):CML$(ID)-Pat:High-SP") {
 
 # Falling pattern
 
-record(mbboDirect, "$(SYS)-$(DEVICE):CML$(ID)-Pat:Fall00_15-SP") {
+record(mbboDirect, "$(SYS)-$(DEVICE):CML$(ID)-Pat_Fall00_15-SP") {
   field(DTYP, "Soft and restore")
   field(DESC, "Bits 0-15")
   field(NOBT, "16")
-  field(OUT , "$(SYS)-$(DEVICE):CML$(ID)-Pat:Fall-ASub_.A PP")
+  field(OUT , "$(SYS)-$(DEVICE):CML$(ID)-Pat_Fall-ASub_.A PP")
   field(PINI, "YES")
-  field(VAL, "$(CML$(ID)-Pat:Fall00_15-SP\=0)")
+  field(VAL, "$(CML$(ID)-Pat_Fall00_15-SP\=$(CML$(ID)-Pat:Fall00_15-SP\=0))")
   info(autosaveFields_pass0, "VAL")
 }
 
-record(mbboDirect, "$(SYS)-$(DEVICE):CML$(ID)-Pat:Fall16_31-SP") {
+record(mbboDirect, "$(SYS)-$(DEVICE):CML$(ID)-Pat_Fall16_31-SP") {
   field(DTYP, "Soft and restore")
   field(DESC, "Bits 16-31")
   field(NOBT, "16")
-  field(OUT , "$(SYS)-$(DEVICE):CML$(ID)-Pat:Fall-ASub_.B PP")
+  field(OUT , "$(SYS)-$(DEVICE):CML$(ID)-Pat_Fall-ASub_.B PP")
   field(PINI, "YES")
-  field(VAL, "$(CML$(ID)-Pat:Fall16_31-SP\=0)")
+  field(VAL, "$(CML$(ID)-Pat_Fall16_31-SP\=$(CML$(ID)-Pat:Fall16_31-SP\=0))")
   info(autosaveFields_pass0, "VAL")
 }
 
-record(mbboDirect, "$(SYS)-$(DEVICE):CML$(ID)-Pat:Fall32_39-SP") {
+record(mbboDirect, "$(SYS)-$(DEVICE):CML$(ID)-Pat_Fall32_39-SP") {
   field(DTYP, "Soft and restore")
   field(DESC, "Bits 32-39")
   field(NOBT, "16")
   field(SHFT, "8")
-  field(OUT , "$(SYS)-$(DEVICE):CML$(ID)-Pat:Fall-ASub_.C PP")
+  field(OUT , "$(SYS)-$(DEVICE):CML$(ID)-Pat_Fall-ASub_.C PP")
   field(PINI, "YES")
-  field(VAL, "$(CML$(ID)-Pat:Fall32_39-SP\=0)")
+  field(VAL, "$(CML$(ID)-Pat_Fall32_39-SP\=$(CML$(ID)-Pat:Fall32_39-SP\=0))")
   info(autosaveFields_pass0, "VAL")
 }
 
-record(aSub, "$(SYS)-$(DEVICE):CML$(ID)-Pat:Fall-ASub_") {
+record(aSub, "$(SYS)-$(DEVICE):CML$(ID)-Pat_Fall-ASub_") {
   field(SNAM, "Bit Array Gen")
   field(BRSV, "INVALID")
   field( FTA, "USHORT")
@@ -248,10 +248,10 @@ record(aSub, "$(SYS)-$(DEVICE):CML$(ID)-Pat:Fall-ASub_") {
   field( FTC, "USHORT")
   field(FTVA, "UCHAR")
   field(NOVA, "$(NBIT=20)")
-  field(OUTA, "$(SYS)-$(DEVICE):CML$(ID)-Pat:Fall-SP PP")
+  field(OUTA, "$(SYS)-$(DEVICE):CML$(ID)-Pat_Fall-SP PP")
 }
 
-record(waveform, "$(SYS)-$(DEVICE):CML$(ID)-Pat:Fall-SP") {
+record(waveform, "$(SYS)-$(DEVICE):CML$(ID)-Pat_Fall-SP") {
   field(DESC, "Rising edge pattern")
   field(DTYP, "Obj Prop waveform out")
   field(INP, "@OBJ=$(DEVICE):CML$(ID), PROP=Pat Fall")
@@ -264,38 +264,38 @@ record(waveform, "$(SYS)-$(DEVICE):CML$(ID)-Pat:Fall-SP") {
 
 # Low pattern
 
-record(mbboDirect, "$(SYS)-$(DEVICE):CML$(ID)-Pat:Low00_15-SP") {
+record(mbboDirect, "$(SYS)-$(DEVICE):CML$(ID)-Pat_Low00_15-SP") {
   field(DTYP, "Soft and restore")
   field(DESC, "Bits 0-15")
   field(NOBT, "16")
-  field(OUT , "$(SYS)-$(DEVICE):CML$(ID)-Pat:Low-ASub_.A PP")
+  field(OUT , "$(SYS)-$(DEVICE):CML$(ID)-Pat_Low-ASub_.A PP")
   field(PINI, "YES")
-  field(VAL, "$(CML$(ID)-Pat:Low00_15-SP\=0)")
+  field(VAL, "$(CML$(ID)-Pat_Low00_15-SP\=$(CML$(ID)-Pat:Low00_15-SP\=0))")
   info(autosaveFields_pass0, "VAL")
 }
 
-record(mbboDirect, "$(SYS)-$(DEVICE):CML$(ID)-Pat:Low16_31-SP") {
+record(mbboDirect, "$(SYS)-$(DEVICE):CML$(ID)-Pat_Low16_31-SP") {
   field(DTYP, "Soft and restore")
   field(DESC, "Bits 16-31")
   field(NOBT, "16")
-  field(OUT , "$(SYS)-$(DEVICE):CML$(ID)-Pat:Low-ASub_.B PP")
+  field(OUT , "$(SYS)-$(DEVICE):CML$(ID)-Pat_Low-ASub_.B PP")
   field(PINI, "YES")
-  field(VAL, "$(CML$(ID)-Pat:Low16_31-SP\=0)")
+  field(VAL, "$(CML$(ID)-Pat_Low16_31-SP\=$(CML$(ID)-Pat:Low16_31-SP\=0))")
   info(autosaveFields_pass0, "VAL")
 }
 
-record(mbboDirect, "$(SYS)-$(DEVICE):CML$(ID)-Pat:Low32_39-SP") {
+record(mbboDirect, "$(SYS)-$(DEVICE):CML$(ID)-Pat_Low32_39-SP") {
   field(DTYP, "Soft and restore")
   field(DESC, "Bits 32-39")
   field(NOBT, "16")
   field(SHFT, "8")
-  field(OUT , "$(SYS)-$(DEVICE):CML$(ID)-Pat:Low-ASub_.C PP")
+  field(OUT , "$(SYS)-$(DEVICE):CML$(ID)-Pat_Low-ASub_.C PP")
   field(PINI, "YES")
-  field(VAL, "$(CML$(ID)-Pat:Low32_39-SP\=0)")
+  field(VAL, "$(CML$(ID)-Pat_Low32_39-SP\=$(CML$(ID)-Pat:Low32_39-SP\=0))")
   info(autosaveFields_pass0, "VAL")
 }
 
-record(aSub, "$(SYS)-$(DEVICE):CML$(ID)-Pat:Low-ASub_") {
+record(aSub, "$(SYS)-$(DEVICE):CML$(ID)-Pat_Low-ASub_") {
   field(SNAM, "Bit Array Gen")
   field(BRSV, "INVALID")
   field( FTA, "USHORT")
@@ -303,10 +303,10 @@ record(aSub, "$(SYS)-$(DEVICE):CML$(ID)-Pat:Low-ASub_") {
   field( FTC, "USHORT")
   field(FTVA, "UCHAR")
   field(NOVA, "$(NBIT=20)")
-  field(OUTA, "$(SYS)-$(DEVICE):CML$(ID)-Pat:Low-SP PP")
+  field(OUTA, "$(SYS)-$(DEVICE):CML$(ID)-Pat_Low-SP PP")
 }
 
-record(waveform, "$(SYS)-$(DEVICE):CML$(ID)-Pat:Low-SP") {
+record(waveform, "$(SYS)-$(DEVICE):CML$(ID)-Pat_Low-SP") {
   field(DESC, "Rising edge pattern")
   field(DTYP, "Obj Prop waveform out")
   field(INP, "@OBJ=$(DEVICE):CML$(ID), PROP=Pat Low")
@@ -319,34 +319,34 @@ record(waveform, "$(SYS)-$(DEVICE):CML$(ID)-Pat:Low-SP") {
 
 # frequency mode
 
-record(bo, "$(SYS)-$(DEVICE):CML$(ID)-Freq:Lvl-SP") {
+record(bo, "$(SYS)-$(DEVICE):CML$(ID)-Freq_Lvl-SP") {
   field(DTYP, "Obj Prop bool")
   field(DESC, "Trigger level")
   field(OUT, "@OBJ=$(DEVICE):CML$(ID), PROP=Freq Trig Lvl")
   field(PINI, "YES")
   field(UDF, "0")
-  field(VAL, "$(CML$(ID)-Freq:Lvl-SP\=0)")
+  field(VAL, "$(CML$(ID)-Freq_Lvl-SP\=$(CML$(ID)-Freq:Lvl-SP\=0))")
   field(ZNAM, "Active high")
   field(ONAM, "Active low")
   info(autosaveFields_pass0, "VAL")
 }
 
-record(ao, "$(SYS)-$(DEVICE):CML$(ID)-Freq:Init-SP") {
+record(ao, "$(SYS)-$(DEVICE):CML$(ID)-Freq_Init-SP") {
   field(DESC, "Trigger point")
   field(DTYP, "Obj Prop double")
   field(OUT, "@OBJ=$(DEVICE):CML$(ID), PROP=Counts Init")
   field(PINI, "YES")
   field(UDF , "0")
-  field(VAL , "$(CML$(ID)-Freq:Init-SP\=0)")
+  field(VAL , "$(CML$(ID)-Freq_Init-SP\=$(CML$(ID)-Freq:Init-SP\=0))")
   field(EGU , "ns")
   field(LINR, "LINEAR")
   field(ESLO, "1e9")
   field(PREC, "3")
-  field(FLNK, "$(SYS)-$(DEVICE):CML$(ID)-Freq:Init-RB")
+  field(FLNK, "$(SYS)-$(DEVICE):CML$(ID)-Freq_Init-RB")
   info(autosaveFields_pass0, "VAL")
 }
 
-record(longin, "$(SYS)-$(DEVICE):CML$(ID)-Freq:Init-RB") {
+record(longin, "$(SYS)-$(DEVICE):CML$(ID)-Freq_Init-RB") {
   field(DTYP, "Obj Prop uint32")
   field(DESC, "Initial counter val.")
   field(INP, "@OBJ=$(DEVICE):CML$(ID), PROP=Counts Init")
@@ -356,22 +356,22 @@ record(longin, "$(SYS)-$(DEVICE):CML$(ID)-Freq:Init-RB") {
   field(LSV, "INVALID")
 }
 
-record(ao, "$(SYS)-$(DEVICE):CML$(ID)-Freq:High-SP") {
+record(ao, "$(SYS)-$(DEVICE):CML$(ID)-Freq_High-SP") {
   field(DESC, "Time active")
   field(DTYP, "Obj Prop double")
   field(OUT, "@OBJ=$(DEVICE):CML$(ID), PROP=Counts High")
   field(PINI, "YES")
   field(UDF , "0")
-  field(VAL , "$(CML$(ID)-Freq:High-SP\=10)")
+  field(VAL , "$(CML$(ID)-Freq_High-SP\=$(CML$(ID)-Freq:High-SP\=10))")
   field(EGU , "ns")
   field(LINR, "LINEAR")
   field(ESLO, "1e9")
   field(PREC, "3")
-  field(FLNK, "$(SYS)-$(DEVICE):CML$(ID)-Freq:High-RB")
+  field(FLNK, "$(SYS)-$(DEVICE):CML$(ID)-Freq_High-RB")
   info(autosaveFields_pass0, "VAL")
 }
 
-record(longin, "$(SYS)-$(DEVICE):CML$(ID)-Freq:High-RB") {
+record(longin, "$(SYS)-$(DEVICE):CML$(ID)-Freq_High-RB") {
   field(DTYP, "Obj Prop uint32")
   field(INP, "@OBJ=$(DEVICE):CML$(ID), PROP=Counts High")
   field(HIGH, "65535")
@@ -380,22 +380,22 @@ record(longin, "$(SYS)-$(DEVICE):CML$(ID)-Freq:High-RB") {
   field(LSV, "INVALID")
 }
 
-record(ao, "$(SYS)-$(DEVICE):CML$(ID)-Freq:Low-SP") {
+record(ao, "$(SYS)-$(DEVICE):CML$(ID)-Freq_Low-SP") {
   field(DESC, "Time inactive")
   field(DTYP, "Obj Prop double")
   field(OUT, "@OBJ=$(DEVICE):CML$(ID), PROP=Counts Low")
   field(PINI, "YES")
   field(UDF , "0")
-  field(VAL , "$(CML$(ID)-Freq:Low-SP\=10)")
+  field(VAL , "$(CML$(ID)-Freq_Low-SP\=$(CML$(ID)-Freq:Low-SP\=10))")
   field(EGU , "ns")
   field(LINR, "LINEAR")
   field(ESLO, "1e9")
   field(PREC, "3")
-  field(FLNK, "$(SYS)-$(DEVICE):CML$(ID)-Freq:Low-RB")
+  field(FLNK, "$(SYS)-$(DEVICE):CML$(ID)-Freq_Low-RB")
   info(autosaveFields_pass0, "VAL")
 }
 
-record(longin, "$(SYS)-$(DEVICE):CML$(ID)-Freq:Low-RB") {
+record(longin, "$(SYS)-$(DEVICE):CML$(ID)-Freq_Low-RB") {
   field(DTYP, "Obj Prop uint32")
   field(INP, "@OBJ=$(DEVICE):CML$(ID), PROP=Counts Low")
   field(HIGH, "65535")
@@ -407,20 +407,20 @@ record(longin, "$(SYS)-$(DEVICE):CML$(ID)-Freq:Low-RB") {
 # waveform mode
 
 
-record(bo, "$(SYS)-$(DEVICE):CML$(ID)-Pat:WfCycle-SP") {
+record(bo, "$(SYS)-$(DEVICE):CML$(ID)-Pat_WfCycle-SP") {
   field(DESC, "Waveform cycle mode")
   field(DTYP, "Obj Prop bool")
   field(OUT, "@OBJ=$(DEVICE):CML$(ID), PROP=Pat Recycle")
   field(PINI, "YES")
   field(UDF, "0")
-  field(VAL, "$(CML$(ID)-Pat:WfCycle-SP\=0)")
+  field(VAL, "$(CML$(ID)-Pat_WfCycle-SP\=$(CML$(ID)-Pat:WfCycle-SP\=0))")
   field(ZNAM, "Single shot")
   field(ONAM, "Loop")
   info(autosaveFields_pass0, "VAL")
 }
 
 
-record(waveform, "$(SYS)-$(DEVICE):CML$(ID)-Pat:Wf-SP") {
+record(waveform, "$(SYS)-$(DEVICE):CML$(ID)-Pat_Wf-SP") {
   field(DESC, "Pattern setting")
   field(DTYP, "Obj Prop waveform out")
   field(INP, "@OBJ=$(DEVICE):CML$(ID), PROP=Waveform")
@@ -429,11 +429,11 @@ record(waveform, "$(SYS)-$(DEVICE):CML$(ID)-Pat:Wf-SP") {
   field(NELM, "$(MAX=40940)") # 20*2047 or 40*2047
   field(HOPR, "1")
   field(LOPR, "0")
-  field(FLNK, "$(SYS)-$(DEVICE):CML$(ID)-Pat:Wf-RB")
+  field(FLNK, "$(SYS)-$(DEVICE):CML$(ID)-Pat_Wf-RB")
   info(autosaveFields_pass1, "VAL")
 }
 
-record(waveform, "$(SYS)-$(DEVICE):CML$(ID)-Pat:Wf-RB") {
+record(waveform, "$(SYS)-$(DEVICE):CML$(ID)-Pat_Wf-RB") {
   field(DESC, "Pattern readback")
   field(DTYP, "Obj Prop waveform in")
   field(PINI, "YES")
@@ -442,25 +442,25 @@ record(waveform, "$(SYS)-$(DEVICE):CML$(ID)-Pat:Wf-RB") {
   field(NELM, "$(MAX=40940)") # 20*2047 or 40*2047
   field(HOPR, "1")
   field(LOPR, "0")
-  field(FLNK, "$(SYS)-$(DEVICE):CML$(ID)-Pat:WfX-ASub_")
+  field(FLNK, "$(SYS)-$(DEVICE):CML$(ID)-Pat_WfX-ASub_")
 }
 
-record(aSub, "$(SYS)-$(DEVICE):CML$(ID)-Pat:WfX-ASub_") {
+record(aSub, "$(SYS)-$(DEVICE):CML$(ID)-Pat_WfX-ASub_") {
   field(SNAM, "Timeline")
   field(BRSV, "INVALID")
   field(INPA, "0")
   field( FTA, "DOUBLE")
   field(INPB, "$(SYS)-$(DEVICE):CML$(ID)-Res-I NPP")
   field( FTB, "DOUBLE")
-  field(INPC, "$(SYS)-$(DEVICE):CML$(ID)-Pat:Wf-SP.NORD NPP")
+  field(INPC, "$(SYS)-$(DEVICE):CML$(ID)-Pat_Wf-SP.NORD NPP")
   field( FTC, "LONG")
-  field(OUTA, "$(SYS)-$(DEVICE):CML$(ID)-Pat:WfX-I PP")
+  field(OUTA, "$(SYS)-$(DEVICE):CML$(ID)-Pat_WfX-I PP")
   field(FTVA, "DOUBLE")
   field(NOVA, "$(MAX=40940)") # 20*2047 or 40*2047
-  field(TSEL, "$(SYS)-$(DEVICE):CML$(ID)-Pat:Wf-RB.TIME")
+  field(TSEL, "$(SYS)-$(DEVICE):CML$(ID)-Pat_Wf-RB.TIME")
 }
 
-record(waveform, "$(SYS)-$(DEVICE):CML$(ID)-Pat:WfX-I") {
+record(waveform, "$(SYS)-$(DEVICE):CML$(ID)-Pat_WfX-I") {
   field(FTVL, "DOUBLE")
   field(NELM, "$(MAX=40940)")
   field(EGU , "ns")
@@ -468,36 +468,36 @@ record(waveform, "$(SYS)-$(DEVICE):CML$(ID)-Pat:WfX-I") {
 
 # Delay gen calculator for CML waveform
 
-record(bo, "$(SYS)-$(DEVICE):CML$(ID)-WfCalc:Ena-SP") {
+record(bo, "$(SYS)-$(DEVICE):CML$(ID)-WfCalc_Ena-SP") {
   field(DESC, "Disable calculator")
-  field(VAL, "$(CML$(ID)-WfCalc:Ena-SP\=0)")
+  field(VAL, "$(CML$(ID)-WfCalc_Ena-SP\=$(CML$(ID)-WfCalc:Ena-SP\=0))")
   field(ONAM, "Enabled")
   field(ZNAM, "Disabled")
   field(UDF , "0")
-  field(FLNK, "$(SYS)-$(DEVICE):CML$(ID)-WfCalc:Delay-SP")
+  field(FLNK, "$(SYS)-$(DEVICE):CML$(ID)-WfCalc_Delay-SP")
   info(autosaveFields_pass0, "VAL")
 }
 
-record(ao, "$(SYS)-$(DEVICE):CML$(ID)-WfCalc:Delay-SP") {
+record(ao, "$(SYS)-$(DEVICE):CML$(ID)-WfCalc_Delay-SP") {
   field(PINI, "YES")
   field(OUT , "$(SYS)-$(DEVICE):CML$(ID)-WfCalc-ASub_.A PP")
   field(EGU , "ns")
   field(UDF , "0")
-  field(VAL , "$(CML$(ID)-WfCalc:Delay-SP\=16)")
+  field(VAL , "$(CML$(ID)-WfCalc_Delay-SP\=$(CML$(ID)-WfCalc:Delay-SP\=16))")
   info(autosaveFields_pass0, "VAL EGU")
 }
 
-record(ao, "$(SYS)-$(DEVICE):CML$(ID)-WfCalc:Width-SP") {
+record(ao, "$(SYS)-$(DEVICE):CML$(ID)-WfCalc_Width-SP") {
   field(PINI, "YES")
   field(OUT , "$(SYS)-$(DEVICE):CML$(ID)-WfCalc-ASub_.B PP")
   field(EGU , "ns")
   field(UDF , "0")
-  field(VAL , "$(CML$(ID)-WfCalc:Width-SP\=50)")
+  field(VAL , "$(CML$(ID)-WfCalc_Width-SP\=$(CML$(ID)-WfCalc:Width-SP\=50))")
   info(autosaveFields_pass0, "VAL EGU")
 }
 
 record(aSub, "$(SYS)-$(DEVICE):CML$(ID)-WfCalc-ASub_") {
-  field(SDIS, "$(SYS)-$(DEVICE):CML$(ID)-WfCalc:Ena-SP")
+  field(SDIS, "$(SYS)-$(DEVICE):CML$(ID)-WfCalc_Ena-SP")
   field(DISV, "0")
   field(SNAM, "Delay Gen")
   field(BRSV, "INVALID")
@@ -507,7 +507,7 @@ record(aSub, "$(SYS)-$(DEVICE):CML$(ID)-WfCalc-ASub_") {
   field( FTC, "DOUBLE")
   field(INPD, "$(SYS)-$(DEVICE):CML$(ID)-Mult-I NPP")
   field( FTD, "LONG")
-  field(OUTA, "$(SYS)-$(DEVICE):CML$(ID)-Pat:Wf-SP PP")
+  field(OUTA, "$(SYS)-$(DEVICE):CML$(ID)-Pat_Wf-SP PP")
   field(FTVA, "UCHAR")
   field(NOVA, "$(MAX=40940)") # 20*2047 or 40*2047
 }
