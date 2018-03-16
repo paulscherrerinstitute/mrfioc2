@@ -340,6 +340,8 @@ private:
     volatile epicsUInt32 count_fifo_loops;
 
     epicsUInt32 shadowIRQEna;
+    
+    epicsMutex irqLock;
 
     // Guarded by evrLock
     epicsUInt32 count_FIFO_overflow;
