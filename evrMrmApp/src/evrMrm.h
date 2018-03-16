@@ -283,6 +283,7 @@ public:
     epicsUInt32 FIFOLoopCount() const{return count_fifo_loops;}
 
     void enableIRQ(void);
+    void disableIRQ(void);
 
     static void isr(void*);
     static void isr_pci(void*);

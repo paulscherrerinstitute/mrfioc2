@@ -1202,6 +1202,15 @@ EVRMRM::enableIRQ(void)
 }
 
 void
+EVRMRM::disableIRQ(void)
+{
+    SCOPED_LOCK(irqLock);
+    shadowIRQEna = 0;
+    WRITE32(base, IRQEnable, shadowIRQEna);
+    (void)READ32(base, IRQEnable); // make sure write is complete
+}
+
+void
 EVRMRM::isr_pci(void *arg) {
     EVRMRM *evr=static_cast<EVRMRM*>(arg);
 
