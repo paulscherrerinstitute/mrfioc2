@@ -572,7 +572,8 @@ disableIRQ(mrf::Object* obj, void*)
     if(!mrm)
         return true;
 
-    WRITE32(mrm->base, IRQEnable, 0);
+    mrm->disableIRQ();
+
     return true;
 }
 

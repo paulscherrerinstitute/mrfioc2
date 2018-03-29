@@ -129,6 +129,7 @@ EVRMRM::EVRMRM(const std::string& n,
   ,count_hardware_irq(0)
   ,count_heartbeat(0)
   ,shadowIRQEna(0)
+  ,irqLock()
   ,count_FIFO_overflow(0)
   ,m_deviceInfo(devInfo)
   ,outputs()
@@ -1171,7 +1172,7 @@ mrmRemoteFlash *EVRMRM::getRemoteFlash()
 void
 EVRMRM::enableIRQ(void)
 {
-    int key=epicsInterruptLock();
+    SCOPED_LOCK(irqLock);
 
     shadowIRQEna =   IRQ_Enable
                     |IRQ_PCIee
@@ -1188,6 +1189,7 @@ EVRMRM::enableIRQ(void)
     }
 
     WRITE32(base, IRQEnable, shadowIRQEna);
+    (void)READ32(base, IRQEnable); // make sure write is complete
 
     EVR_DEBUG(2,"Enabling interrupts: 0x%x",shadowIRQEna);
 
@@ -1197,8 +1199,15 @@ EVRMRM::enableIRQ(void)
             errlogPrintf("Failed to enable PCIe interrupt.  Stuck...\n");
         }
     }
+}
 
-    epicsInterruptUnlock(key);
+void
+EVRMRM::disableIRQ(void)
+{
+    SCOPED_LOCK(irqLock);
+    shadowIRQEna = 0;
+    WRITE32(base, IRQEnable, shadowIRQEna);
+    (void)READ32(base, IRQEnable); // make sure write is complete
 }
 
 void
@@ -1246,12 +1255,18 @@ EVRMRM::isr(void *arg)
         evr->count_recv_error++;
         scanIoRequest(evr->IRQrxError);
 
-        evr->shadowIRQEna &= ~IRQ_RXErr;
+        {
+            SCOPED_LOCK2(evr->irqLock, guard);
+            evr->shadowIRQEna &= ~IRQ_RXErr;
+        }
+
         callbackRequest(&evr->poll_link_cb);
     }
     if(active&IRQ_BufFull){
-        evr->shadowIRQEna &= ~IRQ_BufFull; // interrupt is re-enabled in the dataBufferRxComplete() callback
-
+        {
+            SCOPED_LOCK2(evr->irqLock, guard);
+            evr->shadowIRQEna &= ~IRQ_BufFull; // interrupt is re-enabled in the dataBufferRxComplete() callback
+        }
         // Silence interrupt. DataRxCtrl_stop is actually Rx acknowledge, so we need to write to it in order to clear it.
         BITSET(NAT,32,evr->base, DataRxCtrlEvr, DataRxCtrl_stop);
 
@@ -1259,17 +1274,26 @@ EVRMRM::isr(void *arg)
     }
     if(active&IRQ_SegDBuff){
         if(&evr->m_dataBufferObj_300 != NULL) {
-            evr->shadowIRQEna &= ~IRQ_SegDBuff; // interrupt is re-enabled in the dataBufferRxComplete() callback
+            {
+                SCOPED_LOCK2(evr->irqLock, guard);
+                evr->shadowIRQEna &= ~IRQ_SegDBuff; // interrupt is re-enabled in the dataBufferRxComplete() callback
+            }
             callbackRequest(&evr->dataBufferRx_cb_300);
         }
     }
     if(active&IRQ_HWMapped){
-        evr->shadowIRQEna &= ~IRQ_HWMapped;
+        {
+            SCOPED_LOCK2(evr->irqLock, guard);
+            evr->shadowIRQEna &= ~IRQ_HWMapped;
+        }
         //TODO: think of a way to use this feature...
     }
     if(active&IRQ_Event){
         //FIFO not-empty
-        evr->shadowIRQEna &= ~IRQ_Event;
+        {
+            SCOPED_LOCK2(evr->irqLock, guard);
+            evr->shadowIRQEna &= ~IRQ_Event;
+        }
         int wakeup=0;
         evr->drain_fifo_wakeup.trySend(&wakeup, sizeof(wakeup));
     }
@@ -1278,7 +1302,10 @@ EVRMRM::isr(void *arg)
         scanIoRequest(evr->IRQheartbeat);
     }
     if(active&IRQ_FIFOFull){
-        evr->shadowIRQEna &= ~IRQ_FIFOFull;
+        {
+            SCOPED_LOCK2(evr->irqLock, guard);
+            evr->shadowIRQEna &= ~IRQ_FIFOFull;
+        }
         int wakeup=0;
         evr->drain_fifo_wakeup.trySend(&wakeup, sizeof(wakeup));
 
@@ -1288,16 +1315,21 @@ EVRMRM::isr(void *arg)
 
 
     WRITE32(evr->base, IRQFlag, flags);
+    (void)READ32(evr->base, IRQFlag); // make sure write is complete
 
     // Only touch the bottom half of IRQEnable register
     // to prevent race condition with kernel space
     if(evr->getDeviceInfo()->getFirmwareId() < mrmDeviceInfo::firmwareId_delayCompensation) {
+        SCOPED_LOCK2(evr->irqLock, guard);
+
         WRITE8(evr->base,IRQEnableBot,(epicsUInt8)evr->shadowIRQEna);
         (void)READ8(evr->base,IRQEnableBot); // make sure write is complete
     }
     else {
         // evr sequencer is available only on EVRs with separated PCIe enable register.
         // Thus we can write 32 bits here.
+        SCOPED_LOCK2(evr->irqLock, guard);
+
         WRITE32(evr->base, IRQEnable, evr->shadowIRQEna);
         (void)READ32(evr->base, IRQEnable); // make sure write is complete
     }
@@ -1420,13 +1452,14 @@ EVRMRM::drain_fifo()
             BITSET(NAT,32, base, Control, Control_fiforst);
         }
 
-        int iflags=epicsInterruptLock();
+        {
+            SCOPED_LOCK(irqLock);
 
-        //*
-        shadowIRQEna |= IRQ_Event | IRQ_FIFOFull;
-        WRITE8(base,IRQEnableBot,(epicsUInt8)shadowIRQEna);
-
-        epicsInterruptUnlock(iflags);
+            //*
+            shadowIRQEna |= IRQ_Event | IRQ_FIFOFull;
+            WRITE8(base,IRQEnableBot,(epicsUInt8)shadowIRQEna);
+            (void)READ8(base, IRQEnableBot); // make sure write is complete
+        }
 
         // wait a fixed interval before checking again
         // Prevents this thread from starving others
@@ -1446,7 +1479,7 @@ void EVRMRM::dataBufferRxComplete(mrmDataBuffer *dataBuffer, void *vptr)
 {
     EVRMRM *evr=static_cast<EVRMRM*>(vptr);
 
-    int iflags=epicsInterruptLock();
+    SCOPED_LOCK2(evr->irqLock, guard);
 
     if(dataBuffer == evr->m_dataBuffer_230) {
         evr->shadowIRQEna |= IRQ_BufFull;
@@ -1458,8 +1491,7 @@ void EVRMRM::dataBufferRxComplete(mrmDataBuffer *dataBuffer, void *vptr)
         epicsPrintf("Callback received for re-enabling non-existant data buffer interrupt\n");  // this should never happen...
     }
     WRITE8(evr->base,IRQEnableBot,(epicsUInt8)evr->shadowIRQEna);
-
-    epicsInterruptUnlock(iflags);
+    (void)READ8(evr->base, IRQEnableBot); // make sure write is complete
 }
 
 void
@@ -1527,12 +1559,11 @@ try {
 
         scanIoRequest(evr->IRQrxError);
 
-        int iflags=epicsInterruptLock();
+        SCOPED_LOCK2(evr->irqLock, guard);
 
         evr->shadowIRQEna |= IRQ_RXErr;
         WRITE8(evr->base,IRQEnableBot,(epicsUInt8)evr->shadowIRQEna);
-
-        epicsInterruptUnlock(iflags);
+        (void)READ8(evr->base, IRQEnableBot); // make sure write is complete
     }
 } catch(std::exception& e) {
     epicsPrintf("exception in poll_link callback: %s\n", e.what());
