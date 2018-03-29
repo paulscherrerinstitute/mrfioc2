@@ -32,6 +32,29 @@ fi
 
 
 
+PARPORT_LOADED=$(lsmod | grep parport)
+if [ -z "$PARPORT_LOADED" ]; then
+	echo "Loading parport module."
+	modprobe parport
+else
+	echo "parport module already loaded."
+fi
+
+PARPORT_LOADED=$(lsmod | grep parport)
+if [ -z "$PARPORT_LOADED" ]; then
+	echo "Loading parport module."
+	insmod $1/kernelModules/$KERNEL/parport.ko
+fi
+
+PARPORT_LOADED=$(lsmod | grep parport)
+if [ -z "$PARPORT_LOADED" ]; then
+	echo "parport module not loaded. Aborting."
+	exit 1
+fi
+
+
+
+
 MRF_LOADED=$(lsmod | grep mrf)
 if [ -z "$MRF_LOADED" ]; then
 	echo "Loading mrf module."
