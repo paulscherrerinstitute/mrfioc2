@@ -478,8 +478,8 @@ evgSoftSeq::commitSoftSeq() {
         m_timestampWk.push_back(tsUInt64);
         m_eventCodeWk.push_back(ecUInt8);
         m_eventMaskWk.push_back(mskUInt8);
-	
-	if(ecUInt8==0x7f)
+
+        if(ecUInt8==0x7f)
             break; /* User provided end of sequence event */
     }
 
