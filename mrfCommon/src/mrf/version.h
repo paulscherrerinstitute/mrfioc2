@@ -9,7 +9,7 @@
 #elif defined(HG_VERSION)
 #  define MRF_VERSION HG_VERSION
 #else
-#  define MRF_VERSION "3.0.1"
+#  define MRF_VERSION "3.0.2"
 #endif
 
 #endif /* MRF_VERSION_H */
