@@ -14,7 +14,7 @@ echo "Loading kernel modules for target architecture: $2"
 
 UIO_LOADED=$(lsmod | grep uio)
 if [ -z "$UIO_LOADED" ]; then
-	echo "Loading uio module."
+	echo "Loading uio module (modprobe)."
 	modprobe uio
 else
 	echo "Uio module already loaded."
@@ -22,7 +22,7 @@ fi
 
 UIO_LOADED=$(lsmod | grep uio)
 if [ -z "$UIO_LOADED" ]; then
-	echo "Loading uio module."
+	echo "Loading uio module (insmod)."
 	insmod $1/kernelModules/$KERNEL/uio.ko
 fi
 
@@ -38,7 +38,7 @@ if [ "$2" = "eldk42-ppc4xxFP" ]; then
 else
   PARPORT_LOADED=$(lsmod | grep parport)
   if [ -z "$PARPORT_LOADED" ]; then
-    echo "Loading parport module."
+    echo "Loading parport module (modprobe)."
     modprobe parport
   else
     echo "parport module already loaded."
@@ -46,7 +46,7 @@ else
 
   PARPORT_LOADED=$(lsmod | grep parport)
   if [ -z "$PARPORT_LOADED" ]; then
-    echo "Loading parport module."
+    echo "Loading parport module (insmod)."
     insmod $1/kernelModules/$KERNEL/parport.ko
   fi
 
@@ -60,7 +60,7 @@ fi
 
 MRF_LOADED=$(lsmod | grep mrf)
 if [ -z "$MRF_LOADED" ]; then
-	echo "Loading mrf module."
+	echo "Loading mrf module (insmod)."
 	insmod $1/kernelModules/$KERNEL/mrf.ko
 else
 	echo "Mrf module already loaded."
