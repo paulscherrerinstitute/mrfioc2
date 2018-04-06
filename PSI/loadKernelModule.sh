@@ -1,3 +1,5 @@
+#!/bin/bash
+
 KERNEL=$(uname -r)
 
 if [ -z "$KERNEL" ]; then
@@ -6,6 +8,7 @@ if [ -z "$KERNEL" ]; then
 fi
 
 echo "Loading kernel modules for kernel: $KERNEL"
+echo "Loading kernel modules for target architecture: $2"
 
 
 
@@ -30,29 +33,29 @@ if [ -z "$UIO_LOADED" ]; then
 fi
 
 
-
-
-PARPORT_LOADED=$(lsmod | grep parport)
-if [ -z "$PARPORT_LOADED" ]; then
-	echo "Loading parport module."
-	modprobe parport
+if [ "$2" = "eldk42-ppc4xxFP" ]; then
+  echo "Loading of parport module not needed on this architecture"
 else
-	echo "parport module already loaded."
+  PARPORT_LOADED=$(lsmod | grep parport)
+  if [ -z "$PARPORT_LOADED" ]; then
+    echo "Loading parport module."
+    modprobe parport
+  else
+    echo "parport module already loaded."
+  fi
+
+  PARPORT_LOADED=$(lsmod | grep parport)
+  if [ -z "$PARPORT_LOADED" ]; then
+    echo "Loading parport module."
+    insmod $1/kernelModules/$KERNEL/parport.ko
+  fi
+
+  PARPORT_LOADED=$(lsmod | grep parport)
+  if [ -z "$PARPORT_LOADED" ]; then
+    echo "parport module not loaded. Aborting."
+    exit 1
+  fi
 fi
-
-PARPORT_LOADED=$(lsmod | grep parport)
-if [ -z "$PARPORT_LOADED" ]; then
-	echo "Loading parport module."
-	insmod $1/kernelModules/$KERNEL/parport.ko
-fi
-
-PARPORT_LOADED=$(lsmod | grep parport)
-if [ -z "$PARPORT_LOADED" ]; then
-	echo "parport module not loaded. Aborting."
-	exit 1
-fi
-
-
 
 
 MRF_LOADED=$(lsmod | grep mrf)
