@@ -1,5 +1,13 @@
-For detailed changelog inspect commits at https://git.psi.ch/epics_driver_modules/mrfioc2/commits/master
-
+3.0.2 : Mo 09 April 2018:
+  - Fixed load script for kernel modules (added modprobe for parport module)
+  - Changed memory allocation scheme from dynamic to static in EVG sequencer
+    programming code
+  - Changed from global to local lock in EVR interrupt processing
+  - Fixed race condition in EVR (IRQ shadow variable)
+  - Fixed malformed CML record and macro names
+  - Added support for kernel module for linux 3.x 
+  - Added support for RHEL7
+  - Added support for EPICS 3.16.1
 3.0.1 : Th 13 July 2017:
   - Fixed windows build
   - Fixed vanilla build
