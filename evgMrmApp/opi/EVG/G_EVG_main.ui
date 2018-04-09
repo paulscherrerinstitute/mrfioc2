@@ -26,14 +26,14 @@
       <height>30</height>
      </rect>
     </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: rgb(236, 236, 236, 255);</string>
-    </property>
     <property name="text">
      <string>$(SYS)-$(DEVICE)</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
+    </property>
+    <property name="styleSheet" stdset="0">
+     <string notr="true">background-color: rgba(255, 255, 255, 0); color: rgba(0, 0, 0, 255); border: 0px solid rgba(0, 0, 0, 255)</string>
     </property>
    </widget>
    <widget class="caLed" name="caled">
@@ -81,8 +81,8 @@
      <rect>
       <x>470</x>
       <y>45</y>
-      <width>185</width>
-      <height>95</height>
+      <width>177</width>
+      <height>96</height>
      </rect>
     </property>
     <property name="macro">
@@ -125,7 +125,7 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>644</width>
+         <width>641</width>
          <height>600</height>
         </rect>
        </property>
@@ -148,7 +148,7 @@
          <item>
           <widget class="caInclude" name="cainclude_25">
            <property name="macro">
-            <string notr="true">ID=0, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+            <string notr="true">ID=0,SYS=$(SYS),DEVICE=$(DEVICE)</string>
            </property>
            <property name="filename" stdset="0">
             <string notr="true">G_EVG_dbus.ui</string>
@@ -158,7 +158,7 @@
          <item>
           <widget class="caInclude" name="cainclude_26">
            <property name="macro">
-            <string notr="true">ID=1, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+            <string notr="true">ID=1,SYS=$(SYS),DEVICE=$(DEVICE)</string>
            </property>
            <property name="filename" stdset="0">
             <string notr="true">G_EVG_dbus.ui</string>
@@ -168,7 +168,7 @@
          <item>
           <widget class="caInclude" name="cainclude_27">
            <property name="macro">
-            <string notr="true">ID=2, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+            <string notr="true">ID=2,SYS=$(SYS),DEVICE=$(DEVICE)</string>
            </property>
            <property name="filename" stdset="0">
             <string notr="true">G_EVG_dbus.ui</string>
@@ -178,7 +178,7 @@
          <item>
           <widget class="caInclude" name="cainclude_36">
            <property name="macro">
-            <string notr="true">ID=3, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+            <string notr="true">ID=3,SYS=$(SYS),DEVICE=$(DEVICE)</string>
            </property>
            <property name="filename" stdset="0">
             <string notr="true">G_EVG_dbus.ui</string>
@@ -188,7 +188,7 @@
          <item>
           <widget class="caInclude" name="cainclude_37">
            <property name="macro">
-            <string notr="true">ID=4, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+            <string notr="true">ID=4,SYS=$(SYS),DEVICE=$(DEVICE)</string>
            </property>
            <property name="filename" stdset="0">
             <string notr="true">G_EVG_dbus.ui</string>
@@ -198,7 +198,7 @@
          <item>
           <widget class="caInclude" name="cainclude_38">
            <property name="macro">
-            <string notr="true">ID=5, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+            <string notr="true">ID=5,SYS=$(SYS),DEVICE=$(DEVICE)</string>
            </property>
            <property name="filename" stdset="0">
             <string notr="true">G_EVG_dbus.ui</string>
@@ -208,7 +208,7 @@
          <item>
           <widget class="caInclude" name="cainclude_39">
            <property name="macro">
-            <string notr="true">ID=6, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+            <string notr="true">ID=6,SYS=$(SYS),DEVICE=$(DEVICE)</string>
            </property>
            <property name="filename" stdset="0">
             <string notr="true">G_EVG_dbus.ui</string>
@@ -218,7 +218,7 @@
          <item>
           <widget class="caInclude" name="cainclude_40">
            <property name="macro">
-            <string notr="true">ID=7, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+            <string notr="true">ID=7,SYS=$(SYS),DEVICE=$(DEVICE)</string>
            </property>
            <property name="filename" stdset="0">
             <string notr="true">G_EVG_dbus.ui</string>
@@ -293,7 +293,7 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>644</width>
+         <width>641</width>
          <height>1100</height>
         </rect>
        </property>
@@ -316,7 +316,7 @@
          <item>
           <widget class="caInclude" name="cainclude_23">
            <property name="macro">
-            <string notr="true">TRIGEVTNUM=0, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+            <string notr="true">TRIGEVTNUM=0,SYS=$(SYS),DEVICE=$(DEVICE)</string>
            </property>
            <property name="filename" stdset="0">
             <string notr="true">G_EVG_trigEvt.ui</string>
@@ -326,7 +326,7 @@
          <item>
           <widget class="caInclude" name="cainclude_29">
            <property name="macro">
-            <string notr="true">TRIGEVTNUM=1, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+            <string notr="true">TRIGEVTNUM=1,SYS=$(SYS),DEVICE=$(DEVICE)</string>
            </property>
            <property name="filename" stdset="0">
             <string notr="true">G_EVG_trigEvt.ui</string>
@@ -336,7 +336,7 @@
          <item>
           <widget class="caInclude" name="cainclude_24">
            <property name="macro">
-            <string notr="true">TRIGEVTNUM=2, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+            <string notr="true">TRIGEVTNUM=2,SYS=$(SYS),DEVICE=$(DEVICE)</string>
            </property>
            <property name="filename" stdset="0">
             <string notr="true">G_EVG_trigEvt.ui</string>
@@ -346,7 +346,7 @@
          <item>
           <widget class="caInclude" name="cainclude_28">
            <property name="macro">
-            <string notr="true">TRIGEVTNUM=3, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+            <string notr="true">TRIGEVTNUM=3,SYS=$(SYS),DEVICE=$(DEVICE)</string>
            </property>
            <property name="filename" stdset="0">
             <string notr="true">G_EVG_trigEvt.ui</string>
@@ -356,7 +356,7 @@
          <item>
           <widget class="caInclude" name="cainclude_31">
            <property name="macro">
-            <string notr="true">TRIGEVTNUM=4, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+            <string notr="true">TRIGEVTNUM=4,SYS=$(SYS),DEVICE=$(DEVICE)</string>
            </property>
            <property name="filename" stdset="0">
             <string notr="true">G_EVG_trigEvt.ui</string>
@@ -366,7 +366,7 @@
          <item>
           <widget class="caInclude" name="cainclude_32">
            <property name="macro">
-            <string notr="true">TRIGEVTNUM=5, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+            <string notr="true">TRIGEVTNUM=5,SYS=$(SYS),DEVICE=$(DEVICE)</string>
            </property>
            <property name="filename" stdset="0">
             <string notr="true">G_EVG_trigEvt.ui</string>
@@ -376,7 +376,7 @@
          <item>
           <widget class="caInclude" name="cainclude_30">
            <property name="macro">
-            <string notr="true">TRIGEVTNUM=6, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+            <string notr="true">TRIGEVTNUM=6,SYS=$(SYS),DEVICE=$(DEVICE)</string>
            </property>
            <property name="filename" stdset="0">
             <string notr="true">G_EVG_trigEvt.ui</string>
@@ -386,7 +386,7 @@
          <item>
           <widget class="caInclude" name="cainclude_33">
            <property name="macro">
-            <string notr="true">TRIGEVTNUM=7, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+            <string notr="true">TRIGEVTNUM=7,SYS=$(SYS),DEVICE=$(DEVICE)</string>
            </property>
            <property name="filename" stdset="0">
             <string notr="true">G_EVG_trigEvt.ui</string>
@@ -425,7 +425,7 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>644</width>
+         <width>641</width>
          <height>1150</height>
         </rect>
        </property>
@@ -448,7 +448,7 @@
          <item>
           <widget class="caInclude" name="cainclude_15">
            <property name="macro">
-            <string notr="true">ID=0, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+            <string notr="true">ID=0,SYS=$(SYS),DEVICE=$(DEVICE)</string>
            </property>
            <property name="filename" stdset="0">
             <string notr="true">G_EVG_mxc-v2.ui</string>
@@ -458,7 +458,7 @@
          <item>
           <widget class="caInclude" name="cainclude_16">
            <property name="macro">
-            <string notr="true">ID=1, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+            <string notr="true">ID=1,SYS=$(SYS),DEVICE=$(DEVICE)</string>
            </property>
            <property name="filename" stdset="0">
             <string notr="true">G_EVG_mxc-v2.ui</string>
@@ -468,7 +468,7 @@
          <item>
           <widget class="caInclude" name="cainclude_17">
            <property name="macro">
-            <string notr="true">ID=2, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+            <string notr="true">ID=2,SYS=$(SYS),DEVICE=$(DEVICE)</string>
            </property>
            <property name="filename" stdset="0">
             <string notr="true">G_EVG_mxc-v2.ui</string>
@@ -478,7 +478,7 @@
          <item>
           <widget class="caInclude" name="cainclude_18">
            <property name="macro">
-            <string notr="true">ID=3, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+            <string notr="true">ID=3,SYS=$(SYS),DEVICE=$(DEVICE)</string>
            </property>
            <property name="filename" stdset="0">
             <string notr="true">G_EVG_mxc-v2.ui</string>
@@ -488,7 +488,7 @@
          <item>
           <widget class="caInclude" name="cainclude_19">
            <property name="macro">
-            <string notr="true">ID=4, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+            <string notr="true">ID=4,SYS=$(SYS),DEVICE=$(DEVICE)</string>
            </property>
            <property name="filename" stdset="0">
             <string notr="true">G_EVG_mxc-v2.ui</string>
@@ -498,7 +498,7 @@
          <item>
           <widget class="caInclude" name="cainclude_20">
            <property name="macro">
-            <string notr="true">ID=5, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+            <string notr="true">ID=5,SYS=$(SYS),DEVICE=$(DEVICE)</string>
            </property>
            <property name="filename" stdset="0">
             <string notr="true">G_EVG_mxc-v2.ui</string>
@@ -508,7 +508,7 @@
          <item>
           <widget class="caInclude" name="cainclude_21">
            <property name="macro">
-            <string notr="true">ID=6, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+            <string notr="true">ID=6,SYS=$(SYS),DEVICE=$(DEVICE)</string>
            </property>
            <property name="filename" stdset="0">
             <string notr="true">G_EVG_mxc-v2.ui</string>
@@ -518,7 +518,7 @@
          <item>
           <widget class="caInclude" name="cainclude_22">
            <property name="macro">
-            <string notr="true">ID=7, SYS=$(SYS),DEVICE=$(DEVICE)</string>
+            <string notr="true">ID=7,SYS=$(SYS),DEVICE=$(DEVICE)</string>
            </property>
            <property name="filename" stdset="0">
             <string notr="true">G_EVG_mxc-v2.ui</string>
@@ -565,8 +565,8 @@
        <rect>
         <x>120</x>
         <y>20</y>
-        <width>400</width>
-        <height>220</height>
+        <width>399</width>
+        <height>259</height>
        </rect>
       </property>
       <property name="macro">
@@ -586,12 +586,12 @@
        <rect>
         <x>100</x>
         <y>20</y>
-        <width>461</width>
-        <height>351</height>
+        <width>467</width>
+        <height>328</height>
        </rect>
       </property>
       <property name="macro">
-       <string notr="true">SYS=$(SYS),DEVICE=$(DEVICE), FF=$(FF)</string>
+       <string notr="true">SYS=$(SYS),DEVICE=$(DEVICE),FF=$(FF)</string>
       </property>
       <property name="filename" stdset="0">
        <string notr="true">G_EVG_evtClk.ui</string>
@@ -625,13 +625,13 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>659</width>
-         <height>469</height>
+         <width>657</width>
+         <height>467</height>
         </rect>
        </property>
        <property name="minimumSize">
         <size>
-         <width>620</width>
+         <width>0</width>
          <height>0</height>
         </size>
        </property>
@@ -640,12 +640,12 @@
          <rect>
           <x>20</x>
           <y>10</y>
-          <width>301</width>
-          <height>371</height>
+          <width>304</width>
+          <height>363</height>
          </rect>
         </property>
         <property name="macro">
-         <string notr="true">SEQNUM=1, SYS=$(SYS),DEVICE=$(DEVICE), FF=$(FF)</string>
+         <string notr="true">SEQNUM=1,SYS=$(SYS),DEVICE=$(DEVICE),FF=$(FF)</string>
         </property>
         <property name="filename" stdset="0">
          <string notr="true">G_EVG_softSeq.ui</string>
@@ -656,12 +656,12 @@
          <rect>
           <x>330</x>
           <y>10</y>
-          <width>301</width>
-          <height>371</height>
+          <width>304</width>
+          <height>363</height>
          </rect>
         </property>
         <property name="macro">
-         <string notr="true">SEQNUM=2, SYS=$(SYS),DEVICE=$(DEVICE), FF=$(FF)</string>
+         <string notr="true">SEQNUM=2,SYS=$(SYS),DEVICE=$(DEVICE),FF=$(FF)</string>
         </property>
         <property name="filename" stdset="0">
          <string notr="true">G_EVG_softSeq.ui</string>
@@ -677,7 +677,7 @@
          </rect>
         </property>
         <property name="macro">
-         <string notr="true">SEQNUM=$(SEQNUM), SYS=$(SYS),DEVICE=$(DEVICE)</string>
+         <string notr="true">SYS=$(SYS),DEVICE=$(DEVICE)</string>
         </property>
         <property name="filename" stdset="0">
          <string notr="true">G_EVG_$(FF)_softSeq_swMask.ui</string>

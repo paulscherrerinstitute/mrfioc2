@@ -178,6 +178,11 @@ private:
     SeqTrigSrc                 m_trigSrc;
     SeqRunMode                 m_runMode;   
 
+    // working copy of sequence
+    std::vector<epicsUInt64>   m_timestampWk;
+    std::vector<epicsUInt8>    m_eventCodeWk;
+    std::vector<epicsUInt8>    m_eventMaskWk;
+
     // commited copy
     std::vector<epicsUInt64>   m_timestampCt;
     std::vector<epicsUInt8>    m_eventCodeCt;

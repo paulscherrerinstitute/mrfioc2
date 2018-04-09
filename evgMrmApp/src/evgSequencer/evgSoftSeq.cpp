@@ -25,6 +25,12 @@ m_pReg(owner->getRegAddr()),
 m_timestampInpMode(EGU),
 m_trigSrc(None),
 m_runMode(Single),
+m_timestampWk(2048),
+m_eventCodeWk(2048),
+m_eventMaskWk(2048),
+m_timestampCt(2048),
+m_eventCodeCt(2048),
+m_eventMaskCt(2048),
 m_trigSrcCt(None),
 m_runModeCt(Single),
 m_seqRam(0),
@@ -32,7 +38,8 @@ m_seqRamMgr(owner->getSeqRamMgr()),
 m_isEnabled(0),
 m_isCommited(0),
 m_isSynced(0),
-m_numOfRuns(0) {
+m_numOfRuns(0)
+ {
     m_eventCodeCt.push_back(0x7f);
     m_timestampCt.push_back(evgEndOfSeqBuf);
 
@@ -436,14 +443,10 @@ evgSoftSeq::commitSoftSeq() {
     epicsUInt64 preTs = 0;
     epicsUInt64 curTs = 0;
 
-    std::vector<epicsUInt64> timestamp;
-    std::vector<epicsUInt8> eventCode;
-    std::vector<epicsUInt8> eventMasks;
-
-    // reserve (allocate) for worst case
-    timestamp.reserve(2048);
-    eventCode.reserve(2048);
-    eventMasks.reserve(2048);
+    // Erase all element in working copy of the sequence
+    m_timestampWk.erase(m_timestampWk.begin(), m_timestampWk.end());
+    m_eventCodeWk.erase(m_eventCodeWk.begin(), m_eventCodeWk.end());
+    m_eventMaskWk.erase(m_eventMaskWk.begin(), m_eventMaskWk.end());
 
     /*
      * Make EventCode and Timestamp vector of same size
@@ -460,33 +463,33 @@ evgSoftSeq::commitSoftSeq() {
         //FIXME: Why is ts recalculated from previous value?
         curTs = *itTS;
         tsUInt64 = curTs - preTs;
-        if(timestamp.size())
-            tsUInt64 += timestamp.back();
+        if(m_timestampWk.size())
+            tsUInt64 += m_timestampWk.back();
 
          /* inject continuation event(s) when output time would overflow */
         for(;tsUInt64 > 0xffffffff; tsUInt64 -= 0xffffffff) {
-            timestamp.push_back(0xffffffff);
-            eventCode.push_back(0);
-            eventMasks.push_back(0);
+            m_timestampWk.push_back(0xffffffff);
+            m_eventCodeWk.push_back(0);
+            m_eventMaskWk.push_back(0);
 
         }
         preTs = curTs;
 
-        timestamp.push_back(tsUInt64);
-        eventCode.push_back(ecUInt8);
-        eventMasks.push_back(mskUInt8);
-	
-	if(ecUInt8==0x7f)
+        m_timestampWk.push_back(tsUInt64);
+        m_eventCodeWk.push_back(ecUInt8);
+        m_eventMaskWk.push_back(mskUInt8);
+
+        if(ecUInt8==0x7f)
             break; /* User provided end of sequence event */
     }
 
     /*
      * Check if the timestamps are sorted and unique 
      */
-    if(timestamp.size() > 1) {
-        for(unsigned int i = 0; i < timestamp.size()-1; i++) {
-            if( timestamp[i] >= timestamp[i+1] ) {
-                if( (timestamp[i] == 0xffffffff) && (eventCode[i] == 0))
+    if(m_timestampWk.size() > 1) {
+        for(unsigned int i = 0; i < m_timestampWk.size()-1; i++) {
+            if( m_timestampWk[i] >= m_timestampWk[i+1] ) {
+                if( (m_timestampWk[i] == 0xffffffff) && (m_eventCodeWk[i] == 0))
                     continue;
                 else
                     throw std::runtime_error("Sequencer timestamps are not Sorted/Unique");
@@ -494,43 +497,43 @@ evgSoftSeq::commitSoftSeq() {
         }
     }
 
-    if(eventCode.size()==0 && timestamp.size()==0 && eventMasks.size()==0) {
+    if(m_eventCodeWk.size()==0 && m_timestampWk.size()==0 && m_eventMaskWk.size()==0) {
         /* empty sequence.  Not very useful, but not an error */
-        eventCode.push_back(0x7f);
-        eventMasks.push_back(0x0);
-        timestamp.push_back(evgEndOfSeqBuf);
+        m_eventCodeWk.push_back(0x7f);
+        m_eventMaskWk.push_back(0x0);
+        m_timestampWk.push_back(evgEndOfSeqBuf);
     }
 
-    if(timestamp.size()!=eventCode.size() || timestamp.size()!=eventMasks.size()) {
+    if(m_timestampWk.size()!=m_eventCodeWk.size() || m_timestampWk.size()!=m_eventMaskWk.size()) {
         throw std::logic_error("SoftSeq, length of timestamp, eventCode and eventMask don't match");
 
-    } else if(timestamp.size()>2047) {
+    } else if(m_timestampWk.size()>2047) {
         throw std::runtime_error("Sequence too long (>2047)");
 
-    } else if(eventCode.back()!=0x7f) {
+    } else if(m_eventCodeWk.back()!=0x7f) {
         /*
          * If not already present append 'End of Sequence' event code(0x7f) and
          * timestamp.
          */
-         if(timestamp.back()+evgEndOfSeqBuf>=0xffffffff) {
-            eventCode.push_back(0);
-            timestamp.push_back(0xffffffff);
-            eventMasks.push_back(0x0);
+         if(m_timestampWk.back()+evgEndOfSeqBuf>=0xffffffff) {
+            m_eventCodeWk.push_back(0);
+            m_timestampWk.push_back(0xffffffff);
+            m_eventMaskWk.push_back(0x0);
 
-            eventCode.push_back(0x7f);
-            timestamp.push_back(evgEndOfSeqBuf);
-            eventMasks.push_back(0x0);
+            m_eventCodeWk.push_back(0x7f);
+            m_timestampWk.push_back(evgEndOfSeqBuf);
+            m_eventMaskWk.push_back(0x0);
         } else {
-            eventCode.push_back(0x7f);
-            timestamp.push_back(timestamp.back() + evgEndOfSeqBuf);
-            eventMasks.push_back(0x0);
+            m_eventCodeWk.push_back(0x7f);
+            m_timestampWk.push_back(m_timestampWk.back() + evgEndOfSeqBuf);
+            m_eventMaskWk.push_back(0x0);
         }
     }
 
 
-    m_timestampCt = timestamp;
-    m_eventCodeCt = eventCode;
-    m_eventMaskCt = eventMasks;
+    m_timestampCt = m_timestampWk;
+    m_eventCodeCt = m_eventCodeWk;
+    m_eventMaskCt = m_eventMaskWk;
 
     m_trigSrcCt = m_trigSrc;
     m_runModeCt = m_runMode;

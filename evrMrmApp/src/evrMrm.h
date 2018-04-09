@@ -283,6 +283,7 @@ public:
     epicsUInt32 FIFOLoopCount() const{return count_fifo_loops;}
 
     void enableIRQ(void);
+    void disableIRQ(void);
 
     static void isr(void*);
     static void isr_pci(void*);
@@ -340,6 +341,8 @@ private:
     volatile epicsUInt32 count_fifo_loops;
 
     epicsUInt32 shadowIRQEna;
+    
+    epicsMutex irqLock;
 
     // Guarded by evrLock
     epicsUInt32 count_FIFO_overflow;

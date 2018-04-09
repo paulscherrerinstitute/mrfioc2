@@ -29,6 +29,7 @@
 struct Pvt {
     evgMrm* evg;
     evgSoftSeq* seq;
+    std::vector<epicsUInt64> timestamp;
 };
 
 /**     Initialization    **/
@@ -59,6 +60,7 @@ init_wf_pvt (dbCommon *pRec) {
         Pvt* pvt = new Pvt;
         pvt->evg = evg;
         pvt->seq = seq;
+        pvt->timestamp.reserve(pwf->nelm);
         pwf->dpvt = pvt;
         ret = 0;
     } catch(std::runtime_error& e) {
@@ -389,7 +391,7 @@ write_wf_timestamp(waveformRecord* pwf) {
             throw std::runtime_error("Device pvt field not initialized correctly");
 
         epicsUInt32 size = pwf->nord;
-        std::vector<epicsUInt64> ts(size);
+        std::vector<epicsUInt64>& ts = pvt->timestamp;
 
         SCOPED_LOCK2(seq->m_lock, guard);
         if(seq->getTimestampInpMode() == TICKS) {
@@ -436,14 +438,14 @@ read_wf_timestamp(waveformRecord* pwf) {
             throw std::runtime_error("Device pvt field not initialized correctly");
 
         SCOPED_LOCK2(seq->m_lock, guard);
-        std::vector<epicsUInt64> timestamp = seq->getTimestampCt();
+        const std::vector<epicsUInt64>& timestamp = seq->getTimestampCt();
         epicsFloat64 evtClk = evg->getEvtClk()->getFrequency() * pow(10.0,6);
         epicsUInt32 timeScaler = seq->getTimestampResolution();
 
         epicsFloat64* bptr = (epicsFloat64*)pwf->bptr;
         for(unsigned int i = 0; i < timestamp.size(); i++) {
             if(seq->getTimestampInpMode() == TICKS)
-                 bptr[i] = (epicsFloat64)timestamp[i];
+                bptr[i] = (epicsFloat64)timestamp[i];
             else
                 bptr[i] = timestamp[i] * pow(10.0,(int) timeScaler) / evtClk;
         }
@@ -494,7 +496,7 @@ read_wf_eventCode(waveformRecord* pwf) {
             throw std::runtime_error("Device pvt field not initialized");
 
         SCOPED_LOCK2(seq->m_lock, guard);
-        std::vector<epicsUInt8> eventCode = seq->getEventCodeCt();
+        const std::vector<epicsUInt8>& eventCode = seq->getEventCodeCt();
         epicsUInt8* bptr = (epicsUInt8*)pwf->bptr;
         for(unsigned int i = 0; i < eventCode.size(); i++)
             bptr[i] = eventCode[i];
@@ -547,7 +549,7 @@ read_wf_eventMask(waveformRecord* pwf) {
             throw std::runtime_error("Device pvt field not initialized");
 
         SCOPED_LOCK2(seq->m_lock, guard);
-        std::vector<epicsUInt8> eventMask = seq->getEventMaskCt();
+        const std::vector<epicsUInt8>& eventMask = seq->getEventMaskCt();
         epicsUInt8* bptr = (epicsUInt8*)pwf->bptr;
         for(unsigned int i = 0; i < eventMask.size(); i++)
             bptr[i] = eventMask[i];

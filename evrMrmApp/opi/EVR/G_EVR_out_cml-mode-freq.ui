@@ -51,7 +51,7 @@
      </rect>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Freq:Lvl-SP</string>
+     <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Freq_Lvl-SP</string>
     </property>
     <property name="background">
      <color>
@@ -103,7 +103,7 @@
      </rect>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Freq:Init-RB</string>
+     <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Freq_Init-RB</string>
     </property>
    </widget>
    <widget class="caTextEntry" name="catextentry">
@@ -116,7 +116,7 @@
      </rect>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Freq:Init-SP</string>
+     <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Freq_Init-SP</string>
     </property>
     <property name="background">
      <color>
@@ -139,7 +139,7 @@
      </rect>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Freq:High-SP</string>
+     <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Freq_High-SP</string>
     </property>
     <property name="background">
      <color>
@@ -178,7 +178,7 @@
      </rect>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Freq:High-RB</string>
+     <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Freq_High-RB</string>
     </property>
     <property name="unitsEnabled">
      <bool>true</bool>
@@ -194,7 +194,7 @@
      </rect>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Freq:Low-SP</string>
+     <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Freq_Low-SP</string>
     </property>
     <property name="background">
      <color>
@@ -233,7 +233,7 @@
      </rect>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Freq:Low-RB</string>
+     <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Freq_Low-RB</string>
     </property>
     <property name="unitsEnabled">
      <bool>true</bool>
@@ -249,7 +249,7 @@
      </rect>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Freq:Init-SP.EGU</string>
+     <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Freq_Init-SP.EGU</string>
     </property>
    </widget>
    <widget class="caLineEdit" name="calineedit_8">
@@ -262,7 +262,7 @@
      </rect>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Freq:Low-SP.EGU</string>
+     <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Freq_Low-SP.EGU</string>
     </property>
     <property name="unitsEnabled">
      <bool>true</bool>
@@ -278,7 +278,7 @@
      </rect>
     </property>
     <property name="channel" stdset="0">
-     <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Freq:High-SP.EGU</string>
+     <string notr="true">$(SYS)-$(DEVICE):$(P)$(ID)-Freq_High-SP.EGU</string>
     </property>
     <property name="unitsEnabled">
      <bool>true</bool>
