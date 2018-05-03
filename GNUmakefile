@@ -164,6 +164,7 @@ SCRIPTS += PSI/loadKernelModule.sh
 SCRIPTS += PSI/SL6-x86_64.cmd
 SCRIPTS += PSI/SL6-x86.cmd
 SCRIPTS += PSI/eldk42-ppc4xxFP.cmd
+SCRIPTS += PSI/RHEL7-x86_64.cmd
 
 db: dbclean dbexpand
 
