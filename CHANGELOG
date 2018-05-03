@@ -1,3 +1,6 @@
+3.0.3 : Th 03 May 2018:
+  - Fixed missing bash script to load kernel modules on RHEL7
+
 3.0.2 : Mo 09 April 2018:
   - Fixed load script for kernel modules (added modprobe for parport module)
   - Changed memory allocation scheme from dynamic to static in EVG sequencer
