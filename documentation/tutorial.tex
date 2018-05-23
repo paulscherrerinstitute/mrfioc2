@@ -19,8 +19,6 @@
 %  language=bash                 % the language of the code
 %}
 
-% latest version of the mrfioc2 device support
-\newcommand{\latestDriverVersion}{3.0.3}
 
 %opening
 \title{EVR Tutorials}
@@ -39,6 +37,15 @@
 \section{Introduction}
 A timing system consists of an event generator (EVG), a series of event receivers (EVR), software controlling them and a timing network. EVG generates a series of events, which are delivered to EVRs through a timing network. An EVR is then configured to respond to specific events in various ways, including processing EPICS records and generating pulses, synchronized clock or custom signals on its outputs.
 This document contains step-by-step instructions to configuring some of the basic functionalities of the event receiver. A detailed EVR manual is available in~\cite{evr_manual}.
+
+\section{Versions}\label{sec:versions}
+In this document you will see URLs to reference files in the mrfioc2 git repository.
+All the URLs point the master branch, but most likely you should use the latest tagged version.
+You can retrieve the latest tagged version here:
+\url{https://git.psi.ch/epics_driver_modules/mrfioc2/tags}
+(specified on \verb!<major>.<minor>.<patch>! versioning scheme). When using the
+reference files please make sure that you replace \verb!master! to
+\verb!<latest_version>! in the URL.
 
 \section{Quick start}\label{sec:Quick start}
 To set up a timing system we need a VME crate, a Single Board Computer (SBC) and an EVR. A VME crate has a number of slots where SBC, EVR and other components can be inserted. Slot numbering should be checked with the VME crate documentation. The tutorials in this document are written for the following setup:
@@ -73,8 +80,7 @@ The following steps demonstrate how to prepare a SWIT compatible IOC application
 			touch EVR0.subs
 			cd ..
 		\end{verbatim}
-	\item \label{quickstart:copySubs} Copy the content of the substitution file  at \texttt{https://git.psi.ch/} \texttt{epics\_driver\_modules/mrfioc2/raw/\latestDriverVersion/PSI/example} 
-	\texttt{/evr\_VME-300.subs} to newly created \texttt{cfg/EVR0.subs}. This substitution file can always be used as a starting point for new applications. Substitution files for other form factors are available at the same location (mrfioc2 repository in folder \texttt{PSI/example}).
+	\item \label{quickstart:copySubs} Copy the content of the substitution file at: \url{https://git.psi.ch/epics_driver_modules/mrfioc2/raw/master/PSI/example/evr_VME-300.subs} to newly created \texttt{cfg/EVR0.subs}. This substitution file can always be used as a starting point for new applications. Substitution files for other form factors are available at the same location (mrfioc2 repository in folder \texttt{PSI/example}).
 	
 	The macro definitions in the substitution file are used to configure the EVR. All the available macros are already present in the substitution file and set to their default values, so the user can simply change the desired values. Detailed description of the substitution file is available in the EVR manual~\cite{evr_manual}.
 
@@ -86,8 +92,8 @@ The following steps demonstrate how to prepare a SWIT compatible IOC application
 			touch MTEST-VME-TIMINGTEST_startup.script
 		\end{verbatim}
 	\item 
-		Copy the content of the startup script at \texttt{https://git.psi.ch/epics\_driver} \texttt{\_modules/mrfioc2/raw/\latestDriverVersion/PSI/example}
-		\texttt{/evr\_VME\_startup.script} to newly created \texttt{MTEST-VME-TIMINGTEST\_startup.script}. Startup scripts for other form factors are available at the same location (mrfioc2 repository in folder \texttt{PSI/example}).
+		Copy the content of the startup script at 
+        \url{https://git.psi.ch/epics_driver_modules/mrfioc2/raw/master/PSI/example/evr_VME_startup.script} to newly created \texttt{MTEST-VME-TIMINGTEST\_startup.script}. Startup scripts for other form factors are available at the same location (mrfioc2 repository in folder \texttt{PSI/example}).
 
 	The startup script should look similar to:
 \begin{verbatim}
