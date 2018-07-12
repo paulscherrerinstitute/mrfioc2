@@ -939,12 +939,6 @@ There are two possible ways to build the mrfioc2 device support. First is using 
 	MSI tool~\cite{msi} for expanding databases.
 \end{itemize}
 
-\subsection{Versioning}\label{sec:semver}
-Mrfioc2 is versioned with the semantic versioning~\cite{semver} scheme,
-specified on \verb!<major>.<minor>.<patch>!. In the step-by-step instructions
-in this chapter you would most likely want to use the latest tagged version available,
-which can be retrieved here: \url{https://git.psi.ch/epics_driver_modules/mrfioc2/tags}.
-
 \subsection{PSI driver.makefile}\label{sec:PSI driver.makefile}
 %driver.makefile~\cite{driver.makefile}, makes it possible to build IOC software projects such as drivers, state notation code, records, etc. with minimal configuration.
 To compile to a PSI style module, it is suggested to first clone the PSI git repository for mrfioc2:
@@ -958,13 +952,6 @@ and then:
 	\begin{verbatim}
 		cd mrfioc2
 	\end{verbatim}
-	
-\item 
-	Switch to the latest version:
-	
-	\texttt{git fetch}
-	
-	\verb!git checkout <latest_version>!~(see \ref{sec:semver})
 	
 \item
 	compile the device support:
@@ -1002,13 +989,6 @@ Then follow these steps:
 		\begin{verbatim}
 			cd mrfioc2
 		\end{verbatim}
-		
-	\item 
-		Switch to the latest version:
-		
-		\texttt{git fetch}
-		
-		\verb!git checkout <latest_version>!~(see \ref{sec:semver})
 		
 	\item 
 		Adjust the \texttt{mrfioc2/configure/RELEASE} file for your environment. Make sure that \texttt{DEVLIB2} points to your devLib2 and \texttt{EPICS\_BASE} points to your EPICS base.
@@ -1067,7 +1047,7 @@ default value, instead of applying it to the undefined macro.
 \paragraph{Individual form factor compatible template files} can also be generated. The following \textbf{example} shows how to create a VME-EVR-300 form factor compatible template file, by issuing the following command in \newline\texttt{mrfioc2} folder:
 
 \begin{verbatim}
-msi -I evrMrmnpp/Db/ -I mrmShared/Db/
+msi -I evrMrmApp/Db/ -I mrmShared/Db/
     -S evrMrmApp/Db/evr-vme-300.substitutions 
     -o evrMrmApp/Db/evr-vme-300.db 
 \end{verbatim}
