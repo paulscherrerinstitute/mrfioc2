@@ -24,8 +24,6 @@
 %  language=bash                 % the language of the code
 %}
 
-% latest version of the mrfioc2 device support
-\newcommand{\latestDriverVersion}{3.0.3}
 
 
 %opening
@@ -907,7 +905,7 @@ A heartbeat monitor is provided to receive heartbeat events from the timing netw
 
 
 \subsection{Macros, substitution files and template files}\label{sec:Macros}
-The mrfioc2 device support contains a series of template and substitution files for the EVR, located in \texttt{mrfioc2/evrMrmAp/Db} and \texttt{mrfioc2/mrmShared/Db} folder. To simplify deployment of an IOC application, form factor specific templates are automatically generated uppon build time~\ref{sec:Building from scratch}. They can be directly included in the EVR substitution file and allow the usage of macros to set application specific configuration of the EVR. User can define its own EVR substitution file, or use one of the examples in \texttt{mrfioc2/PSI/example} folder (evr\_VME-300.subs, evr\_VME-230.subs, evr\_PCIe-300.subs ...).
+The mrfioc2 device support contains a series of template and substitution files for the EVR, located in \texttt{mrfioc2/evrMrmApp/Db} and \texttt{mrfioc2/mrmShared/Db} folder. To simplify deployment of an IOC application, form factor specific templates are automatically generated uppon build time~\ref{sec:Building from scratch}. They can be directly included in the EVR substitution file and allow the usage of macros to set application specific configuration of the EVR. User can define its own EVR substitution file, or use one of the examples in \texttt{mrfioc2/PSI/example} folder (evr\_VME-300.subs, evr\_VME-230.subs, evr\_PCIe-300.subs ...).
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=\columnwidth]{./img/templates}
@@ -955,13 +953,6 @@ and then:
 		cd mrfioc2
 	\end{verbatim}
 	
-\item 
-	Switch to the latest version, which is \texttt{\latestDriverVersion} at the time of writing this manual:
-	
-	\texttt{git fetch}
-	
-	\texttt{git checkout \latestDriverVersion}
-	
 \item
 	compile the device support:
 	\begin{verbatim}
@@ -998,13 +989,6 @@ Then follow these steps:
 		\begin{verbatim}
 			cd mrfioc2
 		\end{verbatim}
-		
-	\item 
-		Switch to the latest version, which is \texttt{\latestDriverVersion} at the time of writing this manual:
-		
-		\texttt{git fetch}
-		
-		\texttt{git checkout \latestDriverVersion}
 		
 	\item 
 		Adjust the \texttt{mrfioc2/configure/RELEASE} file for your environment. Make sure that \texttt{DEVLIB2} points to your devLib2 and \texttt{EPICS\_BASE} points to your EPICS base.
@@ -1063,7 +1047,7 @@ default value, instead of applying it to the undefined macro.
 \paragraph{Individual form factor compatible template files} can also be generated. The following \textbf{example} shows how to create a VME-EVR-300 form factor compatible template file, by issuing the following command in \newline\texttt{mrfioc2} folder:
 
 \begin{verbatim}
-msi -I evrMrmApp/Db/ -I mrmShared/Db/ 
+msi -I evrMrmApp/Db/ -I mrmShared/Db/
     -S evrMrmApp/Db/evr-vme-300.substitutions 
     -o evrMrmApp/Db/evr-vme-300.db 
 \end{verbatim}

@@ -199,6 +199,9 @@ gui:
 	PSI/installScreens.sh evrMrmApp/opi/EVR/
 	PSI/installScreens.sh evgMrmApp/opi/EVG/
 
+doc:
+	$(MAKE) -C documentation/
+	$(MAKE) -C documentation/ clean
 
 endif
 
