@@ -1018,7 +1018,21 @@ static void mrmEvrLoopbackCallFunc(const iocshArgBuf *args)
 {
     mrmEvrLoopback(args[0].sval,args[1].ival,args[2].ival);
 }
+static
+bool mrmEvrAddressRangeCheck(size_t offset)
+{
+    /* Since we read words with size 4 bytes, this is maximum address */
+    static const size_t maxAddr = EVR_REGMAP_SIZE - 4;
 
+    if (offset > maxAddr){
+        errlogPrintf("Offset outside EVR address range, size of EVR register map is 0x%x bytes.\n"
+                     "Last address that can be addressed is 0x%x, "
+                     "since we read words with size of 4 bytes.\n", EVR_REGMAP_SIZE, maxAddr);
+        return false;
+    }
+
+    return true;
+}
 
 extern "C"
 void mrmEvrRead(const char* id, size_t offset)
@@ -1030,11 +1044,14 @@ void mrmEvrRead(const char* id, size_t offset)
     if (!card){
         return;
     }
+    if (!mrmEvrAddressRangeCheck(offset)){
+        return;
+    }
 
 #ifdef _WIN32
-    printf("0x%0Ix: 0x%x\n", offset, nat_ioread32(card->base + offset));
+    printf("0x%0Ix: 0x%08x\n", offset, nat_ioread32(card->base + offset));
 #else
-    printf("0x%0zx: 0x%x\n", offset, nat_ioread32(card->base + offset));
+    printf("0x%0zx: 0x%08x\n", offset, nat_ioread32(card->base + offset));
 #endif
 
 }
@@ -1047,6 +1064,9 @@ void mrmEvrWrite(const char* id, size_t offset, epicsUInt32 value)
         return;
     EVRMRM *card = dynamic_cast<EVRMRM*>(obj);
     if (!card){
+        return;
+    }
+    if (!mrmEvrAddressRangeCheck(offset)){
         return;
     }
 
