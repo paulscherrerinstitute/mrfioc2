@@ -1018,6 +1018,7 @@ static void mrmEvrLoopbackCallFunc(const iocshArgBuf *args)
 {
     mrmEvrLoopback(args[0].sval,args[1].ival,args[2].ival);
 }
+
 static
 bool mrmEvrAddressRangeCheck(size_t offset)
 {
