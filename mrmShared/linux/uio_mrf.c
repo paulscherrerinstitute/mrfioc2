@@ -57,7 +57,9 @@ MODULE_PARM_DESC(interfaceversion, "User space interface version");
 /* PCIe-EVR-300 */
 #define PCI_SUBDEVICE_ID_PCIE_EVR_300       0x172c
 /* PCIe-EVR-300DC */
-#define PCI_SUBDEVICE_ID_PCIE_EVR_300DC     0x172c
+#define PCI_SUBDEVICE_ID_PCIE_EVR_300DC     0x132c
+/* PCIe-EVR-300DC new firmware (> 17010204)*/
+#define PCI_SUBDEVICE_ID_PCIE_EVR_300DC_NEW 0x172c
 
 /************************ Compatability ****************************/
 
@@ -482,7 +484,9 @@ mrf_probe(struct pci_dev *dev,
          * EVR memory space is mapped directly to uio0 region so that it
          * matches windows version
          */
-        if(dev->subsystem_device == PCI_SUBDEVICE_ID_PCIE_EVR_300 || dev->subsystem_device == PCI_SUBDEVICE_ID_PCIE_EVR_300DC){
+        if(dev->subsystem_device == PCI_SUBDEVICE_ID_PCIE_EVR_300 ||
+            dev->subsystem_device == PCI_SUBDEVICE_ID_PCIE_EVR_300DC ||
+            dev->subsystem_device == PCI_SUBDEVICE_ID_PCIE_EVR_300DC_NEW) {
             dev_info(&dev->dev, "Attaching BAR0 of PCIe-EVR-300\n");
             /* BAR 0 is the EVR */
             info->mem[0].name = "EVR memory";
@@ -652,6 +656,12 @@ static struct pci_device_id mrf_pci_ids[] __devinitdata = {
         .subvendor =    PCI_SUBVENDOR_ID_MRF,
         .subdevice =    PCI_SUBDEVICE_ID_PCIE_EVR_300DC,
     },
+    {
+        .vendor =       PCI_VENDOR_ID_XILINX,
+        .device =       PCI_DEVICE_ID_XILINX,
+        .subvendor =    PCI_SUBVENDOR_ID_MRF,
+        .subdevice =    PCI_SUBDEVICE_ID_PCIE_EVR_300DC_NEW,
+    },
     { 0, }
 };
 
@@ -672,7 +682,9 @@ mrf_remove(struct pci_dev *dev)
 #endif
 #if defined(CONFIG_GENERIC_GPIO) || defined(CONFIG_PARPORT_NOT_PC)
         {
-            if(dev->subsystem_device != PCI_SUBDEVICE_ID_PCIE_EVR_300 || dev->subsystem_device != PCI_SUBDEVICE_ID_PCIE_EVR_300DC) {
+            if(dev->subsystem_device != PCI_SUBDEVICE_ID_PCIE_EVR_300 ||
+                dev->subsystem_device != PCI_SUBDEVICE_ID_PCIE_EVR_300DC ||
+                dev->subsystem_device != PCI_SUBDEVICE_ID_PCIE_EVR_300DC_NEW) {
                 void __iomem *plx = info->mem[0].internal_addr;
                 u32 val = ioread32(plx + GPIOC);
                 // Disable output drivers for TCLK, TMS, and TDI
@@ -687,7 +699,9 @@ mrf_remove(struct pci_dev *dev)
         pci_set_drvdata(dev, NULL);
         iounmap(info->mem[0].internal_addr);
 
-        if(dev->subsystem_device != PCI_SUBDEVICE_ID_PCIE_EVR_300 || dev->subsystem_device != PCI_SUBDEVICE_ID_PCIE_EVR_300DC) {
+        if(dev->subsystem_device != PCI_SUBDEVICE_ID_PCIE_EVR_300 ||
+            dev->subsystem_device != PCI_SUBDEVICE_ID_PCIE_EVR_300DC ||
+            dev->subsystem_device != PCI_SUBDEVICE_ID_PCIE_EVR_300DC_NEW) {
             iounmap(info->mem[2].internal_addr);
         }
 
