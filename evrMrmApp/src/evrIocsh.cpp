@@ -1026,8 +1026,12 @@ bool mrmEvrAddressRangeCheck(size_t offset)
     static const size_t maxAddr = EVR_REGMAP_SIZE - 4;
 
     if (offset > maxAddr){
-        errlogPrintf("Offset outside EVR address range, size of EVR register map is 0x%x bytes.\n"
-                     "Last address that can be addressed is 0x%x, "
+        errlogPrintf("Offset outside EVR address range, size of EVR register map is 0x%0x bytes.\n"
+#ifdef _WIN32
+                     "Last address that can be addressed is 0x%0Ix, "
+#else
+                     "Last address that can be addressed is 0x%0zx, "
+#endif
                      "since we read words with size of 4 bytes.\n", EVR_REGMAP_SIZE, maxAddr);
         return false;
     }
