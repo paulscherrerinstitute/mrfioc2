@@ -1,3 +1,8 @@
+3.0.4: Mo 13 August 2018
+  - Added support to do firmware upgrade of old firmware versions
+  - Added range check for mrmEvrRead and mrmEvrWrite
+  - Update of documentation
+
 3.0.3 : Th 03 May 2018:
   - Fixed missing bash script to load kernel modules on RHEL7
 
