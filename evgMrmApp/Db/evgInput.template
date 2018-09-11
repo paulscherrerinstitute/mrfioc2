@@ -5,6 +5,7 @@ record(bo, "$(SYS)-$(DEVICE):$(OBJ)$(ID)-EnaIrq-Sel") {
     field( ZNAM, "Disabled")
     field( ONAM, "Enabled")
     field( FLNK, "$(SYS)-$(DEVICE):$(OBJ)$(ID)-EnaIrq-RB")
+    field( PINI, "YES")
     field( VAL, "$($(OBJ)$(ID)-EnaIrq-Sel\=0)")
     info( autosaveFields_pass0, "VAL")
 }
