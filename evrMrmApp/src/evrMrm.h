@@ -343,6 +343,7 @@ private:
     epicsUInt32 shadowIRQEna;
     
     epicsMutex irqLock;
+    epicsMutex irqFlagLock;
 
     // Guarded by evrLock
     epicsUInt32 count_FIFO_overflow;

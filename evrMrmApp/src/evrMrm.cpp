@@ -130,6 +130,7 @@ EVRMRM::EVRMRM(const std::string& n,
   ,count_heartbeat(0)
   ,shadowIRQEna(0)
   ,irqLock()
+  ,irqFlagLock()
   ,count_FIFO_overflow(0)
   ,m_deviceInfo(devInfo)
   ,outputs()
@@ -1235,8 +1236,12 @@ void
 EVRMRM::isr(void *arg)
 {
     EVRMRM *evr=static_cast<EVRMRM*>(arg);
+    epicsUInt32 flags;
 
-    epicsUInt32 flags=READ32(evr->base, IRQFlag);
+    {
+        SCOPED_LOCK2(evr->irqFlagLock, guard);
+        flags=READ32(evr->base, IRQFlag);
+    }
 
     epicsUInt32 active=flags&evr->shadowIRQEna;
 
@@ -1313,9 +1318,11 @@ EVRMRM::isr(void *arg)
     }
     evr->count_hardware_irq++;
 
-
-    WRITE32(evr->base, IRQFlag, flags);
-    (void)READ32(evr->base, IRQFlag); // make sure write is complete
+    {
+        SCOPED_LOCK2(evr->irqFlagLock, guard);
+        WRITE32(evr->base, IRQFlag, flags);
+        (void)READ32(evr->base, IRQFlag); // make sure write is complete
+    }
 
     // Only touch the bottom half of IRQEnable register
     // to prevent race condition with kernel space
@@ -1392,8 +1399,10 @@ EVRMRM::drain_fifo()
         // Bound the number of events taken from the FIFO
         // at one time.
         for(i=0; i<512; i++) {
-
-            status=READ32(base, IRQFlag);
+            {
+                SCOPED_LOCK(irqFlagLock);
+                status=READ32(base, IRQFlag);
+            }
             if (!(status&IRQ_Event))
                 break;
             if (status&IRQ_RXErr)
@@ -1533,11 +1542,14 @@ try {
     void *vptr;
     callbackGetUser(vptr,cb);
     EVRMRM *evr=static_cast<EVRMRM*>(vptr);
+    epicsUInt32 flags;
 
     static int err_msg = 0;
 
-    epicsUInt32 flags=READ32(evr->base, IRQFlag);
-
+    {
+        SCOPED_LOCK2(evr->irqFlagLock, guard);
+        flags=READ32(evr->base, IRQFlag);
+    }
     if(flags&IRQ_RXErr){
         if(!err_msg){
             EVR_INFO(1,"EVR link down!");
@@ -1552,7 +1564,11 @@ try {
             evr->lastInvalidTimestamp=evr->lastValidTimestamp;
             scanIoRequest(evr->timestampValidChange);
         }
-        WRITE32(evr->base, IRQFlag, IRQ_RXErr);
+        {
+            SCOPED_LOCK2(evr->irqFlagLock, guard);
+            WRITE32(evr->base, IRQFlag, IRQ_RXErr);
+            (void)READ32(evr->base, IRQFlag); // make sure write is complete
+        }
     }else{
         EVR_INFO(1,"EVR link up!");
         err_msg = 0;
