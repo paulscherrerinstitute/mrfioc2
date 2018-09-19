@@ -1,3 +1,8 @@
+3.0.5: We 19 September 2018
+  - Fixed soft event record processing stall
+  - Fixed missing processing at init for EnaIrq-Sel records on EVG inputs
+  - Fixed wrong errLog text
+
 3.0.4: Mo 13 August 2018
   - Added support to do firmware upgrade of old firmware versions
   - Added range check for mrmEvrRead and mrmEvrWrite
