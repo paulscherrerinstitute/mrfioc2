@@ -106,8 +106,12 @@ struct eventCode {
     size_t waitingfor;
     bool again;
 
+    // Debug members
+    epicsUInt32 numOfEnables;
+    epicsUInt32 numOfDisables; 
+
     eventCode():owner(0), interested(0), last_sec(0)
-            ,last_evt(0), notifiees(), waitingfor(0), again(false)
+            ,last_evt(0), notifiees(), waitingfor(0), again(false), numOfEnables(0), numOfDisables(0)
     {
         scanIoInit(&occured);
         // done - initialized in EVRMRM::EVRMRM()

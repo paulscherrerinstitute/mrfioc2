@@ -1440,6 +1440,9 @@ EVRMRM::drain_fifo()
                 events[evt].again=true;
                 specialSetMap(evt, ActionFIFOSave, false);
                 count_FIFO_sw_overrate++;
+                events[evt].numOfDisables++;
+                errlogPrintf("Event %d already queued, disabling. Number of re-enables are %u, number of disables are %u\n",
+                             evt, events[evt].numOfEnables, events[evt].numOfDisables);
             } else {
                 // needs to be queued
                 eventInvoke(events[evt]);
@@ -1523,6 +1526,10 @@ try {
     // Re-enable mapping if disabled
     if (run && sent->interested) {
         sent->owner->specialSetMap(sent->code, ActionFIFOSave, true);
+        sent->owner->events[sent->code].numOfEnables++;
+        errlogPrintf("Re-enabling event %d. Number of re-enables are %u, number of disables are %u\n",
+                     sent->code, sent->owner->events[sent->code].numOfEnables,
+                     sent->owner->events[sent->code].numOfDisables);
     }
 } catch(std::exception& e) {
     epicsPrintf("exception in sentinel_done callback: %s\n", e.what());
