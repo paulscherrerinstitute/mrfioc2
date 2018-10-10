@@ -961,6 +961,11 @@ EVRMRM::interestedInEvent(epicsUInt32 event,bool set)
         || (!set && entry->interested==1) // or last un-interested
     ) {
         specialSetMap(event, ActionFIFOSave, set);
+        if (set) {
+                errlogPrintf("EVRMRM:interestedInEvent: Enabling event %d.\n", event);
+        } else {
+                errlogPrintf("EVRMRM:interestedInEvent: Disabling event %d.\n", event);
+        }  
     }
 
     if (set)
