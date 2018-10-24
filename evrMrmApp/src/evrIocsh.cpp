@@ -1117,6 +1117,48 @@ static void mrmEvrWriteFunc(const iocshArgBuf *args) {
 }
 
 /******************/
+/********** Print Soft event struct content  *******/
+
+extern "C"
+void mrmEvrPrintSoftEvent(const char* id, epicsUInt8 evtCode)
+{
+    eventCode softEvt;   
+    mrf::Object *obj = mrf::Object::getObject(id);
+    if (!obj)
+        return;
+    EVRMRM *card = dynamic_cast<EVRMRM*>(obj);
+    if (!card){
+        return;
+    }
+
+    /*Copy soft event content from evr class */
+    card->getSoftEvent(evtCode, softEvt);
+
+    /*Print soft event content */
+    epicsPrintf("Event code:    %u\n", softEvt.code);
+#ifdef _WIN32
+    epicsPrintf("Interested:    %Iu\n", softEvt.interested);
+    epicsPrintf("WaitingFor:    %Iu\n", softEvt.waitingfor);
+#else
+    epicsPrintf("Interested:    %zu\n", softEvt.interested);
+    epicsPrintf("WaitingFor:    %zu\n", softEvt.waitingfor);
+#endif
+    epicsPrintf("Again:         %s\n", softEvt.again ? "true" : "false");
+    epicsPrintf("NumOfEnables:  %u\n", softEvt.numOfEnables);
+    epicsPrintf("NumOfDisables: %u\n", softEvt.numOfDisables);
+
+}
+
+static const iocshArg mrmEvrPrintSoftEventArg0 = { "Device_name", iocshArgString };
+static const iocshArg mrmEvrPrintSoftEventArg1 = { "Event_code", iocshArgInt };
+
+static const iocshArg * const mrmEvrPrintSoftEventArgs[2] = { &mrmEvrPrintSoftEventArg0, &mrmEvrPrintSoftEventArg1 };
+static const iocshFuncDef mrmEvrPrintSoftEventFuncDef = { "mrmEvrPrintSoftEvent", 2, mrmEvrPrintSoftEventArgs };
+
+static void mrmEvrPrintSoftEventFunc(const iocshArgBuf *args) {
+    mrmEvrPrintSoftEvent(args[0].sval, args[1].ival);
+}
+
 
 /********** Create embedded EVR on EVG  *******/
 
@@ -1191,6 +1233,7 @@ void mrmsetupreg()
     iocshRegister(&mrmEvrLoopbackFuncDef, mrmEvrLoopbackCallFunc);
     iocshRegister(&mrmEvrWriteFuncDef, mrmEvrWriteFunc);
     iocshRegister(&mrmEvrReadFuncDef, mrmEvrReadFunc);
+    iocshRegister(&mrmEvrPrintSoftEventFuncDef, mrmEvrPrintSoftEventFunc);
 }
 
 

@@ -1216,6 +1216,12 @@ EVRMRM::disableIRQ(void)
     (void)READ32(base, IRQEnable); // make sure write is complete
 }
 
+void EVRMRM::getSoftEvent(epicsUInt8 evtCode, eventCode& softEvt)
+{
+    SCOPED_LOCK(evrLock);
+    softEvt = events[evtCode];
+}
+
 void
 EVRMRM::isr_pci(void *arg) {
     EVRMRM *evr=static_cast<EVRMRM*>(arg);
