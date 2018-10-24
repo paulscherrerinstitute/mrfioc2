@@ -1159,6 +1159,38 @@ static void mrmEvrPrintSoftEventFunc(const iocshArgBuf *args) {
     mrmEvrPrintSoftEvent(args[0].sval, args[1].ival);
 }
 
+/********** Enable soft event  *******/
+
+extern "C"
+void mrmEvrEnableSoftEvent(const char* id, epicsUInt8 evtCode)
+{
+    eventCode softEvt;
+    mrf::Object *obj = mrf::Object::getObject(id);
+    if (!obj)
+        return;
+    EVRMRM *card = dynamic_cast<EVRMRM*>(obj);
+    if (!card){
+        return;
+    }
+
+    card->lock();
+    epicsPrintf("Current values of soft event %d members:\n", evtCode);
+    mrmEvrPrintSoftEvent(id, evtCode);
+    epicsPrintf("Enabling and reseting member variables of soft event %d\n", evtCode);
+    card->enableSoftEvent(evtCode);
+    card->unlock();
+}
+
+static const iocshArg mrmEvrEnableSoftEventArg0 = { "Device_name", iocshArgString };
+static const iocshArg mrmEvrEnableSoftEventArg1 = { "Event_code", iocshArgInt };
+
+static const iocshArg * const mrmEvrEnableSoftEventArgs[2] = { &mrmEvrEnableSoftEventArg0, &mrmEvrEnableSoftEventArg1 };
+static const iocshFuncDef mrmEvrEnableSoftEventFuncDef = { "mrmEvrEnableSoftEvent", 2, mrmEvrEnableSoftEventArgs };
+
+static void mrmEvrEnableSoftEventFunc(const iocshArgBuf *args) {
+    mrmEvrEnableSoftEvent(args[0].sval, args[1].ival);
+}
+
 
 /********** Create embedded EVR on EVG  *******/
 
@@ -1234,6 +1266,7 @@ void mrmsetupreg()
     iocshRegister(&mrmEvrWriteFuncDef, mrmEvrWriteFunc);
     iocshRegister(&mrmEvrReadFuncDef, mrmEvrReadFunc);
     iocshRegister(&mrmEvrPrintSoftEventFuncDef, mrmEvrPrintSoftEventFunc);
+    iocshRegister(&mrmEvrEnableSoftEventFuncDef, mrmEvrEnableSoftEventFunc);
 }
 
 

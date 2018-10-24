@@ -1222,6 +1222,22 @@ void EVRMRM::getSoftEvent(epicsUInt8 evtCode, eventCode& softEvt)
     softEvt = events[evtCode];
 }
 
+void EVRMRM::enableSoftEvent(epicsUInt8 evtCode)
+{
+    SCOPED_LOCK(evrLock);
+
+    if (!events[evtCode].interested) {
+        errlogPrintf("Event %d is not of interest\n", evtCode);
+        return;
+    }
+
+    /* Enable and reset values of soft event member variables */
+    events[evtCode].waitingfor = 0;
+    events[evtCode].again = false;
+    specialSetMap(evtCode, ActionFIFOSave, true);
+    events[evtCode].numOfEnables++;
+}
+
 void
 EVRMRM::isr_pci(void *arg) {
     EVRMRM *evr=static_cast<EVRMRM*>(arg);

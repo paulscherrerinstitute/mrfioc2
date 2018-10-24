@@ -290,6 +290,7 @@ public:
     void disableIRQ(void);
 
     void getSoftEvent(epicsUInt8 evtCode, eventCode& softEvt);
+    void enableSoftEvent(epicsUInt8 evtCode);
 
     static void isr(void*);
     static void isr_pci(void*);
