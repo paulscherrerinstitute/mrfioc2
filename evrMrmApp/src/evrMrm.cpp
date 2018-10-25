@@ -243,7 +243,7 @@ try{
             nOFPUV=10;
             nORB=16;
             nIFP=2;
-            nPul = 32;
+            nPul = 24;
             nPS = 8;
         }else{
             nOFP=7;
