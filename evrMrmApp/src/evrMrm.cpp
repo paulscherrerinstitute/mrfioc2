@@ -327,11 +327,20 @@ try{
         prescalers[i]=new EvrPrescaler(name.str(), base, i);
     }
 
-    pulsers.resize(nPul);
+    pulsers.resize(32);
     for(size_t i=0; i<nPul; i++){
         std::ostringstream name;
         name<<id<<":Pul"<<i;
         pulsers[i]=new EvrPulser(name.str(), *this, i);
+    }
+
+    /* Gated pulse generators */
+    if(m_deviceInfo.getFirmwareId() == mrmDeviceInfo::firmwareId_delayCompensation){
+        for(size_t i=28; i<=31; i++){
+            std::ostringstream name;
+            name<<id<<":Pul"<<i;
+            pulsers[i]=new EvrPulser(name.str(), *this, i);
+        }
     }
 
     if(m_deviceInfo.getFormFactor() == mrmDeviceInfo::formFactor_CPCIFULL) {

@@ -176,6 +176,23 @@ file "$(mrfioc2_TEMPLATES=db)/evr-pcie-300DC.db"
 		Pul15-Delay-SP=0,			#Pulser delay in us 
 		Pul15-Width-SP=0,			#0-65535 : Width in us
 
+		# Gates 0-3
+		Pul28-Name-I="Gate 0",	#Description of the gated pulser. Maximum 40 characters allowed!
+		Pul28-Name-I.DESC="",	#Secondary description of the gated pulser. Maximum 40 characters allowed!
+		Pul28-Ena-Sel=1,		#0 = Disabled, 1 = Enabled
+
+		Pul29-Name-I="Gate 1",	#Description of the gated pulser. Maximum 40 characters allowed!
+		Pul29-Name-I.DESC="",	#Secondary description of the gated pulser. Maximum 40 characters allowed!
+		Pul29-Ena-Sel=1,		#0 = Disabled, 1 = Enabled
+
+		Pul30-Name-I="Gate 2",	#Description of the gated pulser. Maximum 40 characters allowed!
+		Pul30-Name-I.DESC="",	#Secondary description of the gated pulser. Maximum 40 characters allowed!
+		Pul30-Ena-Sel=1,		#0 = Disabled, 1 = Enabled
+
+		Pul31-Name-I="Gate 3",	#Description of the gated pulser. Maximum 40 characters allowed!
+		Pul31-Name-I.DESC="",	#Secondary description of the gated pulser. Maximum 40 characters allowed!
+		Pul31-Ena-Sel=1,		#0 = Disabled, 1 = Enabled
+	
 
 		## Front panel outputs
 		# Available -Src-SP choices:
@@ -483,6 +500,10 @@ pattern {PID   F,      EVT, ID}
         {13,   Set,   0,   0 }
         {14,   Set,   0,   0 }
         {15,   Set,   0,   0 }
+        {28,   Set,   0,   0 }	# Gate 0
+        {29,   Set,   0,   0 }	# Gate 1
+        {30,   Set,   0,   0 }	# Gate 2
+        {31,   Set,   0,   0 }	# Gate 3
 
 
         {0,    Reset,   0,   0 }
@@ -501,6 +522,10 @@ pattern {PID   F,      EVT, ID}
         {13,   Reset,   0,   0 }
         {14,   Reset,   0,   0 }
         {15,   Reset,   0,   0 }
+        {28,   Reset,   0,   0 }	# Gate 0
+        {29,   Reset,   0,   0 }	# Gate 1
+        {30,   Reset,   0,   0 }	# Gate 2
+        {31,   Reset,   0,   0 }	# Gate 3
 }
 
 ## Flash access support
