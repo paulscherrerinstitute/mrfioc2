@@ -955,7 +955,10 @@ EVRMRM::interestedInEvent(epicsUInt32 event,bool set)
 
     eventCode *entry=&events[event];
 
+
     SCOPED_LOCK(evrLock);
+    errlogPrintf("EVRMRM:interestedInEvent: event %d, nbrOfInterested %d, set %s.\n",
+                event, entry->interested, set ? "true" : "false");
 
     if (   (set  && entry->interested==0) // first interested
         || (!set && entry->interested==1) // or last un-interested
