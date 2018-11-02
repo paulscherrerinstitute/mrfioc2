@@ -412,6 +412,10 @@ pattern {PID   F,      EVT, ID}
         {13,   Set,   0,   0 }
         {14,   Set,   0,   0 }
         {15,   Set,   0,   0 }
+        {28,   Set,   0,   0 }	# Gate 0
+        {29,   Set,   0,   0 }	# Gate 1
+        {30,   Set,   0,   0 }	# Gate 2
+        {31,   Set,   0,   0 }	# Gate 3
 
 
         {0,    Reset,   0,   0 }
@@ -430,6 +434,10 @@ pattern {PID   F,      EVT, ID}
         {13,   Reset,   0,   0 }
         {14,   Reset,   0,   0 }
         {15,   Reset,   0,   0 }
+        {28,   Reset,   0,   0 }	# Gate 0
+        {29,   Reset,   0,   0 }	# Gate 1
+        {30,   Reset,   0,   0 }	# Gate 2
+        {31,   Reset,   0,   0 }	# Gate 3
 }
 
 ## Flash access support
