@@ -13,7 +13,7 @@ usage()
     echo "    -s <system name>     The system/project name"
     echo "    -d <EVR name>        Event Receiver / timing card name (default: $EVR)"
     echo "    -f <form factor>     EVR form factor (default: $FF)"
-    echo "                         Choices: VME, PCIe, VME-300, embedded"
+    echo "                         Choices: VME, PCIe, PCIe-300DC, VME-300, embedded"
     echo "    -n                   Do not attach to existing caQtDM. Open new one instead"
     echo "    -h                   This help"
 }
