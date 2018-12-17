@@ -39,6 +39,8 @@
 
 #include <epicsExport.h>
 
+#include <epicsTime.h>
+
 int evrDebug, evrEventDebug=0;
 extern "C" {
  epicsExportAddress(int, evrDebug);
@@ -1478,6 +1480,7 @@ EVRMRM::drain_fifo()
             } else {
                 // needs to be queued
                 eventInvoke(events[evt]);
+                events[evt].numOfEvtsQueued++;
                 events[evt].waitingfor=NUM_CALLBACK_PRIORITIES;
                 for(int p=0; p<NUM_CALLBACK_PRIORITIES; p++) {
                     events[evt].done.priority=p;
@@ -1547,6 +1550,32 @@ try {
     eventCode *sent=static_cast<eventCode*>(vptr);
 
     SCOPED_LOCK2(sent->owner->evrLock, guard);
+
+    if (sent->waitingfor > NUM_CALLBACK_PRIORITIES ||
+       sent->waitingfor ==  0) {
+        epicsTime currentTime = epicsTime::getCurrent();
+        char buf[30];
+        currentTime.strftime(buf,30,"%Y/%m/%d %H:%M:%S.%06f");
+
+        /* Print debug message and current time */
+        epicsPrintf("sentinel_done was called with invalid value on waitingfor\n");
+        epicsPrintf("Current time:    %s\n", buf);
+        /* Print soft event content */
+        epicsPrintf("Event code:      %u\n", sent->code);
+#ifdef _WIN32
+        epicsPrintf("Interested:      %Iu\n", sent->interested);
+        epicsPrintf("WaitingFor:      %Iu\n", sent->waitingfor);
+#else
+        epicsPrintf("Interested:      %zu\n", sent->interested);
+        epicsPrintf("WaitingFor:      %zu\n", sent->waitingfor);
+#endif
+        epicsPrintf("Again:           %s\n", sent->again ? "true" : "false");
+        epicsPrintf("NumOfEnables:    %u\n", sent->numOfEnables);
+        epicsPrintf("NumOfDisables:   %u\n", sent->numOfDisables);
+        epicsPrintf("NumOfEvtsQueued: %u\n", sent->numOfEvtsQueued);
+
+        return;
+    }
 
     // Is this the last callback queue?
     if (--sent->waitingfor)
