@@ -957,7 +957,11 @@ EVRMRM::interestedInEvent(epicsUInt32 event,bool set)
 
 
     SCOPED_LOCK(evrLock);
-    errlogPrintf("EVRMRM:interestedInEvent: event %d, nbrOfInterested %d, set %s.\n",
+#ifdef _WIN32
+    errlogPrintf("EVRMRM:interestedInEvent: event %d, nbrOfInterested %Iu, set %s.\n",
+#else
+    errlogPrintf("EVRMRM:interestedInEvent: event %d, nbrOfInterested %zu, set %s.\n",
+#endif
                 event, entry->interested, set ? "true" : "false");
 
     if (   (set  && entry->interested==0) // first interested
