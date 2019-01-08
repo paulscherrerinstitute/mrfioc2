@@ -102,7 +102,7 @@ struct eventCode {
     typedef std::list<std::pair<eventCallback,void*> > notifiees_t;
     notifiees_t notifiees;
 
-    CALLBACK done;
+    CALLBACK done[NUM_CALLBACK_PRIORITIES];
     size_t waitingfor;
     bool again;
 

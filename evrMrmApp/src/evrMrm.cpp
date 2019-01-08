@@ -365,7 +365,9 @@ try{
     for(epicsUInt32 i=0; i<NELEMENTS(this->events); i++) {
         events[i].code=i;
         events[i].owner=this;
-        CBINIT(&events[i].done, priorityLow, &EVRMRM::sentinel_done , &events[i]);
+        for(int p=0; p<NUM_CALLBACK_PRIORITIES; p++) {
+            CBINIT(&events[i].done[p], p, &EVRMRM::sentinel_done , &events[i]);
+        }
     }
 
     m_dataBuffer_230 = new mrmDataBuffer_230(n.c_str(), base, U32_DataTxCtrlEvr, U32_DataRxCtrlEvr, U32_DataTxBaseEvr, U32_DataRxBaseEvr);
@@ -1483,8 +1485,7 @@ EVRMRM::drain_fifo()
                 events[evt].numOfEvtsQueued++;
                 events[evt].waitingfor=NUM_CALLBACK_PRIORITIES;
                 for(int p=0; p<NUM_CALLBACK_PRIORITIES; p++) {
-                    events[evt].done.priority=p;
-                    callbackRequest(&events[evt].done);
+                    callbackRequest(&events[evt].done[p]);
                 }
             }
 
