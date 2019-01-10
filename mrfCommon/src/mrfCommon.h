@@ -161,8 +161,8 @@ public:
     {
         unlock();
     }
-    inline void lock(){if (!locked) m.lock();locked=true;}
-    inline void unlock(){if (locked) m.unlock();locked=false;}
+    inline void lock(){m.lock();locked=true;}
+    inline void unlock(){m.unlock();locked=false;}
 };
 #define SCOPED_LOCK2(m, name) scopedLock<epicsMutex> name(m)
 #define SCOPED_LOCK(m) SCOPED_LOCK2(m, m##_guard)
