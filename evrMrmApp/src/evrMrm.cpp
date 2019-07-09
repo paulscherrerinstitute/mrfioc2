@@ -38,6 +38,7 @@
 #include "mrf/version.h"
 
 #include <epicsExport.h>
+#include <epicsTime.h>
 
 int evrDebug, evrEventDebug=0;
 extern "C" {
@@ -1211,6 +1212,28 @@ EVRMRM::disableIRQ(void)
     (void)READ32(base, IRQEnable); // make sure write is complete
 }
 
+void EVRMRM::getSoftEvent(epicsUInt8 evtCode, eventCode& softEvt)
+{
+    SCOPED_LOCK(evrLock);
+    softEvt = events[evtCode];
+}
+
+void EVRMRM::enableSoftEvent(epicsUInt8 evtCode)
+{
+    SCOPED_LOCK(evrLock);
+
+    if (!events[evtCode].interested) {
+        errlogPrintf("Event %d is not of interest\n", evtCode);
+        return;
+    }
+
+    /* Enable and reset values of soft event member variables */
+    events[evtCode].waitingfor = 0;
+    events[evtCode].again = false;
+    specialSetMap(evtCode, ActionFIFOSave, true);
+    events[evtCode].numOfEnables++;
+}
+
 void
 EVRMRM::isr_pci(void *arg) {
     EVRMRM *evr=static_cast<EVRMRM*>(arg);
@@ -1440,9 +1463,11 @@ EVRMRM::drain_fifo()
                 events[evt].again=true;
                 specialSetMap(evt, ActionFIFOSave, false);
                 count_FIFO_sw_overrate++;
+                events[evt].numOfDisables++;
             } else {
                 // needs to be queued
                 eventInvoke(events[evt]);
+                events[evt].numOfEvtsQueued++;
                 events[evt].waitingfor=NUM_CALLBACK_PRIORITIES;
                 for(int p=0; p<NUM_CALLBACK_PRIORITIES; p++) {
                     events[evt].done.priority=p;
@@ -1513,6 +1538,32 @@ try {
 
     SCOPED_LOCK2(sent->owner->evrLock, guard);
 
+    if (sent->waitingfor > NUM_CALLBACK_PRIORITIES ||
+       sent->waitingfor ==  0) {
+        epicsTime currentTime = epicsTime::getCurrent();
+        char buf[30];
+        currentTime.strftime(buf,30,"%Y/%m/%d %H:%M:%S.%06f");
+
+        /* Print debug message and current time */
+        epicsPrintf("sentinel_done was called with invalid value on waitingfor\n");
+        epicsPrintf("Current time:    %s\n", buf);
+        /* Print soft event content */
+        epicsPrintf("Event code:      %u\n", sent->code);
+#ifdef _WIN32
+        epicsPrintf("Interested:      %Iu\n", sent->interested);
+        epicsPrintf("WaitingFor:      %Iu\n", sent->waitingfor);
+#else
+        epicsPrintf("Interested:      %zu\n", sent->interested);
+        epicsPrintf("WaitingFor:      %zu\n", sent->waitingfor);
+#endif
+        epicsPrintf("Again:           %s\n", sent->again ? "true" : "false");
+        epicsPrintf("NumOfEnables:    %u\n", sent->numOfEnables);
+        epicsPrintf("NumOfDisables:   %u\n", sent->numOfDisables);
+        epicsPrintf("NumOfEvtsQueued: %u\n", sent->numOfEvtsQueued);
+
+        return;
+    }
+
     // Is this the last callback queue?
     if (--sent->waitingfor)
         return;
@@ -1523,6 +1574,7 @@ try {
     // Re-enable mapping if disabled
     if (run && sent->interested) {
         sent->owner->specialSetMap(sent->code, ActionFIFOSave, true);
+        sent->owner->events[sent->code].numOfEnables++;
     }
 } catch(std::exception& e) {
     epicsPrintf("exception in sentinel_done callback: %s\n", e.what());
