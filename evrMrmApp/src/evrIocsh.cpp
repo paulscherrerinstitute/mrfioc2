@@ -327,6 +327,7 @@ mrmEvrSetupPCI(const char* id,      // Card Identifier
     volatile epicsUInt8 *plx = 0, *evr = 0; // base addressed for plx/evr bar
 
     try {
+        epicsPrintf("Checking if card %s is already in use\n", id);
         if(mrf::Object::getObject(id)){
             errlogPrintf("Object ID %s already in use\n",id);
             return -1;
@@ -343,6 +344,7 @@ mrmEvrSetupPCI(const char* id,      // Card Identifier
 
 
         // get pci device from devLib2
+        epicsPrintf("Probing for PCI device (domain=%d, bus=%d, device=%d, function=%d\n", o, b, d, f);
         const epicsPCIDevice *cur = 0;
         int err;
         if( (err=devPCIFindDBDF(mrmevrs,o,b,d,f,&cur,0)) ){
@@ -686,11 +688,13 @@ mrmEvrSetupVME(const char* id,      // Card Identifier
     volatile unsigned char* evr;    // base address for the card
 
     try {
+        epicsPrintf("Checking if card %s is already in use\n", id);
         if(mrf::Object::getObject(id)){
             errlogPrintf("ID %s already in use\n",id);
             return -1;
         }
 
+        epicsPrintf("Probing for EVR in VME Slot %d\n",slot);
         struct VMECSRID info;
         volatile unsigned char* csr;    // csr is VME-CSR space CPU address for the board
         csr=devCSRTestSlot(vmeevrs,slot,&info);
