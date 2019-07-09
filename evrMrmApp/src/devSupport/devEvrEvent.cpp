@@ -71,9 +71,6 @@ try {
     if (!p->evr->interestedInEvent(p->event, true))
         throw std::runtime_error("Failed to register interest");
 
-    errlogPrintf("DevSup:add_record: %s sucessfully interested in event %d.\n",
-                prec->name, p->event);   
-
     prec->dpvt=(void*)p.release();
 
     return 0;

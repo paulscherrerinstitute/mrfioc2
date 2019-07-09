@@ -102,10 +102,8 @@ static long add_lo(dbCommon* praw)
             return S_db_errArg;
         }
 
-        if(priv->last_code>0 && priv->last_code<=255) {
-            errlogPrintf("devEvrMapping.cpp:add_lo: Enabling event %d\n", priv->last_code);
+        if(priv->last_code>0 && priv->last_code<=255)
             priv->card->specialSetMap(priv->last_code,priv->func,true);
-        }
 
         praw->dpvt = (void*)priv.release();
 
@@ -127,10 +125,8 @@ long del_lo(dbCommon* praw)
         if (!priv.get())
             return -2;
 
-        if(priv->last_code>0 && priv->last_code<=255) {
-            errlogPrintf("devEvrMapping.cpp:del_lo: Disabling event %d\n", priv->last_code);
+        if(priv->last_code>0 && priv->last_code<=255)
             priv->card->specialSetMap(priv->last_code,priv->func,false);
-        }
 
         return 0;
     } catch(std::exception& e) {
@@ -160,12 +156,9 @@ static long write_lo(longoutRecord* prec)
         if( code==priv->last_code )
             return 0;
 
-        if(priv->last_code>0 && priv->last_code<=255) {
-            errlogPrintf("devEvrMapping.cpp:write_lo: Disabling event %d\n", priv->last_code);
+        if(priv->last_code>0 && priv->last_code<=255)
             priv->card->specialSetMap(priv->last_code,func,false);
-        }
 
-        errlogPrintf("devEvrMapping.cpp:write_lo: Enabling event %d\n", priv->last_code);
         priv->card->specialSetMap(code,func,true);
 
 

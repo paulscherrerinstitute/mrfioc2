@@ -38,7 +38,6 @@
 #include "mrf/version.h"
 
 #include <epicsExport.h>
-
 #include <epicsTime.h>
 
 int evrDebug, evrEventDebug=0;
@@ -957,24 +956,12 @@ EVRMRM::interestedInEvent(epicsUInt32 event,bool set)
 
     eventCode *entry=&events[event];
 
-
     SCOPED_LOCK(evrLock);
-#ifdef _WIN32
-    errlogPrintf("EVRMRM:interestedInEvent: event %d, nbrOfInterested %Iu, set %s.\n",
-#else
-    errlogPrintf("EVRMRM:interestedInEvent: event %d, nbrOfInterested %zu, set %s.\n",
-#endif
-                event, entry->interested, set ? "true" : "false");
 
     if (   (set  && entry->interested==0) // first interested
         || (!set && entry->interested==1) // or last un-interested
     ) {
         specialSetMap(event, ActionFIFOSave, set);
-        if (set) {
-                errlogPrintf("EVRMRM:interestedInEvent: Enabling event %d.\n", event);
-        } else {
-                errlogPrintf("EVRMRM:interestedInEvent: Disabling event %d.\n", event);
-        }  
     }
 
     if (set)
