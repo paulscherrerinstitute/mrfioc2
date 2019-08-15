@@ -1,3 +1,13 @@
+3.0.7: Th 15 August 2019
+  - Added printfs to support debugging of start up problems
+  - Added workaround to handle soft event processing stall
+  - Added iocsh function to detect the soft event processing stall
+  - Added iocsh function to restart soft event processing after stall
+  - Added ui install script for HIPA
+
+3.0.6: We 31 Juli 2019
+  - Fixed version check that failed to recognize EPICS 7
+
 3.0.5: We 19 September 2018
   - Fixed soft event record processing stall
   - Fixed missing processing at init for EnaIrq-Sel records on EVG inputs
