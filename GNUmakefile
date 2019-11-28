@@ -150,9 +150,6 @@ TEMPLATES += PSI/example/evg_VME-300-fout.subs
 TEMPLATES += mrmShared/Db/flash.template
 TEMPLATES += mrmShared/Db/sfp.template
 
-## PSI specific templates
-TEMPLATES += PSI/Db/evr-BeamOK.template
-
 ## GENERIC STARTUP SCRIPTS ##
 SCRIPTS += PSI/mrfioc2_evr-PCIe.cmd
 SCRIPTS += PSI/mrfioc2_evr-VME.cmd
