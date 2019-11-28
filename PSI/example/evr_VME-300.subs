@@ -54,11 +54,11 @@ file "$(mrfioc2_TEMPLATES=db)/evr-vme-300.db"
 		## Delay compensation
 		DlyCompensation-Enabled-Sel=1,	#0 = Disabled, 1 = Enabled: Enables or disables delay compensation
 		DlyCompensation-Target-SP=5000,	# Delay compensation value in [ns]. Should be set to max(path + someDelta) of all receivers in the timing system. This value can also be retrieved from an external record (see macro below).
-		DlyCompensation-Source-I="SIN-TIMAST-TMA:EvrDC-SP CP",      # delay compensation target value is sourced from the record referenced here.
+		DlyCompensation-Source-I="SWISSFEL-STATUS:EvrDC-SP CP",      # delay compensation target value is sourced from the record referenced here.
 										# this value must be set the same for all EVRs in the timing network. This is why we have a single record which acts as a source for all EVRs in the same timing network.
 		                                # NOTE: The value of DlyCompensation-Source-I needs to include CP to ensure the value is updated when the source changes.
 		                                #       The CP can not be hidden in the template file because this would lead to an invalid input link CP when no substitution value for DlyCompensation-Source-I is provided.
-		                                # Recommended setting for SwissFEL is SIN-TIMAST-TMA:EvrDC-SP CP
+		                                # Recommended setting for SwissFEL is SWISSFEL-STATUS:EvrDC-SP CP
 		DlyCompensation-Source-Disa=0,  #0 = Enabled, 1 = Disabled: enables or disables sourcing the delay compensation target value from record specified with 'DlyCompensation-Source-I' macro
 
 		DBuf-Mode-Sel=1,		#1 = Enabled, 0 = Disabled: enables or disables data buffer type 300 reception. Default: 1
