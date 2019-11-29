@@ -1,3 +1,7 @@
+3.0.8: Fr 29 November 2019
+  - Removed beam ok computation functionality
+  - Changed default source for delay compensation target delay to SWISSFEL-STATUS IOC
+
 3.0.7: Th 15 August 2019
   - Added printfs to support debugging of start up problems
   - Added workaround to handle soft event processing stall
