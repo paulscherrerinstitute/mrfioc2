@@ -10,6 +10,7 @@
 
 
 //#include <epicsMMIO.h>
+#include "shareLib.h"
 #include "mrmDeviceInfo.h"
 #include "evrRegMap.h"
 #include "evrMrm.h"

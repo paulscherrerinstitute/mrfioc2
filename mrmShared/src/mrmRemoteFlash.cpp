@@ -3,6 +3,7 @@
 
 #include <errlog.h>
 #include "iocsh.h"
+#include "shareLib.h"
 #include "mrmDeviceInfo.h"
 
 #include <epicsExport.h>
