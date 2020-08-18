@@ -7,11 +7,12 @@ include /ioc/tools/driver.makefile
 MODULE=mrfioc2
 #LIBVERSION=test
 
+LIB_SYS_LIBS_WIN32 += WS2_32
 
-BUILDCLASSES=Linux
+BUILDCLASSES=Linux WIN32
 EXCLUDE_VERSIONS=3.13 3.14.8
 # build for IFC, PPMAC, PC
-ARCH_FILTER=eldk52-e500v2 eldk42-ppc4xxFP SL% RHEL%
+ARCH_FILTER=eldk52-e500v2 eldk42-ppc4xxFP SL% RHEL% win%
 #ARCH_FILTER=eldk42-ppc4xxFP
 #ARCH_FILTER=eldk52-e500v2
 #ARCH_FILTER=SL%
@@ -40,7 +41,8 @@ SOURCES+=mrmShared/src/mrmSoftEvent.cpp
 
 SOURCES+=evrMrmApp/src/devSupport/devEvrStringIO.cpp
 SOURCES+=evrMrmApp/src/devSupport/devEvrPulserMapping.cpp
-SOURCES+=evrMrmApp/src/support/ntpShm.cpp
+SOURCES_Linux+=evrMrmApp/src/support/ntpShm.cpp
+SOURCES_WIN32+=evrMrmApp/src/support/ntpShmNull.cpp
 SOURCES+=evrMrmApp/src/devSupport/devEvrEvent.cpp
 SOURCES+=evrMrmApp/src/support/evrGTIF.cpp
 SOURCES+=evrMrmApp/src/evr.cpp
