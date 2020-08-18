@@ -360,25 +360,25 @@ mrmEvrSetupPCI(const char* id,      // Card Identifier
          * The EC 30 device has only 1 bar (0) which we need to map to *evr.
          */
         if(cur->id.device == PCI_DEVICE_ID_EC_30 || cur->id.device == PCI_DEVICE_ID_XILINX) {
-            if(devPCIToLocalAddr(cur,0,(volatile void**)(void *)&evr,DEVLIB_MAP_UIO1TO1))
+            if(devPCIToLocalAddr(cur,0,(volatile void**)&evr,DEVLIB_MAP_UIO1TO1))
             {
                 errlogPrintf("PCI error: Failed to map BARs 0 for EC 30\n");
                 return -1;
             }
             if(!evr){
-                errlogPrintf("PCI error: BAR mapped to zero? (%08lx)\n", (unsigned long)evr);
+                errlogPrintf("PCI error: BAR mapped to zero? (%p)\n", evr);
                 return -1;
             }
         } else {
-            if( devPCIToLocalAddr(cur,0,(volatile void**)(void *)&plx,DEVLIB_MAP_UIO1TO1) ||
-                devPCIToLocalAddr(cur,2,(volatile void**)(void *)&evr,DEVLIB_MAP_UIO1TO1))
+            if( devPCIToLocalAddr(cur,0,(volatile void**)&plx,DEVLIB_MAP_UIO1TO1) ||
+                devPCIToLocalAddr(cur,2,(volatile void**)&evr,DEVLIB_MAP_UIO1TO1))
             {
                 errlogPrintf("PCI error: Failed to map BARs 0 and 2\n");
                 return -1;
             }
             if(!plx || !evr){
-                errlogPrintf("PCI error: BARs mapped to zero? (%08lx,%08lx)\n",
-                       (unsigned long)plx,(unsigned long)evr);
+                errlogPrintf("PCI error: BARs mapped to zero? (%p,%p)\n",
+                       plx,evr);
                 return -1;
             }
         }
@@ -733,14 +733,14 @@ mrmEvrSetupVME(const char* id,      // Card Identifier
                                           info.board & MRF_BID_SERIES_MASK,
                                           id, slot);
 
-        if(devRegisterAddress(Description, atVMEA32, base, EVR_REGMAP_SIZE, (volatile void**)(void *)&evr))
+        if(devRegisterAddress(Description, atVMEA32, base, EVR_REGMAP_SIZE, (volatile void**)&evr))
         {
             errlogPrintf("Failed to map address %08x\n",base);
             return -1;
         }
 
         epicsUInt32 junk;
-        if(devReadProbe(sizeof(junk), (volatile void*)(evr+U32_FWVersion), (void*)&junk)) {
+        if(devReadProbe(sizeof(junk), (volatile void*)(evr+U32_FWVersion), &junk)) {
             errlogPrintf("Failed to read from MRM registers (but could read CSR registers)\n");
             return -1;
         }

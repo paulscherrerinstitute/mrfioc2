@@ -470,15 +470,15 @@ mrmEvgSetupPCI (
         /* MMap BAR0(plx) and BAR2(EVG)*/
         volatile epicsUInt8 *BAR_plx, *BAR_evg; // base addressed for plx/evg bars
 
-        if (devPCIToLocalAddr(cur, 0, (volatile void**) (void *) &BAR_plx, 0)
-                || devPCIToLocalAddr(cur, 2, (volatile void**) (void *) &BAR_evg, 0)) {
+        if (devPCIToLocalAddr(cur, 0, (volatile void**)&BAR_plx, 0)
+                || devPCIToLocalAddr(cur, 2, (volatile void**)&BAR_evg, 0)) {
             errlogPrintf("Failed to map BARs 0 and 2\n");
             return -1;
         }
 
         if (!BAR_plx || !BAR_evg) {
-            errlogPrintf("BARs mapped to zero? (%08lx,%08lx)\n",
-                    (unsigned long) BAR_plx, (unsigned long) BAR_evg);
+            errlogPrintf("BARs mapped to zero? (%p,%p)\n",
+                    BAR_plx, BAR_evg);
             return -1;
         }
 
@@ -493,7 +493,7 @@ mrmEvgSetupPCI (
 
         #ifndef __linux__
             epicsUInt32 junk;
-            if(devReadProbe(sizeof(junk), (volatile void*)(BAR_evg+U32_FWVersion), (void*)&junk)) {
+            if(devReadProbe(sizeof(junk), (volatile void*)(BAR_evg+U32_FWVersion), &junk)) {
                 throw std::runtime_error("Failed to read from MRM registers (but could read CSR registers)\n");
             }
         #endif
