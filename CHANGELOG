@@ -1,3 +1,8 @@
+3.0.9: Mo 24 August 2020
+  - Fix build broblems with base 7.0.4.1
+  - Fix build problems with Windows
+  - Fix compiler warnings about data type casts.
+
 3.0.8: Fr 29 November 2019
   - Removed beam ok computation functionality
   - Changed default source for delay compensation target delay to SWISSFEL-STATUS IOC
