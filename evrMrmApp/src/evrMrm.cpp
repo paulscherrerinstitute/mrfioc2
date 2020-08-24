@@ -21,6 +21,8 @@
 #include <dbDefs.h>
 #include <dbScan.h>
 #include <epicsInterrupt.h>
+#include <epicsTime.h>
+#include <epicsExport.h>
 
 #include "evrRegMap.h"
 
@@ -36,9 +38,6 @@
 
 #include "support/util.h"
 #include "mrf/version.h"
-
-#include <epicsExport.h>
-#include <epicsTime.h>
 
 int evrDebug, evrEventDebug=0;
 extern "C" {

@@ -8,11 +8,10 @@
 #include <dbAccess.h>
 #include <recGbl.h>
 #include <errlog.h>
-#include "evgInput.h"
+
 #include <epicsExport.h>
-
 #include "devObj.h"
-
+#include "evgInput.h"
 #include <evgInit.h>
 
 /*returns: (0,2)=>(success,success no convert) */

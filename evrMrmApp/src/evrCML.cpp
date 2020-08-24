@@ -13,6 +13,7 @@
 
 #include <epicsMath.h>
 
+#define epicsExportSharedSymbols
 #include <mrfCommonIO.h>
 #include <mrfBitOps.h>
 #include "evrRegMap.h"

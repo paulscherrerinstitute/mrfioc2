@@ -1,9 +1,10 @@
+#include <stdexcept>
+
+#define epicsExportSharedSymbols
 #include "evgPhaseMonSel.h"
 
 #include "evgRegMap.h"
 #include "mrfCommonIO.h"
-
-#include <stdexcept>
 
 evgPhaseMonSel::evgPhaseMonSel(const std::string& name, volatile epicsUInt8*
         const pPhReg)

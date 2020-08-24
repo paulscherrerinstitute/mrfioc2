@@ -3,6 +3,7 @@
 #include <sstream>
 #include <string.h>
 #include <math.h>
+#include <errlog.h>
 
 #include <stringinRecord.h>
 #include <waveformRecord.h>
@@ -14,17 +15,12 @@
 
 #include <devSup.h>
 #include <dbAccess.h>
-#include <errlog.h>
 
+#include <epicsExport.h>
 #include "evgMrm.h"
 #include "evgRegMap.h"
 
-#include <epicsExport.h>
-#include <errlog.h>
-
 #include "devObj.h"
-
-
 
 struct Pvt {
     evgMrm* evg;

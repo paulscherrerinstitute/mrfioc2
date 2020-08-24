@@ -1,25 +1,12 @@
-/*
- * Windows
- * When mrmShared is compiled the class should be set as exported (included in dll).
- * But when for example evgMrm is compiled, class should be set as imported. This means that evgMrm uses the previously exported class from the mrmShared dll.
- */
-#ifdef MRMREMOTEFLASH_H_LEVEL2
- #ifdef epicsExportSharedSymbols
-  #define MRMREMOTEFLASH_H_epicsExportSharedSymbols
-  #undef epicsExportSharedSymbols
-  #include "shareLib.h"
- #endif
-#endif
-
 #ifndef MRMREMOTEFLASH_H
 #define MRMREMOTEFLASH_H
-
-#include "mrmFlash.h"
-#include "mrmShared.h"
 
 #include <epicsTypes.h>
 #include <epicsThread.h>
 #include <epicsMutex.h>
+
+#include "mrmFlash.h"
+#include "mrmShared.h"
 #include "mrf/object.h"
 
 class mrmDeviceInfo;
@@ -163,9 +150,3 @@ private:
 };
 
 #endif // MRMREMOTEFLASH_H
-
-#ifdef MRMREMOTEFLASH_H_epicsExportSharedSymbols
- #undef MRMREMOTEFLASH_H_LEVEL2
- #define epicsExportSharedSymbols
- #include "shareLib.h"
-#endif

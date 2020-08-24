@@ -1,16 +1,9 @@
-#ifdef MRMDEVICEINFO_H_LEVEL2
- #ifdef epicsExportSharedSymbols
-  #define MRMDEVICEINFO_H_epicsExportSharedSymbols
-  #undef epicsExportSharedSymbols
-  #include "shareLib.h"
- #endif
-#endif
-
 #ifndef MRMDEVICEINFO_H
 #define MRMDEVICEINFO_H
 
 #include <string>
 #include <epicsTypes.h>
+#include <shareLib.h>
 
 class epicsShareClass mrmDeviceInfo
 {
@@ -117,9 +110,3 @@ private:
 };
 
 #endif // MRMDEVICEINFO_H
-
-#ifdef MRMDEVICEINFO_H_epicsExportSharedSymbols
- #undef MRMDEVICEINFO_H_LEVEL2
- #define epicsExportSharedSymbols
- #include "shareLib.h"
-#endif

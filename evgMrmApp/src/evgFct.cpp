@@ -1,3 +1,4 @@
+#define epicsExportSharedSymbols
 #include "evgFct.h"
 
 #include <mrfCommonIO.h>

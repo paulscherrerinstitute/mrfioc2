@@ -1,14 +1,3 @@
-/*
- * Windows: check comment in mrmremoteflash.h
- */
-#ifdef SFP_H_LEVEL2
- #ifdef epicsExportSharedSymbols
-  #define SFP_H_epicsExportSharedSymbols
-  #undef epicsExportSharedSymbols
-  #include "shareLib.h"
- #endif
-#endif
-
 #ifndef SFP_H
 #define SFP_H
 
@@ -17,7 +6,6 @@
 
 #include <epicsMutex.h>
 #include <epicsTypes.h>
-
 #include "callback.h"
 
 #include "mrf/object.h"
@@ -77,9 +65,3 @@ private:
 };
 
 #endif // SFP_H
-
-#ifdef SFP_H_epicsExportSharedSymbols
- #undef SFP_H_LEVEL2
- #define epicsExportSharedSymbols
- #include "shareLib.h"
-#endif

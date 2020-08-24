@@ -12,8 +12,6 @@
 #include <initHooks.h>
 #include <errlog.h>
 
-#include "mrf/object.h"
-
 #include <devcsr.h>
 /* DZ: Does Win32 have a problem with devCSRTestSlot()? */
 #ifdef _WIN32
@@ -21,6 +19,9 @@
 
 #include <time.h>
 #endif
+
+#define epicsExportSharedSymbols
+#include "mrf/object.h"
 
 #include <mrfcsr.h>
 #include <mrfpci.h>

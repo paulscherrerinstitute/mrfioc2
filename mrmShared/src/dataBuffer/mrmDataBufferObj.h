@@ -1,22 +1,10 @@
-/*
- * Windows
- * When mrmShared is compiled the class should be set as exported (included in dll).
- * But when for example evgMrm is compiled, class should be set as imported. This means that evgMrm uses the previously exported class from the mrmShared dll.
- */
-#ifdef MRMDATABUFFEROBJ_H_LEVEL2
- #ifdef epicsExportSharedSymbols
-  #define MRMDATABUFFEROBJ_H_epicsExportSharedSymbols
-  #undef epicsExportSharedSymbols
-  #include "shareLib.h"
- #endif
-#endif
-
 #ifndef MRMDATABUFFEROBJ_H
 #define MRMDATABUFFEROBJ_H
 
-#include "mrmDataBuffer.h"
 
 #include <epicsTypes.h>
+
+#include "mrmDataBuffer.h"
 #include "mrf/object.h"
 
 class epicsShareClass mrmDataBufferObj: public mrf::ObjectInst<mrmDataBufferObj>
@@ -69,9 +57,3 @@ private:
 };
 
 #endif // MRMDATABUFFEROBJ_H
-
-#ifdef MRMDATABUFFEROBJ_H_epicsExportSharedSymbols
- #undef MRMDATABUFFEROBJ_H_LEVEL2
- #define epicsExportSharedSymbols
- #include "shareLib.h"
-#endif

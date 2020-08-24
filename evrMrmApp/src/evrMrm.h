@@ -11,12 +11,6 @@
 #ifndef EVRMRM_H_INC
 #define EVRMRM_H_INC
 
-#define MRMDATABUFFEROBJ_H_LEVEL2
-#define MRMREMOTEFLASH_H_LEVEL2
-#define SFP_H_LEVEL2
-#define MRMDEVICEINFO_H_LEVEL2
-#define MRMSOFTEVENT_H_LEVEL2
-
 #include <string>
 #include <vector>
 #include <set>

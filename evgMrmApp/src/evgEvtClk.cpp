@@ -1,13 +1,13 @@
-#include "evgEvtClk.h"
-
 #include <stdio.h>
 #include <errlog.h>
 #include <stdexcept>
 
+#define epicsExportSharedSymbols
 #include <mrfCommonIO.h>
 #include <mrfCommon.h>
 #include <mrfFracSynth.h>
 
+#include "evgEvtClk.h"
 #include "evgRegMap.h"
 #include "mrmDeviceInfo.h"
 #include "evgMrm.h"
