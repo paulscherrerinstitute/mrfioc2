@@ -596,14 +596,10 @@ void mrmEvgSoftTime(void* pvt) {
                 evg->getSoftEvt()->setEvtCode(MRF_EVENT_TS_SHIFT_0);
         }
 
-        struct timespec sleep_until_t;
-
-        clock_gettime(CLOCK_REALTIME,&sleep_until_t); //Get current time
-        /* Sleep until next full second */
-        sleep_until_t.tv_nsec=0;
-        sleep_until_t.tv_sec++;
-
-        clock_nanosleep(CLOCK_REALTIME,TIMER_ABSTIME,&sleep_until_t,0);
+        epicsTimeStamp now;
+        epicsTimeGetCurrent(&now);
+        epicsTimeStamp later = { now.secPastEpoch + 1, 0 };
+        epicsThreadSleep(epicsTimeDiffInSeconds(&later, &now));
 
 
 //		sleep(1);
