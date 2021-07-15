@@ -55,6 +55,7 @@
 #include  <epicsTime.h>         /* EPICS Time definitions                                         */
 #include  <epicsMath.h>         /* EPICS Common math functions & definitions                      */
 #include  <epicsInterrupt.h>
+#include  <shareLib.h>
 
 #include  <alarm.h>             /* EPICS Alarm status and severity definitions                    */
 #include  <dbAccess.h>          /* EPICS Database Access definitions                              */
