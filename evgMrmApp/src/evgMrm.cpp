@@ -29,7 +29,7 @@
 #include "evgMrm.h"
 
 
-#define evgAllowedTsGitter 0.5f
+#define evgAllowedTsJitter 0.5f
 
 
 evgMrm::evgMrm(const std::string& id, mrmDeviceInfo &devInfo, volatile epicsUInt8* const pReg, volatile epicsUInt8* const fctReg, const epicsPCIDevice *pciDevice):
@@ -684,7 +684,7 @@ evgMrm::sendTimestamp() {
 
         /*If there is an error between storedTime and ntpTime then we just print
             the relevant information but we send out storedTime*/
-        if(fabs(errorTime) > evgAllowedTsGitter) {
+        if(fabs(errorTime) > evgAllowedTsJitter) {
             m_alarmTimestamp = TS_ALARM_MINOR;
             printf("NTP time:\n");
             ntpTime.show(1);
@@ -852,7 +852,7 @@ void wdTimer::run() {
          /*Start of timer. If timeout == true then the timer expired.
           If timeout == false then received the signal before the timeout period*/
          while(!timeout)
-             timeout = !m_evg->getTimerEvent()->wait(1 + evgAllowedTsGitter);
+             timeout = !m_evg->getTimerEvent()->wait(1 + evgAllowedTsJitter);
 
          if(epicsTimeOK == generalTimeGetExceptPriority(&ts, 0, 50)) {
              printf("Timestamping timeout\n");
