@@ -1,3 +1,10 @@
+3.1.0: Fr 16 July 2021
+  - Fix build broblems with base 7.0.5
+  - Fix build problems with Windows
+  - Add new C API to connect callbacks to events
+  - Build for newer DeltaTau version too
+  - Create version string automatically with PSI GNUmakefile
+
 3.0.9: Mo 24 August 2020
   - Fix build broblems with base 7.0.4.1
   - Fix build problems with Windows

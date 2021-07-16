@@ -5,7 +5,6 @@ else
 include /ioc/tools/driver.makefile
 
 MODULE=mrfioc2
-#LIBVERSION=test
 
 LIB_SYS_LIBS_WIN32 += WS2_32
 
@@ -13,6 +12,22 @@ BUILDCLASSES=Linux WIN32
 EXCLUDE_VERSIONS=3.13 3.14.8
 # build for IFC, PPMAC, PC
 ARCH_FILTER=%-e500v2 %-ppc4xxFP SL% RHEL% win%
+
+# build version string automatically
+GIT_VERSION:=$(shell git describe --tags --dirty --always --match "[0-9]*")
+-include $(COMMON_DIR)/GIT_VERSION
+ifneq ($(SAVED_GIT_VERSION),$(GIT_VERSION))
+.PHONY: version-git.h
+endif
+
+evgMrm$(OBJ) evgMrm$(DEP): version-git.h version-hg.h
+
+version-git.h:
+	echo '$(patsubst %,#define GIT_VERSION "%",$(GIT_VERSION))' > $@
+	echo '$(patsubst %,SAVED_GIT_VERSION=%,$(GIT_VERSION))' > $(COMMON_DIR)/GIT_VERSION
+
+version-hg.h:
+	echo '' > $@
 
 SOURCES+=evrMrmApp/src/support/asub.c
 SOURCES+=evrMrmApp/src/devSupport/devWfMailbox.c
