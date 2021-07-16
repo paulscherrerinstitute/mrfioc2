@@ -12,7 +12,7 @@ LIB_SYS_LIBS_WIN32 += WS2_32
 BUILDCLASSES=Linux WIN32
 EXCLUDE_VERSIONS=3.13 3.14.8
 # build for IFC, PPMAC, PC
-ARCH_FILTER=eldk52-e500v2 eldk42-ppc4xxFP SL% RHEL% win%
+ARCH_FILTER=%-e500v2 %-ppc4xxFP SL% RHEL% win%
 
 SOURCES+=evrMrmApp/src/support/asub.c
 SOURCES+=evrMrmApp/src/devSupport/devWfMailbox.c
