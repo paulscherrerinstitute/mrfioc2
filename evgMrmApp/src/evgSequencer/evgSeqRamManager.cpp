@@ -1,13 +1,14 @@
-#include "evgSeqRamManager.h"
 
 #include <iostream>
 
 #include <errlog.h>
 #include <longoutRecord.h>
 
+#define epicsExportSharedSymbols
 #include <mrfCommonIO.h>
 #include <mrfCommon.h>
 
+#include "evgSeqRamManager.h"
 #include "evgRegMap.h"
 #include "evgMrm.h"
 

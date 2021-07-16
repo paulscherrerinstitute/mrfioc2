@@ -64,8 +64,10 @@
 
 #include <epicsThread.h>
 #include <epicsTypes.h>
+#include <shareLib.h>
 
 #include "mrfCommon.h"
+#undef CALLBACK
 
 namespace mrf {
 

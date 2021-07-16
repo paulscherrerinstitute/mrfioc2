@@ -6,9 +6,11 @@
 
 #include <epicsMutex.h>
 #include <epicsTypes.h>
+#include <shareLib.h>
 #include "callback.h"
 
 #include "mrf/object.h"
+#undef CALLBACK
 
 class epicsShareClass SFP : public mrf::ObjectInst<SFP> {
     volatile unsigned char* base;

@@ -83,6 +83,7 @@ nat_iowrite32(volatile void* addr, epicsUInt32 val)
 
 #ifdef _WIN32
  #include <Winsock2.h>
+ #pragma comment(lib, "ws2_32.lib")
 #else
  // for htons() et al.
  #include <netinet/in.h> // on rtems

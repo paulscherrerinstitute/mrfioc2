@@ -8,15 +8,15 @@
 #include <algorithm>  // for remove()
 
 #include <epicsGuard.h>
-#include <callback.h>
 #include <epicsMMIO.h>
 #include <errlog.h>
+#include <callback.h>
 
+#include <epicsExport.h>
 #include "mrmShared.h"
 
 #include "mrmDataBufferUser.h"
 
-#include <epicsExport.h>
 #include "mrmDataBuffer.h"
 
 

@@ -1,11 +1,6 @@
 
 #include <stdio.h>
 
-// for htons() et al.
-#ifdef _WIN32
- #include <Winsock2.h>
-#endif
-
 #include <epicsExport.h>
 
 #include "mrf/object.h"
@@ -14,6 +9,7 @@
 #include "mrfCommonIO.h"
 
 #include "sfpinfo.h"
+#undef CALLBACK
 
 #define SFP_UPDATE_DELAY 10
 
