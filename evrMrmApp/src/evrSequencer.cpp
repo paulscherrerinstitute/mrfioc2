@@ -302,11 +302,11 @@ bool EvrSequencer::checkSequenceSize()
 {
     if(m_sequence.eventCode.size() > m_sequence.timestamp.size()) {
         m_sequence.valid = false;
-        dbgPrintf(1,"Sequence not valid: there is more events(%"FORMAT_SIZET_U") than timestamps(%"FORMAT_SIZET_U")\n", m_sequence.eventCode.size(), m_sequence.timestamp.size());
+        dbgPrintf(1,"Sequence not valid: there is more events(%" FORMAT_SIZET_U ") than timestamps(%" FORMAT_SIZET_U ")\n", m_sequence.eventCode.size(), m_sequence.timestamp.size());
     }
     else if(m_sequence.eventCode.size() < m_sequence.timestamp.size()) {
         m_sequence.valid = false;
-        dbgPrintf(1,"Sequence not valid: there is more timestamps(%"FORMAT_SIZET_U") than events(%"FORMAT_SIZET_U")\n", m_sequence.timestamp.size(), m_sequence.eventCode.size());
+        dbgPrintf(1,"Sequence not valid: there is more timestamps(%" FORMAT_SIZET_U ") than events(%" FORMAT_SIZET_U ")\n", m_sequence.timestamp.size(), m_sequence.eventCode.size());
     }
     else {
         m_sequence.valid = true;
