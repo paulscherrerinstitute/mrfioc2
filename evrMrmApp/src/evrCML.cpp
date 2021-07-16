@@ -8,6 +8,7 @@
  * Author: Michael Davidsaver <mdavidsaver@bnl.gov>
  */
 
+#define NOMINMAX
 #include <stdexcept>
 #include <algorithm>
 
