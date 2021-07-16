@@ -13,10 +13,6 @@ BUILDCLASSES=Linux WIN32
 EXCLUDE_VERSIONS=3.13 3.14.8
 # build for IFC, PPMAC, PC
 ARCH_FILTER=eldk52-e500v2 eldk42-ppc4xxFP SL% RHEL% win%
-#ARCH_FILTER=eldk42-ppc4xxFP
-#ARCH_FILTER=eldk52-e500v2
-#ARCH_FILTER=SL%
-#ARCH_FILTER=eldk52-e500v2 SL%
 
 SOURCES+=evrMrmApp/src/support/asub.c
 SOURCES+=evrMrmApp/src/devSupport/devWfMailbox.c
@@ -90,6 +86,8 @@ SOURCES+=mrfCommon/src/devObjMBB.cpp
 SOURCES+=evrMrmApp/src/evrGpio.cpp
 SOURCES+=evrMrmApp/src/evrDelayModule.cpp
 
+SOURCES+=evrMrmApp/src/evrEventApi.cpp
+
 DBDS+=evrMrmApp/src/evrSupport.dbd
 DBDS+=evgMrmApp/src/evgInit.dbd
 DBDS+=mrfCommon/src/mrfCommon.dbd
@@ -98,6 +96,8 @@ DBDS+=mrmShared/src/mrmShared.dbd
 # external data buffer support (eg. mrfioc2_regDev)
 HEADERS+=mrmShared/src/dataBuffer/mrmDataBufferUser.h
 HEADERS+=mrmShared/src/dataBuffer/mrmDataBufferType.h
+# external Event support
+HEADERS+=evrMrmApp/src/evrEventApi.h
 
 # TESTS
 #SOURCES+=mrmShared/src/dataBuffer/tests/mrmDataBuffer_test.cpp

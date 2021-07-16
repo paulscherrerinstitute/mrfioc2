@@ -19,6 +19,7 @@ INC += evrRegMap.h
 INC += evrGpio.h
 INC += evrDelayModule.h
 INC += evrSequencer.h
+INC += evrEventApi.h
 
 INC += support/evrGTIF.h
 
@@ -48,6 +49,8 @@ evrMrm_SRCS += evrSequencer.cpp
 evrMrm_SRCS += irqHack.cpp
 
 evrMrm_SRCS += evrGpio.cpp
+
+evrMrm_SRCS += evrEventApi.cpp
 
 ifeq ($(OS),Windows_NT)
 evrMrm_LIBS += evgMrm mrfCommon mrmShared epicspci epicsvme $(EPICS_BASE_IOC_LIBS)
